@@ -4,8 +4,9 @@ import * as Button from "@verifio/ui/button";
 import { Icon } from "@verifio/ui/icon";
 import * as LinkButton from "@verifio/ui/link-button";
 import { Logo } from "@verifio/ui/logo";
+import { LogoText } from "@verifio/ui/logo-text";
 import Spinner from "@verifio/ui/spinner";
-import { AnimatePresence } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useState } from "react";
 import { LoginForm } from "./login-form";
@@ -23,9 +24,8 @@ const Page = () => {
 	return (
 		<div className="flex h-dvh flex-col items-center justify-center">
 			<div className="flex w-full max-w-[440px] flex-col gap-6 p-5 md:p-8">
-				<div className="flex items-center justify-center gap-1">
-					<Logo className="h-10 w-10" />
-					<p className="font-medium text-2xl">Verifio</p>
+				<div className="flex items-center justify-center gap-2">
+					<Logo className="h-9 w-9 flex-1" />
 				</div>
 				<LoginForm />
 				<div className="grid grid-cols-1 gap-2">
@@ -50,9 +50,22 @@ const Page = () => {
 						className="w-full rounded-full"
 					>
 						{loading.name === "google" && loading.loading ? (
-							<Spinner color="var(--text-strong-950)" size={16} />
+							<motion.div
+								key="spinner"
+								initial={{ opacity: 0, scale: 0.8 }}
+								animate={{ opacity: 1, scale: 1 }}
+								exit={{ opacity: 0, scale: 0.8 }}
+								transition={{ duration: 0.2 }}
+							>
+								<Spinner color="var(--text-strong-950)" size={16} />
+							</motion.div>
 						) : (
-							<svg
+							<motion.svg
+								key="icon"
+								initial={{ opacity: 0, x: -10 }}
+								animate={{ opacity: 1, x: 0 }}
+								exit={{ opacity: 0, x: 10 }}
+								transition={{ duration: 0.2 }}
 								xmlns="http://www.w3.org/2000/svg"
 								className="h-4 w-4"
 								fill="none"
@@ -73,9 +86,9 @@ const Page = () => {
 									fill="#E54335"
 									d="M7.63 3.426A3.68 3.68 0 0 1 10.22 4.44L12.146 2.5A6.5 6.5 0 0 0 7.63.749a6.74 6.74 0 0 0-6.03 3.72l2.236 1.736c.544-1.603 2.03-2.78 3.794-2.78"
 								/>
-							</svg>
+							</motion.svg>
 						)}
-						Login with Google
+						<span>Login with Google</span>
 					</Button.Root>
 					<Button.Root
 						disabled={loading.loading}
