@@ -1,4 +1,4 @@
 # API Key Service API
 
-[Read more about the service](https://reloop.sh/dev/api-key-service)
+[Read more about the service](https://verifio.email/dev/api-key-service)
 

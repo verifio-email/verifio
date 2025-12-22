@@ -3,16 +3,16 @@ import { AnimatedBackButton } from "@fe/dashboard/components/animated-back-butto
 import { AnimatedHoverBackground } from "@fe/dashboard/components/layout/sidebar/animated-hover-background";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
 import { formatRelativeTime } from "@fe/dashboard/utils/time";
-import * as Avatar from "@reloop/ui/avatar";
-import * as Button from "@reloop/ui/button";
-import { cn } from "@reloop/ui/cn";
-import { Icon } from "@reloop/ui/icon";
+import * as Avatar from "@verifio/ui/avatar";
+import * as Button from "@verifio/ui/button";
+import { cn } from "@verifio/ui/cn";
+import { Icon } from "@verifio/ui/icon";
 import {
 	Content as PopoverContent,
 	Root as PopoverRoot,
 	Trigger as PopoverTrigger,
-} from "@reloop/ui/popover";
-import { Skeleton } from "@reloop/ui/skeleton";
+} from "@verifio/ui/popover";
+import { Skeleton } from "@verifio/ui/skeleton";
 import axios from "axios";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
@@ -152,7 +152,7 @@ export const ApiKeyHeader = ({
 
 	const handleMenuItemClick = (itemId: string) => {
 		if (itemId === "docs") {
-			window.open("https://reloop.sh/docs/api-keys", "_blank");
+			window.open("https://verifio.email/docs/api-keys", "_blank");
 		} else if (itemId === "rotate") {
 			setIsRotateModalOpen(true);
 		} else if (itemId === "edit") {

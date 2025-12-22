@@ -1,7 +1,7 @@
 "use client";
 
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
-import { Icon } from "@reloop/ui/icon";
+import { Icon } from "@verifio/ui/icon";
 import { logger } from "better-auth";
 import { useState } from "react";
 import { toast } from "sonner";

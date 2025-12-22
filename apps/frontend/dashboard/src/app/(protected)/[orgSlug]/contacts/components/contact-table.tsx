@@ -1,9 +1,9 @@
 "use client";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
 import { formatRelativeTime } from "@fe/dashboard/utils/time";
-import { cn } from "@reloop/ui/cn";
-import { Icon } from "@reloop/ui/icon";
-import { Skeleton } from "@reloop/ui/skeleton";
+import { cn } from "@verifio/ui/cn";
+import { Icon } from "@verifio/ui/icon";
+import { Skeleton } from "@verifio/ui/skeleton";
 import { AnimatePresence, motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

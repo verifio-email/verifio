@@ -1,11 +1,11 @@
 "use client";
 
 import { AnimatedHoverBackground } from "@fe/dashboard/components/layout/sidebar/animated-hover-background";
-import * as Avatar from "@reloop/ui/avatar";
-import * as Button from "@reloop/ui/button";
-import { cn } from "@reloop/ui/cn";
-import * as Dropdown from "@reloop/ui/dropdown";
-import { Icon } from "@reloop/ui/icon";
+import * as Avatar from "@verifio/ui/avatar";
+import * as Button from "@verifio/ui/button";
+import { cn } from "@verifio/ui/cn";
+import * as Dropdown from "@verifio/ui/dropdown";
+import { Icon } from "@verifio/ui/icon";
 import { useRef, useState } from "react";
 
 export type ApiKeyStatusFilterOption = "enabled" | "disabled";

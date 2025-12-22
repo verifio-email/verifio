@@ -2,14 +2,14 @@
 
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
 import { useOrgStore } from "@fe/dashboard/store/use-org-store";
-import { authClient } from "@reloop/auth/client";
-import * as Button from "@reloop/ui/button";
-import * as FileUpload from "@reloop/ui/file-upload";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
-import * as Label from "@reloop/ui/label";
-import * as Modal from "@reloop/ui/modal";
-import Spinner from "@reloop/ui/spinner";
+import { authClient } from "@verifio/auth/client";
+import * as Button from "@verifio/ui/button";
+import * as FileUpload from "@verifio/ui/file-upload";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
+import * as Label from "@verifio/ui/label";
+import * as Modal from "@verifio/ui/modal";
+import Spinner from "@verifio/ui/spinner";
 import { useState } from "react";
 import { toast } from "sonner";
 import { InviteMember } from "./invite-user";

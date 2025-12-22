@@ -5,7 +5,7 @@ import { uploadConfig } from "@be/upload/upload.config";
 import { loader } from "@be/upload/utils/loader";
 import { fromTypes, openapi } from "@elysiajs/openapi";
 import { serverTiming } from "@elysiajs/server-timing";
-import { logger } from "@reloop/logger";
+import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
 
 const port = uploadConfig.port;

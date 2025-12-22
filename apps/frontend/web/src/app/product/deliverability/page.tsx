@@ -1,4 +1,4 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import Link from "next/link";
 
 const DeliverabilityPage = () => {

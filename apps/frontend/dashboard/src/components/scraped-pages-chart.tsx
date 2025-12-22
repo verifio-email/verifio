@@ -1,8 +1,8 @@
 "use client";
 
-import * as Badge from "@reloop/ui/badge";
-import * as Select from "@reloop/ui/select";
-import { Icon } from "@reloop/ui/icon";
+import * as Badge from "@verifio/ui/badge";
+import * as Select from "@verifio/ui/select";
+import { Icon } from "@verifio/ui/icon";
 import React from "react";
 import {
 	Bar,

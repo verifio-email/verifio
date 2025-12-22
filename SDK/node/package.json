@@ -1,7 +1,7 @@
 {
-	"name": "reloop-email",
+	"name": "verifio-email",
 	"version": "1.0.2",
-	"description": "Official Reloop Node.js SDK for integrating with Reloop services",
+	"description": "Official Verifio Node.js SDK for integrating with Verifio services",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"type": "module",
@@ -16,7 +16,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [
-		"reloop",
+		"verifio",
 		"sdk",
 		"node",
 		"email",
@@ -25,14 +25,14 @@
 		"webhook",
 		"audience"
 	],
-	"author": "Reloop",
+	"author": "Verifio",
 	"license": "Apache-2.0",
 	"engines": {
 		"node": ">=18.0.0"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/reloop-labs/reloop.git",
+		"url": "https://github.com/reloop-labs/verifio.git",
 		"directory": "sdk/node"
 	},
 	"devDependencies": {

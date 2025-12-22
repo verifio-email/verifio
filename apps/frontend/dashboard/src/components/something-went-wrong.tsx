@@ -1,8 +1,8 @@
 "use client";
 
-import * as Button from "@reloop/ui/button";
-import { cn } from "@reloop/ui/cn";
-import { Icon } from "@reloop/ui/icon";
+import * as Button from "@verifio/ui/button";
+import { cn } from "@verifio/ui/cn";
+import { Icon } from "@verifio/ui/icon";
 import { motion } from "motion/react";
 
 interface SomethingWentWrongProps {

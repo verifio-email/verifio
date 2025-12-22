@@ -7,9 +7,9 @@ import {
 } from "@be/domain/utils/verify-dns-records";
 import { inngest } from "@be/workflow/inngest";
 import { workflowConfig } from "@be/workflow/utils/workflow.config";
-import { db } from "@reloop/db/client";
-import * as schema from "@reloop/db/schema";
-import { logger } from "@reloop/logger";
+import { db } from "@verifio/db/client";
+import * as schema from "@verifio/db/schema";
+import { logger } from "@verifio/logger";
 import { and, eq, isNull } from "drizzle-orm";
 
 export const verifyDomainFunction = inngest.createFunction(

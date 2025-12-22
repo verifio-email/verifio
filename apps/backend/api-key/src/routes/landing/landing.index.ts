@@ -1,5 +1,5 @@
-import { redis } from "@reloop/api-key/lib/redis";
-import { db } from "@reloop/db/client";
+import { redis } from "@verifio/api-key/lib/redis";
+import { db } from "@verifio/db/client";
 import { Elysia } from "elysia";
 
 export const landing = new Elysia()
@@ -55,11 +55,11 @@ ${redisError ? `║ REDIS ERROR: ${redisError.substring(0, 50).padEnd(50)} ║` 
 ║   -H "Content-Type: application/json" \\                ║
 ╠════════════════════════════════════════════════════════╣
 ║ - SUPPORT                                              ║
-║ - https://reloop.sh/dev/setup/backend/api-key          ║
-║ - https://github.com/reloop-labs/reloop                ║
+║ - https://verifio.email/dev/setup/backend/api-key          ║
+║ - https://github.com/reloop-labs/verifio                ║
 ╠════════════════════════════════════════════════════════╣
 ║  "Secure keys, unlimited access"                       ║
-║                    - Your Reloop Team                  ║
+║                    - Your Verifio Team                  ║
 ╚════════════════════════════════════════════════════════╝
 
 

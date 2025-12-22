@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import * as Button from "@reloop/ui/button";
-import * as Popover from "@reloop/ui/popover";
-import * as Textarea from "@reloop/ui/textarea";
-import { Icon } from "@reloop/ui/icon";
-import Spinner from "@reloop/ui/spinner";
-import { cn } from "@reloop/ui/cn";
+import * as Button from "@verifio/ui/button";
+import * as Popover from "@verifio/ui/popover";
+import * as Textarea from "@verifio/ui/textarea";
+import { Icon } from "@verifio/ui/icon";
+import Spinner from "@verifio/ui/spinner";
+import { cn } from "@verifio/ui/cn";
 import { motion, AnimatePresence } from "motion/react";
 
 export const FeedbackPopover = () => {
@@ -105,7 +105,7 @@ export const FeedbackPopover = () => {
                                     Share your feedback
                                 </h3>
                                 <p className="text-xs text-text-sub-600">
-                                    Your feedback helps us improve Reloop.
+                                    Your feedback helps us improve Verifio.
                                 </p>
                             </div>
 

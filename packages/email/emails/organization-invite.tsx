@@ -48,7 +48,7 @@ export const OrganizationInviteEmail = ({
       <Body className="bg-gray-50 font-sans">
         <Container className="mx-auto mb-16 bg-white py-5 pb-12">
           <Section className="mb-5 rounded-lg bg-gray-50 p-5 text-center">
-            <Text className="m-0 font-bold text-2xl text-blue-600">Reloop</Text>
+            <Text className="m-0 font-bold text-2xl text-blue-600">Verifio</Text>
           </Section>
 
           <Section className="rounded-lg bg-white p-8 shadow-sm">
@@ -60,7 +60,7 @@ export const OrganizationInviteEmail = ({
             </Text>
             <Text className="mb-4 text-base text-gray-800 leading-relaxed">
               <strong>{inviterName}</strong> ({inviterEmail}) has invited you to
-              join <strong>{organizationName}</strong> on Reloop.
+              join <strong>{organizationName}</strong> on Verifio.
             </Text>
 
             <Section className="my-4 rounded-lg bg-gray-100 p-4">
@@ -105,11 +105,11 @@ export const OrganizationInviteEmail = ({
 
           <Section className="mt-8 border-gray-200 border-t pt-5">
             <Text className="mb-2 text-gray-500 text-sm leading-snug">
-              This email was sent from Reloop. If you have any questions, please
+              This email was sent from Verifio. If you have any questions, please
               contact our support team.
             </Text>
             <Text className="mb-2 text-gray-500 text-sm leading-snug">
-              &copy; 2024 Reloop. All rights reserved.
+              &copy; 2024 Verifio. All rights reserved.
             </Text>
           </Section>
         </Container>

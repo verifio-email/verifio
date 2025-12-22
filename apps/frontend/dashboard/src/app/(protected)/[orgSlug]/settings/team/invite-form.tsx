@@ -1,12 +1,12 @@
 "use client";
 
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import { authClient } from "@reloop/auth/client";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
-import * as Select from "@reloop/ui/select";
-import Spinner from "@reloop/ui/spinner";
+import { authClient } from "@verifio/auth/client";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
+import * as Select from "@verifio/ui/select";
+import Spinner from "@verifio/ui/spinner";
 import { useState } from "react";
 import type { Resolver } from "react-hook-form";
 import { useFieldArray, useForm } from "react-hook-form";

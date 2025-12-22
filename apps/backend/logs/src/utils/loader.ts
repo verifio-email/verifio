@@ -1,4 +1,4 @@
-import { logger } from "@reloop/logger";
+import { logger } from "@verifio/logger";
 import { ensureTableExists, getClickHouseClient } from "./clickhouse";
 
 export const loader = async () => {

@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { IconsSprite } from "@reloop/ui/icon";
-import { Footer } from "@reloop/web/components/footer";
-import { Header } from "@reloop/web/components/header";
+import { IconsSprite } from "@verifio/ui/icon";
+import { Footer } from "@verifio/web/components/footer";
+import { Header } from "@verifio/web/components/header";
 import { ThemeProvider } from "next-themes";
 
 export const metadata: Metadata = {
-	title: "Reloop",
+	title: "Verifio",
 	description:
 		"An open-source & self-hostable SendGrid / Mailchimp / Resend / Loops alternative.",
 };

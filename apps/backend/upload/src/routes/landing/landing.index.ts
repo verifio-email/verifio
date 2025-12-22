@@ -1,5 +1,5 @@
 import { redis } from "@be/upload/lib/redis";
-import { db } from "@reloop/db/client";
+import { db } from "@verifio/db/client";
 import { Elysia } from "elysia";
 
 export const landing = new Elysia()
@@ -56,11 +56,11 @@ ${redisError ? `║ REDIS ERROR: ${redisError.substring(0, 50).padEnd(50)} ║` 
 ║   -F "file=@image.jpg"                                         ║
 ╠════════════════════════════════════════════════════════════════╣
 ║ - SUPPORT                                                      ║
-║ - https://reloop.sh/dev/setup/backend/upload                  ║
-║ - https://github.com/reloop-labs/reloop                        ║
+║ - https://verifio.email/dev/setup/backend/upload                  ║
+║ - https://github.com/reloop-labs/verifio                        ║
 ╠════════════════════════════════════════════════════════════════╣
 ║  "Store your images locally, serve them globally."             ║
-║                    - Your Reloop Team                          ║
+║                    - Your Verifio Team                          ║
 ╚════════════════════════════════════════════════════════════════╝
 
 

@@ -1,9 +1,9 @@
 {
-	"extends": "@reloop/tsconfig/nextjs.json",
+	"extends": "@verifio/tsconfig/nextjs.json",
 	"compilerOptions": {
 		"baseUrl": ".",
 		"paths": {
-			"@reloop/web/*": ["./src/*"],
+			"@verifio/web/*": ["./src/*"],
 			"@be/domain/*": ["../../backend/domain/src/*"]
 		}
 	},

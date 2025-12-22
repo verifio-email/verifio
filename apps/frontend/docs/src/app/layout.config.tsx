@@ -1,4 +1,4 @@
-import { Logo } from "@reloop/ui/logo";
+import { Logo } from "@verifio/ui/logo";
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 
 /**

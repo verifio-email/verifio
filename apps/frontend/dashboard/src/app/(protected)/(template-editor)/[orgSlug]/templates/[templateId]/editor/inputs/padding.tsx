@@ -1,9 +1,9 @@
-import * as Button from "@reloop/ui/button";
-import { cn } from "@reloop/ui/cn";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
-import * as Label from "@reloop/ui/label";
-import * as Tooltip from "@reloop/ui/tooltip";
+import * as Button from "@verifio/ui/button";
+import { cn } from "@verifio/ui/cn";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
+import * as Label from "@verifio/ui/label";
+import * as Tooltip from "@verifio/ui/tooltip";
 import { useState } from "react";
 
 interface PaddingInputProps {

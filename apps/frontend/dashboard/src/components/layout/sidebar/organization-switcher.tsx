@@ -1,12 +1,12 @@
 "use client";
 
 import { useOrgStore } from "@fe/dashboard/store/use-org-store";
-import { authClient } from "@reloop/auth/client";
-import * as Avatar from "@reloop/ui/avatar";
-import * as Button from "@reloop/ui/button";
-import { cn } from "@reloop/ui/cn";
-import { Icon } from "@reloop/ui/icon";
-import * as Popover from "@reloop/ui/popover";
+import { authClient } from "@verifio/auth/client";
+import * as Avatar from "@verifio/ui/avatar";
+import * as Button from "@verifio/ui/button";
+import { cn } from "@verifio/ui/cn";
+import { Icon } from "@verifio/ui/icon";
+import * as Popover from "@verifio/ui/popover";
 import { useRef, useState } from "react";
 import { AnimatedHoverBackground } from "./animated-hover-background";
 

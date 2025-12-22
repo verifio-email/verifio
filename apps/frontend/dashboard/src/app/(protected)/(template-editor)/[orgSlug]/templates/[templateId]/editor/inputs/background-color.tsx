@@ -1,11 +1,11 @@
 "use client";
 
-import * as Button from "@reloop/ui/button";
-import * as ColorPicker from "@reloop/ui/color-picker";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
-import * as Label from "@reloop/ui/label";
-import * as Popover from "@reloop/ui/popover";
+import * as Button from "@verifio/ui/button";
+import * as ColorPicker from "@verifio/ui/color-picker";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
+import * as Label from "@verifio/ui/label";
+import * as Popover from "@verifio/ui/popover";
 import { useState } from "react";
 import { parseColor } from "react-aria-components";
 

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import SWRProvider from "@fe/dashboard/providers/swr.config";
-import { IconsSprite } from "@reloop/ui/icon";
+import { IconsSprite } from "@verifio/ui/icon";
 import { Geist, Geist_Mono, Outfit } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import * as Tooltip from "@reloop/ui/tooltip";
+import * as Tooltip from "@verifio/ui/tooltip";
 const geistSans = Geist({
 	variable: "--font-geist-sans",
 	subsets: ["latin"],
@@ -22,8 +22,8 @@ const outfit = Outfit({
 	weight: "600",
 });
 export const metadata: Metadata = {
-	title: "Reloop Dashboard",
-	description: "Reloop Dashboard",
+	title: "Verifio Dashboard",
+	description: "Verifio Dashboard",
 };
 
 export default function RootLayout({

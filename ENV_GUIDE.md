@@ -1,6 +1,6 @@
 # Global Environment Variables Guide
 
-This guide explains how to use the global environment file (`env.global`) across all Reloop services.
+This guide explains how to use the global environment file (`env.global`) across all Verifio services.
 
 ## Quick Start
 
@@ -10,7 +10,7 @@ This guide explains how to use the global environment file (`env.global`) across
    ```
 
 2. **Edit the `.env` file** with your specific values:
-   - Replace placeholder values (e.g., `your-domain.com`, `reloop123`)
+   - Replace placeholder values (e.g., `your-domain.com`, `verifio123`)
    - Generate secure secrets using: `openssl rand -hex 32`
    - Adjust port numbers based on the service
 
@@ -73,13 +73,13 @@ nano apps/frontend/your-app/.env
 **Local Development:**
 - Use `localhost` instead of service names
 - Use `http://` instead of `https://`
-- Example: `PG_URL=postgresql://reloop:reloop123@localhost:5432/reloop`
+- Example: `PG_URL=postgresql://verifio:verifio123@localhost:5432/verifio`
 
 **Production:**
 - Use actual domain names
 - Use `https://` for secure connections
 - Use Docker service names for internal communication
-- Example: `PG_URL=postgresql://reloop:secure-password@reloop-postgres:5432/reloop`
+- Example: `PG_URL=postgresql://verifio:secure-password@verifio-postgres:5432/verifio`
 
 ## Generating Secure Secrets
 

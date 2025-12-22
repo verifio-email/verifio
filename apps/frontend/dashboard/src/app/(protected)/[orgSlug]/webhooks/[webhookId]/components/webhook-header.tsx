@@ -1,13 +1,13 @@
 "use client";
 import { formatRelativeTime } from "@fe/dashboard/utils/time";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
 import {
 	Content as PopoverContent,
 	Root as PopoverRoot,
 	Trigger as PopoverTrigger,
-} from "@reloop/ui/popover";
-import { Skeleton } from "@reloop/ui/skeleton";
+} from "@verifio/ui/popover";
+import { Skeleton } from "@verifio/ui/skeleton";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -146,10 +146,10 @@ export const WebhookHeader = ({
 	const successRate =
 		webhook && webhook.successCount + webhook.failureCount > 0
 			? Math.round(
-				(webhook.successCount /
-					(webhook.successCount + webhook.failureCount)) *
-				100,
-			)
+					(webhook.successCount /
+						(webhook.successCount + webhook.failureCount)) *
+						100,
+				)
 			: 0;
 
 	return (
@@ -263,7 +263,10 @@ export const WebhookHeader = ({
 											mode="ghost"
 											size="small"
 											onClick={() =>
-												window.open("https://reloop.sh/docs/webhooks", "_blank")
+												window.open(
+													"https://verifio.email/docs/webhooks",
+													"_blank",
+												)
 											}
 											className="w-full justify-start"
 										>

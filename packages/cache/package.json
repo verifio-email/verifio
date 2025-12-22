@@ -1,5 +1,5 @@
 {
-	"name": "@reloop/cache",
+	"name": "@verifio/cache",
 	"version": "0.0.1",
 	"private": true,
 	"exports": {

@@ -1,5 +1,5 @@
 {
-	"name": "@reloop/analytics",
+	"name": "@verifio/analytics",
 	"version": "0.0.1",
 	"private": true,
 	"type": "module",
@@ -16,7 +16,7 @@
 		"@paralleldrive/cuid2": "catalog:backend"
 	},
 	"devDependencies": {
-		"@reloop/tsconfig": "workspace:*",
+		"@verifio/tsconfig": "workspace:*",
 		"@types/node": "catalog:",
 		"typescript": "catalog:"
 	}

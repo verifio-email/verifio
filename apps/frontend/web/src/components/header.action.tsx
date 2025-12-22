@@ -1,7 +1,7 @@
 "use client";
 
-import { authClient } from "@reloop/auth/client";
-import * as Button from "@reloop/ui/button";
+import { authClient } from "@verifio/auth/client";
+import * as Button from "@verifio/ui/button";
 
 export const HeaderAction = () => {
 	const { useSession } = authClient;

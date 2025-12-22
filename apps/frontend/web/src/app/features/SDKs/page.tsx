@@ -1,15 +1,15 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-	title: "SDKs | Reloop",
+	title: "SDKs | Verifio",
 	description:
-		"Official Reloop SDKs for all major programming languages. Node.js, Python, Java, Go, Rust, PHP, and more. Get started quickly with type-safe, well-documented SDKs.",
+		"Official Verifio SDKs for all major programming languages. Node.js, Python, Java, Go, Rust, PHP, and more. Get started quickly with type-safe, well-documented SDKs.",
 	openGraph: {
-		title: "SDKs | Reloop",
+		title: "SDKs | Verifio",
 		description:
-			"Official Reloop SDKs for all major programming languages. Node.js, Python, Java, Go, Rust, PHP, and more. Get started quickly with type-safe, well-documented SDKs.",
+			"Official Verifio SDKs for all major programming languages. Node.js, Python, Java, Go, Rust, PHP, and more. Get started quickly with type-safe, well-documented SDKs.",
 		type: "website",
 	},
 };
@@ -23,7 +23,7 @@ const SDKsPage = () => {
 					Official SDKs
 				</h1>
 				<p className="mx-auto max-w-3xl text-text-sub-600 text-xl leading-8 md:text-2xl md:leading-9">
-					Integrate Reloop into your applications with our official SDKs.
+					Integrate Verifio into your applications with our official SDKs.
 					Type-safe, well-documented, and available for all major programming
 					languages.
 				</p>
@@ -68,7 +68,7 @@ const SDKsPage = () => {
 								async/await
 							</p>
 							<code className="mb-4 block rounded bg-gray-100 px-3 py-2 text-xs dark:bg-gray-800">
-								npm install @reloop/sdk
+								npm install @verifio/sdk
 							</code>
 							<Link
 								href="/docs/sdk/nodejs"
@@ -87,7 +87,7 @@ const SDKsPage = () => {
 								Python SDK with async support and comprehensive type hints
 							</p>
 							<code className="mb-4 block rounded bg-gray-100 px-3 py-2 text-xs dark:bg-gray-800">
-								pip install reloop
+								pip install verifio
 							</code>
 							<Link
 								href="/docs/sdk/python"
@@ -107,7 +107,7 @@ const SDKsPage = () => {
 								annotations
 							</p>
 							<code className="mb-4 block rounded bg-gray-100 px-3 py-2 text-xs dark:bg-gray-800">
-								implementation 'com.reloop:sdk'
+								implementation 'com.verifio:sdk'
 							</code>
 							<Link
 								href="/docs/sdk/java"
@@ -126,7 +126,7 @@ const SDKsPage = () => {
 								High-performance Rust SDK with tokio async runtime
 							</p>
 							<code className="mb-4 block rounded bg-gray-100 px-3 py-2 text-xs dark:bg-gray-800">
-								reloop = "1.0"
+								verifio = "1.0"
 							</code>
 							<Link
 								href="/docs/sdk/rust"
@@ -145,7 +145,7 @@ const SDKsPage = () => {
 								Go SDK with goroutine support and context handling
 							</p>
 							<code className="mb-4 block rounded bg-gray-100 px-3 py-2 text-xs dark:bg-gray-800">
-								go get github.com/reloop/sdk-go
+								go get github.com/verifio/sdk-go
 							</code>
 							<Link
 								href="/docs/sdk/go"
@@ -164,7 +164,7 @@ const SDKsPage = () => {
 								PHP SDK with Composer support and PSR standards
 							</p>
 							<code className="mb-4 block rounded bg-gray-100 px-3 py-2 text-xs dark:bg-gray-800">
-								composer require reloop/sdk
+								composer require verifio/sdk
 							</code>
 							<Link
 								href="/docs/sdk/php"
@@ -289,7 +289,7 @@ const SDKsPage = () => {
 				<h2 className="title-h2 mb-6 font-semibold">Ready to Get Started?</h2>
 				<p className="mx-auto mb-10 max-w-2xl text-lg text-text-sub-600 leading-8">
 					Choose your preferred programming language and start integrating
-					Reloop into your applications today. Get your API key and begin
+					Verifio into your applications today. Get your API key and begin
 					sending emails in minutes.
 				</p>
 

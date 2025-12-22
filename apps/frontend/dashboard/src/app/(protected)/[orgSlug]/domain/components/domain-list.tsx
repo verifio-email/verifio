@@ -1,9 +1,9 @@
 "use client";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
-import type { DomainListResponse } from "@reloop/api";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
+import type { DomainListResponse } from "@verifio/api";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";

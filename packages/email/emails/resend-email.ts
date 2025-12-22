@@ -21,7 +21,7 @@ export const sendPasswordResetEmail = async (
 
 	return sendEmail({
 		to: email,
-		subject: "Reset Your Reloop Password",
+		subject: "Reset Your Verifio Password",
 		html,
 	});
 };
@@ -55,7 +55,7 @@ export const sendOrganizationInviteEmail = async ({
 
 	return sendEmail({
 		to: email,
-		subject: `You've been invited to join ${organizationName} on Reloop`,
+		subject: `You've been invited to join ${organizationName} on Verifio`,
 		html,
 	});
 };

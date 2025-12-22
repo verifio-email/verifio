@@ -1,10 +1,10 @@
 "use client";
 
 import { AnimatedHoverBackground } from "@fe/dashboard/components/layout/sidebar/animated-hover-background";
-import * as Button from "@reloop/ui/button";
-import { cn } from "@reloop/ui/cn";
-import { Icon } from "@reloop/ui/icon";
-import * as Popover from "@reloop/ui/popover";
+import * as Button from "@verifio/ui/button";
+import { cn } from "@verifio/ui/cn";
+import { Icon } from "@verifio/ui/icon";
+import * as Popover from "@verifio/ui/popover";
 import { motion } from "framer-motion";
 import { parseAsBoolean, useQueryState } from "nuqs";
 import { useRef, useState } from "react";
@@ -56,7 +56,7 @@ const FieldRow = ({
 
 const availableDomains = [
 	{ value: "prolab.sh", label: "@prolab.sh" },
-	{ value: "reloop.sh", label: "@reloop.sh" },
+	{ value: "verifio.email", label: "@verifio.email" },
 	{ value: "example.com", label: "@example.com" },
 ];
 

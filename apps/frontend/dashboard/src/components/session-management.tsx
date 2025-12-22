@@ -1,11 +1,11 @@
 "use client";
 
-import { authClient } from "@reloop/auth/client";
-import * as Button from "@reloop/ui/button";
-import { cn } from "@reloop/ui/cn";
-import { Icon } from "@reloop/ui/icon";
-import { Skeleton } from "@reloop/ui/skeleton";
-import Spinner from "@reloop/ui/spinner";
+import { authClient } from "@verifio/auth/client";
+import * as Button from "@verifio/ui/button";
+import { cn } from "@verifio/ui/cn";
+import { Icon } from "@verifio/ui/icon";
+import { Skeleton } from "@verifio/ui/skeleton";
+import Spinner from "@verifio/ui/spinner";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import { toast } from "sonner";

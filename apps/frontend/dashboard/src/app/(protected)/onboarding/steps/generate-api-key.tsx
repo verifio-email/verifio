@@ -1,9 +1,9 @@
 "use client";
 
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
-import * as Label from "@reloop/ui/label";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
+import * as Label from "@verifio/ui/label";
 import axios from "axios";
 import {
 	CheckCircle2,

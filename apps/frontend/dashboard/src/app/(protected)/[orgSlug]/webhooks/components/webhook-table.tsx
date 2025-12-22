@@ -2,15 +2,15 @@
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
 import { getAnimationProps } from "@fe/dashboard/utils/audience";
 import { formatRelativeTime } from "@fe/dashboard/utils/time";
-import * as Button from "@reloop/ui/button";
-import { cn } from "@reloop/ui/cn";
-import { Icon } from "@reloop/ui/icon";
+import * as Button from "@verifio/ui/button";
+import { cn } from "@verifio/ui/cn";
+import { Icon } from "@verifio/ui/icon";
 import {
 	Content as PopoverContent,
 	Root as PopoverRoot,
 	Trigger as PopoverTrigger,
-} from "@reloop/ui/popover";
-import { Skeleton } from "@reloop/ui/skeleton";
+} from "@verifio/ui/popover";
+import { Skeleton } from "@verifio/ui/skeleton";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useQueryState } from "nuqs";

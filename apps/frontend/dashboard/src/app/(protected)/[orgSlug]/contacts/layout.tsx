@@ -1,12 +1,13 @@
 "use client";
 import { ContactsApiDetails } from "@fe/dashboard/components/api-details/contacts";
 import { FeedbackPopover } from "@fe/dashboard/components/feedback-popover";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
-import * as Kbd from "@reloop/ui/kbd";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
+import * as Kbd from "@verifio/ui/kbd";
 import { useHotkeys } from "react-hotkeys-hook";
 
-const openDocs = () => window.open("https://reloop.sh/docs/contacts", "_blank");
+const openDocs = () =>
+	window.open("https://verifio.email/docs/contacts", "_blank");
 
 const ContactsLayout = ({ children }: { children: React.ReactNode }) => {
 	useHotkeys("d", openDocs);

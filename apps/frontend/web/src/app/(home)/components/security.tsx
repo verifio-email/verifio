@@ -1,5 +1,5 @@
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
 
 const securityFeatures = [
 	{

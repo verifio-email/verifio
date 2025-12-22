@@ -1,8 +1,8 @@
 "use client";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -11,7 +11,7 @@ import useSWR from "swr";
 import { TemplateTable } from "./template-table";
 import { EmptyState } from "./empty-state";
 import { PageSizeDropdown } from "@fe/dashboard/components/page-size-dropdown";
-import Spinner from "@reloop/ui/spinner";
+import Spinner from "@verifio/ui/spinner";
 
 interface Template {
     id: string;

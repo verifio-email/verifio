@@ -1,19 +1,19 @@
 "use client";
 
-import { authClient } from "@reloop/auth/client";
-import * as Alert from "@reloop/ui/alert";
-import * as Button from "@reloop/ui/button";
-import { cn } from "@reloop/ui/cn";
-import * as FileUpload from "@reloop/ui/file-upload";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
-import * as Label from "@reloop/ui/label";
-import Spinner from "@reloop/ui/spinner";
+import { authClient } from "@verifio/auth/client";
+import * as Alert from "@verifio/ui/alert";
+import * as Button from "@verifio/ui/button";
+import { cn } from "@verifio/ui/cn";
+import * as FileUpload from "@verifio/ui/file-upload";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
+import * as Label from "@verifio/ui/label";
+import Spinner from "@verifio/ui/spinner";
 import axios from "axios";
 import type React from "react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import * as StatusBadge from "@reloop/ui/status-badge";
+import * as StatusBadge from "@verifio/ui/status-badge";
 const AccountPage = () => {
   const { data: session, refetch } = authClient.useSession();
   const user = session?.user;

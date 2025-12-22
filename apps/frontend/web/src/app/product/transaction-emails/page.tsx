@@ -1,13 +1,13 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-	title: "Transaction Emails | Reloop",
+	title: "Transaction Emails | Verifio",
 	description:
 		"Reliable transactional email delivery for critical communications. Send receipts, notifications, password resets, and more with 99.9% uptime and instant delivery.",
 	openGraph: {
-		title: "Transaction Emails | Reloop",
+		title: "Transaction Emails | Verifio",
 		description:
 			"Reliable transactional email delivery for critical communications. Send receipts, notifications, password resets, and more with 99.9% uptime and instant delivery.",
 		type: "website",
@@ -55,7 +55,7 @@ const TransactionEmailsPage = () => {
 						Built for Critical Communications
 					</h2>
 					<p className="mx-auto max-w-2xl text-lg text-text-sub-600 leading-7">
-						When every email matters, trust Reloop for reliable transactional
+						When every email matters, trust Verifio for reliable transactional
 						email delivery with enterprise-grade infrastructure.
 					</p>
 				</div>
@@ -140,7 +140,7 @@ const TransactionEmailsPage = () => {
 							Perfect for Every Transaction
 						</h2>
 						<p className="mx-auto max-w-2xl text-lg text-text-sub-600 leading-7">
-							From e-commerce receipts to security notifications, Reloop handles
+							From e-commerce receipts to security notifications, Verifio handles
 							all your critical email communications with reliability and speed.
 						</p>
 					</div>
@@ -277,7 +277,7 @@ const TransactionEmailsPage = () => {
 					Ready to Send Critical Emails?
 				</h2>
 				<p className="mx-auto mb-10 max-w-2xl text-lg text-text-sub-600 leading-8">
-					Trust Reloop for your most important email communications. Get
+					Trust Verifio for your most important email communications. Get
 					enterprise-grade reliability with simple setup and transparent
 					pricing.
 				</p>

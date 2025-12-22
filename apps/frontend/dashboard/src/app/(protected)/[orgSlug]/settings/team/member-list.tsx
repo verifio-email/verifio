@@ -1,14 +1,14 @@
 "use client";
 
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
-import { authClient } from "@reloop/auth/client";
-import * as Avatar from "@reloop/ui/avatar";
-import { cn } from "@reloop/ui/cn";
-import * as Dropdown from "@reloop/ui/dropdown";
-import { Icon } from "@reloop/ui/icon";
-import * as Select from "@reloop/ui/select";
-import { Skeleton } from "@reloop/ui/skeleton";
-import Spinner from "@reloop/ui/spinner";
+import { authClient } from "@verifio/auth/client";
+import * as Avatar from "@verifio/ui/avatar";
+import { cn } from "@verifio/ui/cn";
+import * as Dropdown from "@verifio/ui/dropdown";
+import { Icon } from "@verifio/ui/icon";
+import * as Select from "@verifio/ui/select";
+import { Skeleton } from "@verifio/ui/skeleton";
+import Spinner from "@verifio/ui/spinner";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import { toast } from "sonner";

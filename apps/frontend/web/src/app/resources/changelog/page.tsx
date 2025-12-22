@@ -1,15 +1,15 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-	title: "Changelog | Reloop",
+	title: "Changelog | Verifio",
 	description:
-		"Stay updated with the latest Reloop features, improvements, and bug fixes. Track our development progress and see what's new in each release.",
+		"Stay updated with the latest Verifio features, improvements, and bug fixes. Track our development progress and see what's new in each release.",
 	openGraph: {
-		title: "Changelog | Reloop",
+		title: "Changelog | Verifio",
 		description:
-			"Stay updated with the latest Reloop features, improvements, and bug fixes. Track our development progress and see what's new in each release.",
+			"Stay updated with the latest Verifio features, improvements, and bug fixes. Track our development progress and see what's new in each release.",
 		type: "website",
 	},
 };
@@ -23,7 +23,7 @@ const ChangelogPage = () => {
 					Changelog
 				</h1>
 				<p className="mx-auto max-w-3xl text-text-sub-600 text-xl leading-8 md:text-2xl md:leading-9">
-					Stay updated with the latest Reloop features, improvements, and bug
+					Stay updated with the latest Verifio features, improvements, and bug
 					fixes. Track our development progress and see what's new in each
 					release.
 				</p>
@@ -126,7 +126,7 @@ const ChangelogPage = () => {
 					<div className="mb-16 text-center">
 						<h2 className="title-h2 mb-4 font-semibold">Previous Releases</h2>
 						<p className="mx-auto max-w-2xl text-lg text-text-sub-600 leading-7">
-							Browse through our release history to see how Reloop has evolved
+							Browse through our release history to see how Verifio has evolved
 							over time.
 						</p>
 					</div>
@@ -193,7 +193,7 @@ const ChangelogPage = () => {
 							</div>
 							<h3 className="mb-3 font-semibold text-xl">Initial Release</h3>
 							<p className="mb-4 text-text-sub-600 leading-6">
-								The first stable release of Reloop with core email
+								The first stable release of Verifio with core email
 								infrastructure features and basic analytics.
 							</p>
 							<div className="grid gap-4 md:grid-cols-3">
@@ -324,7 +324,7 @@ const ChangelogPage = () => {
 					</Link>
 					<a
 						target="_blank"
-						href="https://github.com/reloop-labs/reloop"
+						href="https://github.com/reloop-labs/verifio"
 						className={Button.buttonVariants({
 							mode: "stroke",
 							variant: "neutral",

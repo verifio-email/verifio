@@ -1,9 +1,9 @@
 import type { UploadTypes } from "@be/upload/types/upload.type";
 import { uploadConfig } from "@be/upload/upload.config";
 import { createId } from "@paralleldrive/cuid2";
-import { db } from "@reloop/db/client";
-import * as schema from "@reloop/db/schema";
-import logger from "@reloop/logger";
+import { db } from "@verifio/db/client";
+import * as schema from "@verifio/db/schema";
+import logger from "@verifio/logger";
 import { status } from "elysia";
 
 function sanitizeFilename(filename: string): string {

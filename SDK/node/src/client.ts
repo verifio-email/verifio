@@ -6,7 +6,7 @@ import {
 	ServerError,
 } from "./errors.js";
 
-export interface ReloopConfig {
+export interface VerifioConfig {
 	url: string;
 	key: string;
 }
@@ -15,7 +15,7 @@ export class HTTPClient {
 	private baseURL: string;
 	private apiKey: string;
 
-	constructor(config: ReloopConfig) {
+	constructor(config: VerifioConfig) {
 		// Normalize base URL (remove trailing slash)
 		this.baseURL = config.url.replace(/\/+$/, "");
 		this.apiKey = config.key;

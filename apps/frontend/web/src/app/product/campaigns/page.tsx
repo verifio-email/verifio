@@ -1,4 +1,4 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import Link from "next/link";
 
 const CampaignsPage = () => {
@@ -126,7 +126,7 @@ const CampaignsPage = () => {
 					Ready to Launch Your First Campaign?
 				</h2>
 				<p className="mx-auto mb-10 max-w-2xl text-lg text-text-sub-600 leading-8">
-					Join thousands of marketers who trust Reloop for their email
+					Join thousands of marketers who trust Verifio for their email
 					campaigns. Start with our free tier and scale as you grow.
 				</p>
 

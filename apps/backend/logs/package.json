@@ -27,10 +27,10 @@
 		"dotenv": "catalog:backend",
 		"elysia": "catalog:backend",
 		"zod": "catalog:ui",
-		"@reloop/logger": "workspace:*"
+		"@verifio/logger": "workspace:*"
 	},
 	"devDependencies": {
-		"@reloop/tsconfig": "workspace:*",
+		"@verifio/tsconfig": "workspace:*",
 		"tsdown": "catalog:backend",
 		"typescript": "catalog:",
 		"@types/bun": "catalog:backend"

@@ -21,8 +21,8 @@ interface Props {
 
 export const InvoiceEmail = ({
 	customerName = "Customer",
-	teamName = "Reloop",
-	link = "https://reloop.sh/",
+	teamName = "Verifio",
+	link = "https://verifio.email/",
 }: Props) => {
 	const text = `You've Received an Invoice from ${teamName}`;
 	const themeClasses = getEmailThemeClasses();

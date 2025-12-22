@@ -1,13 +1,13 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import Link from "next/link";
 
-const WhyReloopPage = () => {
+const WhyVerifioPage = () => {
 	return (
 		<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
 			{/* Hero Section */}
 			<section className="px-6 py-20 text-center md:px-12 md:py-28">
 				<h1 className="title-h1 mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text font-bold text-transparent dark:from-white dark:to-gray-300">
-					Why Reloop Exists
+					Why Verifio Exists
 				</h1>
 				<p className="mx-auto max-w-3xl text-text-sub-600 text-xl leading-8 md:text-2xl md:leading-9">
 					Email infrastructure shouldn't be complicated, expensive, or
@@ -142,7 +142,7 @@ const WhyReloopPage = () => {
 							Our Solution: Email Infrastructure, Reimagined
 						</h2>
 						<p className="mx-auto max-w-2xl text-lg text-text-sub-600 leading-8">
-							Reloop combines the best of modern technology with time-tested
+							Verifio combines the best of modern technology with time-tested
 							email protocols to deliver a platform that's powerful yet simple,
 							affordable yet reliable.
 						</p>
@@ -354,4 +354,4 @@ const WhyReloopPage = () => {
 	);
 };
 
-export default WhyReloopPage;
+export default WhyVerifioPage;

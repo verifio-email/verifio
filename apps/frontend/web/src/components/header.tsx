@@ -1,4 +1,4 @@
-import { Logo } from "@reloop/ui/logo";
+import { Logo } from "@verifio/ui/logo";
 import Link from "next/link";
 import { HeaderAction } from "./header.action";
 

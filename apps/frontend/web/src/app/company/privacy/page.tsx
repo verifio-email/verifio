@@ -1,14 +1,14 @@
-import PageLayout from "@reloop/web/components/page-layout";
+import PageLayout from "@verifio/web/components/page-layout";
 
 const PrivacyPage = () => {
 	return (
 		<PageLayout title="Privacy Policy" subtitle="Last update: August 4th, 2025">
 			<div>
 				<p className="mb-6 text-[20px]">
-					Welcome to <span className="font-bold">Reloop</span> ("Company", "we",
-					"our", or "us"). By using our platform — a service for transactional
-					and marketing email sending — you agree to the following terms and
-					conditions. Please read them carefully.
+					Welcome to <span className="font-bold">Verifio</span> ("Company",
+					"we", "our", or "us"). By using our platform — a service for
+					transactional and marketing email sending — you agree to the following
+					terms and conditions. Please read them carefully.
 				</p>
 
 				<section className="ml-3 space-y-8">
@@ -18,10 +18,10 @@ const PrivacyPage = () => {
 						</h2>
 						<p>
 							For most data collected on our websites and for account
-							administration, Reloop acts as a
+							administration, Verifio acts as a
 							<span className="font-semibold"> data controller</span>. When
 							customers upload or send email content and contact data through
-							the Service, Reloop generally acts as a{" "}
+							the Service, Verifio generally acts as a{" "}
 							<span className="font-semibold">data processor</span> on behalf of
 							the customer (who is the data controller). This Policy applies to
 							information we collect through the Service and does not cover
@@ -123,8 +123,8 @@ const PrivacyPage = () => {
 							services for us and are bound by confidentiality obligations. We
 							may also disclose information (i) to comply with law or valid
 							legal process; (ii) in connection with a merger, acquisition, or
-							asset sale; (iii) to protect Reloop, our customers, and the public
-							from harm; and (iv) with your consent or at your direction.
+							asset sale; (iii) to protect Verifio, our customers, and the
+							public from harm; and (iv) with your consent or at your direction.
 						</p>
 					</div>
 					<div>
@@ -187,7 +187,7 @@ const PrivacyPage = () => {
 								href="mailto:support@example.com"
 								className="text-blue-600 underline"
 							>
-								info@reloop.sh
+								info@verifio.email
 							</a>
 							.
 						</p>
@@ -197,7 +197,7 @@ const PrivacyPage = () => {
 							9. Additional Information for Customers
 						</h2>
 						<p>
-							When you use Reloop to send emails to your own customers or
+							When you use Verifio to send emails to your own customers or
 							subscribers, you are the data controller of that personal data and
 							responsible for providing appropriate privacy notices and
 							obtaining any legally required consents. Upon request and where

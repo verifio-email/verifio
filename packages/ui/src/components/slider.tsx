@@ -1,7 +1,7 @@
 "use client";
 
 import * as SliderPrimitive from "@radix-ui/react-slider";
-import { cn } from "@reloop/ui/cn";
+import { cn } from "@verifio/ui/cn";
 import * as React from "react";
 
 const SLIDER_ROOT_NAME = "SliderRoot";

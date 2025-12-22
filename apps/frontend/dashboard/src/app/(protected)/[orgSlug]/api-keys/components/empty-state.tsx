@@ -1,6 +1,6 @@
 "use client";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
 import { motion, type Variants } from "motion/react";
 
 interface EmptyStateProps {
@@ -14,7 +14,7 @@ const floatOrbVariants: Variants = {
 		transition: {
 			duration: 3,
 			ease: "easeInOut",
-			repeat: Infinity,
+			repeat: Number.POSITIVE_INFINITY,
 		},
 	},
 };
@@ -26,7 +26,7 @@ const pulseVariants: Variants = {
 		transition: {
 			duration: 2,
 			ease: "easeInOut",
-			repeat: Infinity,
+			repeat: Number.POSITIVE_INFINITY,
 		},
 	},
 };
@@ -38,7 +38,7 @@ const iconWiggleVariants: Variants = {
 		transition: {
 			duration: 4,
 			ease: "easeInOut",
-			repeat: Infinity,
+			repeat: Number.POSITIVE_INFINITY,
 		},
 	},
 };
@@ -52,7 +52,7 @@ const floatParticleVariants: Variants = {
 		transition: {
 			duration: 3,
 			ease: "easeInOut",
-			repeat: Infinity,
+			repeat: Number.POSITIVE_INFINITY,
 		},
 	},
 };
@@ -73,21 +73,21 @@ const fadeInUpVariants: Variants = {
 export const EmptyState = ({ onCreateApiKey }: EmptyStateProps) => {
 	return (
 		<motion.div
-			className="flex flex-col items-center justify-center h-[calc(100dvh-300px)]"
+			className="flex h-[calc(100dvh-300px)] flex-col items-center justify-center"
 			initial={{ opacity: 0, y: 16 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.5 }}
 		>
 			<div className="relative mb-8 flex items-center justify-center">
 				{/* Left side floating orbs */}
-				<div className="absolute -left-24 -top-4 flex flex-col gap-3 items-end">
+				<div className="-left-24 -top-4 absolute flex flex-col items-end gap-3">
 					<motion.div
 						className="h-6 w-6 rounded-full bg-neutral-alpha-24"
 						variants={floatOrbVariants}
 						animate="animate"
 					/>
 					<motion.div
-						className="h-3 w-3 rounded-full bg-neutral-alpha-16 -mr-2"
+						className="-mr-2 h-3 w-3 rounded-full bg-neutral-alpha-16"
 						variants={floatOrbVariants}
 						animate="animate"
 					/>
@@ -96,19 +96,19 @@ export const EmptyState = ({ onCreateApiKey }: EmptyStateProps) => {
 				{/* Center icon container */}
 				<div className="relative">
 					<motion.div
-						className="absolute -top-3 -left-3 h-16 w-16 rounded-full bg-neutral-alpha-10"
+						className="-top-3 -left-3 absolute h-16 w-16 rounded-full bg-neutral-alpha-10"
 						variants={pulseVariants}
 						animate="animate"
 					/>
 					<motion.div
-						className="absolute -right-2 -bottom-2 h-12 w-12 rounded-full bg-neutral-alpha-10"
+						className="-right-2 -bottom-2 absolute h-12 w-12 rounded-full bg-neutral-alpha-10"
 						variants={pulseVariants}
 						animate="animate"
 					/>
-					<div className="relative flex h-20 w-20 items-center justify-center rounded-2xl border border-stroke-soft-200/50 bg-bg-white-0 shadow-regular-md group">
+					<div className="group relative flex h-20 w-20 items-center justify-center rounded-2xl border border-stroke-soft-200/50 bg-bg-white-0 shadow-regular-md">
 						<div className="relative">
 							<motion.div
-								className="absolute inset-0 blur-xl rounded-full bg-primary-alpha-16"
+								className="absolute inset-0 rounded-full bg-primary-alpha-16 blur-xl"
 								variants={pulseVariants}
 								animate="animate"
 							/>
@@ -134,14 +134,14 @@ export const EmptyState = ({ onCreateApiKey }: EmptyStateProps) => {
 				</div>
 
 				{/* Right side floating orbs - mirroring left side */}
-				<div className="absolute -right-24 flex flex-col gap-3 items-start">
+				<div className="-right-24 absolute flex flex-col items-start gap-3">
 					<motion.div
 						className="h-6 w-6 rounded-full bg-neutral-alpha-24"
 						variants={floatOrbVariants}
 						animate="animate"
 					/>
 					<motion.div
-						className="h-3 w-3 rounded-full bg-neutral-alpha-16 -ml-2"
+						className="-ml-2 h-3 w-3 rounded-full bg-neutral-alpha-16"
 						variants={floatOrbVariants}
 						animate="animate"
 					/>
@@ -160,13 +160,14 @@ export const EmptyState = ({ onCreateApiKey }: EmptyStateProps) => {
 					No API keys yet
 				</motion.h3>
 				<motion.p
-					className="mb-2 text-text-sub-600 text-sm"
+					className="mb-2 text-sm text-text-sub-600"
 					variants={fadeInUpVariants}
 					initial="hidden"
 					animate="visible"
 					custom={0.25}
 				>
-					API keys allow you to authenticate requests to your application programmatically.
+					API keys allow you to authenticate requests to your application
+					programmatically.
 				</motion.p>
 				<motion.p
 					className="mb-6 text-text-soft-400 text-xs"
@@ -193,7 +194,7 @@ export const EmptyState = ({ onCreateApiKey }: EmptyStateProps) => {
 
 				{/* Help link */}
 				<motion.a
-					href="https://reloop.sh/docs/api-keys"
+					href="https://verifio.email/docs/api-keys"
 					target="_blank"
 					rel="noopener noreferrer"
 					className="mt-4 flex items-center gap-1 text-text-sub-600 text-xs transition-colors hover:text-text-strong-950"

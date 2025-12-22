@@ -4,7 +4,7 @@ import React from "react";
 export function GetStarted() {
 	return (
 		<Section className="mt-[50px] mb-[50px] text-center">
-			<Button href="https://reloop.sh/">Get started</Button>
+			<Button href="https://verifio.email/">Get started</Button>
 		</Section>
 	);
 }

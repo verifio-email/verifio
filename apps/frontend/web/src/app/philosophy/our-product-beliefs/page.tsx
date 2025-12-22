@@ -1,4 +1,4 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import Link from "next/link";
 
 const OurProductBeliefsPage = () => {
@@ -527,7 +527,7 @@ const OurProductBeliefsPage = () => {
 				</h2>
 				<p className="mx-auto mb-10 max-w-2xl text-lg text-text-sub-600 leading-8">
 					These beliefs aren't just theory—they're reflected in every feature we
-					ship. Try Reloop and experience the difference thoughtful product
+					ship. Try Verifio and experience the difference thoughtful product
 					design makes.
 				</p>
 

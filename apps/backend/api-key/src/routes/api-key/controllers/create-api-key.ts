@@ -1,12 +1,12 @@
 import { createHash, randomBytes } from "node:crypto";
 import { createId } from "@paralleldrive/cuid2";
-import type { ApiKeyTypes } from "@reloop/api-key/types/api-key.type";
+import type { ApiKeyTypes } from "@verifio/api-key/types/api-key.type";
 import {
 	formatApiKeyWithKeyResponse,
-} from "@reloop/api-key/routes/api-key/controllers/format-api-key-response";
-import { db } from "@reloop/db/client";
-import * as schema from "@reloop/db/schema";
-import { logger } from "@reloop/logger";
+} from "@verifio/api-key/routes/api-key/controllers/format-api-key-response";
+import { db } from "@verifio/db/client";
+import * as schema from "@verifio/db/schema";
+import { logger } from "@verifio/logger";
 import { eq } from "drizzle-orm";
 import { status } from "elysia";
 

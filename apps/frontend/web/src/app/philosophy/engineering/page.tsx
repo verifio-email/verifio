@@ -1,4 +1,4 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import Link from "next/link";
 
 const EngineeringPage = () => {
@@ -17,7 +17,7 @@ const EngineeringPage = () => {
 				<div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
 					<a
 						target="_blank"
-						href="https://github.com/reloop-labs/reloop"
+						href="https://github.com/reloop-labs/verifio"
 						className={Button.buttonVariants({
 							variant: "neutral",
 						}).root({ className: "h-12 rounded-full px-8" })}
@@ -464,7 +464,7 @@ const EngineeringPage = () => {
 					</Link>
 					<a
 						target="_blank"
-						href="https://github.com/reloop-labs/reloop"
+						href="https://github.com/reloop-labs/verifio"
 						className={Button.buttonVariants({
 							mode: "stroke",
 							variant: "neutral",

@@ -1,10 +1,10 @@
 "use client";
 import { isValidEmail } from "@fe/dashboard/utils/audience";
-import * as Button from "@reloop/ui/button";
-import * as FileFormatIcon from "@reloop/ui/file-format-icon";
-import { Icon } from "@reloop/ui/icon";
-import Spinner from "@reloop/ui/spinner";
-import { useLoading } from "@reloop/ui/use-loading";
+import * as Button from "@verifio/ui/button";
+import * as FileFormatIcon from "@verifio/ui/file-format-icon";
+import { Icon } from "@verifio/ui/icon";
+import Spinner from "@verifio/ui/spinner";
+import { useLoading } from "@verifio/ui/use-loading";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useState } from "react";

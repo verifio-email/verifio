@@ -6,10 +6,10 @@ import {
 	getStatusIcon,
 	getStatusLabel,
 } from "@fe/dashboard/utils/domain";
-import type { DNSRecord } from "@reloop/api/types";
-import { cn } from "@reloop/ui/cn";
-import { Icon } from "@reloop/ui/icon";
-import { Skeleton } from "@reloop/ui/skeleton";
+import type { DNSRecord } from "@verifio/api/types";
+import { cn } from "@verifio/ui/cn";
+import { Icon } from "@verifio/ui/icon";
+import { Skeleton } from "@verifio/ui/skeleton";
 import { AnimatePresence, motion } from "motion/react";
 
 interface DNSRecordTableProps {

@@ -1,8 +1,8 @@
 import "dotenv/config";
 import { fromTypes, openapi } from "@elysiajs/openapi";
 import { serverTiming } from "@elysiajs/server-timing";
-import { logger } from "@reloop/logger";
-import { loader } from "@reloop/tracehub/utils/loader";
+import { logger } from "@verifio/logger";
+import { loader } from "@verifio/tracehub/utils/loader";
 import { Elysia } from "elysia";
 import { landingRoute } from "./routes/landing/landing.route";
 import { tracehubRoutes } from "./routes/tracehub/tracehub.routes";

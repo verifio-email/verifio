@@ -56,7 +56,7 @@ const defaultTransactions = [
 	},
 ];
 
-const baseAppUrl = "https://reloop.sh/";
+const baseAppUrl = "https://verifio.email/";
 
 export const TransactionsEmail = ({
 	transactions = defaultTransactions,

@@ -1,6 +1,6 @@
 "use client";
 
-import * as Kbd from "@reloop/ui/kbd";
+import * as Kbd from "@verifio/ui/kbd";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 

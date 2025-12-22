@@ -1,15 +1,15 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-	title: "System Status | Reloop",
+	title: "System Status | Verifio",
 	description:
-		"Real-time system status and uptime monitoring for Reloop email infrastructure. Check service health, incident history, and performance metrics.",
+		"Real-time system status and uptime monitoring for Verifio email infrastructure. Check service health, incident history, and performance metrics.",
 	openGraph: {
-		title: "System Status | Reloop",
+		title: "System Status | Verifio",
 		description:
-			"Real-time system status and uptime monitoring for Reloop email infrastructure. Check service health, incident history, and performance metrics.",
+			"Real-time system status and uptime monitoring for Verifio email infrastructure. Check service health, incident history, and performance metrics.",
 		type: "website",
 	},
 };

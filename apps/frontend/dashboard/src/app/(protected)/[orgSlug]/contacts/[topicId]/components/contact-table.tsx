@@ -1,7 +1,7 @@
 "use client";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
-import { Skeleton } from "@reloop/ui/skeleton";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
+import { Skeleton } from "@verifio/ui/skeleton";
 
 interface Subscription {
 	id: string;

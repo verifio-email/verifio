@@ -1,8 +1,8 @@
 "use client";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
-import { cn } from "@reloop/ui/cn";
-import { Icon } from "@reloop/ui/icon";
-import * as TabMenuHorizontal from "@reloop/ui/tab-menu-horizontal";
+import { cn } from "@verifio/ui/cn";
+import { Icon } from "@verifio/ui/icon";
+import * as TabMenuHorizontal from "@verifio/ui/tab-menu-horizontal";
 import { AnimatePresence, motion } from "motion/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useRef, useState } from "react";

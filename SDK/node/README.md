@@ -1,25 +1,25 @@
-# reloop-email
+# verifio-email
 
-Official Reloop Node.js SDK for integrating with Reloop services.
+Official Verifio Node.js SDK for integrating with Verifio services.
 
 ## Installation
 
 ```bash
-npm install reloop-email
+npm install verifio-email
 ```
 
 ## Quick Start
 
 ```typescript
-import Reloop from 'reloop-email';
+import Verifio from 'verifio-email';
 
-const reloop = new Reloop({
-  url: 'https://reloop.sh',
+const verifio = new Verifio({
+  url: 'https://verifio.email',
   key: 'your-api-key'
 });
 
 // Send an email
-const result = await reloop.mail.send({
+const result = await verifio.mail.send({
   from: 'sender@example.com',
   to: 'recipient@example.com',
   subject: 'Hello',
@@ -29,14 +29,14 @@ const result = await reloop.mail.send({
 
 ## Configuration
 
-The Reloop SDK requires two configuration parameters:
+The Verifio SDK requires two configuration parameters:
 
-- `url` - Your Reloop API base URL (e.g., `https://reloop.sh`)
+- `url` - Your Verifio API base URL (e.g., `https://verifio.email`)
 - `key` - Your API key
 
 ```typescript
-const reloop = new Reloop({
-  url: 'https://reloop.sh',
+const verifio = new Verifio({
+  url: 'https://verifio.email',
   key: 'your-api-key'
 });
 ```
@@ -45,12 +45,12 @@ const reloop = new Reloop({
 
 ### Mail Service
 
-Send emails through the Reloop mail service.
+Send emails through the Verifio mail service.
 
 #### Send Email
 
 ```typescript
-const result = await reloop.mail.send({
+const result = await verifio.mail.send({
   from: 'sender@example.com',
   to: 'recipient@example.com',
   subject: 'Hello',
@@ -71,7 +71,7 @@ Manage domains and DNS records.
 #### Create Domain
 
 ```typescript
-const domain = await reloop.domain.create({
+const domain = await verifio.domain.create({
   domain: 'send.example.com'
 });
 ```
@@ -79,13 +79,13 @@ const domain = await reloop.domain.create({
 #### Get Domain
 
 ```typescript
-const domain = await reloop.domain.get('send.example.com');
+const domain = await verifio.domain.get('send.example.com');
 ```
 
 #### List Domains
 
 ```typescript
-const domains = await reloop.domain.list({
+const domains = await verifio.domain.list({
   page: 1,
   limit: 10,
   status: 'active'
@@ -95,30 +95,30 @@ const domains = await reloop.domain.list({
 #### Delete Domain
 
 ```typescript
-await reloop.domain.delete('send.example.com');
+await verifio.domain.delete('send.example.com');
 ```
 
 #### DNS Operations
 
 ```typescript
 // Get DNS records
-const records = await reloop.domain.getDNSRecords('send.example.com');
+const records = await verifio.domain.getDNSRecords('send.example.com');
 
 // Get DKIM keys
-const dkimKeys = await reloop.domain.getDKIMKeys('send.example.com');
+const dkimKeys = await verifio.domain.getDKIMKeys('send.example.com');
 
 // Verify DNS record
-const verification = await reloop.domain.verifyDNSRecord('send.example.com', {
+const verification = await verifio.domain.verifyDNSRecord('send.example.com', {
   recordType: 'TXT',
-  name: '_reloop',
+  name: '_verifio',
   value: 'verification-value'
 });
 
 // Generate DNS records
-const generatedRecords = await reloop.domain.generateDNSRecords('send.example.com');
+const generatedRecords = await verifio.domain.generateDNSRecords('send.example.com');
 
 // Delete DNS records
-await reloop.domain.deleteDNSRecords('send.example.com');
+await verifio.domain.deleteDNSRecords('send.example.com');
 ```
 
 ### Webhook Service
@@ -128,7 +128,7 @@ Manage webhooks for event notifications.
 #### Create Webhook
 
 ```typescript
-const webhook = await reloop.webhook.create({
+const webhook = await verifio.webhook.create({
   name: 'My Webhook',
   url: 'https://example.com/webhook',
   secret: 'webhook-secret',
@@ -140,13 +140,13 @@ const webhook = await reloop.webhook.create({
 #### Get Webhook
 
 ```typescript
-const webhook = await reloop.webhook.get('webhook-id');
+const webhook = await verifio.webhook.get('webhook-id');
 ```
 
 #### List Webhooks
 
 ```typescript
-const webhooks = await reloop.webhook.list({
+const webhooks = await verifio.webhook.list({
   page: 1,
   limit: 10,
   status: 'active'
@@ -156,7 +156,7 @@ const webhooks = await reloop.webhook.list({
 #### Update Webhook
 
 ```typescript
-const updated = await reloop.webhook.update('webhook-id', {
+const updated = await verifio.webhook.update('webhook-id', {
   name: 'Updated Webhook Name',
   status: 'paused'
 });
@@ -165,7 +165,7 @@ const updated = await reloop.webhook.update('webhook-id', {
 #### Delete Webhook
 
 ```typescript
-await reloop.webhook.delete('webhook-id');
+await verifio.webhook.delete('webhook-id');
 ```
 
 ### Audience Service
@@ -175,7 +175,7 @@ Manage audiences and audience groups.
 #### Create Audience
 
 ```typescript
-const audience = await reloop.audience.create({
+const audience = await verifio.audience.create({
   email: 'user@example.com',
   firstName: 'John',
   lastName: 'Doe',
@@ -187,13 +187,13 @@ const audience = await reloop.audience.create({
 #### Get Audience
 
 ```typescript
-const audience = await reloop.audience.get('audience-id');
+const audience = await verifio.audience.get('audience-id');
 ```
 
 #### List Audiences
 
 ```typescript
-const audiences = await reloop.audience.list({
+const audiences = await verifio.audience.list({
   page: 1,
   limit: 10,
   status: 'subscribed',
@@ -204,7 +204,7 @@ const audiences = await reloop.audience.list({
 #### Update Audience
 
 ```typescript
-const updated = await reloop.audience.update('audience-id', {
+const updated = await verifio.audience.update('audience-id', {
   firstName: 'Jane',
   lastName: 'Smith'
 });
@@ -213,13 +213,13 @@ const updated = await reloop.audience.update('audience-id', {
 #### Delete Audience
 
 ```typescript
-await reloop.audience.delete('audience-id');
+await verifio.audience.delete('audience-id');
 ```
 
 #### Bulk Import Audiences
 
 ```typescript
-const result = await reloop.audience.bulkImport({
+const result = await verifio.audience.bulkImport({
   audienceGroupId: 'group-id',
   audiences: [
     {
@@ -243,12 +243,12 @@ console.log(`Failed: ${result.failed}`);
 
 ```typescript
 // Subscribe
-await reloop.audience.subscribe('audience-id', {
+await verifio.audience.subscribe('audience-id', {
   reason: 'User opted in'
 });
 
 // Unsubscribe
-await reloop.audience.unsubscribe('audience-id', {
+await verifio.audience.unsubscribe('audience-id', {
   reason: 'User opted out'
 });
 ```
@@ -256,7 +256,7 @@ await reloop.audience.unsubscribe('audience-id', {
 #### Search Audiences
 
 ```typescript
-const results = await reloop.audience.search({
+const results = await verifio.audience.search({
   query: 'john@example.com',
   page: 1,
   limit: 10
@@ -267,27 +267,27 @@ const results = await reloop.audience.search({
 
 ```typescript
 // Create audience group
-const group = await reloop.audience.createGroup({
+const group = await verifio.audience.createGroup({
   name: 'My Audience Group',
   description: 'Group description'
 });
 
 // Get audience group
-const group = await reloop.audience.getGroup('group-id');
+const group = await verifio.audience.getGroup('group-id');
 
 // List audience groups
-const groups = await reloop.audience.listGroups({
+const groups = await verifio.audience.listGroups({
   page: 1,
   limit: 10
 });
 
 // Update audience group
-const updated = await reloop.audience.updateGroup('group-id', {
+const updated = await verifio.audience.updateGroup('group-id', {
   name: 'Updated Group Name'
 });
 
 // Delete audience group
-await reloop.audience.deleteGroup('group-id');
+await verifio.audience.deleteGroup('group-id');
 ```
 
 ## Error Handling
@@ -296,17 +296,17 @@ The SDK provides custom error classes for better error handling:
 
 ```typescript
 import {
-  ReloopError,
+  VerifioError,
   APIError,
   AuthenticationError,
   NotFoundError,
   RateLimitError,
   ServerError,
   ValidationError
-} from 'reloop-email';
+} from 'verifio-email';
 
 try {
-  await reloop.mail.send({...});
+  await verifio.mail.send({...});
 } catch (error) {
   if (error instanceof AuthenticationError) {
     console.error('Authentication failed');
@@ -333,7 +333,7 @@ import type {
   DomainResponse,
   WebhookResponse,
   AudienceResponse
-} from 'reloop-email';
+} from 'verifio-email';
 ```
 
 ## Requirements
@@ -346,6 +346,6 @@ Apache-2.0
 
 ## Support
 
-- Documentation: https://reloop.sh/docs
-- Issues: https://github.com/reloop-labs/reloop/issues
+- Documentation: https://verifio.email/docs
+- Issues: https://github.com/reloop-labs/verifio/issues
 

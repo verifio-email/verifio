@@ -1,9 +1,9 @@
 "use client";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
-import * as Select from "@reloop/ui/select";
-import { Skeleton } from "@reloop/ui/skeleton";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
+import * as Select from "@verifio/ui/select";
+import { Skeleton } from "@verifio/ui/skeleton";
 import axios from "axios";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";

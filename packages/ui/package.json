@@ -1,5 +1,5 @@
 {
-	"name": "@reloop/ui",
+	"name": "@verifio/ui",
 	"version": "1.0.0",
 	"private": true,
 	"sideEffects": false,
@@ -121,7 +121,7 @@
 		"tailwindcss": "catalog:ui"
 	},
 	"devDependencies": {
-		"@reloop/tsconfig": "workspace:*",
+		"@verifio/tsconfig": "workspace:*",
 		"@tailwindcss/postcss": "catalog:ui"
 	},
 	"peerDependencies": {

@@ -1,4 +1,4 @@
-import { db } from "@reloop/db/client";
+import { db } from "@verifio/db/client";
 import { Elysia } from "elysia";
 import { authConfig } from "./auth.config";
 import { redis } from "./lib/redis";
@@ -52,14 +52,14 @@ ${redisError ? `║ REDIS ERROR: ${redisError.substring(0, 50).padEnd(50)} ║` 
 ║ QUICK START:                                           ║
 ║ curl -X POST /api/auth/login                           ║
 ║   -H "Content-Type: application/json"                  ║
-║   -d '{"email":"dev@reloop.sh","password":"pass"}'     ║
+║   -d '{"email":"dev@verifio.email","password":"pass"}'     ║
 ╠════════════════════════════════════════════════════════╣
 ║ - SUPPORT                                              ║
-║ - https://reloop.sh/dev/setup/backend/auth             ║
-║ - https://github.com/reloop-labs/reloop                ║
+║ - https://verifio.email/dev/setup/backend/auth             ║
+║ - https://github.com/reloop-labs/verifio                ║
 ╠════════════════════════════════════════════════════════╣
 ║  "The best security is invisible security"             ║
-║                    - Your Reloop Team                  ║
+║                    - Your Verifio Team                  ║
 ╚════════════════════════════════════════════════════════╝
 
 

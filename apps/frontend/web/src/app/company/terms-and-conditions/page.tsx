@@ -1,4 +1,4 @@
-import PageLayout from "@reloop/web/components/page-layout";
+import PageLayout from "@verifio/web/components/page-layout";
 
 const TermsPage = () => {
 	return (
@@ -8,7 +8,7 @@ const TermsPage = () => {
 		>
 			<div>
 				<p className="mb-6 text-[20px]">
-					Welcome to <span className="font-bold">Reloop</span> ("Company", "we",
+					Welcome to <span className="font-bold">Verifio</span> ("Company", "we",
 					"our", or "us"). By using our platform — a service for transactional
 					and marketing email sending — you agree to the following terms and
 					conditions. Please read them carefully.

@@ -1,5 +1,5 @@
 "use client";
-import { Icon } from "@reloop/ui/icon";
+import { Icon } from "@verifio/ui/icon";
 
 const WebhooksLayout = ({ children }: { children: React.ReactNode }) => {
 	return (
@@ -9,7 +9,7 @@ const WebhooksLayout = ({ children }: { children: React.ReactNode }) => {
 					<Icon name="webhook" className="h-4 w-4" />
 					<p className="font-medium text-sm">Webhooks</p>
 					<a
-						href="https://reloop.sh/docs/webhooks"
+						href="https://verifio.email/docs/webhooks"
 						target="_blank"
 						rel="noopener noreferrer"
 					>

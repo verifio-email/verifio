@@ -2,8 +2,8 @@
 
 import { PageSizeDropdown } from "@fe/dashboard/components/page-size-dropdown";
 import { PaginationControls } from "@fe/dashboard/components/pagination-controls";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
 import useSWR from "swr";

@@ -1,4 +1,4 @@
-import type { DomainStatus } from "@reloop/api/types";
+import type { DomainStatus } from "@verifio/api/types";
 
 // Re-export for backward compatibility
 export type { DomainStatus };

@@ -1,9 +1,9 @@
 "use client";
 
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
-import * as Label from "@reloop/ui/label";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
+import * as Label from "@verifio/ui/label";
 import axios from "axios";
 import { Globe, Loader2 } from "lucide-react";
 import { parseAsInteger, parseAsString, useQueryState } from "nuqs";
@@ -51,7 +51,7 @@ export const AddDomainStep = () => {
 							<Input.Input
 								id="domain-name"
 								type="text"
-								placeholder="e.g. news.reloop.sh"
+								placeholder="e.g. news.verifio.email"
 								value={domain}
 								onChange={(e) => setDomain(e.target.value)}
 							/>

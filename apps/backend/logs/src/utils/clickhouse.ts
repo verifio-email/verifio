@@ -1,5 +1,5 @@
 import { type ClickHouseClient, createClient } from "@clickhouse/client";
-import { logger } from "@reloop/logger";
+import { logger } from "@verifio/logger";
 
 let clickhouseClient: ClickHouseClient | null = null;
 
@@ -7,9 +7,9 @@ export function getClickHouseClient(): ClickHouseClient {
 	if (!clickhouseClient) {
 		clickhouseClient = createClient({
 			host: process.env.CLICKHOUSE_HOST || "http://localhost:8123",
-			username: process.env.CLICKHOUSE_USER || "reloop",
-			password: process.env.CLICKHOUSE_PASSWORD || "reloop123",
-			database: process.env.CLICKHOUSE_DATABASE || "reloop_tracehub",
+			username: process.env.CLICKHOUSE_USER || "verifio",
+			password: process.env.CLICKHOUSE_PASSWORD || "verifio123",
+			database: process.env.CLICKHOUSE_DATABASE || "verifio_tracehub",
 		});
 	}
 	return clickhouseClient;

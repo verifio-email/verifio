@@ -1,7 +1,7 @@
 "use client";
 
-import { cn } from "@reloop/ui/cn";
-import { Icon } from "@reloop/ui/icon";
+import { cn } from "@verifio/ui/cn";
+import { Icon } from "@verifio/ui/icon";
 import { useTheme } from "next-themes";
 import type React from "react";
 import { useEffect, useMemo, useRef, useState } from "react";

@@ -1,5 +1,5 @@
 {
-	"name": "@reloop/logger",
+	"name": "@verifio/logger",
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
@@ -13,7 +13,7 @@
 		"pino-pretty": "catalog:backend"
 	},
 	"devDependencies": {
-		"@reloop/tsconfig": "workspace:*",
+		"@verifio/tsconfig": "workspace:*",
 		"@types/node": "catalog:",
 		"typescript": "catalog:"
 	}

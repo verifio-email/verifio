@@ -2,9 +2,9 @@
 import { AnimatedBackButton } from "@fe/dashboard/components/animated-back-button";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
 import { formatRelativeTime } from "@fe/dashboard/utils/time";
-import { cn } from "@reloop/ui/cn";
-import { Icon } from "@reloop/ui/icon";
-import { Skeleton } from "@reloop/ui/skeleton";
+import { cn } from "@verifio/ui/cn";
+import { Icon } from "@verifio/ui/icon";
+import { Skeleton } from "@verifio/ui/skeleton";
 import { useState } from "react";
 import { toast } from "sonner";
 import { TopicDropdown } from "../../../contacts/components/topic-dropdown";

@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatedBackButton } from "@fe/dashboard/components/animated-back-button";
-import * as Input from "@reloop/ui/input";
+import * as Input from "@verifio/ui/input";
 
 export const LeftSidebar = () => {
     return (

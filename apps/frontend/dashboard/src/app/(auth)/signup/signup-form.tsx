@@ -1,14 +1,14 @@
 "use client";
 
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import { authClient } from "@reloop/auth/client";
-import * as Button from "@reloop/ui/button";
-import * as Divider from "@reloop/ui/divider";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
-import * as Label from "@reloop/ui/label";
-import Spinner from "@reloop/ui/spinner";
-import { useLoading } from "@reloop/ui/use-loading";
+import { authClient } from "@verifio/auth/client";
+import * as Button from "@verifio/ui/button";
+import * as Divider from "@verifio/ui/divider";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
+import * as Label from "@verifio/ui/label";
+import Spinner from "@verifio/ui/spinner";
+import { useLoading } from "@verifio/ui/use-loading";
 import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -149,7 +149,7 @@ export const SignupForm = () => {
 								className="h-11 font-medium"
 								id="email"
 								type="email"
-								placeholder="hello@reloop.com"
+								placeholder="hello@verifio.com"
 								{...register("email")}
 							/>
 						</Input.Wrapper>

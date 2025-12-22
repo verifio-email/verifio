@@ -1,10 +1,10 @@
 "use client";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
-import * as Popover from "@reloop/ui/popover";
-import * as StatusBadge from "@reloop/ui/status-badge";
-import * as Table from "@reloop/ui/table";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
+import * as Popover from "@verifio/ui/popover";
+import * as StatusBadge from "@verifio/ui/status-badge";
+import * as Table from "@verifio/ui/table";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Link from "next/link";

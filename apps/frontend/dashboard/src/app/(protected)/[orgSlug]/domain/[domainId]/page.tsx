@@ -1,6 +1,6 @@
 "use client";
 import { SomethingWentWrong } from "@fe/dashboard/components/something-went-wrong";
-import type { DomainResponse } from "@reloop/api";
+import type { DomainResponse } from "@verifio/api";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import * as React from "react";

@@ -1,7 +1,7 @@
 // AlignUI DotStepper v0.0.0
 
 import { Slot } from "@radix-ui/react-slot";
-import { cn } from "@reloop/ui/cn";
+import { cn } from "@verifio/ui/cn";
 import * as React from "react";
 import { recursiveCloneChildren } from "../utils/recursive-clone-children";
 import { tv, type VariantProps } from "../utils/tv";

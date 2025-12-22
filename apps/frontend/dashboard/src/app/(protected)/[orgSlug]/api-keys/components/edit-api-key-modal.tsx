@@ -1,11 +1,11 @@
 "use client";
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
-import * as Label from "@reloop/ui/label";
-import * as Modal from "@reloop/ui/modal";
-import { useLoading } from "@reloop/ui/use-loading";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
+import * as Label from "@verifio/ui/label";
+import * as Modal from "@verifio/ui/modal";
+import { useLoading } from "@verifio/ui/use-loading";
 import axios from "axios";
 import type { Resolver } from "react-hook-form";
 import { useForm } from "react-hook-form";

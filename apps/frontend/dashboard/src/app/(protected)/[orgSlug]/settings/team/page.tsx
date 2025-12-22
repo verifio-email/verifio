@@ -1,8 +1,8 @@
 "use client";
 
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
 import { useState } from "react";
 import { InviteModal } from "./invite-modal";
 import { TeamFilterDropdown, type TeamFilters } from "./team-filter-dropdown";

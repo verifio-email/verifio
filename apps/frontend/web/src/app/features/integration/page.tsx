@@ -1,15 +1,15 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-	title: "Integration Guide | Reloop",
+	title: "Integration Guide | Verifio",
 	description:
-		"Integrate Reloop with your applications using our REST API, webhooks, and official SDKs. Complete integration guides for all major programming languages and platforms.",
+		"Integrate Verifio with your applications using our REST API, webhooks, and official SDKs. Complete integration guides for all major programming languages and platforms.",
 	openGraph: {
-		title: "Integration Guide | Reloop",
+		title: "Integration Guide | Verifio",
 		description:
-			"Integrate Reloop with your applications using our REST API, webhooks, and official SDKs. Complete integration guides for all major programming languages and platforms.",
+			"Integrate Verifio with your applications using our REST API, webhooks, and official SDKs. Complete integration guides for all major programming languages and platforms.",
 		type: "website",
 	},
 };
@@ -23,7 +23,7 @@ const IntegrationPage = () => {
 					Integration Guide
 				</h1>
 				<p className="mx-auto max-w-3xl text-text-sub-600 text-xl leading-8 md:text-2xl md:leading-9">
-					Integrate Reloop into your applications with our comprehensive guides,
+					Integrate Verifio into your applications with our comprehensive guides,
 					SDKs, and examples. Get up and running in minutes with your preferred
 					programming language.
 				</p>
@@ -55,7 +55,7 @@ const IntegrationPage = () => {
 						Choose Your Integration Method
 					</h2>
 					<p className="mx-auto max-w-2xl text-lg text-text-sub-600 leading-7">
-						Multiple ways to integrate Reloop into your applications. Choose the
+						Multiple ways to integrate Verifio into your applications. Choose the
 						method that best fits your development workflow.
 					</p>
 				</div>
@@ -173,20 +173,20 @@ const IntegrationPage = () => {
 								<div className="text-gray-600 dark:text-gray-400">
 									# Install the SDK
 								</div>
-								<div className="mt-2">npm install @reloop/sdk</div>
+								<div className="mt-2">npm install @verifio/sdk</div>
 								<div className="mt-4 text-gray-600 dark:text-gray-400">
 									# Send an email
 								</div>
 								<div className="mt-2">
-									import {"{"} Reloop {"}"} from '@reloop/sdk';
+									import {"{"} Verifio {"}"} from '@verifio/sdk';
 								</div>
 								<div className="mt-2">
-									const reloop = new Reloop('YOUR_API_KEY');
+									const verifio = new Verifio('YOUR_API_KEY');
 								</div>
-								<div className="mt-2">await reloop.emails.send({"{"}</div>
+								<div className="mt-2">await verifio.emails.send({"{"}</div>
 								<div className="ml-4">from: 'hello@yourdomain.com',</div>
 								<div className="ml-4">to: 'user@example.com',</div>
-								<div className="ml-4">subject: 'Hello from Reloop!',</div>
+								<div className="ml-4">subject: 'Hello from Verifio!',</div>
 								<div className="ml-4">
 									html: '&lt;h1&gt;Hello World!&lt;/h1&gt;'
 								</div>
@@ -203,18 +203,18 @@ const IntegrationPage = () => {
 								<div className="text-gray-600 dark:text-gray-400">
 									# Install the SDK
 								</div>
-								<div className="mt-2">pip install reloop</div>
+								<div className="mt-2">pip install verifio</div>
 								<div className="mt-4 text-gray-600 dark:text-gray-400">
 									# Send an email
 								</div>
-								<div className="mt-2">import reloop</div>
+								<div className="mt-2">import verifio</div>
 								<div className="mt-2">
-									client = reloop.Client('YOUR_API_KEY')
+									client = verifio.Client('YOUR_API_KEY')
 								</div>
 								<div className="mt-2">client.emails.send({"{"}</div>
 								<div className="ml-4">'from': 'hello@yourdomain.com',</div>
 								<div className="ml-4">'to': 'user@example.com',</div>
-								<div className="ml-4">'subject': 'Hello from Reloop!',</div>
+								<div className="ml-4">'subject': 'Hello from Verifio!',</div>
 								<div className="ml-4">
 									'html': '&lt;h1&gt;Hello World!&lt;/h1&gt;'
 								</div>
@@ -232,7 +232,7 @@ const IntegrationPage = () => {
 									# Send an email via REST API
 								</div>
 								<div className="mt-2">
-									curl -X POST https://api.reloop.com/v1/emails \
+									curl -X POST https://api.verifio.com/v1/emails \
 								</div>
 								<div className="ml-4">
 									-H "Authorization: Bearer YOUR_API_KEY" \
@@ -243,7 +243,7 @@ const IntegrationPage = () => {
 								<div className="ml-4">-d '{"{"}</div>
 								<div className="ml-8">"from": "hello@yourdomain.com",</div>
 								<div className="ml-8">"to": "user@example.com",</div>
-								<div className="ml-8">"subject": "Hello from Reloop!",</div>
+								<div className="ml-8">"subject": "Hello from Verifio!",</div>
 								<div className="ml-8">
 									"html": "&lt;h1&gt;Hello World!&lt;/h1&gt;"
 								</div>
@@ -258,7 +258,7 @@ const IntegrationPage = () => {
 			<section className="border-stroke-soft-100 border-t px-6 py-16 text-center md:px-12 md:py-20">
 				<h2 className="title-h2 mb-6 font-semibold">Ready to Integrate?</h2>
 				<p className="mx-auto mb-10 max-w-2xl text-lg text-text-sub-600 leading-8">
-					Get your API key and start integrating Reloop into your applications
+					Get your API key and start integrating Verifio into your applications
 					today. Comprehensive documentation and examples make integration
 					simple.
 				</p>

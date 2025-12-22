@@ -1,6 +1,6 @@
 "use client";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
 import { motion, type Variants } from "motion/react";
 
 // Animation variants with proper typing
@@ -195,7 +195,7 @@ export const PropertiesEmptyState = ({
 
 				{/* Help link */}
 				<motion.a
-					href="https://reloop.sh/docs/properties"
+					href="https://verifio.email/docs/properties"
 					target="_blank"
 					rel="noopener noreferrer"
 					className="mt-4 flex items-center gap-1 text-text-sub-600 text-xs transition-colors hover:text-text-strong-950"

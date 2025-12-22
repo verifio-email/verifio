@@ -1,4 +1,4 @@
-import type { AudienceStatus } from "@reloop/api/types";
+import type { AudienceStatus } from "@verifio/api/types";
 
 // Re-export for backward compatibility
 export type { AudienceStatus };

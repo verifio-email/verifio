@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@reloop/ui/cn";
+import { cn } from "@verifio/ui/cn";
 import Link from "next/link";
 import type React from "react";
 

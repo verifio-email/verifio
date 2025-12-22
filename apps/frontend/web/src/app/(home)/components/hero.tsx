@@ -1,4 +1,4 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import Link from "next/link";
 
 export default function Hero() {
@@ -8,8 +8,8 @@ export default function Hero() {
 				Email for Developers & Marketing teams
 			</h1>
 			<h2 className="mx-auto mt-6 max-w-lg text-center text-lg text-text-sub-600 leading-8">
-				Reloop provides secure, reliable, and scalable email infrastructure with
-				99.9% inbox placement never spam.{" "}
+				Verifio provides secure, reliable, and scalable email infrastructure
+				with 99.9% inbox placement never spam.{" "}
 			</h2>
 			<div className="mt-10 flex items-center justify-center gap-4">
 				<Link
@@ -23,7 +23,7 @@ export default function Hero() {
 				</Link>
 				<a
 					target="_blank"
-					href="https://github.com/reloop-labs/reloop"
+					href="https://github.com/reloop-labs/verifio"
 					className={Button.buttonVariants({
 						mode: "stroke",
 						variant: "neutral",

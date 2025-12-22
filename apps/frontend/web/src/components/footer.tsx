@@ -1,4 +1,4 @@
-import { Logo } from "@reloop/ui/logo";
+import { Logo } from "@verifio/ui/logo";
 import Link from "next/link";
 
 const links = [
@@ -76,8 +76,8 @@ const links = [
 				href: "/company/contact-us",
 			},
 			{
-				title: "Why Reloop",
-				href: "/philosophy/why-reloop",
+				title: "Why Verifio",
+				href: "/philosophy/why-verifio",
 			},
 			{
 				title: "Why Open-source",
@@ -138,7 +138,7 @@ export const Footer = () => {
 							<div className="flex items-center gap-3">
 								<Logo className="h-20 w-20 rounded-full" />
 								<span className="-ml-4 font-semibold text-text-strong-950 text-xl">
-									Reloop
+									Verifio
 								</span>
 							</div>
 							<p className="max-w-xs pl-5 font-medium text-text-sub-600">
@@ -161,7 +161,7 @@ export const Footer = () => {
 							</div>
 							<div className="grid grid-cols-2">
 								<Link
-									href="https://linkedin.com/company/reloophq"
+									href="https://linkedin.com/company/verifiohq"
 									target="_blank"
 									rel="noopener noreferrer"
 									className="flex items-center gap-3 border-stroke-soft-100 border-r border-b p-4 text-sm text-text-sub-600 transition-colors hover:text-text-strong-950"
@@ -181,7 +181,7 @@ export const Footer = () => {
 									<span>Linkedin</span>
 								</Link>
 								<Link
-									href="https://x.com/reloophq"
+									href="https://x.com/verifiohq"
 									target="_blank"
 									rel="noopener noreferrer"
 									className="flex items-center gap-3 border-stroke-soft-100 border-r border-b p-4 text-sm text-text-sub-600 transition-colors hover:text-text-strong-950"
@@ -201,7 +201,7 @@ export const Footer = () => {
 									<span>X (Twitter)</span>
 								</Link>
 								<Link
-									href="https://github.com/reloop-labs/reloop"
+									href="https://github.com/reloop-labs/verifio"
 									target="_blank"
 									rel="noopener noreferrer"
 									className="flex items-center gap-3 border-stroke-soft-100 border-r p-4 text-sm text-text-sub-600 transition-colors hover:text-text-strong-950"
@@ -221,7 +221,7 @@ export const Footer = () => {
 									<span>Github</span>
 								</Link>
 								<Link
-									href="https://discord.gg/reloop"
+									href="https://discord.gg/verifio"
 									target="_blank"
 									rel="noopener noreferrer"
 									className="flex items-center gap-3 border-stroke-soft-100 border-r p-4 text-sm text-text-sub-600 transition-colors hover:text-text-strong-950"
@@ -286,7 +286,7 @@ export const Footer = () => {
 					<div className="flex flex-col items-start justify-between gap-4 px-6 py-6 sm:flex-row sm:items-center">
 						<div className="flex flex-col gap-3 sm:flex-row sm:items-center">
 							<span className="text-sm text-text-sub-600">
-								© {currentYear} Reloop
+								© {currentYear} Verifio
 							</span>
 							<div className="flex items-center gap-2">
 								<div className="size-2 rounded-full bg-blue-500" />

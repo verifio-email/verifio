@@ -1,12 +1,12 @@
 "use client";
 
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
-import { authClient } from "@reloop/auth/client";
-import * as Avatar from "@reloop/ui/avatar";
-import * as Button from "@reloop/ui/button";
-import { cn } from "@reloop/ui/cn";
-import { Icon } from "@reloop/ui/icon";
-import { Logo } from "@reloop/ui/logo";
+import { authClient } from "@verifio/auth/client";
+import * as Avatar from "@verifio/ui/avatar";
+import * as Button from "@verifio/ui/button";
+import { cn } from "@verifio/ui/cn";
+import { Icon } from "@verifio/ui/icon";
+import { Logo } from "@verifio/ui/logo";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 import useSWR from "swr";

@@ -1,6 +1,6 @@
 "use client";
-import { Icon } from "@reloop/ui/icon";
-import Spinner from "@reloop/ui/spinner";
+import { Icon } from "@verifio/ui/icon";
+import Spinner from "@verifio/ui/spinner";
 import { useParams } from "next/navigation";
 import { useQueryState } from "nuqs";
 import { useState } from "react";

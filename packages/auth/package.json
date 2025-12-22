@@ -1,5 +1,5 @@
 {
-	"name": "@reloop/auth",
+	"name": "@verifio/auth",
 	"version": "0.1.0",
 	"private": true,
 	"exports": {
@@ -16,7 +16,7 @@
 		"better-auth": "catalog:"
 	},
 	"devDependencies": {
-		"@reloop/tsconfig": "workspace:*",
+		"@verifio/tsconfig": "workspace:*",
 		"@types/node": "catalog:",
 		"typescript": "catalog:"
 	}

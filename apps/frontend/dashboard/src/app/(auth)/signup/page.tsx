@@ -1,10 +1,10 @@
 "use client";
-import { authClient } from "@reloop/auth/client";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
-import * as LinkButton from "@reloop/ui/link-button";
-import { Logo } from "@reloop/ui/logo";
-import Spinner from "@reloop/ui/spinner";
+import { authClient } from "@verifio/auth/client";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
+import * as LinkButton from "@verifio/ui/link-button";
+import { Logo } from "@verifio/ui/logo";
+import Spinner from "@verifio/ui/spinner";
 import { AnimatePresence } from "motion/react";
 import Link from "next/link";
 import { useState } from "react";

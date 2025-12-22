@@ -1,10 +1,10 @@
 "use client";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
-import * as Kbd from "@reloop/ui/kbd";
-import * as Modal from "@reloop/ui/modal";
-import Spinner from "@reloop/ui/spinner";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
+import * as Kbd from "@verifio/ui/kbd";
+import * as Modal from "@verifio/ui/modal";
+import Spinner from "@verifio/ui/spinner";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { useQueryState } from "nuqs";

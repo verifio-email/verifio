@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@reloop/ui/cn";
+import { cn } from "@verifio/ui/cn";
 import { MainSidebar } from "./main-sidebar";
 
 interface AdaptiveLayoutProps {

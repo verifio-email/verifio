@@ -1,4 +1,4 @@
-import { Icon } from "@reloop/ui/icon";
+import { Icon } from "@verifio/ui/icon";
 import { loader } from "fumadocs-core/source";
 import { createElement } from "react";
 import { docs } from "../../.source";

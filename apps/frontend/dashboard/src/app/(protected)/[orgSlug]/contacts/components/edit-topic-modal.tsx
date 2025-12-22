@@ -1,14 +1,14 @@
 "use client";
 
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
-import * as Label from "@reloop/ui/label";
-import * as Modal from "@reloop/ui/modal";
-import Spinner from "@reloop/ui/spinner";
-import * as Switch from "@reloop/ui/switch";
-import * as Textarea from "@reloop/ui/textarea";
-import * as Tooltip from "@reloop/ui/tooltip";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
+import * as Label from "@verifio/ui/label";
+import * as Modal from "@verifio/ui/modal";
+import Spinner from "@verifio/ui/spinner";
+import * as Switch from "@verifio/ui/switch";
+import * as Textarea from "@verifio/ui/textarea";
+import * as Tooltip from "@verifio/ui/tooltip";
 import axios from "axios";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";

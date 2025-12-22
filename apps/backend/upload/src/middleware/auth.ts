@@ -1,7 +1,7 @@
 import { uploadConfig } from "@be/upload/upload.config";
 import { errorCodes } from "@be/upload/upload.error-code";
-import type { Session } from "@reloop/auth/server";
-import { logger } from "@reloop/logger";
+import type { Session } from "@verifio/auth/server";
+import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
 
 if (uploadConfig.NODE_ENV !== "production") {

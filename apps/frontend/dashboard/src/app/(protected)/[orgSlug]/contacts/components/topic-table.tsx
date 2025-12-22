@@ -1,9 +1,9 @@
 "use client";
 import { getAnimationProps } from "@fe/dashboard/utils/domain";
 import { formatRelativeTime } from "@fe/dashboard/utils/time";
-import { cn } from "@reloop/ui/cn";
-import { Icon } from "@reloop/ui/icon";
-import { Skeleton } from "@reloop/ui/skeleton";
+import { cn } from "@verifio/ui/cn";
+import { Icon } from "@verifio/ui/icon";
+import { Skeleton } from "@verifio/ui/skeleton";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useQueryState } from "nuqs";

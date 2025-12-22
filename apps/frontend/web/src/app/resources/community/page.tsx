@@ -1,4 +1,4 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 
 const CommunityPage = () => {
 	return (
@@ -6,7 +6,7 @@ const CommunityPage = () => {
 			{/* Hero Section */}
 			<section className="px-6 py-20 text-center md:px-12 md:py-28">
 				<h1 className="title-h1 mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text font-bold text-transparent dark:from-white dark:to-gray-300">
-					Join the Reloop Community
+					Join the Verifio Community
 				</h1>
 				<p className="mx-auto max-w-3xl text-text-sub-600 text-xl leading-8 md:text-2xl md:leading-9">
 					Connect with developers, share knowledge, and help shape the future of
@@ -15,7 +15,7 @@ const CommunityPage = () => {
 				<div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
 					<a
 						target="_blank"
-						href="https://discord.gg/reloop"
+						href="https://discord.gg/verifio"
 						className={Button.buttonVariants({
 							variant: "neutral",
 						}).root({ className: "h-12 rounded-full px-8" })}
@@ -25,7 +25,7 @@ const CommunityPage = () => {
 					</a>
 					<a
 						target="_blank"
-						href="https://github.com/reloop-labs/reloop"
+						href="https://github.com/reloop-labs/verifio"
 						className={Button.buttonVariants({
 							mode: "stroke",
 							variant: "neutral",
@@ -68,7 +68,7 @@ const CommunityPage = () => {
 						</p>
 						<a
 							target="_blank"
-							href="https://discord.gg/reloop"
+							href="https://discord.gg/verifio"
 							className="text-blue-600 text-sm hover:underline dark:text-blue-400"
 							rel="noopener"
 						>
@@ -94,7 +94,7 @@ const CommunityPage = () => {
 						</p>
 						<a
 							target="_blank"
-							href="https://github.com/reloop-labs/reloop/discussions"
+							href="https://github.com/reloop-labs/verifio/discussions"
 							className="text-blue-600 text-sm hover:underline dark:text-blue-400"
 							rel="noopener"
 						>
@@ -115,15 +115,15 @@ const CommunityPage = () => {
 						<h3 className="mb-3 font-semibold text-xl">Twitter Community</h3>
 						<p className="mb-4 text-text-sub-600 leading-6">
 							Follow us on Twitter for updates, tips, and community highlights.
-							Share your Reloop success stories and connect with other users.
+							Share your Verifio success stories and connect with other users.
 						</p>
 						<a
 							target="_blank"
-							href="https://twitter.com/reloophq"
+							href="https://twitter.com/verifiohq"
 							className="text-blue-600 text-sm hover:underline dark:text-blue-400"
 							rel="noopener"
 						>
-							Follow @reloophq →
+							Follow @verifiohq →
 						</a>
 					</div>
 				</div>
@@ -134,7 +134,7 @@ const CommunityPage = () => {
 				<div className="mx-auto max-w-4xl text-center">
 					<h2 className="title-h2 mb-6 font-semibold">A Growing Community</h2>
 					<p className="mb-12 text-lg text-text-sub-600 leading-8">
-						Join thousands of developers who are already part of the Reloop
+						Join thousands of developers who are already part of the Verifio
 						community and help shape the future of email infrastructure.
 					</p>
 
@@ -199,7 +199,7 @@ const CommunityPage = () => {
 				<div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
 					<a
 						target="_blank"
-						href="https://discord.gg/reloop"
+						href="https://discord.gg/verifio"
 						className={Button.buttonVariants({
 							variant: "neutral",
 						}).root({ className: "h-12 rounded-full px-8" })}
@@ -209,7 +209,7 @@ const CommunityPage = () => {
 					</a>
 					<a
 						target="_blank"
-						href="https://github.com/reloop-labs/reloop"
+						href="https://github.com/reloop-labs/verifio"
 						className={Button.buttonVariants({
 							mode: "stroke",
 							variant: "neutral",

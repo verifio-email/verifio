@@ -1,15 +1,15 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-	title: "Contact Us | Reloop",
+	title: "Contact Us | Verifio",
 	description:
-		"Get in touch with the Reloop team. We're here to help with support, sales, partnerships, and any questions about our email infrastructure platform.",
+		"Get in touch with the Verifio team. We're here to help with support, sales, partnerships, and any questions about our email infrastructure platform.",
 	openGraph: {
-		title: "Contact Us | Reloop",
+		title: "Contact Us | Verifio",
 		description:
-			"Get in touch with the Reloop team. We're here to help with support, sales, partnerships, and any questions about our email infrastructure platform.",
+			"Get in touch with the Verifio team. We're here to help with support, sales, partnerships, and any questions about our email infrastructure platform.",
 		type: "website",
 	},
 };
@@ -20,7 +20,7 @@ const ContactUsPage = () => {
 			title: "General Support",
 			description:
 				"Get help with technical issues, account questions, and general support.",
-			email: "support@reloop.sh",
+			email: "support@verifio.email",
 			responseTime: "Within 24 hours",
 			icon: "💬",
 		},
@@ -28,7 +28,7 @@ const ContactUsPage = () => {
 			title: "Sales & Partnerships",
 			description:
 				"Interested in our enterprise plans or partnership opportunities?",
-			email: "sales@reloop.sh",
+			email: "sales@verifio.email",
 			responseTime: "Within 4 hours",
 			icon: "🤝",
 		},
@@ -36,7 +36,7 @@ const ContactUsPage = () => {
 			title: "Technical Support",
 			description:
 				"Need help with API integration or technical implementation?",
-			email: "tech@reloop.sh",
+			email: "tech@verifio.email",
 			responseTime: "Within 12 hours",
 			icon: "⚡",
 		},
@@ -44,7 +44,7 @@ const ContactUsPage = () => {
 			title: "Press & Media",
 			description:
 				"Media inquiries, press releases, and partnership announcements.",
-			email: "press@reloop.sh",
+			email: "press@verifio.email",
 			responseTime: "Within 24 hours",
 			icon: "📰",
 		},
@@ -64,7 +64,7 @@ const ContactUsPage = () => {
 		{
 			question: "Can I schedule a demo or consultation?",
 			answer:
-				"Absolutely! Contact our sales team at sales@reloop.sh to schedule a personalized demo of our platform.",
+				"Absolutely! Contact our sales team at sales@verifio.email to schedule a personalized demo of our platform.",
 		},
 		{
 			question: "Do you have a community forum?",

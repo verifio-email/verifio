@@ -1,9 +1,9 @@
 "use client";
 
-import { authClient } from "@reloop/auth/client";
-import * as Avatar from "@reloop/ui/avatar";
-import * as Button from "@reloop/ui/button";
-import * as Popover from "@reloop/ui/popover";
+import { authClient } from "@verifio/auth/client";
+import * as Avatar from "@verifio/ui/avatar";
+import * as Button from "@verifio/ui/button";
+import * as Popover from "@verifio/ui/popover";
 
 interface UserMenuProps {
 	className?: string;

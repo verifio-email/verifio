@@ -1,9 +1,9 @@
 "use client";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
-import * as Select from "@reloop/ui/select";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
+import * as Select from "@verifio/ui/select";
 import Link from "next/link";
 import { useState } from "react";
 import useSWR from "swr";
@@ -73,7 +73,7 @@ export const WebhookListSidebar = () => {
 						Create webhook
 					</Button.Root>
 					<Link
-						href="https://reloop.sh/docs/learn/webhook"
+						href="https://verifio.email/docs/learn/webhook"
 						target="_blank"
 						rel="noopener noreferrer"
 						className={Button.buttonVariants({

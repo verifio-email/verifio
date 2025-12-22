@@ -40,7 +40,7 @@ export const WelcomeEmail = ({ fullName = "" }: Props) => {
 						className={`mx-0 my-[30px] p-0 text-center font-normal text-[21px] ${themeClasses.heading}`}
 						style={{ color: lightStyles.text.color }}
 					>
-						Welcome to Reloop
+						Welcome to Verifio
 					</Heading>
 
 					<br />
@@ -55,7 +55,7 @@ export const WelcomeEmail = ({ fullName = "" }: Props) => {
 						className={themeClasses.text}
 						style={{ color: lightStyles.text.color }}
 					>
-						Welcome to Reloop!
+						Welcome to Verifio!
 						<br />
 					</Text>
 

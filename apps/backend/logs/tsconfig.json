@@ -1,5 +1,5 @@
 {
-	"extends": "@reloop/tsconfig/base.json",
+	"extends": "@verifio/tsconfig/base.json",
 	"compilerOptions": {
 		"target": "ESNext",
 		"module": "ESNext",
@@ -15,7 +15,7 @@
 		"declarationMap": false,
 		"baseUrl": ".",
 		"paths": {
-			"@reloop/tracehub/*": ["./src/*"]
+			"@verifio/tracehub/*": ["./src/*"]
 		}
 	}
 }

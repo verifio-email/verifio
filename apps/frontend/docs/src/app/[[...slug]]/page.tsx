@@ -17,7 +17,7 @@ import {
 import { LLMCopyButton, ViewOptions } from "@fe/docs/components/page-actions";
 import { source } from "@fe/docs/lib/source";
 import { getMDXComponents } from "@fe/docs/mdx-components";
-import { Icon } from "@reloop/ui/icon";
+import { Icon } from "@verifio/ui/icon";
 import { DocsLayout } from "fumadocs-ui/layouts/notebook";
 import { createRelativeLink } from "fumadocs-ui/mdx";
 import {
@@ -72,7 +72,7 @@ export default async function Page(props: {
 					<LLMCopyButton markdownUrl={`${page.url}.mdx`} />
 					<ViewOptions
 						markdownUrl={`${page.url}.mdx`}
-						githubUrl="https://github.com//reloop-labs/reloop"
+						githubUrl="https://github.com//reloop-labs/verifio"
 					/>
 				</div>
 				<DocsBody>

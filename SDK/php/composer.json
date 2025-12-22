@@ -1,11 +1,11 @@
 {
-	"name": "reloop/sdk-php",
-	"description": "Reloop PHP SDK",
+	"name": "verifio/sdk-php",
+	"description": "Verifio PHP SDK",
 	"type": "library",
 	"license": "MIT",
 	"authors": [
 		{
-			"name": "Reloop"
+			"name": "Verifio"
 		}
 	],
 	"require": {
@@ -13,7 +13,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Reloop\\": "src/"
+			"Verifio\\": "src/"
 		}
 	}
 }

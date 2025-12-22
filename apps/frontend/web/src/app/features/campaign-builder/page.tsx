@@ -1,15 +1,15 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-	title: "Campaign Builder | Reloop",
+	title: "Campaign Builder | Verifio",
 	description:
-		"Visual email campaign builder with drag-and-drop editor, templates, and automation. Create stunning campaigns without coding using Reloop's intuitive campaign builder.",
+		"Visual email campaign builder with drag-and-drop editor, templates, and automation. Create stunning campaigns without coding using Verifio's intuitive campaign builder.",
 	openGraph: {
-		title: "Campaign Builder | Reloop",
+		title: "Campaign Builder | Verifio",
 		description:
-			"Visual email campaign builder with drag-and-drop editor, templates, and automation. Create stunning campaigns without coding using Reloop's intuitive campaign builder.",
+			"Visual email campaign builder with drag-and-drop editor, templates, and automation. Create stunning campaigns without coding using Verifio's intuitive campaign builder.",
 		type: "website",
 	},
 };
@@ -281,7 +281,7 @@ const CampaignBuilderPage = () => {
 					Ready to Build Your First Campaign?
 				</h2>
 				<p className="mx-auto mb-10 max-w-2xl text-lg text-text-sub-600 leading-8">
-					Start creating stunning email campaigns with Reloop's visual campaign
+					Start creating stunning email campaigns with Verifio's visual campaign
 					builder. No coding required—just drag, drop, and send.
 				</p>
 

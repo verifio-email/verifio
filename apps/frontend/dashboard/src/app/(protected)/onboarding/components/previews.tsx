@@ -1,7 +1,7 @@
 "use client";
 
-import { CodeBlock } from "@reloop/ui/code-block";
-import { Icon } from "@reloop/ui/icon";
+import { CodeBlock } from "@verifio/ui/code-block";
+import { Icon } from "@verifio/ui/icon";
 import { AnimatePresence, motion } from "framer-motion";
 import {
 	CloudLightning,
@@ -33,7 +33,7 @@ export const SidebarPreview = ({ name, logo, slug }: SidebarPreviewProps) => {
 						<div className="h-3 w-3 rounded-full bg-success-base/80" />
 					</div>
 					<div className="ml-4 flex-1 rounded-md bg-bg-weak-50 px-3 py-1 text-center font-mono text-text-soft-400 text-xs">
-						reloop.sh/dashboard/{slug}
+						verifio.email/dashboard/{slug}
 					</div>
 				</div>
 				<div className="flex flex-1 overflow-hidden">
@@ -109,15 +109,15 @@ type LanguageCode = "nodejs" | "go" | "php" | "python";
 
 const codeExamples: Record<LanguageCode, { code: string; lang: string }> = {
 	nodejs: {
-		code: `import Reloop from 'reloop-email';
+		code: `import Verifio from 'verifio-email';
 
-const reloop = new Reloop({
-  url: 'https://api.reloop.sh',
+const verifio = new Verifio({
+  url: 'https://api.verifio.email',
   key: 'your-api-key'
 });
 
 // Send an email
-const result = await reloop.mail.send({
+const result = await verifio.mail.send({
   from: 'sender@example.com',
   to: 'recipient@example.com',
   subject: 'Hello',
@@ -130,16 +130,16 @@ const result = await reloop.mail.send({
 
 import (
   "fmt"
-  "github.com/reloop/reloop-go"
+  "github.com/verifio/verifio-go"
 )
 
 func main() {
-  client := reloop.NewClient(
-    "https://api.reloop.sh",
+  client := verifio.NewClient(
+    "https://api.verifio.email",
     "your-api-key",
   )
 
-  result, err := client.Mail.Send(&reloop.MailRequest{
+  result, err := client.Mail.Send(&verifio.MailRequest{
     From:    "sender@example.com",
     To:      "recipient@example.com",
     Subject: "Hello",
@@ -160,10 +160,10 @@ func main() {
 
 require_once 'vendor/autoload.php';
 
-use Reloop\\ReloopClient;
+use Verifio\\VerifioClient;
 
-$client = new ReloopClient([
-  'url' => 'https://api.reloop.sh',
+$client = new VerifioClient([
+  'url' => 'https://api.verifio.email',
   'key' => 'your-api-key'
 ]);
 
@@ -179,10 +179,10 @@ echo json_encode($result, JSON_PRETTY_PRINT);`,
 		lang: "php",
 	},
 	python: {
-		code: `from reloop import Reloop
+		code: `from verifio import Verifio
 
-client = Reloop(
-    url="https://api.reloop.sh",
+client = Verifio(
+    url="https://api.verifio.email",
     key="your-api-key"
 )
 

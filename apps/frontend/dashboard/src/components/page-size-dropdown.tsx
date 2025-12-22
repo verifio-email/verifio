@@ -1,10 +1,10 @@
 "use client";
 import { AnimatedHoverBackground } from "@fe/dashboard/components/layout/sidebar/animated-hover-background";
-import { cn } from "@reloop/ui/cn";
-import * as Dropdown from "@reloop/ui/dropdown";
-import { Icon } from "@reloop/ui/icon";
+import { cn } from "@verifio/ui/cn";
+import * as Dropdown from "@verifio/ui/dropdown";
+import { Icon } from "@verifio/ui/icon";
 import { useRef, useState } from "react";
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 
 interface PageSizeDropdownProps {
     value: number;

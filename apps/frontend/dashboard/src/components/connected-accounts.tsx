@@ -1,9 +1,9 @@
 "use client";
 
-import { authClient } from "@reloop/auth/client";
-import { cn } from "@reloop/ui/cn";
-import { Icon } from "@reloop/ui/icon";
-import { Skeleton } from "@reloop/ui/skeleton";
+import { authClient } from "@verifio/auth/client";
+import { cn } from "@verifio/ui/cn";
+import { Icon } from "@verifio/ui/icon";
+import { Skeleton } from "@verifio/ui/skeleton";
 import useSWR from "swr";
 
 interface Account {

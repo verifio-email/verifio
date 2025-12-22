@@ -1,5 +1,5 @@
 "use client";
-import { Icon } from "@reloop/ui/icon";
+import { Icon } from "@verifio/ui/icon";
 import { SettingsTabs } from "./components/tabs";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {

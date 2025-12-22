@@ -1,8 +1,8 @@
 "use client";
 
-import { authClient } from "@reloop/auth/client";
-import * as Button from "@reloop/ui/button";
-import Spinner from "@reloop/ui/spinner";
+import { authClient } from "@verifio/auth/client";
+import * as Button from "@verifio/ui/button";
+import Spinner from "@verifio/ui/spinner";
 import { CheckCircle2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { parseAsInteger, parseAsString, useQueryState } from "nuqs";

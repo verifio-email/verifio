@@ -1,15 +1,15 @@
 "use client";
 
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import { authClient } from "@reloop/auth/client";
-import * as Button from "@reloop/ui/button";
-import { cn } from "@reloop/ui/cn";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
-import * as Label from "@reloop/ui/label";
-import * as Modal from "@reloop/ui/modal";
-import * as Select from "@reloop/ui/select";
-import Spinner from "@reloop/ui/spinner";
+import { authClient } from "@verifio/auth/client";
+import * as Button from "@verifio/ui/button";
+import { cn } from "@verifio/ui/cn";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
+import * as Label from "@verifio/ui/label";
+import * as Modal from "@verifio/ui/modal";
+import * as Select from "@verifio/ui/select";
+import Spinner from "@verifio/ui/spinner";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import type { Resolver } from "react-hook-form";
@@ -60,7 +60,7 @@ export const AddNewMailboxModal = ({
 		{ value: "example.com", label: "example.com" },
 		{ value: "test.example.com", label: "test.example.com" },
 		{ value: "mail.example.com", label: "mail.example.com" },
-		{ value: "local.reloop.sh", label: "local.reloop.sh" },
+		{ value: "local.verifio.email", label: "local.verifio.email" },
 	];
 
 	// Inline select component for domain dropdown
@@ -147,7 +147,7 @@ export const AddNewMailboxModal = ({
 									Login URL
 								</p>
 								<p className="col-span-3 font-medium text-sm text-text-strong-950 leading-5">
-									inbox.reloop.sh
+									inbox.verifio.email
 								</p>
 								<Icon name="external-link" className="h-3 w-3" />
 							</div>
@@ -191,7 +191,7 @@ export const AddNewMailboxModal = ({
 												IMAP
 											</p>
 											<p className="col-span-2 font-medium text-sm text-text-strong-950 leading-5">
-												local.reloop.sh
+												local.verifio.email
 											</p>
 											<p className="col-span-1 font-medium text-sm text-text-strong-950 leading-5">
 												143/993
@@ -202,7 +202,7 @@ export const AddNewMailboxModal = ({
 												SMTP
 											</p>
 											<p className="col-span-2 font-medium text-sm text-text-strong-950 leading-5">
-												local.reloop.sh
+												local.verifio.email
 											</p>
 											<p className="col-span-1 font-medium text-sm text-text-strong-950 leading-5">
 												25/465/587

@@ -1,10 +1,10 @@
 // Set environment variables if not already set
 if (!process.env.PORT) process.env.PORT = "8018";
 if (!process.env.PG_URL)
-	process.env.PG_URL = "postgresql://reloop:reloop123@localhost:5432/reloop";
+	process.env.PG_URL = "postgresql://verifio:verifio123@localhost:5432/verifio";
 if (!process.env.REDIS_URL)
-	process.env.REDIS_URL = "redis://:reloop123@localhost:6379";
-if (!process.env.BASE_URL) process.env.BASE_URL = "https://local.reloop.sh";
+	process.env.REDIS_URL = "redis://:verifio123@localhost:6379";
+if (!process.env.BASE_URL) process.env.BASE_URL = "https://local.verifio.email";
 
 if (!process.env.NODE_TLS_REJECT_UNAUTHORIZED)
 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";

@@ -1,4 +1,4 @@
-import { db } from "@reloop/db/client";
+import { db } from "@verifio/db/client";
 import { Elysia } from "elysia";
 
 export const landing = new Elysia()
@@ -47,11 +47,11 @@ ${dbError ? `║ DB ERROR: ${dbError.substring(0, 50).padEnd(50)} ║` : "║   
 ║   -d '{"name":"test/event","data":{}}'                 ║
 ╠════════════════════════════════════════════════════════╣
 ║ - SUPPORT                                              ║
-║ - https://reloop.sh/dev/setup/backend/workflow         ║
-║ - https://github.com/reloop-labs/reloop                ║
+║ - https://verifio.email/dev/setup/backend/workflow         ║
+║ - https://github.com/reloop-labs/verifio                ║
 ╠════════════════════════════════════════════════════════╣
 ║  "Automate workflows, deliver results"                  ║
-║                    - Your Reloop Team                  ║
+║                    - Your Verifio Team                  ║
 ╚════════════════════════════════════════════════════════╝
 
 

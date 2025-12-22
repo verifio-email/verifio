@@ -2,7 +2,7 @@
 
 "use client";
 
-import { cn } from "@reloop/ui/cn";
+import { cn } from "@verifio/ui/cn";
 import type * as React from "react";
 import { DayPicker } from "react-day-picker";
 import { compactButtonVariants } from "./compact-button";

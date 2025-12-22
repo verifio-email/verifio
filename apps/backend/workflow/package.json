@@ -15,11 +15,11 @@
 		"drizzle-orm": "catalog:db",
 		"elysia": "catalog:backend",
 		"inngest": "catalog:backend",
-		"@reloop/db": "workspace:*",
-		"@reloop/logger": "workspace:*"
+		"@verifio/db": "workspace:*",
+		"@verifio/logger": "workspace:*"
 	},
 	"devDependencies": {
-		"@reloop/tsconfig": "workspace:*",
+		"@verifio/tsconfig": "workspace:*",
 		"tsdown": "catalog:backend",
 		"typescript": "catalog:",
 		"@types/bun": "catalog:backend"

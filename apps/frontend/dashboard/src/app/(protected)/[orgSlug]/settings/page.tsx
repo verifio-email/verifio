@@ -1,14 +1,14 @@
 "use client";
 
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
-import { authClient } from "@reloop/auth/client";
-import * as Button from "@reloop/ui/button";
-import { cn } from "@reloop/ui/cn";
-import * as FileUpload from "@reloop/ui/file-upload";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
-import * as Label from "@reloop/ui/label";
-import Spinner from "@reloop/ui/spinner";
+import { authClient } from "@verifio/auth/client";
+import * as Button from "@verifio/ui/button";
+import { cn } from "@verifio/ui/cn";
+import * as FileUpload from "@verifio/ui/file-upload";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
+import * as Label from "@verifio/ui/label";
+import Spinner from "@verifio/ui/spinner";
 import axios from "axios";
 import type React from "react";
 import { useRef, useState } from "react";
@@ -29,7 +29,9 @@ const SettingsPage = () => {
 	const [isSaving, setIsSaving] = useState(false);
 	const [slugStatus, setSlugStatus] = useState<SlugStatus>("idle");
 	const fileInputRef = useRef<HTMLInputElement>(null);
-	const slugCheckTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const slugCheckTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+		null,
+	);
 
 	// Check if there are any changes
 	const hasChanges =
@@ -61,7 +63,9 @@ const SettingsPage = () => {
 		setSlugStatus("checking");
 		slugCheckTimeoutRef.current = setTimeout(async () => {
 			try {
-				const { data } = await authClient.organization.checkSlug({ slug: normalizedSlug });
+				const { data } = await authClient.organization.checkSlug({
+					slug: normalizedSlug,
+				});
 				setSlugStatus(data?.status ? "available" : "taken");
 			} catch {
 				setSlugStatus("error");
@@ -297,7 +301,9 @@ const SettingsPage = () => {
 								hassuccess={slugStatus === "available"}
 							>
 								<Input.Wrapper className="gap-0">
-									<Input.InlineAffix>reloop.sh/dashboard/</Input.InlineAffix>
+									<Input.InlineAffix>
+										verifio.email/dashboard/
+									</Input.InlineAffix>
 									<Input.Input
 										id="slug"
 										type="text"

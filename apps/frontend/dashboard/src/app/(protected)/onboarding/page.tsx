@@ -1,4 +1,4 @@
-import Spinner from "@reloop/ui/spinner";
+import Spinner from "@verifio/ui/spinner";
 import { Suspense } from "react";
 import { OnBoardingContent } from "./onboarding-content";
 

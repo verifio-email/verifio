@@ -1,15 +1,15 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-	title: "License | Reloop",
+	title: "License | Verifio",
 	description:
-		"Reloop is released under the MIT License. Learn about our open source licensing terms and how you can use, modify, and distribute our software.",
+		"Verifio is released under the MIT License. Learn about our open source licensing terms and how you can use, modify, and distribute our software.",
 	openGraph: {
-		title: "License | Reloop",
+		title: "License | Verifio",
 		description:
-			"Reloop is released under the MIT License. Learn about our open source licensing terms and how you can use, modify, and distribute our software.",
+			"Verifio is released under the MIT License. Learn about our open source licensing terms and how you can use, modify, and distribute our software.",
 		type: "website",
 	},
 };
@@ -23,14 +23,14 @@ const LicensePage = () => {
 					MIT License
 				</h1>
 				<p className="mx-auto max-w-3xl text-text-sub-600 text-xl leading-8 md:text-2xl md:leading-9">
-					Reloop is released under the MIT License, one of the most permissive
+					Verifio is released under the MIT License, one of the most permissive
 					open source licenses. Use it freely in your projects, both commercial
 					and non-commercial.
 				</p>
 				<div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
 					<a
 						target="_blank"
-						href="https://github.com/reloop-labs/reloop"
+						href="https://github.com/reloop-labs/verifio"
 						className={Button.buttonVariants({
 							variant: "neutral",
 						}).root({ className: "h-12 rounded-full px-8" })}
@@ -82,7 +82,7 @@ const LicensePage = () => {
 							</div>
 							<h3 className="mb-3 font-semibold text-xl">Commercial Use</h3>
 							<p className="text-text-sub-600 leading-6">
-								Use Reloop in commercial projects without any restrictions.
+								Use Verifio in commercial projects without any restrictions.
 								Build and sell products that incorporate our code.
 							</p>
 						</div>
@@ -128,7 +128,7 @@ const LicensePage = () => {
 							</div>
 							<h3 className="mb-3 font-semibold text-xl">Distribution</h3>
 							<p className="text-text-sub-600 leading-6">
-								Distribute copies of Reloop, including modified versions, to
+								Distribute copies of Verifio, including modified versions, to
 								anyone you want.
 							</p>
 						</div>
@@ -151,7 +151,7 @@ const LicensePage = () => {
 							</div>
 							<h3 className="mb-3 font-semibold text-xl">Private Use</h3>
 							<p className="text-text-sub-600 leading-6">
-								Use Reloop privately in your own projects without any
+								Use Verifio privately in your own projects without any
 								obligations to share your modifications.
 							</p>
 						</div>
@@ -165,7 +165,7 @@ const LicensePage = () => {
 					<div className="mb-8">
 						<h2 className="title-h2 mb-4 font-semibold">MIT License Text</h2>
 						<p className="text-text-sub-600 leading-7">
-							Here's the complete MIT License text that applies to Reloop:
+							Here's the complete MIT License text that applies to Verifio:
 						</p>
 					</div>
 
@@ -173,7 +173,7 @@ const LicensePage = () => {
 						<pre className="whitespace-pre-wrap text-gray-800 text-sm leading-7 dark:text-gray-200">
 							{`MIT License
 
-Copyright (c) 2024 Reloop Labs
+Copyright (c) 2024 Verifio Labs
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -205,8 +205,8 @@ SOFTWARE.`}
 							Third-Party Licenses
 						</h2>
 						<p className="text-text-sub-600 leading-7">
-							Reloop uses several open source libraries and frameworks. Here are
-							the main dependencies and their licenses:
+							Verifio uses several open source libraries and frameworks. Here
+							are the main dependencies and their licenses:
 						</p>
 					</div>
 
@@ -272,7 +272,7 @@ SOFTWARE.`}
 						<p className="text-text-sub-600">
 							For a complete list of dependencies and their licenses, see our{" "}
 							<a
-								href="https://github.com/reloop-labs/reloop/blob/main/package.json"
+								href="https://github.com/reloop-labs/verifio/blob/main/package.json"
 								target="_blank"
 								rel="noopener"
 								className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
@@ -293,18 +293,18 @@ SOFTWARE.`}
 							Frequently Asked Questions
 						</h2>
 						<p className="text-lg text-text-sub-600 leading-7">
-							Common questions about using Reloop in your projects.
+							Common questions about using Verifio in your projects.
 						</p>
 					</div>
 
 					<div className="space-y-8">
 						<div className="rounded-xl border border-stroke-soft-100 p-6">
 							<h3 className="mb-3 font-semibold text-lg">
-								Can I use Reloop in my commercial project?
+								Can I use Verifio in my commercial project?
 							</h3>
 							<p className="text-text-sub-600 leading-7">
 								Yes! The MIT License explicitly allows commercial use. You can
-								build and sell products that incorporate Reloop without any
+								build and sell products that incorporate Verifio without any
 								restrictions or obligations to share your code.
 							</p>
 						</div>
@@ -322,10 +322,10 @@ SOFTWARE.`}
 
 						<div className="rounded-xl border border-stroke-soft-100 p-6">
 							<h3 className="mb-3 font-semibold text-lg">
-								Can I modify Reloop and not share my changes?
+								Can I modify Verifio and not share my changes?
 							</h3>
 							<p className="text-text-sub-600 leading-7">
-								Yes, you can modify Reloop for private use without sharing your
+								Yes, you can modify Verifio for private use without sharing your
 								changes. However, if you distribute the modified version, you
 								should include the original license and copyright notice.
 							</p>
@@ -333,12 +333,12 @@ SOFTWARE.`}
 
 						<div className="rounded-xl border border-stroke-soft-100 p-6">
 							<h3 className="mb-3 font-semibold text-lg">
-								What if I want to contribute back to Reloop?
+								What if I want to contribute back to Verifio?
 							</h3>
 							<p className="text-text-sub-600 leading-7">
 								We welcome contributions! Check out our{" "}
 								<a
-									href="https://github.com/reloop-labs/reloop/blob/main/CONTRIBUTING.md"
+									href="https://github.com/reloop-labs/verifio/blob/main/CONTRIBUTING.md"
 									target="_blank"
 									rel="noopener"
 									className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
@@ -346,7 +346,7 @@ SOFTWARE.`}
 									contributing guidelines
 								</a>{" "}
 								on GitHub to learn how to submit pull requests and help improve
-								Reloop for everyone.
+								Verifio for everyone.
 							</p>
 						</div>
 					</div>
@@ -355,9 +355,9 @@ SOFTWARE.`}
 
 			{/* CTA Section */}
 			<section className="border-stroke-soft-100 border-t px-6 py-16 text-center md:px-12 md:py-20">
-				<h2 className="title-h2 mb-6 font-semibold">Ready to Use Reloop?</h2>
+				<h2 className="title-h2 mb-6 font-semibold">Ready to Use Verifio?</h2>
 				<p className="mx-auto mb-10 max-w-2xl text-lg text-text-sub-600 leading-8">
-					Start building with Reloop today. The MIT License gives you complete
+					Start building with Verifio today. The MIT License gives you complete
 					freedom to use, modify, and distribute our email infrastructure
 					platform.
 				</p>
@@ -373,7 +373,7 @@ SOFTWARE.`}
 					</Link>
 					<a
 						target="_blank"
-						href="https://github.com/reloop-labs/reloop"
+						href="https://github.com/reloop-labs/verifio"
 						className={Button.buttonVariants({
 							mode: "stroke",
 							variant: "neutral",

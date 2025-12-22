@@ -1,7 +1,7 @@
 // AlignUI Notification v0.0.0
 
 import * as NotificationPrimitives from "@radix-ui/react-toast";
-import { cn } from "@reloop/ui/cn";
+import { cn } from "@verifio/ui/cn";
 import * as React from "react";
 import * as Alert from "./alert";
 import { Icon } from "./icon";

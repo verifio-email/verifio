@@ -1,13 +1,13 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-	title: "Email Validation | Reloop",
+	title: "Email Validation | Verifio",
 	description:
 		"Validate email addresses in real-time with 99.9% accuracy. Check syntax, domain validity, and deliverability to improve your email list quality and sender reputation.",
 	openGraph: {
-		title: "Email Validation | Reloop",
+		title: "Email Validation | Verifio",
 		description:
 			"Validate email addresses in real-time with 99.9% accuracy. Check syntax, domain validity, and deliverability to improve your email list quality and sender reputation.",
 		type: "website",

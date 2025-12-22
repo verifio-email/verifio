@@ -3,7 +3,7 @@
 "use client";
 
 import type { DialogProps } from "@radix-ui/react-dialog";
-import { cn } from "@reloop/ui/cn";
+import { cn } from "@verifio/ui/cn";
 import { Command } from "cmdk";
 import * as React from "react";
 import type { PolymorphicComponentProps } from "../utils/polymorphic";

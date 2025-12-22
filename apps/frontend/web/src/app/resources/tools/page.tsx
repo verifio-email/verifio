@@ -1,13 +1,13 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-	title: "Free Email Tools | Reloop",
+	title: "Free Email Tools | Verifio",
 	description:
 		"Free email tools and utilities for developers and marketers. Email validators, deliverability testers, template generators, and more to optimize your email campaigns.",
 	openGraph: {
-		title: "Free Email Tools | Reloop",
+		title: "Free Email Tools | Verifio",
 		description:
 			"Free email tools and utilities for developers and marketers. Email validators, deliverability testers, template generators, and more to optimize your email campaigns.",
 		type: "website",
@@ -381,7 +381,7 @@ const ToolsPage = () => {
 				</h2>
 				<p className="mx-auto mb-10 max-w-2xl text-lg text-text-sub-600 leading-8">
 					Use our free tools to improve your email campaigns, then upgrade to
-					Reloop for advanced features and unlimited usage.
+					Verifio for advanced features and unlimited usage.
 				</p>
 
 				<div className="flex flex-col items-center justify-center gap-4 sm:flex-row">

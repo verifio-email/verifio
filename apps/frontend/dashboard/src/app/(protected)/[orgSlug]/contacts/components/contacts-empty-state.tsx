@@ -1,7 +1,7 @@
 "use client";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
 import { motion, type Variants } from "motion/react";
 
 // Animation variants with proper typing
@@ -171,7 +171,7 @@ export const ContactsEmptyState = ({
 					animate="visible"
 					custom={0.25}
 				>
-					Contacts are the people you send emails to through Reloop.
+					Contacts are the people you send emails to through Verifio.
 				</motion.p>
 				<motion.p
 					className="mb-6 text-text-soft-400 text-xs"
@@ -198,7 +198,7 @@ export const ContactsEmptyState = ({
 
 				{/* Help link */}
 				<motion.a
-					href="https://reloop.sh/docs/contacts"
+					href="https://verifio.email/docs/contacts"
 					target="_blank"
 					rel="noopener noreferrer"
 					className="mt-4 flex items-center gap-1 text-text-sub-600 text-xs transition-colors hover:text-text-strong-950"

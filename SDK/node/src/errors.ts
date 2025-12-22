@@ -1,7 +1,7 @@
 /**
- * Base error class for all Reloop SDK errors
+ * Base error class for all Verifio SDK errors
  */
-export class ReloopError extends Error {
+export class VerifioError extends Error {
 	constructor(
 		message: string,
 		public readonly code?: string,
@@ -15,7 +15,7 @@ export class ReloopError extends Error {
 /**
  * Error thrown when an API request fails
  */
-export class APIError extends ReloopError {
+export class APIError extends VerifioError {
 	constructor(
 		message: string,
 		public readonly statusCode: number,
@@ -51,7 +51,7 @@ export class NotFoundError extends APIError {
 /**
  * Error thrown when validation fails
  */
-export class ValidationError extends ReloopError {
+export class ValidationError extends VerifioError {
 	constructor(
 		message: string,
 		public readonly fields?: Record<string, string[]>,

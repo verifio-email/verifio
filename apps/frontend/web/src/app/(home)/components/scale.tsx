@@ -22,7 +22,7 @@ export const Scale = () => {
 								<h2 className="max-w-3xl font-semibold text-3xl text-text-strong-950">
 									Email infrastructure for the next generation.{" "}
 									<span className="text-text-sub-600 leading-8">
-										Reloop sends millions of emails with sub-900ms latency and
+										Verifio sends millions of emails with sub-900ms latency and
 										99.9% inbox placement.
 									</span>
 								</h2>

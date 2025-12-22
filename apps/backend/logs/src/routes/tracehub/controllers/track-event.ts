@@ -1,4 +1,4 @@
-import { logger } from "@reloop/logger";
+import { logger } from "@verifio/logger";
 import { status } from "elysia";
 import { insertEvent } from "../../../utils/clickhouse";
 import type { TraceHubTypes } from "../tracehub.type";

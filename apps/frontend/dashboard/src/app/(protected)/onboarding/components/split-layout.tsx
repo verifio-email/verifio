@@ -1,6 +1,6 @@
 "use client";
 
-import { Logo } from "@reloop/ui/logo";
+import { Logo } from "@verifio/ui/logo";
 import { ChevronLeft } from "lucide-react";
 import { parseAsInteger, useQueryState } from "nuqs";
 import type React from "react";
@@ -30,7 +30,7 @@ export const SplitLayout = ({
 					className="-ml-3 -mt-1 font-semibold text-text-strong-950 text-xl"
 					style={{ fontFamily: "var(--font-outfit)" }}
 				>
-					reloop
+					verifio
 				</span>
 			</div>
 			<div className="flex w-full max-w-5xl flex-1 flex-col items-center justify-center border-stroke-soft-100 border-r border-l">

@@ -11,9 +11,9 @@
 	"dependencies": {
 		"recharts": "catalog:ui",
 		"@hookform/resolvers": "catalog:ui",
-		"@reloop/auth": "workspace:*",
-		"@reloop/tailwind": "workspace:*",
-		"@reloop/ui": "workspace:*",
+		"@verifio/auth": "workspace:*",
+		"@verifio/tailwind": "workspace:*",
+		"@verifio/ui": "workspace:*",
 		"@tanstack/react-table": "catalog:ui",
 		"better-auth": "catalog:",
 		"dayjs": "catalog:ui",
@@ -35,7 +35,7 @@
 		"usehooks-ts": "catalog:ui",
 		"valibot": "catalog:db",
 		"zustand": "catalog:ui",
-		"@reloop/api": "workspace:*",
+		"@verifio/api": "workspace:*",
 		"react-use-measure": "catalog:ui",
 		"react-hotkeys-hook": "catalog:ui",
 		"axios": "catalog:",
@@ -52,7 +52,7 @@
 		"@lexical/link": "^0.21.0"
 	},
 	"devDependencies": {
-		"@reloop/tsconfig": "workspace:*",
+		"@verifio/tsconfig": "workspace:*",
 		"typescript": "catalog:",
 		"@types/node": "catalog:",
 		"@types/react": "catalog:ui",

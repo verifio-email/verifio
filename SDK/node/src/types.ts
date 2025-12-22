@@ -1,5 +1,5 @@
 /**
- * Type definitions for Reloop SDK
+ * Type definitions for Verifio SDK
  */
 
 // Mail Service Types

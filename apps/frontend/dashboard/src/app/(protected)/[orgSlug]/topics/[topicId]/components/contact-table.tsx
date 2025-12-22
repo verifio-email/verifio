@@ -2,14 +2,14 @@
 import { getAnimationProps } from "@fe/dashboard/utils/domain";
 import { formatRelativeTime } from "@fe/dashboard/utils/time";
 import { AnimatedHoverBackground } from "@fe/dashboard/components/layout/sidebar/animated-hover-background";
-import { cn } from "@reloop/ui/cn";
-import { Icon } from "@reloop/ui/icon";
-import { Skeleton } from "@reloop/ui/skeleton";
+import { cn } from "@verifio/ui/cn";
+import { Icon } from "@verifio/ui/icon";
+import { Skeleton } from "@verifio/ui/skeleton";
 import {
   Content as PopoverContent,
   Root as PopoverRoot,
   Trigger as PopoverTrigger,
-} from "@reloop/ui/popover";
+} from "@verifio/ui/popover";
 import { AnimatePresence, motion } from "motion/react";
 import { useState, useRef } from "react";
 

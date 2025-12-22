@@ -1,9 +1,9 @@
 "use client";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Spinner from "@reloop/ui/spinner";
+import Spinner from "@verifio/ui/spinner";
 
 interface EmptyStateProps {
     orgSlug: string;

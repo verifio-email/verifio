@@ -1,8 +1,8 @@
 "use client";
 
-import * as Button from "@reloop/ui/button";
-import * as LinkButton from "@reloop/ui/link-button";
-import { Logo } from "@reloop/ui/logo";
+import * as Button from "@verifio/ui/button";
+import * as LinkButton from "@verifio/ui/link-button";
+import { Logo } from "@verifio/ui/logo";
 import { AnimatePresence } from "motion/react";
 import Link from "next/link";
 import { ForgotPasswordForm } from "./forgot-password-form";

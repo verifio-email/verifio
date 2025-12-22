@@ -1,10 +1,10 @@
-import { db } from "@reloop/db/client";
-import * as schema from "@reloop/db/schema";
-import { logger } from "@reloop/logger";
+import { db } from "@verifio/db/client";
+import * as schema from "@verifio/db/schema";
+import { logger } from "@verifio/logger";
 import {
 	sendOrganizationInviteEmail,
 	sendPasswordResetEmail,
-} from "@reloop/react-email";
+} from "@verifio/react-email";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { createAuthMiddleware } from "better-auth/api";
@@ -138,7 +138,7 @@ export const auth = betterAuth({
 		openAPI({ path: "/docs" }),
 	],
 	advanced: {
-		cookiePrefix: "reloop",
+		cookiePrefix: "verifio",
 		ipAddress: {
 			ipAddressHeaders: ["x-client-ip", "x-forwarded-for"],
 			disableIpTracking: false,

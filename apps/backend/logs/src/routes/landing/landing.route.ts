@@ -4,9 +4,9 @@ import { Elysia } from "elysia";
 // Create ClickHouse client for health checks
 const clickhouseClient = createClient({
 	host: process.env.CLICKHOUSE_HOST || "http://localhost:8123",
-	username: process.env.CLICKHOUSE_USER || "reloop",
-	password: process.env.CLICKHOUSE_PASSWORD || "reloop123",
-	database: process.env.CLICKHOUSE_DATABASE || "reloop_tracehub",
+	username: process.env.CLICKHOUSE_USER || "verifio",
+	password: process.env.CLICKHOUSE_PASSWORD || "verifio123",
+	database: process.env.CLICKHOUSE_DATABASE || "verifio_tracehub",
 });
 
 export const landingRoute = new Elysia()
@@ -42,8 +42,8 @@ export const landingRoute = new Elysia()
 ║   -d '{"event":"page_viewed","properties":{"page":"/home"}}' ║
 ╠════════════════════════════════════════════════════════╣
 ║ - SUPPORT                                              ║
-║ - https://reloop.sh/dev/setup/backend/tracehub        ║
-║ - https://github.com/reloop-labs/reloop               ║
+║ - https://verifio.email/dev/setup/backend/tracehub        ║
+║ - https://github.com/reloop-labs/verifio               ║
 ╚════════════════════════════════════════════════════════╝
 
 

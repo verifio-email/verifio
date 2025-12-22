@@ -1,13 +1,13 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-	title: "Email Templates | Reloop",
+	title: "Email Templates | Verifio",
 	description:
 		"Beautiful, responsive email templates for every use case. Choose from our library of pre-built templates or create custom designs with our drag-and-drop editor.",
 	openGraph: {
-		title: "Email Templates | Reloop",
+		title: "Email Templates | Verifio",
 		description:
 			"Beautiful, responsive email templates for every use case. Choose from our library of pre-built templates or create custom designs with our drag-and-drop editor.",
 		type: "website",
@@ -325,7 +325,7 @@ const EmailTemplatesPage = () => {
 					Ready to Create Beautiful Emails?
 				</h2>
 				<p className="mx-auto mb-10 max-w-2xl text-lg text-text-sub-600 leading-8">
-					Start building professional email templates with Reloop's powerful
+					Start building professional email templates with Verifio's powerful
 					editor. Choose from our library or create custom designs that match
 					your brand perfectly.
 				</p>

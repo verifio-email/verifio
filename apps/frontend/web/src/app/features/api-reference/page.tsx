@@ -1,15 +1,15 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-	title: "API Reference | Reloop",
+	title: "API Reference | Verifio",
 	description:
-		"Complete REST API documentation for Reloop email infrastructure. Authentication, endpoints, webhooks, and SDKs for all programming languages.",
+		"Complete REST API documentation for Verifio email infrastructure. Authentication, endpoints, webhooks, and SDKs for all programming languages.",
 	openGraph: {
-		title: "API Reference | Reloop",
+		title: "API Reference | Verifio",
 		description:
-			"Complete REST API documentation for Reloop email infrastructure. Authentication, endpoints, webhooks, and SDKs for all programming languages.",
+			"Complete REST API documentation for Verifio email infrastructure. Authentication, endpoints, webhooks, and SDKs for all programming languages.",
 		type: "website",
 	},
 };
@@ -23,7 +23,7 @@ const ApiReferencePage = () => {
 					API Reference
 				</h1>
 				<p className="mx-auto max-w-3xl text-text-sub-600 text-xl leading-8 md:text-2xl md:leading-9">
-					Complete REST API documentation for Reloop. Send emails, manage
+					Complete REST API documentation for Verifio. Send emails, manage
 					subscribers, track analytics, and integrate with your applications
 					using our powerful API.
 				</p>
@@ -53,7 +53,7 @@ const ApiReferencePage = () => {
 				<div className="mb-16 text-center">
 					<h2 className="title-h2 mb-4 font-semibold">Quick Start</h2>
 					<p className="mx-auto max-w-2xl text-lg text-text-sub-600 leading-7">
-						Get started with the Reloop API in minutes. Here's everything you
+						Get started with the Verifio API in minutes. Here's everything you
 						need to send your first email.
 					</p>
 				</div>
@@ -86,13 +86,13 @@ const ApiReferencePage = () => {
 								# Send your first email
 							</div>
 							<div className="mt-2">
-								curl -X POST https://api.reloop.com/v1/emails \
+								curl -X POST https://api.verifio.com/v1/emails \
 							</div>
 							<div className="ml-4">-H "Content-Type: application/json" \</div>
 							<div className="ml-4">-d '{"{"}</div>
 							<div className="ml-8">"from": "hello@yourdomain.com",</div>
 							<div className="ml-8">"to": "user@example.com",</div>
-							<div className="ml-8">"subject": "Hello from Reloop!",</div>
+							<div className="ml-8">"subject": "Hello from Verifio!",</div>
 							<div className="ml-8">
 								"html": "&lt;h1&gt;Hello World!&lt;/h1&gt;"
 							</div>
@@ -201,7 +201,7 @@ const ApiReferencePage = () => {
 					<div className="mb-16 text-center">
 						<h2 className="title-h2 mb-4 font-semibold">Official SDKs</h2>
 						<p className="mx-auto max-w-2xl text-lg text-text-sub-600 leading-7">
-							Use our official SDKs to integrate Reloop into your applications
+							Use our official SDKs to integrate Verifio into your applications
 							quickly and easily. Available for all major programming languages.
 						</p>
 					</div>
@@ -214,7 +214,7 @@ const ApiReferencePage = () => {
 								Official Node.js SDK with TypeScript support
 							</p>
 							<code className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
-								npm install @reloop/sdk
+								npm install @verifio/sdk
 							</code>
 						</div>
 
@@ -225,7 +225,7 @@ const ApiReferencePage = () => {
 								Python SDK with async support
 							</p>
 							<code className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
-								pip install reloop
+								pip install verifio
 							</code>
 						</div>
 
@@ -236,7 +236,7 @@ const ApiReferencePage = () => {
 								Java SDK with Spring Boot integration
 							</p>
 							<code className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
-								implementation 'com.reloop:sdk'
+								implementation 'com.verifio:sdk'
 							</code>
 						</div>
 
@@ -247,7 +247,7 @@ const ApiReferencePage = () => {
 								High-performance Rust SDK
 							</p>
 							<code className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
-								reloop = "1.0"
+								verifio = "1.0"
 							</code>
 						</div>
 
@@ -258,7 +258,7 @@ const ApiReferencePage = () => {
 								Go SDK with goroutine support
 							</p>
 							<code className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
-								go get github.com/reloop/sdk-go
+								go get github.com/verifio/sdk-go
 							</code>
 						</div>
 
@@ -269,7 +269,7 @@ const ApiReferencePage = () => {
 								PHP SDK with Composer support
 							</p>
 							<code className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
-								composer require reloop/sdk
+								composer require verifio/sdk
 							</code>
 						</div>
 					</div>
@@ -282,7 +282,7 @@ const ApiReferencePage = () => {
 					Ready to Start Building?
 				</h2>
 				<p className="mx-auto mb-10 max-w-2xl text-lg text-text-sub-600 leading-8">
-					Get your API key and start integrating Reloop into your applications
+					Get your API key and start integrating Verifio into your applications
 					today. Comprehensive documentation and examples make integration
 					simple.
 				</p>

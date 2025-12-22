@@ -1,7 +1,7 @@
 /** biome-ignore-all lint/correctness/useExhaustiveDependencies: ignore */
 "use client";
 
-import type { NotificationProps } from "@reloop/ui/notification";
+import type { NotificationProps } from "@verifio/ui/notification";
 import * as React from "react";
 
 const NOTIFICATION_LIMIT = 1;

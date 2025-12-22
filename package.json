@@ -1,5 +1,5 @@
 {
-	"name": "reloop",
+	"name": "verifio",
 	"private": true,
 	"workspaces": {
 		"packages": [
@@ -187,7 +187,7 @@
 		"check": "biome check --write .",
 		"frontend:dev": "turbo dev --filter='dashboard' --filter='dev' --filter='docs' --filter='web'",
 		"backend:dev": "turbo dev --filter='contacts' --filter='auth' --filter='domain' --filter='mail' --filter='webhook' --filter='api-key' --filter='workflow' --filter='tracehub' --filter='upload' --filter='template'",
-		"reloop:dev": "turbo dev --filter='dashboard' --filter='dev' --filter='docs' --filter='web' --filter='contacts' --filter='auth' --filter='domain' --filter='mail' --filter='webhook' --filter='api-key' --filter='workflow' --filter='tracehub' --filter='upload' --filter='template'",
+		"verifio:dev": "turbo dev --filter='dashboard' --filter='dev' --filter='docs' --filter='web' --filter='contacts' --filter='auth' --filter='domain' --filter='mail' --filter='webhook' --filter='api-key' --filter='workflow' --filter='tracehub' --filter='upload' --filter='template'",
 		"docker:up": "docker compose -f local/docker-compose.yml up -d",
 		"docker:down": "docker compose -f local/docker-compose.yml down",
 		"docker-prod:up": "docker compose -f prod/docker-compose.yml up -d",
@@ -195,11 +195,11 @@
 		"docker-prod:restart": "docker compose -f prod/docker-compose.yml restart",
 		"docker-prod:logs": "docker compose -f prod/docker-compose.yml logs -f",
 		"docker-prod:ps": "docker compose -f prod/docker-compose.yml ps",
-		"db:push": "bun run --filter=@reloop/db push",
-		"db:studio": "bun run --filter=@reloop/db studio",
-		"db:generate": "bun run --filter=@reloop/db generate",
-		"db:migrate": "bun run --filter=@reloop/db migrate",
-		"db:seed": "bun run --filter=@reloop/db seed"
+		"db:push": "bun run --filter=@verifio/db push",
+		"db:studio": "bun run --filter=@verifio/db studio",
+		"db:generate": "bun run --filter=@verifio/db generate",
+		"db:migrate": "bun run --filter=@verifio/db migrate",
+		"db:seed": "bun run --filter=@verifio/db seed"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.2.6",

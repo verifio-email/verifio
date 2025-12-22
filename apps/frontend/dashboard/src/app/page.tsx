@@ -1,6 +1,6 @@
 "use client";
-import { authClient } from "@reloop/auth/client";
-import Spinner from "@reloop/ui/spinner";
+import { authClient } from "@verifio/auth/client";
+import Spinner from "@verifio/ui/spinner";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import useSWR from "swr";

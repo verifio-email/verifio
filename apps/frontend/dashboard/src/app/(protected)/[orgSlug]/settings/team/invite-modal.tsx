@@ -2,14 +2,14 @@
 
 import { AnimatedHoverBackground } from "@fe/dashboard/components/layout/sidebar/animated-hover-background";
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import { authClient } from "@reloop/auth/client";
-import * as Button from "@reloop/ui/button";
-import { cn } from "@reloop/ui/cn";
-import { Icon } from "@reloop/ui/icon";
-import * as Label from "@reloop/ui/label";
-import * as Modal from "@reloop/ui/modal";
-import * as Select from "@reloop/ui/select";
-import Spinner from "@reloop/ui/spinner";
+import { authClient } from "@verifio/auth/client";
+import * as Button from "@verifio/ui/button";
+import { cn } from "@verifio/ui/cn";
+import { Icon } from "@verifio/ui/icon";
+import * as Label from "@verifio/ui/label";
+import * as Modal from "@verifio/ui/modal";
+import * as Select from "@verifio/ui/select";
+import Spinner from "@verifio/ui/spinner";
 import { useRef, useState } from "react";
 import type { Resolver } from "react-hook-form";
 import { useForm } from "react-hook-form";

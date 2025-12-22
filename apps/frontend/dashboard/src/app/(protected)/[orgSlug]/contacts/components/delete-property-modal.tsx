@@ -1,9 +1,9 @@
 "use client";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
-import * as Kbd from "@reloop/ui/kbd";
-import * as Modal from "@reloop/ui/modal";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
+import * as Kbd from "@verifio/ui/kbd";
+import * as Modal from "@verifio/ui/modal";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useSWRConfig } from "swr";

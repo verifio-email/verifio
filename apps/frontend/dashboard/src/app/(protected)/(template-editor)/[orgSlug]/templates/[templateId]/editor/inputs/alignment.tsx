@@ -1,8 +1,8 @@
 "use client";
 
-import { Icon } from "@reloop/ui/icon";
-import * as Label from "@reloop/ui/label";
-import * as SegmentedControl from "@reloop/ui/segmented-control";
+import { Icon } from "@verifio/ui/icon";
+import * as Label from "@verifio/ui/label";
+import * as SegmentedControl from "@verifio/ui/segmented-control";
 
 type Alignment = "left" | "center" | "right";
 

@@ -1,15 +1,15 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-	title: "Email Analytics | Reloop",
+	title: "Email Analytics | Verifio",
 	description:
-		"Track email performance with detailed analytics, open rates, click-through rates, and conversion metrics. Make data-driven decisions with Reloop's comprehensive email analytics dashboard.",
+		"Track email performance with detailed analytics, open rates, click-through rates, and conversion metrics. Make data-driven decisions with Verifio's comprehensive email analytics dashboard.",
 	openGraph: {
-		title: "Email Analytics | Reloop",
+		title: "Email Analytics | Verifio",
 		description:
-			"Track email performance with detailed analytics, open rates, click-through rates, and conversion metrics. Make data-driven decisions with Reloop's comprehensive email analytics dashboard.",
+			"Track email performance with detailed analytics, open rates, click-through rates, and conversion metrics. Make data-driven decisions with Verifio's comprehensive email analytics dashboard.",
 		type: "website",
 	},
 };
@@ -279,7 +279,7 @@ const EmailAnalyticsPage = () => {
 					Ready to Unlock Your Email Insights?
 				</h2>
 				<p className="mx-auto mb-10 max-w-2xl text-lg text-text-sub-600 leading-8">
-					Start tracking your email performance with Reloop's comprehensive
+					Start tracking your email performance with Verifio's comprehensive
 					analytics. Get detailed insights that help you optimize your email
 					strategy and drive better results.
 				</p>

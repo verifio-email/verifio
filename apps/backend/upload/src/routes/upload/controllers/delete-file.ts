@@ -1,6 +1,6 @@
-import { db } from "@reloop/db/client";
-import * as schema from "@reloop/db/schema";
-import logger from "@reloop/logger";
+import { db } from "@verifio/db/client";
+import * as schema from "@verifio/db/schema";
+import logger from "@verifio/logger";
 import { and, eq, isNull } from "drizzle-orm";
 import { status } from "elysia";
 

@@ -1,12 +1,12 @@
 "use client";
 
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import { authClient } from "@reloop/auth/client";
-import * as Button from "@reloop/ui/button";
-import * as Input from "@reloop/ui/input";
-import * as Label from "@reloop/ui/label";
-import Spinner from "@reloop/ui/spinner";
-import { useLoading } from "@reloop/ui/use-loading";
+import { authClient } from "@verifio/auth/client";
+import * as Button from "@verifio/ui/button";
+import * as Input from "@verifio/ui/input";
+import * as Label from "@verifio/ui/label";
+import Spinner from "@verifio/ui/spinner";
+import { useLoading } from "@verifio/ui/use-loading";
 import { motion } from "motion/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";

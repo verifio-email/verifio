@@ -1,8 +1,8 @@
 "use client";
 
-import * as Button from "@reloop/ui/button";
-import * as Modal from "@reloop/ui/modal";
-import Spinner from "@reloop/ui/spinner";
+import * as Button from "@verifio/ui/button";
+import * as Modal from "@verifio/ui/modal";
+import Spinner from "@verifio/ui/spinner";
 
 interface RevokeInviteModalProps {
   open: boolean;

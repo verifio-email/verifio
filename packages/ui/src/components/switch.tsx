@@ -1,5 +1,5 @@
 import * as SwitchPrimitives from "@radix-ui/react-switch";
-import { cn } from "@reloop/ui/cn";
+import { cn } from "@verifio/ui/cn";
 import * as React from "react";
 
 interface SwitchProps

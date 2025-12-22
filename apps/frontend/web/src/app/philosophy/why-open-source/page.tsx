@@ -1,4 +1,4 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import Link from "next/link";
 
 const WhyOpenSourcePage = () => {
@@ -11,13 +11,13 @@ const WhyOpenSourcePage = () => {
 				</h1>
 				<p className="mx-auto max-w-3xl text-text-sub-600 text-xl leading-8 md:text-2xl md:leading-9">
 					Transparency, security, and community-driven innovation are at the
-					heart of everything we build. Here's why Reloop is proudly open
+					heart of everything we build. Here's why Verifio is proudly open
 					source.
 				</p>
 				<div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
 					<a
 						target="_blank"
-						href="https://github.com/reloop-labs/reloop"
+						href="https://github.com/reloop-labs/verifio"
 						className={Button.buttonVariants({
 							variant: "neutral",
 						}).root({ className: "h-12 rounded-full px-8" })}
@@ -193,7 +193,7 @@ const WhyOpenSourcePage = () => {
 						<h3 className="mb-3 font-semibold text-xl">Global Accessibility</h3>
 						<p className="text-text-sub-600 leading-6">
 							Open source removes barriers. Anyone, anywhere can use, modify,
-							and contribute to Reloop, fostering global innovation.
+							and contribute to Verifio, fostering global innovation.
 						</p>
 					</div>
 				</div>
@@ -206,7 +206,7 @@ const WhyOpenSourcePage = () => {
 						Built by the Community, For the Community
 					</h2>
 					<p className="mb-12 text-lg text-text-sub-600 leading-8">
-						Reloop thrives because of our vibrant community of developers,
+						Verifio thrives because of our vibrant community of developers,
 						engineers, and email experts who contribute their knowledge and
 						expertise to make email infrastructure better for everyone.
 					</p>
@@ -302,7 +302,7 @@ const WhyOpenSourcePage = () => {
 								</h3>
 								<p className="text-text-sub-600 leading-7">
 									Great ideas shouldn't be locked behind paywalls or NDAs. By
-									keeping Reloop open source, we ensure that innovations in
+									keeping Verifio open source, we ensure that innovations in
 									email infrastructure benefit everyone, from individual
 									developers to large enterprises.
 								</p>
@@ -321,7 +321,7 @@ const WhyOpenSourcePage = () => {
 			<section className="border-stroke-soft-100 border-t px-6 py-16 text-center md:px-12 md:py-20">
 				<h2 className="title-h2 mb-6 font-semibold">Join the Movement</h2>
 				<p className="mx-auto mb-10 max-w-2xl text-lg text-text-sub-600 leading-8">
-					Ready to be part of something bigger? Contribute to Reloop, deploy
+					Ready to be part of something bigger? Contribute to Verifio, deploy
 					your own instance, or simply star us on GitHub to show your support
 					for open source email infrastructure.
 				</p>
@@ -329,7 +329,7 @@ const WhyOpenSourcePage = () => {
 				<div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
 					<a
 						target="_blank"
-						href="https://github.com/reloop-labs/reloop"
+						href="https://github.com/reloop-labs/verifio"
 						className={Button.buttonVariants({
 							variant: "neutral",
 						}).root({ className: "h-12 rounded-full px-8" })}

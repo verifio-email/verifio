@@ -1,13 +1,13 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-	title: "Email Glossary | Reloop",
+	title: "Email Glossary | Verifio",
 	description:
 		"Comprehensive glossary of email marketing and infrastructure terms. Learn about deliverability, authentication, analytics, and technical email concepts.",
 	openGraph: {
-		title: "Email Glossary | Reloop",
+		title: "Email Glossary | Verifio",
 		description:
 			"Comprehensive glossary of email marketing and infrastructure terms. Learn about deliverability, authentication, analytics, and technical email concepts.",
 		type: "website",
@@ -326,7 +326,7 @@ const GlossaryPage = () => {
 			<section className="border-stroke-soft-100 border-t px-6 py-16 text-center md:px-12 md:py-20">
 				<h2 className="title-h2 mb-6 font-semibold">Ready to Master Email?</h2>
 				<p className="mx-auto mb-10 max-w-2xl text-lg text-text-sub-600 leading-8">
-					Now that you understand the terminology, start building with Reloop.
+					Now that you understand the terminology, start building with Verifio.
 					Get access to all the tools and infrastructure you need for successful
 					email delivery.
 				</p>

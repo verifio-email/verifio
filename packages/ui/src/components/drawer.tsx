@@ -3,7 +3,7 @@
 "use client";
 
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { cn } from "@reloop/ui/cn";
+import { cn } from "@verifio/ui/cn";
 import * as React from "react";
 import * as CompactButton from "./compact-button";
 import { Icon } from "./icon";

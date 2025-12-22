@@ -1,6 +1,6 @@
-import { authMiddleware } from "@reloop/api-key/middleware/auth";
-import { ApiKeyModel } from "@reloop/api-key/model/api-key.model";
-import { enableApiKeyHandler } from "@reloop/api-key/routes/api-key/controllers/enable-api-key";
+import { authMiddleware } from "@verifio/api-key/middleware/auth";
+import { ApiKeyModel } from "@verifio/api-key/model/api-key.model";
+import { enableApiKeyHandler } from "@verifio/api-key/routes/api-key/controllers/enable-api-key";
 import { Elysia, status, t } from "elysia";
 
 export const enableApiKeyRoute = new Elysia().use(authMiddleware).post(

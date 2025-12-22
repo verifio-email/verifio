@@ -1,10 +1,10 @@
 import "dotenv/config";
 import { fromTypes, openapi } from "@elysiajs/openapi";
 import { serverTiming } from "@elysiajs/server-timing";
-import { apiKeyRoutes } from "@reloop/api-key/routes/api-key/api-key.routes";
-import { landing } from "@reloop/api-key/routes/landing/landing.index";
-import { loader } from "@reloop/api-key/utils/loader";
-import { logger } from "@reloop/logger";
+import { apiKeyRoutes } from "@verifio/api-key/routes/api-key/api-key.routes";
+import { landing } from "@verifio/api-key/routes/landing/landing.index";
+import { loader } from "@verifio/api-key/utils/loader";
+import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
 
 const port = 8012;

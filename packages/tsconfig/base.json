@@ -16,17 +16,17 @@
 		"target": "ES2022",
 		"baseUrl": ".",
 		"paths": {
-			"@reloop/db": ["../../packages/db/src/*"],
-			"@reloop/cache": ["../../packages/cache/src/*"],
-			"@reloop/ui": ["../../packages/ui/src/*"],
-			"@reloop/auth": ["../../packages/auth/src/*"],
+			"@verifio/db": ["../../packages/db/src/*"],
+			"@verifio/cache": ["../../packages/cache/src/*"],
+			"@verifio/ui": ["../../packages/ui/src/*"],
+			"@verifio/auth": ["../../packages/auth/src/*"],
 			"@be/domain": ["../../apps/backend/domain/src/*"],
 			"@be/workflow": ["../../apps/backend/workflow/src/*"],
-			"@reloop/webhook": ["../../apps/backend/webhook/src/*"],
-			"@reloop/audience": ["../../apps/backend/audience/src/*"],
-			"@reloop/web": ["../../apps/frontend/web/src/*"],
-			"@reloop/fe-dev": ["../../apps/frontend/dev/src/*"],
-			"@reloop/be-mail": ["../../apps/backend/mail/src/*"]
+			"@verifio/webhook": ["../../apps/backend/webhook/src/*"],
+			"@verifio/audience": ["../../apps/backend/audience/src/*"],
+			"@verifio/web": ["../../apps/frontend/web/src/*"],
+			"@verifio/fe-dev": ["../../apps/frontend/dev/src/*"],
+			"@verifio/be-mail": ["../../apps/backend/mail/src/*"]
 		}
 	}
 }

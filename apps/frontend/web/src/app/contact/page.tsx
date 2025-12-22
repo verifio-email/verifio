@@ -1,12 +1,12 @@
 "use client";
 
-import * as Button from "@reloop/ui/button";
-import * as Checkbox from "@reloop/ui/checkbox";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
-import * as Label from "@reloop/ui/label";
-import * as Select from "@reloop/ui/select";
-import * as Textarea from "@reloop/ui/textarea";
+import * as Button from "@verifio/ui/button";
+import * as Checkbox from "@verifio/ui/checkbox";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
+import * as Label from "@verifio/ui/label";
+import * as Select from "@verifio/ui/select";
+import * as Textarea from "@verifio/ui/textarea";
 import { useState } from "react";
 
 const ContactPage = () => {

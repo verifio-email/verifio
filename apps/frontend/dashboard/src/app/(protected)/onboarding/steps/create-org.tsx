@@ -1,14 +1,14 @@
 "use client";
 
-import { authClient } from "@reloop/auth/client";
-import * as Button from "@reloop/ui/button";
-import { cn } from "@reloop/ui/cn";
-import * as FileUpload from "@reloop/ui/file-upload";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
-import * as Label from "@reloop/ui/label";
-import * as Select from "@reloop/ui/select";
-import Spinner from "@reloop/ui/spinner";
+import { authClient } from "@verifio/auth/client";
+import * as Button from "@verifio/ui/button";
+import { cn } from "@verifio/ui/cn";
+import * as FileUpload from "@verifio/ui/file-upload";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
+import * as Label from "@verifio/ui/label";
+import * as Select from "@verifio/ui/select";
+import Spinner from "@verifio/ui/spinner";
 import axios from "axios";
 import { parseAsInteger, parseAsString, useQueryState } from "nuqs";
 import type React from "react";
@@ -264,7 +264,7 @@ export const CreateOrgStep = () => {
 					>
 						<Input.Wrapper className="gap-0">
 							<Input.InlineAffix className="m">
-								reloop.sh/dashboard/
+								verifio.email/dashboard/
 							</Input.InlineAffix>
 							<Input.Input
 								id="workspace-handle"

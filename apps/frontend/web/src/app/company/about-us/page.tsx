@@ -1,4 +1,4 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import Link from "next/link";
 
 const AboutUsPage = () => {
@@ -7,7 +7,7 @@ const AboutUsPage = () => {
 			{/* Hero Section */}
 			<section className="px-6 py-20 text-center md:px-12 md:py-28">
 				<h1 className="title-h1 mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text font-bold text-transparent dark:from-white dark:to-gray-300">
-					About Reloop
+					About Verifio
 				</h1>
 				<p className="mx-auto max-w-3xl text-text-sub-600 text-xl leading-8 md:text-2xl md:leading-9">
 					We're on a mission to make email infrastructure simple, reliable, and
@@ -25,7 +25,7 @@ const AboutUsPage = () => {
 					</Link>
 					<a
 						target="_blank"
-						href="https://github.com/reloop-labs/reloop"
+						href="https://github.com/reloop-labs/verifio"
 						className={Button.buttonVariants({
 							mode: "stroke",
 							variant: "neutral",
@@ -43,7 +43,7 @@ const AboutUsPage = () => {
 					<div className="mb-16 text-center">
 						<h2 className="title-h2 mb-4 font-semibold">Our Story</h2>
 						<p className="mx-auto max-w-2xl text-lg text-text-sub-600 leading-7">
-							Born from frustration with existing email solutions, Reloop
+							Born from frustration with existing email solutions, Verifio
 							represents a new approach to email infrastructure.
 						</p>
 					</div>
@@ -57,7 +57,7 @@ const AboutUsPage = () => {
 						</p>
 						<p className="text-text-sub-600 leading-8">
 							Founded in 2024 by a team of experienced engineers who had felt
-							this pain firsthand, Reloop was built to solve real problems with
+							this pain firsthand, Verifio was built to solve real problems with
 							elegant solutions. We believe that powerful tools should be simple
 							to use, transparent in their operation, and accessible to teams of
 							all sizes.
@@ -72,7 +72,7 @@ const AboutUsPage = () => {
 				<p className="mx-auto mb-10 max-w-2xl text-lg text-text-sub-600 leading-8">
 					We're always looking for passionate people to join our mission.
 					Whether you want to contribute code, join our team, or simply be part
-					of our community, there's a place for you at Reloop.
+					of our community, there's a place for you at Verifio.
 				</p>
 
 				<div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -86,7 +86,7 @@ const AboutUsPage = () => {
 					</Link>
 					<a
 						target="_blank"
-						href="https://github.com/reloop-labs/reloop"
+						href="https://github.com/reloop-labs/verifio"
 						className={Button.buttonVariants({
 							mode: "stroke",
 							variant: "neutral",

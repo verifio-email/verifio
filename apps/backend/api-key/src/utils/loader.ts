@@ -1,6 +1,6 @@
-import { RedisCache } from "@reloop/cache/redis-client";
-import { db } from "@reloop/db/client";
-import { logger } from "@reloop/logger";
+import { RedisCache } from "@verifio/cache/redis-client";
+import { db } from "@verifio/db/client";
+import { logger } from "@verifio/logger";
 
 const redis = new RedisCache("api-key");
 export const loader = async () => {

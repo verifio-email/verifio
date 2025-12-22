@@ -6,11 +6,11 @@ import {
   getStatusIcon,
   getStatusLabel,
 } from "@fe/dashboard/utils/domain";
-import type { DomainStatus } from "@reloop/api/types";
-import * as Button from "@reloop/ui/button";
-import { cn } from "@reloop/ui/cn";
-import * as Dropdown from "@reloop/ui/dropdown";
-import { Icon } from "@reloop/ui/icon";
+import type { DomainStatus } from "@verifio/api/types";
+import * as Button from "@verifio/ui/button";
+import { cn } from "@verifio/ui/cn";
+import * as Dropdown from "@verifio/ui/dropdown";
+import { Icon } from "@verifio/ui/icon";
 import { useRef, useState } from "react";
 
 export type DomainStatusFilterOption = DomainStatus;

@@ -1,10 +1,10 @@
 "use client";
 
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
-import * as Label from "@reloop/ui/label";
-import * as Modal from "@reloop/ui/modal";
-import Spinner from "@reloop/ui/spinner";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
+import * as Label from "@verifio/ui/label";
+import * as Modal from "@verifio/ui/modal";
+import Spinner from "@verifio/ui/spinner";
 import { type KeyboardEvent, useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useSWRConfig } from "swr";

@@ -1,6 +1,6 @@
 "use client";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
@@ -15,7 +15,7 @@ const cardsData = [
 		iconColor: "text-verified-base",
 		message: "Welcome email sent to",
 		textColor: "text-verified-base",
-		highlight: "acma@reloop.com",
+		highlight: "acma@verifio.com",
 		subtitle: "Day 1",
 	},
 	{
@@ -28,7 +28,7 @@ const cardsData = [
 		iconColor: "text-success-base",
 		message: "Feature request sent to",
 		textColor: "text-success-base",
-		highlight: "acma@reloop.com",
+		highlight: "acma@verifio.com",
 		subtitle: "Day 2",
 	},
 	{
@@ -40,7 +40,7 @@ const cardsData = [
 		iconBg: "bg-warning-base/20",
 		iconColor: "text-warning-base",
 		message: "Product update sent to",
-		highlight: "acma@reloop.com",
+		highlight: "acma@verifio.com",
 		textColor: "text-warning-base",
 		subtitle: "Day 3",
 	},
@@ -53,7 +53,7 @@ const cardsData = [
 		iconBg: "bg-verified-base/20",
 		iconColor: "text-verified-base",
 		message: "Automation workflow completed for",
-		highlight: "acma@reloop.com",
+		highlight: "acma@verifio.com",
 		textColor: "text-verified-base",
 		subtitle: "Day 4",
 	},

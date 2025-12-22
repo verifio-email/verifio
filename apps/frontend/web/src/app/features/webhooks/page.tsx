@@ -1,13 +1,13 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-	title: "Webhooks | Reloop",
+	title: "Webhooks | Verifio",
 	description:
 		"Real-time webhook notifications for email events, delivery status, and user interactions. Configure webhooks to receive instant updates about your email campaigns.",
 	openGraph: {
-		title: "Webhooks | Reloop",
+		title: "Webhooks | Verifio",
 		description:
 			"Real-time webhook notifications for email events, delivery status, and user interactions. Configure webhooks to receive instant updates about your email campaigns.",
 		type: "website",
@@ -257,7 +257,7 @@ const WebhooksPage = () => {
 							<div className="ml-8">"email_id": "em_1234567890",</div>
 							<div className="ml-8">"to": "user@example.com",</div>
 							<div className="ml-8">"from": "hello@yourdomain.com",</div>
-							<div className="ml-8">"subject": "Welcome to Reloop!",</div>
+							<div className="ml-8">"subject": "Welcome to Verifio!",</div>
 							<div className="ml-8">"delivered_at": 1640995200,</div>
 							<div className="ml-8">"recipient_ip": "192.168.1.1",</div>
 							<div className="ml-8">"user_agent": "Mozilla/5.0...",</div>

@@ -1,15 +1,15 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-	title: "Self-Hosting Guide | Reloop",
+	title: "Self-Hosting Guide | Verifio",
 	description:
-		"Deploy Reloop on your own infrastructure with our comprehensive self-hosting guide. Docker, Kubernetes, and bare metal installation instructions.",
+		"Deploy Verifio on your own infrastructure with our comprehensive self-hosting guide. Docker, Kubernetes, and bare metal installation instructions.",
 	openGraph: {
-		title: "Self-Hosting Guide | Reloop",
+		title: "Self-Hosting Guide | Verifio",
 		description:
-			"Deploy Reloop on your own infrastructure with our comprehensive self-hosting guide. Docker, Kubernetes, and bare metal installation instructions.",
+			"Deploy Verifio on your own infrastructure with our comprehensive self-hosting guide. Docker, Kubernetes, and bare metal installation instructions.",
 		type: "website",
 	},
 };
@@ -23,7 +23,7 @@ const SelfHostingGuidePage = () => {
 					Self-Hosting Guide
 				</h1>
 				<p className="mx-auto max-w-3xl text-text-sub-600 text-xl leading-8 md:text-2xl md:leading-9">
-					Deploy Reloop on your own infrastructure with our comprehensive
+					Deploy Verifio on your own infrastructure with our comprehensive
 					self-hosting guide. Docker, Kubernetes, and bare metal installation
 					instructions.
 				</p>
@@ -38,7 +38,7 @@ const SelfHostingGuidePage = () => {
 					</Link>
 					<a
 						target="_blank"
-						href="https://github.com/reloop-labs/reloop"
+						href="https://github.com/reloop-labs/verifio"
 						className={Button.buttonVariants({
 							mode: "stroke",
 							variant: "neutral",
@@ -57,7 +57,7 @@ const SelfHostingGuidePage = () => {
 						<h2 className="title-h2 mb-4 font-semibold">Prerequisites</h2>
 						<p className="mx-auto max-w-2xl text-lg text-text-sub-600 leading-7">
 							Before you begin, ensure your system meets the minimum
-							requirements for self-hosting Reloop.
+							requirements for self-hosting Verifio.
 						</p>
 					</div>
 
@@ -144,7 +144,7 @@ const SelfHostingGuidePage = () => {
 								</div>
 							</div>
 							<p className="mb-6 text-text-sub-600 leading-6">
-								The easiest way to get started with Reloop. All services are
+								The easiest way to get started with Verifio. All services are
 								pre-configured and ready to run with a single command.
 							</p>
 							<div className="rounded bg-gray-50 p-6 font-mono text-sm dark:bg-gray-900">
@@ -152,9 +152,9 @@ const SelfHostingGuidePage = () => {
 									# Clone the repository
 								</div>
 								<div className="mt-2">
-									git clone https://github.com/reloop-labs/reloop.git
+									git clone https://github.com/reloop-labs/verifio.git
 								</div>
-								<div className="mt-2">cd reloop</div>
+								<div className="mt-2">cd verifio</div>
 								<div className="mt-4 text-gray-600 dark:text-gray-400">
 									# Copy environment file
 								</div>
@@ -175,7 +175,7 @@ const SelfHostingGuidePage = () => {
 								</div>
 							</div>
 							<p className="mb-6 text-text-sub-600 leading-6">
-								Deploy Reloop on Kubernetes for high availability and
+								Deploy Verifio on Kubernetes for high availability and
 								scalability. Includes Helm charts and production-ready
 								configurations.
 							</p>
@@ -184,13 +184,13 @@ const SelfHostingGuidePage = () => {
 									# Add Helm repository
 								</div>
 								<div className="mt-2">
-									helm repo add reloop https://charts.reloop.com
+									helm repo add verifio https://charts.verifio.com
 								</div>
 								<div className="mt-2">helm repo update</div>
 								<div className="mt-4 text-gray-600 dark:text-gray-400">
-									# Install Reloop
+									# Install Verifio
 								</div>
-								<div className="mt-2">helm install reloop reloop/reloop</div>
+								<div className="mt-2">helm install verifio verifio/verifio</div>
 							</div>
 						</div>
 
@@ -203,7 +203,7 @@ const SelfHostingGuidePage = () => {
 								</div>
 							</div>
 							<p className="mb-6 text-text-sub-600 leading-6">
-								Install Reloop directly on your server without containers.
+								Install Verifio directly on your server without containers.
 								Provides maximum control and customization options.
 							</p>
 							<div className="rounded bg-gray-50 p-6 font-mono text-sm dark:bg-gray-900">
@@ -218,9 +218,9 @@ const SelfHostingGuidePage = () => {
 									# Clone and build
 								</div>
 								<div className="mt-2">
-									git clone https://github.com/reloop-labs/reloop.git
+									git clone https://github.com/reloop-labs/verifio.git
 								</div>
-								<div className="mt-2">cd reloop && make build</div>
+								<div className="mt-2">cd verifio && make build</div>
 							</div>
 						</div>
 					</div>
@@ -233,7 +233,7 @@ const SelfHostingGuidePage = () => {
 					<div className="mb-16 text-center">
 						<h2 className="title-h2 mb-4 font-semibold">Configuration</h2>
 						<p className="mx-auto max-w-2xl text-lg text-text-sub-600 leading-7">
-							Configure Reloop for your environment with these essential
+							Configure Verifio for your environment with these essential
 							settings and environment variables.
 						</p>
 					</div>
@@ -250,7 +250,7 @@ const SelfHostingGuidePage = () => {
 									</h4>
 									<div className="rounded bg-gray-50 p-3 font-mono text-xs dark:bg-gray-900">
 										<div>
-											DATABASE_URL=postgresql://user:pass@localhost/reloop
+											DATABASE_URL=postgresql://user:pass@localhost/verifio
 										</div>
 										<div>REDIS_URL=redis://localhost:6379</div>
 									</div>
@@ -313,7 +313,7 @@ const SelfHostingGuidePage = () => {
 							Maintenance & Updates
 						</h2>
 						<p className="mx-auto max-w-2xl text-lg text-text-sub-600 leading-7">
-							Keep your Reloop instance up to date and running smoothly with
+							Keep your Verifio instance up to date and running smoothly with
 							these maintenance procedures.
 						</p>
 					</div>
@@ -337,7 +337,7 @@ const SelfHostingGuidePage = () => {
 							</div>
 							<h3 className="mb-3 font-semibold text-xl">Updates</h3>
 							<p className="mb-4 text-text-sub-600 leading-6">
-								Keep your Reloop instance updated with the latest features and
+								Keep your Verifio instance updated with the latest features and
 								security patches.
 							</p>
 							<div className="rounded bg-gray-50 p-4 font-mono text-sm dark:bg-gray-900">
@@ -375,7 +375,7 @@ const SelfHostingGuidePage = () => {
 								<div className="text-gray-600 dark:text-gray-400">
 									# Database backup
 								</div>
-								<div className="mt-2">pg_dump reloop &gt; backup.sql</div>
+								<div className="mt-2">pg_dump verifio &gt; backup.sql</div>
 								<div className="mt-2 text-gray-600 dark:text-gray-400">
 									# Redis backup
 								</div>
@@ -390,14 +390,14 @@ const SelfHostingGuidePage = () => {
 			<section className="border-stroke-soft-100 border-t px-6 py-16 text-center md:px-12 md:py-20">
 				<h2 className="title-h2 mb-6 font-semibold">Ready to Self-Host?</h2>
 				<p className="mx-auto mb-10 max-w-2xl text-lg text-text-sub-600 leading-8">
-					Get started with self-hosting Reloop today. Follow our step-by-step
+					Get started with self-hosting Verifio today. Follow our step-by-step
 					guide and have your own email infrastructure running in minutes.
 				</p>
 
 				<div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
 					<a
 						target="_blank"
-						href="https://github.com/reloop-labs/reloop"
+						href="https://github.com/reloop-labs/verifio"
 						className={Button.buttonVariants({
 							variant: "neutral",
 						}).root({ className: "h-12 rounded-full px-8" })}

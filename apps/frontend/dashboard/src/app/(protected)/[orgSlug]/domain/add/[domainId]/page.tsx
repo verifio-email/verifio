@@ -1,16 +1,16 @@
 "use client";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
-import type { DomainResponse } from "@reloop/api";
-import * as Alert from "@reloop/ui/alert";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
+import type { DomainResponse } from "@verifio/api";
+import * as Alert from "@verifio/ui/alert";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
+import Spinner from "@verifio/ui/spinner";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import * as React from "react";
 import { toast } from "sonner";
 import useSWR, { mutate } from "swr";
 import { DNSRecordTable } from "../../[domainId]/components/DNSRecordTable";
-import Spinner from "@reloop/ui/spinner";
 
 const NewDomainPage = () => {
 	const [copiedItems, setCopiedItems] = React.useState<Set<string>>(new Set());
@@ -61,7 +61,7 @@ const NewDomainPage = () => {
 			);
 
 			// Navigate to domain detail page to see verification progress
-			push(`/domain`);
+			push("/domain");
 		} catch (error) {
 			const errorMessage = axios.isAxiosError(error)
 				? error.response?.data?.message || "Failed to start DNS verification"
@@ -103,7 +103,7 @@ const NewDomainPage = () => {
 						mode="stroke"
 						size="xsmall"
 						onClick={() =>
-							window.open("https://reloop.sh/docs/domain", "_blank")
+							window.open("https://verifio.email/docs/domain", "_blank")
 						}
 					>
 						<Icon name="file-text" className="h-4 w-4" />
@@ -158,7 +158,6 @@ const NewDomainPage = () => {
 						"I have added the DNS records"
 					)}
 				</Button.Root>
-
 			</div>
 
 			<div className="relative my-10">
@@ -166,7 +165,7 @@ const NewDomainPage = () => {
 					variant="stroke"
 					status="success"
 					size="small"
-					className="w-full border-[1px] border-success-base bg-success-base/5 rounded-xl"
+					className="w-full rounded-xl border-[1px] border-success-base bg-success-base/5"
 				>
 					<div className="flex gap-2">
 						<Icon
@@ -175,7 +174,7 @@ const NewDomainPage = () => {
 						/>
 						<div>
 							<div className="font-medium text-label-md">{domainId}</div>
-							<div className="text-xs text-text-sub-600">New added domain</div>
+							<div className="text-text-sub-600 text-xs">New added domain</div>
 						</div>
 					</div>
 				</Alert.Root>
@@ -184,9 +183,10 @@ const NewDomainPage = () => {
 				<div className="relative mt-10">
 					<div className="mb-6 space-y-1">
 						<div className="font-medium text-sm text-text-strong-950">
-							DKIM and SPF <span className="text-text-sub-600 text-xs">(Required)</span>
+							DKIM and SPF{" "}
+							<span className="text-text-sub-600 text-xs">(Required)</span>
 						</div>
-						<div className="text-xs text-text-sub-600">
+						<div className="text-text-sub-600 text-xs">
 							Enable email signing and specify authorized senders.
 						</div>
 					</div>
@@ -205,9 +205,10 @@ const NewDomainPage = () => {
 				<div className="relative mt-10">
 					<div className="mb-6 space-y-1">
 						<div className="font-medium text-sm text-text-strong-950">
-							DMARC <span className="text-text-sub-600 text-xs">(Recommended)</span>
+							DMARC{" "}
+							<span className="text-text-sub-600 text-xs">(Recommended)</span>
 						</div>
-						<div className="text-xs text-text-sub-600">
+						<div className="text-text-sub-600 text-xs">
 							Set authentication policies and receive reports.
 						</div>
 					</div>

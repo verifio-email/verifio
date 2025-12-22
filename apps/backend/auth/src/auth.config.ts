@@ -2,18 +2,18 @@
 
 
 if (!process.env.REDIS_URL) {
-  process.env.REDIS_URL = "redis://:reloop123@localhost:6379"
+  process.env.REDIS_URL = "redis://:verifio123@localhost:6379"
 }
 
 const defaults = {
   PORT: "8000",
-  PG_URL: "postgresql://reloop:reloop123@localhost:5432/reloop",
-  REDIS_URL: "redis://:reloop123@localhost:6379",
-  BASE_URL: "https://local.reloop.sh",
+  PG_URL: "postgresql://verifio:verifio123@localhost:5432/verifio",
+  REDIS_URL: "redis://:verifio123@localhost:6379",
+  BASE_URL: "https://local.verifio.email",
   NODE_ENV: "development",
   NODE_TLS_REJECT_UNAUTHORIZED: "0",
   BETTER_AUTH_SECRET: "tENkVU4GrhckuRw4Bcfh93EWgXOFcszn",
-  EMAIL_DOMAIN: "reloop.sh",
+  EMAIL_DOMAIN: "verifio.email",
   GOOGLE_CLIENT_ID: "612069473337-9tlq9iqsrq6rc80ue3lebqscilu0ki01.apps.googleusercontent.com",
   GOOGLE_CLIENT_SECRET: "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",
   GITHUB_CLIENT_ID: "Ov23lizKTih7szshbKUY",

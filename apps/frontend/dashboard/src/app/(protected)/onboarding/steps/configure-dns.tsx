@@ -1,14 +1,14 @@
 "use client";
 
-import type { DomainResponse } from "@reloop/api";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
+import type { DomainResponse } from "@verifio/api";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
 import axios from "axios";
 import { parseAsInteger, parseAsString, useQueryState } from "nuqs";
 import * as React from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
-import Spinner from "@reloop/ui/spinner";
+import Spinner from "@verifio/ui/spinner";
 import { DNSRecordTable } from "../../[orgSlug]/domain/[domainId]/components/DNSRecordTable";
 
 export const ConfigureDnsStep = () => {

@@ -1,7 +1,7 @@
 // AlignUI Radio v0.0.0
 
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
-import { cn } from "@reloop/ui/cn";
+import { cn } from "@verifio/ui/cn";
 import * as React from "react";
 
 const RadioGroup = RadioGroupPrimitive.Root;

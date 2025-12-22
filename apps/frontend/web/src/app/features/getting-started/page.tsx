@@ -1,4 +1,4 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import Link from "next/link";
 
 const GettingStartedPage = () => {
@@ -7,7 +7,7 @@ const GettingStartedPage = () => {
 			{/* Hero Section */}
 			<section className="px-6 py-20 text-center md:px-12 md:py-28">
 				<h1 className="title-h1 mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text font-bold text-transparent dark:from-white dark:to-gray-300">
-					Getting Started with Reloop
+					Getting Started with Verifio
 				</h1>
 				<p className="mx-auto max-w-3xl text-text-sub-600 text-xl leading-8 md:text-2xl md:leading-9">
 					Get your email infrastructure up and running in minutes. From signup
@@ -40,7 +40,7 @@ const GettingStartedPage = () => {
 					<div className="mb-16 text-center">
 						<h2 className="title-h2 mb-4 font-semibold">Quick Start Guide</h2>
 						<p className="mx-auto max-w-2xl text-lg text-text-sub-600 leading-7">
-							Follow these simple steps to start sending emails with Reloop in
+							Follow these simple steps to start sending emails with Verifio in
 							under 5 minutes.
 						</p>
 					</div>
@@ -55,7 +55,7 @@ const GettingStartedPage = () => {
 									Create Your Account
 								</h3>
 								<p className="mb-4 text-text-sub-600 leading-7">
-									Sign up for a free Reloop account. No credit card required to
+									Sign up for a free Verifio account. No credit card required to
 									get started with our generous free tier.
 								</p>
 								<Link
@@ -86,7 +86,7 @@ const GettingStartedPage = () => {
 									<div className="text-gray-600 dark:text-gray-400">
 										# Add this TXT record to your DNS:
 									</div>
-									<div>reloop-verify=abc123def456</div>
+									<div>verifio-verify=abc123def456</div>
 								</div>
 							</div>
 						</div>
@@ -127,7 +127,7 @@ const GettingStartedPage = () => {
 										# Send email via REST API
 									</div>
 									<div className="mt-2">
-										curl -X POST https://api.reloop.com/v1/emails \<br />
+										curl -X POST https://api.verifio.com/v1/emails \<br />
 										&nbsp;&nbsp;-H "Authorization: Bearer YOUR_API_KEY" \<br />
 										&nbsp;&nbsp;-H "Content-Type: application/json" \<br />
 										&nbsp;&nbsp;-d '{"{"}
@@ -154,7 +154,7 @@ const GettingStartedPage = () => {
 			<section className="border-stroke-soft-100 border-t px-6 py-16 text-center md:px-12 md:py-20">
 				<h2 className="title-h2 mb-6 font-semibold">Ready to Get Started?</h2>
 				<p className="mx-auto mb-10 max-w-2xl text-lg text-text-sub-600 leading-8">
-					Join thousands of developers who trust Reloop for their email
+					Join thousands of developers who trust Verifio for their email
 					infrastructure. Start your free trial today—no credit card required.
 				</p>
 

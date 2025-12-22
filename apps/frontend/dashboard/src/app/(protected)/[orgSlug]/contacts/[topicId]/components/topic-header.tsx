@@ -1,13 +1,13 @@
 "use client";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
 import {
 	Content as PopoverContent,
 	Root as PopoverRoot,
 	Trigger as PopoverTrigger,
-} from "@reloop/ui/popover";
-import { Skeleton } from "@reloop/ui/skeleton";
+} from "@verifio/ui/popover";
+import { Skeleton } from "@verifio/ui/skeleton";
 import { useRouter } from "next/navigation";
 
 interface Topic {

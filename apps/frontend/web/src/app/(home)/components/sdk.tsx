@@ -1,7 +1,7 @@
 "use client";
 
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
 import { useState } from "react";
 
 const copyToClipboard = async (text: string) => {
@@ -132,16 +132,16 @@ const sdks: SdkType[] = [
 		id: "node",
 		name: "Node.js",
 		icon: "⚡",
-		install: "npm install @reloop/sdk",
-		code: `import Reloop from '@reloop/sdk';
+		install: "npm install @verifio/sdk",
+		code: `import Verifio from '@verifio/sdk';
 
-const reloop = new Reloop({
-  url: 'https://api.reloop.sh',
+const verifio = new Verifio({
+  url: 'https://api.verifio.email',
   key: 'your-api-key'
 });
 
 // Send an email
-const result = await reloop.mail.send({
+const result = await verifio.mail.send({
   from: 'sender@example.com',
   to: 'recipient@example.com',
   subject: 'Hello',
@@ -152,18 +152,18 @@ const result = await reloop.mail.send({
 		id: "go",
 		name: "Go",
 		icon: "🐹",
-		install: "go get github.com/reloop/sdk-go",
+		install: "go get github.com/verifio/sdk-go",
 		code: `package main
 
 import (
   "fmt"
-  "github.com/reloop/sdk-go"
+  "github.com/verifio/sdk-go"
 )
 
 func main() {
-  client := reloop.NewClient("your-api-key")
+  client := verifio.NewClient("your-api-key")
 
-  result, err := client.Mail.Send(&reloop.MailRequest{
+  result, err := client.Mail.Send(&verifio.MailRequest{
     From:    "sender@example.com",
     To:      "recipient@example.com",
     Subject: "Hello",
@@ -182,20 +182,20 @@ func main() {
 		id: "php",
 		name: "PHP",
 		icon: "🐘",
-		install: "composer require reloop/sdk",
+		install: "composer require verifio/sdk",
 		code: `<?php
 
 require 'vendor/autoload.php';
 
-use Reloop\\Reloop;
+use Verifio\\Verifio;
 
-$reloop = new Reloop([
-  'url' => 'https://api.reloop.sh',
+$verifio = new Verifio([
+  'url' => 'https://api.verifio.email',
   'key' => 'your-api-key'
 ]);
 
 // Send an email
-$result = $reloop->mail->send([
+$result = $verifio->mail->send([
   'from' => 'sender@example.com',
   'to' => 'recipient@example.com',
   'subject' => 'Hello',
@@ -206,17 +206,17 @@ $result = $reloop->mail->send([
 		id: "python",
 		name: "Python",
 		icon: "🐍",
-		install: "pip install reloop-sdk",
-		code: `from reloop import Reloop
+		install: "pip install verifio-sdk",
+		code: `from verifio import Verifio
 
 # Initialize the client
-reloop = Reloop(
-    url='https://api.reloop.sh',
+verifio = Verifio(
+    url='https://api.verifio.email',
     key='your-api-key'
 )
 
 # Send an email
-result = reloop.mail.send(
+result = verifio.mail.send(
     from_email='sender@example.com',
     to='recipient@example.com',
     subject='Hello',

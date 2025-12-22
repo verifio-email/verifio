@@ -1,4 +1,4 @@
-import * as Button from "@reloop/ui/button";
+import * as Button from "@verifio/ui/button";
 import Link from "next/link";
 
 const WhatWeStandForPage = () => {
@@ -442,7 +442,7 @@ const WhatWeStandForPage = () => {
 							<h3 className="mb-2 font-semibold">Always Improving</h3>
 							<p className="text-sm text-text-sub-600">
 								We ship updates regularly and listen to your feedback to make
-								Reloop better every day.
+								Verifio better every day.
 							</p>
 						</div>
 						<div className="rounded-xl border border-stroke-soft-100 p-6 text-center transition-all hover:border-stroke-soft-200 hover:shadow-sm">
@@ -520,7 +520,7 @@ const WhatWeStandForPage = () => {
 					</Link>
 					<a
 						target="_blank"
-						href="https://github.com/reloop-labs/reloop"
+						href="https://github.com/reloop-labs/verifio"
 						className={Button.buttonVariants({
 							mode: "ghost",
 							variant: "neutral",

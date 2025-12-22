@@ -5,7 +5,7 @@ set -euo pipefail
 # ==========================
 # ASCII banner
 # ==========================
-reloop_banner() {
+verifio_banner() {
 cat <<'BANNER'
  _____  ______  _
 |  __ \|  ____|| |
@@ -69,7 +69,7 @@ sed_in_place() {
 # ==========================
 # 1) Prerequisites
 # ==========================
-reloop_banner
+verifio_banner
 
 step "Checking prerequisites"
 
@@ -190,23 +190,23 @@ ${DOMAIN} {
     tls ${SSL_EMAIL}
 
     handle /dashboard* {
-        reverse_proxy reloop-dashboard:3000
+        reverse_proxy verifio-dashboard:3000
     }
 
     handle /dev* {
-        reverse_proxy reloop-dev:3000
+        reverse_proxy verifio-dev:3000
     }
 
     handle /docs* {
-        reverse_proxy reloop-docs:3000
+        reverse_proxy verifio-docs:3000
     }
 
     handle /admin* {
-        reverse_proxy reloop-admin:3000
+        reverse_proxy verifio-admin:3000
     }
 
     handle {
-        reverse_proxy reloop-web:3000
+        reverse_proxy verifio-web:3000
     }
 }
 EOF
@@ -274,7 +274,7 @@ step "Summary and next steps"
 $DC -f docker-compose.setup.yml ps || true
 
 echo
-echo "Reloop is starting. Visit:"
+echo "Verifio is starting. Visit:"
 echo "  https://$DOMAIN/           (Web)"
 echo "  https://$DOMAIN/dashboard  (Dashboard)"
 echo "  https://$DOMAIN/dev        (Dev)"
@@ -289,7 +289,7 @@ echo
 echo "DKIM (after DNS ready):"
 echo "  sudo rspamadm dkim_keygen -s mail -d $DOMAIN -k docker-data/rspamd/dkim/$DOMAIN/mail.private > docker-data/rspamd/dkim/$DOMAIN/mail.txt"
 echo "  sudo chown -R 11333:11333 docker-data/rspamd/dkim/$DOMAIN/"
-echo "  $DC -f docker-compose.setup.yml restart reloop-rspamd"
+echo "  $DC -f docker-compose.setup.yml restart verifio-rspamd"
 echo
 echo "Useful commands:"
 echo "  Logs:   $DC -f docker-compose.setup.yml logs -f"

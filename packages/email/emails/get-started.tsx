@@ -38,7 +38,7 @@ export const GetStartedEmail = ({ fullName = "" }: Props) => {
 						className={`mx-0 my-[30px] p-0 text-center font-normal text-[21px] ${themeClasses.heading}`}
 						style={{ color: lightStyles.text.color }}
 					>
-						Hello from Reloop!
+						Hello from Verifio!
 					</Heading>
 
 					<br />
@@ -60,7 +60,7 @@ export const GetStartedEmail = ({ fullName = "" }: Props) => {
 					>
 						Best,
 						<br />
-						Reloop
+						Verifio
 					</Text>
 
 					<br />

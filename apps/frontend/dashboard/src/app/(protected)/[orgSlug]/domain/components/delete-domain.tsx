@@ -1,18 +1,18 @@
 "use client";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
-import type { Domain } from "@reloop/api/types";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
-import * as Kbd from "@reloop/ui/kbd";
-import * as Modal from "@reloop/ui/modal";
+import type { Domain } from "@verifio/api/types";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
+import * as Kbd from "@verifio/ui/kbd";
+import * as Modal from "@verifio/ui/modal";
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useSWRConfig } from "swr";
-import Spinner from "@reloop/ui/spinner";
+import Spinner from "@verifio/ui/spinner";
 
 interface DeleteDomainModalProps {
 	domains: Domain[];

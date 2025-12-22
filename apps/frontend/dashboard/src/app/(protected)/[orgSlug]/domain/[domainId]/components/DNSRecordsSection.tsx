@@ -1,6 +1,6 @@
 "use client";
 
-import type { DNSRecord } from "@reloop/api/types";
+import type { DNSRecord } from "@verifio/api/types";
 import { DNSRecordTable } from "./DNSRecordTable";
 
 interface DNSRecordsSectionProps {

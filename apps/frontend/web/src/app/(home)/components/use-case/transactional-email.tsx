@@ -1,6 +1,6 @@
 "use client";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
@@ -14,7 +14,7 @@ const cardsData = [
 		iconBg: "bg-verified-base/20",
 		iconColor: "text-verified-base",
 		message: "Password reset instructions sent to",
-		highlight: "acma@reloop.com",
+		highlight: "acma@verifio.com",
 	},
 	{
 		id: 2,
@@ -25,7 +25,7 @@ const cardsData = [
 		iconBg: "bg-success-base/20",
 		iconColor: "text-success-base",
 		message: "Order confirmation sent to",
-		highlight: "acma@reloop.com",
+		highlight: "acma@verifio.com",
 	},
 	{
 		id: 3,
@@ -36,7 +36,7 @@ const cardsData = [
 		iconBg: "bg-information-base/20",
 		iconColor: "text-information-base",
 		message: "Account verification sent to",
-		highlight: "acma@reloop.com",
+		highlight: "acma@verifio.com",
 	},
 	{
 		id: 4,
@@ -47,7 +47,7 @@ const cardsData = [
 		iconBg: "bg-warning-base/20",
 		iconColor: "text-warning-base",
 		message: "Payment receipt sent to",
-		highlight: "acma@reloop.com",
+		highlight: "acma@verifio.com",
 	},
 ];
 

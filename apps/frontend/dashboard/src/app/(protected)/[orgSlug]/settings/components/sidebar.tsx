@@ -1,7 +1,7 @@
 "use client";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
-import { cn } from "@reloop/ui/cn";
-import { Icon } from "@reloop/ui/icon";
+import { cn } from "@verifio/ui/cn";
+import { Icon } from "@verifio/ui/icon";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

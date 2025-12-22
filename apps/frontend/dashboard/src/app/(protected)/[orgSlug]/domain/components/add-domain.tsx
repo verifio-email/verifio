@@ -2,12 +2,12 @@
 import { AnimatedBackButton } from "@fe/dashboard/components/animated-back-button";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import * as Button from "@reloop/ui/button";
-import { Icon } from "@reloop/ui/icon";
-import * as Input from "@reloop/ui/input";
-import * as Label from "@reloop/ui/label";
-import Spinner from "@reloop/ui/spinner";
-import { useLoading } from "@reloop/ui/use-loading";
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
+import * as Label from "@verifio/ui/label";
+import Spinner from "@verifio/ui/spinner";
+import { useLoading } from "@verifio/ui/use-loading";
 import axios from "axios";
 import type { Resolver } from "react-hook-form";
 import { useForm } from "react-hook-form";

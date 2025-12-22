@@ -1,5 +1,5 @@
 {
-	"extends": "@reloop/tsconfig/nextjs.json",
+	"extends": "@verifio/tsconfig/nextjs.json",
 	"compilerOptions": {
 		"baseUrl": ".",
 		"paths": {

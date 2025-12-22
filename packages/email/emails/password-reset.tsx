@@ -15,11 +15,11 @@ interface PasswordResetEmailProps {
 
 export const PasswordResetEmail = ({ resetUrl }: PasswordResetEmailProps) => {
 	return (
-		<EmailThemeProvider preview={<Preview>Reset your Reloop password</Preview>}>
+		<EmailThemeProvider preview={<Preview>Reset your Verifio password</Preview>}>
 			<Body className="bg-gray-50 font-sans">
 				<Container className="mx-auto mb-16 bg-white py-5 pb-12">
 					<Section className="mb-5 rounded-lg bg-gray-50 p-5 text-center">
-						<Text className="m-0 font-bold text-2xl text-blue-600">Reloop</Text>
+						<Text className="m-0 font-bold text-2xl text-blue-600">Verifio</Text>
 					</Section>
 
 					<Section className="rounded-lg bg-white p-8 shadow-sm">
@@ -30,7 +30,7 @@ export const PasswordResetEmail = ({ resetUrl }: PasswordResetEmailProps) => {
 							Hello,
 						</Text>
 						<Text className="mb-4 text-base text-gray-800 leading-relaxed">
-							We received a request to reset your password for your Reloop
+							We received a request to reset your password for your Verifio
 							account. If you made this request, click the button below to reset
 							your password:
 						</Text>
@@ -67,11 +67,11 @@ export const PasswordResetEmail = ({ resetUrl }: PasswordResetEmailProps) => {
 
 					<Section className="mt-8 border-gray-200 border-t pt-5">
 						<Text className="mb-2 text-gray-500 text-sm leading-snug">
-							This email was sent from Reloop. If you have any questions, please
+							This email was sent from Verifio. If you have any questions, please
 							contact our support team.
 						</Text>
 						<Text className="mb-2 text-gray-500 text-sm leading-snug">
-							&copy; 2024 Reloop. All rights reserved.
+							&copy; 2024 Verifio. All rights reserved.
 						</Text>
 					</Section>
 				</Container>

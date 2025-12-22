@@ -1,12 +1,12 @@
 "use client";
 
 import { userNavigation } from "@fe/dashboard/constants";
-import { authClient } from "@reloop/auth/client";
-import * as Avatar from "@reloop/ui/avatar";
-import * as Button from "@reloop/ui/button";
-import { cn } from "@reloop/ui/cn";
-import * as Dropdown from "@reloop/ui/dropdown";
-import { Icon } from "@reloop/ui/icon";
+import { authClient } from "@verifio/auth/client";
+import * as Avatar from "@verifio/ui/avatar";
+import * as Button from "@verifio/ui/button";
+import { cn } from "@verifio/ui/cn";
+import * as Dropdown from "@verifio/ui/dropdown";
+import { Icon } from "@verifio/ui/icon";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { AnimatedHoverBackground } from "./animated-hover-background";
