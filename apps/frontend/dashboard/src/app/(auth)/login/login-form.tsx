@@ -78,10 +78,13 @@ export const LoginForm = () => {
 	};
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
-			<div className="flex flex-col gap-1">
+		<form
+			onSubmit={handleSubmit(onSubmit)}
+			className="flex w-full flex-col gap-3 px-4"
+		>
+			<div className="flex w-full flex-col gap-1">
 				<Label.Root htmlFor="email">Email</Label.Root>
-				<Input.Root hasError={!!errors.email}>
+				<Input.Root hasError={!!errors.email} size="small">
 					<Input.Wrapper>
 						<Input.Input
 							id="email"
@@ -98,8 +101,8 @@ export const LoginForm = () => {
 
 			<div className="flex flex-col gap-1">
 				<Label.Root htmlFor="password">Password</Label.Root>
-				<Input.Root hasError={!!errors.password}>
-					<Input.Wrapper size="xsmall">
+				<Input.Root hasError={!!errors.password} size="small">
+					<Input.Wrapper>
 						<Input.Input
 							id="password"
 							type={showPassword ? "text" : "password"}
