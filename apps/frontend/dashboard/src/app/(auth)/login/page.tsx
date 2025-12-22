@@ -21,7 +21,7 @@ const Page = () => {
 
 	return (
 		<div className="flex h-dvh flex-col items-center">
-			<div className="flex h-full w-full max-w-[440px] flex-col items-center justify-center gap-6 border border-stroke-soft-200">
+			<div className="flex h-full w-full max-w-md flex-col items-center justify-center gap-6 border border-stroke-soft-200">
 				<div className="relative h-px w-full">
 					<div className="-translate-x-1/2 absolute left-1/2 h-px w-screen bg-stroke-soft-200" />
 				</div>
@@ -31,6 +31,15 @@ const Page = () => {
 				<div className="relative h-px w-full">
 					<div className="-translate-x-1/2 absolute left-1/2 h-px w-screen bg-stroke-soft-200" />
 				</div>
+				<div className="space-y-1 text-center">
+					<div className="font-medium text-text-strong-950 text-title-h5">
+						Welcome back
+					</div>
+					<div className="text-paragraph-sm text-text-sub-600">
+						Please enter your details to login.
+					</div>
+				</div>
+				<div className="w-full border-stroke-soft-200 border-t" />
 				<LoginForm />
 				<div className="w-full border-stroke-soft-200 border-t" />
 				<div className="grid w-full grid-cols-1 gap-2 px-4">
