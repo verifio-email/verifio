@@ -40,11 +40,7 @@ const Team = () => {
 
 				<TeamFilterDropdown value={filters} onChange={setFilters} />
 
-				<Button.Root
-					variant="neutral"
-					size="xsmall"
-					onClick={() => setIsInviteModalOpen(true)}
-				>
+				<Button.Root size="xsmall" onClick={() => setIsInviteModalOpen(true)}>
 					<Icon name="user-plus" className="h-4 w-4" />
 					<span>Invite members</span>
 				</Button.Root>

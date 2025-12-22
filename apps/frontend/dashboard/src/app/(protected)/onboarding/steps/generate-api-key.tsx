@@ -269,7 +269,6 @@ export const GenerateApiKeyStep = () => {
 						</motion.div>
 					</div>
 					<Button.Root
-						variant="neutral"
 						mode="filled"
 						onClick={generateKey}
 						disabled={loading}
@@ -300,7 +299,6 @@ export const GenerateApiKeyStep = () => {
 								</Input.Wrapper>
 							</Input.Root>
 							<Button.Root
-								variant="neutral"
 								mode="ghost"
 								size="xsmall"
 								onClick={copyToClipboard}
@@ -318,7 +316,6 @@ export const GenerateApiKeyStep = () => {
 
 					<div className="pt-4">
 						<Button.Root
-							variant="neutral"
 							mode="filled"
 							className="w-full"
 							onClick={() => router.push("/")}

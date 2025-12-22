@@ -219,7 +219,6 @@ export const AddNewMailboxModal = ({
 						<div className="p-5">
 							<Button.Root
 								type="button"
-								variant="neutral"
 								mode="stroke"
 								size="small"
 								onClick={() => setShowServerDetails(!showServerDetails)}
@@ -239,7 +238,6 @@ export const AddNewMailboxModal = ({
 							<Modal.Close asChild>
 								<Button.Root
 									type="button"
-									variant="neutral"
 									mode="stroke"
 									onClick={(e) => {
 										e.preventDefault();
@@ -251,7 +249,6 @@ export const AddNewMailboxModal = ({
 							</Modal.Close>
 							<Button.Root
 								type="button"
-								variant="neutral"
 								onClick={() => {
 									setState(false);
 								}}
@@ -318,18 +315,13 @@ export const AddNewMailboxModal = ({
 							<Modal.Close asChild>
 								<Button.Root
 									type="button"
-									variant="neutral"
 									mode="stroke"
 									disabled={isSubmitting}
 								>
 									Cancel
 								</Button.Root>
 							</Modal.Close>
-							<Button.Root
-								type="submit"
-								variant="neutral"
-								disabled={isSubmitting}
-							>
+							<Button.Root type="submit" disabled={isSubmitting}>
 								{isSubmitting && <Spinner color="var(--text-strong-950)" />}
 								{isSubmitting ? "Creating..." : "Confirm"}
 							</Button.Root>

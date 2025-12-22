@@ -110,11 +110,10 @@ export const MainSidebar: React.FC<MainSidebarProps> = ({ className }) => {
 				</AnimatePresence>
 
 				<Button.Root
-					variant="neutral"
 					mode="ghost"
 					size="xxsmall"
 					onClick={toggleSidebarCollapse}
-					className={cn(isSidebarCollapsed && "absolute -right-4.5 ", "ml-auto")}
+					className={cn(isSidebarCollapsed && "-right-4.5 absolute", "ml-auto")}
 				>
 					<Button.Icon>
 						<Icon

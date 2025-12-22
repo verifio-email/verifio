@@ -45,12 +45,7 @@ export const OrganizationNavbar = () => {
 			</div>
 			<Popover.Root open={open} onOpenChange={setOpen}>
 				<Popover.Trigger asChild>
-					<Button.Root
-						variant="neutral"
-						mode="ghost"
-						size="xxsmall"
-						className="rotate-90"
-					>
+					<Button.Root mode="ghost" size="xxsmall" className="rotate-90">
 						<Icon name="code" className="h-3.5 w-3.5" />
 					</Button.Root>
 				</Popover.Trigger>

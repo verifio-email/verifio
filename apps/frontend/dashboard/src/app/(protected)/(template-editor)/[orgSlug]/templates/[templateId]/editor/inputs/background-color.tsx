@@ -139,7 +139,6 @@ export const InputBackgroundColor = () => {
 				</Input.Root>
 
 				<Button.Root
-					variant="neutral"
 					size="xsmall"
 					mode="ghost"
 					className="h-8 w-8"

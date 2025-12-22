@@ -59,7 +59,6 @@ export const OrganizationSwitcher: React.FC<OrganizationSwitcherProps> = ({
 			<Popover.Root open={isOpen} onOpenChange={setIsOpen}>
 				<Popover.Trigger asChild>
 					<Button.Root
-						variant="neutral"
 						mode="ghost"
 						size="xxsmall"
 						className="absolute left-2"
@@ -97,7 +96,6 @@ export const OrganizationSwitcher: React.FC<OrganizationSwitcherProps> = ({
 		<Popover.Root open={isOpen} onOpenChange={setIsOpen}>
 			<Popover.Trigger asChild>
 				<Button.Root
-					variant="neutral"
 					mode="ghost"
 					size="xxsmall"
 					className="flex h-auto items-center gap-2 px-2 py-1"

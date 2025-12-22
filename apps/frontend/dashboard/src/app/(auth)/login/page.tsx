@@ -11,7 +11,6 @@ import { useState } from "react";
 import { LoginForm } from "./login-form";
 
 const Page = () => {
-	const [showEmail, setShowEmail] = useState(false);
 	const [loading, setLoading] = useState<{
 		name: "google" | "github" | "email";
 		loading: boolean;
@@ -24,21 +23,11 @@ const Page = () => {
 	return (
 		<div className="flex h-dvh flex-col items-center justify-center">
 			<div className="flex w-full max-w-[440px] flex-col gap-6 p-5 md:p-8">
-				<div className="flex flex-col items-center justify-center gap-2">
-					<div className="relative flex size-[68px] shrink-0 items-center justify-center rounded-full backdrop-blur-xl before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-b before:from-neutral-500 before:to-transparent before:opacity-10 md:size-24">
-						<div className="relative z-10 flex size-12 items-center justify-center rounded-full bg-bg-white-0 shadow-regular-xs ring-1 ring-stroke-soft-200 ring-inset md:size-16">
-							<Logo className="h-10 w-10" />
-						</div>
-					</div>
-					<div className="space-y-1 text-center">
-						<div className="title-h6 md:title-h5 text-text-strong-950">
-							Welcome back!
-						</div>
-						<div className="paragraph-sm md:paragraph-md text-text-sub-600">
-							Enter your details to continue.
-						</div>
-					</div>
+				<div className="flex items-center justify-center gap-1">
+					<Logo className="h-10 w-10" />
+					<p className="font-medium text-2xl">Verifio</p>
 				</div>
+				<LoginForm />
 				<div className="grid grid-cols-1 gap-2">
 					<Button.Root
 						disabled={loading.loading}
@@ -57,9 +46,8 @@ const Page = () => {
 								});
 							}
 						}}
-						mode="stroke"
 						variant="neutral"
-						className="h-11 w-full"
+						className="w-full rounded-full"
 					>
 						{loading.name === "google" && loading.loading ? (
 							<Spinner color="var(--text-strong-950)" size={16} />
@@ -91,9 +79,8 @@ const Page = () => {
 					</Button.Root>
 					<Button.Root
 						disabled={loading.loading}
-						mode="stroke"
 						variant="neutral"
-						className="h-11 w-full"
+						className="w-full rounded-full"
 						onClick={async () => {
 							try {
 								setLoading({ name: "github", loading: true });
@@ -117,20 +104,8 @@ const Page = () => {
 						)}
 						Login with GitHub
 					</Button.Root>
-					{!showEmail && (
-						<Button.Root
-							disabled={loading.loading}
-							mode="stroke"
-							variant="neutral"
-							className="h-11 w-full"
-							onClick={() => setShowEmail(true)}
-						>
-							<Icon name="social-mail" className="h-[17.5px] w-[17.5px]" />
-							Login with Email
-						</Button.Root>
-					)}
 				</div>
-				<AnimatePresence>{showEmail && <LoginForm />}</AnimatePresence>
+
 				<div className="flex items-center justify-center gap-1">
 					<p className="text-paragraph-sm text-text-sub-600">
 						Don't have an account?

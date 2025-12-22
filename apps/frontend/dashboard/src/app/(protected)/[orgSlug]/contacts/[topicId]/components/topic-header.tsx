@@ -43,7 +43,6 @@ export const TopicHeader = ({
 			<div className="pt-10 pb-6">
 				<Button.Root
 					onClick={() => router.push(`/${activeOrganization.slug}/contacts`)}
-					variant="neutral"
 					mode="stroke"
 					size="xxsmall"
 				>
@@ -66,7 +65,6 @@ export const TopicHeader = ({
 			<div className="pt-10 pb-6">
 				<Button.Root
 					onClick={() => router.push(`/${activeOrganization.slug}/contacts`)}
-					variant="neutral"
 					mode="stroke"
 					size="xxsmall"
 				>
@@ -126,7 +124,6 @@ export const TopicHeader = ({
 						>
 							<div className="flex flex-col gap-1">
 								<Button.Root
-									variant="neutral"
 									mode="ghost"
 									size="small"
 									onClick={onOpenAddContact}
@@ -136,7 +133,6 @@ export const TopicHeader = ({
 									Add Single Contact
 								</Button.Root>
 								<Button.Root
-									variant="neutral"
 									mode="ghost"
 									size="small"
 									onClick={onOpenBulkImport}

@@ -227,7 +227,6 @@ export const CreateWebhookModal = ({
 					<Modal.Footer className="flex items-center justify-end gap-3">
 						<Button.Root
 							type="button"
-							variant="neutral"
 							mode="stroke"
 							onClick={onClose}
 							disabled={status === "loading"}
@@ -235,11 +234,7 @@ export const CreateWebhookModal = ({
 							Cancel
 							<Kbd.Root className="bg-bg-weak-50 text-xs">Esc</Kbd.Root>
 						</Button.Root>
-						<Button.Root
-							type="submit"
-							variant="neutral"
-							disabled={status === "loading"}
-						>
+						<Button.Root type="submit" disabled={status === "loading"}>
 							{status === "loading" ? (
 								<>
 									<Icon name="loader-2" className="mr-2 h-4 w-4 animate-spin" />

@@ -82,7 +82,6 @@ export const CreateOrganizationModal = () => {
 										</FileUpload.Root>
 										<div>
 											<Button.Root
-												variant="neutral"
 												mode="stroke"
 												size="xxsmall"
 												className="px-5"
@@ -119,18 +118,13 @@ export const CreateOrganizationModal = () => {
 							<Modal.Close asChild>
 								<Button.Root
 									type="button"
-									variant="neutral"
 									mode="stroke"
 									disabled={isSubmitting}
 								>
 									Cancel
 								</Button.Root>
 							</Modal.Close>
-							<Button.Root
-								type="submit"
-								variant="neutral"
-								disabled={isSubmitting}
-							>
+							<Button.Root type="submit" disabled={isSubmitting}>
 								{isSubmitting && <Spinner color="var(--text-strong-950)" />}
 								{isSubmitting ? "Creating..." : "Create"}
 							</Button.Root>

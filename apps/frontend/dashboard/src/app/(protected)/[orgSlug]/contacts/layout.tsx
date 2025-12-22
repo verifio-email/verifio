@@ -24,7 +24,6 @@ const ContactsLayout = ({ children }: { children: React.ReactNode }) => {
 						<FeedbackPopover />
 						<ContactsApiDetails />
 						<Button.Root
-							variant="neutral"
 							mode="ghost"
 							size="xxsmall"
 							onClick={openDocs}

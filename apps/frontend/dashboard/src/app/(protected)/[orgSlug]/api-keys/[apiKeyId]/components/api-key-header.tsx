@@ -269,7 +269,6 @@ export const ApiKeyHeader = ({
 						) : apiKey ? (
 							<>
 								<Button.Root
-									variant="neutral"
 									size="xsmall"
 									className="font-semibold"
 									onClick={handleToggleEnabled}

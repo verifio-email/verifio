@@ -149,7 +149,6 @@ export const DeleteTopicModal = ({ topics }: DeleteTopicModalProps) => {
 					</Modal.Body>
 					<Modal.Footer className="mt-4 justify-end border-stroke-soft-100/50">
 						<Button.Root
-							variant="neutral"
 							mode="stroke"
 							size="small"
 							onClick={handleClose}

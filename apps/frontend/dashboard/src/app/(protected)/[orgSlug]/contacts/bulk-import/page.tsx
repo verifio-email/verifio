@@ -204,7 +204,6 @@ const BulkImportPage = () => {
 						</p>
 					</div>
 					<Button.Root
-						variant="neutral"
 						mode="stroke"
 						size="xsmall"
 						onClick={() => {
@@ -258,7 +257,6 @@ bob.wilson@example.com,Bob,Wilson`;
 								Preview ({csvData.length} contacts)
 							</h3>
 							<Button.Root
-								variant="neutral"
 								size="small"
 								onClick={handleImport}
 								disabled={status === "loading"}

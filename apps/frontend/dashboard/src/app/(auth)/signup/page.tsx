@@ -57,7 +57,6 @@ const Page = () => {
 						<Button.Root
 							disabled={loading.loading}
 							mode="stroke"
-							variant="neutral"
 							className="h-12 w-full"
 							onClick={async () => {
 								try {
@@ -105,8 +104,6 @@ const Page = () => {
 						</Button.Root>
 						<Button.Root
 							disabled={loading.loading}
-							mode="stroke"
-							variant="neutral"
 							className="h-12 w-full"
 							onClick={async () => {
 								try {
@@ -135,7 +132,6 @@ const Page = () => {
 							<Button.Root
 								disabled={loading.loading}
 								mode="stroke"
-								variant="neutral"
 								className="h-12 w-full"
 								onClick={() => setShowEmail(true)}
 							>

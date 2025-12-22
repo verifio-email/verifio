@@ -45,7 +45,7 @@ export const buttonVariants = tv({
 		},
 		size: {
 			medium: {
-				root: "h-9.5 gap-3 rounded-10 px-3.5 label-sm",
+				root: "h-10 gap-3 rounded-10 px-3.5 label-sm",
 				icon: "-mx-1",
 			},
 			small: {

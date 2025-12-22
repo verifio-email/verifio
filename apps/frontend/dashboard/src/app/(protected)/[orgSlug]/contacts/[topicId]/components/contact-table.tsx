@@ -124,7 +124,6 @@ export const ContactTable = ({
 						<div className="flex items-center border-stroke-soft-200 border-t py-2.5 group-hover/row:bg-bg-weak-50">
 							{subscription.status === "subscribed" && (
 								<Button.Root
-									variant="neutral"
 									mode="ghost"
 									size="xxsmall"
 									onClick={() => onUnsubscribe(subscription.contactId)}

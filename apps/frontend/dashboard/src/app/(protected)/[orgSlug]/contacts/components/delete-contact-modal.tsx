@@ -160,7 +160,6 @@ export const DeleteContactModal = ({
 						<Modal.Footer className="mt-4 justify-end gap-2 border-stroke-soft-100/50">
 							<Button.Root
 								type="button"
-								variant="neutral"
 								mode="stroke"
 								size="xsmall"
 								onClick={handleCancel}

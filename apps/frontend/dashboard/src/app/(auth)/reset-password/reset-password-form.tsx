@@ -231,7 +231,6 @@ export const ResetPasswordForm = () => {
 				<Button.Root
 					type="submit"
 					disabled={status === "loading" || !isValid}
-					variant="neutral"
 					className="mt-4 h-12 w-full"
 				>
 					{status === "loading" && <Spinner color="var(--text-strong-950)" />}

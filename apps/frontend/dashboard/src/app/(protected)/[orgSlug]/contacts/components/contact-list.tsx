@@ -161,7 +161,6 @@ export const ContactList = ({ onAddContact }: ContactListProps) => {
 				<ContactFilterDropdown value={filters} onChange={setFilters} />
 
 				<Button.Root
-					variant="neutral"
 					mode="stroke"
 					size="xsmall"
 					onClick={handleDownloadCSV}

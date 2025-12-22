@@ -86,7 +86,6 @@ export const DeleteContactModal = ({ contacts }: DeleteContactModalProps) => {
 				<Modal.Footer className="flex items-center justify-end gap-3">
 					<Button.Root
 						type="button"
-						variant="neutral"
 						mode="stroke"
 						onClick={handleClose}
 						disabled={isDeleting}

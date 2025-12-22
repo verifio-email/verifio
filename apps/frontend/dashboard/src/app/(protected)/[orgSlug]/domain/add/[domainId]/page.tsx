@@ -80,12 +80,7 @@ const NewDomainPage = () => {
 	) {
 		return (
 			<div className="mx-auto max-w-3xl pt-10 pb-8 sm:px-8">
-				<Button.Root
-					onClick={() => back()}
-					variant="neutral"
-					mode="stroke"
-					size="xxsmall"
-				>
+				<Button.Root onClick={() => back()} mode="stroke" size="xxsmall">
 					<Button.Icon>
 						<Icon name="chevron-left" className="h-4 w-4" />
 					</Button.Icon>
@@ -99,7 +94,6 @@ const NewDomainPage = () => {
 						</p>
 					</div>
 					<Button.Root
-						variant="neutral"
 						mode="stroke"
 						size="xsmall"
 						onClick={() =>
@@ -144,7 +138,6 @@ const NewDomainPage = () => {
 				<Button.Root
 					onClick={handleVerifyAndNavigate}
 					size="xsmall"
-					variant="neutral"
 					disabled={isVerifying}
 				>
 					{isVerifying ? (
@@ -227,7 +220,6 @@ const NewDomainPage = () => {
 				<Button.Root
 					onClick={handleVerifyAndNavigate}
 					size="xsmall"
-					variant="neutral"
 					className="mt-5"
 					disabled={isVerifying}
 				>

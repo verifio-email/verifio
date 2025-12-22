@@ -1,184 +1,47 @@
 "use client";
-import { useTheme } from "next-themes";
 
 export const Logo = ({ className }: { className?: string }) => {
-	const { theme, resolvedTheme } = useTheme();
-	const currentTheme =
-		theme === "light" || theme === "dark" ? theme : resolvedTheme;
-
-	const fillColor = currentTheme === "dark" ? "#D2D2D2" : "#2C2C2C";
-	const strokeColor = currentTheme === "dark" ? "#878787" : "#4D4D4D";
-
 	return (
 		<svg
 			className={className}
-			viewBox="0 0 200 200"
+			viewBox="0 0 24 24"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			<rect x={55} y={51} width={83} height={8} fill={fillColor} />
-			<rect
-				x={55}
-				y={59}
-				width={75}
-				height={8}
-				transform="rotate(90 55 59)"
-				fill={fillColor}
+			<defs>
+				<linearGradient
+					id="shieldGradient"
+					x1="12"
+					y1="1"
+					x2="12"
+					y2="23"
+					gradientUnits="userSpaceOnUse"
+				>
+					<stop offset="0%" stopColor="#fdba74" />
+					<stop offset="100%" stopColor="#f97316" />
+				</linearGradient>
+			</defs>
+			{/* Shield fill */}
+			<path
+				d="M3 8.11937C3 6.99026 3 6.42571 3.17756 5.93283C3.33451 5.49715 3.59019 5.10373 3.92457 4.78336C4.30286 4.42093 4.81876 4.19164 5.85055 3.73307L9.40073 2.15522C10.3579 1.72982 10.8365 1.51711 11.334 1.43311C11.7749 1.35865 12.2251 1.35865 12.666 1.43311C13.1635 1.51711 13.6421 1.72982 14.5993 2.15522L18.1495 3.73307C19.1813 4.19164 19.6971 4.42093 20.0754 4.78336C20.4098 5.10373 20.6655 5.49715 20.8224 5.93283C21 6.42571 21 6.99026 21 8.11937V13.5748C21 14.8271 21 15.4532 20.8274 16.0216C20.6746 16.5247 20.4241 16.9928 20.0902 17.3991C19.713 17.858 19.192 18.2053 18.1501 18.8999L14.6626 21.2249C13.7003 21.8664 13.2192 22.1872 12.6991 22.3118C12.2395 22.422 11.7605 22.422 11.3009 22.3118C10.7809 22.1872 10.2997 21.8664 9.33744 21.2249L5.84992 18.8999C4.80796 18.2053 4.28698 17.858 3.90982 17.3991C3.57593 16.9928 3.32541 16.5247 3.17261 16.0216C3 15.4532 3 14.8271 3 13.5748V8.11937Z"
+				fill="url(#shieldGradient)"
 			/>
-			<rect
-				x={146}
-				y={59}
-				width={46}
-				height={8}
-				transform="rotate(90 146 59)"
-				fill={fillColor}
+			{/* Shield outline */}
+			<path
+				d="M9.40073 2.15522L5.85055 3.73307C4.81876 4.19164 4.30286 4.42093 3.92457 4.78336C3.59019 5.10373 3.33451 5.49715 3.17756 5.93283C3 6.42571 3 6.99026 3 8.11937V13.5748C3 14.8271 3 15.4532 3.17261 16.0216C3.32541 16.5247 3.57593 16.9928 3.90982 17.3991C4.28698 17.858 4.80796 18.2053 5.84992 18.8999L9.33744 21.2249C10.2997 21.8664 10.7809 22.1872 11.3009 22.3118C11.7605 22.422 12.2395 22.422 12.6991 22.3118C13.2192 22.1872 13.7003 21.8664 14.6626 21.2249L18.1501 18.8999C19.192 18.2053 19.713 17.858 20.0902 17.3991C20.4241 16.9928 20.6746 16.5247 20.8274 16.0216C21 15.4532 21 14.8271 21 13.5748V8.11937C21 6.99026 21 6.42571 20.8224 5.93283C20.6655 5.49715 20.4098 5.10373 20.0754 4.78336C19.6971 4.42093 19.1813 4.19164 18.1495 3.73307L14.5993 2.15522C13.6421 1.72982 13.1635 1.51711 12.666 1.43311C12.2251 1.35865 11.7749 1.35865 11.334 1.43311C10.8365 1.51711 10.3579 1.72982 9.40073 2.15522Z"
+				stroke="#f97316"
+				strokeWidth="1.5"
+				strokeLinecap="round"
+				strokeLinejoin="round"
 			/>
-			<rect
-				x={154}
-				y={69}
-				width={44}
-				height={8}
-				transform="rotate(90 154 69)"
-				fill={fillColor}
+			{/* Green checkmark */}
+			<path
+				d="M9 12L11 14L15.5 9.5"
+				stroke="#39FF14"
+				strokeWidth="2"
+				strokeLinecap="round"
+				strokeLinejoin="round"
 			/>
-			<rect
-				x={138}
-				y={59}
-				width={46}
-				height={8}
-				transform="rotate(90 138 59)"
-				fill={strokeColor}
-			/>
-			<rect
-				x={130}
-				y={59}
-				width={46}
-				height={8}
-				transform="rotate(90 130 59)"
-				fill={strokeColor}
-			/>
-			<rect
-				x={90}
-				y={105}
-				width={29}
-				height={8}
-				transform="rotate(90 90 105)"
-				fill={strokeColor}
-			/>
-			<rect
-				x={82}
-				y={105}
-				width={29}
-				height={8}
-				transform="rotate(90 82 105)"
-				fill={strokeColor}
-			/>
-			<rect
-				x={138}
-				y={105}
-				width={8}
-				height={8}
-				transform="rotate(90 138 105)"
-				fill={fillColor}
-			/>
-			<rect
-				x={146}
-				y={105}
-				width={8}
-				height={8}
-				transform="rotate(90 146 105)"
-				fill={fillColor}
-			/>
-			<rect
-				x={146}
-				y={134}
-				width={8}
-				height={8}
-				transform="rotate(90 146 134)"
-				fill={fillColor}
-			/>
-			<rect
-				x={130}
-				y={105}
-				width={8}
-				height={8}
-				transform="rotate(90 130 105)"
-				fill={strokeColor}
-			/>
-			<rect
-				x={122}
-				y={105}
-				width={8}
-				height={8}
-				transform="rotate(90 122 105)"
-				fill={strokeColor}
-			/>
-			<rect
-				x={98}
-				y={77}
-				width={10}
-				height={8}
-				transform="rotate(90 98 77)"
-				fill={fillColor}
-			/>
-			<rect
-				x={90}
-				y={77}
-				width={10}
-				height={8}
-				transform="rotate(90 90 77)"
-				fill={strokeColor}
-			/>
-			<rect
-				x={82}
-				y={77}
-				width={10}
-				height={8}
-				transform="rotate(90 82 77)"
-				fill={strokeColor}
-			/>
-			<rect
-				x={146}
-				y={113}
-				width={21}
-				height={8}
-				transform="rotate(90 146 113)"
-				fill={fillColor}
-			/>
-			<rect
-				x={154}
-				y={122}
-				width={20}
-				height={8}
-				transform="rotate(90 154 122)"
-				fill={fillColor}
-			/>
-			<rect
-				x={138}
-				y={113}
-				width={21}
-				height={8}
-				transform="rotate(90 138 113)"
-				fill={strokeColor}
-			/>
-			<rect
-				x={130}
-				y={113}
-				width={21}
-				height={8}
-				transform="rotate(90 130 113)"
-				fill={strokeColor}
-			/>
-			<rect
-				x={98}
-				y={113}
-				width={21}
-				height={8}
-				transform="rotate(90 98 113)"
-				fill={fillColor}
-			/>
-			<rect x={55} y={134} width={83} height={8} fill={fillColor} />
-			<rect x={63} y={142} width={83} height={8} fill={fillColor} />
 		</svg>
 	);
 };

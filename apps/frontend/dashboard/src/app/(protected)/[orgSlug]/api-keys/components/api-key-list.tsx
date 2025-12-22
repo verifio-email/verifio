@@ -118,11 +118,7 @@ export const ApiKeyListSidebar = () => {
 					API Key{data?.apiKeys.length !== 1 ? "s" : ""}
 				</p>
 				<div className="flex items-center gap-2">
-					<Button.Root
-						variant="neutral"
-						size="xsmall"
-						onClick={() => setIsCreateModalOpen(true)}
-					>
+					<Button.Root size="xsmall" onClick={() => setIsCreateModalOpen(true)}>
 						<Icon name="plus" className="h-4 w-4" />
 						Create API key
 					</Button.Root>

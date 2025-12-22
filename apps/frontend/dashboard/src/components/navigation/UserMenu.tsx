@@ -15,12 +15,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({ className }) => {
 	return (
 		<Popover.Root>
 			<Popover.Trigger asChild>
-				<Button.Root
-					variant="neutral"
-					mode="ghost"
-					size="xsmall"
-					className={className}
-				>
+				<Button.Root mode="ghost" size="xsmall" className={className}>
 					<Avatar.Root color="purple" size="24" placeholderType="company" />
 				</Button.Root>
 			</Popover.Trigger>

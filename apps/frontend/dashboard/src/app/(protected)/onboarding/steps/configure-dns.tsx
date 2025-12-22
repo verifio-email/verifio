@@ -3,12 +3,12 @@
 import type { DomainResponse } from "@verifio/api";
 import * as Button from "@verifio/ui/button";
 import { Icon } from "@verifio/ui/icon";
+import Spinner from "@verifio/ui/spinner";
 import axios from "axios";
 import { parseAsInteger, parseAsString, useQueryState } from "nuqs";
 import * as React from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
-import Spinner from "@verifio/ui/spinner";
 import { DNSRecordTable } from "../../[orgSlug]/domain/[domainId]/components/DNSRecordTable";
 
 export const ConfigureDnsStep = () => {
@@ -164,11 +164,10 @@ export const ConfigureDnsStep = () => {
 			{/* Verify DNS Button */}
 			<div className="mt-8 flex justify-end">
 				<Button.Root
-					variant="neutral"
 					mode="filled"
 					onClick={
 						domainData?.status === "verifying" ||
-							domainData?.status === "active"
+						domainData?.status === "active"
 							? () => setStep(4)
 							: handleVerifyDNS
 					}

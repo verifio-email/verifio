@@ -96,7 +96,6 @@ export const ForgotPasswordForm = () => {
 						setEmailSent(false);
 						changeStatus("idle");
 					}}
-					variant="neutral"
 					mode="stroke"
 					className="h-12 w-full"
 				>
@@ -138,7 +137,6 @@ export const ForgotPasswordForm = () => {
 				<Button.Root
 					type="submit"
 					disabled={status === "loading" || !isValid}
-					variant="neutral"
 					className="mt-4 h-12 w-full"
 				>
 					{status === "loading" && <Spinner color="var(--text-strong-950)" />}

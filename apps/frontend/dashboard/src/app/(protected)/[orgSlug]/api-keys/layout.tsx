@@ -32,7 +32,6 @@ const ApiKeysLayout = ({ children }: { children: React.ReactNode }) => {
 					<div className="flex items-center justify-end">
 						<FeedbackPopover />
 						<Button.Root
-							variant="neutral"
 							mode="ghost"
 							size="xxsmall"
 							onClick={openDocs}

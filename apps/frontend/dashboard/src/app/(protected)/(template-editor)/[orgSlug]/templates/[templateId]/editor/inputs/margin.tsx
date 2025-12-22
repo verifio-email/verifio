@@ -60,7 +60,6 @@ export const InputMargin = () => {
 					Margin
 				</Label.Root>
 				<Button.Root
-					variant="neutral"
 					size="xsmall"
 					mode="ghost"
 					onClick={() => setIsExpanded(!isExpanded)}

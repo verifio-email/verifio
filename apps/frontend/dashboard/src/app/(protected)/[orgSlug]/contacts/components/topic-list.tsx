@@ -109,7 +109,6 @@ export const TopicList = ({ hideHeader = false }: TopicListProps) => {
 					</p>
 					<div className="flex items-center gap-2">
 						<Button.Root
-							variant="neutral"
 							size="xsmall"
 							onClick={() => setIsCreateModalOpen(true)}
 						>

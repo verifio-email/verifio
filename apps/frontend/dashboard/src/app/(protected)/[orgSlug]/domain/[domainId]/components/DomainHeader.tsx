@@ -129,7 +129,6 @@ export const DomainHeader = ({
 					) : (
 						<>
 							<Button.Root
-								variant="neutral"
 								size="xsmall"
 								onClick={onVerify}
 								disabled={isVerifying || status === "verifying"}

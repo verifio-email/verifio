@@ -289,7 +289,6 @@ const BulkImportPage = () => {
 								Preview ({csvData.length} contacts)
 							</h3>
 							<Button.Root
-								variant="neutral"
 								size="small"
 								onClick={handleImport}
 								disabled={status === "loading"}

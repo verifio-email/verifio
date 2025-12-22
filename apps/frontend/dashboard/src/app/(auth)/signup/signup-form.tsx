@@ -220,7 +220,6 @@ export const SignupForm = () => {
 				<Button.Root
 					type="submit"
 					disabled={status === "loading" || !isValid}
-					variant="neutral"
 					className="mt-4 h-11 w-full"
 				>
 					{status === "loading" && <Spinner color="var(--text-strong-950)" />}

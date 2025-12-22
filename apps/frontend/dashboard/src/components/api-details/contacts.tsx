@@ -278,7 +278,6 @@ export const ContactsApiDetails = () => {
 		<Drawer.Root open={isOpen} onOpenChange={setIsOpen}>
 			<Drawer.Trigger asChild>
 				<Button.Root
-					variant="neutral"
 					size="xxsmall"
 					mode="ghost"
 					className={cn("gap-1.5", isOpen && "bg-bg-weak-50")}
@@ -310,7 +309,6 @@ export const ContactsApiDetails = () => {
 							<Tooltip.Root>
 								<Tooltip.Trigger asChild>
 									<Button.Root
-										variant="neutral"
 										size="xxsmall"
 										mode="ghost"
 										onClick={copyBaseUrl}
@@ -385,7 +383,6 @@ export const ContactsApiDetails = () => {
 						<div className="flex items-center justify-between">
 							<h3 className="text-label-sm text-text-sub-600">Example</h3>
 							<Button.Root
-								variant="neutral"
 								size="xxsmall"
 								mode="ghost"
 								onClick={copyToClipboard}

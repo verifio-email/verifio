@@ -34,7 +34,6 @@ const DomainLayout = ({ children }: { children: React.ReactNode }) => {
 						<FeedbackPopover />
 						<DomainApiDetails />
 						<Button.Root
-							variant="neutral"
 							mode="ghost"
 							size="xxsmall"
 							onClick={openDocs}

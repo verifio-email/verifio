@@ -278,7 +278,6 @@ export const Sdk = () => {
 							))}
 							<div className="ml-auto flex items-center gap-2">
 								<Button.Root
-									variant="neutral"
 									mode="lighter"
 									size="xsmall"
 									onClick={() => copyToClipboard(selectedSdk.code)}

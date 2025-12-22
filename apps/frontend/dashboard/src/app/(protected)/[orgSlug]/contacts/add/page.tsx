@@ -171,7 +171,6 @@ const AddTopicPage = () => {
 					<div className="flex justify-end">
 						<Button.Root
 							type="submit"
-							variant="neutral"
 							size="small"
 							disabled={status === "loading" || !formState.isValid}
 							className="min-w-[140px]"

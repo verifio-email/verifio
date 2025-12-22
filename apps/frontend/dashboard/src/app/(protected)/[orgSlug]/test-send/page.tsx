@@ -453,7 +453,6 @@ export default function TestSendPage() {
 				<div className="flex justify-end border-stroke-soft-200 border-t border-dashed pt-6">
 					<Button.Root
 						type="submit"
-						variant="neutral"
 						size="small"
 						disabled={status === "loading" || !isValid}
 						className="min-w-[140px]"

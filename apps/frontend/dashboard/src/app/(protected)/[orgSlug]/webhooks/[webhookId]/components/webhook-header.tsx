@@ -103,12 +103,7 @@ export const WebhookHeader = ({
 	if (!webhook && !isLoading) {
 		return (
 			<div className="pt-10 pb-8">
-				<Button.Root
-					onClick={() => back()}
-					variant="neutral"
-					mode="stroke"
-					size="xxsmall"
-				>
+				<Button.Root onClick={() => back()} mode="stroke" size="xxsmall">
 					<Button.Icon>
 						<Icon name="chevron-left" className="h-4 w-4" />
 					</Button.Icon>
@@ -217,7 +212,6 @@ export const WebhookHeader = ({
 									{webhook?.url || "Loading..."}
 								</h1>
 								<Button.Root
-									variant="neutral"
 									mode="ghost"
 									size="xxsmall"
 									onClick={handleCopyUrl}
@@ -242,11 +236,7 @@ export const WebhookHeader = ({
 						</Button.Root>
 					) : webhook ? (
 						<>
-							<Button.Root
-								variant="neutral"
-								size="xsmall"
-								onClick={() => onOpenSettings?.()}
-							>
+							<Button.Root size="xsmall" onClick={() => onOpenSettings?.()}>
 								<Icon name="pause" className="h-4 w-4" />
 								Disable webhook
 							</Button.Root>
@@ -259,7 +249,6 @@ export const WebhookHeader = ({
 								<PopoverContent align="end" side="bottom" className="p-2">
 									<div className="flex flex-col gap-1">
 										<Button.Root
-											variant="neutral"
 											mode="ghost"
 											size="small"
 											onClick={() =>
@@ -274,7 +263,6 @@ export const WebhookHeader = ({
 											Go to docs
 										</Button.Root>
 										<Button.Root
-											variant="neutral"
 											mode="ghost"
 											size="small"
 											className="w-full justify-start"
@@ -283,7 +271,6 @@ export const WebhookHeader = ({
 											Rotate secret
 										</Button.Root>
 										<Button.Root
-											variant="neutral"
 											mode="ghost"
 											size="small"
 											className="w-full justify-start"
@@ -427,7 +414,6 @@ export const WebhookHeader = ({
 								{webhook?.secret || "No secret set"}
 							</span>
 							<Button.Root
-								variant="neutral"
 								mode="ghost"
 								size="xxsmall"
 								onClick={handleCopySecret}

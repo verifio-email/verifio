@@ -41,7 +41,6 @@ export const OrgSwitcher: React.FC<OrgSwitcherProps> = ({ className }) => {
 		<Popover.Root open={open} onOpenChange={setOpen}>
 			<Popover.Trigger asChild>
 				<Button.Root
-					variant="neutral"
 					mode="ghost"
 					size="xxsmall"
 					className={cn("flex h-auto items-center gap-2 px-2 py-1", className)}

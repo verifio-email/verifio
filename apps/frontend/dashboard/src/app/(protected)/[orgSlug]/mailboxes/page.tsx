@@ -23,31 +23,31 @@ const mailboxes: Array<{
 	status: string;
 	createdAt: string;
 }> = [
-		{
-			id: "1",
-			email: "admin@example.com",
-			password: "••••••••••",
-			quota: "5 GB",
-			status: "active",
-			createdAt: dayjs().subtract(2, "days").toISOString(),
-		},
-		{
-			id: "2",
-			email: "support@example.com",
-			password: "••••••••••",
-			quota: "10 GB",
-			status: "active",
-			createdAt: dayjs().subtract(1, "week").toISOString(),
-		},
-		{
-			id: "3",
-			email: "sales@examp le.com",
-			password: "••••••••••",
-			quota: "2 GB",
-			status: "disabled",
-			createdAt: dayjs().subtract(3, "weeks").toISOString(),
-		},
-	];
+	{
+		id: "1",
+		email: "admin@example.com",
+		password: "••••••••••",
+		quota: "5 GB",
+		status: "active",
+		createdAt: dayjs().subtract(2, "days").toISOString(),
+	},
+	{
+		id: "2",
+		email: "support@example.com",
+		password: "••••••••••",
+		quota: "10 GB",
+		status: "active",
+		createdAt: dayjs().subtract(1, "week").toISOString(),
+	},
+	{
+		id: "3",
+		email: "sales@examp le.com",
+		password: "••••••••••",
+		quota: "2 GB",
+		status: "disabled",
+		createdAt: dayjs().subtract(3, "weeks").toISOString(),
+	},
+];
 
 const EmptyState = () => {
 	const { activeOrganization } = useUserOrganization();
@@ -89,11 +89,7 @@ const MailboxesPage = () => {
 							<h1 className="font-medium text-title-h4">Mailboxes</h1>
 						</div>
 					</div>
-					<Button.Root
-						variant="neutral"
-						mode="stroke"
-						onClick={() => setState(true)}
-					>
+					<Button.Root mode="stroke" onClick={() => setState(true)}>
 						<Icon name="plus" className="h-4 w-4" />
 						Add Mailbox
 					</Button.Root>

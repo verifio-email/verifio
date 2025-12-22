@@ -222,7 +222,6 @@ const TopicDetailPage = () => {
 							</div>
 						</div>
 						<Button.Root
-							variant="neutral"
 							mode="stroke"
 							size="xsmall"
 							onClick={handleDownloadCSV}

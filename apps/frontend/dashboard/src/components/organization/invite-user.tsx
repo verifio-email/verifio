@@ -95,7 +95,7 @@ export const InviteMember = ({ onClose }: { onClose: () => void }) => {
 						{fields.map((field, index) => (
 							<div key={field.id} className="flex gap-2">
 								<div className="flex-1">
-									<Input.Root size='small'>
+									<Input.Root size="small">
 										<Input.Wrapper>
 											<Input.Input
 												placeholder="colleague@company.com"
@@ -137,7 +137,6 @@ export const InviteMember = ({ onClose }: { onClose: () => void }) => {
 
 								<Button.Root
 									type="button"
-									variant="neutral"
 									mode="stroke"
 									size="xsmall"
 									className="h-10 w-10 p-0"
@@ -152,7 +151,6 @@ export const InviteMember = ({ onClose }: { onClose: () => void }) => {
 					<Button.Root
 						type="button"
 						onClick={addNewUser}
-						variant="neutral"
 						mode="stroke"
 						size="medium"
 						className="mt-3 flex items-center gap-2"
@@ -166,19 +164,13 @@ export const InviteMember = ({ onClose }: { onClose: () => void }) => {
 			<Modal.Footer className="flex justify-end">
 				<Button.Root
 					type="button"
-					variant="neutral"
 					mode="stroke"
 					disabled={loading}
 					onClick={onClose}
 				>
 					Skip
 				</Button.Root>
-				<Button.Root
-					className="w-24"
-					type="submit"
-					variant="neutral"
-					disabled={loading}
-				>
+				<Button.Root className="w-24" type="submit" disabled={loading}>
 					{loading && <Spinner color="var(--text-strong-950)" />}
 					{loading ? "Inviting..." : "Invite"}
 				</Button.Root>

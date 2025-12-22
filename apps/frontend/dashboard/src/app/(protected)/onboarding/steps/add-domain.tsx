@@ -77,7 +77,6 @@ export const AddDomainStep = () => {
 				</div>
 				<div className="pt-5">
 					<Button.Root
-						variant="neutral"
 						mode="filled"
 						className="w-full"
 						onClick={handleVerify}

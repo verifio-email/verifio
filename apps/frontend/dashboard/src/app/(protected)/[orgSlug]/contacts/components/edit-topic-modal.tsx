@@ -343,7 +343,6 @@ export const EditTopicModal = ({
 						<Modal.Footer className="mt-4 justify-end border-stroke-soft-100/50">
 							<Button.Root
 								type="submit"
-								variant="neutral"
 								size="xsmall"
 								disabled={isSaving || !name.trim() || isDescriptionOverLimit}
 							>

@@ -141,7 +141,6 @@ export const ContactDropdown = ({
 		<PopoverRoot open={popoverOpen} onOpenChange={handlePopoverOpenChange}>
 			<PopoverTrigger asChild>
 				<Button.Root
-					variant="neutral"
 					mode="ghost"
 					size="xxsmall"
 					disabled={isDeleting || isTogglingStatus}

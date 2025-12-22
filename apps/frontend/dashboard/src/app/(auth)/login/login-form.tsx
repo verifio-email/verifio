@@ -3,14 +3,12 @@
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { authClient } from "@verifio/auth/client";
 import * as Button from "@verifio/ui/button";
-import * as Divider from "@verifio/ui/divider";
 import { Icon } from "@verifio/ui/icon";
 import * as Input from "@verifio/ui/input";
 import * as Label from "@verifio/ui/label";
 import * as LinkButton from "@verifio/ui/link-button";
 import Spinner from "@verifio/ui/spinner";
 import { useLoading } from "@verifio/ui/use-loading";
-import { motion } from "motion/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -80,96 +78,74 @@ export const LoginForm = () => {
 	};
 
 	return (
-		<motion.div
-			initial={{ opacity: 0, height: 0, y: -20 }}
-			animate={{ opacity: 1, height: "auto", y: 0 }}
-			exit={{ opacity: 0, height: 0, y: -20 }}
-			transition={{
-				duration: 0.3,
-				ease: "easeOut",
-				opacity: { duration: 0.2 },
-				height: { duration: 0.3 },
-			}}
-			className="overflow-hidden"
-		>
-			<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
-				<Divider.Root variant="line-text">OR</Divider.Root>
+		<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+			<div className="flex flex-col gap-1">
+				<Label.Root htmlFor="email">Email</Label.Root>
+				<Input.Root hasError={!!errors.email}>
+					<Input.Wrapper>
+						<Input.Input
+							id="email"
+							type="email"
+							placeholder="hello@verifio.com"
+							{...register("email")}
+						/>
+					</Input.Wrapper>
+				</Input.Root>
+				{errors.email && (
+					<p className="text-error-base text-sm">{errors.email.message}</p>
+				)}
+			</div>
 
-				<div className="flex flex-col gap-1">
-					<Label.Root htmlFor="email">
-						Email Address
-						<Label.Asterisk />
-					</Label.Root>
-					<Input.Root hasError={!!errors.email}>
-						<Input.Wrapper>
-							<Input.Input
-								className="h-11 font-medium"
-								id="email"
-								type="email"
-								placeholder="hello@verifio.com"
-								{...register("email")}
-							/>
-						</Input.Wrapper>
-					</Input.Root>
-					{errors.email && (
-						<p className="text-error-base text-sm">{errors.email.message}</p>
-					)}
-				</div>
-
-				<div className="flex flex-col gap-1">
-					<Label.Root htmlFor="password">
-						Password <Label.Asterisk />
-					</Label.Root>
-					<Input.Root hasError={!!errors.password}>
-						<Input.Wrapper>
-							<Input.Input
-								id="password"
-								type={showPassword ? "text" : "password"}
-								placeholder="••••••••••"
-								className="h-11 font-medium"
-								{...register("password")}
-							/>
-							<button
-								type="button"
-								onClick={() => setShowPassword((s) => !s)}
-								className="flex items-center justify-center"
-							>
-								{showPassword ? (
-									<Icon
-										name="eye-outline"
-										className="size-5 fill-none text-text-soft-400 group-has-[disabled]:text-text-disabled-300"
-									/>
-								) : (
-									<Icon
-										name="eye-slash-outline"
-										className="size-5 fill-none text-text-soft-400 group-has-[disabled]:text-text-disabled-300"
-									/>
-								)}
-							</button>
-						</Input.Wrapper>
-					</Input.Root>
-					{errors.password && (
-						<p className="text-error-base text-sm">{errors.password.message}</p>
-					)}
-					<Link href="/forgot-password" className="flex items-center gap-1">
-						<p className="text-paragraph-sm text-text-sub-600">
-							Forgot password?
-						</p>
-						<LinkButton.Root type="button" variant="black">
-							Reset it
-						</LinkButton.Root>
-					</Link>
-				</div>
-				<Button.Root
-					type="submit"
-					disabled={status === "loading" || !isValid}
-					variant="neutral"
-					className="mt-4 h-11 w-full"
-				>
-					{status === "loading" && <Spinner color="var(--text-strong-950)" />}
-					{status === "loading" ? "Signing in..." : "Sign in"}
-				</Button.Root>
-			</form>
-		</motion.div>
+			<div className="flex flex-col gap-1">
+				<Label.Root htmlFor="password">Password</Label.Root>
+				<Input.Root hasError={!!errors.password}>
+					<Input.Wrapper size="xsmall">
+						<Input.Input
+							id="password"
+							type={showPassword ? "text" : "password"}
+							placeholder="••••••••••"
+							className="font-medium"
+							{...register("password")}
+						/>
+						<button
+							type="button"
+							onClick={() => setShowPassword((s) => !s)}
+							className="flex items-center justify-center"
+						>
+							{showPassword ? (
+								<Icon
+									name="eye-outline"
+									className="size-5 fill-none text-text-soft-400 group-has-[disabled]:text-text-disabled-300"
+								/>
+							) : (
+								<Icon
+									name="eye-slash-outline"
+									className="size-5 fill-none text-text-soft-400 group-has-[disabled]:text-text-disabled-300"
+								/>
+							)}
+						</button>
+					</Input.Wrapper>
+				</Input.Root>
+				{errors.password && (
+					<p className="text-error-base text-sm">{errors.password.message}</p>
+				)}
+				<Link href="/forgot-password" className="flex items-center gap-1">
+					<p className="text-paragraph-sm text-text-sub-600">
+						Forgot password?
+					</p>
+					<LinkButton.Root type="button" variant="black">
+						Reset it
+					</LinkButton.Root>
+				</Link>
+			</div>
+			<Button.Root
+				type="submit"
+				disabled={status === "loading" || !isValid}
+				className="rounded-full"
+			>
+				{status === "loading" && <Spinner color="var(--text-strong-950)" />}
+				{status === "loading" ? "Signing in..." : "Sign in"}
+			</Button.Root>
+		</form>
 	);
 };

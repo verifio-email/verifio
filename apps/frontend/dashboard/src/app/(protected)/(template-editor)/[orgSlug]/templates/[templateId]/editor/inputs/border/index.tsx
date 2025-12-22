@@ -250,7 +250,6 @@ export const InputBorder = () => {
 				<div className="flex items-center justify-between">
 					<span className="text-text-sub-600 text-xs">Radius</span>
 					<Button.Root
-						variant="neutral"
 						size="xsmall"
 						mode="ghost"
 						onClick={() => setIsRadiusExpanded(!isRadiusExpanded)}

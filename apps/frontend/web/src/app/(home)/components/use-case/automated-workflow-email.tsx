@@ -162,7 +162,6 @@ export const AutomatedWorkflowEmail = () => {
 				<div className="relative flex-1 border-stroke-soft-100 border-r">
 					{/* Replay Button */}
 					<Button.Root
-						variant="neutral"
 						mode="ghost"
 						size="small"
 						onClick={handleReplay}

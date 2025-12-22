@@ -14,11 +14,7 @@ const TopicsPage = () => {
 			<div className="flex items-center justify-between pt-10">
 				<p className="font-medium text-2xl">Topics</p>
 				<div className="flex items-center gap-2">
-					<Button.Root
-						variant="neutral"
-						size="xsmall"
-						onClick={() => setIsCreateModalOpen(true)}
-					>
+					<Button.Root size="xsmall" onClick={() => setIsCreateModalOpen(true)}>
 						<Icon name="plus" className="h-4 w-4" />
 						Add topic
 					</Button.Root>

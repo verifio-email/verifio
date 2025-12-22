@@ -213,7 +213,6 @@ export const CreateOrgStep = () => {
 							Recommended size 1:1, up to 10MB.
 						</p>
 						<Button.Root
-							variant="neutral"
 							mode="stroke"
 							size="xxsmall"
 							type="button"

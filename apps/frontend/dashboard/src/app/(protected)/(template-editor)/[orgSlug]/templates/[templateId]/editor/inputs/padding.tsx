@@ -60,7 +60,6 @@ export const InputPadding = () => {
 					Padding
 				</Label.Root>
 				<Button.Root
-					variant="neutral"
 					size="xsmall"
 					mode="ghost"
 					onClick={() => setIsExpanded(!isExpanded)}

@@ -24,7 +24,6 @@ const TopicsLayout = ({ children }: { children: React.ReactNode }) => {
 						<FeedbackPopover />
 						<TopicsApiDetails />
 						<Button.Root
-							variant="neutral"
 							mode="ghost"
 							size="xxsmall"
 							onClick={openDocs}

@@ -169,7 +169,6 @@ export const AddContact = ({
 					<Modal.Footer>
 						<Button.Root
 							type="button"
-							variant="neutral"
 							mode="stroke"
 							onClick={() => onOpenChange(false)}
 						>
@@ -177,7 +176,6 @@ export const AddContact = ({
 						</Button.Root>
 						<Button.Root
 							type="submit"
-							variant="neutral"
 							disabled={status === "loading" || !formState.isValid}
 						>
 							{status === "loading" ? (

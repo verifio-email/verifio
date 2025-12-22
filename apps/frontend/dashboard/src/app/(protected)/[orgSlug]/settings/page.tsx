@@ -252,7 +252,6 @@ const SettingsPage = () => {
 									Recommended size 1:1, up to 10MB.
 								</p>
 								<Button.Root
-									variant="neutral"
 									mode="stroke"
 									size="xxsmall"
 									type="button"
@@ -340,7 +339,6 @@ const SettingsPage = () => {
 					</div>
 					<div className="flex justify-end">
 						<Button.Root
-							variant="neutral"
 							size="xsmall"
 							onClick={handleSaveChanges}
 							disabled={

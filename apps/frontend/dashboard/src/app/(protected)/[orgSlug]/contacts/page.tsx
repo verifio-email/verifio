@@ -101,7 +101,6 @@ const ContactsPage = () => {
 						</PopoverRoot>
 					) : (
 						<Button.Root
-							variant="neutral"
 							size="xsmall"
 							onClick={() => setIsPropertyModalOpen(true)}
 						>
