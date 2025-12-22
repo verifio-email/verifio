@@ -430,6 +430,8 @@
 		theme(--color-neutral-alpha-16);
 	--shadow-button-error-focus:
 		0 0 0 2px theme(--color-bg-white-0), 0 0 0 4px theme(--color-red-alpha-10);
+	--shadow-button-orange-focus:
+		0 0 0 2px theme(--color-bg-white-0), 0 0 0 4px theme(--color-orange-alpha-10);
 
 	--shadow-fancy-buttons-neutral: 0 1px 2px 0 #1b1c1d7a, 0 0 0 1px #242628;
 	--shadow-fancy-buttons-primary:
