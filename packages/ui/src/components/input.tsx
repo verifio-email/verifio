@@ -27,7 +27,7 @@ export const inputVariants = tv({
 			// hover
 			"hover:shadow-none",
 			// focus
-			"has-[input:focus]:shadow-button-important-focus has-[input:focus]:before:ring-orange-500",
+			"has-[input:focus]:shadow-button-important-focus has-[input:focus]:before:ring-sky-500",
 			// disabled
 			"has-[input:disabled]:shadow-none has-[input:disabled]:before:ring-transparent",
 		],
@@ -120,7 +120,7 @@ export const inputVariants = tv({
 			},
 			false: {
 				root: [
-					"has-[input:focus]:shadow-button-orange-focus has-[input:focus]:before:ring-orange-500",
+					"has-[input:focus]:shadow-button-sky-focus has-[input:focus]:before:ring-sky-500",
 					// hover
 					"hover:[&:not(:has(input:focus)):has(>:only-child)]:before:ring-transparent",
 				],

@@ -430,8 +430,8 @@
 		theme(--color-neutral-alpha-16);
 	--shadow-button-error-focus:
 		0 0 0 2px theme(--color-bg-white-0), 0 0 0 4px theme(--color-red-alpha-10);
-	--shadow-button-orange-focus:
-		0 0 0 2px theme(--color-bg-white-0), 0 0 0 4px theme(--color-orange-alpha-10);
+	--shadow-button-sky-focus:
+		0 0 0 2px theme(--color-bg-white-0), 0 0 0 4px theme(--color-sky-alpha-10);
 
 	--shadow-fancy-buttons-neutral: 0 1px 2px 0 #1b1c1d7a, 0 0 0 1px #242628;
 	--shadow-fancy-buttons-primary:
@@ -853,12 +853,12 @@
 	--social-amazon: #353e47;
 	--social-zendesk: #16140d;
 
-	--primary-dark: var(--orange-800);
-	--primary-darker: var(--orange-700);
-	--primary-base: var(--orange-500);
-	--primary-alpha-24: var(--orange-alpha-24);
-	--primary-alpha-16: var(--orange-alpha-16);
-	--primary-alpha-10: var(--orange-alpha-10);
+	--primary-dark: var(--sky-800);
+	--primary-darker: var(--sky-700);
+	--primary-base: var(--sky-500);
+	--primary-alpha-24: var(--sky-alpha-24);
+	--primary-alpha-16: var(--sky-alpha-16);
+	--primary-alpha-10: var(--sky-alpha-10);
 
 	--static-black: var(--neutral-950);
 	--static-white: var(--neutral-0);
