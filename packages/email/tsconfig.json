@@ -1,0 +1,9 @@
+{
+	"extends": "@reloop/tsconfig/base.json",
+	"include": ["src/**/*", "emails/**/*", "components/**/*", "./**/*"],
+	"exclude": ["node_modules", "dist"],
+	"compilerOptions": {
+		"lib": ["dom", "ES2022"],
+		"jsx": "react-jsx"
+	}
+}

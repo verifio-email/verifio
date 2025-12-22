@@ -1,0 +1,124 @@
+local.reloop.sh {
+    tls internal
+
+    # Frontend routes (most specific first)
+    handle /dashboard* {
+        reverse_proxy host.docker.internal:3001 {
+            header_up Host {host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-For {remote}
+        }
+    }
+    handle /admin* {
+        reverse_proxy host.docker.internal:3002 {
+            header_up Host {host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-For {remote}
+        }
+    }
+    handle /docs* {
+        reverse_proxy host.docker.internal:3003 {
+            header_up Host {host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-For {remote}
+        }
+    }
+    handle /dev* {
+        reverse_proxy host.docker.internal:3004 {
+            header_up Host {host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-For {remote}
+        }
+    }
+
+    # API routes
+    handle /api/auth* {
+        reverse_proxy host.docker.internal:8000 {
+            header_up Host {host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-For {remote}
+        }
+    }
+    handle /api/api-key* {
+        reverse_proxy host.docker.internal:8012 {
+            header_up Host {host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-For {remote}
+        }
+    }
+    handle /api/domain* {
+        reverse_proxy host.docker.internal:8011 {
+            header_up Host {host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-For {remote}
+        }
+    }
+    handle /api/webhook* {
+        reverse_proxy host.docker.internal:8013 {
+            header_up Host {host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-For {remote}
+        }
+    }
+    handle /api/contacts* {
+        reverse_proxy host.docker.internal:8014 {
+            header_up Host {host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-For {remote}
+        }
+    }
+    handle /api/mail* {
+        reverse_proxy host.docker.internal:8015 {
+            header_up Host {host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-For {remote}
+        }
+    }
+    handle /api/analytics* {
+        reverse_proxy host.docker.internal:8016 {
+            header_up Host {host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-For {remote}
+        }
+    }
+    handle /api/workflow* {
+        reverse_proxy host.docker.internal:8017 {
+            header_up Host {host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-For {remote}
+        }
+    }
+    handle /api/upload* {
+        reverse_proxy host.docker.internal:8018 {
+            header_up Host {host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-For {remote}
+        }
+    }
+    handle /api/template* {
+        reverse_proxy host.docker.internal:8019 {
+            header_up Host {host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-For {remote}
+        }
+    }
+
+    # Mailpit Web UI (for viewing captured test emails)
+    handle /mail* {
+        uri strip_prefix /mail
+        reverse_proxy host.docker.internal:8025 {
+            header_up Host {host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-For {remote}
+        }
+    }
+
+    # Main app (catch-all - everything else)
+    handle {
+        reverse_proxy host.docker.internal:3000 {
+            header_up Host {host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-For {remote}
+        }
+    }
+}

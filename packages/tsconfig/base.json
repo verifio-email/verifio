@@ -1,0 +1,32 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"display": "Default",
+	"compilerOptions": {
+		"esModuleInterop": true,
+		"incremental": false,
+		"isolatedModules": true,
+		"lib": ["es2022", "DOM", "DOM.Iterable"],
+		"module": "NodeNext",
+		"moduleDetection": "force",
+		"moduleResolution": "NodeNext",
+		"noUncheckedIndexedAccess": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"target": "ES2022",
+		"baseUrl": ".",
+		"paths": {
+			"@reloop/db": ["../../packages/db/src/*"],
+			"@reloop/cache": ["../../packages/cache/src/*"],
+			"@reloop/ui": ["../../packages/ui/src/*"],
+			"@reloop/auth": ["../../packages/auth/src/*"],
+			"@be/domain": ["../../apps/backend/domain/src/*"],
+			"@be/workflow": ["../../apps/backend/workflow/src/*"],
+			"@reloop/webhook": ["../../apps/backend/webhook/src/*"],
+			"@reloop/audience": ["../../apps/backend/audience/src/*"],
+			"@reloop/web": ["../../apps/frontend/web/src/*"],
+			"@reloop/fe-dev": ["../../apps/frontend/dev/src/*"],
+			"@reloop/be-mail": ["../../apps/backend/mail/src/*"]
+		}
+	}
+}

@@ -1,0 +1,43 @@
+{
+	"name": "@reloop/db",
+	"private": true,
+	"exports": {
+		"./client": "./src/client.ts",
+		"./schema": "./src/schema/index.ts",
+		"./index": "./src/index.ts",
+		"./utils": "./src/utils/*"
+	},
+	"scripts": {
+		"build": "tsc --build",
+		"clean": "git clean -xdf .cache .turbo dist node_modules",
+		"dev": "tsc --build tsconfig.package.json",
+		"env:copy-example": "shx -- cp -n .env.example .env",
+		"env:remove": "shx -- rm -f .env",
+		"env:run": "dotenv --",
+		"push": "bun env:run drizzle-kit push",
+		"studio": "bun env:run drizzle-kit studio",
+		"typecheck": "tsc --build --noEmit --emitDeclarationOnly false",
+		"db:generate": "bun env:run drizzle-kit generate",
+		"db:migrate": "bun env:run drizzle-kit migrate",
+		"db:push": "bun env:run drizzle-kit push",
+		"db:studio": "bun env:run drizzle-kit studio",
+		"db:seed": "bun env:run bun run src/utils/seed.ts",
+		"migrate": "bun run src/migrate.ts"
+	},
+	"dependencies": {
+		"drizzle-orm": "catalog:db",
+		"drizzle-typebox": "catalog:db",
+		"pg": "catalog:db",
+		"redis": "catalog:db",
+		"@paralleldrive/cuid2": "catalog:backend"
+	},
+	"devDependencies": {
+		"@reloop/tsconfig": "workspace:*",
+		"@types/node": "catalog:",
+		"@types/pg": "catalog:db",
+		"dotenv-cli": "catalog:db",
+		"drizzle-kit": "catalog:db",
+		"shx": "catalog:db",
+		"typescript": "catalog:"
+	}
+}

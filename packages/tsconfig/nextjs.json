@@ -1,0 +1,24 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"display": "Next.js",
+	"extends": "./base.json",
+	"compilerOptions": {
+		"plugins": [{ "name": "next" }],
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"allowJs": true,
+		"jsx": "preserve",
+		"noEmit": true,
+		"baseUrl": ".",
+		"paths": {
+			"@reloop/db": ["../../packages/db/src/*"],
+			"@reloop/cache": ["../../packages/cache/src/*"],
+			"@reloop/ui": ["../../packages/ui/src/*"],
+			"@reloop/auth": ["../../packages/auth/src/*"],
+			"@be/domain": ["../../apps/backend/domain/src/*"],
+			"@fe/dashboard": ["../../apps/frontend/dashboard/src/*"],
+			"@fe/web": ["../../apps/frontend/web/src/*"],
+			"@fe/docs": ["../../apps/frontend/docs/src/*"]
+		}
+	}
+}

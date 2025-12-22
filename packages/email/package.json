@@ -1,0 +1,35 @@
+{
+	"name": "@reloop/react-email",
+	"version": "1.0.0",
+	"private": true,
+	"main": "index.ts",
+	"exports": {
+		".": "./index.ts",
+		"./emails/*": "./emails/*",
+		"./locales": "./locales/index.ts",
+		"./render": "./render.ts"
+	},
+	"scripts": {
+		"clean": "rm -rf .turbo node_modules",
+		"lint": "biome check .",
+		"format": "biome format --write .",
+		"typecheck": "tsc --noEmit",
+		"dev": "email dev -p 3003",
+		"build": "email build",
+		"start": "email start"
+	},
+	"dependencies": {
+		"@react-email/components": "catalog:ui",
+		"@react-email/render": "catalog:ui",
+		"@react-email/tailwind": "catalog:ui",
+		"date-fns": "catalog:backend",
+		"react-email": "catalog:ui",
+		"react": "catalog:ui",
+		"react-dom": "catalog:ui"
+	},
+	"devDependencies": {
+		"@react-email/preview-server": "4.2.8",
+		"@types/bun": "catalog:backend",
+		"typescript": "workspace:"
+	}
+}

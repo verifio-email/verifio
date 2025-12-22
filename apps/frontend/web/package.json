@@ -1,0 +1,40 @@
+{
+	"name": "web",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev --turbopack --port=3000",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"@hookform/resolvers": "catalog:ui",
+		"@react-three/drei": "^10.7.6",
+		"@react-three/fiber": "^9.4.0",
+		"@reloop/auth": "workspace:*",
+		"@reloop/tailwind": "workspace:*",
+		"@reloop/ui": "workspace:*",
+		"@tailwindcss/postcss": "catalog:ui",
+		"babel-plugin-react-compiler": "catalog:ui",
+		"better-auth": "catalog:",
+		"framer-motion": "^12.23.24",
+		"motion": "catalog:ui",
+		"next": "catalog:ui",
+		"next-themes": "catalog:ui",
+		"postcss": "catalog:ui",
+		"react": "catalog:ui",
+		"react-dom": "catalog:ui",
+		"react-hook-form": "catalog:ui",
+		"sonner": "catalog:ui",
+		"tailwindcss": "catalog:ui",
+		"three": "^0.181.0"
+	},
+	"devDependencies": {
+		"@reloop/tsconfig": "workspace:*",
+		"@types/node": "catalog:",
+		"@types/react": "catalog:ui",
+		"@types/react-dom": "catalog:ui",
+		"typescript": "catalog:"
+	}
+}
