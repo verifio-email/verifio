@@ -72,7 +72,29 @@ export const SignupForm = () => {
 				}
 				return;
 			}
-			router.push("/");
+
+			// Create organization using email username
+			const username = email.split("@")[0] || "workspace";
+			const orgName = username.charAt(0).toUpperCase() + username.slice(1);
+			const slug = username.toLowerCase().replace(/[^a-z0-9]/g, "-");
+
+			try {
+				const org = await authClient.organization.create({
+					name: orgName,
+					slug: slug,
+				});
+
+				if (org.data) {
+					await authClient.organization.setActive({
+						organizationId: org.data.id,
+					});
+					router.push(`/${org.data.slug}`);
+				} else {
+					router.push("/");
+				}
+			} catch {
+				console.log("hello");
+			}
 		} catch (e) {
 			changeStatus("idle");
 			if (e instanceof Error && e.message) {

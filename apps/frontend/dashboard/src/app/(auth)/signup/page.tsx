@@ -100,7 +100,7 @@ const Page = () => {
 								setLoading({ name: "github", loading: true });
 								await authClient.signIn.social({
 									provider: "github",
-									callbackURL: "/dashboard",
+									callbackURL: "/",
 								});
 							} catch (error) {
 								setLoading({ name: "github", loading: false });

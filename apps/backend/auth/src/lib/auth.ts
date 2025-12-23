@@ -55,32 +55,6 @@ export const auth = betterAuth({
 		if (ctx.path.startsWith("/sign-up")) {
 			const newSession = ctx.context.newSession;
 			if (newSession) {
-				const email = newSession.user.email;
-				const username = email.split("@")[0] || "workspace";
-				// Create unique slug using username + first 8 chars of user ID
-				const slug = `${username.toLowerCase().replace(/[^a-z0-9]/g, "-")}-${newSession.user.id.slice(0, 8)}`;
-
-				try {
-					// Create organization automatically
-					const org = await auth.api.createOrganization({
-						body: {
-							name: username.charAt(0).toUpperCase() + username.slice(1),
-							slug: slug,
-						},
-						headers: ctx?.request?.headers,
-					});
-
-					if (org) {
-						logger.info("🏢 Auto-created organization:", {
-							name: org.name,
-							slug: org.slug,
-							userId: newSession.user.id,
-						});
-					}
-				} catch (error) {
-					logger.error("❌ Failed to auto-create organization:", error);
-				}
-
 				logger.info("🔐 User registered:", newSession.user);
 			}
 		}
@@ -154,7 +128,9 @@ export const auth = betterAuth({
 						inviterEmail: data.inviter.user.email,
 						role: data.role,
 					});
-					logger.info(`✅ Organization invite email sent to ${data.email} using ${inviteLink}`);
+					logger.info(
+						`✅ Organization invite email sent to ${data.email} using ${inviteLink}`,
+					);
 				} catch (error) {
 					logger.error("❌ Failed to send organization invite email:", error);
 					// Don't throw - invitation is still created, email just failed
