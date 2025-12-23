@@ -11,7 +11,7 @@
 		"catalog": {
 			"typescript": "5.9.2",
 			"@types/node": "24.0.15",
-			"better-auth": "1.4.3",
+			"better-auth": "1.4.8",
 			"axios": "^1.12.2"
 		},
 		"catalogs": {
