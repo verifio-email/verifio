@@ -1,16 +1,16 @@
-name: reloop-local
+name: verifio-local
 
 services:
-  reloop-postgres:
+  verifio-postgres:
     image: postgres:17-alpine
-    container_name: reloop-postgres
+    container_name: verifio-postgres
     volumes:
       - ../docker-data/postgres:/var/lib/postgresql/data
       - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
     environment:
-      POSTGRES_DB: reloop
-      POSTGRES_USER: reloop
-      POSTGRES_PASSWORD: reloop123
+      POSTGRES_DB: verifio
+      POSTGRES_USER: verifio
+      POSTGRES_PASSWORD: verifio123
     ports:
       - "5432:5432"
     command: ["postgres", "-c", "log_statement=all"]
@@ -18,22 +18,22 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-      test: ["CMD", "pg_isready", "-U", "reloop", "-d", "reloop"]
+      test: ["CMD", "pg_isready", "-U", "verifio", "-d", "verifio"]
     restart: unless-stopped
 
-  reloop-redis:
+  verifio-redis:
     image: redis:7-alpine
-    container_name: reloop-redis
-    command: redis-server --requirepass reloop123
+    container_name: verifio-redis
+    command: redis-server --requirepass verifio123
     volumes:
       - ../docker-data/redis:/data
     ports:
       - "6379:6379"
     restart: unless-stopped
 
-  reloop-proxy:
+  verifio-proxy:
     image: caddy:2-alpine
-    container_name: reloop-proxy
+    container_name: verifio-proxy
     ports:
       - "80:80"
       - "443:443"
@@ -45,29 +45,21 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
-  reloop-mailpit:
-    image: axllent/mailpit:latest
-    container_name: reloop-mailpit
-    ports:
-      - "1025:1025"  # SMTP port for sending test emails
-      - "8025:8025"  # Web UI port for viewing captured emails
-    restart: unless-stopped
-
-  reloop-inngest:
+  verifio-inngest:
     image: inngest/inngest:latest
-    container_name: reloop-inngest
+    container_name: verifio-inngest
     command: "inngest start"
     ports:
       - "8288:8288"  # Inngest Dev Server UI
     environment:
       - INNGEST_EVENT_KEY=local_dev_event_key_0123456789abcdef
       - INNGEST_SIGNING_KEY=signkey-local-0123456789abcdef
-      - INNGEST_POSTGRES_URI=postgres://reloop:reloop123@reloop-postgres:5432/inngest
-      - INNGEST_REDIS_URI=redis://:reloop123@reloop-redis:6379
+      - INNGEST_POSTGRES_URI=postgres://verifio:verifio123@verifio-postgres:5432/inngest
+      - INNGEST_REDIS_URI=redis://:verifio123@verifio-redis:6379
     depends_on:
-      reloop-postgres:
+      verifio-postgres:
         condition: service_healthy
-      reloop-redis:
+      verifio-redis:
         condition: service_started
     volumes:
       - ../docker-data/inngest:/var/lib/inngest

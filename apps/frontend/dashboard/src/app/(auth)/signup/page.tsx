@@ -31,8 +31,13 @@ const Page = () => {
 				<div className="relative h-px w-full">
 					<div className="-translate-x-1/2 absolute left-1/2 h-px w-screen bg-stroke-soft-200/50" />
 				</div>
-				<div className="font-medium text-text-strong-950 text-title-h5">
-					Create your account
+				<div className="space-y-1 text-center">
+					<div className="font-medium text-text-strong-950 text-title-h5">
+						Create your account
+					</div>
+					<div className="text-paragraph-sm text-text-sub-600">
+						By creating an account, you agree to our T&C.
+					</div>
 				</div>
 				<div className="w-full border-stroke-soft-200/50 border-t" />
 				<SignupForm />

@@ -134,14 +134,18 @@ export const SignupForm = () => {
 						</button>
 					</Input.Wrapper>
 				</Input.Root>
-				{errors.password && (
+				{errors.password ? (
 					<p className="text-error-base text-sm">{errors.password.message}</p>
+				) : (
+					<p className="text-paragraph-sm text-text-sub-600">
+						Min. 8 characters with mixed case and a number
+					</p>
 				)}
 			</div>
 			<Button.Root
 				type="submit"
 				disabled={status === "loading" || !isValid}
-				className="mt-4 w-full rounded-full"
+				className="w-full rounded-full"
 			>
 				{status === "loading" && <Spinner color="var(--text-strong-950)" />}
 				{status === "loading" ? "Creating account..." : "Create Account"}
