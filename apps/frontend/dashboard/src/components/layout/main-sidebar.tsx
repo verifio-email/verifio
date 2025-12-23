@@ -1,29 +1,22 @@
 "use client";
 
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
-import { authClient } from "@verifio/auth/client";
-import * as Avatar from "@verifio/ui/avatar";
 import * as Button from "@verifio/ui/button";
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
+import * as Kbd from "@verifio/ui/kbd";
 import { Logo } from "@verifio/ui/logo";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
-import useSWR from "swr";
-import {
-	MainNavigation,
-	OrganizationSwitcher,
-	UserMenuDropdown,
-} from "./sidebar";
+import { MainNavigation, UserMenuDropdown } from "./sidebar";
 
 interface MainSidebarProps {
 	className?: string;
 }
 
 export const MainSidebar: React.FC<MainSidebarProps> = ({ className }) => {
-	const { user, activeOrganization, push } = useUserOrganization();
+	const { user, activeOrganization } = useUserOrganization();
 	const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
-	const { refetch } = authClient.useSession();
 
 	useEffect(() => {
 		try {
@@ -44,100 +37,122 @@ export const MainSidebar: React.FC<MainSidebarProps> = ({ className }) => {
 		});
 	};
 
-	const { data: organizations } = useSWR(
-		"organizations",
-		async () => (await authClient.organization.list()).data ?? undefined,
-	);
-
-	const handleOrganizationChange = async (organization: {
-		id: string;
-		name: string;
-		slug: string;
-	}) => {
-		await authClient.updateUser({
-			activeOrganizationId: organization.id,
-		});
-		refetch();
-		push(organization.slug, true);
+	const handleSearchClick = () => {
+		// TODO: Implement search functionality
+		console.log("Search clicked");
 	};
 
 	return (
 		<motion.div
 			className={cn(
-				"sticky top-0 z-10 flex h-screen flex-col border-stroke-soft-100 border-r bg-neutral-alpha-10/30",
-				isSidebarCollapsed ? "w-14" : "w-60",
+				"sticky top-0 z-10 flex h-screen flex-col border-stroke-soft-200 border-r",
+				isSidebarCollapsed ? "w-14" : "w-64",
 				className,
 			)}
-			animate={{ width: isSidebarCollapsed ? 56 : 240 }}
+			animate={{ width: isSidebarCollapsed ? 56 : 255 }}
 			transition={{ duration: 0.2, ease: "easeInOut" }}
 		>
-			{/* Header */}
-			<div className="flex h-12 items-center border-stroke-soft-100 border-b px-2">
-				{activeOrganization ? (
-					<div>
-						<Avatar.Root size="24" placeholderType="company">
-							{activeOrganization.logo && (
-								<Avatar.Image
-									src={activeOrganization.logo}
-									alt={activeOrganization.name}
-								/>
-							)}
-						</Avatar.Root>
-					</div>
-				) : (
-					<Logo className="h-8 w-8 rounded-full" />
-				)}
-
+			{/* Header - Logo and App Name */}
+			<div className="flex h-16 items-center gap-2 border-stroke-soft-200 border-b px-4">
+				<Logo className="h-7 w-7 shrink-0 rounded-md" />
 				<AnimatePresence mode="wait">
 					{!isSidebarCollapsed && (
-						<motion.div
-							className="flex items-center gap-1"
+						<motion.span
+							className="font-semibold text-lg text-text-strong-950"
 							initial={{ opacity: 0, x: -10 }}
 							animate={{ opacity: 1, x: 0 }}
 							exit={{ opacity: 0, x: -10 }}
 							transition={{ duration: 0.15 }}
 						>
-							<p className="ml-1 text-text-disabled-300">/</p>
-							<OrganizationSwitcher
-								organizations={organizations}
-								activeOrganization={activeOrganization}
-								onOrganizationChange={handleOrganizationChange}
-								isCollapsed={false}
-								side="bottom"
-							/>
-						</motion.div>
+							Verifio
+						</motion.span>
 					)}
 				</AnimatePresence>
+			</div>
 
-				<Button.Root
-					mode="ghost"
-					size="xxsmall"
-					onClick={toggleSidebarCollapse}
-					className={cn(isSidebarCollapsed && "-right-4.5 absolute", "ml-auto")}
+			{/* Search Bar */}
+			<div className="border-stroke-soft-200 border-b px-3 py-2">
+				<div
+					className={cn(
+						"relative flex h-10 w-full items-center rounded-lg bg-bg-soft-200",
+						isSidebarCollapsed ? "justify-center px-0" : "px-3",
+					)}
 				>
-					<Button.Icon>
-						<Icon
-							name={isSidebarCollapsed ? "arrow-right-rec" : "arrow-left-rec"}
-						/>
-					</Button.Icon>
-				</Button.Root>
+					<Icon name="search" className="h-4 w-4 shrink-0 text-text-sub-600" />
+					<AnimatePresence mode="wait">
+						{!isSidebarCollapsed && (
+							<motion.div
+								className="flex flex-1 items-center"
+								initial={{ opacity: 0, x: -10 }}
+								animate={{ opacity: 1, x: 0 }}
+								exit={{ opacity: 0, x: -10 }}
+								transition={{ duration: 0.15 }}
+							>
+								<input
+									type="text"
+									placeholder="Search"
+									className="ml-2 flex-1 bg-transparent text-sm text-text-strong-950 placeholder:text-text-sub-600 focus:outline-none"
+									onClick={handleSearchClick}
+								/>
+								<Kbd.Root className="-translate-y-1/2 absolute top-1/2 right-2 rounded bg-bg-soft-200 px-1.5 py-1.5 font-medium text-[11px] text-text-sub-600">
+									⌘K
+								</Kbd.Root>
+							</motion.div>
+						)}
+					</AnimatePresence>
+				</div>
 			</div>
 
 			{/* Main Navigation */}
-			<div className="flex-1 overflow-y-auto p-2">
+			<div className="flex-1 overflow-y-auto p-3">
 				<MainNavigation
 					organizationSlug={activeOrganization.slug}
 					isCollapsed={isSidebarCollapsed}
 				/>
 			</div>
 
-			{/* User Menu */}
-			<div className="border-stroke-soft-100 border-t p-2">
-				<UserMenuDropdown
-					user={user}
-					organizationSlug={activeOrganization.slug}
-					isCollapsed={isSidebarCollapsed}
-				/>
+			{/* Bottom Section - User Menu and Collapse */}
+			<div>
+				{/* User Menu */}
+				<div className="px-3 pb-2">
+					<UserMenuDropdown
+						user={user}
+						organizationSlug={activeOrganization.slug}
+						isCollapsed={isSidebarCollapsed}
+					/>
+				</div>
+
+				{/* Collapse Button */}
+				<div className="border-stroke-soft-200 border-t px-3 py-2">
+					<Button.Root
+						mode="ghost"
+						size="small"
+						onClick={toggleSidebarCollapse}
+						className={cn(
+							"flex w-full items-center gap-2 text-text-sub-600",
+							isSidebarCollapsed ? "justify-center" : "justify-start px-2",
+						)}
+						title={isSidebarCollapsed ? "Expand" : "Collapse"}
+					>
+						<Icon
+							name={isSidebarCollapsed ? "chevron-right" : "chevron-left"}
+							className="h-4 w-4 shrink-0"
+						/>
+						<AnimatePresence mode="wait">
+							{!isSidebarCollapsed && (
+								<motion.span
+									className="text-sm"
+									initial={{ opacity: 0, x: -10 }}
+									animate={{ opacity: 1, x: 0 }}
+									exit={{ opacity: 0, x: -10 }}
+									transition={{ duration: 0.15 }}
+								>
+									Collapse
+								</motion.span>
+							)}
+						</AnimatePresence>
+					</Button.Root>
+				</div>
 			</div>
 		</motion.div>
 	);

@@ -2,7 +2,6 @@
 
 import { userNavigation } from "@fe/dashboard/constants";
 import { authClient } from "@verifio/auth/client";
-import * as Avatar from "@verifio/ui/avatar";
 import * as Button from "@verifio/ui/button";
 import { cn } from "@verifio/ui/cn";
 import * as Dropdown from "@verifio/ui/dropdown";
@@ -23,6 +22,47 @@ interface UserMenuDropdownProps {
 	isCollapsed?: boolean;
 }
 
+// Avatar with first letter and primary color background
+const UserAvatar = ({
+	name,
+	email,
+	image,
+	size = 20,
+}: {
+	name: string;
+	email: string;
+	image?: string | null;
+	size?: number;
+}) => {
+	// Use first letter of name, or first letter of email if no name
+	const displayLetter =
+		name?.charAt(0)?.toUpperCase() || email?.charAt(0)?.toUpperCase() || "U";
+
+	if (image) {
+		return (
+			<img
+				src={image}
+				alt={name || email}
+				className="shrink-0 rounded-full object-cover"
+				style={{ width: size, height: size }}
+			/>
+		);
+	}
+
+	return (
+		<div
+			className="flex shrink-0 items-center justify-center rounded-full bg-primary-base font-medium text-white"
+			style={{
+				width: size,
+				height: size,
+				fontSize: size * 0.5,
+			}}
+		>
+			{displayLetter}
+		</div>
+	);
+};
+
 export const UserMenuDropdown: React.FC<UserMenuDropdownProps> = ({
 	user,
 	organizationSlug,
@@ -38,10 +78,17 @@ export const UserMenuDropdown: React.FC<UserMenuDropdownProps> = ({
 	const hoveredItem = userNavigation[hoverIdx ?? -1];
 	const isDanger = hoveredItem?.variant === "danger";
 
-	const handleAction = async (path: string, action: string | undefined) => {
+	const handleAction = async (
+		path: string,
+		action: string | undefined,
+		isExternal?: boolean,
+	) => {
+		setIsOpen(false);
 		if (action === "signout") {
 			await authClient.signOut();
 			router.push("/login");
+		} else if (isExternal) {
+			window.open(path, "_blank");
 		} else {
 			router.push(`/${organizationSlug}${path}`);
 		}
@@ -58,9 +105,12 @@ export const UserMenuDropdown: React.FC<UserMenuDropdownProps> = ({
 						isOpen && "bg-bg-weak-50",
 					)}
 				>
-					<Avatar.Root size="20" placeholderType="company">
-						{user.image && <Avatar.Image src={user.image} alt={user.name} />}
-					</Avatar.Root>
+					<UserAvatar
+						name={user.name}
+						email={user.email}
+						image={user.image}
+						size={20}
+					/>
 					{!isCollapsed && (
 						<p className="truncate font-medium text-sm text-text-sub-600">
 							{user.email}
@@ -70,45 +120,71 @@ export const UserMenuDropdown: React.FC<UserMenuDropdownProps> = ({
 			</Dropdown.Trigger>
 			<Dropdown.Content
 				sideOffset={16}
-				className="w-56"
+				className="w-64 p-0"
 				side="top"
 				align="start"
 			>
-				<div className="relative">
+				{/* Header */}
+				<div className="flex items-center justify-between border-stroke-soft-200 border-b px-4 py-3">
+					<p className="font-medium text-sm text-text-strong-950">Account</p>
+					<button
+						type="button"
+						onClick={() => setIsOpen(false)}
+						className="flex h-6 w-6 items-center justify-center rounded text-text-sub-600 transition-colors hover:bg-bg-weak-50"
+					>
+						<Icon name="close" className="h-4 w-4" />
+					</button>
+				</div>
+
+				{/* Menu items */}
+				<div className="relative p-2">
 					{userNavigation.map(
-						({ path, label, iconName, variant, action }, navIdx) => {
+						(
+							{
+								path,
+								label,
+								iconName,
+								variant,
+								action,
+								hasSeparatorAbove,
+								isExternal,
+							},
+							navIdx,
+						) => {
 							const isItemDanger = variant === "danger";
 							return (
-								<button
-									key={path + label}
-									ref={(el) => {
-										if (el) {
-											buttonRefs.current[navIdx] = el;
-										}
-									}}
-									type="button"
-									onPointerEnter={() => setHoverIdx(navIdx)}
-									onPointerLeave={() => setHoverIdx(undefined)}
-									className={cn(
-										"flex w-full cursor-pointer items-center justify-start gap-2.5 rounded-lg px-3 py-2 font-normal",
-										isItemDanger ? "text-red-500" : "",
-										!currentRect &&
-											hoverIdx === navIdx &&
-											(isItemDanger
-												? "bg-red-alpha-10"
-												: "bg-neutral-alpha-10"),
+								<div key={path + label}>
+									{hasSeparatorAbove && (
+										<div className="my-2 border-stroke-soft-200 border-t" />
 									)}
-									onClick={() => handleAction(path, action)}
-								>
-									<Icon
-										name={iconName}
+									<button
+										ref={(el) => {
+											if (el) {
+												buttonRefs.current[navIdx] = el;
+											}
+										}}
+										type="button"
+										onPointerEnter={() => setHoverIdx(navIdx)}
+										onPointerLeave={() => setHoverIdx(undefined)}
 										className={cn(
-											"h-4 w-4",
-											isItemDanger ? "" : "text-text-sub-600",
+											"flex w-full cursor-pointer items-center justify-start gap-2.5 rounded-lg px-3 py-2.5 font-normal transition-colors",
+											isItemDanger ? "text-red-500" : "text-text-strong-950",
+											!currentRect &&
+												hoverIdx === navIdx &&
+												(isItemDanger ? "bg-red-50" : "bg-bg-weak-50"),
 										)}
-									/>
-									<p className="text-sm">{label}</p>
-								</button>
+										onClick={() => handleAction(path, action, isExternal)}
+									>
+										<Icon
+											name={iconName}
+											className={cn(
+												"h-4 w-4",
+												isItemDanger ? "" : "text-text-sub-600",
+											)}
+										/>
+										<p className="text-sm">{label}</p>
+									</button>
+								</div>
 							);
 						},
 					)}

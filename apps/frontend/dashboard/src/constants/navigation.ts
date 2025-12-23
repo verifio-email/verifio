@@ -4,6 +4,8 @@ export interface MainNavigationItem {
 	iconName: string;
 	variant?: "default" | "danger";
 	action?: "signout";
+	hasSeparatorAbove?: boolean;
+	isExternal?: boolean;
 }
 
 export const mainNavigation: MainNavigationItem[] = [
@@ -11,21 +13,6 @@ export const mainNavigation: MainNavigationItem[] = [
 		label: "Overview",
 		path: "/",
 		iconName: "house",
-	},
-	{
-		label: "Contacts",
-		path: "/contacts",
-		iconName: "users",
-	},
-	{
-		label: "Topics",
-		path: "/topics",
-		iconName: "notification-indicator",
-	},
-	{
-		label: "Templates",
-		path: "/templates",
-		iconName: "layout",
 	},
 	{
 		label: "API Keys",
@@ -56,24 +43,22 @@ export const mainNavigation: MainNavigationItem[] = [
 
 export const userNavigation: MainNavigationItem[] = [
 	{
-		label: "General",
+		label: "Documentation",
+		path: "https://docs.verifio.dev",
+		iconName: "help-circle",
+		isExternal: true,
+	},
+	{
+		label: "Account Settings",
 		path: "/settings",
 		iconName: "user",
+		hasSeparatorAbove: true,
 	},
 	{
-		label: "Team",
+		label: "Team Settings",
 		path: "/settings/team",
 		iconName: "gear",
-	},
-	{
-		label: "Security",
-		path: "/settings/security",
-		iconName: "shield-check",
-	},
-	{
-		label: "Appearance",
-		path: "/settings/appearance",
-		iconName: "swatch-book",
+		hasSeparatorAbove: true,
 	},
 	{
 		label: "Sign out",
@@ -81,5 +66,6 @@ export const userNavigation: MainNavigationItem[] = [
 		iconName: "arrow-right-rec",
 		variant: "danger",
 		action: "signout",
+		hasSeparatorAbove: true,
 	},
 ];

@@ -8,14 +8,12 @@ interface AnimatedHoverBackgroundProps {
 	tabElement: HTMLElement | undefined;
 	className?: string;
 	isDanger?: boolean;
+	isPrimary?: boolean;
 }
 
-export const AnimatedHoverBackground: React.FC<AnimatedHoverBackgroundProps> = ({
-	rect,
-	tabElement,
-	className,
-	isDanger = false,
-}) => {
+export const AnimatedHoverBackground: React.FC<
+	AnimatedHoverBackgroundProps
+> = ({ rect, tabElement, className, isDanger = false, isPrimary = false }) => {
 	if (!rect || !tabElement) return null;
 
 	// Use offsetTop/offsetLeft for position relative to parent container
@@ -28,7 +26,11 @@ export const AnimatedHoverBackground: React.FC<AnimatedHoverBackgroundProps> = (
 				<motion.div
 					className={cn(
 						"absolute top-0 left-0 rounded-lg",
-						isDanger ? "bg-red-alpha-10" : "bg-neutral-alpha-10",
+						isDanger
+							? "bg-red-alpha-10"
+							: isPrimary
+								? "bg-primary-alpha-10"
+								: "bg-neutral-alpha-10",
 						className,
 					)}
 					initial={{
