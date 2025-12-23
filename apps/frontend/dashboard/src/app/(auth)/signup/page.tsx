@@ -31,10 +31,8 @@ const Page = () => {
 				<div className="relative h-px w-full">
 					<div className="-translate-x-1/2 absolute left-1/2 h-px w-screen bg-stroke-soft-200/50" />
 				</div>
-				<div className="space-y-1 text-center">
-					<div className="font-medium text-text-strong-950 text-title-h5">
-						Create your account
-					</div>
+				<div className="font-medium text-text-strong-950 text-title-h5">
+					Create your account
 				</div>
 				<div className="w-full border-stroke-soft-200/50 border-t" />
 				<SignupForm />
@@ -86,7 +84,7 @@ const Page = () => {
 								/>
 							</svg>
 						)}
-						<span>Sign up with Google</span>
+						<span>Continue with Google</span>
 					</Button.Root>
 					<Button.Root
 						disabled={loading.loading}
@@ -113,7 +111,7 @@ const Page = () => {
 						) : (
 							<Icon name="github" className="h-5 w-5" />
 						)}
-						Sign up with GitHub
+						Continue with GitHub
 					</Button.Root>
 				</div>
 				<div className="w-full border-stroke-soft-200/50 border-t" />

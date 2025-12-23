@@ -89,7 +89,7 @@ const Page = () => {
 								/>
 							</svg>
 						)}
-						<span>Login with Google</span>
+						<span>Continue with Google</span>
 					</Button.Root>
 					<Button.Root
 						disabled={loading.loading}
@@ -116,7 +116,7 @@ const Page = () => {
 						) : (
 							<Icon name="github" className="h-5 w-5" />
 						)}
-						Login with GitHub
+						Continue with GitHub
 					</Button.Root>
 				</div>
 				<div className="w-full border-stroke-soft-200/50 border-t" />

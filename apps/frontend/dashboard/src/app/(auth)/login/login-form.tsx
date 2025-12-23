@@ -147,7 +147,7 @@ export const LoginForm = () => {
 				className="rounded-full"
 			>
 				{status === "loading" && <Spinner color="var(--text-strong-950)" />}
-				{status === "loading" ? "Signing in..." : "Sign in"}
+				{status === "loading" ? "Logging in..." : "Login"}
 			</Button.Root>
 		</form>
 	);

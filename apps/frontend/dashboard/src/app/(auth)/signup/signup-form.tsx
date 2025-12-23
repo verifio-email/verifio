@@ -16,10 +16,6 @@ import { toast } from "sonner";
 import * as v from "valibot";
 
 const signupSchema = v.object({
-	name: v.pipe(
-		v.string("Name is required"),
-		v.minLength(1, "Name is required"),
-	),
 	email: v.pipe(
 		v.string("Email is required"),
 		v.minLength(1, "Email is required"),
@@ -33,10 +29,6 @@ const signupSchema = v.object({
 			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
 			"Password must contain at least one lowercase letter, one uppercase letter, and one number",
 		),
-	),
-	confirmPassword: v.pipe(
-		v.string("Please confirm your password"),
-		v.minLength(1, "Please confirm your password"),
 	),
 });
 
@@ -58,22 +50,14 @@ export const SignupForm = () => {
 	});
 
 	const onSubmit = async (data: SignupFormData) => {
-		if (data.password !== data.confirmPassword) {
-			setError("confirmPassword", {
-				type: "manual",
-				message: "Passwords don't match",
-			});
-			return;
-		}
-
 		try {
 			changeStatus("loading");
 			const mode = "dev";
-			const { email, password, name } = data;
+			const { email, password } = data;
 			const auth = await authClient.signUp.email({
 				email,
 				password,
-				name,
+				name: email.split("@")[0] || "",
 				mode,
 			});
 			if (auth.error) {
@@ -104,23 +88,6 @@ export const SignupForm = () => {
 			onSubmit={handleSubmit(onSubmit)}
 			className="flex w-full flex-col gap-3 px-4"
 		>
-			<div className="flex flex-col gap-1">
-				<Label.Root htmlFor="name">Name</Label.Root>
-				<Input.Root hasError={!!errors.name} size="small">
-					<Input.Wrapper>
-						<Input.Input
-							id="name"
-							type="text"
-							placeholder="John Doe"
-							{...register("name")}
-						/>
-					</Input.Wrapper>
-				</Input.Root>
-				{errors.name && (
-					<p className="text-error-base text-sm">{errors.name.message}</p>
-				)}
-			</div>
-
 			<div className="flex flex-col gap-1">
 				<Label.Root htmlFor="email">Email</Label.Root>
 				<Input.Root hasError={!!errors.email} size="small">
@@ -171,32 +138,13 @@ export const SignupForm = () => {
 					<p className="text-error-base text-sm">{errors.password.message}</p>
 				)}
 			</div>
-
-			<div className="flex flex-col gap-1">
-				<Label.Root htmlFor="confirmPassword">Confirm Password</Label.Root>
-				<Input.Root hasError={!!errors.confirmPassword} size="small">
-					<Input.Wrapper>
-						<Input.Input
-							id="confirmPassword"
-							type="password"
-							placeholder="••••••••••"
-							{...register("confirmPassword")}
-						/>
-					</Input.Wrapper>
-				</Input.Root>
-				{errors.confirmPassword && (
-					<p className="text-error-base text-sm">
-						{errors.confirmPassword.message}
-					</p>
-				)}
-			</div>
 			<Button.Root
 				type="submit"
 				disabled={status === "loading" || !isValid}
 				className="mt-4 w-full rounded-full"
 			>
 				{status === "loading" && <Spinner color="var(--text-strong-950)" />}
-				{status === "loading" ? "Creating account..." : "Sign up"}
+				{status === "loading" ? "Creating account..." : "Create Account"}
 			</Button.Root>
 		</form>
 	);
