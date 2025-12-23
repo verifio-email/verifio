@@ -76,7 +76,8 @@ export const SignupForm = () => {
 			// Create organization using email username
 			const username = email.split("@")[0] || "workspace";
 			const orgName = username.charAt(0).toUpperCase() + username.slice(1);
-			const slug = username.toLowerCase().replace(/[^a-z0-9]/g, "-");
+			const randomSuffix = Math.floor(10000 + Math.random() * 90000); // 5-digit random number
+			const slug = `org-${randomSuffix}`;
 
 			try {
 				const org = await authClient.organization.create({
