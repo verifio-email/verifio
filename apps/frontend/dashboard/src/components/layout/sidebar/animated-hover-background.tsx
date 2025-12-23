@@ -25,7 +25,7 @@ export const AnimatedHoverBackground: React.FC<
 			{rect && (
 				<motion.div
 					className={cn(
-						"absolute top-0 left-0 rounded-lg",
+						"absolute top-0 left-0 origin-top rounded-lg",
 						isDanger
 							? "bg-red-alpha-10"
 							: isPrimary
@@ -40,6 +40,7 @@ export const AnimatedHoverBackground: React.FC<
 						left,
 						top,
 						opacity: 0,
+						scaleY: 0.3,
 					}}
 					animate={{
 						pointerEvents: "none",
@@ -48,16 +49,21 @@ export const AnimatedHoverBackground: React.FC<
 						left,
 						top,
 						opacity: 1,
+						scaleY: 1,
 					}}
 					exit={{
 						pointerEvents: "none",
 						opacity: 0,
+						scaleY: 0.3,
 						width: rect.width,
 						height: rect.height,
 						left,
 						top,
 					}}
-					transition={{ duration: 0.14 }}
+					transition={{
+						duration: 0.2,
+						ease: [0.4, 0, 0.2, 1],
+					}}
 				/>
 			)}
 		</AnimatePresence>

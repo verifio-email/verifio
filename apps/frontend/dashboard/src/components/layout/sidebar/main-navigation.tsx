@@ -28,8 +28,12 @@ export const MainNavigation: React.FC<MainNavigationProps> = ({
 		return pathWithoutSlug.startsWith(item.path);
 	});
 
-	const currentIdx = hoverIdx !== undefined ? hoverIdx : activeIndex;
-	const currentTab = buttonRefs.current[currentIdx];
+	// Only show hover background for non-active items
+	const isHoveringNonActive =
+		hoverIdx !== undefined && hoverIdx !== activeIndex;
+	const currentIdx = isHoveringNonActive ? hoverIdx : undefined;
+	const currentTab =
+		currentIdx !== undefined ? buttonRefs.current[currentIdx] : undefined;
 	const currentRect = currentTab?.getBoundingClientRect();
 	const isActive = (index: number) => index === activeIndex;
 
@@ -93,11 +97,7 @@ export const MainNavigation: React.FC<MainNavigationProps> = ({
 				},
 			)}
 
-			<AnimatedHoverBackground
-				rect={currentRect}
-				tabElement={currentTab}
-				isPrimary={isActive(currentIdx)}
-			/>
+			<AnimatedHoverBackground rect={currentRect} tabElement={currentTab} />
 		</div>
 	);
 };
