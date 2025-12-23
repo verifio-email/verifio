@@ -1,4 +1,4 @@
-import { Logo } from "@verifio/ui/logo";
+import { LogoName } from "@verifio/ui/logo";
 import Link from "next/link";
 import { HeaderAction } from "./header.action";
 
@@ -8,7 +8,7 @@ export const Header = () => {
 			<header className="relative mx-auto flex h-16 w-full max-w-7xl flex-1 items-center justify-between gap-4 border-stroke-soft-100 border-r border-l px-4 lg:p-[18px]">
 				<div className="flex items-center">
 					<Link href="/">
-						<Logo className="h-8 w-8 rounded-full lg:h-10 lg:w-10" />
+						<LogoName className="w-32" />
 					</Link>
 				</div>
 				<HeaderAction />
