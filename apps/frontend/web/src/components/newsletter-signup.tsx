@@ -42,7 +42,7 @@ export const NewsletterSignup = () => {
     };
 
     return (
-        <div className="border-stroke-soft-100 border-b p-6">
+        <div className="border-stroke-soft-100 border-b px-6 py-4">
             {isSubscribed ? (
                 <motion.div
                     className="flex flex-col items-center justify-center py-4 text-center"
@@ -51,7 +51,7 @@ export const NewsletterSignup = () => {
                     transition={{ duration: 0.3, ease: "easeOut" }}
                 >
                     <motion.div
-                        className="flex size-12 items-center justify-center rounded-full bg-primary-100"
+                        className="flex items-center justify-center rounded-full bg-primary-100"
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={{
@@ -62,7 +62,7 @@ export const NewsletterSignup = () => {
                         }}
                     >
                         <svg
-                            className="size-6 text-primary-600"
+                            className="size-6 text-primary-base"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             fill="none"
@@ -72,18 +72,18 @@ export const NewsletterSignup = () => {
                             strokeLinejoin="round"
                         >
                             <motion.polyline
-                                points="20 6 9 17 4 12"
+                                points="4 12 9 17 20 6"
                                 initial={{ pathLength: 0 }}
                                 animate={{ pathLength: 1 }}
-                                transition={{ delay: 0.3, duration: 0.4, ease: "easeOut" }}
+                                transition={{ delay: 0.2, duration: 0.3, ease: "easeOut" }}
                             />
                         </svg>
                     </motion.div>
                     <motion.p
-                        className="mt-3 font-semibold text-text-strong-950"
+                        className="mt-1 font-semibold text-text-strong-950"
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2, duration: 0.3 }}
+                        transition={{ delay: 0.55, duration: 0.3 }}
                     >
                         You&apos;re in!
                     </motion.p>
@@ -91,7 +91,7 @@ export const NewsletterSignup = () => {
                         className="mt-1 text-sm text-text-sub-600"
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3, duration: 0.3 }}
+                        transition={{ delay: 0.65, duration: 0.3 }}
                     >
                         Thanks for subscribing. We&apos;ll keep you updated.
                     </motion.p>
