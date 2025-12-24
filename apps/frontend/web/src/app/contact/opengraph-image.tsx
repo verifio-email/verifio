@@ -18,7 +18,19 @@ const colors = {
     bgWhite: "#ffffff",
 };
 
+// Load Geist Sans font from Google Fonts
+async function loadGeistFont() {
+    const geist = await fetch(
+        new URL(
+            "https://fonts.gstatic.com/s/geist/v4/gyBhhwUxId8gMGYQMKR3pzfaWI_RQuQ4nQ.ttf"
+        )
+    ).then((res) => res.arrayBuffer());
+    return geist;
+}
+
 export default async function Image() {
+    const geistFont = await loadGeistFont();
+
     return new ImageResponse(
         (
             <div
@@ -28,7 +40,7 @@ export default async function Image() {
                     height: "100%",
                     display: "flex",
                     flexDirection: "column",
-                    fontFamily: "system-ui, sans-serif",
+                    fontFamily: "Geist",
                     position: "relative",
                 }}
             >
@@ -284,8 +296,8 @@ export default async function Image() {
                     }}
                 >
                     <svg
-                        width="280"
-                        height="72"
+                        width="350"
+                        height="90"
                         viewBox="0 0 99 25"
                         fill="none"
                     >
@@ -303,6 +315,14 @@ export default async function Image() {
         ),
         {
             ...size,
+            fonts: [
+                {
+                    name: "Geist",
+                    data: geistFont,
+                    style: "normal",
+                    weight: 600,
+                },
+            ],
         },
     );
 }
