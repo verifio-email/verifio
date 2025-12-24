@@ -1,7 +1,7 @@
 export default function TermsPage() {
 	return (
-		<div className="min-h-screen">
-			<section className="border-stroke-soft-100 border-b">
+		<div>
+			<section className="border-stroke-soft-100">
 				<div className="mx-4 max-w-7xl border-stroke-soft-100 border-r border-l md:mx-auto">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-4 py-3 md:px-10 md:py-4">
 						<span className="text-xs text-text-sub-600 md:text-sm">
@@ -27,7 +27,7 @@ export default function TermsPage() {
 				</div>
 			</section>
 
-			<section className="border-stroke-soft-100 border-b">
+			<section className="border-stroke-soft-100">
 				<div className="mx-4 max-w-7xl border-stroke-soft-100 border-r border-l md:mx-auto">
 					<div className="prose prose-gray max-w-none px-4 py-6 md:px-10 md:py-10">
 						<h2 className="font-semibold text-lg text-text-strong-950 md:text-xl">
@@ -100,6 +100,7 @@ export default function TermsPage() {
 					</div>
 				</div>
 			</section>
+			<div className="h-10 border-stroke-soft-100 border-t" />
 		</div>
 	);
 }
