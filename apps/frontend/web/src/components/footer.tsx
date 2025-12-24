@@ -1,6 +1,7 @@
 import { LogoName } from "@verifio/ui/logo";
 import Link from "next/link";
 import { NewsletterSignup } from "./newsletter-signup";
+import { ThemeToggle } from "./theme-toggle";
 
 const links = [
 	{
@@ -264,6 +265,8 @@ export const Footer = () => {
 								</span>
 							</div>
 						</div>
+						{/* Theme Toggle */}
+						<ThemeToggle />
 					</div>
 				</div>
 				<div className="mx-4 h-10 max-w-7xl border-stroke-soft-100 border-r border-l md:mx-auto md:h-16" />

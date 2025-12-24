@@ -46,10 +46,8 @@ export default function ContactPage() {
 									/>
 								</div>
 								<div>
-									<h3 className="font-medium text-text-strong-950">
-										Chat to us
-									</h3>
-									<p className="text-sm text-text-sub-600">
+									<h3 className="font-medium text-text-sub-600">Chat to us</h3>
+									<p className="text-sm text-text-strong-950">
 										hello@verifio.email
 									</p>
 								</div>
@@ -58,7 +56,7 @@ export default function ContactPage() {
 							{/* Call us */}
 							<a
 								href="tel:+995555555555"
-								className="flex items-center gap-4 border-stroke-soft-100 border-b px-4 py-4 transition-colors hover:bg-bg-weak-50 md:border-b-0 md:p-6"
+								className="flex items-center gap-4 border-stroke-soft-100 border-b px-4 py-4 transition-colors hover:bg-bg-weak-50 md:p-6"
 							>
 								<div className="flex size-10 items-center justify-center rounded-full bg-primary-100">
 									<Icon
@@ -67,8 +65,10 @@ export default function ContactPage() {
 									/>
 								</div>
 								<div>
-									<h3 className="font-medium text-text-strong-950">Call us</h3>
-									<p className="text-sm text-text-sub-600">(+91) 7411367725</p>
+									<h3 className="font-medium text-text-sub-600">Call us</h3>
+									<p className="text-sm text-text-strong-950">
+										(+91) 7411367725
+									</p>
 								</div>
 							</a>
 						</div>
