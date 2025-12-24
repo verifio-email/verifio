@@ -121,11 +121,11 @@ export const NewsletterSignup = () => {
                             type="submit"
                             variant="neutral"
                             size="small"
-                            className="shrink-0 min-w-[90px]"
+                            className="min-w-[90px] shrink-0"
                             disabled={isSubmitting}
                         >
                             {isSubmitting ? (
-                                <Spinner />
+                                <Spinner size={16} />
                             ) : (
                                 "Subscribe"
                             )}
