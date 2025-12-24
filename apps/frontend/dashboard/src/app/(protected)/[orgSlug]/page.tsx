@@ -1,8 +1,8 @@
 "use client";
 
-import { ApiKeyDisplay } from "@fe/dashboard/components/api-key-display";
+import { DashboardStatsSection } from "@fe/dashboard/components/dashboard-stats";
 import { ExploreEndpointsSection } from "@fe/dashboard/components/explore-endpoints";
-import { ScrapedPagesChart } from "@fe/dashboard/components/scraped-pages-chart";
+import { IntegrationsExamplesSection } from "@fe/dashboard/components/integrations-examples";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
 
 const endpoints = [
@@ -42,17 +42,20 @@ export default function Home() {
 
 	return (
 		<div className="flex-1 overflow-y-auto">
-			<div>
-				<ExploreEndpointsSection
-					endpoints={endpoints}
-					orgSlug={activeOrganization.slug}
-				/>
-			</div>
+			{/* Explore Endpoints Section */}
+			<ExploreEndpointsSection
+				endpoints={endpoints}
+				orgSlug={activeOrganization.slug}
+			/>
 
-			<div className="grid grid-cols-1 gap-6 p-6 lg:grid-cols-2">
-				<ScrapedPagesChart />
-				<ApiKeyDisplay />
-			</div>
+			{/* Dashboard Stats Section */}
+			<DashboardStatsSection />
+
+			{/* Blank space before Integrations */}
+			<div className="h-16 border-stroke-soft-200 border-b" />
+
+			{/* Integrations and Example Projects Section */}
+			<IntegrationsExamplesSection />
 		</div>
 	);
 }

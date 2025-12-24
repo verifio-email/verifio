@@ -31,7 +31,7 @@ export const GlobalNavbar = () => {
 	};
 
 	return (
-		<nav className="sticky top-0 z-20 flex h-16 w-full items-center justify-between border-stroke-soft-200 border-b px-4">
+		<nav className="sticky top-0 z-20 flex h-16 w-full items-center justify-between border-stroke-soft-200 border-b bg-bg-white-0 px-4">
 			{/* Left: Organization Switcher */}
 			<div className="flex items-center gap-4">
 				<OrganizationSwitcher

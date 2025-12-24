@@ -97,7 +97,7 @@ export const OrganizationSwitcher: React.FC<OrganizationSwitcherProps> = ({
 				</Dropdown.Trigger>
 				<Dropdown.Content
 					sideOffset={8}
-					className="w-64 overflow-hidden rounded-2xl border border-stroke-soft-200 bg-white p-0"
+					className="w-64 overflow-hidden rounded-2xl border border-stroke-soft-200 p-0"
 					style={{
 						boxShadow:
 							"rgba(0, 0, 0, 0.08) 0px 12px 24px, rgba(0, 0, 0, 0.04) 0px 4px 8px",
@@ -137,7 +137,7 @@ export const OrganizationSwitcher: React.FC<OrganizationSwitcherProps> = ({
 			</Dropdown.Trigger>
 			<Dropdown.Content
 				sideOffset={8}
-				className="w-64 overflow-hidden rounded-2xl border border-stroke-soft-200 bg-white p-0"
+				className="w-64 overflow-hidden rounded-2xl border border-stroke-soft-200 p-0"
 				style={{
 					boxShadow:
 						"rgba(0, 0, 0, 0.08) 0px 12px 24px, rgba(0, 0, 0, 0.04) 0px 4px 8px",
