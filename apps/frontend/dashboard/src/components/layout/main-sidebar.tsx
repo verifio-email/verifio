@@ -1,7 +1,6 @@
 "use client";
 
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
-import * as Button from "@verifio/ui/button";
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
 import { Logo } from "@verifio/ui/logo";
@@ -45,10 +44,10 @@ export const MainSidebar: React.FC<MainSidebarProps> = ({ className }) => {
 		<motion.div
 			className={cn(
 				"sticky top-0 z-10 flex h-screen flex-col border-stroke-soft-200 border-r",
-				isSidebarCollapsed ? "w-14" : "w-64",
+				isSidebarCollapsed ? "w-20" : "w-64",
 				className,
 			)}
-			animate={{ width: isSidebarCollapsed ? 56 : 255 }}
+			animate={{ width: isSidebarCollapsed ? 64 : 255 }}
 			transition={{ duration: 0.2, ease: "easeInOut" }}
 		>
 			{/* Header - Logo and App Name */}
@@ -114,10 +113,13 @@ export const MainSidebar: React.FC<MainSidebarProps> = ({ className }) => {
 				/>
 			</div>
 
+			{/* Divider */}
+			<div className="border-stroke-soft-200 border-b" />
+
 			{/* Bottom Section - User Menu and Collapse */}
 			<div>
 				{/* User Menu */}
-				<div className="px-3 pb-2">
+				<div className="p-2">
 					<UserMenuDropdown
 						user={user}
 						organizationSlug={activeOrganization.slug}
@@ -126,35 +128,38 @@ export const MainSidebar: React.FC<MainSidebarProps> = ({ className }) => {
 				</div>
 
 				{/* Collapse Button */}
-				<div className="border-stroke-soft-200 border-t px-3 py-2">
-					<Button.Root
-						mode="ghost"
-						size="small"
+				<div className="shrink-0 border-stroke-soft-200 border-t px-2 py-2">
+					<button
+						type="button"
 						onClick={toggleSidebarCollapse}
 						className={cn(
-							"flex w-full items-center gap-2 text-text-sub-600",
-							isSidebarCollapsed ? "justify-center" : "justify-start px-2",
+							"flex h-10 w-full cursor-pointer items-center rounded-xl transition-all",
+							"bg-neutral-alpha-10 hover:bg-neutral-alpha-16 active:scale-[0.98]",
+							"text-text-sub-600 hover:text-text-strong-950",
+							isSidebarCollapsed ? "justify-center" : "justify-start",
 						)}
 						title={isSidebarCollapsed ? "Expand" : "Collapse"}
 					>
-						<Icon
-							name={isSidebarCollapsed ? "chevron-right" : "chevron-left"}
-							className="h-4 w-4 shrink-0"
-						/>
+						<div className="flex h-10 w-10 shrink-0 items-center justify-center">
+							<Icon
+								name={isSidebarCollapsed ? "chevron-right" : "chevron-left"}
+								className="h-5 w-5"
+							/>
+						</div>
 						<AnimatePresence mode="wait">
 							{!isSidebarCollapsed && (
 								<motion.span
-									className="text-sm"
-									initial={{ opacity: 0, x: -10 }}
-									animate={{ opacity: 1, x: 0 }}
-									exit={{ opacity: 0, x: -10 }}
+									className="pr-3 font-medium text-sm"
+									initial={{ opacity: 0 }}
+									animate={{ opacity: 1 }}
+									exit={{ opacity: 0 }}
 									transition={{ duration: 0.15 }}
 								>
 									Collapse
 								</motion.span>
 							)}
 						</AnimatePresence>
-					</Button.Root>
+					</button>
 				</div>
 			</div>
 		</motion.div>

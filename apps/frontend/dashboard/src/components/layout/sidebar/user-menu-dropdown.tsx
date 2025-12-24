@@ -43,7 +43,7 @@ const UserAvatar = ({
 			<img
 				src={image}
 				alt={name || email}
-				className="shrink-0 rounded-full object-cover"
+				className="shrink-0 rounded-md object-cover"
 				style={{ width: size, height: size }}
 			/>
 		);
@@ -51,7 +51,7 @@ const UserAvatar = ({
 
 	return (
 		<div
-			className="flex shrink-0 items-center justify-center rounded-full bg-primary-base font-medium text-white"
+			className="flex shrink-0 items-center justify-center rounded-md bg-primary-base font-medium text-white"
 			style={{
 				width: size,
 				height: size,
