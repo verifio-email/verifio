@@ -3,6 +3,7 @@
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import * as Button from "@verifio/ui/button";
 import * as Input from "@verifio/ui/input";
+import Spinner from "@verifio/ui/spinner";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import type { Resolver } from "react-hook-form";
@@ -120,10 +121,14 @@ export const NewsletterSignup = () => {
                             type="submit"
                             variant="neutral"
                             size="small"
-                            className="shrink-0"
+                            className="shrink-0 min-w-[90px]"
                             disabled={isSubmitting}
                         >
-                            {isSubmitting ? "..." : "Subscribe"}
+                            {isSubmitting ? (
+                                <Spinner />
+                            ) : (
+                                "Subscribe"
+                            )}
                         </Button.Root>
                     </div>
                     {errors.email && (
