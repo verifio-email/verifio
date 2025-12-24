@@ -1,62 +1,81 @@
-import { Logo } from "@verifio/ui/logo";
+import * as Button from "@verifio/ui/button";
+import * as Input from "@verifio/ui/input";
+import { LogoName } from "@verifio/ui/logo";
 import Link from "next/link";
 
 const links = [
 	{
-		group: "Product",
+		group: "Solutions",
 		items: [
 			{
-				title: "Campaigns",
-				href: "/product/campaigns",
+				title: "Bulk Email Verification",
+				href: "/solutions/bulk-email-verification",
 			},
 			{
-				title: "Email Analytics",
-				href: "/product/email-analytics",
+				title: "Single Email Checker",
+				href: "/tools/email-checker",
 			},
 			{
-				title: "Transaction Emails",
-				href: "/product/transaction-emails",
+				title: "Real-time API",
+				href: "/solutions/real-time-api",
 			},
 			{
-				title: "Email Validation",
-				href: "/product/email-validation",
+				title: "Integrations",
+				href: "/integrations",
 			},
 			{
-				title: "Email Templates",
-				href: "/product/email-templates",
-			},
-			{
-				title: "Deliverability",
-				href: "/product/deliverability",
+				title: "Email Finder",
+				href: "/tools/email-finder",
 			},
 		],
 	},
 	{
-		group: "Platform",
+		group: "Developers",
 		items: [
 			{
-				title: "Getting Started",
-				href: "/docs/getting-started",
+				title: "Documentation",
+				href: "/docs",
 			},
 			{
 				title: "API Reference",
 				href: "/docs/api-reference",
 			},
 			{
-				title: "Campaign Builder",
-				href: "/docs/campaign-builder",
-			},
-			{
-				title: "Integration",
-				href: "/docs/integration",
+				title: "SDKs & Libraries",
+				href: "/docs/sdks",
 			},
 			{
 				title: "Webhooks",
 				href: "/docs/webhooks",
 			},
 			{
-				title: "SDKs",
-				href: "/docs/SDKs",
+				title: "Changelog",
+				href: "/changelog",
+			},
+		],
+	},
+	{
+		group: "Resources",
+		items: [
+			{
+				title: "Email Verification Guide",
+				href: "/resources/email-verification-guide",
+			},
+			{
+				title: "Blog",
+				href: "/blog",
+			},
+			{
+				title: "Pricing",
+				href: "/pricing",
+			},
+			{
+				title: "Compare Verifio",
+				href: "/compare",
+			},
+			{
+				title: "Status",
+				href: "/status",
 			},
 		],
 	},
@@ -65,56 +84,23 @@ const links = [
 		items: [
 			{
 				title: "About Us",
-				href: "/company/about-us",
+				href: "/about",
 			},
 			{
-				title: "Blog",
-				href: "/company/blog",
-			},
-			{
-				title: "Contact Us",
-				href: "/company/contact-us",
-			},
-			{
-				title: "Why Verifio",
-				href: "/philosophy/why-verifio",
-			},
-			{
-				title: "Why Open-source",
-				href: "/philosophy/why-open-source",
-			},
-			{
-				title: "Changelog",
-				href: "/resources/changelog",
-			},
-		],
-	},
-	{
-		group: "Legal",
-		items: [
-			{
-				title: "Terms and Conditions",
-				href: "/company/terms-and-conditions",
+				title: "Contact",
+				href: "/contact",
 			},
 			{
 				title: "Privacy Policy",
-				href: "/company/privacy",
+				href: "/privacy",
 			},
 			{
-				title: "License",
-				href: "/company/license",
+				title: "Terms of Service",
+				href: "/terms",
 			},
 			{
-				title: "Self-hosting Guide",
-				href: "/resources/self-hosting-guide",
-			},
-			{
-				title: "Status",
-				href: "/resources/status",
-			},
-			{
-				title: "Community",
-				href: "/resources/community",
+				title: "GDPR Compliance",
+				href: "/gdpr",
 			},
 		],
 	},
@@ -134,37 +120,50 @@ export const Footer = () => {
 						</span>
 					</div>
 					<div className="grid grid-cols-1 gap-0 md:grid-cols-2">
-						<div className="border-stroke-soft-100 px-6 py-12 md:border-r">
+						<div className="border-stroke-soft-100 px-10 py-12 md:border-r">
 							<div className="flex items-center gap-3">
-								<Logo className="h-20 w-20 rounded-full" />
-								<span className="-ml-4 font-semibold text-text-strong-950 text-xl">
-									Verifio
-								</span>
+								<LogoName className="h-10 rounded-full" />
 							</div>
-							<p className="max-w-xs pl-5 font-medium text-text-sub-600">
-								The easiest way to manage transaction and marketing emails at
-								scale
+							<p className="max-w-xs pt-8 font-medium">
+								Verify emails at scale with 99% accuracy. Reduce bounces,
+								protect your sender reputation.
 							</p>
 						</div>
 
 						<div>
-							<div className="border-stroke-soft-100 border-b p-8">
-								<p className="mb-4 text-sm text-text-sub-600">Not Backed by</p>
-								<div className="flex items-center gap-3">
-									<div className="flex h-10 w-10 items-center justify-center rounded bg-orange-500">
-										<span className="font-bold text-lg text-white">Y</span>
-									</div>
-									<span className="font-semibold text-base text-text-strong-950">
-										Y Combinator
-									</span>
+							{/* Newsletter Signup */}
+							<div className="border-stroke-soft-100 border-b p-6">
+								<p className="font-medium text-sm text-text-strong-950">
+									Stay updated
+								</p>
+								<p className="mt-1 text-text-sub-600 text-xs">
+									Get email deliverability tips & product updates
+								</p>
+								<div className="mt-4 flex gap-2">
+									<Input.Root size="small" className="min-w-0 flex-1">
+										<Input.Wrapper>
+											<Input.Input
+												type="email"
+												placeholder="Enter your email"
+											/>
+										</Input.Wrapper>
+									</Input.Root>
+									<Button.Root
+										type="button"
+										variant="neutral"
+										size="small"
+										className="shrink-0"
+									>
+										Subscribe
+									</Button.Root>
 								</div>
 							</div>
 							<div className="grid grid-cols-2">
 								<Link
-									href="https://linkedin.com/company/verifiohq"
+									href="https://linkedin.com/company/reloop"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="flex items-center gap-3 border-stroke-soft-100 border-r border-b p-4 text-sm text-text-sub-600 transition-colors hover:text-text-strong-950"
+									className="flex items-center gap-3 border-stroke-soft-100 border-r border-b p-4 text-sm text-text-sub-600 transition-colors hover:text-primary-base"
 								>
 									<svg
 										className="size-5"
@@ -184,7 +183,7 @@ export const Footer = () => {
 									href="https://x.com/verifiohq"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="flex items-center gap-3 border-stroke-soft-100 border-r border-b p-4 text-sm text-text-sub-600 transition-colors hover:text-text-strong-950"
+									className="flex items-center gap-3 border-stroke-soft-100 border-r border-b p-4 text-sm text-text-sub-600 transition-colors hover:text-primary-base"
 								>
 									<svg
 										className="size-5"
@@ -198,13 +197,13 @@ export const Footer = () => {
 											d="M10.488 14.651L15.25 21h7l-7.858-10.478L20.93 3h-2.65l-5.117 5.886L8.75 3h-7l7.51 10.015L2.32 21h2.65zM16.25 19L5.75 5h2l10.5 14z"
 										/>
 									</svg>
-									<span>X (Twitter)</span>
+									<span>X [Twitter]</span>
 								</Link>
 								<Link
 									href="https://github.com/reloop-labs/verifio"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="flex items-center gap-3 border-stroke-soft-100 border-r p-4 text-sm text-text-sub-600 transition-colors hover:text-text-strong-950"
+									className="flex items-center gap-3 border-stroke-soft-100 border-r p-4 text-sm text-text-sub-600 transition-colors hover:text-primary-base"
 								>
 									<svg
 										className="size-5"
@@ -224,7 +223,7 @@ export const Footer = () => {
 									href="https://discord.gg/verifio"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="flex items-center gap-3 border-stroke-soft-100 border-r p-4 text-sm text-text-sub-600 transition-colors hover:text-text-strong-950"
+									className="flex items-center gap-3 border-stroke-soft-100 border-r p-4 text-sm text-text-sub-600 transition-colors hover:text-primary-base"
 								>
 									<svg
 										className="size-5"
@@ -250,9 +249,8 @@ export const Footer = () => {
 						{links.map((link, index) => (
 							<div
 								key={index}
-								className={`border-stroke-soft-100 ${
-									index < links.length - 1 ? "border-r" : ""
-								}`}
+								className={`border-stroke-soft-100 ${index < links.length - 1 ? "border-r" : ""
+									}`}
 							>
 								<div className="space-y-0">
 									<span className="block border-stroke-soft-100 border-b px-6 py-6 font-medium text-sm text-text-strong-950">
@@ -262,9 +260,8 @@ export const Footer = () => {
 										{link.items.map((item, itemIndex) => (
 											<div
 												key={itemIndex}
-												className={`border-stroke-soft-100 px-6 ${
-													itemIndex < link.items.length - 1 ? "border-b" : ""
-												}`}
+												className={`border-stroke-soft-100 px-6 ${itemIndex < link.items.length - 1 ? "border-b" : ""
+													}`}
 											>
 												<Link
 													href={item.href}
