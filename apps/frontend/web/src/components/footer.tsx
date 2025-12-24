@@ -111,19 +111,19 @@ export const Footer = () => {
 	return (
 		<footer>
 			<div className="border-stroke-soft-100 border-b border-t">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
-					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
-						<span className="text-sm text-text-sub-600">Footer</span>
-						<span className="text-sm text-text-sub-600">
+				<div className="mx-4 max-w-7xl border-stroke-soft-100 border-r border-l md:mx-auto">
+					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-4 py-2 md:px-10 md:py-4">
+						<span className="text-xs text-text-sub-600 md:text-sm">Footer</span>
+						<span className="text-xs text-text-sub-600 md:text-sm">
 							/ Socials + Resources
 						</span>
 					</div>
 					<div className="grid grid-cols-1 gap-0 md:grid-cols-2">
-						<div className="border-stroke-soft-100 px-10 py-10 md:border-r">
+						<div className="border-stroke-soft-100 px-4 py-6 md:border-r md:px-10 md:py-10">
 							<div className="flex items-center gap-3">
-								<LogoName className="h-10 rounded-full" />
+								<LogoName className="h-8 rounded-full md:h-10" />
 							</div>
-							<p className="max-w-xs pt-8 font-medium">
+							<p className="max-w-xs pt-6 text-sm font-medium md:pt-8 md:text-base">
 								Verify emails at scale with 99% accuracy. Reduce bounces,
 								protect your sender reputation.
 							</p>
@@ -137,10 +137,10 @@ export const Footer = () => {
 									href="https://linkedin.com/company/reloop"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="flex items-center gap-3 border-stroke-soft-100 border-r border-b p-4 text-sm text-text-sub-600 transition-colors hover:text-primary-base"
+									className="flex items-center gap-2 border-stroke-soft-100 border-r border-b p-3 text-xs text-text-sub-600 transition-colors hover:text-primary-base md:gap-3 md:p-4 md:text-sm"
 								>
 									<svg
-										className="size-5"
+										className="size-4 md:size-5"
 										xmlns="http://www.w3.org/2000/svg"
 										width="1em"
 										height="1em"
@@ -157,10 +157,10 @@ export const Footer = () => {
 									href="https://x.com/verifiohq"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="flex items-center gap-3 border-stroke-soft-100 border-b p-4 text-sm text-text-sub-600 transition-colors hover:text-primary-base"
+									className="flex items-center gap-2 border-stroke-soft-100 border-b p-3 text-xs text-text-sub-600 transition-colors hover:text-primary-base md:gap-3 md:p-4 md:text-sm"
 								>
 									<svg
-										className="size-5"
+										className="size-4 md:size-5"
 										xmlns="http://www.w3.org/2000/svg"
 										width="1em"
 										height="1em"
@@ -177,10 +177,10 @@ export const Footer = () => {
 									href="https://github.com/reloop-labs/verifio"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="flex items-center gap-3 border-stroke-soft-100 border-r p-4 text-sm text-text-sub-600 transition-colors hover:text-primary-base"
+									className="flex items-center gap-2 border-stroke-soft-100 border-r p-3 text-xs text-text-sub-600 transition-colors hover:text-primary-base md:gap-3 md:p-4 md:text-sm"
 								>
 									<svg
-										className="size-5"
+										className="size-4 md:size-5"
 										xmlns="http://www.w3.org/2000/svg"
 										width="1em"
 										height="1em"
@@ -197,10 +197,10 @@ export const Footer = () => {
 									href="https://discord.gg/verifio"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="flex items-center gap-3 border-stroke-soft-100 p-4 text-sm text-text-sub-600 transition-colors hover:text-primary-base"
+									className="flex items-center gap-2 border-stroke-soft-100 p-3 text-xs text-text-sub-600 transition-colors hover:text-primary-base md:gap-3 md:p-4 md:text-sm"
 								>
 									<svg
-										className="size-5"
+										className="size-4 md:size-5"
 										xmlns="http://www.w3.org/2000/svg"
 										width="1em"
 										height="1em"
@@ -217,29 +217,29 @@ export const Footer = () => {
 						</div>
 					</div>
 				</div>
-				<div className="mx-auto h-16 max-w-7xl border border-stroke-soft-100" />
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
-					<div className="grid grid-cols-1 gap-0 border-stroke-soft-100 sm:grid-cols-2 md:grid-cols-4">
+				<div className="mx-4 h-10 max-w-7xl border border-stroke-soft-100 md:mx-auto md:h-16" />
+				<div className="mx-4 max-w-7xl border-stroke-soft-100 border-r border-l md:mx-auto">
+					<div className="grid grid-cols-2 gap-0 border-stroke-soft-100 md:grid-cols-4">
 						{links.map((link, index) => (
 							<div
 								key={index}
-								className={`border-stroke-soft-100 ${index < links.length - 1 ? "border-r" : ""
-									}`}
+								className={`border-stroke-soft-100 ${index % 2 !== 1 ? "border-r" : ""} ${index < 2 ? "border-b md:border-b-0" : ""} ${index < links.length - 1 ? "md:border-r" : "md:border-r-0"}`}
 							>
 								<div className="space-y-0">
-									<span className="block border-stroke-soft-100 border-b px-6 py-6 font-medium text-sm text-text-strong-950">
+									<span className="block border-stroke-soft-100 border-b px-4 py-4 font-medium text-xs text-text-strong-950 md:px-6 md:py-6 md:text-sm">
 										{link.group}
 									</span>
 									<div className="space-y-0">
 										{link.items.map((item, itemIndex) => (
 											<div
 												key={itemIndex}
-												className={`border-stroke-soft-100 px-6 ${itemIndex < link.items.length - 1 ? "border-b" : ""
-													}`}
+												className={`border-stroke-soft-100 px-4 md:px-6 ${
+													itemIndex < link.items.length - 1 ? "border-b" : ""
+												}`}
 											>
 												<Link
 													href={item.href}
-													className="block py-3 text-[13px] text-text-sub-600 transition-colors duration-150 hover:text-text-strong-950"
+													className="block py-2 text-xs text-text-sub-600 transition-colors duration-150 hover:text-text-strong-950 md:py-3 md:text-[13px]"
 												>
 													{item.title}
 												</Link>
@@ -253,22 +253,22 @@ export const Footer = () => {
 				</div>
 
 				{/* Lower Footer Section - Copyright, Status, Legal */}
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-t border-r border-b border-l">
-					<div className="flex flex-col items-start justify-between gap-4 px-6 py-6 sm:flex-row sm:items-center">
-						<div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-							<span className="text-sm text-text-sub-600">
+				<div className="mx-4 max-w-7xl border-stroke-soft-100 border-t border-r border-b border-l md:mx-auto">
+					<div className="flex flex-col items-start justify-between gap-3 px-4 py-4 sm:flex-row sm:items-center md:gap-4 md:px-6 md:py-6">
+						<div className="flex gap-2 items-center md:gap-3">
+							<span className="text-xs text-text-sub-600 md:text-sm">
 								© {currentYear} Verifio
 							</span>
 							<div className="flex items-center gap-2">
 								<div className="size-2 rounded-full bg-primary-base" />
-								<span className="text-sm text-text-sub-600">
+								<span className="text-xs text-text-sub-600 md:text-sm">
 									All systems normal
 								</span>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div className="mx-auto h-16 max-w-7xl border-stroke-soft-100 border-r border-l" />
+				<div className="mx-4 h-10 max-w-7xl border-stroke-soft-100 border-r border-l md:mx-auto md:h-16" />
 			</div>
 		</footer>
 	);
