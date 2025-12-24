@@ -2,32 +2,34 @@
 
 import { Icon } from "@verifio/ui/icon";
 
-const LogsPage = () => {
+const BulkPage = () => {
 	return (
 		<div className="flex-1 overflow-y-auto p-8">
 			{/* Header */}
 			<div className="mb-8">
-				<h1 className="font-semibold text-2xl text-text-strong-950">Logs</h1>
+				<h1 className="font-semibold text-2xl text-text-strong-950">
+					Bulk Verification
+				</h1>
 				<p className="mt-1 text-text-sub-600">
-					View your email verification history and logs
+					Upload and verify large email lists
 				</p>
 			</div>
 
 			{/* Content Placeholder */}
 			<div className="flex flex-col items-center justify-center rounded-xl border border-stroke-soft-200 border-dashed bg-bg-weak-50 py-16">
 				<div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary-alpha-10">
-					<Icon name="file-text" className="h-8 w-8 text-primary-base" />
+					<Icon name="layers" className="h-8 w-8 text-primary-base" />
 				</div>
 				<h2 className="mb-2 font-medium text-lg text-text-strong-950">
-					Verification Logs
+					Bulk Email Verification
 				</h2>
 				<p className="max-w-md text-center text-text-sub-600">
-					Track all your email verification requests and view detailed logs with
-					timestamps and results.
+					Upload a CSV or paste a list of emails to verify them all at once.
+					Perfect for cleaning up your email lists.
 				</p>
 			</div>
 		</div>
 	);
 };
 
-export default LogsPage;
+export default BulkPage;
