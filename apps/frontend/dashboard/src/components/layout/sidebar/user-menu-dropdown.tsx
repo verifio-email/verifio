@@ -133,7 +133,7 @@ export const UserMenuDropdown: React.FC<UserMenuDropdownProps> = ({
 			</Dropdown.Trigger>
 			<Dropdown.Content
 				sideOffset={0}
-				className="w-[232px] overflow-hidden rounded-2xl border border-stroke-soft-200 bg-white p-0"
+				className="w-[232px] overflow-hidden rounded-2xl border border-stroke-soft-200 p-0"
 				style={{
 					boxShadow:
 						"rgba(0, 0, 0, 0.08) 0px 12px 24px, rgba(0, 0, 0, 0.04) 0px 4px 8px",
