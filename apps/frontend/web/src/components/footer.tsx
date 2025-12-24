@@ -157,7 +157,7 @@ export const Footer = () => {
 									href="https://x.com/verifiohq"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="flex items-center gap-3 border-stroke-soft-100 border-r border-b p-4 text-sm text-text-sub-600 transition-colors hover:text-primary-base"
+									className="flex items-center gap-3 border-stroke-soft-100 border-b p-4 text-sm text-text-sub-600 transition-colors hover:text-primary-base"
 								>
 									<svg
 										className="size-5"
@@ -197,7 +197,7 @@ export const Footer = () => {
 									href="https://discord.gg/verifio"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="flex items-center gap-3 border-stroke-soft-100 border-r p-4 text-sm text-text-sub-600 transition-colors hover:text-primary-base"
+									className="flex items-center gap-3 border-stroke-soft-100 p-4 text-sm text-text-sub-600 transition-colors hover:text-primary-base"
 								>
 									<svg
 										className="size-5"
