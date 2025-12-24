@@ -97,10 +97,6 @@ const links = [
 				title: "Terms of Service",
 				href: "/terms",
 			},
-			{
-				title: "GDPR Compliance",
-				href: "/gdpr",
-			},
 		],
 	},
 ];

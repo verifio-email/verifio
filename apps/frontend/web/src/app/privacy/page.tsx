@@ -1,9 +1,7 @@
-import Link from "next/link";
-
 export default function PrivacyPage() {
 	return (
-		<div className="min-h-screen">
-			<section className="border-stroke-soft-100 border-b">
+		<div>
+			<section className="border-stroke-soft-100">
 				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[01] LEGAL</span>
@@ -20,7 +18,7 @@ export default function PrivacyPage() {
 				</div>
 			</section>
 
-			<section className="border-stroke-soft-100 border-b">
+			<section className="border-stroke-soft-100">
 				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
 					<div className="prose prose-gray max-w-none px-10 py-10">
 						<h2 className="font-semibold text-text-strong-950 text-xl">
@@ -65,11 +63,7 @@ export default function PrivacyPage() {
 						</h2>
 						<p className="mt-4 text-text-sub-600">
 							You have the right to access, correct, or delete your personal
-							data. For GDPR-specific rights, see our{" "}
-							<Link href="/gdpr" className="text-primary-500 hover:underline">
-								GDPR Compliance
-							</Link>{" "}
-							page.
+							data. Contact us to exercise these rights.
 						</p>
 
 						<h2 className="mt-10 font-semibold text-text-strong-950 text-xl">
@@ -87,6 +81,7 @@ export default function PrivacyPage() {
 					</div>
 				</div>
 			</section>
+			<div className="h-10 border-stroke-soft-100 border-t" />
 		</div>
 	);
 }
