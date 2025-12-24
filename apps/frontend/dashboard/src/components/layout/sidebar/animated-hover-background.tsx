@@ -1,109 +1,74 @@
 "use client";
 
 import { cn } from "@verifio/ui/cn";
-import { AnimatePresence, motion } from "motion/react";
+import { motion } from "motion/react";
 
 interface AnimatedHoverBackgroundProps {
-	rect: DOMRect | undefined;
-	tabElement: HTMLElement | undefined;
+	/** Position from top of container */
+	top: number;
+	/** Height of the indicator */
+	height: number;
+	/** Whether the indicator should be visible */
+	isVisible?: boolean;
+	/** Custom className */
 	className?: string;
+	/** Use danger color (red) */
 	isDanger?: boolean;
+	/** Use primary color instead of neutral */
 	isPrimary?: boolean;
-	/** When true, renders as active item indicator with spring animation */
+	/** When true, always visible (for active item indicator) */
 	isActive?: boolean;
+	/** Z-index for layering */
+	zIndex?: number;
 }
 
+/**
+ * Animated background indicator that slides smoothly between positions.
+ * Always stays mounted to enable smooth position transitions.
+ * Use isVisible to fade in/out without remounting.
+ */
 export const AnimatedHoverBackground: React.FC<
 	AnimatedHoverBackgroundProps
 > = ({
-	rect,
-	tabElement,
+	top,
+	height,
+	isVisible = true,
 	className,
 	isDanger = false,
 	isPrimary = false,
 	isActive = false,
+	zIndex = 0,
 }) => {
-	if (!rect || !tabElement) return null;
+	// Determine background color
+	const bgColor = isDanger
+		? "bg-red-alpha-10"
+		: isPrimary || isActive
+			? "bg-primary-alpha-10"
+			: "bg-neutral-alpha-10";
 
-	// Use offsetTop/offsetLeft for position relative to parent container
-	const left = tabElement.offsetLeft;
-	const top = tabElement.offsetTop;
+	// Active indicators are always visible
+	const shouldShow = isActive ? true : isVisible;
 
-	// Active indicator uses spring animation and doesn't fade in/out
-	if (isActive) {
-		return (
-			<motion.div
-				className={cn(
-					"pointer-events-none absolute top-0 left-0 origin-top rounded-xl",
-					isDanger
-						? "bg-red-alpha-10"
-						: isPrimary
-							? "bg-primary-alpha-10"
-							: "bg-primary-alpha-10",
-					className,
-				)}
-				initial={false}
-				animate={{
-					width: rect.width,
-					height: rect.height,
-					left,
-					top,
-					opacity: 1,
-				}}
-				transition={{
-					type: "spring",
-					stiffness: 500,
-					damping: 35,
-				}}
-			/>
-		);
-	}
-
-	// Hover indicator with fade animation
 	return (
-		<AnimatePresence>
-			{rect && (
-				<motion.div
-					className={cn(
-						"pointer-events-none absolute top-0 left-0 origin-top rounded-xl",
-						isDanger
-							? "bg-red-alpha-10"
-							: isPrimary
-								? "bg-primary-alpha-10"
-								: "bg-neutral-alpha-10",
-						className,
-					)}
-					initial={{
-						width: rect.width,
-						height: rect.height,
-						left,
-						top,
-						opacity: 0,
-						scale: 0.95,
-					}}
-					animate={{
-						width: rect.width,
-						height: rect.height,
-						left,
-						top,
-						opacity: 1,
-						scale: 1,
-					}}
-					exit={{
-						opacity: 0,
-						scale: 0.95,
-						width: rect.width,
-						height: rect.height,
-						left,
-						top,
-					}}
-					transition={{
-						type: "spring",
-						stiffness: 500,
-						damping: 35,
-					}}
-				/>
+		<motion.div
+			className={cn(
+				"pointer-events-none absolute right-0 left-0 rounded-xl",
+				bgColor,
+				className,
 			)}
-		</AnimatePresence>
+			initial={false}
+			animate={{
+				top,
+				height,
+				opacity: shouldShow ? 1 : 0,
+			}}
+			transition={{
+				type: "spring",
+				stiffness: 500,
+				damping: 35,
+				opacity: { duration: 0.15 },
+			}}
+			style={{ zIndex }}
+		/>
 	);
 };

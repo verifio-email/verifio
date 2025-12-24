@@ -7,7 +7,7 @@ import { cn } from "@verifio/ui/cn";
 import * as Dropdown from "@verifio/ui/dropdown";
 import { Icon } from "@verifio/ui/icon";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatedHoverBackground } from "./animated-hover-background";
 
 interface User {
@@ -69,14 +69,27 @@ export const UserMenuDropdown: React.FC<UserMenuDropdownProps> = ({
 	isCollapsed = false,
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
-	const [hoverIdx, setHoverIdx] = useState<number | undefined>(undefined);
-	const buttonRefs = useRef<HTMLButtonElement[]>([]);
+	const [hoverIdx, setHoverIdx] = useState<number | null>(null);
+	const [isHovering, setIsHovering] = useState(false);
+	const [hoverPos, setHoverPos] = useState({ top: 0, height: 36 });
+	const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
 	const router = useRouter();
 
-	const currentTab = buttonRefs.current[hoverIdx ?? -1];
-	const currentRect = currentTab?.getBoundingClientRect();
-	const hoveredItem = userNavigation[hoverIdx ?? -1];
+	const hoveredItem = hoverIdx !== null ? userNavigation[hoverIdx] : null;
 	const isDanger = hoveredItem?.variant === "danger";
+
+	// Update hover position when hoverIdx changes
+	useEffect(() => {
+		if (hoverIdx !== null) {
+			const hoverItem = buttonRefs.current[hoverIdx];
+			if (hoverItem) {
+				setHoverPos({
+					top: hoverItem.offsetTop,
+					height: hoverItem.offsetHeight,
+				});
+			}
+		}
+	}, [hoverIdx]);
 
 	const handleAction = async (
 		path: string,
@@ -100,7 +113,7 @@ export const UserMenuDropdown: React.FC<UserMenuDropdownProps> = ({
 				<Button.Root
 					mode="ghost"
 					className={cn(
-						"flex h-auto w-full cursor-pointer items-center gap-2 px-1.5 py-1.5",
+						"flex h-12 w-full cursor-pointer items-center gap-2 px-2 py-2",
 						isCollapsed ? "justify-center" : "justify-start",
 						isOpen && "bg-bg-weak-50",
 					)}
@@ -119,25 +132,39 @@ export const UserMenuDropdown: React.FC<UserMenuDropdownProps> = ({
 				</Button.Root>
 			</Dropdown.Trigger>
 			<Dropdown.Content
-				sideOffset={16}
-				className="w-64 p-0"
+				sideOffset={0}
+				className="w-[232px] overflow-hidden rounded-2xl border border-stroke-soft-200 bg-white p-0"
+				style={{
+					boxShadow:
+						"rgba(0, 0, 0, 0.08) 0px 12px 24px, rgba(0, 0, 0, 0.04) 0px 4px 8px",
+				}}
 				side="top"
 				align="start"
 			>
 				{/* Header */}
-				<div className="flex items-center justify-between border-stroke-soft-200 border-b px-4 py-3">
-					<p className="font-medium text-sm text-text-strong-950">Account</p>
+				<div className="flex items-center justify-between border-stroke-soft-200 border-b px-3 py-3">
+					<p className="text-sm text-text-soft-400">Account</p>
 					<button
 						type="button"
 						onClick={() => setIsOpen(false)}
-						className="flex h-6 w-6 items-center justify-center rounded text-text-sub-600 transition-colors hover:bg-bg-weak-50"
+						className="flex h-6 w-6 items-center justify-center rounded-md text-text-soft-400 transition-all hover:bg-neutral-alpha-10 hover:text-text-sub-600 active:scale-[0.98]"
 					>
-						<Icon name="close" className="h-4 w-4" />
+						<Icon name="cross" className="h-3 w-3" />
 					</button>
 				</div>
 
 				{/* Menu items */}
-				<div className="relative p-2">
+				<div className="relative space-y-0.5 p-2 px-1">
+					{/* Hover background */}
+					<AnimatedHoverBackground
+						top={hoverPos.top}
+						height={hoverPos.height}
+						isVisible={isHovering}
+						isDanger={isDanger}
+						zIndex={0}
+						className="right-2 left-2"
+					/>
+
 					{userNavigation.map(
 						(
 							{
@@ -155,44 +182,35 @@ export const UserMenuDropdown: React.FC<UserMenuDropdownProps> = ({
 							return (
 								<div key={path + label}>
 									{hasSeparatorAbove && (
-										<div className="my-2 border-stroke-soft-200" />
+										<div className="mx-0 my-1.5 h-px bg-stroke-soft-200" />
 									)}
 									<button
 										ref={(el) => {
-											if (el) {
-												buttonRefs.current[navIdx] = el;
-											}
+											buttonRefs.current[navIdx] = el;
 										}}
 										type="button"
-										onPointerEnter={() => setHoverIdx(navIdx)}
-										onPointerLeave={() => setHoverIdx(undefined)}
+										onMouseEnter={() => {
+											setHoverIdx(navIdx);
+											setIsHovering(true);
+										}}
+										onMouseLeave={() => {
+											setIsHovering(false);
+										}}
 										className={cn(
-											"flex w-full cursor-pointer items-center justify-start gap-2.5 rounded-lg px-3 py-2.5 font-normal transition-colors",
-											isItemDanger ? "text-red-500" : "text-text-strong-950",
-											!currentRect &&
-												hoverIdx === navIdx &&
-												(isItemDanger ? "bg-red-50" : "bg-bg-weak-50"),
+											"relative z-10 flex min-h-[36px] w-full cursor-pointer select-none items-center gap-2 rounded-xl px-2 py-1.5 text-sm outline-none transition-all active:scale-[0.98]",
+											isItemDanger
+												? "text-red-600/70 hover:text-red-600"
+												: "text-text-sub-600 hover:text-text-strong-950",
 										)}
 										onClick={() => handleAction(path, action, isExternal)}
 									>
-										<Icon
-											name={iconName}
-											className={cn(
-												"h-4 w-4",
-												isItemDanger ? "" : "text-text-sub-600",
-											)}
-										/>
-										<p className="text-sm">{label}</p>
+										<Icon name={iconName} className="h-4 w-4" />
+										<span>{label}</span>
 									</button>
 								</div>
 							);
 						},
 					)}
-					<AnimatedHoverBackground
-						rect={currentRect}
-						tabElement={currentTab}
-						isDanger={isDanger}
-					/>
 				</div>
 			</Dropdown.Content>
 		</Dropdown.Root>

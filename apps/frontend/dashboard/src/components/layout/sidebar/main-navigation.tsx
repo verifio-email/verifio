@@ -6,7 +6,7 @@ import { Icon } from "@verifio/ui/icon";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatedHoverBackground } from "./animated-hover-background";
 
 interface MainNavigationProps {
@@ -19,8 +19,13 @@ export const MainNavigation: React.FC<MainNavigationProps> = ({
 	isCollapsed = false,
 }) => {
 	const [hoverIdx, setHoverIdx] = useState<number | null>(null);
+	const [isHovering, setIsHovering] = useState(false);
 	const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 	const pathname = usePathname();
+
+	// Track positions for smooth animation
+	const [activePos, setActivePos] = useState({ top: 0, height: 40 });
+	const [hoverPos, setHoverPos] = useState({ top: 0, height: 40 });
 
 	const pathWithoutSlug = pathname.replace(/^\/[^/]+/, "") || "/";
 	const activeIndex = mainNavigation.findIndex((item) => {
@@ -28,32 +33,55 @@ export const MainNavigation: React.FC<MainNavigationProps> = ({
 		return pathWithoutSlug.startsWith(item.path);
 	});
 
-	// Get active tab element and rect
-	const activeTab = activeIndex >= 0 ? itemRefs.current[activeIndex] : null;
-	const activeRect = activeTab?.getBoundingClientRect();
+	// Update active position when activeIndex changes or on mount
+	useEffect(() => {
+		if (activeIndex >= 0) {
+			const activeItem = itemRefs.current[activeIndex];
+			if (activeItem) {
+				setActivePos({
+					top: activeItem.offsetTop,
+					height: activeItem.offsetHeight,
+				});
+			}
+		}
+	}, [activeIndex]);
 
-	// Get hover tab element and rect (only for non-active items)
-	const isHoveringNonActive = hoverIdx !== null && hoverIdx !== activeIndex;
-	const hoverTab = isHoveringNonActive ? itemRefs.current[hoverIdx] : null;
-	const hoverRect = hoverTab?.getBoundingClientRect();
+	// Update hover position when hoverIdx changes
+	useEffect(() => {
+		if (hoverIdx !== null && hoverIdx !== activeIndex) {
+			const hoverItem = itemRefs.current[hoverIdx];
+			if (hoverItem) {
+				setHoverPos({
+					top: hoverItem.offsetTop,
+					height: hoverItem.offsetHeight,
+				});
+			}
+		}
+	}, [hoverIdx, activeIndex]);
 
 	const isActive = (index: number) => index === activeIndex;
+	const showHoverIndicator =
+		isHovering && hoverIdx !== null && hoverIdx !== activeIndex;
 
 	return (
 		<div className="relative">
 			{/* Active item sliding background - primary color */}
-			<AnimatedHoverBackground
-				rect={activeRect}
-				tabElement={activeTab ?? undefined}
-				isActive={true}
-				isPrimary={true}
-			/>
+			{activeIndex >= 0 && (
+				<AnimatedHoverBackground
+					top={activePos.top}
+					height={activePos.height}
+					isActive={true}
+					isPrimary={true}
+					zIndex={1}
+				/>
+			)}
 
-			{/* Hover preview background - neutral color */}
+			{/* Hover preview background - neutral color - slides smoothly */}
 			<AnimatedHoverBackground
-				rect={hoverRect}
-				tabElement={hoverTab ?? undefined}
-				isActive={false}
+				top={hoverPos.top}
+				height={hoverPos.height}
+				isVisible={showHoverIndicator}
+				zIndex={0}
 			/>
 
 			{/* Navigation items */}
@@ -73,8 +101,13 @@ export const MainNavigation: React.FC<MainNavigationProps> = ({
 									ref={(el) => {
 										itemRefs.current[index] = el;
 									}}
-									onPointerEnter={() => setHoverIdx(index)}
-									onPointerLeave={() => setHoverIdx(null)}
+									onMouseEnter={() => {
+										setHoverIdx(index);
+										setIsHovering(true);
+									}}
+									onMouseLeave={() => {
+										setIsHovering(false);
+									}}
 									className={cn(
 										"group relative flex h-10 w-full items-center gap-2 rounded-xl px-2 transition-all",
 										"active:scale-[0.98]",
