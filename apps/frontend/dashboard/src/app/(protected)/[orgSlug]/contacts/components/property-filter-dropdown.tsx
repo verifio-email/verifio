@@ -29,7 +29,6 @@ export const PropertyFilterDropdown = ({
 	const buttonRefs = useRef<HTMLButtonElement[]>([]);
 
 	const currentTab = buttonRefs.current[hoverIdx ?? -1];
-	const currentRect = currentTab?.getBoundingClientRect();
 
 	const activeFilterCount = value.length;
 	const hasActiveFilter = activeFilterCount > 0;
@@ -91,7 +90,6 @@ export const PropertyFilterDropdown = ({
 								className={cn(
 									"flex w-full cursor-pointer items-center gap-2 rounded-lg px-1 py-1.5 font-normal text-xs transition-colors",
 									"text-text-strong-950",
-									!currentRect && hoverIdx === idx && "bg-neutral-alpha-10",
 								)}
 							>
 								{/* Checkbox */}
@@ -111,7 +109,11 @@ export const PropertyFilterDropdown = ({
 							</button>
 						);
 					})}
-					<AnimatedHoverBackground rect={currentRect} tabElement={currentTab} />
+					<AnimatedHoverBackground
+						top={currentTab?.offsetTop ?? 0}
+						height={currentTab?.offsetHeight ?? 28}
+						isVisible={hoverIdx !== undefined}
+					/>
 				</div>
 			</Dropdown.Content>
 		</Dropdown.Root>

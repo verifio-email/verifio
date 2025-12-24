@@ -38,7 +38,6 @@ export const TopicDropdown = ({
 	const buttonRefs = useRef<HTMLButtonElement[]>([]);
 
 	const currentTab = buttonRefs.current[hoverIdx ?? -1];
-	const currentRect = currentTab?.getBoundingClientRect();
 
 	const handleOpenChange = (open: boolean) => {
 		setPopoverOpen(open);
@@ -119,7 +118,6 @@ export const TopicDropdown = ({
 							onClick={item.onClick}
 							className={cn(
 								"flex w-full cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 font-normal text-text-strong-950 text-xs transition-colors",
-								!currentRect && hoverIdx === idx && "bg-neutral-alpha-10",
 								item.className,
 							)}
 						>
@@ -127,7 +125,11 @@ export const TopicDropdown = ({
 							{item.label}
 						</button>
 					))}
-					<AnimatedHoverBackground rect={currentRect} tabElement={currentTab} />
+					<AnimatedHoverBackground
+						top={currentTab?.offsetTop ?? 0}
+						height={currentTab?.offsetHeight ?? 28}
+						isVisible={hoverIdx !== undefined}
+					/>
 				</div>
 			</PopoverContent>
 		</PopoverRoot>

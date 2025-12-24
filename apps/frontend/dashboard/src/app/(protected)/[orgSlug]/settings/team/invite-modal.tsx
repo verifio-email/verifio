@@ -51,7 +51,6 @@ export const InviteModal = ({ open, onOpenChange }: InviteModalProps) => {
 	const { data: session } = authClient.useSession();
 
 	const currentTab = itemRefs.current[hoverIdx ?? -1];
-	const currentRect = currentTab?.getBoundingClientRect();
 
 	// Fetch existing members
 	const { data: membersData } = useSWR(
@@ -392,9 +391,10 @@ export const InviteModal = ({ open, onOpenChange }: InviteModalProps) => {
 												</Select.Item>
 											))}
 											<AnimatedHoverBackground
-												rect={currentRect}
-												tabElement={currentTab}
-											/>
+												top={currentTab?.offsetTop ?? 0}
+												height={currentTab?.offsetHeight ?? 32}
+												isVisible={hoverIdx !== undefined}
+											/>{" "}
 										</div>
 									</Select.Content>
 								</Select.Root>

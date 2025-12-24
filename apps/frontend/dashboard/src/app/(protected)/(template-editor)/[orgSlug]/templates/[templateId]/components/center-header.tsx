@@ -76,7 +76,6 @@ const DomainDropdown = ({ value, onChange }: DomainDropdownProps) => {
 	// Use hover index if hovering, otherwise use selected index
 	const activeIdx = hoverIdx !== undefined ? hoverIdx : selectedIdx;
 	const currentTab = buttonRefs.current[activeIdx];
-	const currentRect = currentTab?.getBoundingClientRect();
 
 	const handleSelect = (domainValue: string) => {
 		onChange(domainValue);
@@ -137,7 +136,11 @@ const DomainDropdown = ({ value, onChange }: DomainDropdownProps) => {
 							)}
 						</button>
 					))}
-					<AnimatedHoverBackground rect={currentRect} tabElement={currentTab} />
+					<AnimatedHoverBackground
+						top={currentTab?.offsetTop ?? 0}
+						height={currentTab?.offsetHeight ?? 28}
+						isVisible={true}
+					/>
 				</div>
 			</Popover.Content>
 		</Popover.Root>
