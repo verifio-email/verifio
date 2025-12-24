@@ -1,14 +1,11 @@
 "use client";
 
 import { useOrgStore } from "@fe/dashboard/store/use-org-store";
-import { authClient } from "@verifio/auth/client";
-import * as Avatar from "@verifio/ui/avatar";
-import * as Button from "@verifio/ui/button";
 import { cn } from "@verifio/ui/cn";
+import * as Dropdown from "@verifio/ui/dropdown";
 import { Icon } from "@verifio/ui/icon";
-import * as Popover from "@verifio/ui/popover";
-import { useRef, useState } from "react";
-import { AnimatedHoverBackground } from "./animated-hover-background";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface Organization {
 	id: string;
@@ -25,6 +22,35 @@ interface OrganizationSwitcherProps {
 	side?: "bottom" | "right";
 }
 
+// Team Avatar - shows first letter with primary color
+const TeamAvatar = ({
+	name,
+	size = 20,
+	isActive = false,
+}: {
+	name: string;
+	size?: number;
+	isActive?: boolean;
+}) => {
+	const displayLetter = name?.charAt(0)?.toUpperCase() || "T";
+
+	return (
+		<span
+			className={cn(
+				"flex items-center justify-center rounded font-semibold text-white",
+				isActive ? "bg-primary-base" : "bg-primary-base",
+			)}
+			style={{
+				width: size,
+				height: size,
+				fontSize: size * 0.5,
+			}}
+		>
+			{displayLetter}
+		</span>
+	);
+};
+
 export const OrganizationSwitcher: React.FC<OrganizationSwitcherProps> = ({
 	organizations,
 	activeOrganization,
@@ -33,16 +59,8 @@ export const OrganizationSwitcher: React.FC<OrganizationSwitcherProps> = ({
 	side = "bottom",
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
-	const [hoverIdx, setHoverIdx] = useState<number | undefined>(undefined);
-	const buttonRefs = useRef<HTMLButtonElement[]>([]);
 	const { setState } = useOrgStore();
-
-	const activeIndex = organizations?.findIndex(
-		(org) => org.id === activeOrganization.id,
-	);
-	const currentIdx = hoverIdx !== undefined ? hoverIdx : activeIndex;
-	const currentTab = buttonRefs.current[currentIdx ?? -1];
-	const currentRect = currentTab?.getBoundingClientRect();
+	const router = useRouter();
 
 	const handleCreateOrganization = () => {
 		setState(true);
@@ -54,162 +72,188 @@ export const OrganizationSwitcher: React.FC<OrganizationSwitcherProps> = ({
 		setIsOpen(false);
 	};
 
+	const handleTeamSettings = () => {
+		router.push(`/${activeOrganization.slug}/settings/team`);
+		setIsOpen(false);
+	};
+
+	const handleInviteMembers = () => {
+		router.push(`/${activeOrganization.slug}/settings/team`);
+		setIsOpen(false);
+	};
+
+	// Collapsed state - just show icon
 	if (isCollapsed) {
 		return (
-			<Popover.Root open={isOpen} onOpenChange={setIsOpen}>
-				<Popover.Trigger asChild>
-					<Button.Root
-						mode="ghost"
-						size="xxsmall"
-						className="absolute left-2"
+			<Dropdown.Root open={isOpen} onOpenChange={setIsOpen}>
+				<Dropdown.Trigger asChild>
+					<button
+						type="button"
+						className="flex h-10 w-10 items-center justify-center rounded-xl bg-neutral-alpha-10 transition-all hover:bg-neutral-alpha-16 active:scale-[0.98]"
 						title={activeOrganization.name}
 					>
-						<Button.Icon>
-							<Icon name="building" className="h-4 w-4" />
-						</Button.Icon>
-					</Button.Root>
-				</Popover.Trigger>
-				<Popover.Content
-					sideOffset={2}
-					className="w-60 p-0"
+						<TeamAvatar name={activeOrganization.name} size={20} isActive />
+					</button>
+				</Dropdown.Trigger>
+				<Dropdown.Content
+					sideOffset={8}
+					className="w-64 overflow-hidden rounded-2xl border border-stroke-soft-200 bg-white p-0"
+					style={{
+						boxShadow:
+							"rgba(0, 0, 0, 0.08) 0px 12px 24px, rgba(0, 0, 0, 0.04) 0px 4px 8px",
+					}}
 					side="right"
 					align="start"
 				>
-					<OrganizationList
+					<TeamDropdownContent
 						organizations={organizations}
 						activeOrganization={activeOrganization}
-						hoverIdx={hoverIdx}
-						setHoverIdx={setHoverIdx}
-						buttonRefs={buttonRefs}
-						currentRect={currentRect}
-						currentTab={currentTab}
-						currentIdx={currentIdx}
 						onSelect={handleSelectOrganization}
 						onCreateNew={handleCreateOrganization}
+						onTeamSettings={handleTeamSettings}
+						onInviteMembers={handleInviteMembers}
+						onClose={() => setIsOpen(false)}
 					/>
-				</Popover.Content>
-			</Popover.Root>
+				</Dropdown.Content>
+			</Dropdown.Root>
 		);
 	}
 
 	return (
-		<Popover.Root open={isOpen} onOpenChange={setIsOpen}>
-			<Popover.Trigger asChild>
-				<Button.Root
-					mode="ghost"
-					size="xxsmall"
-					className="flex h-auto items-center gap-2 px-2 py-1"
+		<Dropdown.Root open={isOpen} onOpenChange={setIsOpen}>
+			<Dropdown.Trigger asChild>
+				<button
+					type="button"
+					className={cn(
+						"flex items-center gap-1.5 rounded-xl px-3 py-2 transition-all",
+						"bg-neutral-alpha-10 hover:bg-neutral-alpha-16 active:scale-[0.98]",
+						"text-text-strong-950",
+					)}
 				>
-					<div className="flex items-center gap-2">
-						<span className="font-medium text-sm text-text-strong-950">
-							{activeOrganization.name}
-						</span>
-					</div>
-					<Icon name="chevron-down" className="h-3 w-3" />
-				</Button.Root>
-			</Popover.Trigger>
-			<Popover.Content
-				sideOffset={2}
-				className="w-60 p-0"
+					<TeamAvatar name={activeOrganization.name} size={16} isActive />
+					<span className="font-medium text-sm">{activeOrganization.name}</span>
+					<Icon name="chevron-down" className="h-3 w-3 text-text-soft-400" />
+				</button>
+			</Dropdown.Trigger>
+			<Dropdown.Content
+				sideOffset={8}
+				className="w-64 overflow-hidden rounded-2xl border border-stroke-soft-200 bg-white p-0"
+				style={{
+					boxShadow:
+						"rgba(0, 0, 0, 0.08) 0px 12px 24px, rgba(0, 0, 0, 0.04) 0px 4px 8px",
+				}}
 				side={side}
 				align="start"
 			>
-				<OrganizationList
+				<TeamDropdownContent
 					organizations={organizations}
 					activeOrganization={activeOrganization}
-					hoverIdx={hoverIdx}
-					setHoverIdx={setHoverIdx}
-					buttonRefs={buttonRefs}
-					currentRect={currentRect}
-					currentTab={currentTab}
-					currentIdx={currentIdx}
 					onSelect={handleSelectOrganization}
 					onCreateNew={handleCreateOrganization}
+					onTeamSettings={handleTeamSettings}
+					onInviteMembers={handleInviteMembers}
+					onClose={() => setIsOpen(false)}
 				/>
-			</Popover.Content>
-		</Popover.Root>
+			</Dropdown.Content>
+		</Dropdown.Root>
 	);
 };
 
-interface OrganizationListProps {
+interface TeamDropdownContentProps {
 	organizations: Organization[] | undefined;
 	activeOrganization: Organization;
-	hoverIdx: number | undefined;
-	setHoverIdx: (idx: number | undefined) => void;
-	buttonRefs: React.MutableRefObject<HTMLButtonElement[]>;
-	currentRect: DOMRect | undefined;
-	currentTab: HTMLButtonElement | undefined;
-	currentIdx: number | undefined;
 	onSelect: (organization: Organization) => void;
 	onCreateNew: () => void;
+	onTeamSettings: () => void;
+	onInviteMembers: () => void;
+	onClose: () => void;
 }
 
-const OrganizationList: React.FC<OrganizationListProps> = ({
+const TeamDropdownContent: React.FC<TeamDropdownContentProps> = ({
 	organizations,
 	activeOrganization,
-	hoverIdx,
-	setHoverIdx,
-	buttonRefs,
-	currentRect,
-	currentTab,
-	currentIdx,
 	onSelect,
 	onCreateNew,
+	onTeamSettings,
+	onInviteMembers,
+	onClose,
 }) => {
 	if (!organizations) return null;
 
 	return (
-		<div className="relative p-2">
-			{organizations.map((organization, idx) => (
+		<>
+			{/* Header */}
+			<div className="flex items-center justify-between border-stroke-soft-200 border-b px-3 py-3">
+				<p className="text-sm text-text-soft-400">Teams</p>
 				<button
 					type="button"
-					ref={(el) => {
-						if (el) {
-							buttonRefs.current[idx] = el;
-						}
-					}}
-					key={organization.id}
-					onPointerEnter={() => setHoverIdx(idx)}
-					onPointerLeave={() => setHoverIdx(undefined)}
-					className={cn(
-						"flex w-full cursor-pointer items-center justify-start px-3 py-1.5 font-normal",
-						!currentRect &&
-							currentIdx === idx &&
-							"rounded-lg bg-neutral-alpha-10",
-					)}
-					onClick={() => onSelect(organization)}
+					onClick={onClose}
+					className="flex h-6 w-6 items-center justify-center rounded-md text-text-soft-400 transition-all hover:bg-neutral-alpha-10 hover:text-text-sub-600 active:scale-[0.98]"
 				>
-					<div className="flex flex-1 items-center gap-2">
-						<Avatar.Root color="purple" size="16" placeholderType="company" />
-						<p>{organization.name}</p>
-					</div>
-					{organization.id === activeOrganization.id && (
-						<Icon name="check" className="h-4 w-4" />
-					)}
+					<Icon name="cross" className="h-3 w-3" />
 				</button>
-			))}
-			<button
-				onPointerEnter={() => setHoverIdx(organizations.length)}
-				onPointerLeave={() => setHoverIdx(undefined)}
-				ref={(el) => {
-					if (el) {
-						buttonRefs.current[organizations.length] = el;
-					}
-				}}
-				key="create-organization"
-				type="button"
-				className={cn(
-					"flex w-full cursor-pointer items-center justify-start gap-2 px-3 py-1.5 font-normal",
-					!currentRect &&
-						currentIdx === organizations.length &&
-						"rounded-lg bg-neutral-alpha-10",
-				)}
-				onClick={onCreateNew}
-			>
-				<Icon name="plus-outline" className="h-4 w-4" />
-				<p className="text-sm">Create Organization</p>
-			</button>
-			<AnimatedHoverBackground rect={currentRect} tabElement={currentTab} />
-		</div>
+			</div>
+
+			{/* Teams List */}
+			<div className="space-y-0.5 p-2 pt-1 pb-2">
+				{organizations.map((organization) => {
+					const isActive = organization.id === activeOrganization.id;
+					return (
+						<button
+							type="button"
+							key={organization.id}
+							className={cn(
+								"flex min-h-[36px] w-full cursor-pointer select-none items-center gap-2 rounded-xl px-2 py-1.5 text-sm outline-none transition-all active:scale-[0.98]",
+								isActive
+									? "bg-primary-alpha-10 text-primary-darker"
+									: "text-text-sub-600 hover:bg-neutral-alpha-10 hover:text-text-strong-950",
+							)}
+							onClick={() => onSelect(organization)}
+						>
+							<TeamAvatar
+								name={organization.name}
+								size={20}
+								isActive={isActive}
+							/>
+							<span className="flex-1 text-left">{organization.name}</span>
+							{isActive && (
+								<div className="h-2 w-2 rounded-full bg-primary-base" />
+							)}
+						</button>
+					);
+				})}
+			</div>
+
+			{/* Divider */}
+			<div className="h-px bg-stroke-soft-200" />
+
+			{/* Action Buttons */}
+			<div className="space-y-0.5 p-2 pt-1 pb-2">
+				<button
+					type="button"
+					className="flex min-h-[36px] w-full cursor-pointer select-none items-center gap-2 rounded-xl px-2 py-1.5 text-sm text-text-sub-600 outline-none transition-all hover:bg-neutral-alpha-10 hover:text-text-strong-950 active:scale-[0.98]"
+					onClick={onCreateNew}
+				>
+					<Icon name="plus-outline" className="h-4 w-4" />
+					<span>New Team</span>
+				</button>
+				<button
+					type="button"
+					className="flex min-h-[36px] w-full cursor-pointer select-none items-center gap-2 rounded-xl px-2 py-1.5 text-sm text-text-sub-600 outline-none transition-all hover:bg-neutral-alpha-10 hover:text-text-strong-950 active:scale-[0.98]"
+					onClick={onTeamSettings}
+				>
+					<Icon name="gear" className="h-4 w-4" />
+					<span>Team Settings</span>
+				</button>
+				<button
+					type="button"
+					className="flex min-h-[36px] w-full cursor-pointer select-none items-center gap-2 rounded-xl px-2 py-1.5 text-sm text-text-sub-600 outline-none transition-all hover:bg-neutral-alpha-10 hover:text-text-strong-950 active:scale-[0.98]"
+					onClick={onInviteMembers}
+				>
+					<Icon name="users" className="h-4 w-4" />
+					<span>Invite Members</span>
+				</button>
+			</div>
+		</>
 	);
 };
