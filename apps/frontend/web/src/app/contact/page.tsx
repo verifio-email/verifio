@@ -33,7 +33,7 @@ export default function ContactPage() {
 						{/* Contact Info - Box Style */}
 						<div>
 							<h2 className="border-stroke-soft-100 border-b px-6 py-6 font-semibold text-text-strong-950 text-xl">
-								Get in touch
+								Contact Information
 							</h2>
 
 							{/* Chat to us */}

@@ -52,7 +52,7 @@ export function ContactForm() {
             scale: 1,
             transition: {
                 duration: 0.5,
-                ease: "easeOut",
+                ease: "easeOut" as const,
             },
         },
     };
@@ -65,7 +65,7 @@ export function ContactForm() {
             transition: {
                 duration: 0.5,
                 delay: 0.2,
-                ease: "easeOut",
+                ease: "easeOut" as const,
             },
         },
     };
