@@ -110,7 +110,7 @@ export const Footer = () => {
 
 	return (
 		<footer>
-			<div className="border-stroke-soft-100 border-b">
+			<div className="border-stroke-soft-100 border-b border-t">
 				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">Footer</span>
@@ -119,7 +119,7 @@ export const Footer = () => {
 						</span>
 					</div>
 					<div className="grid grid-cols-1 gap-0 md:grid-cols-2">
-						<div className="border-stroke-soft-100 px-10 py-12 md:border-r">
+						<div className="border-stroke-soft-100 px-10 py-10 md:border-r">
 							<div className="flex items-center gap-3">
 								<LogoName className="h-10 rounded-full" />
 							</div>
@@ -260,7 +260,7 @@ export const Footer = () => {
 								© {currentYear} Verifio
 							</span>
 							<div className="flex items-center gap-2">
-								<div className="size-2 rounded-full bg-blue-500" />
+								<div className="size-2 rounded-full bg-primary-base" />
 								<span className="text-sm text-text-sub-600">
 									All systems normal
 								</span>
