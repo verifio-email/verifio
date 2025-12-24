@@ -36,7 +36,7 @@ export default function ContactPage() {
 
 							{/* Chat to us */}
 							<a
-								href="mailto:hello@verifio.com"
+								href="mailto:hello@verifio.email"
 								className="flex items-center gap-4 border-stroke-soft-100 border-b px-4 py-4 transition-colors hover:bg-bg-weak-50 md:p-6"
 							>
 								<div className="flex size-10 items-center justify-center rounded-full bg-primary-100">
@@ -49,7 +49,9 @@ export default function ContactPage() {
 									<h3 className="font-medium text-text-strong-950">
 										Chat to us
 									</h3>
-									<p className="text-sm text-text-sub-600">hello@verifio.com</p>
+									<p className="text-sm text-text-sub-600">
+										hello@verifio.email
+									</p>
 								</div>
 							</a>
 
@@ -66,9 +68,7 @@ export default function ContactPage() {
 								</div>
 								<div>
 									<h3 className="font-medium text-text-strong-950">Call us</h3>
-									<p className="text-sm text-text-sub-600">
-										(+995) 555-55-55-55
-									</p>
+									<p className="text-sm text-text-sub-600">(+91) 7411367725</p>
 								</div>
 							</a>
 						</div>

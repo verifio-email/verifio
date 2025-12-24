@@ -14,7 +14,7 @@ const cardsData = [
 		iconBg: "bg-verified-base/20",
 		iconColor: "text-verified-base",
 		message: "Password reset instructions sent to",
-		highlight: "acma@verifio.com",
+		highlight: "acma@verifio.email",
 	},
 	{
 		id: 2,
@@ -25,7 +25,7 @@ const cardsData = [
 		iconBg: "bg-success-base/20",
 		iconColor: "text-success-base",
 		message: "Order confirmation sent to",
-		highlight: "acma@verifio.com",
+		highlight: "acma@verifio.email",
 	},
 	{
 		id: 3,
@@ -36,7 +36,7 @@ const cardsData = [
 		iconBg: "bg-information-base/20",
 		iconColor: "text-information-base",
 		message: "Account verification sent to",
-		highlight: "acma@verifio.com",
+		highlight: "acma@verifio.email",
 	},
 	{
 		id: 4,
@@ -47,7 +47,7 @@ const cardsData = [
 		iconBg: "bg-warning-base/20",
 		iconColor: "text-warning-base",
 		message: "Payment receipt sent to",
-		highlight: "acma@verifio.com",
+		highlight: "acma@verifio.email",
 	},
 ];
 

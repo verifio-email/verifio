@@ -86,7 +86,7 @@ const ApiReferencePage = () => {
 								# Send your first email
 							</div>
 							<div className="mt-2">
-								curl -X POST https://api.verifio.com/v1/emails \
+								curl -X POST https://api.verifio.email/v1/emails \
 							</div>
 							<div className="ml-4">-H "Content-Type: application/json" \</div>
 							<div className="ml-4">-d '{"{"}</div>

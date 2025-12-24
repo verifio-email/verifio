@@ -127,7 +127,7 @@ const GettingStartedPage = () => {
 										# Send email via REST API
 									</div>
 									<div className="mt-2">
-										curl -X POST https://api.verifio.com/v1/emails \<br />
+										curl -X POST https://api.verifio.email/v1/emails \<br />
 										&nbsp;&nbsp;-H "Authorization: Bearer YOUR_API_KEY" \<br />
 										&nbsp;&nbsp;-H "Content-Type: application/json" \<br />
 										&nbsp;&nbsp;-d '{"{"}

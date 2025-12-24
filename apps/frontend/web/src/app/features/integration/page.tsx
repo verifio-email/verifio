@@ -23,9 +23,9 @@ const IntegrationPage = () => {
 					Integration Guide
 				</h1>
 				<p className="mx-auto max-w-3xl text-text-sub-600 text-xl leading-8 md:text-2xl md:leading-9">
-					Integrate Verifio into your applications with our comprehensive guides,
-					SDKs, and examples. Get up and running in minutes with your preferred
-					programming language.
+					Integrate Verifio into your applications with our comprehensive
+					guides, SDKs, and examples. Get up and running in minutes with your
+					preferred programming language.
 				</p>
 				<div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
 					<Link
@@ -55,8 +55,8 @@ const IntegrationPage = () => {
 						Choose Your Integration Method
 					</h2>
 					<p className="mx-auto max-w-2xl text-lg text-text-sub-600 leading-7">
-						Multiple ways to integrate Verifio into your applications. Choose the
-						method that best fits your development workflow.
+						Multiple ways to integrate Verifio into your applications. Choose
+						the method that best fits your development workflow.
 					</p>
 				</div>
 
@@ -232,7 +232,7 @@ const IntegrationPage = () => {
 									# Send an email via REST API
 								</div>
 								<div className="mt-2">
-									curl -X POST https://api.verifio.com/v1/emails \
+									curl -X POST https://api.verifio.email/v1/emails \
 								</div>
 								<div className="ml-4">
 									-H "Authorization: Bearer YOUR_API_KEY" \

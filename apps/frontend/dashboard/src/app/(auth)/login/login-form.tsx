@@ -89,7 +89,7 @@ export const LoginForm = () => {
 						<Input.Input
 							id="email"
 							type="email"
-							placeholder="hello@verifio.com"
+							placeholder="hello@verifio.email"
 							{...register("email")}
 						/>
 					</Input.Wrapper>

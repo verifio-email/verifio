@@ -124,7 +124,7 @@ export const ForgotPasswordForm = () => {
 								className="h-12 font-medium"
 								id="email"
 								type="email"
-								placeholder="hello@verifio.com"
+								placeholder="hello@verifio.email"
 								{...register("email")}
 							/>
 						</Input.Wrapper>

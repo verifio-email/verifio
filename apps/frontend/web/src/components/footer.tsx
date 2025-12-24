@@ -110,11 +110,11 @@ export const Footer = () => {
 
 	return (
 		<footer>
-			<div className="border-stroke-soft-100 border-b border-t">
+			<div className="border-stroke-soft-100 border-t border-b">
 				<div className="mx-4 max-w-7xl border-stroke-soft-100 border-r border-l md:mx-auto">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-4 py-2 md:px-10 md:py-4">
-						<span className="text-xs text-text-sub-600 md:text-sm">Footer</span>
-						<span className="text-xs text-text-sub-600 md:text-sm">
+						<span className="text-text-sub-600 text-xs md:text-sm">Footer</span>
+						<span className="text-text-sub-600 text-xs md:text-sm">
 							/ Socials + Resources
 						</span>
 					</div>
@@ -139,7 +139,7 @@ export const Footer = () => {
 									href="https://linkedin.com/company/reloop"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="flex items-center gap-2 border-stroke-soft-100 border-r border-b p-3 text-xs text-text-sub-600 transition-colors hover:text-primary-base md:gap-3 md:p-4 md:text-sm"
+									className="flex items-center gap-2 border-stroke-soft-100 border-t border-r border-b p-3 text-text-sub-600 text-xs transition-colors hover:text-primary-base md:gap-3 md:border-t-0 md:p-4 md:text-sm"
 								>
 									<svg
 										className="size-4 md:size-5"
@@ -159,7 +159,7 @@ export const Footer = () => {
 									href="https://x.com/verifiohq"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="flex items-center gap-2 border-stroke-soft-100 border-b p-3 text-xs text-text-sub-600 transition-colors hover:text-primary-base md:gap-3 md:p-4 md:text-sm"
+									className="flex items-center gap-2 border-stroke-soft-100 border-b p-3 text-text-sub-600 text-xs transition-colors hover:text-primary-base md:gap-3 md:p-4 md:text-sm border-t md:border-t-0"
 								>
 									<svg
 										className="size-4 md:size-5"
@@ -179,7 +179,7 @@ export const Footer = () => {
 									href="https://github.com/reloop-labs/verifio"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="flex items-center gap-2 border-stroke-soft-100 border-r p-3 text-xs text-text-sub-600 transition-colors hover:text-primary-base md:gap-3 md:p-4 md:text-sm"
+									className="flex items-center gap-2 border-stroke-soft-100 border-r p-3 text-text-sub-600 text-xs transition-colors hover:text-primary-base md:gap-3 md:p-4 md:text-sm"
 								>
 									<svg
 										className="size-4 md:size-5"
@@ -241,7 +241,7 @@ export const Footer = () => {
 											>
 												<Link
 													href={item.href}
-													className="block py-2 text-xs text-text-sub-600 transition-colors duration-150 hover:text-text-strong-950 md:py-3 md:text-[13px]"
+													className="block py-2 text-xs text-text-sub-600 transition-colors duration-150 hover:text-primary-base md:py-3 md:text-[13px]"
 												>
 													{item.title}
 												</Link>
