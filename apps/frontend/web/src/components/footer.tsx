@@ -119,20 +119,22 @@ export const Footer = () => {
 						</span>
 					</div>
 					<div className="grid grid-cols-1 gap-0 md:grid-cols-2">
-						<div className="border-stroke-soft-100 px-4 py-6 md:border-r md:px-10 md:py-10">
-							<div className="flex items-center gap-3">
+						<div className="border-stroke-soft-100 px-4 py-6 text-center md:border-r md:px-10 md:py-10 md:text-left">
+							<div className="flex items-center justify-center gap-3 md:justify-start">
 								<LogoName className="h-8 rounded-full md:h-10" />
 							</div>
-							<p className="max-w-xs pt-6 text-sm font-medium md:pt-8 md:text-base">
+							<p className="mx-auto max-w-xs pt-6 text-sm font-medium md:mx-0 md:pt-8 md:text-base">
 								Verify emails at scale with 99% accuracy. Reduce bounces,
 								protect your sender reputation.
 							</p>
 						</div>
 
-						<div>
+						<div className="flex flex-col">
 							{/* Newsletter Signup */}
-							<NewsletterSignup />
-							<div className="grid grid-cols-2">
+							<div className="order-2 md:order-1">
+								<NewsletterSignup />
+							</div>
+							<div className="order-1 grid grid-cols-2 md:order-2">
 								<Link
 									href="https://linkedin.com/company/reloop"
 									target="_blank"

@@ -41,7 +41,7 @@ export const NewsletterSignup = () => {
 	};
 
 	return (
-		<div className="border-stroke-soft-100 md:border-t-0 border-t border-b px-6 py-4">
+		<div className="border-stroke-soft-100 border-t px-6 py-4 md:border-t-0 md:border-b">
 			{isSubscribed ? (
 				<motion.div
 					className="flex flex-col items-center justify-center py-4 text-center"
