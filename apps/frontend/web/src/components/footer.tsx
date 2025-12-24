@@ -1,7 +1,6 @@
-import * as Button from "@verifio/ui/button";
-import * as Input from "@verifio/ui/input";
 import { LogoName } from "@verifio/ui/logo";
 import Link from "next/link";
+import { NewsletterSignup } from "./newsletter-signup";
 
 const links = [
 	{
@@ -132,32 +131,7 @@ export const Footer = () => {
 
 						<div>
 							{/* Newsletter Signup */}
-							<div className="border-stroke-soft-100 border-b p-6">
-								<p className="font-medium text-sm text-text-strong-950">
-									Stay updated
-								</p>
-								<p className="mt-1 text-text-sub-600 text-xs">
-									Get email deliverability tips & product updates
-								</p>
-								<div className="mt-4 flex gap-2">
-									<Input.Root size="small" className="min-w-0 flex-1">
-										<Input.Wrapper>
-											<Input.Input
-												type="email"
-												placeholder="Enter your email"
-											/>
-										</Input.Wrapper>
-									</Input.Root>
-									<Button.Root
-										type="button"
-										variant="neutral"
-										size="small"
-										className="shrink-0"
-									>
-										Subscribe
-									</Button.Root>
-								</div>
-							</div>
+							<NewsletterSignup />
 							<div className="grid grid-cols-2">
 								<Link
 									href="https://linkedin.com/company/reloop"
