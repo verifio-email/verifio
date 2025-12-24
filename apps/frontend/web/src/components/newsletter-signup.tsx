@@ -1,27 +1,68 @@
 "use client";
 
+import { valibotResolver } from "@hookform/resolvers/valibot";
 import * as Button from "@verifio/ui/button";
 import * as Input from "@verifio/ui/input";
+import { motion } from "framer-motion";
 import { useState } from "react";
+import type { Resolver } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import * as v from "valibot";
+
+const newsletterSchema = v.object({
+    email: v.pipe(
+        v.string("Email is required"),
+        v.minLength(1, "Email is required"),
+        v.email("Please enter a valid email address"),
+    ),
+});
+
+type NewsletterFormData = v.InferInput<typeof newsletterSchema>;
 
 export const NewsletterSignup = () => {
-    const [email, setEmail] = useState("");
     const [isSubscribed, setIsSubscribed] = useState(false);
 
-    const handleSubscribe = () => {
-        if (email) {
-            // TODO: Add actual subscription logic here
-            setIsSubscribed(true);
-        }
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+    } = useForm<NewsletterFormData>({
+        resolver: valibotResolver(
+            newsletterSchema,
+        ) as Resolver<NewsletterFormData>,
+        mode: "onChange",
+    });
+
+    const onSubmit = async (data: NewsletterFormData) => {
+        // TODO: Add actual subscription logic here
+        console.log("Subscribing:", data.email);
+        // Simulate API call
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        setIsSubscribed(true);
     };
 
     return (
         <div className="border-stroke-soft-100 border-b p-6">
             {isSubscribed ? (
-                <div className="flex flex-col items-center justify-center py-4 text-center">
-                    <div className="flex size-12 items-center justify-center rounded-full bg-green-100">
+                <motion.div
+                    className="flex flex-col items-center justify-center py-4 text-center"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                >
+                    <motion.div
+                        className="flex size-12 items-center justify-center rounded-full bg-primary-100"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{
+                            delay: 0.1,
+                            type: "spring",
+                            stiffness: 200,
+                            damping: 15,
+                        }}
+                    >
                         <svg
-                            className="size-6 text-green-600"
+                            className="size-6 text-primary-600"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             fill="none"
@@ -30,18 +71,33 @@ export const NewsletterSignup = () => {
                             strokeLinecap="round"
                             strokeLinejoin="round"
                         >
-                            <polyline points="20 6 9 17 4 12" />
+                            <motion.polyline
+                                points="20 6 9 17 4 12"
+                                initial={{ pathLength: 0 }}
+                                animate={{ pathLength: 1 }}
+                                transition={{ delay: 0.3, duration: 0.4, ease: "easeOut" }}
+                            />
                         </svg>
-                    </div>
-                    <p className="mt-3 font-semibold text-text-strong-950">
+                    </motion.div>
+                    <motion.p
+                        className="mt-3 font-semibold text-text-strong-950"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2, duration: 0.3 }}
+                    >
                         You&apos;re in!
-                    </p>
-                    <p className="mt-1 text-sm text-text-sub-600">
+                    </motion.p>
+                    <motion.p
+                        className="mt-1 text-sm text-text-sub-600"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3, duration: 0.3 }}
+                    >
                         Thanks for subscribing. We&apos;ll keep you updated.
-                    </p>
-                </div>
+                    </motion.p>
+                </motion.div>
             ) : (
-                <>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <p className="font-medium text-sm text-text-strong-950">
                         Stay updated
                     </p>
@@ -49,27 +105,33 @@ export const NewsletterSignup = () => {
                         Get email deliverability tips & product updates
                     </p>
                     <div className="mt-4 flex gap-2">
-                        <Input.Root size="small" className="min-w-0 flex-1">
-                            <Input.Wrapper>
-                                <Input.Input
-                                    type="email"
-                                    placeholder="Enter your email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
-                            </Input.Wrapper>
-                        </Input.Root>
+                        <div className="min-w-0 flex-1">
+                            <Input.Root size="small" hasError={!!errors.email}>
+                                <Input.Wrapper>
+                                    <Input.Input
+                                        type="email"
+                                        placeholder="Enter your email"
+                                        {...register("email")}
+                                    />
+                                </Input.Wrapper>
+                            </Input.Root>
+                        </div>
                         <Button.Root
-                            type="button"
+                            type="submit"
                             variant="neutral"
                             size="small"
                             className="shrink-0"
-                            onClick={handleSubscribe}
+                            disabled={isSubmitting}
                         >
-                            Subscribe
+                            {isSubmitting ? "..." : "Subscribe"}
                         </Button.Root>
                     </div>
-                </>
+                    {errors.email && (
+                        <p className="mt-1.5 text-error-base text-xs">
+                            {errors.email.message}
+                        </p>
+                    )}
+                </form>
             )}
         </div>
     );
