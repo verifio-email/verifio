@@ -75,13 +75,13 @@ export const MainNavigation: React.FC<MainNavigationProps> = ({
 									name={iconName}
 									className={cn(
 										"h-[17px] w-[17px] shrink-0",
-										active && "text-primary-base",
+										active && "text-primary-darker",
 									)}
 								/>
 								<AnimatePresence mode="wait">
 									{!isCollapsed && (
 										<motion.span
-											className={cn("text-sm", active && "font-medium")}
+											className={cn("text-sm", active && "text-primary-darker")}
 											initial={{ opacity: 0, x: -10 }}
 											animate={{ opacity: 1, x: 0 }}
 											exit={{ opacity: 0, x: -10 }}

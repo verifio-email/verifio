@@ -4,7 +4,6 @@ import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
 import * as Button from "@verifio/ui/button";
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
-import * as Kbd from "@verifio/ui/kbd";
 import { Logo } from "@verifio/ui/logo";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
@@ -58,7 +57,7 @@ export const MainSidebar: React.FC<MainSidebarProps> = ({ className }) => {
 				<AnimatePresence mode="wait">
 					{!isSidebarCollapsed && (
 						<motion.span
-							className="font-semibold text-lg text-text-strong-950"
+							className="font-normal text-text-strong-950 text-xl"
 							initial={{ opacity: 0, x: -10 }}
 							animate={{ opacity: 1, x: 0 }}
 							exit={{ opacity: 0, x: -10 }}
@@ -71,36 +70,40 @@ export const MainSidebar: React.FC<MainSidebarProps> = ({ className }) => {
 			</div>
 
 			{/* Search Bar */}
-			<div className="border-stroke-soft-200 border-b px-3 py-2">
-				<div
+			<div className="border-stroke-soft-200 border-b px-2 py-2">
+				<button
+					type="button"
+					onClick={handleSearchClick}
 					className={cn(
-						"relative flex h-10 w-full items-center rounded-lg bg-bg-soft-200",
-						isSidebarCollapsed ? "justify-center px-0" : "px-3",
+						"relative z-10 flex h-10 w-full items-center overflow-hidden rounded-xl transition-all",
+						"border border-transparent bg-neutral-alpha-10 hover:bg-neutral-alpha-16",
+						"text-text-sub-600 hover:text-text-strong-950 active:scale-[0.98]",
+						isSidebarCollapsed ? "justify-center px-0" : "",
 					)}
 				>
-					<Icon name="search" className="h-4 w-4 shrink-0 text-text-sub-600" />
+					<div className="flex h-10 w-10 shrink-0 items-center justify-center">
+						<Icon name="search" className="h-4 w-4 text-text-sub-600" />
+					</div>
 					<AnimatePresence mode="wait">
 						{!isSidebarCollapsed && (
 							<motion.div
-								className="flex flex-1 items-center"
-								initial={{ opacity: 0, x: -10 }}
-								animate={{ opacity: 1, x: 0 }}
-								exit={{ opacity: 0, x: -10 }}
+								className="flex flex-1 items-center pr-3"
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								exit={{ opacity: 0 }}
 								transition={{ duration: 0.15 }}
+								style={{ opacity: 1 }}
 							>
-								<input
-									type="text"
-									placeholder="Search"
-									className="ml-2 flex-1 bg-transparent text-sm text-text-strong-950 placeholder:text-text-sub-600 focus:outline-none"
-									onClick={handleSearchClick}
-								/>
-								<Kbd.Root className="-translate-y-1/2 absolute top-1/2 right-2 rounded bg-bg-soft-200 px-1.5 py-1.5 font-medium text-[11px] text-text-sub-600">
+								<span className="flex-1 text-left text-[13px] leading-[16px]">
+									Search
+								</span>
+								<kbd className="rounded bg-neutral-alpha-10 px-1.5 py-0.5 font-mono text-xs">
 									⌘K
-								</Kbd.Root>
+								</kbd>
 							</motion.div>
 						)}
 					</AnimatePresence>
-				</div>
+				</button>
 			</div>
 
 			{/* Main Navigation */}

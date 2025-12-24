@@ -155,7 +155,7 @@ export const UserMenuDropdown: React.FC<UserMenuDropdownProps> = ({
 							return (
 								<div key={path + label}>
 									{hasSeparatorAbove && (
-										<div className="my-2 border-stroke-soft-200 border-t" />
+										<div className="my-2 border-stroke-soft-200" />
 									)}
 									<button
 										ref={(el) => {

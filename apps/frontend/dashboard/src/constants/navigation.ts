@@ -45,7 +45,7 @@ export const userNavigation: MainNavigationItem[] = [
 	{
 		label: "Documentation",
 		path: "https://docs.verifio.dev",
-		iconName: "help-circle",
+		iconName: "info-outline",
 		isExternal: true,
 	},
 	{
