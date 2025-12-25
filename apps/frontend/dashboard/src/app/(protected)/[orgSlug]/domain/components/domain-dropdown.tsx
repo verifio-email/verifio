@@ -32,7 +32,7 @@ export const DomainDropdown = ({
   const buttonRefs = useRef<HTMLButtonElement[]>([]);
 
   const currentTab = buttonRefs.current[hoverIdx ?? -1];
-  const currentRect = currentTab?.getBoundingClientRect();
+  
   const hoveredItem = domainMenuItems[hoverIdx ?? -1];
   const isDanger = hoveredItem?.isDanger ?? false;
 
@@ -81,7 +81,6 @@ export const DomainDropdown = ({
               className={cn(
                 "flex w-full cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-xs font-normal transition-colors",
                 item.isDanger ? "text-error-base" : "text-text-strong-950",
-                !currentRect && hoverIdx === idx && (item.isDanger ? "bg-red-alpha-10" : "bg-neutral-alpha-10")
               )}
             >
               <Icon
@@ -92,8 +91,9 @@ export const DomainDropdown = ({
             </button>
           ))}
           <AnimatedHoverBackground
-            rect={currentRect}
-            tabElement={currentTab}
+            top={currentTab?.offsetTop ?? 0}
+            height={currentTab?.offsetHeight ?? 28}
+isVisible={hoverIdx !== undefined}
             isDanger={isDanger}
           />
         </div>

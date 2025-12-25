@@ -103,7 +103,6 @@ export const ApiKeyHeader = ({
 	const buttonRefs = useRef<HTMLButtonElement[]>([]);
 
 	const currentTab = buttonRefs.current[hoverIdx ?? -1];
-	const currentRect = currentTab?.getBoundingClientRect();
 	const hoveredItem = headerMenuItems[hoverIdx ?? -1];
 	const isDanger = hoveredItem?.isDanger ?? false;
 
@@ -315,11 +314,6 @@ export const ApiKeyHeader = ({
 														item.isDanger
 															? "text-error-base"
 															: "text-text-strong-950",
-														!currentRect &&
-															hoverIdx === idx &&
-															(item.isDanger
-																? "bg-red-alpha-10"
-																: "bg-neutral-alpha-10"),
 													)}
 												>
 													<Icon
@@ -333,8 +327,9 @@ export const ApiKeyHeader = ({
 												</button>
 											))}
 											<AnimatedHoverBackground
-												rect={currentRect}
-												tabElement={currentTab}
+												top={currentTab?.offsetTop ?? 0}
+												height={currentTab?.offsetHeight ?? 28}
+												isVisible={hoverIdx !== undefined}
 												isDanger={isDanger}
 											/>
 										</div>

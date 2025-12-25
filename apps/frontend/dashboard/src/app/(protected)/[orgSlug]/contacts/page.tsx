@@ -32,7 +32,7 @@ const ContactsPage = () => {
 	const [hoverIdx, setHoverIdx] = useState<number | undefined>(undefined);
 	const buttonRefs = useRef<(HTMLButtonElement | HTMLAnchorElement)[]>([]);
 	const currentTab = buttonRefs.current[hoverIdx ?? -1];
-	const currentRect = currentTab?.getBoundingClientRect();
+	
 
 	return (
 		<div className="mx-auto max-w-3xl sm:px-8">
@@ -65,7 +65,6 @@ const ContactsPage = () => {
 										onClick={() => setIsContactModalOpen(true)}
 										className={cn(
 											"flex w-full cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 font-normal text-text-strong-950 text-xs transition-colors",
-											!currentRect && hoverIdx === 0 && "bg-neutral-alpha-10",
 										)}
 									>
 										<Icon
@@ -83,7 +82,6 @@ const ContactsPage = () => {
 										onPointerLeave={() => setHoverIdx(undefined)}
 										className={cn(
 											"flex w-full cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 font-normal text-text-strong-950 text-xs transition-colors",
-											!currentRect && hoverIdx === 1 && "bg-neutral-alpha-10",
 										)}
 									>
 										<Icon
@@ -93,8 +91,9 @@ const ContactsPage = () => {
 										<span>Bulk Import (CSV)</span>
 									</Link>
 									<AnimatedHoverBackground
-										rect={currentRect}
-										tabElement={currentTab}
+										top={currentTab?.offsetTop ?? 0}
+										height={currentTab?.offsetHeight ?? 28}
+isVisible={hoverIdx !== undefined}
 									/>
 								</div>
 							</PopoverContent>

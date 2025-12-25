@@ -41,7 +41,7 @@ export const AddPropertyModal = ({
 	const nameInputRef = useRef<HTMLInputElement>(null);
 
 	const currentTab = itemRefs.current[hoverIdx ?? -1];
-	const currentRect = currentTab?.getBoundingClientRect();
+	
 
 	// Reset state when modal closes
 	const handleOpenChange = (isOpen: boolean) => {
@@ -201,8 +201,9 @@ export const AddPropertyModal = ({
 												</Select.Item>
 											))}
 											<AnimatedHoverBackground
-												rect={currentRect}
-												tabElement={currentTab}
+												top={currentTab?.offsetTop ?? 0}
+												height={currentTab?.offsetHeight ?? 28}
+isVisible={hoverIdx !== undefined}
 											/>
 										</div>
 									</Select.Content>

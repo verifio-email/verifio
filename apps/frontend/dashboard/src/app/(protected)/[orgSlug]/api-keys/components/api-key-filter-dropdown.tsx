@@ -39,7 +39,7 @@ export const ApiKeyFilterDropdown = ({ value, onChange, availableCreators }: Api
   const buttonRefs = useRef<HTMLButtonElement[]>([]);
 
   const currentTab = buttonRefs.current[hoverIdx ?? -1];
-  const currentRect = currentTab?.getBoundingClientRect();
+  
 
   const activeFilterCount = value.status.length + value.createdBy.length;
   const hasActiveFilter = activeFilterCount > 0;
@@ -115,7 +115,6 @@ export const ApiKeyFilterDropdown = ({ value, onChange, availableCreators }: Api
                     className={cn(
                       "flex w-full cursor-pointer items-center gap-2 rounded-lg px-1 py-1.5 text-xs font-normal transition-colors",
                       "text-text-strong-950",
-                      !currentRect && hoverIdx === idx && "bg-neutral-alpha-10"
                     )}
                   >
                     {/* Checkbox */}
@@ -165,7 +164,6 @@ export const ApiKeyFilterDropdown = ({ value, onChange, availableCreators }: Api
                       className={cn(
                         "flex w-full cursor-pointer items-center gap-2 rounded-lg px-1 py-1.5 text-xs font-normal transition-colors",
                         "text-text-strong-950",
-                        !currentRect && hoverIdx === globalIdx && "bg-neutral-alpha-10"
                       )}
                     >
                       {/* Checkbox */}
@@ -195,8 +193,9 @@ export const ApiKeyFilterDropdown = ({ value, onChange, availableCreators }: Api
 
           {/* Single AnimatedHoverBackground for all options */}
           <AnimatedHoverBackground
-            rect={currentRect}
-            tabElement={currentTab}
+            top={currentTab?.offsetTop ?? 0}
+            height={currentTab?.offsetHeight ?? 28}
+isVisible={hoverIdx !== undefined}
           />
         </div>
       </Dropdown.Content>

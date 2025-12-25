@@ -52,7 +52,7 @@ export const ContactTable = ({
   const buttonRefs = useRef<HTMLButtonElement[]>([]);
 
   const currentTab = buttonRefs.current[hoverIdx ?? -1];
-  const currentRect = currentTab?.getBoundingClientRect();
+  
 
   return (
     <AnimatePresence mode="wait">
@@ -226,8 +226,9 @@ export const ContactTable = ({
                               Remove
                             </button>
                             <AnimatedHoverBackground
-                              rect={currentRect}
-                              tabElement={currentTab}
+                              top={currentTab?.offsetTop ?? 0}
+                              height={currentTab?.offsetHeight ?? 28}
+isVisible={hoverIdx !== undefined}
                             />
                           </div>
                         </PopoverContent>

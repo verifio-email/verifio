@@ -115,7 +115,7 @@ export const ContactHeader = ({
 	const buttonRefs = useRef<HTMLButtonElement[]>([]);
 
 	const currentTab = buttonRefs.current[hoverIdx ?? -1];
-	const currentRect = currentTab?.getBoundingClientRect();
+	
 	const hoveredItem = headerMenuItems[hoverIdx ?? -1];
 	const isDanger = hoveredItem?.isDanger ?? false;
 
@@ -276,7 +276,6 @@ export const ContactHeader = ({
 													item.isDanger
 														? "text-error-base"
 														: "text-text-strong-950",
-													!currentRect &&
 														hoverIdx === idx &&
 														(item.isDanger
 															? "bg-red-alpha-10"
@@ -294,8 +293,9 @@ export const ContactHeader = ({
 											</button>
 										))}
 										<AnimatedHoverBackground
-											rect={currentRect}
-											tabElement={currentTab}
+											top={currentTab?.offsetTop ?? 0}
+											height={currentTab?.offsetHeight ?? 28}
+isVisible={hoverIdx !== undefined}
 											isDanger={isDanger}
 										/>
 									</div>
