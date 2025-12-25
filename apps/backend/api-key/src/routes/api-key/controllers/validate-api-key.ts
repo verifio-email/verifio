@@ -1,15 +1,9 @@
-import { createHash } from "node:crypto";
-import type { ApiKeyTypes } from "@verifio/api-key/types/api-key.type";
 import { formatApiKeyResponse } from "@verifio/api-key/routes/api-key/controllers/format-api-key-response";
+import type { ApiKeyTypes } from "@verifio/api-key/types/api-key.type";
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
 import { logger } from "@verifio/logger";
 import { and, eq } from "drizzle-orm";
-import { status } from "elysia";
-
-function hashApiKey(key: string): string {
-	return createHash("sha256").update(key).digest("hex");
-}
 
 export async function validateApiKey(
 	apiKey: string,
@@ -20,13 +14,10 @@ export async function validateApiKey(
 	);
 
 	try {
-		// Hash the provided key
-		const hashedKey = hashApiKey(apiKey);
-
-		// Find API key by hash
+		// Find API key by direct comparison (stored as full key)
 		const result = await db.query.apikey.findFirst({
 			where: and(
-				eq(schema.apikey.key, hashedKey),
+				eq(schema.apikey.key, apiKey),
 				eq(schema.apikey.enabled, true),
 			),
 			with: {

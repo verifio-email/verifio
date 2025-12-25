@@ -23,6 +23,7 @@ import { RotateApiKeyModal } from "../../components/rotate-api-key-modal";
 interface ApiKeyData {
 	id: string;
 	name: string | null;
+	key: string;
 	start: string | null;
 	prefix: string | null;
 	organizationId: string;
@@ -106,16 +107,16 @@ export const ApiKeyHeader = ({
 	const hoveredItem = headerMenuItems[hoverIdx ?? -1];
 	const isDanger = hoveredItem?.isDanger ?? false;
 
-	const handleCopyPrefix = async () => {
-		const textToCopy = apiKey?.start || apiKey?.prefix || "";
+	const handleCopyKey = async () => {
+		const textToCopy = apiKey?.key || "";
 		if (textToCopy) {
 			try {
 				await navigator.clipboard.writeText(textToCopy);
-				toast.success("API key prefix copied to clipboard");
+				toast.success("API key copied to clipboard");
 				setCopied(true);
 				setTimeout(() => setCopied(false), 2000);
 			} catch {
-				toast.error("Failed to copy prefix");
+				toast.error("Failed to copy API key");
 			}
 		}
 	};
@@ -339,40 +340,41 @@ export const ApiKeyHeader = ({
 						) : null}
 					</div>
 				</div>
-				<div className="mt-10 grid grid-cols-[1fr_1fr_1fr] gap-y-12">
-					{/* Token/Key */}
-					<div className="flex flex-col gap-1.5">
-						<div className="flex items-center gap-1.5">
-							<Icon name="key-new" className="h-3.5 w-3.5 text-text-sub-600" />
-							<span className="font-medium text-[10px] text-text-sub-600 uppercase tracking-wider">
-								Key Prefix
-							</span>
-						</div>
-						{isLoading ? (
-							<Skeleton className="h-5 w-24 rounded-lg" />
-						) : (
+				{/* API Key Section - Full Width */}
+				<div className="mt-8">
+					<div className="mb-2 flex items-center gap-1.5">
+						<Icon name="key-new" className="h-3.5 w-3.5 text-text-sub-600" />
+						<span className="font-medium text-[10px] text-text-sub-600 uppercase tracking-wider">
+							API Key
+						</span>
+					</div>
+					{isLoading ? (
+						<Skeleton className="h-10 w-full rounded-xl" />
+					) : (
+						<div className="flex items-center gap-2 rounded-xl border border-stroke-soft-200 bg-bg-white-0 px-3 py-2">
+							<code className="flex-1 overflow-hidden text-ellipsis font-mono text-sm text-text-strong-950">
+								{apiKey?.key || "---"}
+							</code>
 							<button
 								type="button"
-								key={apiKey?.id}
-								className="group/copy flex w-fit cursor-pointer items-center gap-1.5"
-								onClick={handleCopyPrefix}
+								onClick={handleCopyKey}
+								className="flex shrink-0 items-center gap-1.5 rounded-lg px-2 py-1 font-medium text-text-sub-600 text-xs transition-colors hover:bg-bg-weak-50 hover:text-text-strong-950"
 							>
-								<code className="rounded bg-neutral-alpha-10 px-2 py-1 font-medium font-mono text-text-strong-950 text-xs">
-									{displayPrefix}...
-								</code>
 								<Icon
 									name={copied ? "check" : "copy"}
 									className={cn(
-										"h-3 w-3 transition-all",
-										copied
-											? "text-success-base"
-											: "text-text-sub-600 opacity-0 group-hover/copy:opacity-100",
+										"h-3.5 w-3.5",
+										copied ? "text-success-base" : "",
 									)}
 								/>
+								{copied ? "Copied" : "Copy"}
 							</button>
-						)}
-					</div>
+						</div>
+					)}
+				</div>
 
+				{/* Stats Grid */}
+				<div className="mt-10 grid grid-cols-3 gap-x-12 gap-y-6">
 					{/* Total Requests */}
 					<div className="flex flex-col gap-1.5">
 						<div className="flex items-center gap-1.5">

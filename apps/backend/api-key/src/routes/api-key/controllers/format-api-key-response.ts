@@ -6,6 +6,7 @@ export function formatApiKeyResponse(
 	return {
 		id: apiKey.id,
 		name: apiKey.name,
+		key: apiKey.key,
 		start: apiKey.start,
 		prefix: apiKey.prefix,
 		organizationId: apiKey.organizationId,

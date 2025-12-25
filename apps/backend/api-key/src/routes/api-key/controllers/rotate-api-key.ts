@@ -1,4 +1,4 @@
-import { createHash, randomBytes } from "node:crypto";
+import { randomBytes } from "node:crypto";
 import {
   formatApiKeyWithKeyResponse,
 } from "@verifio/api-key/routes/api-key/controllers/format-api-key-response";
@@ -15,10 +15,6 @@ const API_KEY_LENGTH = 64;
 function generateApiKey(): string {
   const randomPart = randomBytes(API_KEY_LENGTH).toString("base64url");
   return `${API_KEY_PREFIX}_${randomPart}`;
-}
-
-function hashApiKey(key: string): string {
-  return createHash("sha256").update(key).digest("hex");
 }
 
 function getKeyStart(key: string): string {
@@ -53,7 +49,6 @@ export async function rotateApiKey(
 
     // Generate new key
     const fullKey = generateApiKey();
-    const hashedKey = hashApiKey(fullKey);
     const keyStart = getKeyStart(fullKey);
     const now = new Date();
 
@@ -61,7 +56,7 @@ export async function rotateApiKey(
     const [updatedKey] = await db
       .update(schema.apikey)
       .set({
-        key: hashedKey,
+        key: fullKey,
         start: keyStart,
         updatedAt: now,
       })

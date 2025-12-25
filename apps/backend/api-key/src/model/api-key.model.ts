@@ -132,6 +132,7 @@ export namespace ApiKeyModel {
 		name: t.Union([t.String(), t.Null()], {
 			description: "Name for the API key",
 		}),
+		key: t.String({ description: "Full API key" }),
 		start: t.Union([t.String(), t.Null()], {
 			description: "Start of the API key (for display)",
 		}),

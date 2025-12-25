@@ -214,7 +214,7 @@ export const TopicHeader = ({
 				</div>
 			</div>
 
-			<div className="mt-10 grid grid-cols-3 gap-x-12 gap-y-12">
+			<div className="mt-10 grid grid-cols-3 gap-x-12 gap-y-6">
 				{/* Enrollment */}
 				<div className="flex flex-col gap-1.5">
 					<div className="flex items-center gap-1.5">
