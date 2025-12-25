@@ -9,6 +9,7 @@ import useSWR from "swr";
 interface ApiKeyData {
 	id: string;
 	name: string | null;
+	key: string;
 	start: string | null;
 	prefix: string | null;
 	enabled: boolean;
@@ -87,11 +88,32 @@ const ApiKeySection = () => {
 	);
 
 	const apiKey = data?.apiKeys?.[0];
-	const prefix = apiKey?.prefix || "vf-1";
-	const start = apiKey?.start || "";
-	const suffix = start.slice(-4) || "xxxx";
-	const maskedKey = `${prefix}${"*".repeat(24)}${suffix}`;
-	const fullKey = start;
+	const fullKey = apiKey?.key || "";
+
+	// Get display key - both masked and revealed should be same length
+	const getDisplayKey = (key: string, isRevealed: boolean) => {
+		if (!key || key.length < 10) return key || "---";
+
+		const displayLength = 32; // Fixed display length
+		const prefixLen = 2;
+		const suffixLen = 2;
+
+		if (!isRevealed) {
+			// Masked: prefix + asterisks + suffix
+			const prefix = key.slice(0, prefixLen);
+			const suffix = key.slice(-suffixLen);
+			const asteriskCount = displayLength - prefixLen - suffixLen;
+			return `${prefix}${"*".repeat(asteriskCount)}${suffix}`;
+		}
+		// Revealed: show more real chars but truncate middle with ...
+		if (key.length <= displayLength) {
+			return key; // Key fits, show all
+		}
+		// Show first 14 chars + ... + last 14 chars = ~31 chars
+		const showStart = key.slice(0, 21);
+		const showEnd = key.slice(-21);
+		return `${showStart}...${showEnd}`;
+	};
 
 	const handleCopy = async () => {
 		if (fullKey) {
@@ -105,7 +127,7 @@ const ApiKeySection = () => {
 	};
 
 	return (
-		<div className="p-6">
+		<div className="w-full p-6">
 			<div className="mb-2 flex items-center justify-between">
 				<div>
 					<h3 className="font-semibold text-lg text-text-strong-950">
@@ -122,19 +144,14 @@ const ApiKeySection = () => {
 					<span className="text-sm text-text-sub-600">Loading...</span>
 				</div>
 			) : (
-				<div className="flex items-center gap-2 rounded-lg bg-bg-weak-50 px-4 py-3">
-					<code className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-mono text-sm">
-						<span className="text-primary-base">{prefix}</span>
-						<span className="text-text-sub-600">
-							{isVisible
-								? fullKey.slice(prefix.length)
-								: `${"*".repeat(24)}${suffix}`}
-						</span>
+				<div className="flex w-full items-center gap-2 rounded-lg bg-bg-weak-50 px-4 py-3">
+					<code className="min-w-0 flex-1 truncate font-mono text-sm text-text-sub-600">
+						{getDisplayKey(fullKey, isVisible)}
 					</code>
 					<button
 						type="button"
 						onClick={() => setIsVisible(!isVisible)}
-						className="flex h-8 w-8 items-center justify-center rounded border border-stroke-soft-200 bg-bg-white-0 transition-colors hover:bg-bg-weak-50"
+						className="flex h-8 w-8 shrink-0 items-center justify-center rounded border border-stroke-soft-200 bg-bg-white-0 transition-colors hover:bg-bg-weak-50"
 						aria-label={isVisible ? "Hide API key" : "Show API key"}
 					>
 						<Icon
@@ -145,7 +162,7 @@ const ApiKeySection = () => {
 					<button
 						type="button"
 						onClick={handleCopy}
-						className="flex h-8 w-8 items-center justify-center rounded border border-stroke-soft-200 bg-bg-white-0 transition-colors hover:bg-bg-weak-50"
+						className="flex h-8 w-8 shrink-0 items-center justify-center rounded border border-stroke-soft-200 bg-bg-white-0 transition-colors hover:bg-bg-weak-50"
 						aria-label="Copy API key"
 					>
 						<Icon name="copy" className="h-4 w-4 text-text-sub-600" />

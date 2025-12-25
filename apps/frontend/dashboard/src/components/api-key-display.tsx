@@ -2,7 +2,6 @@
 
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
 import { Icon } from "@verifio/ui/icon";
-import { logger } from "better-auth";
 import { useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
@@ -10,6 +9,7 @@ import useSWR from "swr";
 interface ApiKeyData {
 	id: string;
 	name: string | null;
+	key: string;
 	start: string | null;
 	prefix: string | null;
 	enabled: boolean;
@@ -27,16 +27,18 @@ export const ApiKeyDisplay = () => {
 		activeOrganization?.id ? "/api/api-key/v1" : null,
 	);
 
-	console.log(data?.apiKeys?.[0], "API key data here");
-
 	const apiKey = data?.apiKeys?.[0];
-	// Build masked key: prefix + asterisks + last 4 chars of start
-	const prefix = apiKey?.prefix || "";
-	const start = apiKey?.start || "";
-	const suffix = start.slice(-4);
-	const asteriskCount = 24; // Fixed number of asterisks for consistent display
-	const maskedKey = prefix && start ? `${prefix}${"*".repeat(asteriskCount)}${suffix}` : "";
-	const fullKey = start; // The actual key to copy/reveal
+	const fullKey = apiKey?.key || "";
+
+	// Build masked key: first 3 chars + asterisks + last 4 chars
+	const getMaskedKey = (key: string) => {
+		if (!key || key.length < 10) return key || "---";
+		const prefix = key.slice(0, 3);
+		const suffix = key.slice(-4);
+		return `${prefix}${"*".repeat(20)}${suffix}`;
+	};
+
+	const maskedKey = getMaskedKey(fullKey);
 
 	const handleCopy = async () => {
 		if (fullKey) {
@@ -52,9 +54,7 @@ export const ApiKeyDisplay = () => {
 	return (
 		<div className="rounded-lg border border-stroke-soft-200 bg-bg-white-0 p-6">
 			<div className="mb-4">
-				<h3 className="font-semibold text-lg text-text-strong-950">
-					API Key
-				</h3>
+				<h3 className="font-semibold text-lg text-text-strong-950">API Key</h3>
 				<p className="mt-1 text-sm text-text-sub-600">
 					Use this key to authenticate your API requests
 				</p>
@@ -70,6 +70,7 @@ export const ApiKeyDisplay = () => {
 						{isVisible ? fullKey : maskedKey}
 					</code>
 					<button
+						type="button"
 						onClick={() => setIsVisible(!isVisible)}
 						className="flex h-8 w-8 items-center justify-center rounded transition-colors hover:bg-bg-white-0"
 						aria-label={isVisible ? "Hide API key" : "Show API key"}
@@ -80,6 +81,7 @@ export const ApiKeyDisplay = () => {
 						/>
 					</button>
 					<button
+						type="button"
 						onClick={handleCopy}
 						className="flex h-8 w-8 items-center justify-center rounded transition-colors hover:bg-bg-white-0"
 						aria-label="Copy API key"
@@ -95,4 +97,3 @@ export const ApiKeyDisplay = () => {
 		</div>
 	);
 };
-
