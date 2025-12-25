@@ -70,7 +70,8 @@ export const ExploreEndpointsSection: React.FC<
 		<div>
 			<div className="border-stroke-soft-200 border-b">
 				{/* Header section */}
-				<div className="px-6">
+				{/* add the differnt width for the header section */}
+				<div className="px-6 md:px-16 lg:px-20 xl:px-24">
 					<div className="border-stroke-soft-200 border-r border-b border-l px-5 pt-6 pb-5">
 						<h2 className="font-semibold text-text-strong-950 text-xl">
 							Explore our endpoints
@@ -83,7 +84,7 @@ export const ExploreEndpointsSection: React.FC<
 				</div>
 
 				{/* Cards grid */}
-				<div className="px-6">
+				<div className="px-6 md:px-16 lg:px-20 xl:px-24">
 					<div className="flex flex-col border-stroke-soft-200 border-r border-l md:flex-row">
 						{endpoints.map((endpoint, index) => (
 							<EndpointCard

@@ -144,14 +144,14 @@ const ApiKeySection = () => {
 					<span className="text-sm text-text-sub-600">Loading...</span>
 				</div>
 			) : (
-				<div className="flex w-full items-center gap-2 rounded-lg bg-bg-weak-50 px-4 py-3">
+				<div className="flex w-full items-center gap-2 rounded-lg bg-primary-alpha-10 px-4 py-3">
 					<code className="min-w-0 flex-1 truncate font-mono text-sm text-text-sub-600">
 						{getDisplayKey(fullKey, isVisible)}
 					</code>
 					<button
 						type="button"
 						onClick={() => setIsVisible(!isVisible)}
-						className="flex h-8 w-8 shrink-0 items-center justify-center rounded border border-stroke-soft-200 bg-bg-white-0 transition-colors hover:bg-bg-weak-50"
+						className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded transition-colors hover:bg-primary-alpha-20"
 						aria-label={isVisible ? "Hide API key" : "Show API key"}
 					>
 						<Icon
@@ -162,7 +162,7 @@ const ApiKeySection = () => {
 					<button
 						type="button"
 						onClick={handleCopy}
-						className="flex h-8 w-8 shrink-0 items-center justify-center rounded border border-stroke-soft-200 bg-bg-white-0 transition-colors hover:bg-bg-weak-50"
+						className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded transition-colors hover:bg-primary-alpha-20"
 						aria-label="Copy API key"
 					>
 						<Icon name="copy" className="h-4 w-4 text-text-sub-600" />
@@ -288,7 +288,7 @@ const McpIntegrationSection = () => {
 export const DashboardStatsSection = () => {
 	return (
 		<div className="border-stroke-soft-200 border-b">
-			<div className="px-6">
+			<div className="px-6 md:px-16 lg:px-20 xl:px-24">
 				<div className="flex flex-col border-stroke-soft-200 border-r border-l lg:flex-row">
 					{/* Left Column */}
 					<div className="flex-1 border-stroke-soft-200 border-r">

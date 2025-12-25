@@ -65,7 +65,7 @@ export const ApiKeyDisplay = () => {
 					<div className="text-sm text-text-sub-600">Loading API key...</div>
 				</div>
 			) : maskedKey ? (
-				<div className="flex items-center gap-2 rounded-xl bg-bg-weak-50 p-4">
+				<div className="flex items-center gap-2 rounded-xl bg-red-400 p-4">
 					<code className="flex-1 font-mono text-sm text-text-sub-600">
 						{isVisible ? fullKey : maskedKey}
 					</code>

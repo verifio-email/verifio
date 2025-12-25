@@ -191,7 +191,7 @@ const ExampleProjectsSection = () => {
 export const IntegrationsExamplesSection = () => {
 	return (
 		<div className="border-stroke-soft-200 border-b">
-			<div className="px-6">
+			<div className="px-6 md:px-16 lg:px-20 xl:px-24">
 				<div className="flex flex-col border-stroke-soft-200 border-r border-l lg:flex-row">
 					{/* Left Column - Integrations */}
 					<div className="flex-1 border-stroke-soft-200 border-r">
