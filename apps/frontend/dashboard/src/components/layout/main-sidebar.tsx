@@ -4,7 +4,7 @@ import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
 import { useSidebar } from "@fe/dashboard/providers/sidebar-provider";
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
-import { Logo } from "@verifio/ui/logo";
+import { Logo, LogoName } from "@verifio/ui/logo";
 import { AnimatePresence, motion } from "motion/react";
 import { MainNavigation, UserMenuDropdown } from "./sidebar";
 
@@ -33,18 +33,11 @@ export const MainSidebar: React.FC<MainSidebarProps> = ({ className }) => {
 		>
 			{/* Header - Logo and App Name */}
 			<div className="flex h-16 items-center gap-2 border-stroke-soft-200 border-b px-4">
-				<Logo className="h-7 w-7 shrink-0 rounded-md" />
 				<AnimatePresence mode="wait">
-					{!isCollapsed && (
-						<motion.span
-							className="font-normal text-text-strong-950 text-xl"
-							initial={{ opacity: 0, x: -10 }}
-							animate={{ opacity: 1, x: 0 }}
-							exit={{ opacity: 0, x: -10 }}
-							transition={{ duration: 0.15 }}
-						>
-							Verifio
-						</motion.span>
+					{!isCollapsed ? (
+						<LogoName className="h-7 shrink-0" />
+					) : (
+						<Logo className="h-7 w-7 shrink-0 rounded-md" />
 					)}
 				</AnimatePresence>
 			</div>

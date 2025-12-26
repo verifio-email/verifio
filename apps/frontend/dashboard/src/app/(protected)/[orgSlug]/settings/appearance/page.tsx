@@ -19,9 +19,7 @@ const AppearancePage = () => {
 				<div className="relative">
 					<div className="absolute right-[-100vw] left-0 h-px bg-stroke-soft-200/50" />
 				</div>
-				<div className="px-5 py-5 lg:px-6">
-					<ThemeToggleAppearance />
-				</div>
+				<ThemeToggleAppearance />
 				{/* Bottom border extending to right edge */}
 				<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
 			</div>

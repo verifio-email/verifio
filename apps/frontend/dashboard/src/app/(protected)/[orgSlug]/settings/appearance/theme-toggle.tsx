@@ -31,35 +31,50 @@ export function ThemeToggleAppearance() {
 	];
 
 	return (
-		<div className="flex gap-2">
-			{themeOptions.map((option) => (
-				<button
-					type="button"
+		<div className="flex">
+			{themeOptions.map((option, index) => (
+				<div
 					key={option.value}
-					onClick={() => setTheme(option.value)}
-					className={cn(
-						"rounded-xl border px-3 pt-2 pb-2.5 transition-all duration-200",
-						theme === option.value
-							? "border-primary-500 bg-primary-50"
-							: "border-stroke-soft-100 hover:border-stroke-soft-200",
-					)}
+					className="flex border-stroke-soft-200/50 border-r"
 				>
-					{option.layoutIcon}
-					<div className="flex items-center justify-center gap-2 pt-2">
-						<Icon
-							name={option.icon}
-							className={cn(
-								"h-4 w-4",
-								theme === option.value
-									? "text-primary-600"
-									: "text-text-sub-600",
-							)}
-						/>
-						<p className={cn("text-sm", "font-medium text-primary-600")}>
-							{option.label}
-						</p>
-					</div>
-				</button>
+					<button
+						type="button"
+						onClick={() => setTheme(option.value)}
+						className={cn(
+							"relative transition-all duration-200",
+							theme === option.value ? "bg-primary-alpha-10" : "",
+						)}
+					>
+						{/* Checkmark indicator */}
+						{theme === option.value && (
+							<div className="absolute top-3 right-5 flex h-5 w-5 items-center justify-center rounded-full bg-primary-base">
+								<Icon name="check" className="h-3 w-3 text-white" />
+							</div>
+						)}
+						<div className="px-6 py-4">{option.layoutIcon}</div>
+						<div className="flex items-center justify-center gap-2 border-stroke-soft-200/50 border-t py-3">
+							<Icon
+								name={option.icon}
+								className={cn(
+									"h-4 w-4",
+									theme === option.value
+										? "text-primary-600"
+										: "text-text-sub-600",
+								)}
+							/>
+							<p
+								className={cn(
+									"font-medium text-sm",
+									theme === option.value
+										? "text-primary-600"
+										: "text-text-sub-600",
+								)}
+							>
+								{option.label}
+							</p>
+						</div>
+					</button>
+				</div>
 			))}
 		</div>
 	);
