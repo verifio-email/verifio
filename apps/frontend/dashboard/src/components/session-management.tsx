@@ -240,8 +240,8 @@ export const SessionManagement = ({ className }: SessionManagementProps) => {
 	}
 
 	return (
-		<div className={cn("space-y-4", className)}>
-			<div className="flex items-center justify-between">
+		<div className={cn("", className)}>
+			<div className="flex items-center justify-between px-5 pt-5 pb-4 lg:px-6">
 				<div>
 					<p className="font-medium text-label-md text-text-strong-950">
 						Active Sessions
@@ -269,7 +269,7 @@ export const SessionManagement = ({ className }: SessionManagementProps) => {
 			</div>
 
 			<AnimatePresence mode="wait">
-				<div className="space-y-3">
+				<div>
 					{sessions.map((session, index) => {
 						const { browser, device, isMobile } = parseUserAgent(
 							session.userAgent,
@@ -285,82 +285,96 @@ export const SessionManagement = ({ className }: SessionManagementProps) => {
 								animate={{ opacity: 1, y: 0 }}
 								exit={{ opacity: 0, y: -10 }}
 								transition={{ duration: 0.2, delay: index * 0.05 }}
-								className={cn(
-									"group flex items-center justify-between rounded-xl border p-4 transition-all",
-									isCurrent
-										? "border-success-base/30 bg-success-lighter/30"
-										: "border-stroke-soft-200/50 hover:border-stroke-soft-200 hover:bg-bg-weak-50/50",
-								)}
+								className="relative"
 							>
-								{/* Left: Browser icon and session info */}
-								<div className="flex items-center gap-4">
-									{/* Browser Icon */}
-									<div
-										className={cn(
-											"flex h-10 w-10 items-center justify-center rounded-full p-2",
-											isCurrent ? "bg-success-lighter" : "bg-bg-weak-50",
-										)}
-									>
-										{getBrowserIcon(browser)}
+								{/* Top border extending to edges */}
+								<div className="relative">
+									<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
+								</div>
+								<div
+									className={cn(
+										"group flex items-center justify-between px-5 py-4 transition-all lg:px-6",
+										isCurrent
+											? "bg-success-lighter/30"
+											: "hover:bg-bg-weak-50/50",
+									)}
+								>
+									{/* Left: Browser icon and session info */}
+									<div className="flex items-center gap-4">
+										{/* Browser Icon */}
+										<div
+											className={cn(
+												"flex h-10 w-10 items-center justify-center rounded-full p-2",
+												isCurrent ? "bg-success-lighter" : "bg-bg-weak-50",
+											)}
+										>
+											{getBrowserIcon(browser)}
+										</div>
+
+										{/* Session Details */}
+										<div className="space-y-0.5">
+											<div className="flex items-center gap-2">
+												<span className="font-medium text-sm text-text-strong-950">
+													{browser} on {device}
+												</span>
+												{isCurrent && (
+													<span className="flex items-center gap-1 rounded-full bg-success-base px-2 py-0.5 font-medium text-[10px] text-white">
+														<span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
+														Current
+													</span>
+												)}
+											</div>
+											<div className="flex items-center gap-3 text-text-sub-600 text-xs">
+												<span className="flex items-center gap-1">
+													<Icon
+														name={isMobile ? "smartphone" : "monitor"}
+														className="h-3 w-3"
+													/>
+													{isMobile ? "Mobile" : "Desktop"}
+												</span>
+												{session.ipAddress && (
+													<>
+														<span className="text-stroke-soft-200">•</span>
+														<span className="flex items-center gap-1">
+															<Icon name="globe" className="h-3 w-3" />
+															{session.ipAddress}
+														</span>
+													</>
+												)}
+												<span className="text-stroke-soft-200">•</span>
+												<span className="flex items-center gap-1">
+													<Icon name="clock" className="h-3 w-3" />
+													{formatTimeAgo(session.updatedAt)}
+												</span>
+											</div>
+										</div>
 									</div>
 
-									{/* Session Details */}
-									<div className="space-y-0.5">
-										<div className="flex items-center gap-2">
-											<span className="font-medium text-sm text-text-strong-950">
-												{browser} on {device}
-											</span>
-											{isCurrent && (
-												<span className="flex items-center gap-1 rounded-full bg-success-base px-2 py-0.5 font-medium text-[10px] text-white">
-													<span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
-													Current
-												</span>
-											)}
-										</div>
-										<div className="flex items-center gap-3 text-text-sub-600 text-xs">
-											<span className="flex items-center gap-1">
-												<Icon
-													name={isMobile ? "smartphone" : "monitor"}
-													className="h-3 w-3"
-												/>
-												{isMobile ? "Mobile" : "Desktop"}
-											</span>
-											{session.ipAddress && (
+									{/* Right: Actions */}
+									{!isCurrent && (
+										<Button.Root
+											variant="error"
+											mode="lighter"
+											size="xsmall"
+											onClick={() => handleTerminateSession(session.token)}
+											disabled={terminatingSession === session.token}
+										>
+											{terminatingSession === session.token ? (
+												<Spinner size={12} color="var(--error-base)" />
+											) : (
 												<>
-													<span className="text-stroke-soft-200">•</span>
-													<span className="flex items-center gap-1">
-														<Icon name="globe" className="h-3 w-3" />
-														{session.ipAddress}
-													</span>
+													<Icon name="x" className="h-3.5 w-3.5" />
+													Revoke
 												</>
 											)}
-											<span className="text-stroke-soft-200">•</span>
-											<span className="flex items-center gap-1">
-												<Icon name="clock" className="h-3 w-3" />
-												{formatTimeAgo(session.updatedAt)}
-											</span>
-										</div>
-									</div>
+										</Button.Root>
+									)}
 								</div>
-
-								{/* Right: Actions */}
-								{!isCurrent && (
-									<Button.Root
-										variant="error"
-										mode="lighter"
-										size="xsmall"
-										onClick={() => handleTerminateSession(session.token)}
-										disabled={terminatingSession === session.token}
-									>
-										{terminatingSession === session.token ? (
-											<Spinner size={12} color="var(--error-base)" />
-										) : (
-											<>
-												<Icon name="x" className="h-3.5 w-3.5" />
-												Revoke
-											</>
-										)}
-									</Button.Root>
+								{/* Bottom border extending to edges (only for last item) */}
+								{index === sessions.length - 1 && (
+									<div className="relative">
+										<div className="absolute top-0 right-[-100vw] left-0 h-px bg-stroke-soft-200/50" />
+									</div>
 								)}
 							</motion.div>
 						);
@@ -369,7 +383,7 @@ export const SessionManagement = ({ className }: SessionManagementProps) => {
 					{/* Empty State */}
 					{sessions.length === 0 && (
 						<motion.div
-							className="flex flex-col items-center justify-center rounded-xl border border-stroke-soft-200/50 border-dashed py-12 text-center"
+							className="flex flex-col items-center justify-center px-5 py-12 text-center lg:px-6"
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.4, ease: [0.65, 0, 0.35, 1] }}

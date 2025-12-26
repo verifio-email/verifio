@@ -24,9 +24,7 @@ const SecurityPage = () => {
 
 			{/* Session Management Section */}
 			<div className="relative">
-				<div className="px-5 py-5 lg:px-6">
-					<SessionManagement />
-				</div>
+				<SessionManagement />
 				{/* Bottom border extending to right edge */}
 				<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
 			</div>

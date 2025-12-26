@@ -54,7 +54,7 @@ const Team = () => {
 			</div>
 
 			{/* Team List Section */}
-			<div className="flex-1 px-5 py-4 lg:px-6">
+			<div className="flex-1">
 				<TeamList searchQuery={searchQuery} filters={filters} />
 			</div>
 
