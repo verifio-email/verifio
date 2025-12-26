@@ -10,6 +10,7 @@ import { ApiKeyHeader } from "./components/api-key-header";
 interface ApiKeyData {
 	id: string;
 	name: string | null;
+	key: string;
 	start: string | null;
 	prefix: string | null;
 	organizationId: string;
@@ -85,18 +86,18 @@ const ApiKeyDetailPage = () => {
 	// Create the ApiKeyData array format expected by DeleteApiKeyModal
 	const apiKeysForModal = apiKeyData
 		? [
-			{
-				id: apiKeyData.id,
-				name: apiKeyData.name,
-				start: apiKeyData.start,
-				prefix: apiKeyData.prefix,
-				enabled: apiKeyData.enabled,
-				requestCount: apiKeyData.requestCount,
-				remaining: apiKeyData.remaining,
-				expiresAt: apiKeyData.expiresAt,
-				createdAt: apiKeyData.createdAt,
-			},
-		]
+				{
+					id: apiKeyData.id,
+					name: apiKeyData.name,
+					start: apiKeyData.start,
+					prefix: apiKeyData.prefix,
+					enabled: apiKeyData.enabled,
+					requestCount: apiKeyData.requestCount,
+					remaining: apiKeyData.remaining,
+					expiresAt: apiKeyData.expiresAt,
+					createdAt: apiKeyData.createdAt,
+				},
+			]
 		: [];
 
 	return (
@@ -109,7 +110,10 @@ const ApiKeyDetailPage = () => {
 					onDeleteApiKey={handleDeleteApiKey}
 				/>
 			</div>
-			<DeleteApiKeyModal apiKeys={apiKeysForModal} onDeleteSuccess={handleDeleteSuccess} />
+			<DeleteApiKeyModal
+				apiKeys={apiKeysForModal}
+				onDeleteSuccess={handleDeleteSuccess}
+			/>
 		</>
 	);
 };
