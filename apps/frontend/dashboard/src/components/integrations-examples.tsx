@@ -112,7 +112,7 @@ const IntegrationItem: React.FC<{
 	return (
 		<Link
 			href={integration.href || "#"}
-			className={`flex items-center gap-3 border-stroke-soft-200 border-b px-4 py-3 transition-colors hover:bg-bg-weak-50 ${!isLastColumn ? "border-r" : ""}`}
+			className={`flex items-center gap-3 border-stroke-soft-200/50 border-b px-4 py-3 transition-colors hover:bg-bg-weak-50 ${!isLastColumn ? "border-r" : ""}`}
 		>
 			<Icon name={integration.icon} className="h-5 w-5 text-text-sub-600" />
 			<span className="text-sm text-text-strong-950">{integration.name}</span>
@@ -131,7 +131,7 @@ const ExampleProjectItem: React.FC<{ project: ExampleProject }> = ({
 	project,
 }) => {
 	return (
-		<div className="border-stroke-soft-200 border-b p-4 last:border-b-0">
+		<div className="border-stroke-soft-200/50 border-b p-4 last:border-b-0">
 			<h4 className="font-medium font-mono text-sm text-text-strong-950">
 				{project.title}
 			</h4>
@@ -151,7 +151,7 @@ const ExampleProjectItem: React.FC<{ project: ExampleProject }> = ({
 const IntegrationsSection = () => {
 	return (
 		<div className="flex-1">
-			<div className="border-stroke-soft-200 border-b p-6 pb-4">
+			<div className="border-stroke-soft-200/50 border-b p-6 pb-4">
 				<h3 className="font-semibold text-lg text-text-strong-950">
 					Integrations
 				</h3>
@@ -173,7 +173,7 @@ const IntegrationsSection = () => {
 const ExampleProjectsSection = () => {
 	return (
 		<div className="flex-1">
-			<div className="border-stroke-soft-200 border-b p-6 pb-4">
+			<div className="border-stroke-soft-200/50 border-b p-6 pb-4">
 				<h3 className="font-semibold text-lg text-text-strong-950">
 					Example Projects
 				</h3>
@@ -190,11 +190,11 @@ const ExampleProjectsSection = () => {
 // Main Integrations and Examples Section
 export const IntegrationsExamplesSection = () => {
 	return (
-		<div className="border-stroke-soft-200 border-b">
+		<div className="border-stroke-soft-200/50 border-b">
 			<div className="px-6 2xl:px-32">
-				<div className="flex flex-col border-stroke-soft-200 border-r border-l lg:flex-row">
+				<div className="flex flex-col border-stroke-soft-200/50 border-r border-l lg:flex-row">
 					{/* Left Column - Integrations */}
-					<div className="flex-1 border-stroke-soft-200 border-r">
+					<div className="flex-1 border-stroke-soft-200/50 border-r">
 						<IntegrationsSection />
 					</div>
 

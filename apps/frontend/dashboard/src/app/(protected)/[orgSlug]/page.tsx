@@ -52,7 +52,7 @@ export default function Home() {
 			<DashboardStatsSection />
 
 			{/* Blank space before Integrations */}
-			<div className="h-16 border-stroke-soft-200 border-b" />
+			<div className="h-16 border-stroke-soft-200/50 border-b" />
 
 			{/* Integrations and Example Projects Section */}
 			<IntegrationsExamplesSection />

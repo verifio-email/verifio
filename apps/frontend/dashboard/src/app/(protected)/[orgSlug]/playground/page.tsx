@@ -128,9 +128,9 @@ const PlaygroundPage = () => {
 	return (
 		<div className="flex-1 overflow-y-auto">
 			{/* Header Section */}
-			<div className="border-stroke-soft-200 border-b">
+			<div className="border-stroke-soft-200/50 border-b">
 				<div className="px-[340px] 2xl:px-[450px]">
-					<div className="relative border-stroke-soft-200 border-r border-l pt-24 pb-12 text-center">
+					<div className="relative border-stroke-soft-200/50 border-r border-l pt-24 pb-12 text-center">
 						<h1 className="relative font-semibold text-2xl text-text-strong-950 md:text-3xl">
 							Playground
 						</h1>
@@ -142,9 +142,9 @@ const PlaygroundPage = () => {
 			</div>
 
 			{/* Tab Navigation Section */}
-			<div className="border-stroke-soft-200 border-b">
+			<div className="border-stroke-soft-200/50 border-b">
 				<div className="px-[340px] 2xl:px-[450px]">
-					<div className="flex items-center justify-center border-stroke-soft-200 border-r border-l py-6">
+					<div className="flex items-center justify-center border-stroke-soft-200/50 border-r border-l py-6">
 						{/* Tab container with gray background */}
 						<div className="relative flex items-center gap-1 rounded-xl bg-bg-weak-50 p-0.5">
 							{tabs.map((tab) => (
@@ -206,17 +206,17 @@ const PlaygroundPage = () => {
 			</div>
 
 			{/* Input Section */}
-			<div className="border-stroke-soft-200 border-b">
+			<div className="border-stroke-soft-200/50 border-b">
 				<div className="px-52 2xl:px-[350px]">
-					<div className="border-stroke-soft-200 border-r border-l px-7 py-10">
+					<div className="border-stroke-soft-200/50 border-r border-l px-7 py-10">
 						<div className="mx-auto max-w-3xl">
-							<div className="overflow-hidden rounded-[20px] bg-bg-white-0 shadow-regular-md ring-1 ring-stroke-soft-200">
+							<div className="overflow-hidden rounded-[20px] bg-bg-white-0 shadow-regular-md ring-1 ring-stroke-soft-200/50">
 								{activeTab === "single" ? (
 									<>
 										{/* Single Email Input */}
 										<label className="block cursor-text overflow-hidden p-3">
 											<div className="flex items-center gap-3 transition-all duration-[400ms]">
-												<div className="pointer-events-none w-max shrink-0 rounded-lg bg-bg-weak-50 px-2.5 py-1 text-text-soft-400 ring-1 ring-stroke-soft-200">
+												<div className="pointer-events-none w-max shrink-0 rounded-lg bg-bg-weak-50 px-2.5 py-1 text-text-soft-400 ring-1 ring-stroke-soft-200/50">
 													<span>email@</span>
 												</div>
 												<input
@@ -234,18 +234,18 @@ const PlaygroundPage = () => {
 										</label>
 
 										{/* Action Row */}
-										<div className="flex flex-wrap items-center justify-between gap-2 border-stroke-soft-200 border-t p-3">
+										<div className="flex flex-wrap items-center justify-between gap-2 border-stroke-soft-200/50 border-t p-3">
 											<div className="flex items-center gap-2">
 												<button
 													type="button"
-													className="flex h-8 w-8 items-center justify-center rounded-lg text-text-sub-600 ring-1 ring-stroke-soft-200 transition-all duration-200 hover:bg-bg-weak-50 active:scale-[0.99]"
+													className="flex h-8 w-8 items-center justify-center rounded-lg text-text-sub-600 ring-1 ring-stroke-soft-200/50 transition-all duration-200 hover:bg-bg-weak-50 active:scale-[0.99]"
 													aria-label="Settings"
 												>
 													<Icon name="settings" className="h-5 w-5" />
 												</button>
 												<button
 													type="button"
-													className="flex h-8 w-8 items-center justify-center rounded-lg text-text-sub-600 ring-1 ring-stroke-soft-200 transition-all duration-200 hover:bg-bg-weak-50 active:scale-[0.99]"
+													className="flex h-8 w-8 items-center justify-center rounded-lg text-text-sub-600 ring-1 ring-stroke-soft-200/50 transition-all duration-200 hover:bg-bg-weak-50 active:scale-[0.99]"
 													aria-label="Table view"
 												>
 													<Icon name="grid" className="h-5 w-5" />
@@ -253,7 +253,7 @@ const PlaygroundPage = () => {
 												<button
 													type="button"
 													onClick={() => setEmail("")}
-													className="flex h-8 w-8 items-center justify-center rounded-lg text-text-sub-600 ring-1 ring-stroke-soft-200 transition-all duration-200 hover:bg-bg-weak-50 active:scale-[0.99]"
+													className="flex h-8 w-8 items-center justify-center rounded-lg text-text-sub-600 ring-1 ring-stroke-soft-200/50 transition-all duration-200 hover:bg-bg-weak-50 active:scale-[0.99]"
 													aria-label="Clear"
 												>
 													<Icon name="trash" className="h-5 w-5" />
@@ -264,7 +264,7 @@ const PlaygroundPage = () => {
 												<button
 													type="button"
 													onClick={handleGetCode}
-													className="flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-text-sub-600 ring-1 ring-stroke-soft-200 transition-all duration-200 hover:bg-bg-weak-50 active:scale-[0.99]"
+													className="flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-text-sub-600 ring-1 ring-stroke-soft-200/50 transition-all duration-200 hover:bg-bg-weak-50 active:scale-[0.99]"
 												>
 													<Icon name="code" className="h-5 w-5" />
 													<span className="label-sm">Get code</span>
@@ -313,7 +313,7 @@ const PlaygroundPage = () => {
 													"flex cursor-pointer flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-10 transition-all duration-200",
 													isDragging
 														? "border-primary-base bg-primary-alpha-10"
-														: "border-stroke-soft-200 hover:border-primary-base hover:bg-bg-weak-50",
+														: "border-stroke-soft-200/50 hover:border-primary-base hover:bg-bg-weak-50",
 													csvFile && "border-success-base bg-success-alpha-10",
 												)}
 											>
@@ -345,11 +345,11 @@ const PlaygroundPage = () => {
 										</div>
 
 										{/* Action Row */}
-										<div className="flex items-center justify-end gap-2 border-stroke-soft-200 border-t p-3">
+										<div className="flex items-center justify-end gap-2 border-stroke-soft-200/50 border-t p-3">
 											<button
 												type="button"
 												onClick={handleGetCode}
-												className="flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-text-sub-600 ring-1 ring-stroke-soft-200 transition-all duration-200 hover:bg-bg-weak-50 active:scale-[0.99]"
+												className="flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-text-sub-600 ring-1 ring-stroke-soft-200/50 transition-all duration-200 hover:bg-bg-weak-50 active:scale-[0.99]"
 											>
 												<Icon name="code" className="h-5 w-5" />
 												<span className="label-sm">Get code</span>
@@ -382,9 +382,9 @@ const PlaygroundPage = () => {
 			</div>
 
 			{/* Recent Runs Section */}
-			<div className="border-stroke-soft-200 border-b">
+			<div className="border-stroke-soft-200/50 border-b">
 				<div className="px-6 2xl:px-32">
-					<div className="border-stroke-soft-200 border-r border-l p-6">
+					<div className="border-stroke-soft-200/50 border-r border-l p-6">
 						<div className="mx-auto max-w-3xl">
 							<h2 className="mb-4 font-semibold text-lg text-text-strong-950">
 								Recent Runs
@@ -392,7 +392,7 @@ const PlaygroundPage = () => {
 
 							<div className="grid gap-4 md:grid-cols-2">
 								{recentRuns.length === 0 ? (
-									<div className="col-span-2 flex flex-col items-center justify-center rounded-xl border border-stroke-soft-200 border-dashed bg-bg-weak-50 py-12">
+									<div className="col-span-2 flex flex-col items-center justify-center rounded-xl border border-stroke-soft-200/50 border-dashed bg-bg-weak-50 py-12">
 										<Icon
 											name="clock"
 											className="mb-3 h-8 w-8 text-text-disabled-300"
@@ -406,7 +406,7 @@ const PlaygroundPage = () => {
 									recentRuns.map((run) => (
 										<div
 											key={run.id}
-											className="rounded-xl border border-stroke-soft-200 bg-bg-white-0 p-4 transition-colors hover:bg-bg-weak-50"
+											className="rounded-xl border border-stroke-soft-200/50 bg-bg-white-0 p-4 transition-colors hover:bg-bg-weak-50"
 										>
 											<div className="mb-3 flex items-center gap-3">
 												<div className="flex h-8 w-8 items-center justify-center rounded-lg bg-bg-weak-50">

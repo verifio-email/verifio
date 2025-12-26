@@ -2,16 +2,19 @@
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
-import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useRef, useState } from "react";
 
 const list = [
 	{
-		title: "Genera",
+		title: "General",
 		path: "/settings",
 		iconName: "gear",
+	},
+	{
+		title: "Account",
+		path: "/settings/account",
+		iconName: "user",
 	},
 	{
 		title: "Team",
@@ -30,91 +33,63 @@ const list = [
 	},
 ];
 
-export const SideBar = () => {
-	const [idx, setIdx] = useState<number | undefined>(undefined);
-	const buttonRefs = useRef<HTMLAnchorElement[]>([]);
+export const SettingsSidebar = () => {
 	const pathname = usePathname();
-	const pathWithoutSlug = pathname.replace(/^\/[^/]+/, "") || "/";
-	const activeIndex = list.findIndex((item) => item.path === pathWithoutSlug);
 	const { activeOrganization } = useUserOrganization();
-	const currentIdx = idx !== undefined ? idx : activeIndex;
-	const tab = buttonRefs.current[currentIdx];
-	const rect = tab?.getBoundingClientRect();
+
+	// Extract path without org slug
+	const pathWithoutSlug = pathname.replace(/^\/[^/]+/, "") || "/";
+
+	// Match current path to list items
+	const isActive = (itemPath: string) => {
+		if (itemPath === "/settings") {
+			return pathWithoutSlug === "/settings" || pathWithoutSlug === "/";
+		}
+		return (
+			pathWithoutSlug === itemPath || pathWithoutSlug.startsWith(itemPath + "/")
+		);
+	};
 
 	return (
-		<div>
-			<div className="sticky top-24 z-10 flex w-64 flex-col gap-2 pt-5">
-				<div className="relative">
-					{list.map(({ path, title, iconName }, index) => {
-						return (
-							<Link
-								key={path + index}
-								href={`/${activeOrganization.slug}${path}`}
-								ref={(el) => {
-									if (el) {
-										buttonRefs.current[index] = el;
-									}
-								}}
-								onPointerEnter={() => setIdx(index)}
-								onPointerLeave={() => setIdx(undefined)}
+		<nav className="relative">
+			{/* Background highlight for active tab */}
+			<div className="space-y-1.5">
+				{list.map(({ path, title, iconName }) => {
+					const active = isActive(path);
+					return (
+						<Link
+							key={path}
+							href={`/${activeOrganization.slug}${path}`}
+							className={cn(
+								"group relative flex h-10 w-full items-center gap-3 rounded-xl px-3 text-left transition-all",
+								active ? "bg-primary-alpha-10" : "hover:bg-bg-weak-50",
+							)}
+						>
+							<div className="flex h-10 flex-shrink-0 items-center justify-center">
+								<Icon
+									name={iconName}
+									className={cn(
+										"h-4 w-4 transition-all",
+										active
+											? "text-primary"
+											: "text-text-soft-400 group-hover:text-text-sub-600",
+									)}
+								/>
+							</div>
+							<span
 								className={cn(
-									"flex h-12 items-center justify-start gap-2 px-4 text-left",
-									!rect &&
-										currentIdx === index &&
-										"rounded-lg bg-neutral-alpha-10",
+									"flex-1 font-medium text-sm transition-all",
+									active
+										? "text-primary"
+										: "text-text-sub-600 group-hover:text-text-strong-950",
 								)}
 							>
-								<Icon name={iconName} className="h-4 w-4" />
-								<span>{title}</span>
-							</Link>
-						);
-					})}
-					<AnimatePresence>
-						{rect ? (
-							<motion.div
-								className="absolute top-0 left-0 rounded-lg bg-neutral-alpha-10"
-								initial={{
-									pointerEvents: "none",
-									width: rect.width,
-									height: rect.height,
-									left:
-										rect.left -
-										(tab?.offsetParent?.getBoundingClientRect().left || 0),
-									top:
-										rect.top -
-										(tab?.offsetParent?.getBoundingClientRect().top || 0),
-									opacity: 0,
-								}}
-								animate={{
-									pointerEvents: "none",
-									width: rect.width,
-									height: rect.height,
-									left:
-										rect.left -
-										(tab?.offsetParent?.getBoundingClientRect().left || 0),
-									top:
-										rect.top -
-										(tab?.offsetParent?.getBoundingClientRect().top || 0),
-									opacity: 1,
-								}}
-								exit={{
-									pointerEvents: "none",
-									opacity: 0,
-									width: rect.width,
-									height: rect.height,
-									left:
-										rect.left -
-										(tab?.offsetParent?.getBoundingClientRect().left || 0),
-									top:
-										rect.top -
-										(tab?.offsetParent?.getBoundingClientRect().top || 0),
-								}}
-								transition={{ duration: 0.14 }}
-							/>
-						) : null}
-					</AnimatePresence>
-				</div>
+								{title}
+							</span>
+						</Link>
+					);
+				})}
 			</div>
-		</div>
+		</nav>
 	);
 };

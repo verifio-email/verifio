@@ -37,7 +37,7 @@ const EmailStatsSection = () => {
 			<div className="h-40 w-full" />
 
 			{/* Timeline markers */}
-			<div className="mt-2 flex justify-between border-stroke-soft-200 border-t pt-2">
+			<div className="mt-2 flex justify-between border-stroke-soft-200/50 border-t pt-2">
 				<span className="text-text-sub-600 text-xs">12/18</span>
 				<span className="text-text-sub-600 text-xs">12/21</span>
 				<span className="text-text-sub-600 text-xs">12/25</span>
@@ -49,7 +49,7 @@ const EmailStatsSection = () => {
 // Left Column: Concurrent Requests Section
 const ConcurrentRequestsSection = () => {
 	return (
-		<div className="border-stroke-soft-200 border-t p-6">
+		<div className="border-stroke-soft-200/50 border-t p-6">
 			<div className="mb-4 flex items-center gap-2">
 				<h3 className="font-semibold text-lg text-text-strong-950">
 					Concurrent Requests
@@ -67,7 +67,7 @@ const ConcurrentRequestsSection = () => {
 			</p>
 
 			<div className="flex items-center gap-3">
-				<div className="flex h-10 w-10 items-center justify-center rounded-lg border border-stroke-soft-200 bg-bg-weak-50">
+				<div className="flex h-10 w-10 items-center justify-center rounded-lg border border-stroke-soft-200/50 bg-bg-weak-50">
 					<span className="font-semibold text-lg text-text-strong-950">0</span>
 				</div>
 				<span className="text-[13px] text-text-sub-600">
@@ -198,7 +198,7 @@ const McpIntegrationSection = () => {
 	};
 
 	return (
-		<div className="border-stroke-soft-200 border-t p-6">
+		<div className="border-stroke-soft-200/50 border-t p-6">
 			<div className="mb-4 flex items-center justify-between">
 				<div>
 					<h3 className="font-semibold text-lg text-text-strong-950">
@@ -217,7 +217,7 @@ const McpIntegrationSection = () => {
 					<button
 						type="button"
 						onClick={() => setIsVisible(!isVisible)}
-						className="flex h-8 w-8 items-center justify-center rounded border border-stroke-soft-200 bg-bg-white-0 transition-colors hover:bg-bg-weak-50"
+						className="flex h-8 w-8 items-center justify-center rounded border border-stroke-soft-200/50 bg-bg-white-0 transition-colors hover:bg-bg-weak-50"
 						aria-label={isVisible ? "Hide code" : "Show code"}
 					>
 						<Icon
@@ -228,7 +228,7 @@ const McpIntegrationSection = () => {
 					<button
 						type="button"
 						onClick={handleCopy}
-						className="flex h-8 w-8 items-center justify-center rounded border border-stroke-soft-200 bg-bg-white-0 transition-colors hover:bg-bg-weak-50"
+						className="flex h-8 w-8 items-center justify-center rounded border border-stroke-soft-200/50 bg-bg-white-0 transition-colors hover:bg-bg-weak-50"
 						aria-label="Copy code"
 					>
 						<Icon name="copy" className="h-4 w-4 text-text-sub-600" />
@@ -287,11 +287,11 @@ const McpIntegrationSection = () => {
 // Main Dashboard Stats Section
 export const DashboardStatsSection = () => {
 	return (
-		<div className="border-stroke-soft-200 border-b">
+		<div className="border-stroke-soft-200/50 border-b">
 			<div className="px-6 2xl:px-32">
-				<div className="flex flex-col border-stroke-soft-200 border-r border-l lg:flex-row">
+				<div className="flex flex-col border-stroke-soft-200/50 border-r border-l lg:flex-row">
 					{/* Left Column */}
-					<div className="flex-1 border-stroke-soft-200 border-r">
+					<div className="flex-1 border-stroke-soft-200/50 border-r">
 						<EmailStatsSection />
 						<ConcurrentRequestsSection />
 					</div>

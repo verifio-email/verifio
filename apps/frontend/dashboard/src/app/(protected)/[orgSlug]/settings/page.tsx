@@ -198,18 +198,75 @@ const SettingsPage = () => {
 	};
 
 	return (
-		<div className="w-full space-y-8 pt-5">
-			<div>
-				<div className="mb-6">
-					<p className="font-medium text-label-md text-text-strong-950">
-						Workspace
-					</p>
-					<p className="text-paragraph-sm text-text-sub-600">
-						Customize your workspace settings
-					</p>
+		<div className="h-full">
+			{/* Workspace Name Section */}
+			<div className="relative">
+				<div className="border-stroke-soft-200/50">
+					<div className="px-5 pt-5 pb-4 lg:px-6">
+						<h3 className="font-medium text-label-md text-text-strong-950">
+							Workspace Name
+						</h3>
+						<p className="text-paragraph-sm text-text-sub-600">
+							Update your workspace's display name
+						</p>
+					</div>
+					<div className="px-5 pb-5 lg:px-6">
+						<div className="flex flex-col gap-3 lg:flex-row">
+							<div className="flex-1">
+								<Input.Root className="w-full" size="small">
+									<Input.Wrapper className="w-full">
+										<Input.Input
+											id="name"
+											type="text"
+											placeholder="Organization Name"
+											value={organizationName}
+											onChange={(e) => {
+												const newName = e.target.value;
+												setOrganizationName(newName);
+											}}
+										/>
+									</Input.Wrapper>
+								</Input.Root>
+							</div>
+							<Button.Root
+								size="xsmall"
+								onClick={handleSaveChanges}
+								disabled={
+									!hasChanges ||
+									slugStatus === "taken" ||
+									slugStatus === "checking" ||
+									isUploading ||
+									isSaving
+								}
+							>
+								{isSaving ? (
+									<>
+										<Spinner size={14} color="var(--text-strong-950)" />
+										Saving...
+									</>
+								) : (
+									"Save"
+								)}
+							</Button.Root>
+						</div>
+					</div>
 				</div>
-				<div className="w-full space-y-5">
-					<div>
+				{/* Bottom border extending to right edge */}
+				<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
+			</div>
+
+			{/* Workspace Logo Section */}
+			<div className="relative">
+				<div className="border-stroke-soft-200/50">
+					<div className="px-5 pt-5 pb-4 lg:px-6">
+						<h3 className="font-medium text-label-md text-text-strong-950">
+							Workspace Logo
+						</h3>
+						<p className="text-paragraph-sm text-text-sub-600">
+							Upload a logo for your workspace
+						</p>
+					</div>
+					<div className="px-5 pb-5 lg:px-6">
 						<div className="flex items-center gap-4">
 							<input
 								ref={fileInputRef}
@@ -273,114 +330,103 @@ const SettingsPage = () => {
 							</div>
 						</div>
 					</div>
-					<div className="grid grid-cols-1 gap-3">
-						<div>
-							<Label.Root htmlFor="name">Name</Label.Root>
-							<Input.Root className="mt-1 w-full" size="small">
-								<Input.Wrapper className="w-full">
-									<Input.Input
-										id="name"
-										type="text"
-										placeholder="Organization Name"
-										value={organizationName}
-										onChange={(e) => {
-											const newName = e.target.value;
-											setOrganizationName(newName);
-										}}
-									/>
-								</Input.Wrapper>
-							</Input.Root>
-						</div>
-						<div>
-							<Label.Root htmlFor="slug">Slug</Label.Root>
-							<Input.Root
-								size="small"
-								className="mt-1 w-full"
-								hasError={slugStatus === "taken"}
-								hassuccess={slugStatus === "available"}
-							>
-								<Input.Wrapper className="gap-0">
-									<Input.InlineAffix>
-										verifio.email/dashboard/
-									</Input.InlineAffix>
-									<Input.Input
-										id="slug"
-										type="text"
-										placeholder="organization-slug"
-										value={slug}
-										onChange={(e) => handleSlugChange(e.target.value)}
-									/>
-									{slugStatus === "checking" && (
-										<Input.InlineAffix>
-											<Spinner size={16} color="var(--text-strong-950)" />
-										</Input.InlineAffix>
-									)}
-									{slugStatus === "available" && (
-										<Input.InlineAffix>
-											<Icon
-												name="check-circle"
-												className="h-4 w-4 text-green-500"
-											/>
-										</Input.InlineAffix>
-									)}
-									{slugStatus === "taken" && (
-										<Input.InlineAffix>
-											<Icon name="x-circle" className="h-4 w-4 text-red-500" />
-										</Input.InlineAffix>
-									)}
-								</Input.Wrapper>
-							</Input.Root>
-							{slugStatus === "taken" && (
-								<p className="mt-1 text-paragraph-xs text-red-500">
-									This workspace handle is already taken
-								</p>
-							)}
-						</div>
+				</div>
+				{/* Bottom border extending to right edge */}
+				<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
+			</div>
+
+			{/* Slug Section */}
+			<div className="relative">
+				<div className="border-stroke-soft-200/50">
+					<div className="px-5 pt-5 pb-4 lg:px-6">
+						<h3 className="font-medium text-label-md text-text-strong-950">
+							Workspace URL
+						</h3>
+						<p className="text-paragraph-sm text-text-sub-600">
+							Customize your workspace's URL slug
+						</p>
 					</div>
-					<div className="flex justify-end">
-						<Button.Root
-							size="xsmall"
-							onClick={handleSaveChanges}
-							disabled={
-								!hasChanges ||
-								slugStatus === "taken" ||
-								slugStatus === "checking" ||
-								isUploading ||
-								isSaving
-							}
+					<div className="px-5 pb-5 lg:px-6">
+						<Input.Root
+							size="small"
+							className="w-full"
+							hasError={slugStatus === "taken"}
+							hassuccess={slugStatus === "available"}
 						>
-							{isSaving ? (
-								<>
-									<Spinner size={14} color="var(--text-strong-950)" />
-									Saving...
-								</>
-							) : (
-								"Save Changes"
-							)}
-						</Button.Root>
+							<Input.Wrapper className="gap-0">
+								<Input.InlineAffix>verifio.email/dashboard/</Input.InlineAffix>
+								<Input.Input
+									id="slug"
+									type="text"
+									placeholder="organization-slug"
+									value={slug}
+									onChange={(e) => handleSlugChange(e.target.value)}
+								/>
+								{slugStatus === "checking" && (
+									<Input.InlineAffix>
+										<Spinner size={16} color="var(--text-strong-950)" />
+									</Input.InlineAffix>
+								)}
+								{slugStatus === "available" && (
+									<Input.InlineAffix>
+										<Icon
+											name="check-circle"
+											className="h-4 w-4 text-green-500"
+										/>
+									</Input.InlineAffix>
+								)}
+								{slugStatus === "taken" && (
+									<Input.InlineAffix>
+										<Icon name="x-circle" className="h-4 w-4 text-red-500" />
+									</Input.InlineAffix>
+								)}
+							</Input.Wrapper>
+						</Input.Root>
+						{slugStatus === "taken" && (
+							<p className="mt-1 text-paragraph-xs text-red-500">
+								This workspace handle is already taken
+							</p>
+						)}
 					</div>
-					<p className="font-medium text-label-md text-text-strong-950">
-						Danger zone
-					</p>
-					<div className="rounded-xl border border-error-light py-2 pr-2.5 pl-3">
-						<div className="flex items-center justify-between">
-							<div>
-								<p className="font-medium text-label-sm text-text-strong-950">
+				</div>
+				{/* Bottom border extending to right edge */}
+				<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
+			</div>
+
+			{/* Danger zone Section */}
+			<div className="relative">
+				<div className="border-stroke-soft-200/50">
+					<div className="px-5 pt-5 pb-4 lg:px-6">
+						<h3 className="font-medium text-label-md text-text-strong-950">
+							Danger zone
+						</h3>
+					</div>
+					<div className="px-5 pb-5 lg:px-6">
+						<div className="rounded-xl border border-error-light py-2 pr-2.5 pl-3">
+							<div className="flex items-center justify-between">
+								<div>
+									<p className="font-medium text-label-sm text-text-strong-950">
+										Delete workspace
+									</p>
+									<p className="text-paragraph-xs text-text-sub-600">
+										Delete your workspace and all of its data. This action is
+										irreversible.
+									</p>
+								</div>
+								<Button.Root variant="error" size="xsmall">
+									<Icon name="trash" className="size-3 text-white" />
 									Delete workspace
-								</p>
-								<p className="text-paragraph-xs text-text-sub-600">
-									Delete your workspace and all of its data. This action is
-									irreversible.
-								</p>
+								</Button.Root>
 							</div>
-							<Button.Root variant="error" size="xsmall">
-								<Icon name="trash" className="size-3 text-white" />
-								Delete workspace
-							</Button.Root>
 						</div>
 					</div>
 				</div>
+				{/* Bottom border extending to right edge */}
+				<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
 			</div>
+
+			{/* Bottom spacer - fills remaining height with borders */}
+			<div className="flex-1 border-stroke-soft-200/50 border-l" />
 		</div>
 	);
 };

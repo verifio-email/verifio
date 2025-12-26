@@ -14,7 +14,7 @@ const UsagePage = () => {
 			</div>
 
 			{/* Content Placeholder */}
-			<div className="flex flex-col items-center justify-center rounded-xl border border-stroke-soft-200 border-dashed bg-bg-weak-50 py-16">
+			<div className="flex flex-col items-center justify-center rounded-xl border border-stroke-soft-200/50 border-dashed bg-bg-weak-50 py-16">
 				<div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary-alpha-10">
 					<Icon name="chart-column" className="h-8 w-8 text-primary-base" />
 				</div>

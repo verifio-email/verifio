@@ -28,7 +28,7 @@ const EndpointCard: React.FC<EndpointCardProps> = ({
 			className={cn(
 				"group flex flex-1 p-6 transition-all duration-200 lg:p-6",
 				"hover:bg-bg-weak-50",
-				!isLast && "border-stroke-soft-200 border-r",
+				!isLast && "border-stroke-soft-200/50 border-r",
 			)}
 		>
 			{/* Content */}
@@ -68,11 +68,11 @@ export const ExploreEndpointsSection: React.FC<
 > = ({ endpoints, orgSlug }) => {
 	return (
 		<div>
-			<div className="border-stroke-soft-200 border-b">
+			<div className="border-stroke-soft-200/50 border-b">
 				{/* Header section */}
 				{/* add the differnt width for the header section */}
 				<div className="px-6 2xl:px-32">
-					<div className="border-stroke-soft-200 border-r border-b border-l px-5 pt-6 pb-5">
+					<div className="border-stroke-soft-200/50 border-r border-b border-l px-5 pt-6 pb-5">
 						<h2 className="font-semibold text-text-strong-950 text-xl">
 							Explore our endpoints
 						</h2>
@@ -85,7 +85,7 @@ export const ExploreEndpointsSection: React.FC<
 
 				{/* Cards grid */}
 				<div className="px-6 2xl:px-32">
-					<div className="flex flex-col border-stroke-soft-200 border-r border-l md:flex-row">
+					<div className="flex flex-col border-stroke-soft-200/50 border-r border-l md:flex-row">
 						{endpoints.map((endpoint, index) => (
 							<EndpointCard
 								key={endpoint.title}
@@ -100,7 +100,7 @@ export const ExploreEndpointsSection: React.FC<
 					</div>
 				</div>
 			</div>
-			<div className="h-16 border-stroke-soft-200 border-b" />
+			<div className="h-16 border-stroke-soft-200/50 border-b" />
 		</div>
 	);
 };

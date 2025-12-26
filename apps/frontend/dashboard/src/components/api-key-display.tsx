@@ -52,7 +52,7 @@ export const ApiKeyDisplay = () => {
 	};
 
 	return (
-		<div className="rounded-lg border border-stroke-soft-200 bg-bg-white-0 p-6">
+		<div className="rounded-lg border border-stroke-soft-200/50 bg-bg-white-0 p-6">
 			<div className="mb-4">
 				<h3 className="font-semibold text-lg text-text-strong-950">API Key</h3>
 				<p className="mt-1 text-sm text-text-sub-600">

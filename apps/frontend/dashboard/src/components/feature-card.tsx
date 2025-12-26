@@ -48,7 +48,7 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
 			</Link>
 			{!isLast && (
 				<div
-					className="w-px self-stretch bg-stroke-soft-200"
+					className="w-px self-stretch bg-stroke-soft-200/50"
 					aria-hidden="true"
 				/>
 			)}

@@ -1,17 +1,43 @@
 "use client";
-import { SettingsTabs } from "./components/tabs";
+import { SettingsSidebar } from "./components/sidebar";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
 	return (
-		<div className="mx-auto max-w-3xl px-6 pt-16">
-			<div className="pb-6">
-				<p className="font-medium text-2xl">Settings</p>
-				<p className="text-paragraph-sm text-text-sub-600">
-					Change the settings for your current workspace
-				</p>
+		<div className="flex h-full flex-col overflow-hidden">
+			{/* Header Section */}
+			<div className="border-stroke-soft-200/50 border-b">
+				<div className="px-32">
+					<div className="relative border-stroke-soft-200/50 border-r border-l">
+						<div className="px-6 py-8">
+							<h1 className="mb-2 font-medium text-2xl text-text-strong-950">
+								Settings
+							</h1>
+							<p className="text-paragraph-md text-text-sub-600">
+								Manage your team, billing, and account preferences
+							</p>
+						</div>
+					</div>
+				</div>
 			</div>
-			<SettingsTabs />
-			<div className="w-full flex-1 pb-10">{children}</div>
+
+			{/* Main Content Area with Sidebar - This needs to stretch */}
+			<div className="flex-1">
+				<div className="h-full px-32">
+					<div className="grid h-full grid-cols-1 lg:grid-cols-[220px_1fr]">
+						{/* Vertical Sidebar */}
+						<div className="relative hidden h-full border-stroke-soft-200/50 border-l lg:block">
+							<div className="sticky top-0 p-4">
+								<SettingsSidebar />
+							</div>
+						</div>
+
+						{/* Content Area - with right border */}
+						<div className="relative flex h-full flex-col border-stroke-soft-200/50 border-r border-l">
+							{children}
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 };
