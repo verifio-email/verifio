@@ -24,15 +24,7 @@ const SecurityPage = () => {
 
 			{/* Session Management Section */}
 			<div className="relative">
-				<div className="px-5 pt-5 pb-4 lg:px-6">
-					<h3 className="font-medium text-label-md text-text-strong-950">
-						Active Sessions
-					</h3>
-					<p className="text-paragraph-sm text-text-sub-600">
-						Manage your active sessions across devices
-					</p>
-				</div>
-				<div className="px-5 pb-5 lg:px-6">
+				<div className="px-5 py-5 lg:px-6">
 					<SessionManagement />
 				</div>
 				{/* Bottom border extending to right edge */}

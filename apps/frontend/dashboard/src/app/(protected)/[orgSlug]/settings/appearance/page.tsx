@@ -15,7 +15,11 @@ const AppearancePage = () => {
 						Select a theme to personalize your platform's appearance
 					</p>
 				</div>
-				<div className="px-5 pb-5 lg:px-6">
+				{/* Horizontal line below header - extends to right edge */}
+				<div className="relative">
+					<div className="absolute right-[-100vw] left-0 h-px bg-stroke-soft-200/50" />
+				</div>
+				<div className="px-5 py-5 lg:px-6">
 					<ThemeToggleAppearance />
 				</div>
 				{/* Bottom border extending to right edge */}

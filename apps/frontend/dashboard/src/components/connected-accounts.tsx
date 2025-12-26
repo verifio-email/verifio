@@ -110,15 +110,6 @@ export const ConnectedAccounts = ({ className }: ConnectedAccountsProps) => {
 
 	return (
 		<div className={cn("space-y-4", className)}>
-			<div>
-				<p className="font-medium text-label-md text-text-strong-950">
-					Connected Accounts
-				</p>
-				<p className="text-paragraph-sm text-text-sub-600">
-					See how you're signed in to your account
-				</p>
-			</div>
-
 			<div className="space-y-3">
 				{isLoading ? (
 					<>
