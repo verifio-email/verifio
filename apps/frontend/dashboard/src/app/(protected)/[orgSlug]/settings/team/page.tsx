@@ -25,9 +25,12 @@ const Team = () => {
 						Manage workspace members, set access levels, and invite new users.
 					</p>
 				</div>
-
+				<div className="relative">
+					{/* Bottom border extending to right edge */}
+					<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
+				</div>
 				{/* Search, Filter, and Invite Button */}
-				<div className="flex items-center gap-3 px-5 pb-5 lg:px-6">
+				<div className="flex items-center gap-3 px-5 pt-6 lg:px-6">
 					<div className="flex-1">
 						<Input.Root size="xsmall">
 							<Input.Wrapper>
@@ -48,8 +51,6 @@ const Team = () => {
 						<span>Invite members</span>
 					</Button.Root>
 				</div>
-				{/* Bottom border extending to right edge */}
-				<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
 			</div>
 
 			{/* Team List Section */}

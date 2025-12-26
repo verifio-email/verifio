@@ -86,22 +86,6 @@ const parseUserAgent = (userAgent: string | null | undefined) => {
 	return { browser, device, isMobile };
 };
 
-/**
- * Get animation properties for staggered animations
- */
-const getAnimationProps = (row: number, column: number) => {
-	return {
-		initial: { opacity: 0, y: "-100%" },
-		animate: { opacity: 1, y: 0 },
-		exit: { opacity: 0, y: "100%" },
-		transition: {
-			duration: 0.5,
-			delay: row * 0.07 + column * 0.1,
-			ease: [0.65, 0, 0.35, 1] as const,
-		},
-	};
-};
-
 export const SessionManagement = ({ className }: SessionManagementProps) => {
 	const [terminatingSession, setTerminatingSession] = useState<string | null>(
 		null,
@@ -198,39 +182,6 @@ export const SessionManagement = ({ className }: SessionManagementProps) => {
 		}
 	};
 
-	// Get OS icon component
-	const getOsIcon = (device: string) => {
-		const iconClass = "h-full w-full";
-		const deviceLower = device.toLowerCase();
-		if (deviceLower.includes("macos") || deviceLower.includes("ios")) {
-			return <Apple className={iconClass} />;
-		}
-		if (deviceLower.includes("windows")) {
-			return <Windows className={iconClass} />;
-		}
-		if (deviceLower.includes("ubuntu")) {
-			return <Ubuntu className={iconClass} />;
-		}
-		if (deviceLower.includes("linux")) {
-			return <Icon name="server" className="h-full w-full text-text-sub-600" />;
-		}
-		if (deviceLower.includes("android")) {
-			return (
-				<Icon name="smartphone" className="h-full w-full text-text-sub-600" />
-			);
-		}
-		return <Icon name="laptop" className="h-full w-full text-text-sub-600" />;
-	};
-
-	// Get device type icon (mobile or desktop)
-	const getDeviceTypeIcon = (isMobile: boolean) => {
-		return isMobile ? (
-			<Icon name="smartphone" className="h-3 w-3 text-text-sub-600" />
-		) : (
-			<Icon name="monitor" className="h-3 w-3 text-text-sub-600" />
-		);
-	};
-
 	const formatTimeAgo = (date: Date) => {
 		const now = new Date();
 		const dateObj = new Date(date);
@@ -266,57 +217,23 @@ export const SessionManagement = ({ className }: SessionManagementProps) => {
 					</div>
 				</div>
 
-				<div className="w-full overflow-hidden rounded-xl border border-stroke-soft-100 text-paragraph-sm">
-					{/* Table Header */}
-					<div className="grid grid-cols-[1fr_140px_140px_80px] items-center border-stroke-soft-100 border-b px-4 py-3.5 text-text-sub-600">
-						<div className="flex items-center gap-2">
-							<Icon name="monitor" className="h-4 w-4" />
-							<span className="text-xs">Session</span>
-						</div>
-						<div className="flex items-center gap-2">
-							<Icon name="globe" className="h-4 w-4" />
-							<span className="text-xs">IP Address</span>
-						</div>
-						<div className="flex items-center gap-2">
-							<Icon name="clock" className="h-4 w-4" />
-							<span className="text-xs">Last Active</span>
-						</div>
-						<div />
-					</div>
-
-					{/* Skeleton Rows */}
-					<div className="divide-y divide-stroke-soft-100">
-						{Array.from({ length: 3 }).map((_, index) => (
-							<div
-								key={`skeleton-${index}`}
-								className="grid grid-cols-[1fr_140px_140px_80px] px-4 py-2"
-							>
-								{/* Session Info Column */}
-								<div className="flex items-center gap-3">
-									<Skeleton className="h-5 w-5 rounded-full" />
-									<div className="flex-1 space-y-1">
-										<Skeleton className="h-4 w-24" />
-										<Skeleton className="h-3 w-32" />
-									</div>
-								</div>
-
-								{/* IP Address Column */}
-								<div className="flex items-center">
-									<Skeleton className="h-4 w-20" />
-								</div>
-
-								{/* Last Active Column */}
-								<div className="flex items-center">
-									<Skeleton className="h-4 w-16" />
-								</div>
-
-								{/* Action Column */}
-								<div className="flex items-center justify-end">
-									<Skeleton className="h-6 w-6 rounded" />
+				{/* Skeleton Cards */}
+				<div className="space-y-3">
+					{Array.from({ length: 2 }).map((_, index) => (
+						<div
+							key={`skeleton-${index}`}
+							className="flex items-center justify-between rounded-xl border border-stroke-soft-200/50 p-4"
+						>
+							<div className="flex items-center gap-4">
+								<Skeleton className="h-10 w-10 rounded-full" />
+								<div className="space-y-2">
+									<Skeleton className="h-4 w-32" />
+									<Skeleton className="h-3 w-48" />
 								</div>
 							</div>
-						))}
-					</div>
+							<Skeleton className="h-8 w-20 rounded-lg" />
+						</div>
+					))}
 				</div>
 			</div>
 		);
@@ -336,6 +253,7 @@ export const SessionManagement = ({ className }: SessionManagementProps) => {
 				{sessions.length > 1 && (
 					<Button.Root
 						variant="error"
+						mode="lighter"
 						size="xsmall"
 						onClick={handleTerminateAllSessions}
 						disabled={terminatingAll}
@@ -345,133 +263,113 @@ export const SessionManagement = ({ className }: SessionManagementProps) => {
 						) : (
 							<Icon name="logout" className="h-4 w-4" />
 						)}
-						Revoke All Sessions
+						Revoke All
 					</Button.Root>
 				)}
 			</div>
 
 			<AnimatePresence mode="wait">
-				<div className="w-full overflow-hidden rounded-xl border border-stroke-soft-100 text-paragraph-sm">
-					{/* Table Header */}
-					<div className="grid grid-cols-[1fr_140px_140px_80px] items-center border-stroke-soft-100 border-b px-4 py-3.5 text-text-sub-600">
-						<div className="flex items-center gap-2">
-							<Icon name="monitor" className="h-4 w-4" />
-							<span className="text-xs">Session</span>
-						</div>
-						<div className="flex items-center gap-2">
-							<Icon name="globe" className="h-4 w-4" />
-							<span className="text-xs">IP Address</span>
-						</div>
-						<div className="flex items-center gap-2">
-							<Icon name="clock" className="h-4 w-4" />
-							<span className="text-xs">Last Active</span>
-						</div>
-						<div />
-					</div>
+				<div className="space-y-3">
+					{sessions.map((session, index) => {
+						const { browser, device, isMobile } = parseUserAgent(
+							session.userAgent,
+						);
+						const isCurrent = isCurrentSession(session);
 
-					{/* Table Body */}
-					<div className="divide-y divide-stroke-soft-100">
-						{sessions.map((session, index) => {
-							const { browser, device, isMobile } = parseUserAgent(
-								session.userAgent,
-							);
-							const isCurrent = isCurrentSession(session);
-
-							return (
-								<div
-									key={
-										session.id
-											? `session-${session.id}`
-											: `session-idx-${index}`
-									}
-									className={cn(
-										"group/row grid grid-cols-[1fr_140px_140px_80px] items-center px-4 py-2 transition-colors",
-										"hover:bg-bg-weak-50/50",
-									)}
-								>
-									{/* Session Info Column */}
-									<div className="flex items-center gap-3">
-										{/* Browser Icon */}
-										<motion.div
-											{...getAnimationProps(index + 1, 0)}
-											className="flex h-5 w-5 flex-shrink-0 items-center justify-center"
-										>
-											{getBrowserIcon(browser)}
-										</motion.div>
-
-										{/* Session Details */}
-										<motion.div
-											{...getAnimationProps(index + 1, 1)}
-											className="min-w-0 flex-1"
-										>
-											<div className="flex items-center gap-2">
-												<span className="truncate font-medium text-label-xs text-text-strong-950">
-													{browser}
-												</span>
-												{isCurrent && (
-													<span className="flex items-center gap-1 rounded-md bg-success-lighter px-1 py-0.5 text-[10px] text-success-base">
-														<span className="h-1.5 w-1.5 rounded-md bg-success-base" />
-														Current
-													</span>
-												)}
-											</div>
-											<span className="text-[11px] text-text-sub-600">
-												{device} • {isMobile ? "Mobile" : "Desktop"}
-											</span>
-										</motion.div>
+						return (
+							<motion.div
+								key={
+									session.id ? `session-${session.id}` : `session-idx-${index}`
+								}
+								initial={{ opacity: 0, y: 10 }}
+								animate={{ opacity: 1, y: 0 }}
+								exit={{ opacity: 0, y: -10 }}
+								transition={{ duration: 0.2, delay: index * 0.05 }}
+								className={cn(
+									"group flex items-center justify-between rounded-xl border p-4 transition-all",
+									isCurrent
+										? "border-success-base/30 bg-success-lighter/30"
+										: "border-stroke-soft-200/50 hover:border-stroke-soft-200 hover:bg-bg-weak-50/50",
+								)}
+							>
+								{/* Left: Browser icon and session info */}
+								<div className="flex items-center gap-4">
+									{/* Browser Icon */}
+									<div
+										className={cn(
+											"flex h-10 w-10 items-center justify-center rounded-full p-2",
+											isCurrent ? "bg-success-lighter" : "bg-bg-weak-50",
+										)}
+									>
+										{getBrowserIcon(browser)}
 									</div>
 
-									{/* IP Address Column */}
-									<motion.span
-										{...getAnimationProps(index + 1, 2)}
-										className="font-mono text-label-xs text-text-sub-600"
-									>
-										{session.ipAddress || "—"}
-									</motion.span>
-
-									{/* Last Active Column */}
-									<motion.span
-										{...getAnimationProps(index + 1, 3)}
-										className="text-label-xs text-text-sub-600"
-									>
-										{formatTimeAgo(session.updatedAt)}
-									</motion.span>
-
-									{/* Action Column */}
-									<div className="flex items-center justify-end">
-										{!isCurrent && (
-											<motion.div {...getAnimationProps(index + 1, 4)}>
-												<Button.Root
-													mode="ghost"
-													size="xxsmall"
-													onClick={() => handleTerminateSession(session.token)}
-													disabled={terminatingSession === session.token}
-												>
-													{terminatingSession === session.token ? (
-														<Spinner size={12} color="var(--text-sub-600)" />
-													) : (
-														<Button.Root
-															variant="error"
-															mode="lighter"
-															size="xxsmall"
-															className="text-xs"
-														>
-															Revoke
-														</Button.Root>
-													)}
-												</Button.Root>
-											</motion.div>
-										)}
+									{/* Session Details */}
+									<div className="space-y-0.5">
+										<div className="flex items-center gap-2">
+											<span className="font-medium text-sm text-text-strong-950">
+												{browser} on {device}
+											</span>
+											{isCurrent && (
+												<span className="flex items-center gap-1 rounded-full bg-success-base px-2 py-0.5 font-medium text-[10px] text-white">
+													<span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
+													Current
+												</span>
+											)}
+										</div>
+										<div className="flex items-center gap-3 text-text-sub-600 text-xs">
+											<span className="flex items-center gap-1">
+												<Icon
+													name={isMobile ? "smartphone" : "monitor"}
+													className="h-3 w-3"
+												/>
+												{isMobile ? "Mobile" : "Desktop"}
+											</span>
+											{session.ipAddress && (
+												<>
+													<span className="text-stroke-soft-200">•</span>
+													<span className="flex items-center gap-1">
+														<Icon name="globe" className="h-3 w-3" />
+														{session.ipAddress}
+													</span>
+												</>
+											)}
+											<span className="text-stroke-soft-200">•</span>
+											<span className="flex items-center gap-1">
+												<Icon name="clock" className="h-3 w-3" />
+												{formatTimeAgo(session.updatedAt)}
+											</span>
+										</div>
 									</div>
 								</div>
-							);
-						})}
-					</div>
+
+								{/* Right: Actions */}
+								{!isCurrent && (
+									<Button.Root
+										variant="error"
+										mode="lighter"
+										size="xsmall"
+										onClick={() => handleTerminateSession(session.token)}
+										disabled={terminatingSession === session.token}
+									>
+										{terminatingSession === session.token ? (
+											<Spinner size={12} color="var(--error-base)" />
+										) : (
+											<>
+												<Icon name="x" className="h-3.5 w-3.5" />
+												Revoke
+											</>
+										)}
+									</Button.Root>
+								)}
+							</motion.div>
+						);
+					})}
 
 					{/* Empty State */}
 					{sessions.length === 0 && (
 						<motion.div
-							className="flex flex-col items-center justify-center py-12 text-center"
+							className="flex flex-col items-center justify-center rounded-xl border border-stroke-soft-200/50 border-dashed py-12 text-center"
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.4, ease: [0.65, 0, 0.35, 1] }}
