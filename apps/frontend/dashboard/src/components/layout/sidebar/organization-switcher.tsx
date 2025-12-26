@@ -23,18 +23,36 @@ interface OrganizationSwitcherProps {
 	side?: "bottom" | "right";
 }
 
-// Organization Avatar - shows first letter with primary color
+// Organization Avatar - shows logo image if available, otherwise first letter with primary color
 const OrgAvatar = ({
 	name,
+	logo,
 	size = 20,
 	isActive = false,
 }: {
 	name: string;
+	logo?: string | null;
 	size?: number;
 	isActive?: boolean;
 }) => {
 	const displayLetter = name?.charAt(0)?.toUpperCase() || "O";
 
+	// If logo exists, show the image
+	if (logo) {
+		return (
+			<img
+				src={logo}
+				alt={name}
+				className="rounded object-cover"
+				style={{
+					width: size,
+					height: size,
+				}}
+			/>
+		);
+	}
+
+	// Otherwise show first letter
 	return (
 		<span
 			className={cn(
@@ -95,7 +113,12 @@ export const OrganizationSwitcher: React.FC<OrganizationSwitcherProps> = ({
 							className="flex h-10 w-10 items-center justify-center rounded-xl bg-neutral-alpha-10 transition-all hover:bg-neutral-alpha-16 active:scale-[0.98]"
 							title={activeOrganization.name}
 						>
-							<OrgAvatar name={activeOrganization.name} size={20} isActive />
+							<OrgAvatar
+								name={activeOrganization.name}
+								logo={activeOrganization.logo}
+								size={20}
+								isActive
+							/>
 						</button>
 					</Dropdown.Trigger>
 					<Dropdown.Content
@@ -141,7 +164,12 @@ export const OrganizationSwitcher: React.FC<OrganizationSwitcherProps> = ({
 							"text-text-strong-950",
 						)}
 					>
-						<OrgAvatar name={activeOrganization.name} size={16} isActive />
+						<OrgAvatar
+							name={activeOrganization.name}
+							logo={activeOrganization.logo}
+							size={16}
+							isActive
+						/>
 						<span className="font-medium text-sm">
 							{activeOrganization.name}
 						</span>
@@ -232,6 +260,7 @@ const OrgDropdownContent: React.FC<OrgDropdownContentProps> = ({
 						>
 							<OrgAvatar
 								name={organization.name}
+								logo={organization.logo}
 								size={20}
 								isActive={isActive}
 							/>

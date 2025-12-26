@@ -199,62 +199,6 @@ const SettingsPage = () => {
 
 	return (
 		<div className="h-full">
-			{/* Workspace Name Section */}
-			<div className="relative">
-				<div className="border-stroke-soft-200/50">
-					<div className="px-5 pt-5 pb-4 lg:px-6">
-						<h3 className="font-medium text-label-md text-text-strong-950">
-							Workspace Name
-						</h3>
-						<p className="text-paragraph-sm text-text-sub-600">
-							Update your workspace's display name
-						</p>
-					</div>
-					<div className="px-5 pb-5 lg:px-6">
-						<div className="flex flex-col gap-3 lg:flex-row">
-							<div className="flex-1">
-								<Input.Root className="w-full" size="small">
-									<Input.Wrapper className="w-full">
-										<Input.Input
-											id="name"
-											type="text"
-											placeholder="Organization Name"
-											value={organizationName}
-											onChange={(e) => {
-												const newName = e.target.value;
-												setOrganizationName(newName);
-											}}
-										/>
-									</Input.Wrapper>
-								</Input.Root>
-							</div>
-							<Button.Root
-								size="xsmall"
-								onClick={handleSaveChanges}
-								disabled={
-									!hasChanges ||
-									slugStatus === "taken" ||
-									slugStatus === "checking" ||
-									isUploading ||
-									isSaving
-								}
-							>
-								{isSaving ? (
-									<>
-										<Spinner size={14} color="var(--text-strong-950)" />
-										Saving...
-									</>
-								) : (
-									"Save"
-								)}
-							</Button.Root>
-						</div>
-					</div>
-				</div>
-				{/* Bottom border extending to right edge */}
-				<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
-			</div>
-
 			{/* Workspace Logo Section */}
 			<div className="relative">
 				<div className="border-stroke-soft-200/50">
@@ -335,58 +279,116 @@ const SettingsPage = () => {
 				<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
 			</div>
 
-			{/* Slug Section */}
+			{/* Workspace Name and URL Section */}
 			<div className="relative">
 				<div className="border-stroke-soft-200/50">
 					<div className="px-5 pt-5 pb-4 lg:px-6">
 						<h3 className="font-medium text-label-md text-text-strong-950">
-							Workspace URL
+							Workspace Details
 						</h3>
 						<p className="text-paragraph-sm text-text-sub-600">
-							Customize your workspace's URL slug
+							Update your workspace's display name and URL
 						</p>
 					</div>
 					<div className="px-5 pb-5 lg:px-6">
-						<Input.Root
-							size="small"
-							className="w-full"
-							hasError={slugStatus === "taken"}
-							hassuccess={slugStatus === "available"}
-						>
-							<Input.Wrapper className="gap-0">
-								<Input.InlineAffix>verifio.email/dashboard/</Input.InlineAffix>
-								<Input.Input
-									id="slug"
-									type="text"
-									placeholder="organization-slug"
-									value={slug}
-									onChange={(e) => handleSlugChange(e.target.value)}
-								/>
-								{slugStatus === "checking" && (
-									<Input.InlineAffix>
-										<Spinner size={16} color="var(--text-strong-950)" />
-									</Input.InlineAffix>
-								)}
-								{slugStatus === "available" && (
-									<Input.InlineAffix>
-										<Icon
-											name="check-circle"
-											className="h-4 w-4 text-green-500"
+						<div className="flex flex-col gap-5">
+							{/* Workspace Name */}
+							<div>
+								<Label.Root htmlFor="name" className="mb-1">
+									Workspace Name
+								</Label.Root>
+								<Input.Root className="w-full" size="small">
+									<Input.Wrapper className="w-full">
+										<Input.Input
+											id="name"
+											type="text"
+											placeholder="Organization Name"
+											value={organizationName}
+											onChange={(e) => {
+												const newName = e.target.value;
+												setOrganizationName(newName);
+											}}
 										/>
-									</Input.InlineAffix>
-								)}
+									</Input.Wrapper>
+								</Input.Root>
+							</div>
+
+							{/* Workspace URL */}
+							<div>
+								<Label.Root htmlFor="slug" className="mb-1">
+									Workspace URL
+								</Label.Root>
+								<Input.Root
+									size="small"
+									className="w-full"
+									hasError={slugStatus === "taken"}
+									hassuccess={slugStatus === "available"}
+								>
+									<Input.Wrapper className="gap-0">
+										<Input.InlineAffix>
+											verifio.email/dashboard/
+										</Input.InlineAffix>
+										<Input.Input
+											id="slug"
+											type="text"
+											placeholder="organization-slug"
+											value={slug}
+											onChange={(e) => handleSlugChange(e.target.value)}
+										/>
+										{slugStatus === "checking" && (
+											<Input.InlineAffix>
+												<Spinner size={16} color="var(--text-strong-950)" />
+											</Input.InlineAffix>
+										)}
+										{slugStatus === "available" && (
+											<Input.InlineAffix>
+												<Icon
+													name="check-circle"
+													className="h-4 w-4 text-green-500"
+												/>
+											</Input.InlineAffix>
+										)}
+										{slugStatus === "taken" && (
+											<Input.InlineAffix>
+												<Icon
+													name="x-circle"
+													className="h-4 w-4 text-red-500"
+												/>
+											</Input.InlineAffix>
+										)}
+									</Input.Wrapper>
+								</Input.Root>
 								{slugStatus === "taken" && (
-									<Input.InlineAffix>
-										<Icon name="x-circle" className="h-4 w-4 text-red-500" />
-									</Input.InlineAffix>
+									<p className="mt-1 text-paragraph-xs text-red-500">
+										This workspace handle is already taken
+									</p>
 								)}
-							</Input.Wrapper>
-						</Input.Root>
-						{slugStatus === "taken" && (
-							<p className="mt-1 text-paragraph-xs text-red-500">
-								This workspace handle is already taken
-							</p>
-						)}
+							</div>
+
+							{/* Save Button */}
+							<div className="flex justify-end">
+								<Button.Root
+									size="xsmall"
+									onClick={handleSaveChanges}
+									disabled={
+										!hasChanges ||
+										slugStatus === "taken" ||
+										slugStatus === "checking" ||
+										isUploading ||
+										isSaving
+									}
+								>
+									{isSaving ? (
+										<>
+											<Spinner size={14} color="var(--text-strong-950)" />
+											Saving...
+										</>
+									) : (
+										"Save"
+									)}
+								</Button.Root>
+							</div>
+						</div>
 					</div>
 				</div>
 				{/* Bottom border extending to right edge */}
