@@ -1,17 +1,14 @@
 "use client";
 
-import { AnimatedHoverBackground } from "@fe/dashboard/components/layout/sidebar/animated-hover-background";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
 import { authClient } from "@verifio/auth/client";
-import * as Avatar from "@verifio/ui/avatar";
 import * as Button from "@verifio/ui/button";
 import { cn } from "@verifio/ui/cn";
 import * as Dropdown from "@verifio/ui/dropdown";
 import { Icon } from "@verifio/ui/icon";
 import { Skeleton } from "@verifio/ui/skeleton";
-import Spinner from "@verifio/ui/spinner";
 import { AnimatePresence, motion } from "motion/react";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
@@ -40,23 +37,6 @@ interface TeamListProps {
 	searchQuery: string;
 	filters?: ("invited" | "suspended" | "active")[];
 }
-
-const getInitials = (name: string | null, email: string) => {
-	if (name) {
-		return name
-			.split(" ")
-			.map((part) => part.charAt(0).toUpperCase())
-			.join("")
-			.slice(0, 2);
-	}
-	const emailPart = email.split("@")[0];
-	if (!emailPart) return "??";
-	return emailPart
-		.split(".")
-		.map((part) => part.charAt(0).toUpperCase())
-		.join("")
-		.slice(0, 2);
-};
 
 const getFirstChar = (name: string | null, email: string) => {
 	if (name && name.length > 0) {
@@ -106,20 +86,21 @@ const getAnimationProps = (row: number, column: number) => {
 
 const TeamSkeleton = () => (
 	<div className="relative">
-		<div className="relative">
-			<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
-		</div>
-		<div className="grid grid-cols-[1fr_180px_165px] items-center px-5 py-3 lg:px-6">
+		{/* Top border extending to edges */}
+		<div className="absolute top-0 right-[-100vw] left-0 h-px bg-stroke-soft-200/50" />
+		<div className="flex items-center justify-between px-5 py-4 lg:px-6">
+			{/* Left: Avatar + Name */}
 			<div className="flex items-center gap-3">
-				<Skeleton className="h-6 w-6 rounded-full" />
-				<div className="flex items-center gap-2">
+				<Skeleton className="h-8 w-8 rounded-lg" />
+				<div className="space-y-1">
 					<Skeleton className="h-4 w-24" />
 					<Skeleton className="h-3 w-32" />
 				</div>
 			</div>
-			<Skeleton className="h-5 w-16 rounded-full" />
-			<div className="flex items-center justify-end">
-				<Skeleton className="h-4 w-4 rounded" />
+			{/* Right: Role */}
+			<div className="flex items-center gap-3">
+				<Skeleton className="h-5 w-14 rounded-full" />
+				<Skeleton className="h-6 w-6 rounded" />
 			</div>
 		</div>
 	</div>
@@ -328,26 +309,15 @@ export const TeamList = ({ searchQuery, filters = [] }: TeamListProps) => {
 	if (isLoading) {
 		return (
 			<div className="w-full text-paragraph-sm">
-				{/* Header */}
-				<div className="relative">
-					<div className="grid grid-cols-[1fr_180px_165px] items-center px-5 py-3 text-text-sub-600 lg:px-6">
-						<div className="flex items-center gap-2">
-							<Icon name="user" className="h-4 w-4" />
-							<span className="text-xs">User</span>
-						</div>
-						<div className="flex items-center gap-2">
-							<Icon name="user-role" className="h-4 w-4" />
-							<span className="text-xs">Role</span>
-						</div>
-						<div />
-					</div>
-					<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
-				</div>
 				{/* Skeleton rows */}
 				<div>
 					{Array.from({ length: 3 }).map((_, index) => (
 						<TeamSkeleton key={`skeleton-${index}`} />
 					))}
+					{/* Bottom border for last skeleton */}
+					<div className="relative">
+						<div className="absolute top-0 right-[-100vw] left-0 h-px bg-stroke-soft-200/50" />
+					</div>
 				</div>
 			</div>
 		);
@@ -391,22 +361,6 @@ export const TeamList = ({ searchQuery, filters = [] }: TeamListProps) => {
 	return (
 		<AnimatePresence mode="wait">
 			<div className="w-full text-paragraph-sm">
-				{/* Table Header */}
-				<div className="relative">
-					<div className="grid grid-cols-[1fr_180px_165px] items-center px-5 py-3.5 text-text-sub-600 lg:px-6">
-						<div className="flex items-center gap-2">
-							<Icon name="user" className="h-4 w-4" />
-							<span className="text-xs">User</span>
-						</div>
-						<div className="flex items-center gap-2">
-							<Icon name="user-role" className="h-4 w-4" />
-							<span className="text-xs">Role</span>
-						</div>
-						<div />
-					</div>
-					<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
-				</div>
-
 				{/* Combined List */}
 				<div>
 					{/* Pending Invites */}
@@ -420,46 +374,40 @@ export const TeamList = ({ searchQuery, filters = [] }: TeamListProps) => {
 							className="relative"
 						>
 							{/* Top border extending to edges */}
-							<div className="relative">
-								<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
-							</div>
-							<div className="group/row grid grid-cols-[1fr_180px_165px] items-center px-5 py-3 transition-colors hover:bg-bg-weak-50/50 lg:px-6">
-								{/* User Column - Avatar + Email */}
+							<div className="absolute top-0 right-[-100vw] left-0 h-px bg-stroke-soft-200/50" />
+							<div className="flex items-center justify-between px-5 py-4 transition-colors hover:bg-bg-weak-50/50 lg:px-6">
+								{/* Left: Avatar + Email */}
 								<motion.div
 									{...getAnimationProps(index + 1, 0)}
 									className="flex items-center gap-3"
 								>
-									<div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-neutral-600 to-neutral-500 font-semibold text-white text-xs uppercase tracking-wide shadow-sm">
-										{invite.email.charAt(0).toUpperCase()}
+									<div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg border border-stroke-soft-200/40 bg-bg-weak-50">
+										<span className="font-semibold text-sm text-text-sub-600">
+											{invite.email.charAt(0).toUpperCase()}
+										</span>
 									</div>
-
-									<span className="truncate font-medium text-label-sm text-text-sub-600">
-										{invite.email}
-									</span>
+									<div>
+										<p className="font-medium text-label-sm text-text-strong-950">
+											{invite.email}
+										</p>
+										<p className="text-paragraph-xs text-text-sub-600">
+											Invite pending
+										</p>
+									</div>
 								</motion.div>
 
-								{/* Role Column */}
+								{/* Right: Role + Actions */}
 								<motion.div
 									{...getAnimationProps(index + 1, 1)}
-									className="flex items-center"
+									className="flex items-center gap-3"
 								>
 									<span
 										className={cn(
-											"inline-flex rounded-md border-[1px] border-stroke-soft-200 px-[6px] py-0.5 font-medium text-[10px]",
+											"inline-flex rounded-full px-2 py-0.5 font-medium text-xs",
 											getRoleBadgeStyles(invite.role),
 										)}
 									>
 										{formatRoleLabel(invite.role)}
-									</span>
-								</motion.div>
-
-								{/* Actions Column */}
-								<motion.div
-									{...getAnimationProps(index + 1, 2)}
-									className="flex items-center justify-end gap-8"
-								>
-									<span className="whitespace-nowrap rounded-lg border border-stroke-soft-200 bg-bg-white-0 px-2.5 py-0.5 text-[11px] text-text-sub-600">
-										Invite pending...
 									</span>
 									<InviteDropdown
 										inviteId={invite.id}
@@ -470,6 +418,11 @@ export const TeamList = ({ searchQuery, filters = [] }: TeamListProps) => {
 									/>
 								</motion.div>
 							</div>
+							{/* Bottom border for last invite if no members */}
+							{index === filteredData.invites.length - 1 &&
+								filteredData.members.length === 0 && (
+									<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
+								)}
 						</div>
 					))}
 
@@ -489,67 +442,58 @@ export const TeamList = ({ searchQuery, filters = [] }: TeamListProps) => {
 								className="relative"
 							>
 								{/* Top border extending to edges */}
-								<div className="relative">
-									<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
-								</div>
-								<div className="group/row grid grid-cols-[1fr_180px_165px] items-center px-5 py-3 transition-colors hover:bg-bg-weak-50/50 lg:px-6">
-									{/* User Column - Avatar + Name + Email */}
+								<div className="absolute top-0 right-[-100vw] left-0 h-px bg-stroke-soft-200/50" />
+								<div className="flex items-center justify-between px-5 py-4 transition-colors hover:bg-bg-weak-50/50 lg:px-6">
+									{/* Left: Avatar + Name + Email */}
 									<motion.div
 										{...getAnimationProps(displayIndex + 1, 0)}
-										className="flex items-center gap-3 py-[3px]"
+										className="flex items-center gap-3"
 									>
-										<Avatar.Root size="20" color="gray">
+										<div className="flex h-8 w-8 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg border border-stroke-soft-200/40 bg-bg-weak-50">
 											{member.user.image ? (
-												<Avatar.Image
+												<img
 													src={member.user.image}
 													alt={member.user.name || member.user.email}
+													className="h-full w-full object-cover"
 												/>
 											) : (
-												<Avatar.Image asChild>
-													<div className="flex h-full w-full items-center justify-center rounded-full bg-gradient-to-br from-neutral-600 to-neutral-500 font-semibold text-white text-xs uppercase tracking-wide shadow-sm">
-														{getFirstChar(member.user.name, member.user.email)}
-													</div>
-												</Avatar.Image>
-											)}
-										</Avatar.Root>
-										<div className="min-w-0 flex-1">
-											<div className="flex items-center gap-1.5">
-												<span className="truncate font-medium text-label-sm text-text-strong-950">
-													{member.user.name || member.user.email.split("@")[0]}
+												<span className="font-semibold text-sm text-text-sub-600">
+													{getFirstChar(member.user.name, member.user.email)}
 												</span>
+											)}
+										</div>
+										<div>
+											<div className="flex items-center gap-1.5">
+												<p className="font-medium text-label-sm text-text-strong-950">
+													{member.user.name || member.user.email.split("@")[0]}
+												</p>
 												{isCurrentUser && (
-													<span className="inline-flex rounded-md border border-stroke-soft-200 bg-neutral-alpha-10 px-[6px] py-0.5 font-medium text-[10px] text-text-sub-600">
+													<span className="rounded-md border border-stroke-soft-200 bg-neutral-alpha-10 px-1.5 py-0.5 font-medium text-[10px] text-text-sub-600">
 														You
 													</span>
 												)}
-												<span className="truncate text-text-sub-600">
-													{member.user.email}
-												</span>
 											</div>
+											<p className="text-paragraph-xs text-text-sub-600">
+												{member.user.email}
+											</p>
 										</div>
 									</motion.div>
 
-									{/* Role Column */}
+									{/* Right: Role + Actions */}
 									<motion.div
 										{...getAnimationProps(displayIndex + 1, 1)}
-										className="flex items-center"
+										className="flex items-center gap-3"
 									>
 										<span
 											className={cn(
-												"inline-flex rounded-md border-[1px] border-stroke-soft-200 px-[6px] py-0.5 font-medium text-[10px]",
+												"inline-flex rounded-full px-2 py-0.5 font-medium text-xs",
 												getRoleBadgeStyles(member.role),
 											)}
 										>
 											{formatRoleLabel(member.role)}
 										</span>
-									</motion.div>
-
-									{/* Actions Column */}
-									<motion.div
-										{...getAnimationProps(displayIndex + 1, 2)}
-										className="flex items-center justify-end"
-									>
-										{!isOwner && !isCurrentUser && (
+										{/* Always reserve space for action button for alignment */}
+										{!isOwner && !isCurrentUser ? (
 											<Dropdown.Root>
 												<Dropdown.Trigger asChild>
 													<Button.Root
@@ -557,7 +501,7 @@ export const TeamList = ({ searchQuery, filters = [] }: TeamListProps) => {
 														mode="ghost"
 														size="xxsmall"
 													>
-														<Icon name="more-vertical" className="h-3 w-3" />
+														<Icon name="more-vertical" className="h-4 w-4" />
 													</Button.Root>
 												</Dropdown.Trigger>
 												<Dropdown.Content align="end" className="w-52 text-xs">
@@ -570,14 +514,14 @@ export const TeamList = ({ searchQuery, filters = [] }: TeamListProps) => {
 													</Dropdown.Item>
 												</Dropdown.Content>
 											</Dropdown.Root>
+										) : (
+											<div className="w-9" />
 										)}
 									</motion.div>
 								</div>
 								{/* Bottom border for last item */}
 								{index === filteredData.members.length - 1 && (
-									<div className="relative">
-										<div className="absolute top-0 right-[-100vw] left-0 h-px bg-stroke-soft-200/50" />
-									</div>
+									<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
 								)}
 							</div>
 						);
