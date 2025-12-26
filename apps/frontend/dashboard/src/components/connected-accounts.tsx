@@ -109,25 +109,22 @@ export const ConnectedAccounts = ({ className }: ConnectedAccountsProps) => {
 	);
 
 	return (
-		<div className={cn("space-y-4", className)}>
-			<div className="space-y-3">
+		<div className={cn("", className)}>
+			<div>
 				{isLoading ? (
 					<>
 						<AccountSkeleton />
 						<AccountSkeleton />
 					</>
 				) : accounts && accounts.length > 0 ? (
-					accounts.map((account) => {
+					accounts.map((account, index) => {
 						const provider = getProviderInfo(account.providerId);
 						return (
-							<div
-								key={account.id}
-								className={cn(
-									"rounded-xl border py-2 pr-2.5 pl-3",
-									provider.borderColor,
-								)}
-							>
-								<div className="flex items-center justify-between">
+							<div key={account.id}>
+								<div className="relative">
+									<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
+								</div>
+								<div className="flex items-center justify-between px-5 py-5 lg:px-6">
 									<div className="flex items-center gap-3">
 										<div className="flex h-8 w-8 items-center justify-center rounded-lg border border-stroke-soft-200/40 bg-bg-weak-50">
 											{provider.useCustomIcon &&
@@ -149,7 +146,7 @@ export const ConnectedAccounts = ({ className }: ConnectedAccountsProps) => {
 											</p>
 										</div>
 									</div>
-									<span className="rounded-md border border-success-base bg-success-lighter/50 px-2 py-0.5 font-medium text-success-base text-xs">
+									<span className="rounded-full border border-success-base bg-success-lighter/50 px-2 py-0.5 font-medium text-success-base text-xs">
 										Connected
 									</span>
 								</div>
@@ -157,7 +154,7 @@ export const ConnectedAccounts = ({ className }: ConnectedAccountsProps) => {
 						);
 					})
 				) : (
-					<div className="rounded-xl border border-stroke-soft-100 py-2 pr-2.5 pl-3">
+					<div className="py-3">
 						<p className="text-paragraph-sm text-text-sub-600">
 							No connected accounts found
 						</p>

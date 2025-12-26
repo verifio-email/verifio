@@ -15,7 +15,7 @@ const SecurityPage = () => {
 						Manage your linked social accounts
 					</p>
 				</div>
-				<div className="px-5 pb-5 lg:px-6">
+				<div className="">
 					<ConnectedAccounts />
 				</div>
 				{/* Bottom border extending to right edge */}
