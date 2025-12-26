@@ -299,6 +299,7 @@
         "sonner": "catalog:ui",
         "tailwindcss": "catalog:ui",
         "three": "^0.181.0",
+        "valibot": "catalog:db",
       },
       "devDependencies": {
         "@types/node": "catalog:",
