@@ -1,16 +1,12 @@
 "use client";
 
-import * as Button from "@verifio/ui/button";
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
-import * as Input from "@verifio/ui/input";
-import * as Select from "@verifio/ui/select";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
 
-type TabType = "single" | "bulk" | "domain";
-type FormatType = "json" | "markdown";
+type TabType = "single" | "bulk";
 
 interface RecentRun {
 	id: string;
@@ -34,14 +30,15 @@ const mockRecentRuns: RecentRun[] = [
 const PlaygroundPage = () => {
 	const [activeTab, setActiveTab] = useState<TabType>("single");
 	const [email, setEmail] = useState("");
-	const [format, setFormat] = useState<FormatType>("json");
 	const [isVerifying, setIsVerifying] = useState(false);
 	const [recentRuns, setRecentRuns] = useState<RecentRun[]>(mockRecentRuns);
+	const [csvFile, setCsvFile] = useState<File | null>(null);
+	const [isDragging, setIsDragging] = useState(false);
+	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const tabs = [
 		{ id: "single" as TabType, label: "Verify", dots: 3 },
 		{ id: "bulk" as TabType, label: "Bulk", dots: 2, badge: "New" },
-		{ id: "domain" as TabType, label: "Domain", dots: 2 },
 	];
 
 	const handleVerify = async () => {
@@ -81,28 +78,59 @@ const PlaygroundPage = () => {
 		toast.success("Code copied to clipboard!");
 	};
 
+	const handleDragOver = (e: React.DragEvent) => {
+		e.preventDefault();
+		setIsDragging(true);
+	};
+
+	const handleDragLeave = (e: React.DragEvent) => {
+		e.preventDefault();
+		setIsDragging(false);
+	};
+
+	const handleDrop = (e: React.DragEvent) => {
+		e.preventDefault();
+		setIsDragging(false);
+		const file = e.dataTransfer.files[0];
+		if (file && file.type === "text/csv") {
+			setCsvFile(file);
+			toast.success(`File "${file.name}" ready for upload`);
+		} else {
+			toast.error("Please upload a CSV file");
+		}
+	};
+
+	const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (file && file.type === "text/csv") {
+			setCsvFile(file);
+			toast.success(`File "${file.name}" ready for upload`);
+		} else {
+			toast.error("Please upload a CSV file");
+		}
+	};
+
+	const handleBrowseClick = () => {
+		fileInputRef.current?.click();
+	};
+
+	const handleBulkVerify = async () => {
+		if (!csvFile) {
+			toast.error("Please upload a CSV file first");
+			return;
+		}
+		setIsVerifying(true);
+		await new Promise((resolve) => setTimeout(resolve, 2000));
+		toast.success("Bulk verification started!");
+		setIsVerifying(false);
+	};
+
 	return (
 		<div className="flex-1 overflow-y-auto">
 			{/* Header Section */}
 			<div className="border-stroke-soft-200 border-b">
 				<div className="px-[340px] 2xl:px-[450px]">
 					<div className="relative border-stroke-soft-200 border-r border-l pt-24 pb-12 text-center">
-						{/* Decorative background pattern */}
-						<div className="pointer-events-none absolute inset-0 overflow-hidden opacity-30">
-							<div className="absolute top-1 left-1/3 text-text-disabled-300 text-xl">
-								{"{ }"}
-							</div>
-							<div className="absolute top-8 right-1/9 text-text-disabled-300 text-xl">
-								{"< />"}
-							</div>
-							<div className="absolute right-1/5 bottom-2 text-text-disabled-300 text-xl">
-								{"( )"}
-							</div>
-							<div className="absolute bottom-4 left-1/10 text-text-disabled-300 text-xl">
-								{"[ ]"}
-							</div>
-						</div>
-
 						<h1 className="relative font-semibold text-2xl text-text-strong-950 md:text-3xl">
 							Playground
 						</h1>
@@ -125,7 +153,7 @@ const PlaygroundPage = () => {
 									type="button"
 									onClick={() => setActiveTab(tab.id)}
 									className={cn(
-										"group relative z-10 flex cursor-pointer items-center gap-2 rounded-lg px-3 py-1.5",
+										"group relative z-10 flex cursor-pointer items-center justify-center gap-2 rounded-lg px-8 py-2",
 										"transition-colors duration-200 ease-out",
 										activeTab === tab.id
 											? "text-text-strong-950"
@@ -179,107 +207,174 @@ const PlaygroundPage = () => {
 
 			{/* Input Section */}
 			<div className="border-stroke-soft-200 border-b">
-				<div className="px-6 2xl:px-32">
-					<div className="border-stroke-soft-200 border-r border-l p-6">
+				<div className="px-52 2xl:px-[350px]">
+					<div className="border-stroke-soft-200 border-r border-l px-7 py-10">
 						<div className="mx-auto max-w-3xl">
-							<div className="rounded-xl border border-stroke-soft-200 bg-bg-white-0 p-4 shadow-regular-xs">
-								{/* Email Input */}
-								<div className="mb-4">
-									<Input.Root size="medium">
-										<Input.Wrapper>
-											<Input.InlineAffix>email@</Input.InlineAffix>
-											<Input.Input
-												placeholder="example.com"
-												value={email}
-												onChange={(e) => setEmail(e.target.value)}
-												onKeyDown={(e) => {
-													if (e.key === "Enter") {
-														handleVerify();
-													}
-												}}
+							<div className="overflow-hidden rounded-[20px] bg-bg-white-0 shadow-regular-md ring-1 ring-stroke-soft-200">
+								{activeTab === "single" ? (
+									<>
+										{/* Single Email Input */}
+										<label className="block cursor-text overflow-hidden p-3">
+											<div className="flex items-center gap-3 transition-all duration-[400ms]">
+												<div className="pointer-events-none w-max shrink-0 rounded-lg bg-bg-weak-50 px-2.5 py-1 text-text-soft-400 ring-1 ring-stroke-soft-200">
+													<span>email@</span>
+												</div>
+												<input
+													className="w-full flex-1 bg-transparent text-text-strong-950 outline-none placeholder:text-text-soft-400"
+													placeholder="example.com"
+													value={email}
+													onChange={(e) => setEmail(e.target.value)}
+													onKeyDown={(e) => {
+														if (e.key === "Enter") {
+															handleVerify();
+														}
+													}}
+												/>
+											</div>
+										</label>
+
+										{/* Action Row */}
+										<div className="flex flex-wrap items-center justify-between gap-2 border-stroke-soft-200 border-t p-3">
+											<div className="flex items-center gap-2">
+												<button
+													type="button"
+													className="flex h-8 w-8 items-center justify-center rounded-lg text-text-sub-600 ring-1 ring-stroke-soft-200 transition-all duration-200 hover:bg-bg-weak-50 active:scale-[0.99]"
+													aria-label="Settings"
+												>
+													<Icon name="settings" className="h-5 w-5" />
+												</button>
+												<button
+													type="button"
+													className="flex h-8 w-8 items-center justify-center rounded-lg text-text-sub-600 ring-1 ring-stroke-soft-200 transition-all duration-200 hover:bg-bg-weak-50 active:scale-[0.99]"
+													aria-label="Table view"
+												>
+													<Icon name="grid" className="h-5 w-5" />
+												</button>
+												<button
+													type="button"
+													onClick={() => setEmail("")}
+													className="flex h-8 w-8 items-center justify-center rounded-lg text-text-sub-600 ring-1 ring-stroke-soft-200 transition-all duration-200 hover:bg-bg-weak-50 active:scale-[0.99]"
+													aria-label="Clear"
+												>
+													<Icon name="trash" className="h-5 w-5" />
+												</button>
+											</div>
+
+											<div className="flex items-center gap-2">
+												<button
+													type="button"
+													onClick={handleGetCode}
+													className="flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-text-sub-600 ring-1 ring-stroke-soft-200 transition-all duration-200 hover:bg-bg-weak-50 active:scale-[0.99]"
+												>
+													<Icon name="code" className="h-5 w-5" />
+													<span className="label-sm">Get code</span>
+												</button>
+												<button
+													type="button"
+													onClick={handleVerify}
+													disabled={isVerifying}
+													className="flex h-8 items-center justify-center gap-1.5 rounded-lg bg-primary-base px-3 text-static-white transition-all duration-200 hover:bg-primary-darker active:scale-[0.995] disabled:opacity-50"
+												>
+													{isVerifying ? (
+														<>
+															<Icon
+																name="loader"
+																className="h-4 w-4 animate-spin"
+															/>
+															<span className="label-sm">Verifying...</span>
+														</>
+													) : (
+														<span className="label-sm">Start verification</span>
+													)}
+												</button>
+											</div>
+										</div>
+									</>
+								) : (
+									<>
+										{/* Bulk CSV Upload - Drag & Drop */}
+										<div className="p-4">
+											{/* Hidden file input */}
+											<input
+												ref={fileInputRef}
+												type="file"
+												accept=".csv"
+												className="hidden"
+												onChange={handleFileSelect}
 											/>
-										</Input.Wrapper>
-									</Input.Root>
-								</div>
 
-								{/* Action Row */}
-								<div className="flex flex-wrap items-center gap-3">
-									{/* Left side actions */}
-									<div className="flex items-center gap-2">
-										<button
-											type="button"
-											className="flex h-9 w-9 items-center justify-center rounded-lg border border-stroke-soft-200 text-text-sub-600 transition-colors hover:bg-bg-weak-50 hover:text-text-strong-950"
-											aria-label="Settings"
-										>
-											<Icon name="settings" className="h-4 w-4" />
-										</button>
-										<button
-											type="button"
-											onClick={() => setEmail("")}
-											className="flex h-9 w-9 items-center justify-center rounded-lg border border-stroke-soft-200 text-text-sub-600 transition-colors hover:bg-bg-weak-50 hover:text-text-strong-950"
-											aria-label="Clear input"
-										>
-											<Icon name="trash" className="h-4 w-4" />
-										</button>
-									</div>
+											{/* Drop zone */}
+											<div
+												onDragOver={handleDragOver}
+												onDragLeave={handleDragLeave}
+												onDrop={handleDrop}
+												onClick={handleBrowseClick}
+												className={cn(
+													"flex cursor-pointer flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-10 transition-all duration-200",
+													isDragging
+														? "border-primary-base bg-primary-alpha-10"
+														: "border-stroke-soft-200 hover:border-primary-base hover:bg-bg-weak-50",
+													csvFile && "border-success-base bg-success-alpha-10",
+												)}
+											>
+												<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-bg-weak-50 text-text-sub-600">
+													<Icon name="upload" className="h-6 w-6" />
+												</div>
+												<div className="text-center">
+													<p className="font-medium text-text-strong-950">
+														{csvFile ? csvFile.name : "Import CSV File"}
+													</p>
+													<p className="mt-1 text-sm text-text-soft-400">
+														{csvFile
+															? `${(csvFile.size / 1024).toFixed(1)} KB`
+															: "Drop file or click here to choose file."}
+													</p>
+												</div>
+											</div>
 
-									{/* Format Dropdown */}
-									<div className="flex items-center gap-2">
-										<Icon
-											name="file-text"
-											className="h-4 w-4 text-text-sub-600"
-										/>
-										<Select.Root
-											value={format}
-											onValueChange={(v) => setFormat(v as FormatType)}
-											size="small"
-											variant="compact"
-										>
-											<Select.Trigger className="min-w-[100px]">
-												<Select.Value />
-											</Select.Trigger>
-											<Select.Content>
-												<Select.Item value="json">JSON</Select.Item>
-												<Select.Item value="markdown">Markdown</Select.Item>
-											</Select.Content>
-										</Select.Root>
-									</div>
+											{/* Download template link */}
+											<div className="mt-4 flex items-center gap-2 text-text-sub-600">
+												<Icon name="download" className="h-4 w-4" />
+												<button
+													type="button"
+													className="label-sm transition-colors hover:text-primary-base"
+												>
+													Download CSV Template
+												</button>
+											</div>
+										</div>
 
-									{/* Right side actions */}
-									<div className="ml-auto flex items-center gap-2">
-										<Button.Root
-											variant="neutral"
-											mode="stroke"
-											size="small"
-											onClick={handleGetCode}
-										>
-											<Button.Icon as={Icon} name="code" />
-											Get code
-										</Button.Root>
-										<Button.Root
-											variant="primary"
-											mode="filled"
-											size="small"
-											onClick={handleVerify}
-											disabled={isVerifying}
-										>
-											{isVerifying ? (
-												<>
-													<Icon
-														name="loader"
-														className="h-4 w-4 animate-spin"
-													/>
-													Verifying...
-												</>
-											) : (
-												<>
-													<Button.Icon as={Icon} name="play" />
-													Start verification
-												</>
-											)}
-										</Button.Root>
-									</div>
-								</div>
+										{/* Action Row */}
+										<div className="flex items-center justify-end gap-2 border-stroke-soft-200 border-t p-3">
+											<button
+												type="button"
+												onClick={handleGetCode}
+												className="flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-text-sub-600 ring-1 ring-stroke-soft-200 transition-all duration-200 hover:bg-bg-weak-50 active:scale-[0.99]"
+											>
+												<Icon name="code" className="h-5 w-5" />
+												<span className="label-sm">Get code</span>
+											</button>
+											<button
+												type="button"
+												onClick={handleBulkVerify}
+												disabled={isVerifying || !csvFile}
+												className="flex h-8 items-center justify-center gap-1.5 rounded-lg bg-primary-base px-4 text-static-white transition-all duration-200 hover:bg-primary-darker active:scale-[0.995] disabled:opacity-50"
+											>
+												{isVerifying ? (
+													<>
+														<Icon
+															name="loader"
+															className="h-4 w-4 animate-spin"
+														/>
+														<span className="label-sm">Processing...</span>
+													</>
+												) : (
+													<span className="label-sm">Start bulk verify</span>
+												)}
+											</button>
+										</div>
+									</>
+								)}
 							</div>
 						</div>
 					</div>
