@@ -1,5 +1,6 @@
 "use client";
 
+import { useSidebar } from "@fe/dashboard/providers/sidebar-provider";
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
 import { motion } from "framer-motion";
@@ -28,6 +29,7 @@ const mockRecentRuns: RecentRun[] = [
 ];
 
 const PlaygroundPage = () => {
+	const { isCollapsed } = useSidebar();
 	const [activeTab, setActiveTab] = useState<TabType>("single");
 	const [email, setEmail] = useState("");
 	const [isVerifying, setIsVerifying] = useState(false);
@@ -383,7 +385,7 @@ const PlaygroundPage = () => {
 
 			{/* Recent Runs Section */}
 			<div className="border-stroke-soft-200/50 border-b">
-				<div className="px-6 2xl:px-32">
+				<div className={cn(isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32")}>
 					<div className="border-stroke-soft-200/50 border-r border-l p-6">
 						<div className="mx-auto max-w-3xl">
 							<h2 className="mb-4 font-semibold text-lg text-text-strong-950">

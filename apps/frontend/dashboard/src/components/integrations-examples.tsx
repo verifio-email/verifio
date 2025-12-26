@@ -1,5 +1,7 @@
 "use client";
 
+import { useSidebar } from "@fe/dashboard/providers/sidebar-provider";
+import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
 import Link from "next/link";
 import type React from "react";
@@ -189,9 +191,11 @@ const ExampleProjectsSection = () => {
 
 // Main Integrations and Examples Section
 export const IntegrationsExamplesSection = () => {
+	const { isCollapsed } = useSidebar();
+
 	return (
 		<div className="border-stroke-soft-200/50 border-b">
-			<div className="px-6 2xl:px-32">
+			<div className={cn(isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32")}>
 				<div className="flex flex-col border-stroke-soft-200/50 border-r border-l lg:flex-row">
 					{/* Left Column - Integrations */}
 					<div className="flex-1 border-stroke-soft-200/50 border-r">

@@ -1,12 +1,16 @@
 "use client";
+import { useSidebar } from "@fe/dashboard/providers/sidebar-provider";
+import { cn } from "@verifio/ui/cn";
 import { SettingsSidebar } from "./components/sidebar";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
+	const { isCollapsed } = useSidebar();
+
 	return (
 		<div className="flex h-full flex-col overflow-hidden">
 			{/* Header Section */}
 			<div className="border-stroke-soft-200/50 border-b">
-				<div className="px-32">
+				<div className={cn(isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32")}>
 					<div className="relative border-stroke-soft-200/50 border-r border-l">
 						<div className="px-6 py-8">
 							<h1 className="mb-2 font-medium text-2xl text-text-strong-950">
@@ -22,7 +26,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
 			{/* Main Content Area with Sidebar - This needs to stretch */}
 			<div className="flex-1">
-				<div className="h-full px-32">
+				<div
+					className={cn(
+						"h-full",
+						isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32",
+					)}
+				>
 					<div className="grid h-full grid-cols-1 lg:grid-cols-[220px_1fr]">
 						{/* Vertical Sidebar */}
 						<div className="relative hidden h-full border-stroke-soft-200/50 border-l lg:block">

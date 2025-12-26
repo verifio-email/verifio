@@ -1,5 +1,6 @@
 "use client";
 
+import { useSidebar } from "@fe/dashboard/providers/sidebar-provider";
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
 import Link from "next/link";
@@ -66,12 +67,14 @@ interface ExploreEndpointsSectionProps {
 export const ExploreEndpointsSection: React.FC<
 	ExploreEndpointsSectionProps
 > = ({ endpoints, orgSlug }) => {
+	const { isCollapsed } = useSidebar();
+
 	return (
 		<div>
 			<div className="border-stroke-soft-200/50 border-b">
 				{/* Header section */}
 				{/* add the differnt width for the header section */}
-				<div className="px-6 2xl:px-32">
+				<div className={cn(isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32")}>
 					<div className="border-stroke-soft-200/50 border-r border-b border-l px-5 pt-6 pb-5">
 						<h2 className="font-semibold text-text-strong-950 text-xl">
 							Explore our endpoints
@@ -84,7 +87,7 @@ export const ExploreEndpointsSection: React.FC<
 				</div>
 
 				{/* Cards grid */}
-				<div className="px-6 2xl:px-32">
+				<div className={cn(isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32")}>
 					<div className="flex flex-col border-stroke-soft-200/50 border-r border-l md:flex-row">
 						{endpoints.map((endpoint, index) => (
 							<EndpointCard

@@ -1,6 +1,8 @@
 "use client";
 
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
+import { useSidebar } from "@fe/dashboard/providers/sidebar-provider";
+import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -286,9 +288,11 @@ const McpIntegrationSection = () => {
 
 // Main Dashboard Stats Section
 export const DashboardStatsSection = () => {
+	const { isCollapsed } = useSidebar();
+
 	return (
 		<div className="border-stroke-soft-200/50 border-b">
-			<div className="px-6 2xl:px-32">
+			<div className={cn(isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32")}>
 				<div className="flex flex-col border-stroke-soft-200/50 border-r border-l lg:flex-row">
 					{/* Left Column */}
 					<div className="flex-1 border-stroke-soft-200/50 border-r">
