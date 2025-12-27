@@ -1,8 +1,17 @@
-// Set PORT environment variable if not already set
-if (!process.env.PORT) process.env.PORT = "8017";
+// Default values for workflow configuration
+
+const defaults = {
+	PORT: "8017",
+	PG_URL: "postgresql://verifio:verifio123@localhost:5432/verifio",
+	BASE_URL: "https://local.verifio.email",
+	NODE_ENV: "development",
+} as const;
 
 export const workflowConfig = {
-	port: Number(process.env.PORT),
+	port: Number(process.env.PORT || defaults.PORT),
+	PG_URL: process.env.PG_URL || defaults.PG_URL,
+	BASE_URL: process.env.BASE_URL || defaults.BASE_URL,
+	NODE_ENV: process.env.NODE_ENV || defaults.NODE_ENV,
 	domainVerification: {
 		maxAttempts: 10,
 		retryIntervalHours: 1,
