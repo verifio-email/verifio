@@ -53,11 +53,11 @@ export async function uploadFile(params: {
 		const sanitizedOriginalName = sanitizeFilename(file.name);
 		const filename = `${fileId}.${extension}`;
 
-		// Create directory structure: uploads/{year}/{month}/
+		// Create directory structure: {year}/{month}/
 		const now = new Date();
 		const year = now.getFullYear();
 		const month = String(now.getMonth() + 1).padStart(2, "0");
-		const uploadDir = `uploads/${year}/${month}`;
+		const uploadDir = `${year}/${month}`;
 		const filePath = `${uploadDir}/${filename}`;
 
 		// Ensure directory exists
