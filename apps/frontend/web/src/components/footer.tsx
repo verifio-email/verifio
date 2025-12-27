@@ -1,5 +1,6 @@
 import { LogoName } from "@verifio/ui/logo";
 import Link from "next/link";
+import Script from "next/script";
 import { NewsletterSignup } from "./newsletter-signup";
 import { ThemeToggle } from "./theme-toggle";
 
@@ -10,22 +11,27 @@ const links = [
 			{
 				title: "Bulk Email Verification",
 				href: "/solutions/bulk-email-verification",
+				description: "Verify thousands of emails at once with high accuracy",
 			},
 			{
 				title: "Single Email Checker",
 				href: "/tools/email-checker",
+				description: "Instantly verify individual email addresses",
 			},
 			{
 				title: "Real-time API",
 				href: "/solutions/real-time-api",
+				description: "Integrate email verification into your applications",
 			},
 			{
 				title: "Integrations",
 				href: "/integrations",
+				description: "Connect Verifio with your favorite tools",
 			},
 			{
 				title: "Email Finder",
 				href: "/tools/email-finder",
+				description: "Find professional email addresses",
 			},
 		],
 	},
@@ -35,22 +41,27 @@ const links = [
 			{
 				title: "Documentation",
 				href: "/docs",
+				description: "Complete guide to using Verifio",
 			},
 			{
 				title: "API Reference",
 				href: "/docs/api-reference",
+				description: "Technical API documentation",
 			},
 			{
 				title: "SDKs & Libraries",
 				href: "/docs/sdks",
+				description: "Official SDKs for popular languages",
 			},
 			{
 				title: "Webhooks",
 				href: "/docs/webhooks",
+				description: "Real-time event notifications",
 			},
 			{
 				title: "Changelog",
 				href: "/changelog",
+				description: "Latest updates and improvements",
 			},
 		],
 	},
@@ -60,22 +71,27 @@ const links = [
 			{
 				title: "Email Verification Guide",
 				href: "/resources/email-verification-guide",
+				description: "Learn email verification best practices",
 			},
 			{
 				title: "Blog",
 				href: "/blog",
+				description: "Insights and tips on email deliverability",
 			},
 			{
 				title: "Pricing",
 				href: "/pricing",
+				description: "Simple, transparent pricing plans",
 			},
 			{
 				title: "Compare Verifio",
 				href: "/compare",
+				description: "See how Verifio stacks up against competitors",
 			},
 			{
 				title: "Status",
 				href: "/status",
+				description: "Real-time system status and uptime",
 			},
 		],
 	},
@@ -85,44 +101,137 @@ const links = [
 			{
 				title: "About Us",
 				href: "/about",
+				description: "Learn about our mission and team",
 			},
 			{
 				title: "Contact",
 				href: "/contact",
+				description: "Get in touch with our team",
 			},
 			{
 				title: "Privacy Policy",
 				href: "/privacy",
+				description: "How we protect your data",
 			},
 			{
 				title: "Terms of Service",
 				href: "/terms",
+				description: "Terms and conditions of use",
 			},
 		],
 	},
 ];
 
+const socialLinks = [
+	{
+		name: "LinkedIn",
+		href: "https://linkedin.com/company/reloop",
+		ariaLabel: "Follow Verifio on LinkedIn",
+	},
+	{
+		name: "X (Twitter)",
+		href: "https://x.com/verifiohq",
+		ariaLabel: "Follow Verifio on X (formerly Twitter)",
+	},
+	{
+		name: "GitHub",
+		href: "https://github.com/reloop-labs/verifio",
+		ariaLabel: "View Verifio source code on GitHub",
+	},
+	{
+		name: "Discord",
+		href: "https://discord.gg/verifio",
+		ariaLabel: "Join Verifio Discord community",
+	},
+];
+
 const maxItems = Math.max(...links.map((l) => l.items.length));
+
+// JSON-LD Structured Data for Organization
+const organizationSchema = {
+	"@context": "https://schema.org",
+	"@type": "Organization",
+	name: "Verifio",
+	description:
+		"Verify emails at scale with 99% accuracy. Reduce bounces, protect your sender reputation.",
+	url: "https://verifio.com",
+	logo: "https://verifio.com/logo.png",
+	sameAs: socialLinks.map((link) => link.href),
+	contactPoint: {
+		"@type": "ContactPoint",
+		contactType: "customer service",
+		url: "https://verifio.com/contact",
+	},
+};
+
+// JSON-LD Structured Data for Site Navigation
+const siteNavigationSchema = {
+	"@context": "https://schema.org",
+	"@type": "SiteNavigationElement",
+	name: "Footer Navigation",
+	hasPart: links.map((section) => ({
+		"@type": "SiteNavigationElement",
+		name: section.group,
+		hasPart: section.items.map((item) => ({
+			"@type": "SiteNavigationElement",
+			name: item.title,
+			description: item.description,
+			url: `https://verifio.com${item.href}`,
+		})),
+	})),
+};
 
 export const Footer = () => {
 	const currentYear = new Date().getFullYear();
 
 	return (
-		<footer>
+		<footer itemScope itemType="https://schema.org/WPFooter">
+			{/* JSON-LD Structured Data */}
+			<Script
+				id="organization-schema"
+				type="application/ld+json"
+				strategy="afterInteractive"
+			>
+				{JSON.stringify(organizationSchema)}
+			</Script>
+			<Script
+				id="site-navigation-schema"
+				type="application/ld+json"
+				strategy="afterInteractive"
+			>
+				{JSON.stringify(siteNavigationSchema)}
+			</Script>
+
 			<div className="border-stroke-soft-100/60 border-t border-b">
 				<div className="mx-4 max-w-7xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
-					<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 uppercase md:px-10 md:py-4 z-10">
-						<span className="text-text-sub-600 text-xs">[Footer]</span>
-						<span className="text-text-sub-600 text-xs">
+					<div className="sticky top-[66px] z-10 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 uppercase md:px-10 md:py-4">
+						<span className="text-text-sub-600 text-xs" aria-hidden="true">
+							[Footer]
+						</span>
+						<span className="text-text-sub-600 text-xs" aria-hidden="true">
 							/ Socials + Resources
 						</span>
 					</div>
 					<div className="grid grid-cols-1 gap-0 md:grid-cols-2">
-						<div className="border-stroke-soft-100/60 px-4 py-6 text-center md:border-r md:px-10 md:py-10 md:text-left">
+						{/* Brand Section */}
+						<div
+							className="border-stroke-soft-100/60 px-4 py-6 text-center md:border-r md:px-10 md:py-10 md:text-left"
+							itemScope
+							itemType="https://schema.org/Organization"
+						>
 							<div className="flex items-center justify-center gap-3 md:justify-start">
-								<LogoName className="h-8 md:h-10" />
+								<Link
+									href="/"
+									aria-label="Verifio - Go to homepage"
+									itemProp="url"
+								>
+									<LogoName className="h-8 md:h-10" />
+								</Link>
 							</div>
-							<p className="mx-auto max-w-xs pt-6 font-medium text-sm md:mx-0 md:pt-8 md:text-base">
+							<p
+								className="mx-auto max-w-xs pt-6 font-medium text-sm md:mx-0 md:pt-8 md:text-base"
+								itemProp="description"
+							>
 								Verify emails at scale with 99% accuracy. Reduce bounces,
 								protect your sender reputation.
 							</p>
@@ -133,11 +242,16 @@ export const Footer = () => {
 							<div className="order-2 md:order-1">
 								<NewsletterSignup />
 							</div>
-							<div className="order-1 grid grid-cols-2 md:order-2">
+							{/* Social Links Navigation */}
+							<nav
+								aria-label="Social media links"
+								className="order-1 grid grid-cols-2 md:order-2"
+							>
 								<Link
 									href="https://linkedin.com/company/reloop"
 									target="_blank"
 									rel="noopener noreferrer"
+									aria-label="Follow Verifio on LinkedIn"
 									className="flex items-center gap-2 border-stroke-soft-100/60 border-t border-r border-b p-3 text-text-sub-600 text-xs transition-colors hover:text-primary-base md:gap-3 md:border-t-0 md:p-4 md:text-sm"
 								>
 									<svg
@@ -146,6 +260,8 @@ export const Footer = () => {
 										width="1em"
 										height="1em"
 										viewBox="0 0 24 24"
+										aria-hidden="true"
+										focusable="false"
 									>
 										<path
 											fill="currentColor"
@@ -158,6 +274,7 @@ export const Footer = () => {
 									href="https://x.com/verifiohq"
 									target="_blank"
 									rel="noopener noreferrer"
+									aria-label="Follow Verifio on X (formerly Twitter)"
 									className="flex items-center gap-2 border-stroke-soft-100/60 border-t border-b p-3 text-text-sub-600 text-xs transition-colors hover:text-primary-base md:gap-3 md:border-t-0 md:p-4 md:text-sm"
 								>
 									<svg
@@ -166,6 +283,8 @@ export const Footer = () => {
 										width="1em"
 										height="1em"
 										viewBox="0 0 24 24"
+										aria-hidden="true"
+										focusable="false"
 									>
 										<path
 											fill="currentColor"
@@ -178,6 +297,7 @@ export const Footer = () => {
 									href="https://github.com/reloop-labs/verifio"
 									target="_blank"
 									rel="noopener noreferrer"
+									aria-label="View Verifio source code on GitHub"
 									className="flex items-center gap-2 border-stroke-soft-100/60 border-r p-3 text-text-sub-600 text-xs transition-colors hover:text-primary-base md:gap-3 md:p-4 md:text-sm"
 								>
 									<svg
@@ -186,6 +306,8 @@ export const Footer = () => {
 										width="1em"
 										height="1em"
 										viewBox="0 0 24 24"
+										aria-hidden="true"
+										focusable="false"
 									>
 										<path
 											fill="currentColor"
@@ -198,6 +320,7 @@ export const Footer = () => {
 									href="https://discord.gg/verifio"
 									target="_blank"
 									rel="noopener noreferrer"
+									aria-label="Join Verifio Discord community"
 									className="flex items-center gap-2 border-stroke-soft-100/60 p-3 text-text-sub-600 text-xs transition-colors hover:text-primary-base md:gap-3 md:p-4 md:text-sm"
 								>
 									<svg
@@ -206,6 +329,8 @@ export const Footer = () => {
 										width="1em"
 										height="1em"
 										viewBox="0 0 24 24"
+										aria-hidden="true"
+										focusable="false"
 									>
 										<path
 											fill="currentColor"
@@ -214,26 +339,34 @@ export const Footer = () => {
 									</svg>
 									<span>Discord</span>
 								</Link>
-							</div>
+							</nav>
 						</div>
 					</div>
 				</div>
 				<div className="mx-4 h-10 max-w-7xl border border-stroke-soft-100/60 md:mx-auto md:h-16" />
-				<div className="mx-4 max-w-7xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
+
+				{/* Main Footer Navigation */}
+				<nav
+					aria-label="Footer navigation"
+					className="mx-4 max-w-7xl border-stroke-soft-100/60 border-r border-l md:mx-auto"
+				>
 					<div className="grid grid-cols-2 gap-0 border-stroke-soft-100/60 md:grid-cols-4">
 						{links.map((link, index) => (
 							<div
-								key={index}
+								key={link.group}
 								className={`border-stroke-soft-100/60 ${index % 2 !== 1 ? "border-r" : ""} ${index < 2 ? "border-b md:border-b-0" : ""} ${index < links.length - 1 ? "md:border-r" : "md:border-r-0"}`}
 							>
 								<div className="space-y-0">
-									<span className="block border-stroke-soft-100/60 border-b px-4 py-4 font-medium text-text-strong-950 text-xs md:px-6 md:py-6 md:text-sm">
+									<h2
+										id={`footer-nav-${link.group.toLowerCase().replace(/\s+/g, "-")}`}
+										className="block border-stroke-soft-100/60 border-b px-4 py-4 font-medium text-text-strong-950 text-xs md:px-6 md:py-6 md:text-sm"
+									>
 										{link.group}
-									</span>
-									<div className="space-y-0">
+									</h2>
+									<ul className="m-0 list-none space-y-0 p-0">
 										{link.items.map((item, itemIndex) => (
-											<div
-												key={itemIndex}
+											<li
+												key={item.title}
 												className={`border-stroke-soft-100/60 px-4 md:px-6 ${
 													!(
 														itemIndex === link.items.length - 1 &&
@@ -245,38 +378,48 @@ export const Footer = () => {
 											>
 												<Link
 													href={item.href}
+													title={item.description}
 													className="block py-2 text-text-sub-600 text-xs transition-colors duration-150 hover:text-primary-base md:py-3 md:text-[13px]"
 												>
 													{item.title}
 												</Link>
-											</div>
+											</li>
 										))}
-									</div>
+									</ul>
 								</div>
 							</div>
 						))}
 					</div>
-				</div>
+				</nav>
 
 				{/* Lower Footer Section - Copyright, Status, Legal */}
 				<div className="mx-4 max-w-7xl border-stroke-soft-100/60 border-t border-r border-b border-l md:mx-auto">
 					<div className="flex items-center justify-between gap-3 px-4 py-4 sm:items-center md:gap-4 md:px-6 md:py-6">
 						<div className="flex items-center gap-2 md:gap-3">
-							<span className="text-text-sub-600 text-xs md:text-sm">
-								© {currentYear} Verifio
-							</span>
-							<div className="flex items-center gap-2">
-								<div className="size-2 rounded-full bg-primary-base" />
+							<small className="text-text-sub-600 text-xs md:text-sm">
+								© {currentYear} Verifio. All rights reserved.
+							</small>
+							<output
+								className="flex items-center gap-2"
+								aria-label="System status"
+							>
+								<div
+									className="size-2 rounded-full bg-primary-base"
+									aria-hidden="true"
+								/>
 								<span className="text-text-sub-600 text-xs md:text-sm">
 									All systems normal
 								</span>
-							</div>
+							</output>
 						</div>
 						{/* Theme Toggle */}
 						<ThemeToggle />
 					</div>
 				</div>
-				<div className="mx-4 h-10 max-w-7xl border-stroke-soft-100/60 border-r border-l md:mx-auto md:h-16" />
+				<div
+					className="mx-4 h-10 max-w-7xl border-stroke-soft-100/60 border-r border-l md:mx-auto md:h-16"
+					aria-hidden="true"
+				/>
 			</div>
 		</footer>
 	);
