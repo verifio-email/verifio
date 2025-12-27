@@ -6,8 +6,9 @@ import { landing } from "@verifio/api-key/routes/landing/landing.index";
 import { loader } from "@verifio/api-key/utils/loader";
 import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
+import { apiKeyConfig } from "./api-key.config";
 
-const port = 8012;
+const port = apiKeyConfig.port;
 const apiKeyService = new Elysia({
 	prefix: "/api/api-key",
 	name: "API Key Service",

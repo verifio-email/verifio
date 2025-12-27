@@ -1,20 +1,21 @@
 import type { Session } from "@verifio/auth/server";
 import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
+import { apiKeyConfig } from "../api-key.config";
 
-if (process.env.NODE_ENV !== "production") {
+if (apiKeyConfig.NODE_ENV !== "production") {
 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 }
 
 export const authMiddleware = new Elysia({ name: "better-auth" }).macro({
 	auth: {
 		async resolve({ status, request: { headers } }) {
-			const authUrl = `${process.env.BASE_URL}/api/auth/v1/get-session`;
+			const authUrl = `${apiKeyConfig.BASE_URL}/api/auth/v1/get-session`;
 			const cookie = headers.get("cookie") || "";
 
 			logger.info(
 				{
-					baseUrl: process.env.BASE_URL,
+					baseUrl: apiKeyConfig.BASE_URL,
 					authUrl,
 					hasCookie: !!cookie,
 					cookieLength: cookie.length,
