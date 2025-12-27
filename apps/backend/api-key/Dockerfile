@@ -31,6 +31,8 @@ ENV HOSTNAME=0.0.0.0
 # Copy standalone build
 COPY --from=builder /app/apps/backend/api-key/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
+# Copy workspace packages that are used as external dependencies
+COPY --from=builder /app/packages ./packages
 
 EXPOSE 8012
 
