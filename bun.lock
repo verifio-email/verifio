@@ -94,7 +94,6 @@
     "apps/backend/logs": {
       "name": "logs",
       "dependencies": {
-        "@clickhouse/client": "catalog:backend",
         "@elysiajs/cors": "catalog:backend",
         "@elysiajs/cron": "catalog:backend",
         "@elysiajs/openapi": "catalog:backend",
@@ -110,11 +109,14 @@
         "@opentelemetry/semantic-conventions": "catalog:backend",
         "@verifio/logger": "workspace:*",
         "dotenv": "catalog:backend",
+        "drizzle-orm": "catalog:db",
         "elysia": "catalog:backend",
+        "pg": "catalog:db",
         "zod": "catalog:ui",
       },
       "devDependencies": {
         "@types/bun": "catalog:backend",
+        "@types/pg": "catalog:db",
         "@verifio/tsconfig": "workspace:*",
         "tsdown": "catalog:backend",
         "typescript": "catalog:",
@@ -715,10 +717,6 @@
     "@clack/core": ["@clack/core@0.5.0", "", { "dependencies": { "picocolors": "^1.0.0", "sisteransi": "^1.0.5" } }, "sha512-p3y0FIOwaYRUPRcMO7+dlmLh8PSRcrjuTndsiA0WAFbWES0mLZlrjVoBRZ9DzkPFJZG6KGkJmoEAY0ZcVWTkow=="],
 
     "@clack/prompts": ["@clack/prompts@0.11.0", "", { "dependencies": { "@clack/core": "0.5.0", "picocolors": "^1.0.0", "sisteransi": "^1.0.5" } }, "sha512-pMN5FcrEw9hUkZA4f+zLlzivQSeQf5dRGJjSUbvVYDLvpKCdQx5OaknvKzgbtXOizhP+SJJJjqEbOe55uKKfAw=="],
-
-    "@clickhouse/client": ["@clickhouse/client@1.12.1", "", { "dependencies": { "@clickhouse/client-common": "1.12.1" } }, "sha512-7ORY85rphRazqHzImNXMrh4vsaPrpetFoTWpZYueCO2bbO6PXYDXp/GQ4DgxnGIqbWB/Di1Ai+Xuwq2o7DJ36A=="],
-
-    "@clickhouse/client-common": ["@clickhouse/client-common@1.12.1", "", {}, "sha512-ccw1N6hB4+MyaAHIaWBwGZ6O2GgMlO99FlMj0B0UEGfjxM9v5dYVYql6FpP19rMwrVAroYs/IgX2vyZEBvzQLg=="],
 
     "@date-fns/tz": ["@date-fns/tz@1.2.0", "", {}, "sha512-LBrd7MiJZ9McsOgxqWX7AaxrDjcFVjWH/tIKJd7pnR7McaslGYOP1QmmiBXdJH/H/yLCT+rcQ7FaPBUxRGUtrg=="],
 
