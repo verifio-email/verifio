@@ -18,7 +18,7 @@ export const trackRoute = new Elysia().post(
 			tags: ["tracehub"],
 			summary: "Track a tracehub event",
 			description:
-				"Inserts a tracehub event into ClickHouse. User information is optional.",
+				"Inserts a tracehub event into PostgreSQL. User information is optional.",
 		},
 	},
 );

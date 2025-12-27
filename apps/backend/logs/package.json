@@ -10,7 +10,6 @@
 		"start": "bun run dist/index.js"
 	},
 	"dependencies": {
-		"@clickhouse/client": "catalog:backend",
 		"@elysiajs/cors": "catalog:backend",
 		"@elysiajs/cron": "catalog:backend",
 		"@elysiajs/opentelemetry": "catalog:backend",
@@ -26,13 +25,17 @@
 		"@opentelemetry/semantic-conventions": "catalog:backend",
 		"dotenv": "catalog:backend",
 		"elysia": "catalog:backend",
+		"drizzle-orm": "catalog:db",
+		"pg": "catalog:db",
 		"zod": "catalog:ui",
 		"@verifio/logger": "workspace:*"
 	},
 	"devDependencies": {
 		"@verifio/tsconfig": "workspace:*",
+		"@types/pg": "catalog:db",
 		"tsdown": "catalog:backend",
 		"typescript": "catalog:",
 		"@types/bun": "catalog:backend"
 	}
 }
+

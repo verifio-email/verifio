@@ -1,6 +1,6 @@
 import { logger } from "@verifio/logger";
 import { status } from "elysia";
-import { insertEvent } from "../../../utils/clickhouse";
+import { insertEvent } from "../../../utils/database";
 import type { TraceHubTypes } from "../tracehub.type";
 
 export async function trackEvent(
@@ -38,7 +38,7 @@ export async function trackEvent(
 			}
 		}
 
-		// Store event directly in ClickHouse
+		// Store event in PostgreSQL
 		const uuid = await insertEvent(
 			event,
 			userId,

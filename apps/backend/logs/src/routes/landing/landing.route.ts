@@ -1,14 +1,5 @@
-import { createClient } from "@clickhouse/client";
 import { Elysia } from "elysia";
-import { logsConfig } from "../../logs.config";
-
-// Create ClickHouse client for health checks
-const clickhouseClient = createClient({
-	host: logsConfig.CLICKHOUSE_HOST,
-	username: logsConfig.CLICKHOUSE_USER,
-	password: logsConfig.CLICKHOUSE_PASSWORD,
-	database: logsConfig.CLICKHOUSE_DATABASE,
-});
+import { checkConnection } from "../../utils/database";
 
 export const landingRoute = new Elysia()
 	.get(
@@ -67,22 +58,28 @@ export const landingRoute = new Elysia()
 		async () => {
 			try {
 				const startTime = Date.now();
-				await clickhouseClient.query({
-					query: "SELECT 1 as test",
-					format: "JSON",
-				});
+				const isConnected = await checkConnection();
 				const responseTime = Date.now() - startTime;
 
+				if (isConnected) {
+					return {
+						status: "CONNECTED",
+						database: "postgresql",
+						responseTime: `${responseTime}ms`,
+						timestamp: new Date().toISOString(),
+					};
+				}
+
 				return {
-					status: "CONNECTED",
-					database: "clickhouse",
-					responseTime: `${responseTime}ms`,
+					status: "DISCONNECTED",
+					database: "postgresql",
+					error: "Connection check failed",
 					timestamp: new Date().toISOString(),
 				};
 			} catch (error) {
 				return {
 					status: "DISCONNECTED",
-					database: "clickhouse",
+					database: "postgresql",
 					error: error instanceof Error ? error.message : String(error),
 					timestamp: new Date().toISOString(),
 				};
@@ -91,8 +88,9 @@ export const landingRoute = new Elysia()
 		{
 			detail: {
 				tags: ["Service"],
-				summary: "Health check for ClickHouse database",
-				description: "Checks the health of the ClickHouse database connection",
+				summary: "Health check for PostgreSQL database",
+				description: "Checks the health of the PostgreSQL database connection",
 			},
 		},
 	);
+
