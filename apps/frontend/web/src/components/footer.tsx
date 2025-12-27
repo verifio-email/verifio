@@ -102,25 +102,27 @@ const links = [
 	},
 ];
 
+const maxItems = Math.max(...links.map((l) => l.items.length));
+
 export const Footer = () => {
 	const currentYear = new Date().getFullYear();
 
 	return (
 		<footer>
-			<div className="border-stroke-soft-100 border-t border-b">
-				<div className="mx-4 max-w-7xl border-stroke-soft-100 border-r border-l md:mx-auto">
-					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-4 py-2 md:px-10 md:py-4">
-						<span className="text-text-sub-600 text-xs md:text-sm">Footer</span>
-						<span className="text-text-sub-600 text-xs md:text-sm">
+			<div className="border-stroke-soft-100/60 border-t border-b">
+				<div className="mx-4 max-w-7xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
+					<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 uppercase md:px-10 md:py-4 z-10">
+						<span className="text-text-sub-600 text-xs">[Footer]</span>
+						<span className="text-text-sub-600 text-xs">
 							/ Socials + Resources
 						</span>
 					</div>
 					<div className="grid grid-cols-1 gap-0 md:grid-cols-2">
-						<div className="border-stroke-soft-100 px-4 py-6 text-center md:border-r md:px-10 md:py-10 md:text-left">
+						<div className="border-stroke-soft-100/60 px-4 py-6 text-center md:border-r md:px-10 md:py-10 md:text-left">
 							<div className="flex items-center justify-center gap-3 md:justify-start">
-								<LogoName className="h-8 rounded-full md:h-10" />
+								<LogoName className="h-8 md:h-10" />
 							</div>
-							<p className="mx-auto max-w-xs pt-6 text-sm font-medium md:mx-0 md:pt-8 md:text-base">
+							<p className="mx-auto max-w-xs pt-6 font-medium text-sm md:mx-0 md:pt-8 md:text-base">
 								Verify emails at scale with 99% accuracy. Reduce bounces,
 								protect your sender reputation.
 							</p>
@@ -136,7 +138,7 @@ export const Footer = () => {
 									href="https://linkedin.com/company/reloop"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="flex items-center gap-2 border-stroke-soft-100 border-t border-r border-b p-3 text-text-sub-600 text-xs transition-colors hover:text-primary-base md:gap-3 md:border-t-0 md:p-4 md:text-sm"
+									className="flex items-center gap-2 border-stroke-soft-100/60 border-t border-r border-b p-3 text-text-sub-600 text-xs transition-colors hover:text-primary-base md:gap-3 md:border-t-0 md:p-4 md:text-sm"
 								>
 									<svg
 										className="size-4 md:size-5"
@@ -156,7 +158,7 @@ export const Footer = () => {
 									href="https://x.com/verifiohq"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="flex items-center gap-2 border-stroke-soft-100 border-b p-3 text-text-sub-600 text-xs transition-colors hover:text-primary-base md:gap-3 md:p-4 md:text-sm border-t md:border-t-0"
+									className="flex items-center gap-2 border-stroke-soft-100/60 border-t border-b p-3 text-text-sub-600 text-xs transition-colors hover:text-primary-base md:gap-3 md:border-t-0 md:p-4 md:text-sm"
 								>
 									<svg
 										className="size-4 md:size-5"
@@ -176,7 +178,7 @@ export const Footer = () => {
 									href="https://github.com/reloop-labs/verifio"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="flex items-center gap-2 border-stroke-soft-100 border-r p-3 text-text-sub-600 text-xs transition-colors hover:text-primary-base md:gap-3 md:p-4 md:text-sm"
+									className="flex items-center gap-2 border-stroke-soft-100/60 border-r p-3 text-text-sub-600 text-xs transition-colors hover:text-primary-base md:gap-3 md:p-4 md:text-sm"
 								>
 									<svg
 										className="size-4 md:size-5"
@@ -196,7 +198,7 @@ export const Footer = () => {
 									href="https://discord.gg/verifio"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="flex items-center gap-2 border-stroke-soft-100 p-3 text-xs text-text-sub-600 transition-colors hover:text-primary-base md:gap-3 md:p-4 md:text-sm"
+									className="flex items-center gap-2 border-stroke-soft-100/60 p-3 text-text-sub-600 text-xs transition-colors hover:text-primary-base md:gap-3 md:p-4 md:text-sm"
 								>
 									<svg
 										className="size-4 md:size-5"
@@ -216,29 +218,34 @@ export const Footer = () => {
 						</div>
 					</div>
 				</div>
-				<div className="mx-4 h-10 max-w-7xl border border-stroke-soft-100 md:mx-auto md:h-16" />
-				<div className="mx-4 max-w-7xl border-stroke-soft-100 border-r border-l md:mx-auto">
-					<div className="grid grid-cols-2 gap-0 border-stroke-soft-100 md:grid-cols-4">
+				<div className="mx-4 h-10 max-w-7xl border border-stroke-soft-100/60 md:mx-auto md:h-16" />
+				<div className="mx-4 max-w-7xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
+					<div className="grid grid-cols-2 gap-0 border-stroke-soft-100/60 md:grid-cols-4">
 						{links.map((link, index) => (
 							<div
 								key={index}
-								className={`border-stroke-soft-100 ${index % 2 !== 1 ? "border-r" : ""} ${index < 2 ? "border-b md:border-b-0" : ""} ${index < links.length - 1 ? "md:border-r" : "md:border-r-0"}`}
+								className={`border-stroke-soft-100/60 ${index % 2 !== 1 ? "border-r" : ""} ${index < 2 ? "border-b md:border-b-0" : ""} ${index < links.length - 1 ? "md:border-r" : "md:border-r-0"}`}
 							>
 								<div className="space-y-0">
-									<span className="block border-stroke-soft-100 border-b px-4 py-4 font-medium text-xs text-text-strong-950 md:px-6 md:py-6 md:text-sm">
+									<span className="block border-stroke-soft-100/60 border-b px-4 py-4 font-medium text-text-strong-950 text-xs md:px-6 md:py-6 md:text-sm">
 										{link.group}
 									</span>
 									<div className="space-y-0">
 										{link.items.map((item, itemIndex) => (
 											<div
 												key={itemIndex}
-												className={`border-stroke-soft-100 px-4 md:px-6 ${
-													itemIndex < link.items.length - 1 ? "border-b" : ""
+												className={`border-stroke-soft-100/60 px-4 md:px-6 ${
+													!(
+														itemIndex === link.items.length - 1 &&
+															link.items.length === maxItems
+													)
+														? "border-b"
+														: ""
 												}`}
 											>
 												<Link
 													href={item.href}
-													className="block py-2 text-xs text-text-sub-600 transition-colors duration-150 hover:text-primary-base md:py-3 md:text-[13px]"
+													className="block py-2 text-text-sub-600 text-xs transition-colors duration-150 hover:text-primary-base md:py-3 md:text-[13px]"
 												>
 													{item.title}
 												</Link>
@@ -252,15 +259,15 @@ export const Footer = () => {
 				</div>
 
 				{/* Lower Footer Section - Copyright, Status, Legal */}
-				<div className="mx-4 max-w-7xl border-stroke-soft-100 border-t border-r border-b border-l md:mx-auto">
-					<div className="flex flex-col items-start justify-between gap-3 px-4 py-4 sm:flex-row sm:items-center md:gap-4 md:px-6 md:py-6">
-						<div className="flex gap-2 items-center md:gap-3">
-							<span className="text-xs text-text-sub-600 md:text-sm">
+				<div className="mx-4 max-w-7xl border-stroke-soft-100/60 border-t border-r border-b border-l md:mx-auto">
+					<div className="flex items-center justify-between gap-3 px-4 py-4 sm:items-center md:gap-4 md:px-6 md:py-6">
+						<div className="flex items-center gap-2 md:gap-3">
+							<span className="text-text-sub-600 text-xs md:text-sm">
 								© {currentYear} Verifio
 							</span>
 							<div className="flex items-center gap-2">
 								<div className="size-2 rounded-full bg-primary-base" />
-								<span className="text-xs text-text-sub-600 md:text-sm">
+								<span className="text-text-sub-600 text-xs md:text-sm">
 									All systems normal
 								</span>
 							</div>
@@ -269,7 +276,7 @@ export const Footer = () => {
 						<ThemeToggle />
 					</div>
 				</div>
-				<div className="mx-4 h-10 max-w-7xl border-stroke-soft-100 border-r border-l md:mx-auto md:h-16" />
+				<div className="mx-4 h-10 max-w-7xl border-stroke-soft-100/60 border-r border-l md:mx-auto md:h-16" />
 			</div>
 		</footer>
 	);

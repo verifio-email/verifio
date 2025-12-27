@@ -97,7 +97,7 @@ export const NewsletterSignup = () => {
 				</motion.div>
 			) : (
 				<form onSubmit={handleSubmit(onSubmit)}>
-					<p className="font-medium text-sm text-text-strong-950">
+					<p className="font-medium text-sm text-text-strong-950 z-0">
 						Stay updated
 					</p>
 					<p className="mt-1 text-text-sub-600 text-xs">
@@ -111,6 +111,7 @@ export const NewsletterSignup = () => {
 										type="email"
 										placeholder="Enter your email"
 										{...register("email")}
+										className="text-base"
 									/>
 								</Input.Wrapper>
 							</Input.Root>
