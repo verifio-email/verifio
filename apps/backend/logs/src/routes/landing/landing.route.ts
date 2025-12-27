@@ -1,12 +1,13 @@
 import { createClient } from "@clickhouse/client";
 import { Elysia } from "elysia";
+import { logsConfig } from "../../logs.config";
 
 // Create ClickHouse client for health checks
 const clickhouseClient = createClient({
-	host: process.env.CLICKHOUSE_HOST || "http://localhost:8123",
-	username: process.env.CLICKHOUSE_USER || "verifio",
-	password: process.env.CLICKHOUSE_PASSWORD || "verifio123",
-	database: process.env.CLICKHOUSE_DATABASE || "verifio_tracehub",
+	host: logsConfig.CLICKHOUSE_HOST,
+	username: logsConfig.CLICKHOUSE_USER,
+	password: logsConfig.CLICKHOUSE_PASSWORD,
+	database: logsConfig.CLICKHOUSE_DATABASE,
 });
 
 export const landingRoute = new Elysia()

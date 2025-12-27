@@ -4,10 +4,11 @@ import { serverTiming } from "@elysiajs/server-timing";
 import { logger } from "@verifio/logger";
 import { loader } from "@verifio/tracehub/utils/loader";
 import { Elysia } from "elysia";
+import { logsConfig } from "./logs.config";
 import { landingRoute } from "./routes/landing/landing.route";
 import { tracehubRoutes } from "./routes/tracehub/tracehub.routes";
 
-const port = 8016;
+const port = logsConfig.port;
 const tracehubService = new Elysia({
 	prefix: "/api/tracehub",
 	name: "tracehub service",
@@ -15,7 +16,7 @@ const tracehubService = new Elysia({
 	.use(
 		openapi({
 			references: fromTypes(
-				process.env.NODE_ENV === "production"
+				logsConfig.NODE_ENV === "production"
 					? "dist/index.d.ts"
 					: "src/index.ts",
 			),

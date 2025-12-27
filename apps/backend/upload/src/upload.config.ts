@@ -1,26 +1,23 @@
-// Set environment variables if not already set
-if (!process.env.PORT) process.env.PORT = "8018";
-if (!process.env.PG_URL)
-	process.env.PG_URL = "postgresql://verifio:verifio123@localhost:5432/verifio";
-if (!process.env.REDIS_URL)
-	process.env.REDIS_URL = "redis://:verifio123@localhost:6379";
-if (!process.env.BASE_URL) process.env.BASE_URL = "https://local.verifio.email";
+// Default values for upload configuration
 
-if (!process.env.NODE_TLS_REJECT_UNAUTHORIZED)
-	process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-if (!process.env.UPLOAD_STORAGE_PATH)
-	process.env.UPLOAD_STORAGE_PATH = "docker-data/uploads";
-if (!process.env.MAX_FILE_SIZE) process.env.MAX_FILE_SIZE = "10485760"; // 10MB
+const defaults = {
+	PORT: "8018",
+	PG_URL: "postgresql://verifio:verifio123@loczdalhost:5432/verifio",
+	REDIS_URL: "redis://:verifio123@localhost:6379",
+	BASE_URL: "https://local.verifio.email",
+	NODE_ENV: "development",
+	UPLOAD_STORAGE_PATH: "docker-data/uploads",
+	MAX_FILE_SIZE: "10485760", // 10MB
+} as const;
 
 export const uploadConfig = {
-	port: Number(process.env.PORT),
-	PG_URL: process.env.PG_URL,
-	REDIS_URL: process.env.REDIS_URL,
-	BASE_URL: process.env.BASE_URL,
-	NODE_ENV: process.env.NODE_ENV || "development",
-	NODE_TLS_REJECT_UNAUTHORIZED: process.env.NODE_TLS_REJECT_UNAUTHORIZED,
-	UPLOAD_STORAGE_PATH: process.env.UPLOAD_STORAGE_PATH,
-	MAX_FILE_SIZE: Number(process.env.MAX_FILE_SIZE),
+	port: Number(process.env.PORT || defaults.PORT),
+	PG_URL: process.env.PG_URL || defaults.PG_URL,
+	REDIS_URL: process.env.REDIS_URL || defaults.REDIS_URL,
+	BASE_URL: process.env.BASE_URL || defaults.BASE_URL,
+	NODE_ENV: process.env.NODE_ENV || defaults.NODE_ENV,
+	UPLOAD_STORAGE_PATH: process.env.UPLOAD_STORAGE_PATH || defaults.UPLOAD_STORAGE_PATH,
+	MAX_FILE_SIZE: Number(process.env.MAX_FILE_SIZE || defaults.MAX_FILE_SIZE),
 
 	constants: {
 		maxFileSize: 10 * 1024 * 1024, // 10MB

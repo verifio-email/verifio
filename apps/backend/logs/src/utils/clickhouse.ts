@@ -1,15 +1,16 @@
 import { type ClickHouseClient, createClient } from "@clickhouse/client";
 import { logger } from "@verifio/logger";
+import { logsConfig } from "../logs.config";
 
 let clickhouseClient: ClickHouseClient | null = null;
 
 export function getClickHouseClient(): ClickHouseClient {
 	if (!clickhouseClient) {
 		clickhouseClient = createClient({
-			host: process.env.CLICKHOUSE_HOST || "http://localhost:8123",
-			username: process.env.CLICKHOUSE_USER || "verifio",
-			password: process.env.CLICKHOUSE_PASSWORD || "verifio123",
-			database: process.env.CLICKHOUSE_DATABASE || "verifio_tracehub",
+			host: logsConfig.CLICKHOUSE_HOST,
+			username: logsConfig.CLICKHOUSE_USER,
+			password: logsConfig.CLICKHOUSE_PASSWORD,
+			database: logsConfig.CLICKHOUSE_DATABASE,
 		});
 	}
 	return clickhouseClient;
