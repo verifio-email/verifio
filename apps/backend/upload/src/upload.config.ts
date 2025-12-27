@@ -2,7 +2,7 @@
 
 const defaults = {
 	PORT: "8018",
-	PG_URL: "postgresql://verifio:verifio123@loczdalhost:5432/verifio",
+	PG_URL: "postgresql://verifio:verifio123@localhost:5432/verifio",
 	REDIS_URL: "redis://:verifio123@localhost:6379",
 	BASE_URL: "https://local.verifio.email",
 	NODE_ENV: "development",
