@@ -489,17 +489,11 @@ export const ApiKeyHeader = ({
 							<div className="absolute top-0 right-0 bottom-0 w-px bg-stroke-soft-200/50" />
 						</div>
 
-						{/* Empty Box 2 */}
-						<div className="relative flex flex-1 items-center justify-center px-5 py-5 lg:px-6">
-							{/* Right border - extends full height */}
-							<div className="absolute top-0 right-0 bottom-0 w-px bg-stroke-soft-200/50" />
-						</div>
+						{/* Empty Box 2 - no vertical line since empty */}
+						<div className="flex flex-1 px-5 py-5 lg:px-6" />
 
-						{/* Empty Box 3 */}
-						<div className="relative flex flex-1 items-center justify-center px-5 py-5 lg:px-6">
-							{/* Right border - extends full height */}
-							<div className="absolute top-0 right-0 bottom-0 w-px bg-stroke-soft-200/50" />
-						</div>
+						{/* Empty Box 3 - no vertical line since empty */}
+						<div className="flex flex-1 px-5 py-5 lg:px-6" />
 					</div>
 					<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
 				</div>
