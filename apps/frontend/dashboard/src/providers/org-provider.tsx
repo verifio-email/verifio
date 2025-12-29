@@ -86,6 +86,9 @@ export const UserOrganizationProvider = ({
 						await authClient.organization.setActive({
 							organizationId: session.user.activeOrganizationId,
 						});
+						await authClient.updateUser({
+							activeOrganizationId: session.user.activeOrganizationId,
+						});
 					} catch (error) {
 						console.log("Error setting active organization", { error });
 					}

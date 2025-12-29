@@ -89,6 +89,9 @@ export const SignupForm = () => {
 					await authClient.organization.setActive({
 						organizationId: org.data.id,
 					});
+					await authClient.updateUser({
+						activeOrganizationId: org.data.id,
+					});
 					router.push(`/${org.data.slug}`);
 				} else {
 					router.push("/");

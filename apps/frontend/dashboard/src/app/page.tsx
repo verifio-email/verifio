@@ -27,6 +27,9 @@ const Home = () => {
 						await authClient.organization.setActive({
 							organizationId: firstOrg.id,
 						});
+						await authClient.updateUser({
+							activeOrganizationId: firstOrg.id,
+						});
 						router.push(`/${firstOrg.slug}`);
 					}
 					return;
