@@ -102,7 +102,7 @@ const ApiKeyDetailPage = () => {
 
 	return (
 		<>
-			<div className="mx-auto max-w-3xl sm:px-8">
+			<div className="h-full">
 				<ApiKeyHeader
 					apiKey={apiKeyData}
 					isLoading={isLoading}

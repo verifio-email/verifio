@@ -238,9 +238,8 @@ export const DeleteApiKeyModal = ({
 						</Modal.Body>
 						<Modal.Footer className="mt-4 justify-end gap-2 border-stroke-soft-100/50">
 							<Button.Root
-								type="button"
-								mode="stroke"
 								size="xsmall"
+								variant="neutral"
 								onClick={handleCancel}
 								disabled={isDeleting}
 							>
