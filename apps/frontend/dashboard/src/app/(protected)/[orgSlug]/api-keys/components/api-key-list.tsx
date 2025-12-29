@@ -187,6 +187,7 @@ export const ApiKeyListSidebar = () => {
 								activeOrganizationSlug={activeOrganization?.slug || ""}
 								isLoading={isLoading}
 								loadingRows={4}
+								onCreateNewKey={() => setIsCreateModalOpen(true)}
 							/>
 						</div>
 

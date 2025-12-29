@@ -46,6 +46,7 @@ interface ApiKeyTableProps {
 	activeOrganizationSlug: string;
 	isLoading?: boolean;
 	loadingRows?: number;
+	onCreateNewKey?: () => void;
 }
 
 interface ApiKeyActionsDropdownProps {
@@ -212,6 +213,7 @@ export const ApiKeyTable = ({
 	activeOrganizationSlug,
 	isLoading,
 	loadingRows = 3,
+	onCreateNewKey,
 }: ApiKeyTableProps) => {
 	const { push } = useUserOrganization();
 	const { mutate } = useSWRConfig();
@@ -428,7 +430,7 @@ export const ApiKeyTable = ({
 							})}
 				</div>
 			</AnimatePresence>
-			<DeleteApiKeyModal apiKeys={apiKeys} />
+			<DeleteApiKeyModal apiKeys={apiKeys} onCreateNewKey={onCreateNewKey} />
 			{rotateModalApiKey && (
 				<RotateApiKeyModal
 					isOpen={!!rotateModalApiKey}

@@ -26,11 +26,13 @@ interface ApiKeyData {
 interface DeleteApiKeyModalProps {
 	apiKeys: ApiKeyData[];
 	onDeleteSuccess?: () => void;
+	onCreateNewKey?: () => void;
 }
 
 export const DeleteApiKeyModal = ({
 	apiKeys,
 	onDeleteSuccess,
+	onCreateNewKey,
 }: DeleteApiKeyModalProps) => {
 	const [deleteId, setDeleteId] = useQueryState("delete");
 	const [confirmationName, setConfirmationName] = useState("");
@@ -40,6 +42,7 @@ export const DeleteApiKeyModal = ({
 	const { mutate } = useSWRConfig();
 
 	const apiKeyToDelete = apiKeys.find((apiKey) => apiKey.id === deleteId);
+	const isLastApiKey = apiKeys.length === 1;
 
 	const handleDelete = async () => {
 		if (!apiKeyToDelete || !activeOrganization) return;
@@ -63,7 +66,13 @@ export const DeleteApiKeyModal = ({
 			toast.success("API key deleted successfully");
 			await setDeleteId(null);
 			setConfirmationName("");
-			await mutate("/api/api-key/v1/?limit=100");
+
+			// Revalidate all API key caches using a matcher function
+			await mutate(
+				(key) => typeof key === "string" && key.startsWith("/api/api-key/v1/"),
+				undefined,
+				{ revalidate: true },
+			);
 
 			// Call the success callback if provided (e.g., to navigate back to list)
 			onDeleteSuccess?.();
@@ -82,11 +91,78 @@ export const DeleteApiKeyModal = ({
 		setConfirmationName("");
 	};
 
+	const handleCreateNewKey = () => {
+		setDeleteId(null);
+		setConfirmationName("");
+		onCreateNewKey?.();
+	};
+
 	const displayName =
 		apiKeyToDelete?.name ||
 		apiKeyToDelete?.start ||
 		apiKeyToDelete?.prefix ||
 		"Unnamed";
+
+	// If trying to delete the last API key, show warning
+	if (isLastApiKey && deleteId) {
+		return (
+			<Modal.Root
+				open={!!deleteId}
+				onOpenChange={(open) => !open && setDeleteId(null)}
+			>
+				<Modal.Content
+					className="rounded-2xl border border-stroke-soft-100/50 p-0.5 sm:max-w-[480px]"
+					showClose={true}
+				>
+					<div className="rounded-2xl border border-stroke-soft-100/50">
+						<Modal.Header className="before:border-stroke-soft-200/50">
+							<div className="flex-1">
+								<Modal.Title>Cannot Delete API Key</Modal.Title>
+							</div>
+						</Modal.Header>
+						<Modal.Body className="space-y-4">
+							<div className="flex items-start gap-3">
+								<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-warning-lighter">
+									<Icon
+										name="alert-triangle"
+										className="h-5 w-5 text-warning-base"
+									/>
+								</div>
+								<div>
+									<p className="font-medium text-text-strong-950">
+										This is your only API key
+									</p>
+									<p className="mt-1 text-sm text-text-sub-600">
+										Your organization must have at least one API key. Please
+										create a new API key before revoking this one.
+									</p>
+								</div>
+							</div>
+						</Modal.Body>
+						<Modal.Footer className="mt-4 justify-end gap-2 border-stroke-soft-100/50">
+							<Button.Root
+								type="button"
+								mode="stroke"
+								size="xsmall"
+								onClick={handleCancel}
+							>
+								Cancel
+								<Kbd.Root className="bg-bg-weak-50 text-xs">Esc</Kbd.Root>
+							</Button.Root>
+							<Button.Root
+								type="button"
+								size="xsmall"
+								onClick={handleCreateNewKey}
+							>
+								<Icon name="plus" className="h-4 w-4" />
+								Create New API Key
+							</Button.Root>
+						</Modal.Footer>
+					</div>
+				</Modal.Content>
+			</Modal.Root>
+		);
+	}
 
 	return (
 		<Modal.Root

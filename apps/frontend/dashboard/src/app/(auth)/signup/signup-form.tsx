@@ -8,6 +8,7 @@ import * as Input from "@verifio/ui/input";
 import * as Label from "@verifio/ui/label";
 import Spinner from "@verifio/ui/spinner";
 import { useLoading } from "@verifio/ui/use-loading";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { Resolver } from "react-hook-form";
@@ -92,6 +93,18 @@ export const SignupForm = () => {
 					await authClient.updateUser({
 						activeOrganizationId: org.data.id,
 					});
+
+					// Create default API key for the new organization
+					try {
+						await axios.post(
+							"/api/api-key/v1/",
+							{ name: "Default" },
+							{ withCredentials: true },
+						);
+					} catch (apiKeyError) {
+						console.error("Failed to create default API key:", apiKeyError);
+					}
+
 					router.push(`/${org.data.slug}`);
 				} else {
 					router.push("/");
