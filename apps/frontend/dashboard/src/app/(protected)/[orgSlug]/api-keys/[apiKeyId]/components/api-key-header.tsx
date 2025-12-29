@@ -2,6 +2,7 @@
 import { AnimatedBackButton } from "@fe/dashboard/components/animated-back-button";
 import { AnimatedHoverBackground } from "@fe/dashboard/components/layout/sidebar/animated-hover-background";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
+import { useSidebar } from "@fe/dashboard/providers/sidebar-provider";
 import { formatRelativeTime } from "@fe/dashboard/utils/time";
 import * as Avatar from "@verifio/ui/avatar";
 import * as Button from "@verifio/ui/button";
@@ -95,6 +96,7 @@ export const ApiKeyHeader = ({
 	onDeleteApiKey,
 }: ApiKeyHeaderProps) => {
 	const { push } = useUserOrganization();
+	const { isCollapsed } = useSidebar();
 	const { mutate } = useSWRConfig();
 	const [copied, setCopied] = useState(false);
 	const [isToggling, setIsToggling] = useState(false);
@@ -172,330 +174,345 @@ export const ApiKeyHeader = ({
 	return (
 		<>
 			<div className="h-full">
-				{/* Back Button Section */}
-				<div className="relative">
-					<div className="px-5 py-4 lg:px-6">
-						<AnimatedBackButton onClick={() => push("/api-keys")} />
-					</div>
-					<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
-				</div>
-
-				{/* Header Section */}
-				<div className="relative">
-					<div className="flex items-center justify-between px-5 py-6 lg:px-6">
-						<div>
-							{isLoading ? (
-								<div className="flex items-center gap-1.5">
-									<Skeleton className="h-4 w-12 rounded-full" />
-									<Skeleton className="h-1 w-1 rounded-full" />
-									<Skeleton className="h-4 w-20 rounded-full" />
-									<Skeleton className="h-1 w-1 rounded-full" />
-									<div className="flex items-center gap-1">
-										<Skeleton className="h-3.5 w-3.5 rounded-full" />
-										<Skeleton className="h-4 w-16 rounded-full" />
-									</div>
-								</div>
-							) : (
-								<div className="flex items-center gap-1.5">
-									<p className="font-medium text-paragraph-xs text-text-sub-600">
-										API Key{" "}
-									</p>
-									<p className="font-semibold text-paragraph-xs text-text-sub-600">
-										•
-									</p>
-									<p className="font-medium text-paragraph-xs text-text-sub-600">
-										{isFailed
-											? "---"
-											: apiKey?.createdAt
-												? formatRelativeTime(apiKey.createdAt)
-												: "---"}
-									</p>
-									<p className="font-semibold text-paragraph-xs text-text-sub-600">
-										•
-									</p>
-									<div
-										className={`flex items-center gap-1 ${getStatusColor(apiKey?.enabled || false)}`}
-									>
-										<Icon
-											name={getStatusIcon(apiKey?.enabled || false)}
-											className="h-3.5 w-3.5"
-										/>
-										<p className="font-medium text-paragraph-xs">
-											{apiKey?.enabled ? "Enabled" : "Disabled"}
-										</p>
-									</div>
-								</div>
-							)}
-							{isLoading ? (
-								<Skeleton className="mt-2 h-7 w-48 rounded-lg" />
-							) : (
-								<h1 className="font-medium text-2xl text-text-strong-950">
-									{displayName}
-								</h1>
-							)}
+				<div
+					className={cn(
+						"h-full",
+						isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32",
+					)}
+				>
+					<div className="h-full border-stroke-soft-200/50 border-r border-l">
+						{/* Back Button Section */}
+						<div className="relative">
+							<div className="px-5 py-4 lg:px-6">
+								<AnimatedBackButton onClick={() => push("/api-keys")} />
+							</div>
+							<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
 						</div>
 
-						<div className="flex items-center gap-2">
-							{isLoading ? (
-								<>
-									<Skeleton className="h-9 w-32 rounded-lg" />
-									<Skeleton className="h-9 w-9 rounded-lg" />
-								</>
-							) : isFailed ? (
-								<Button.Root variant="error" size="small" mode="lighter">
-									Try Again
-								</Button.Root>
-							) : apiKey ? (
-								<>
-									<Button.Root
-										size="xsmall"
-										className="font-semibold"
-										onClick={handleToggleEnabled}
-										disabled={isToggling}
-									>
-										{isToggling ? (
-											<Icon name="loader-2" className="h-4 w-4 animate-spin" />
-										) : (
-											<Icon
-												name={apiKey.enabled ? "pause" : "play"}
-												className="h-4 w-4"
-											/>
-										)}
-										{apiKey.enabled ? "Disable" : "Enable"} API key
-									</Button.Root>
-									<PopoverRoot>
-										<PopoverTrigger asChild>
-											<Button.Root
-												variant="neutral"
-												mode="stroke"
-												size="xsmall"
+						{/* Header Section */}
+						<div className="relative">
+							<div className="flex items-center justify-between px-5 py-6 lg:px-6">
+								<div>
+									{isLoading ? (
+										<div className="flex items-center gap-1.5">
+											<Skeleton className="h-4 w-12 rounded-full" />
+											<Skeleton className="h-1 w-1 rounded-full" />
+											<Skeleton className="h-4 w-20 rounded-full" />
+											<Skeleton className="h-1 w-1 rounded-full" />
+											<div className="flex items-center gap-1">
+												<Skeleton className="h-3.5 w-3.5 rounded-full" />
+												<Skeleton className="h-4 w-16 rounded-full" />
+											</div>
+										</div>
+									) : (
+										<div className="flex items-center gap-1.5">
+											<p className="font-medium text-paragraph-xs text-text-sub-600">
+												API Key{" "}
+											</p>
+											<p className="font-semibold text-paragraph-xs text-text-sub-600">
+												•
+											</p>
+											<p className="font-medium text-paragraph-xs text-text-sub-600">
+												{isFailed
+													? "---"
+													: apiKey?.createdAt
+														? formatRelativeTime(apiKey.createdAt)
+														: "---"}
+											</p>
+											<p className="font-semibold text-paragraph-xs text-text-sub-600">
+												•
+											</p>
+											<div
+												className={`flex items-center gap-1 ${getStatusColor(apiKey?.enabled || false)}`}
 											>
 												<Icon
-													name="more-vertical"
-													className="h-3.5 w-3.5 text-text-sub-600"
+													name={getStatusIcon(apiKey?.enabled || false)}
+													className="h-3.5 w-3.5"
 												/>
+												<p className="font-medium text-paragraph-xs">
+													{apiKey?.enabled ? "Enabled" : "Disabled"}
+												</p>
+											</div>
+										</div>
+									)}
+									{isLoading ? (
+										<Skeleton className="mt-2 h-7 w-48 rounded-lg" />
+									) : (
+										<h1 className="font-medium text-2xl text-text-strong-950">
+											{displayName}
+										</h1>
+									)}
+								</div>
+
+								<div className="flex items-center gap-2">
+									{isLoading ? (
+										<>
+											<Skeleton className="h-9 w-32 rounded-lg" />
+											<Skeleton className="h-9 w-9 rounded-lg" />
+										</>
+									) : isFailed ? (
+										<Button.Root variant="error" size="small" mode="lighter">
+											Try Again
+										</Button.Root>
+									) : apiKey ? (
+										<>
+											<Button.Root
+												size="xsmall"
+												className="font-semibold"
+												onClick={handleToggleEnabled}
+												disabled={isToggling}
+											>
+												{isToggling ? (
+													<Icon
+														name="loader-2"
+														className="h-4 w-4 animate-spin"
+													/>
+												) : (
+													<Icon
+														name={apiKey.enabled ? "pause" : "play"}
+														className="h-4 w-4"
+													/>
+												)}
+												{apiKey.enabled ? "Disable" : "Enable"} API key
 											</Button.Root>
-										</PopoverTrigger>
-										<PopoverContent
-											align="end"
-											sideOffset={8}
-											className="w-44 rounded-xl p-1.5"
-											showArrow
-										>
-											<div className="relative">
-												{headerMenuItems.map((item, idx) => (
-													<button
-														key={item.id}
-														ref={(el) => {
-															if (el) buttonRefs.current[idx] = el;
-														}}
-														type="button"
-														onPointerEnter={() => setHoverIdx(idx)}
-														onPointerLeave={() => setHoverIdx(undefined)}
-														onClick={() => handleMenuItemClick(item.id)}
-														className={cn(
-															"flex w-full cursor-pointer items-center gap-2 rounded-lg py-1.5 pl-2 font-normal text-xs transition-colors",
-															item.isDanger
-																? "text-error-base"
-																: "text-text-strong-950",
-														)}
+											<PopoverRoot>
+												<PopoverTrigger asChild>
+													<Button.Root
+														variant="neutral"
+														mode="stroke"
+														size="xsmall"
 													>
 														<Icon
-															name={item.icon}
-															className={cn(
-																"h-3.5 w-3.5",
-																item.isDanger ? "" : "text-text-sub-600",
-															)}
+															name="more-vertical"
+															className="h-3.5 w-3.5 text-text-sub-600"
 														/>
-														<span>{item.label}</span>
-													</button>
-												))}
-												<AnimatedHoverBackground
-													top={currentTab?.offsetTop ?? 0}
-													height={currentTab?.offsetHeight ?? 28}
-													isVisible={hoverIdx !== undefined}
-													isDanger={isDanger}
-												/>
-											</div>
-										</PopoverContent>
-									</PopoverRoot>
-								</>
-							) : null}
-						</div>
-					</div>
-					<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
-				</div>
-
-				{/* API Key Section */}
-				<div className="relative">
-					<div className="flex items-center">
-						{/* Key content */}
-						<div className="flex-1 px-5 py-5 lg:px-6">
-							<div className="mb-2 flex items-center gap-1.5">
-								<Icon
-									name="key-new"
-									className="h-3.5 w-3.5 text-text-sub-600"
-								/>
-								<span className="font-medium text-[10px] text-text-sub-600 uppercase tracking-wider">
-									API Key
-								</span>
-							</div>
-							{isLoading ? (
-								<Skeleton className="h-6 w-full" />
-							) : (
-								<code className="overflow-hidden text-ellipsis font-mono text-sm text-text-strong-950">
-									{apiKey?.key || "---"}
-								</code>
-							)}
-						</div>
-						{/* Vertical separator - full height */}
-						<div className="h-full w-px self-stretch bg-stroke-soft-200/50" />
-						{/* Copy button */}
-						<div className="shrink-0 px-5 py-5 lg:px-6">
-							<button
-								type="button"
-								onClick={handleCopyKey}
-								className="flex items-center gap-1.5 font-medium text-text-sub-600 text-xs transition-colors hover:text-text-strong-950"
-							>
-								<Icon
-									name={copied ? "check" : "copy"}
-									className={cn(
-										"h-3.5 w-3.5",
-										copied ? "text-success-base" : "",
-									)}
-								/>
-								{copied ? "Copied" : "Copy"}
-							</button>
-						</div>
-					</div>
-					<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
-				</div>
-
-				{/* Stats Section - 3 Boxed Columns */}
-				<div className="relative">
-					<div className="flex">
-						{/* Total Requests Box */}
-						<div className="relative flex flex-1 items-center justify-center px-5 py-5 lg:px-6">
-							<div className="flex flex-col items-center gap-1.5 text-center">
-								<div className="flex items-center gap-1.5">
-									<Icon
-										name="activity-2"
-										className="h-3.5 w-3.5 text-text-sub-600"
-									/>
-									<span className="font-medium text-[10px] text-text-sub-600 uppercase tracking-wider">
-										Requests
-									</span>
+													</Button.Root>
+												</PopoverTrigger>
+												<PopoverContent
+													align="end"
+													sideOffset={8}
+													className="w-44 rounded-xl p-1.5"
+													showArrow
+												>
+													<div className="relative">
+														{headerMenuItems.map((item, idx) => (
+															<button
+																key={item.id}
+																ref={(el) => {
+																	if (el) buttonRefs.current[idx] = el;
+																}}
+																type="button"
+																onPointerEnter={() => setHoverIdx(idx)}
+																onPointerLeave={() => setHoverIdx(undefined)}
+																onClick={() => handleMenuItemClick(item.id)}
+																className={cn(
+																	"flex w-full cursor-pointer items-center gap-2 rounded-lg py-1.5 pl-2 font-normal text-xs transition-colors",
+																	item.isDanger
+																		? "text-error-base"
+																		: "text-text-strong-950",
+																)}
+															>
+																<Icon
+																	name={item.icon}
+																	className={cn(
+																		"h-3.5 w-3.5",
+																		item.isDanger ? "" : "text-text-sub-600",
+																	)}
+																/>
+																<span>{item.label}</span>
+															</button>
+														))}
+														<AnimatedHoverBackground
+															top={currentTab?.offsetTop ?? 0}
+															height={currentTab?.offsetHeight ?? 28}
+															isVisible={hoverIdx !== undefined}
+															isDanger={isDanger}
+														/>
+													</div>
+												</PopoverContent>
+											</PopoverRoot>
+										</>
+									) : null}
 								</div>
-								{isLoading ? (
-									<Skeleton className="h-5 w-24 rounded-lg" />
-								) : (
-									<span className="font-medium text-paragraph-sm text-text-strong-950">
-										{(apiKey?.requestCount || 0).toLocaleString()} times
-									</span>
-								)}
 							</div>
-							{/* Right border - extends full height */}
-							<div className="absolute top-0 right-0 bottom-0 w-px bg-stroke-soft-200/50" />
+							<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
 						</div>
 
-						{/* Last Used Box */}
-						<div className="relative flex flex-1 items-center justify-center px-5 py-5 lg:px-6">
-							<div className="flex flex-col items-center gap-1.5 text-center">
-								<div className="flex items-center gap-1.5">
-									<Icon
-										name="clock"
-										className="h-3.5 w-3.5 text-text-sub-600"
-									/>
-									<span className="font-medium text-[10px] text-text-sub-600 uppercase tracking-wider">
-										Last Used
-									</span>
-								</div>
-								{isLoading ? (
-									<Skeleton className="h-5 w-24 rounded-lg" />
-								) : (
-									<span className="font-medium text-paragraph-sm text-text-strong-950">
-										{apiKey?.lastRequest
-											? formatRelativeTime(apiKey.lastRequest)
-											: "No activity"}
-									</span>
-								)}
-							</div>
-							{/* Right border - extends full height */}
-							<div className="absolute top-0 right-0 bottom-0 w-px bg-stroke-soft-200/50" />
-						</div>
-
-						{/* Created Box */}
-						<div className="relative flex flex-1 items-center justify-center px-5 py-5 lg:px-6">
-							<div className="flex flex-col items-center gap-1.5 text-center">
-								<div className="flex items-center gap-1.5">
-									<Icon
-										name="calendar"
-										className="h-3.5 w-3.5 text-text-sub-600"
-									/>
-									<span className="font-medium text-[10px] text-text-sub-600 uppercase tracking-wider">
-										Created
-									</span>
-								</div>
-								{isLoading ? (
-									<Skeleton className="h-5 w-24 rounded-lg" />
-								) : (
-									<span className="font-medium text-paragraph-sm text-text-strong-950">
-										{apiKey?.createdAt
-											? formatRelativeTime(apiKey.createdAt)
-											: "---"}
-									</span>
-								)}
-							</div>
-							{/* Right border - just a simple line at right edge of box */}
-							<div className="absolute top-0 right-0 bottom-0 w-px bg-stroke-soft-200/50" />
-						</div>
-					</div>
-					<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
-				</div>
-
-				{/* Created By Section - 3 Boxed Columns to match row above */}
-				<div className="relative">
-					<div className="flex">
-						{/* Created By Box */}
-						<div className="relative flex flex-1 items-center justify-center px-5 py-5 lg:px-6">
-							<div className="flex flex-col items-center gap-1.5 text-center">
-								<div className="flex items-center gap-1.5">
-									<Icon name="user" className="h-3.5 w-3.5 text-text-sub-600" />
-									<span className="font-medium text-[10px] text-text-sub-600 uppercase tracking-wider">
-										Created By
-									</span>
-								</div>
-								{isLoading ? (
-									<Skeleton className="h-5 w-32 rounded-lg" />
-								) : (
-									<div className="flex items-center gap-2">
-										<Avatar.Root size="20">
-											{apiKey?.createdBy?.image ? (
-												<Avatar.Image
-													src={apiKey.createdBy.image}
-													alt={apiKey.createdBy.name || "User"}
-												/>
-											) : null}
-										</Avatar.Root>
-										<span className="font-medium text-paragraph-sm text-text-strong-950">
-											{apiKey?.createdBy?.email ||
-												apiKey?.createdBy?.name ||
-												"Unknown"}
+						{/* API Key Section */}
+						<div className="relative">
+							<div className="flex items-stretch">
+								{/* Key content */}
+								<div className="flex-1 px-5 py-5 lg:px-6">
+									<div className="mb-2 flex items-center gap-1.5">
+										<Icon
+											name="key-new"
+											className="h-3.5 w-3.5 text-text-sub-600"
+										/>
+										<span className="font-medium text-[10px] text-text-sub-600 uppercase tracking-wider">
+											API Key
 										</span>
 									</div>
-								)}
+									{isLoading ? (
+										<Skeleton className="h-6 w-full" />
+									) : (
+										<code className="overflow-hidden text-ellipsis font-mono text-sm text-text-strong-950">
+											{apiKey?.key || "---"}
+										</code>
+									)}
+								</div>
+								{/* Vertical separator - full height */}
+								<div className="w-px bg-stroke-soft-200/50" />
+								{/* Copy button */}
+								<div className="flex shrink-0 items-center justify-center px-5 py-5 lg:px-6">
+									<button
+										type="button"
+										onClick={handleCopyKey}
+										className="flex items-center justify-center gap-1.5 font-medium text-text-sub-600 text-xs transition-colors hover:text-text-strong-950"
+									>
+										<Icon
+											name={copied ? "check" : "copy"}
+											className={cn(
+												"h-3.5 w-3.5",
+												copied ? "text-success-base" : "",
+											)}
+										/>
+										{copied ? "Copied" : "Copy"}
+									</button>
+								</div>
 							</div>
-							{/* Right border - extends full height */}
-							<div className="absolute top-0 right-0 bottom-0 w-px bg-stroke-soft-200/50" />
+							<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
 						</div>
 
-						{/* Empty Box 2 - no vertical line since empty */}
-						<div className="flex flex-1 px-5 py-5 lg:px-6" />
+						{/* Stats Section - 3 Boxed Columns */}
+						<div className="relative">
+							<div className="flex">
+								{/* Total Requests Box */}
+								<div className="relative flex flex-1 items-center justify-center px-5 py-5 lg:px-6">
+									<div className="flex flex-col items-center gap-1.5 text-center">
+										<div className="flex items-center gap-1.5">
+											<Icon
+												name="activity-2"
+												className="h-3.5 w-3.5 text-text-sub-600"
+											/>
+											<span className="font-medium text-[10px] text-text-sub-600 uppercase tracking-wider">
+												Requests
+											</span>
+										</div>
+										{isLoading ? (
+											<Skeleton className="h-5 w-24 rounded-lg" />
+										) : (
+											<span className="font-medium text-paragraph-sm text-text-strong-950">
+												{(apiKey?.requestCount || 0).toLocaleString()} times
+											</span>
+										)}
+									</div>
+									{/* Right border - extends full height */}
+									<div className="absolute top-0 right-0 bottom-0 w-px bg-stroke-soft-200/50" />
+								</div>
 
-						{/* Empty Box 3 - no vertical line since empty */}
-						<div className="flex flex-1 px-5 py-5 lg:px-6" />
+								{/* Last Used Box */}
+								<div className="relative flex flex-1 items-center justify-center px-5 py-5 lg:px-6">
+									<div className="flex flex-col items-center gap-1.5 text-center">
+										<div className="flex items-center gap-1.5">
+											<Icon
+												name="clock"
+												className="h-3.5 w-3.5 text-text-sub-600"
+											/>
+											<span className="font-medium text-[10px] text-text-sub-600 uppercase tracking-wider">
+												Last Used
+											</span>
+										</div>
+										{isLoading ? (
+											<Skeleton className="h-5 w-24 rounded-lg" />
+										) : (
+											<span className="font-medium text-paragraph-sm text-text-strong-950">
+												{apiKey?.lastRequest
+													? formatRelativeTime(apiKey.lastRequest)
+													: "No activity"}
+											</span>
+										)}
+									</div>
+									{/* Right border - extends full height */}
+									<div className="absolute top-0 right-0 bottom-0 w-px bg-stroke-soft-200/50" />
+								</div>
+
+								{/* Created Box */}
+								<div className="relative flex flex-1 items-center justify-center px-5 py-5 lg:px-6">
+									<div className="flex flex-col items-center gap-1.5 text-center">
+										<div className="flex items-center gap-1.5">
+											<Icon
+												name="calendar"
+												className="h-3.5 w-3.5 text-text-sub-600"
+											/>
+											<span className="font-medium text-[10px] text-text-sub-600 uppercase tracking-wider">
+												Created
+											</span>
+										</div>
+										{isLoading ? (
+											<Skeleton className="h-5 w-24 rounded-lg" />
+										) : (
+											<span className="font-medium text-paragraph-sm text-text-strong-950">
+												{apiKey?.createdAt
+													? formatRelativeTime(apiKey.createdAt)
+													: "---"}
+											</span>
+										)}
+									</div>
+									{/* Right border - just a simple line at right edge of box */}
+									<div className="absolute top-0 right-0 bottom-0 w-px bg-stroke-soft-200/50" />
+								</div>
+							</div>
+							<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
+						</div>
+
+						{/* Created By Section - 3 Boxed Columns to match row above */}
+						<div className="relative">
+							<div className="flex">
+								{/* Created By Box */}
+								<div className="relative flex flex-1 items-center justify-center px-5 py-5 lg:px-6">
+									<div className="flex flex-col items-center gap-1.5 text-center">
+										<div className="flex items-center gap-1.5">
+											<Icon
+												name="user"
+												className="h-3.5 w-3.5 text-text-sub-600"
+											/>
+											<span className="font-medium text-[10px] text-text-sub-600 uppercase tracking-wider">
+												Created By
+											</span>
+										</div>
+										{isLoading ? (
+											<Skeleton className="h-5 w-32 rounded-lg" />
+										) : (
+											<div className="flex items-center gap-2">
+												<Avatar.Root size="20">
+													{apiKey?.createdBy?.image ? (
+														<Avatar.Image
+															src={apiKey.createdBy.image}
+															alt={apiKey.createdBy.name || "User"}
+														/>
+													) : null}
+												</Avatar.Root>
+												<span className="font-medium text-paragraph-sm text-text-strong-950">
+													{apiKey?.createdBy?.email ||
+														apiKey?.createdBy?.name ||
+														"Unknown"}
+												</span>
+											</div>
+										)}
+									</div>
+									{/* Right border - extends full height */}
+									<div className="absolute top-0 right-0 bottom-0 w-px bg-stroke-soft-200/50" />
+								</div>
+
+								{/* Empty Box 2 - no vertical line since empty */}
+								<div className="flex flex-1 px-5 py-5 lg:px-6" />
+
+								{/* Empty Box 3 - no vertical line since empty */}
+								<div className="flex flex-1 px-5 py-5 lg:px-6" />
+							</div>
+							<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
+						</div>
 					</div>
-					<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
 				</div>
 			</div>
 
