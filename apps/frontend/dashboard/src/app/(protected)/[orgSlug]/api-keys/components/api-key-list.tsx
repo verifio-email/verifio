@@ -20,6 +20,7 @@ import { EmptyState } from "./empty-state";
 interface ApiKeyData {
 	id: string;
 	name: string | null;
+	key: string;
 	start: string | null;
 	prefix: string | null;
 	enabled: boolean;
@@ -112,22 +113,31 @@ export const ApiKeyListSidebar = () => {
 		}) || [];
 
 	return (
-		<div className="mx-auto max-w-3xl sm:px-8">
-			<div className="flex items-center justify-between pt-10">
-				<p className="font-medium text-2xl">
-					API Key{data?.apiKeys.length !== 1 ? "s" : ""}
-				</p>
-				<div className="flex items-center gap-2">
+		<div className="h-full">
+			{/* Header Section */}
+			<div className="relative">
+				<div className="flex items-center justify-between px-5 py-6 lg:px-6">
+					<div>
+						<h1 className="font-medium text-2xl text-text-strong-950">
+							API Keys
+						</h1>
+						<p className="text-paragraph-sm text-text-sub-600">
+							Create and manage API keys to authenticate with the Verifio API
+						</p>
+					</div>
 					<Button.Root size="xsmall" onClick={() => setIsCreateModalOpen(true)}>
 						<Icon name="plus" className="h-4 w-4" />
-						Create API key
+						Create
 					</Button.Root>
 				</div>
+				{/* Bottom border extending to right edge */}
+				<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
 			</div>
 
+			{/* Content */}
 			<div>
 				{error ? (
-					<div className="flex flex-col items-center justify-center gap-2 p-4">
+					<div className="flex flex-col items-center justify-center gap-2 p-8">
 						<Icon name="alert-circle" className="h-8 w-8 text-red-500" />
 						<p className="text-center text-sm text-text-sub-600">
 							Failed to load API keys
@@ -136,31 +146,42 @@ export const ApiKeyListSidebar = () => {
 				) : data?.apiKeys && data.apiKeys.length === 0 ? (
 					<EmptyState onCreateApiKey={() => setIsCreateModalOpen(true)} />
 				) : (
-					<div>
-						<div className="mt-10 flex items-center gap-3">
-							<div className="flex-1">
-								<Input.Root size="small" className="rounded-xl">
-									<Input.Wrapper>
-										<Input.Icon
-											as={() => <Icon name="search" className="h-4 w-4" />}
-										/>
-										<Input.Input
-											type="text"
-											placeholder="Search API keys..."
-											value={searchQuery}
-											onChange={(e) => setSearchQuery(e.target.value)}
-										/>
-									</Input.Wrapper>
-								</Input.Root>
+					<>
+						{/* Your API Keys Section Header */}
+						<div className="relative">
+							<div className="flex items-center justify-between gap-3 px-5 py-4 lg:px-6">
+								<h3 className="font-medium text-label-md text-text-strong-950">
+									Your API Keys
+								</h3>
+								<div className="flex items-center gap-3">
+									<div className="w-64">
+										<Input.Root size="small" className="rounded-xl">
+											<Input.Wrapper>
+												<Input.Icon
+													as={() => <Icon name="search" className="h-4 w-4" />}
+												/>
+												<Input.Input
+													type="text"
+													placeholder="Search API keys..."
+													value={searchQuery}
+													onChange={(e) => setSearchQuery(e.target.value)}
+												/>
+											</Input.Wrapper>
+										</Input.Root>
+									</div>
+									<ApiKeyFilterDropdown
+										value={filters}
+										onChange={setFilters}
+										availableCreators={availableCreators}
+									/>
+								</div>
 							</div>
-							<ApiKeyFilterDropdown
-								value={filters}
-								onChange={setFilters}
-								availableCreators={availableCreators}
-							/>
+							{/* Bottom border extending to right edge */}
+							<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
 						</div>
 
-						<div className="mt-4">
+						{/* API Keys List */}
+						<div>
 							<ApiKeyTable
 								apiKeys={filteredApiKeys}
 								activeOrganizationSlug={activeOrganization?.slug || ""}
@@ -171,29 +192,33 @@ export const ApiKeyListSidebar = () => {
 
 						{/* Pagination */}
 						{data && data.total > 0 && (
-							<div className="mt-4 flex items-center justify-between pb-8 text-paragraph-sm text-text-sub-600">
-								<div className="flex items-center gap-3">
-									<span>
-										Showing {startIndex}–{endIndex} of {data.total} API key
-										{data.total !== 1 ? "s" : ""}
-									</span>
-									<PageSizeDropdown
-										value={pageSize}
-										onValueChange={(value) => {
-											setPageSize(value);
-											setCurrentPage(1);
-										}}
+							<div className="relative">
+								<div className="flex items-center justify-between px-5 py-4 text-paragraph-sm text-text-sub-600 lg:px-6">
+									<div className="flex items-center gap-3">
+										<span>
+											Showing {startIndex}–{endIndex} of {data.total} API key
+											{data.total !== 1 ? "s" : ""}
+										</span>
+										<PageSizeDropdown
+											value={pageSize}
+											onValueChange={(value) => {
+												setPageSize(value);
+												setCurrentPage(1);
+											}}
+										/>
+									</div>
+									<PaginationControls
+										currentPage={currentPage}
+										totalPages={totalPages}
+										onPageChange={setCurrentPage}
+										isLoading={isLoading}
 									/>
 								</div>
-								<PaginationControls
-									currentPage={currentPage}
-									totalPages={totalPages}
-									onPageChange={setCurrentPage}
-									isLoading={isLoading}
-								/>
+								{/* Bottom border extending to right edge */}
+								<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
 							</div>
 						)}
-					</div>
+					</>
 				)}
 			</div>
 			<CreateApiKeyModal

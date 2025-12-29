@@ -2,8 +2,6 @@
 import { AnimatedHoverBackground } from "@fe/dashboard/components/layout/sidebar/animated-hover-background";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
 import { getAnimationProps } from "@fe/dashboard/utils/audience";
-import { formatRelativeTime } from "@fe/dashboard/utils/time";
-import * as Avatar from "@verifio/ui/avatar";
 import * as Button from "@verifio/ui/button";
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
@@ -27,6 +25,7 @@ import { RotateApiKeyModal } from "./rotate-api-key-modal";
 interface ApiKeyData {
 	id: string;
 	name: string | null;
+	key: string;
 	start: string | null;
 	prefix: string | null;
 	enabled: boolean;
@@ -48,14 +47,6 @@ interface ApiKeyTableProps {
 	isLoading?: boolean;
 	loadingRows?: number;
 }
-
-const getStatusBadgeColor = () => {
-	return "text-text-sub-600 border-stroke-soft-200 bg-neutral-alpha-10";
-};
-
-const getStatusIconColor = (enabled: boolean) => {
-	return enabled ? "text-success-base" : "text-error-base";
-};
 
 interface ApiKeyActionsDropdownProps {
 	apiKey: ApiKeyData;
@@ -198,6 +189,24 @@ const ApiKeyActionsDropdown = ({
 	);
 };
 
+// Helper function to mask API key
+const maskApiKey = (prefix: string | null, start: string | null): string => {
+	const keyStart = prefix || start || "key";
+	return `${keyStart}${"•".repeat(16)}`;
+};
+
+// Format date for display
+const formatCreatedDate = (dateString: string): string => {
+	const date = new Date(dateString);
+	return date.toLocaleDateString("en-US", {
+		month: "short",
+		day: "2-digit",
+		year: "2-digit",
+		hour: "2-digit",
+		minute: "2-digit",
+	});
+};
+
 export const ApiKeyTable = ({
 	apiKeys,
 	activeOrganizationSlug,
@@ -212,6 +221,8 @@ export const ApiKeyTable = ({
 		null,
 	);
 	const [activeDropdownId, setActiveDropdownId] = useState<string | null>(null);
+	const [copiedId, setCopiedId] = useState<string | null>(null);
+	const [revealedKeyId, setRevealedKeyId] = useState<string | null>(null);
 
 	const handleDeleteApiKey = (apiKeyId: string) => {
 		setDeleteId(apiKeyId);
@@ -219,6 +230,18 @@ export const ApiKeyTable = ({
 
 	const handleViewDetails = (apiKeyId: string) => {
 		push(`/api-keys/${apiKeyId}`);
+	};
+
+	const handleCopyKey = async (apiKey: ApiKeyData) => {
+		const keyToCopy = apiKey.prefix || apiKey.start || "";
+		try {
+			await navigator.clipboard.writeText(keyToCopy);
+			setCopiedId(apiKey.id);
+			toast.success("API key copied to clipboard");
+			setTimeout(() => setCopiedId(null), 2000);
+		} catch {
+			toast.error("Failed to copy API key");
+		}
 	};
 
 	const handleToggleEnabled = async (apiKey: ApiKeyData) => {
@@ -255,226 +278,154 @@ export const ApiKeyTable = ({
 	return (
 		<>
 			<AnimatePresence mode="wait">
-				<div className="w-full overflow-hidden rounded-xl border border-stroke-soft-200/70 text-paragraph-sm shadow-regular-md ring-stroke-soft-200 ring-inset">
-					{/* Table Header */}
-					<div className="grid grid-cols-[2fr_1fr_1.5fr_1fr_48px] items-center px-4 py-3.5 text-text-sub-600">
-						<div className="flex items-center gap-2">
-							<Icon name="key-new" className="h-4 w-4" />
-							<span className="text-xs">Name</span>
-						</div>
-						<div className="flex items-center gap-2">
-							<Icon name="check-circle" className="h-4 w-4" />
-							<span className="text-xs">Status</span>
-						</div>
-						<div className="flex items-center gap-2">
-							<Icon name="user" className="h-4 w-4" />
-							<span className="text-xs">Created By</span>
-						</div>
-						<div className="flex items-center gap-2">
-							<Icon name="clock" className="h-4 w-4" />
-							<span className="text-xs">Created</span>
-						</div>
-						<div />
-					</div>
-
-					{/* Table Body */}
-					<div className="grid grid-cols-[2fr_1fr_1.5fr_1fr_48px]">
-						{isLoading
-							? // Skeleton loading state
-								Array.from({ length: loadingRows }).map((_, index) => (
-									<div
-										key={`skeleton-${index}-${activeOrganizationSlug}`}
-										className="contents"
-									>
-										<div className="flex items-center gap-2 border-stroke-soft-100 border-t py-2 pl-4">
-											<Skeleton className="h-4 w-4 rounded" />
-											<Skeleton className="h-4 w-24" />
+				<div className="w-full">
+					{isLoading
+						? // Skeleton loading state
+							Array.from({ length: loadingRows }).map((_, index) => (
+								<div
+									key={`skeleton-${index}-${activeOrganizationSlug}`}
+									className="relative"
+								>
+									<div className="flex items-center justify-between px-5 py-4 lg:px-6">
+										<div className="flex-1">
+											<Skeleton className="mb-2 h-5 w-32" />
+											<Skeleton className="mb-1 h-4 w-48" />
+											<Skeleton className="h-3 w-40" />
 										</div>
-										<div className="flex items-center border-stroke-soft-100 border-t py-2">
-											<Skeleton className="h-5 w-16 rounded-full" />
-										</div>
-										<div className="flex items-center gap-2 border-stroke-soft-100 border-t py-2">
-											<Skeleton className="h-5 w-5 rounded-full" />
-											<Skeleton className="h-4 w-20" />
-										</div>
-										<div className="flex items-center border-stroke-soft-100 border-t py-2">
-											<Skeleton className="h-4 w-16" />
-										</div>
-										<div className="flex items-center justify-center border-stroke-soft-100 border-t py-2 pr-4">
-											<Skeleton className="h-4 w-4 rounded" />
+										<div className="flex items-center gap-2">
+											<Skeleton className="h-8 w-8 rounded" />
+											<Skeleton className="h-8 w-8 rounded" />
 										</div>
 									</div>
-								))
-							: apiKeys.map((apiKey, index) => {
-									const displayName =
-										apiKey.name || apiKey.start || apiKey.prefix || "Unnamed";
-									const isRowActive = activeDropdownId === apiKey.id;
+									<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
+								</div>
+							))
+						: apiKeys.map((apiKey, index) => {
+								const displayName =
+									apiKey.name || apiKey.start || apiKey.prefix || "Unnamed";
+								const maskedKey = maskApiKey(apiKey.prefix, apiKey.start);
+								const fullKey = apiKey.key;
+								const isRevealed = revealedKeyId === apiKey.id;
+								const isRowActive = activeDropdownId === apiKey.id;
 
-									return (
-										<div
-											key={`api-key-${index}`}
-											className="group/row contents"
+								return (
+									<div key={`api-key-${apiKey.id}`} className="relative">
+										<Link
+											href={`/${activeOrganizationSlug}/api-keys/${apiKey.id}`}
+											className={cn(
+												"group block transition-colors hover:bg-bg-weak-50/50",
+												isRowActive && "bg-bg-weak-50/50",
+											)}
 										>
-											<Link
-												href={`/${activeOrganizationSlug}/api-keys/${apiKey.id}`}
-												className="group/row contents"
-											>
-												{/* Name Column */}
-												<div
-													className={cn(
-														"flex items-center gap-2 border-stroke-soft-100 border-t py-2 pl-4 transition-colors group-hover/row:bg-bg-weak-50/50",
-														isRowActive && "bg-bg-weak-50/50",
-													)}
+											<div className="flex items-center justify-between px-5 py-4 lg:px-6">
+												<motion.div
+													{...getAnimationProps(index + 1, 0)}
+													className="flex-1"
 												>
-													<motion.div
-														{...getAnimationProps(index + 1, 0)}
-														className="flex items-center gap-2"
-													>
-														<Icon
-															name="key-new"
-															className="h-4 w-4 shrink-0 text-text-sub-600"
-														/>
-														<div className="truncate font-medium text-label-sm text-text-strong-950">
-															{displayName}
-														</div>
-													</motion.div>
-												</div>
+													{/* Name */}
+													<p className="font-medium text-label-md text-text-strong-950">
+														{displayName}
+													</p>
+													{/* Key - Masked or Revealed */}
+													<div className="mt-1 flex items-center gap-2 font-mono text-paragraph-sm text-text-sub-600">
+														<span>{isRevealed ? fullKey : maskedKey}</span>
+													</div>
+													{/* Created Date */}
+													<p className="mt-1 text-paragraph-xs text-text-soft-400">
+														Created on {formatCreatedDate(apiKey.createdAt)}
+													</p>
+												</motion.div>
 
-												{/* Status Column */}
-												<div
-													className={cn(
-														"flex items-center border-stroke-soft-100 border-t py-2 transition-colors group-hover/row:bg-bg-weak-50/50",
-														isRowActive && "bg-bg-weak-50/50",
-													)}
+												{/* Actions */}
+												<motion.div
+													{...getAnimationProps(index + 1, 1)}
+													className="flex items-center gap-1"
+													onClick={(e) => e.preventDefault()}
 												>
-													<motion.div
-														{...getAnimationProps(index + 1, 1)}
-														className="flex items-center"
-													>
-														<span
-															className={cn(
-																"inline-flex items-center rounded-md border-[1px] px-2 py-0.5 font-medium text-[10px]",
-																getStatusBadgeColor(),
-															)}
-														>
-															<span
-																className={cn(
-																	"mr-1.5 h-2 w-2 rounded-full",
-																	getStatusIconColor(apiKey.enabled),
-																	apiKey.enabled
-																		? "bg-success-base"
-																		: "bg-error-base",
-																)}
-															/>
-															{apiKey.enabled ? "Enabled" : "Disabled"}
-														</span>
-													</motion.div>
-												</div>
-
-												{/* Created By Column */}
-												<div
-													className={cn(
-														"flex items-center gap-2 border-stroke-soft-100 border-t py-2 transition-colors group-hover/row:bg-bg-weak-50/50",
-														isRowActive && "bg-bg-weak-50/50",
-													)}
-												>
-													<motion.div
-														{...getAnimationProps(index + 1, 2)}
-														className="flex items-center gap-2"
-													>
-														<Avatar.Root size="20">
-															{apiKey.createdBy?.image ? (
-																<Avatar.Image
-																	src={apiKey.createdBy.image}
-																	alt={apiKey.createdBy?.name || "User"}
+													{/* Copy Button */}
+													<Tooltip.Root delayDuration={0}>
+														<Tooltip.Trigger asChild>
+															<Button.Root
+																variant="neutral"
+																mode="ghost"
+																size="xxsmall"
+																onClick={(e) => {
+																	e.preventDefault();
+																	e.stopPropagation();
+																	handleCopyKey(apiKey);
+																}}
+															>
+																<Icon
+																	name={
+																		copiedId === apiKey.id ? "check" : "copy"
+																	}
+																	className="h-4 w-4"
 																/>
-															) : null}
-														</Avatar.Root>
-														{apiKey.createdBy?.email ? (
-															<Tooltip.Root delayDuration={0}>
-																<Tooltip.Trigger asChild>
-																	<span className="cursor-default truncate text-label-sm text-text-sub-600">
-																		{apiKey.createdBy?.name || "Unknown"}
-																	</span>
-																</Tooltip.Trigger>
-																<Tooltip.Content
-																	sideOffset={-3}
-																	variant="light"
-																	className="rounded-xl"
-																>
-																	<div className="flex items-start gap-2 p-1">
-																		<Avatar.Root
-																			size="20"
-																			className="mt-0.5 shrink-0"
-																		>
-																			{apiKey.createdBy?.image ? (
-																				<Avatar.Image
-																					src={apiKey.createdBy.image}
-																					alt={apiKey.createdBy?.name || "User"}
-																				/>
-																			) : null}
-																		</Avatar.Root>
-																		<div className="flex flex-col items-start justify-start">
-																			<span className="font-sm">
-																				{apiKey.createdBy?.name || "Unknown"}
-																			</span>
-																			<span className="text-text-soft-400 text-xs">
-																				{apiKey.createdBy.email}
-																			</span>
-																		</div>
-																	</div>
-																</Tooltip.Content>
-															</Tooltip.Root>
-														) : (
-															<span className="truncate text-label-sm text-text-sub-600">
-																{apiKey.createdBy?.name || "Unknown"}
-															</span>
-														)}
-													</motion.div>
-												</div>
+															</Button.Root>
+														</Tooltip.Trigger>
+														<Tooltip.Content variant="light" sideOffset={4}>
+															{copiedId === apiKey.id ? "Copied!" : "Copy key"}
+														</Tooltip.Content>
+													</Tooltip.Root>
 
-												{/* Created Column */}
-												<div
-													className={cn(
-														"flex items-center border-stroke-soft-100 border-t py-2 transition-colors group-hover/row:bg-bg-weak-50/50",
-														isRowActive && "bg-bg-weak-50/50",
-													)}
-												>
-													<motion.div
-														{...getAnimationProps(index + 1, 3)}
-														className="flex items-center"
+													{/* Reveal/Hide Key Button */}
+													<Tooltip.Root delayDuration={0}>
+														<Tooltip.Trigger asChild>
+															<Button.Root
+																variant="neutral"
+																mode="ghost"
+																size="xxsmall"
+																onClick={(e) => {
+																	e.preventDefault();
+																	e.stopPropagation();
+																	setRevealedKeyId(
+																		isRevealed ? null : apiKey.id,
+																	);
+																}}
+															>
+																<Icon
+																	name={
+																		isRevealed
+																			? "eye-slash-outline"
+																			: "eye-outline"
+																	}
+																	className="h-4 w-4"
+																/>
+															</Button.Root>
+														</Tooltip.Trigger>
+														<Tooltip.Content variant="light" sideOffset={4}>
+															{isRevealed ? "Hide key" : "Show key"}
+														</Tooltip.Content>
+													</Tooltip.Root>
+
+													{/* More Actions */}
+													<div
+														onClick={(e) => {
+															e.preventDefault();
+															e.stopPropagation();
+														}}
 													>
-														<span className="whitespace-nowrap text-label-sm text-text-sub-600">
-															{formatRelativeTime(apiKey.createdAt)}
-														</span>
-													</motion.div>
-												</div>
-											</Link>
-
-											{/* Actions Column - outside Link to prevent navigation on dropdown click */}
-											<div
-												className={cn(
-													"flex items-center justify-center border-stroke-soft-100 border-t py-2 pr-4 transition-colors group-hover/row:bg-bg-weak-50/50",
-													isRowActive && "bg-bg-weak-50/50",
-												)}
-											>
-												<ApiKeyActionsDropdown
-													apiKey={apiKey}
-													onViewDetails={handleViewDetails}
-													onToggleEnabled={handleToggleEnabled}
-													onRotateKey={setRotateModalApiKey}
-													onDeleteKey={handleDeleteApiKey}
-													isToggling={togglingId === apiKey.id}
-													animationProps={getAnimationProps(index + 1, 4)}
-													onOpenChange={(open) =>
-														setActiveDropdownId(open ? apiKey.id : null)
-													}
-												/>
+														<ApiKeyActionsDropdown
+															apiKey={apiKey}
+															onViewDetails={handleViewDetails}
+															onToggleEnabled={handleToggleEnabled}
+															onRotateKey={setRotateModalApiKey}
+															onDeleteKey={handleDeleteApiKey}
+															isToggling={togglingId === apiKey.id}
+															animationProps={getAnimationProps(index + 1, 2)}
+															onOpenChange={(open) =>
+																setActiveDropdownId(open ? apiKey.id : null)
+															}
+														/>
+													</div>
+												</motion.div>
 											</div>
-										</div>
-									);
-								})}
-					</div>
+										</Link>
+										{/* Bottom border extending to right edge */}
+										<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
+									</div>
+								);
+							})}
 				</div>
 			</AnimatePresence>
 			<DeleteApiKeyModal apiKeys={apiKeys} />
