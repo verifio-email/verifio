@@ -165,6 +165,29 @@
         "typescript": "catalog:",
       },
     },
+    "apps/backend/verify": {
+      "name": "verify",
+      "dependencies": {
+        "@elysiajs/cors": "catalog:backend",
+        "@elysiajs/openapi": "catalog:backend",
+        "@elysiajs/server-timing": "catalog:backend",
+        "@paralleldrive/cuid2": "catalog:backend",
+        "@verifio/auth": "workspace:*",
+        "@verifio/cache": "workspace:*",
+        "@verifio/db": "workspace:*",
+        "@verifio/email-verify": "workspace:*",
+        "@verifio/logger": "workspace:*",
+        "dotenv": "catalog:backend",
+        "drizzle-orm": "catalog:db",
+        "elysia": "catalog:backend",
+      },
+      "devDependencies": {
+        "@types/bun": "catalog:backend",
+        "@verifio/tsconfig": "workspace:*",
+        "tsdown": "catalog:backend",
+        "typescript": "catalog:",
+      },
+    },
     "apps/backend/workflow": {
       "name": "workflow",
       "dependencies": {
@@ -388,6 +411,17 @@
       },
       "devDependencies": {
         "@react-email/preview-server": "4.2.8",
+        "@types/bun": "catalog:backend",
+        "typescript": "workspace:",
+      },
+    },
+    "packages/email-verify": {
+      "name": "@verifio/email-verify",
+      "version": "1.0.0",
+      "dependencies": {
+        "@verifio/logger": "workspace:*",
+      },
+      "devDependencies": {
         "@types/bun": "catalog:backend",
         "typescript": "workspace:",
       },
@@ -1833,6 +1867,8 @@
     "@verifio/cache": ["@verifio/cache@workspace:packages/cache"],
 
     "@verifio/db": ["@verifio/db@workspace:packages/db"],
+
+    "@verifio/email-verify": ["@verifio/email-verify@workspace:packages/email-verify"],
 
     "@verifio/logger": ["@verifio/logger@workspace:packages/logger"],
 
@@ -3318,6 +3354,8 @@
 
     "vary": ["vary@1.1.2", "", {}, "sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg=="],
 
+    "verify": ["verify@workspace:apps/backend/verify"],
+
     "vfile": ["vfile@6.0.3", "", { "dependencies": { "@types/unist": "^3.0.0", "vfile-message": "^4.0.0" } }, "sha512-KzIbH/9tXat2u30jf+smMwFCsno4wHVdNmzFyL+T/L3UGqqk6JKfVqOFOZEpZSHADH1k40ab6NUIXZq422ov3Q=="],
 
     "vfile-message": ["vfile-message@4.0.3", "", { "dependencies": { "@types/unist": "^3.0.0", "unist-util-stringify-position": "^4.0.0" } }, "sha512-QTHzsGd1EhbZs4AsQ20JX1rC3cOlt/IWJruk893DfLRr57lcnOeMaWG4K0JrRta4mIJZKth2Au3mM3u03/JWKw=="],
@@ -3750,7 +3788,9 @@
 
     "@tailwindcss/oxide-wasm32-wasi/tslib": ["tslib@2.8.1", "", { "bundled": true }, "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="],
 
-    "@verifio/react-email/typescript": ["@verifio/react-email@workspace:packages/email"],
+    "@verifio/email-verify/typescript": ["@verifio/email-verify@workspace:packages/email-verify"],
+
+    "@verifio/react-email/typescript": ["@verifio/email-verify@workspace:packages/email-verify"],
 
     "accepts/mime-types": ["mime-types@2.1.35", "", { "dependencies": { "mime-db": "1.52.0" } }, "sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw=="],
 

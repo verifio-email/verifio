@@ -3,39 +3,71 @@
 import { useSidebar } from "@fe/dashboard/providers/sidebar-provider";
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
-import { motion } from "framer-motion";
-import { useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
 
 type TabType = "single" | "bulk";
 
+// Verification result types matching the API response
+interface VerificationResult {
+	email: string;
+	user: string;
+	domain: string;
+	tag: string | null;
+	state: "deliverable" | "undeliverable" | "risky" | "unknown";
+	reason: string;
+	score: number;
+	checks: {
+		syntax: { valid: boolean; error?: string };
+		dns: {
+			valid: boolean;
+			domainExists: boolean;
+			hasMx: boolean;
+			mxRecords: string[];
+			preferredMx?: string;
+		};
+		disposable: { isDisposable: boolean; provider?: string };
+		role: { isRole: boolean; role?: string };
+		freeProvider: { isFree: boolean; provider?: string };
+		typo: { hasTypo: boolean; suggestion?: string };
+		smtp: { valid: boolean | null; isCatchAll: boolean | null };
+	};
+	analytics: {
+		didYouMean: string | null;
+		smtpProvider: string | null;
+		riskLevel: "low" | "medium" | "high";
+		qualityIndicators: string[];
+		warnings: string[];
+	};
+	duration: number;
+	verifiedAt: string;
+}
+
 interface RecentRun {
 	id: string;
 	email: string;
-	endpoint: string;
-	status: "success" | "failed" | "pending";
+	result: VerificationResult;
 	timestamp: Date;
 }
-
-// Mock recent runs data
-const mockRecentRuns: RecentRun[] = [
-	{
-		id: "1",
-		email: "test@example.com",
-		endpoint: "Single Verify",
-		status: "success",
-		timestamp: new Date(),
-	},
-];
 
 const PlaygroundPage = () => {
 	const { isCollapsed } = useSidebar();
 	const [activeTab, setActiveTab] = useState<TabType>("single");
 	const [email, setEmail] = useState("");
 	const [isVerifying, setIsVerifying] = useState(false);
-	const [recentRuns, setRecentRuns] = useState<RecentRun[]>(mockRecentRuns);
+	const [recentRuns, setRecentRuns] = useState<RecentRun[]>([]);
+	const [currentResult, setCurrentResult] = useState<VerificationResult | null>(
+		null,
+	);
 	const [csvFile, setCsvFile] = useState<File | null>(null);
 	const [isDragging, setIsDragging] = useState(false);
+	const [bulkProgress, setBulkProgress] = useState<{
+		jobId: string;
+		status: string;
+		progress: number;
+		total: number;
+	} | null>(null);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const tabs = [
@@ -43,6 +75,7 @@ const PlaygroundPage = () => {
 		{ id: "bulk" as TabType, label: "Bulk", dots: 2, badge: "New" },
 	];
 
+	// Call the verification API
 	const handleVerify = async () => {
 		if (!email.trim()) {
 			toast.error("Please enter an email address");
@@ -50,31 +83,66 @@ const PlaygroundPage = () => {
 		}
 
 		setIsVerifying(true);
-		// Simulate API call
-		await new Promise((resolve) => setTimeout(resolve, 1500));
+		setCurrentResult(null);
 
-		const newRun: RecentRun = {
-			id: Date.now().toString(),
-			email: email,
-			endpoint: tabs.find((t) => t.id === activeTab)?.label || "Verify",
-			status: "success",
-			timestamp: new Date(),
-		};
+		try {
+			// Call the verify API
+			const response = await fetch("/api/verify/v1/email", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ email: email.trim() }),
+			});
 
-		setRecentRuns([newRun, ...recentRuns.slice(0, 9)]);
-		toast.success("Email verified successfully!");
-		setIsVerifying(false);
+			const data = await response.json();
+
+			if (data.success && data.data) {
+				const result = data.data as VerificationResult;
+				setCurrentResult(result);
+
+				const newRun: RecentRun = {
+					id: Date.now().toString(),
+					email: result.email,
+					result: result,
+					timestamp: new Date(),
+				};
+
+				setRecentRuns([newRun, ...recentRuns.slice(0, 9)]);
+
+				if (result.state === "deliverable") {
+					toast.success(`Email verified! Score: ${result.score}/100`);
+				} else if (result.state === "risky") {
+					toast.warning(`Email is risky: ${result.reason}`);
+				} else {
+					toast.error(`Email undeliverable: ${result.reason}`);
+				}
+			} else {
+				toast.error(data.error || "Verification failed");
+			}
+		} catch (error) {
+			console.error("Verification error:", error);
+			toast.error("Failed to verify email. Is the verify service running?");
+		} finally {
+			setIsVerifying(false);
+		}
 	};
 
 	const handleGetCode = () => {
-		const codeSnippet = `fetch('https://api.verifio.com/v1/verify', {
+		const codeSnippet = `fetch('https://api.verifio.email/api/verify/v1/email', {
   method: 'POST',
   headers: {
-    'Authorization': 'Bearer YOUR_API_KEY',
+    'X-API-Key': 'YOUR_API_KEY',
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({ email: '${email || "example@email.com"}' })
-})`;
+})
+.then(res => res.json())
+.then(data => {
+  console.log('State:', data.data.state);
+  console.log('Score:', data.data.score);
+  console.log('Risk:', data.data.analytics.riskLevel);
+});`;
 
 		navigator.clipboard.writeText(codeSnippet);
 		toast.success("Code copied to clipboard!");
@@ -116,15 +184,125 @@ const PlaygroundPage = () => {
 		fileInputRef.current?.click();
 	};
 
+	const parseCSV = async (file: File): Promise<string[]> => {
+		const text = await file.text();
+		const lines = text.split("\n").filter((line) => line.trim());
+		const emails: string[] = [];
+
+		for (const line of lines) {
+			// Simple email extraction - assumes first column or whole line is email
+			const parts = line.split(",");
+			const potential = parts[0].trim().replace(/["']/g, "");
+			if (potential.includes("@")) {
+				emails.push(potential);
+			}
+		}
+
+		return emails;
+	};
+
 	const handleBulkVerify = async () => {
 		if (!csvFile) {
 			toast.error("Please upload a CSV file first");
 			return;
 		}
+
 		setIsVerifying(true);
-		await new Promise((resolve) => setTimeout(resolve, 2000));
-		toast.success("Bulk verification started!");
-		setIsVerifying(false);
+		setBulkProgress(null);
+
+		try {
+			// Parse CSV
+			const emails = await parseCSV(csvFile);
+
+			if (emails.length === 0) {
+				toast.error("No valid emails found in CSV");
+				setIsVerifying(false);
+				return;
+			}
+
+			toast.info(`Found ${emails.length} emails. Starting verification...`);
+
+			// Call bulk verify API
+			const response = await fetch("/api/verify/v1/bulk", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ emails }),
+			});
+
+			const data = await response.json();
+
+			if (data.success && data.data?.jobId) {
+				const jobId = data.data.jobId;
+				setBulkProgress({
+					jobId,
+					status: "processing",
+					progress: 0,
+					total: emails.length,
+				});
+
+				// Poll for status
+				const pollStatus = async () => {
+					const statusRes = await fetch(`/api/verify/v1/jobs/${jobId}`);
+					const statusData = await statusRes.json();
+
+					if (statusData.success && statusData.data) {
+						const job = statusData.data;
+						setBulkProgress({
+							jobId,
+							status: job.status,
+							progress: job.progress,
+							total: job.total,
+						});
+
+						if (job.status === "completed") {
+							toast.success(
+								`Bulk verification completed! ${job.stats?.deliverable || 0} deliverable.`,
+							);
+							setIsVerifying(false);
+						} else if (job.status === "failed") {
+							toast.error("Bulk verification failed");
+							setIsVerifying(false);
+						} else {
+							// Continue polling
+							setTimeout(pollStatus, 1000);
+						}
+					}
+				};
+
+				pollStatus();
+			} else {
+				toast.error(data.error || "Failed to start bulk verification");
+				setIsVerifying(false);
+			}
+		} catch (error) {
+			console.error("Bulk verification error:", error);
+			toast.error("Failed to process CSV. Is the verify service running?");
+			setIsVerifying(false);
+		}
+	};
+
+	// Get score color
+	const getScoreColor = (score: number) => {
+		if (score >= 90) return "text-success-base";
+		if (score >= 70) return "text-primary-base";
+		if (score >= 50) return "text-warning-base";
+		return "text-error-base";
+	};
+
+	// Get state badge style
+	const getStateBadge = (state: string) => {
+		switch (state) {
+			case "deliverable":
+				return "bg-success-alpha-10 text-success-base";
+			case "risky":
+				return "bg-warning-alpha-10 text-warning-base";
+			case "undeliverable":
+				return "bg-error-alpha-10 text-error-base";
+			default:
+				return "bg-bg-weak-50 text-text-sub-600";
+		}
 	};
 
 	return (
@@ -137,7 +315,7 @@ const PlaygroundPage = () => {
 							Playground
 						</h1>
 						<p className="relative mt-2 text-text-sub-600">
-							API, Docs and Playground - all in one place
+							Verify emails instantly with deep analytics
 						</p>
 					</div>
 				</div>
@@ -240,21 +418,10 @@ const PlaygroundPage = () => {
 											<div className="flex items-center gap-2">
 												<button
 													type="button"
-													className="flex h-8 w-8 items-center justify-center rounded-lg text-text-sub-600 ring-1 ring-stroke-soft-200/50 transition-all duration-200 hover:bg-bg-weak-50 active:scale-[0.99]"
-													aria-label="Settings"
-												>
-													<Icon name="settings" className="h-5 w-5" />
-												</button>
-												<button
-													type="button"
-													className="flex h-8 w-8 items-center justify-center rounded-lg text-text-sub-600 ring-1 ring-stroke-soft-200/50 transition-all duration-200 hover:bg-bg-weak-50 active:scale-[0.99]"
-													aria-label="Table view"
-												>
-													<Icon name="grid" className="h-5 w-5" />
-												</button>
-												<button
-													type="button"
-													onClick={() => setEmail("")}
+													onClick={() => {
+														setEmail("");
+														setCurrentResult(null);
+													}}
 													className="flex h-8 w-8 items-center justify-center rounded-lg text-text-sub-600 ring-1 ring-stroke-soft-200/50 transition-all duration-200 hover:bg-bg-weak-50 active:scale-[0.99]"
 													aria-label="Clear"
 												>
@@ -334,16 +501,37 @@ const PlaygroundPage = () => {
 												</div>
 											</div>
 
-											{/* Download template link */}
-											<div className="mt-4 flex items-center gap-2 text-text-sub-600">
-												<Icon name="download" className="h-4 w-4" />
-												<button
-													type="button"
-													className="label-sm transition-colors hover:text-primary-base"
-												>
-													Download CSV Template
-												</button>
-											</div>
+											{/* Progress bar during bulk verify */}
+											{bulkProgress && (
+												<div className="mt-4">
+													<div className="mb-2 flex items-center justify-between text-sm">
+														<span className="text-text-sub-600">
+															{bulkProgress.status === "completed"
+																? "Completed"
+																: "Processing..."}
+														</span>
+														<span className="text-text-strong-950">
+															{bulkProgress.progress}%
+														</span>
+													</div>
+													<div className="h-2 w-full overflow-hidden rounded-full bg-bg-weak-50">
+														<motion.div
+															className="h-full bg-primary-base"
+															initial={{ width: 0 }}
+															animate={{ width: `${bulkProgress.progress}%` }}
+															transition={{ duration: 0.3 }}
+														/>
+													</div>
+													<p className="mt-2 text-center text-text-soft-400 text-xs">
+														Processed{" "}
+														{Math.round(
+															(bulkProgress.progress / 100) *
+																bulkProgress.total,
+														)}{" "}
+														of {bulkProgress.total} emails
+													</p>
+												</div>
+											)}
 										</div>
 
 										{/* Action Row */}
@@ -383,86 +571,392 @@ const PlaygroundPage = () => {
 				</div>
 			</div>
 
+			{/* Verification Result Section */}
+			<AnimatePresence mode="wait">
+				{currentResult && (
+					<motion.div
+						initial={{ opacity: 0, y: 20 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0, y: -20 }}
+						className="border-stroke-soft-200/50 border-b"
+					>
+						<div className="px-52 2xl:px-[350px]">
+							<div className="border-stroke-soft-200/50 border-r border-l px-7 py-8">
+								<div className="mx-auto max-w-3xl">
+									<h3 className="mb-4 font-semibold text-lg text-text-strong-950">
+										Verification Result
+									</h3>
+
+									{/* Main Result Card */}
+									<div className="overflow-hidden rounded-xl border border-stroke-soft-200/50 bg-bg-white-0">
+										{/* Header with email and score */}
+										<div className="flex items-center justify-between border-stroke-soft-200/50 border-b p-4">
+											<div className="flex items-center gap-3">
+												<div
+													className={cn(
+														"flex h-10 w-10 items-center justify-center rounded-lg",
+														currentResult.state === "deliverable"
+															? "bg-success-alpha-10"
+															: currentResult.state === "risky"
+																? "bg-warning-alpha-10"
+																: "bg-error-alpha-10",
+													)}
+												>
+													<Icon
+														name={
+															currentResult.state === "deliverable"
+																? "check-circle"
+																: currentResult.state === "risky"
+																	? "alert-triangle"
+																	: "x-circle"
+														}
+														className={cn(
+															"h-5 w-5",
+															currentResult.state === "deliverable"
+																? "text-success-base"
+																: currentResult.state === "risky"
+																	? "text-warning-base"
+																	: "text-error-base",
+														)}
+													/>
+												</div>
+												<div>
+													<p className="font-medium font-mono text-text-strong-950">
+														{currentResult.email}
+													</p>
+													<div className="mt-0.5 flex items-center gap-2">
+														<span
+															className={cn(
+																"rounded-full px-2 py-0.5 font-medium text-xs",
+																getStateBadge(currentResult.state),
+															)}
+														>
+															{currentResult.state.charAt(0).toUpperCase() +
+																currentResult.state.slice(1)}
+														</span>
+														<span className="text-text-soft-400 text-xs">
+															{currentResult.reason.replace(/_/g, " ")}
+														</span>
+													</div>
+												</div>
+											</div>
+											<div className="text-right">
+												<p
+													className={cn(
+														"font-bold text-3xl",
+														getScoreColor(currentResult.score),
+													)}
+												>
+													{currentResult.score}
+												</p>
+												<p className="text-text-soft-400 text-xs">
+													Quality Score
+												</p>
+											</div>
+										</div>
+
+										{/* Checks Grid */}
+										<div className="grid grid-cols-3 gap-px bg-stroke-soft-200/50">
+											{/* Syntax Check */}
+											<div className="bg-bg-white-0 p-3">
+												<div className="flex items-center gap-2">
+													<Icon
+														name={
+															currentResult.checks.syntax.valid ? "check" : "x"
+														}
+														className={cn(
+															"h-4 w-4",
+															currentResult.checks.syntax.valid
+																? "text-success-base"
+																: "text-error-base",
+														)}
+													/>
+													<span className="text-sm text-text-sub-600">
+														Syntax Valid
+													</span>
+												</div>
+											</div>
+
+											{/* MX Records */}
+											<div className="bg-bg-white-0 p-3">
+												<div className="flex items-center gap-2">
+													<Icon
+														name={
+															currentResult.checks.dns.hasMx ? "check" : "x"
+														}
+														className={cn(
+															"h-4 w-4",
+															currentResult.checks.dns.hasMx
+																? "text-success-base"
+																: "text-error-base",
+														)}
+													/>
+													<span className="text-sm text-text-sub-600">
+														MX Records
+													</span>
+												</div>
+											</div>
+
+											{/* Domain Exists */}
+											<div className="bg-bg-white-0 p-3">
+												<div className="flex items-center gap-2">
+													<Icon
+														name={
+															currentResult.checks.dns.domainExists
+																? "check"
+																: "x"
+														}
+														className={cn(
+															"h-4 w-4",
+															currentResult.checks.dns.domainExists
+																? "text-success-base"
+																: "text-error-base",
+														)}
+													/>
+													<span className="text-sm text-text-sub-600">
+														Domain Exists
+													</span>
+												</div>
+											</div>
+
+											{/* Disposable */}
+											<div className="bg-bg-white-0 p-3">
+												<div className="flex items-center gap-2">
+													<Icon
+														name={
+															currentResult.checks.disposable.isDisposable
+																? "alert-triangle"
+																: "check"
+														}
+														className={cn(
+															"h-4 w-4",
+															currentResult.checks.disposable.isDisposable
+																? "text-warning-base"
+																: "text-success-base",
+														)}
+													/>
+													<span className="text-sm text-text-sub-600">
+														{currentResult.checks.disposable.isDisposable
+															? "Disposable"
+															: "Not Disposable"}
+													</span>
+												</div>
+											</div>
+
+											{/* Role-based */}
+											<div className="bg-bg-white-0 p-3">
+												<div className="flex items-center gap-2">
+													<Icon
+														name={
+															currentResult.checks.role.isRole
+																? "alert-triangle"
+																: "check"
+														}
+														className={cn(
+															"h-4 w-4",
+															currentResult.checks.role.isRole
+																? "text-warning-base"
+																: "text-success-base",
+														)}
+													/>
+													<span className="text-sm text-text-sub-600">
+														{currentResult.checks.role.isRole
+															? `Role (${currentResult.checks.role.role})`
+															: "Personal Email"}
+													</span>
+												</div>
+											</div>
+
+											{/* Free Provider */}
+											<div className="bg-bg-white-0 p-3">
+												<div className="flex items-center gap-2">
+													<Icon
+														name="info"
+														className="h-4 w-4 text-text-soft-400"
+													/>
+													<span className="text-sm text-text-sub-600">
+														{currentResult.checks.freeProvider.isFree
+															? currentResult.checks.freeProvider.provider
+															: "Business Email"}
+													</span>
+												</div>
+											</div>
+										</div>
+
+										{/* Analytics Section */}
+										<div className="border-stroke-soft-200/50 border-t p-4">
+											<div className="flex flex-wrap gap-4 text-sm">
+												<div>
+													<span className="text-text-soft-400">
+														Risk Level:
+													</span>
+													<span
+														className={cn(
+															"ml-2 font-medium",
+															currentResult.analytics.riskLevel === "low"
+																? "text-success-base"
+																: currentResult.analytics.riskLevel === "medium"
+																	? "text-warning-base"
+																	: "text-error-base",
+														)}
+													>
+														{currentResult.analytics.riskLevel.toUpperCase()}
+													</span>
+												</div>
+												{currentResult.analytics.smtpProvider && (
+													<div>
+														<span className="text-text-soft-400">
+															Provider:
+														</span>
+														<span className="ml-2 text-text-strong-950">
+															{currentResult.analytics.smtpProvider}
+														</span>
+													</div>
+												)}
+												<div>
+													<span className="text-text-soft-400">
+														Verified in:
+													</span>
+													<span className="ml-2 text-text-strong-950">
+														{currentResult.duration}ms
+													</span>
+												</div>
+											</div>
+
+											{/* Did you mean? */}
+											{currentResult.analytics.didYouMean && (
+												<div className="mt-3 flex items-center gap-2 rounded-lg bg-primary-alpha-10 p-3">
+													<Icon
+														name="lightbulb"
+														className="h-4 w-4 text-primary-base"
+													/>
+													<span className="text-primary-darker text-sm">
+														Did you mean:{" "}
+														<button
+															type="button"
+															onClick={() => {
+																setEmail(currentResult.analytics.didYouMean!);
+																setCurrentResult(null);
+															}}
+															className="font-medium underline"
+														>
+															{currentResult.analytics.didYouMean}
+														</button>
+														?
+													</span>
+												</div>
+											)}
+
+											{/* Warnings */}
+											{currentResult.analytics.warnings.length > 0 && (
+												<div className="mt-3 flex flex-wrap gap-2">
+													{currentResult.analytics.warnings.map((warning) => (
+														<span
+															key={warning}
+															className="rounded-full bg-warning-alpha-10 px-2 py-0.5 text-warning-base text-xs"
+														>
+															{warning.replace(/_/g, " ")}
+														</span>
+													))}
+												</div>
+											)}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</motion.div>
+				)}
+			</AnimatePresence>
+
 			{/* Recent Runs Section */}
 			<div className="border-stroke-soft-200/50 border-b">
 				<div className={cn(isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32")}>
 					<div className="border-stroke-soft-200/50 border-r border-l p-6">
 						<div className="mx-auto max-w-3xl">
 							<h2 className="mb-4 font-semibold text-lg text-text-strong-950">
-								Recent Runs
+								Recent Verifications
 							</h2>
 
 							<div className="grid gap-4 md:grid-cols-2">
 								{recentRuns.length === 0 ? (
 									<div className="col-span-2 flex flex-col items-center justify-center rounded-xl border border-stroke-soft-200/50 border-dashed bg-bg-weak-50 py-12">
 										<Icon
-											name="clock"
+											name="mail"
 											className="mb-3 h-8 w-8 text-text-disabled-300"
 										/>
-										<p className="text-text-sub-600">No recent runs yet</p>
+										<p className="text-text-sub-600">No verifications yet</p>
 										<p className="text-[13px] text-text-soft-400">
-											Start a verification to see results here
+											Enter an email above to start verifying
 										</p>
 									</div>
 								) : (
 									recentRuns.map((run) => (
-										<div
+										<button
 											key={run.id}
-											className="rounded-xl border border-stroke-soft-200/50 bg-bg-white-0 p-4 transition-colors hover:bg-bg-weak-50"
+											type="button"
+											onClick={() => {
+												setEmail(run.email);
+												setCurrentResult(run.result);
+											}}
+											className="rounded-xl border border-stroke-soft-200/50 bg-bg-white-0 p-4 text-left transition-colors hover:bg-bg-weak-50"
 										>
 											<div className="mb-3 flex items-center gap-3">
-												<div className="flex h-8 w-8 items-center justify-center rounded-lg bg-bg-weak-50">
+												<div
+													className={cn(
+														"flex h-8 w-8 items-center justify-center rounded-lg",
+														run.result.state === "deliverable"
+															? "bg-success-alpha-10"
+															: run.result.state === "risky"
+																? "bg-warning-alpha-10"
+																: "bg-error-alpha-10",
+													)}
+												>
 													<Icon
-														name="mail"
-														className="h-4 w-4 text-text-sub-600"
+														name={
+															run.result.state === "deliverable"
+																? "check-circle"
+																: run.result.state === "risky"
+																	? "alert-triangle"
+																	: "x-circle"
+														}
+														className={cn(
+															"h-4 w-4",
+															run.result.state === "deliverable"
+																? "text-success-base"
+																: run.result.state === "risky"
+																	? "text-warning-base"
+																	: "text-error-base",
+														)}
 													/>
 												</div>
 												<span className="flex-1 truncate font-mono text-sm text-text-strong-950">
 													{run.email}
 												</span>
-												<Icon
-													name="external-link"
-													className="h-4 w-4 shrink-0 text-text-sub-600"
-												/>
+												<span
+													className={cn(
+														"font-semibold text-sm",
+														getScoreColor(run.result.score),
+													)}
+												>
+													{run.result.score}
+												</span>
 											</div>
 
 											<div className="flex items-center justify-between text-[13px]">
-												<div className="flex items-center gap-4">
-													<div>
-														<span className="text-text-soft-400">Endpoint</span>
-														<span className="ml-2 text-text-sub-600">
-															{run.endpoint}
-														</span>
-													</div>
-												</div>
-												<div className="flex items-center gap-2">
-													<span className="text-text-soft-400">Status</span>
-													<span
-														className={cn(
-															"flex items-center gap-1",
-															run.status === "success"
-																? "text-success-base"
-																: run.status === "failed"
-																	? "text-error-base"
-																	: "text-warning-base",
-														)}
-													>
-														<Icon
-															name={
-																run.status === "success"
-																	? "check-circle"
-																	: run.status === "failed"
-																		? "x-circle"
-																		: "clock"
-															}
-															className="h-3.5 w-3.5"
-														/>
-														{run.status.charAt(0).toUpperCase() +
-															run.status.slice(1)}
-													</span>
-												</div>
+												<span
+													className={cn(
+														"rounded-full px-2 py-0.5 text-xs",
+														getStateBadge(run.result.state),
+													)}
+												>
+													{run.result.state}
+												</span>
+												<span className="text-text-soft-400">
+													{run.result.duration}ms
+												</span>
 											</div>
-										</div>
+										</button>
 									))
 								)}
 							</div>
