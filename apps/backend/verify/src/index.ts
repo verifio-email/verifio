@@ -10,6 +10,7 @@ import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
 import { verifyConfig } from "./config";
 import { authenticatedSingleRoute } from "./routes/authenticated";
+import { authenticatedBulkRoute } from "./routes/authenticated-bulk";
 import { bulkVerifyRoute } from "./routes/bulk";
 import { historyRoute } from "./routes/history";
 import { landing } from "./routes/landing";
@@ -60,6 +61,7 @@ const verifyService = new Elysia({
   .use(singleVerifyRoute)          // Public: POST /v1/email
   .use(bulkVerifyRoute)            // Public: POST /v1/bulk
   .use(authenticatedSingleRoute)   // Authenticated: POST /v1/verify (stores in DB)
+  .use(authenticatedBulkRoute)     // Authenticated: POST /v1/bulk-verify (stores in DB)
   .use(historyRoute)               // Authenticated: GET /v1/history, GET /v1/jobs
   .listen(port, () => {
     logger.info(

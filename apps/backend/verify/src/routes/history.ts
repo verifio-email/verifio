@@ -6,7 +6,7 @@
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
 import { logger } from "@verifio/logger";
-import { count, desc, eq } from "drizzle-orm";
+import { and, count, desc, eq, isNull } from "drizzle-orm";
 import { Elysia, t } from "elysia";
 import { authMiddleware } from "../middleware/auth";
 
@@ -43,14 +43,19 @@ export const historyRoute = new Elysia({
           "Fetching verification history",
         );
 
-        // Get total count
+        // Get total count (only single verifications - where jobId is null)
         const countResult = await db
           .select({ total: count() })
           .from(schema.verificationResult)
-          .where(eq(schema.verificationResult.organizationId, organizationId));
+          .where(
+            and(
+              eq(schema.verificationResult.organizationId, organizationId),
+              isNull(schema.verificationResult.jobId),
+            ),
+          );
         const total = countResult[0]?.total ?? 0;
 
-        // Get results
+        // Get results (only single verifications - where jobId is null)
         const results = await db
           .select({
             id: schema.verificationResult.id,
@@ -61,7 +66,12 @@ export const historyRoute = new Elysia({
             createdAt: schema.verificationResult.createdAt,
           })
           .from(schema.verificationResult)
-          .where(eq(schema.verificationResult.organizationId, organizationId))
+          .where(
+            and(
+              eq(schema.verificationResult.organizationId, organizationId),
+              isNull(schema.verificationResult.jobId),
+            ),
+          )
           .orderBy(desc(schema.verificationResult.createdAt))
           .limit(limit)
           .offset(offset);

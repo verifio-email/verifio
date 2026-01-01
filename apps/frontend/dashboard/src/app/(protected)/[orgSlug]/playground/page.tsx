@@ -83,6 +83,25 @@ const PlaygroundPage = () => {
 	const [isLoadingHistory, setIsLoadingHistory] = useState(true);
 	const [historyPage, setHistoryPage] = useState(1);
 	const [historyTotalPages, setHistoryTotalPages] = useState(1);
+	const [pastBulkJobs, setPastBulkJobs] = useState<
+		Array<{
+			id: string;
+			name: string | null;
+			status: string;
+			totalEmails: number;
+			processedEmails: number;
+			stats: {
+				deliverable: number;
+				undeliverable: number;
+				risky: number;
+				unknown: number;
+				averageScore: number;
+			} | null;
+			createdAt: string;
+			completedAt: string | null;
+		}>
+	>([]);
+	const [isLoadingBulkJobs, setIsLoadingBulkJobs] = useState(false);
 
 	// Fetch verification history from database
 	const fetchHistory = async (page = 1) => {
@@ -128,10 +147,66 @@ const PlaygroundPage = () => {
 		}
 	};
 
+	// Fetch bulk jobs from database
+	const fetchBulkJobs = async () => {
+		setIsLoadingBulkJobs(true);
+		try {
+			const response = await fetch("/api/verify/v1/jobs?limit=10", {
+				credentials: "include",
+			});
+			const data = await response.json();
+
+			if (data.success && data.data?.jobs) {
+				setPastBulkJobs(data.data.jobs);
+			}
+		} catch (error) {
+			console.error("Failed to fetch bulk jobs:", error);
+		} finally {
+			setIsLoadingBulkJobs(false);
+		}
+	};
+
+	// Load completed job results
+	const loadJobResults = async (jobId: string) => {
+		try {
+			const resultsRes = await fetch(
+				`/api/verify/v1/bulk-jobs/${jobId}/results`,
+				{
+					credentials: "include",
+				},
+			);
+			const resultsData = await resultsRes.json();
+			if (resultsData.success && resultsData.data) {
+				setBulkResults({
+					results: resultsData.data.results.map(
+						(r: {
+							email: string;
+							state: string;
+							score: number;
+							reason: string;
+							result?: VerificationResult;
+						}) => r.result || (r as VerificationResult),
+					),
+					stats: resultsData.data.stats,
+				});
+			}
+		} catch (error) {
+			console.error("Failed to load job results:", error);
+			toast.error("Failed to load job results");
+		}
+	};
+
 	// Fetch history on mount
 	useEffect(() => {
 		fetchHistory();
 	}, []);
+
+	// Fetch bulk jobs when switching to Bulk tab
+	useEffect(() => {
+		if (activeTab === "bulk") {
+			fetchBulkJobs();
+		}
+	}, [activeTab]);
 
 	const tabs = [
 		{ id: "single" as TabType, label: "Verify", dots: 3 },
@@ -288,13 +363,14 @@ const PlaygroundPage = () => {
 
 			toast.info(`Found ${emails.length} emails. Starting verification...`);
 
-			// Call bulk verify API
-			const response = await fetch("/api/verify/v1/bulk", {
+			// Call authenticated bulk verify API (stores to DB)
+			const response = await fetch("/api/verify/v1/bulk-verify", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ emails }),
+				credentials: "include",
+				body: JSON.stringify({ emails, name: csvFile.name }),
 			});
 
 			const data = await response.json();
@@ -308,9 +384,11 @@ const PlaygroundPage = () => {
 					total: emails.length,
 				});
 
-				// Poll for status
+				// Poll for status using authenticated endpoint
 				const pollStatus = async () => {
-					const statusRes = await fetch(`/api/verify/v1/jobs/${jobId}`);
+					const statusRes = await fetch(`/api/verify/v1/bulk-jobs/${jobId}`, {
+						credentials: "include",
+					});
 					const statusData = await statusRes.json();
 
 					if (statusData.success && statusData.data) {
@@ -323,10 +401,11 @@ const PlaygroundPage = () => {
 						});
 
 						if (job.status === "completed") {
-							// Fetch the results
+							// Fetch the results from DB
 							try {
 								const resultsRes = await fetch(
-									`/api/verify/v1/jobs/${jobId}/results`,
+									`/api/verify/v1/bulk-jobs/${jobId}/results`,
+									{ credentials: "include" },
 								);
 								const resultsData = await resultsRes.json();
 								if (resultsData.success && resultsData.data) {
@@ -950,133 +1029,223 @@ const PlaygroundPage = () => {
 				)}
 			</AnimatePresence>
 
-			{/* Bulk Results Section */}
-			{bulkResults && bulkResults.results.length > 0 && (
-				<div className="border-stroke-soft-200/50 border-b">
-					<div className="px-52 2xl:px-[350px]">
-						<div className="border-stroke-soft-200/50 border-r border-l px-7 py-8">
-							<div className="mx-auto max-w-4xl">
-								<div className="mb-4 flex items-center justify-between">
-									<h3 className="font-semibold text-lg text-text-strong-950">
-										Bulk Verification Results
-									</h3>
-									<button
-										type="button"
-										onClick={() => setBulkResults(null)}
-										className="text-text-soft-400 hover:text-text-sub-600"
-									>
-										<Icon name="x" className="h-5 w-5" />
-									</button>
-								</div>
+			{/* Bulk Results Section - Only show on Bulk tab */}
+			{activeTab === "bulk" &&
+				bulkResults &&
+				bulkResults.results.length > 0 && (
+					<div className="border-stroke-soft-200/50 border-b">
+						<div className="px-52 2xl:px-[350px]">
+							<div className="border-stroke-soft-200/50 border-r border-l px-7 py-8">
+								<div className="mx-auto max-w-4xl">
+									<div className="mb-4 flex items-center justify-between">
+										<h3 className="font-semibold text-lg text-text-strong-950">
+											Bulk Verification Results
+										</h3>
+										<button
+											type="button"
+											onClick={() => setBulkResults(null)}
+											className="text-text-soft-400 hover:text-text-sub-600"
+										>
+											<Icon name="x" className="h-5 w-5" />
+										</button>
+									</div>
 
-								{/* Stats Cards */}
-								{bulkResults.stats && (
-									<div className="mb-6 grid grid-cols-5 gap-3">
-										<div className="rounded-lg bg-bg-weak-50 p-3 text-center">
-											<p className="font-bold text-2xl text-text-strong-950">
-												{bulkResults.stats.total}
-											</p>
-											<p className="text-text-soft-400 text-xs">Total</p>
+									{/* Stats Cards */}
+									{bulkResults.stats && (
+										<div className="mb-6 grid grid-cols-5 gap-3">
+											<div className="rounded-lg bg-bg-weak-50 p-3 text-center">
+												<p className="font-bold text-2xl text-text-strong-950">
+													{bulkResults.stats.total}
+												</p>
+												<p className="text-text-soft-400 text-xs">Total</p>
+											</div>
+											<div className="rounded-lg bg-success-alpha-10 p-3 text-center">
+												<p className="font-bold text-2xl text-success-base">
+													{bulkResults.stats.deliverable}
+												</p>
+												<p className="text-text-soft-400 text-xs">
+													Deliverable
+												</p>
+											</div>
+											<div className="rounded-lg bg-warning-alpha-10 p-3 text-center">
+												<p className="font-bold text-2xl text-warning-base">
+													{bulkResults.stats.risky}
+												</p>
+												<p className="text-text-soft-400 text-xs">Risky</p>
+											</div>
+											<div className="rounded-lg bg-error-alpha-10 p-3 text-center">
+												<p className="font-bold text-2xl text-error-base">
+													{bulkResults.stats.undeliverable}
+												</p>
+												<p className="text-text-soft-400 text-xs">
+													Undeliverable
+												</p>
+											</div>
+											<div className="rounded-lg bg-primary-alpha-10 p-3 text-center">
+												<p className="font-bold text-2xl text-primary-base">
+													{bulkResults.stats.averageScore}
+												</p>
+												<p className="text-text-soft-400 text-xs">Avg Score</p>
+											</div>
 										</div>
-										<div className="rounded-lg bg-success-alpha-10 p-3 text-center">
-											<p className="font-bold text-2xl text-success-base">
-												{bulkResults.stats.deliverable}
-											</p>
-											<p className="text-text-soft-400 text-xs">Deliverable</p>
-										</div>
-										<div className="rounded-lg bg-warning-alpha-10 p-3 text-center">
-											<p className="font-bold text-2xl text-warning-base">
-												{bulkResults.stats.risky}
-											</p>
-											<p className="text-text-soft-400 text-xs">Risky</p>
-										</div>
-										<div className="rounded-lg bg-error-alpha-10 p-3 text-center">
-											<p className="font-bold text-2xl text-error-base">
-												{bulkResults.stats.undeliverable}
-											</p>
-											<p className="text-text-soft-400 text-xs">
-												Undeliverable
-											</p>
-										</div>
-										<div className="rounded-lg bg-primary-alpha-10 p-3 text-center">
-											<p className="font-bold text-2xl text-primary-base">
-												{bulkResults.stats.averageScore}
-											</p>
-											<p className="text-text-soft-400 text-xs">Avg Score</p>
-										</div>
+									)}
+
+									{/* Results Table */}
+									<div className="overflow-hidden rounded-xl border border-stroke-soft-200/50">
+										<table className="w-full">
+											<thead className="bg-bg-weak-50">
+												<tr>
+													<th className="px-4 py-3 text-left font-medium text-sm text-text-sub-600">
+														Email
+													</th>
+													<th className="px-4 py-3 text-center font-medium text-sm text-text-sub-600">
+														Status
+													</th>
+													<th className="px-4 py-3 text-center font-medium text-sm text-text-sub-600">
+														Score
+													</th>
+													<th className="px-4 py-3 text-left font-medium text-sm text-text-sub-600">
+														Reason
+													</th>
+												</tr>
+											</thead>
+											<tbody className="divide-y divide-stroke-soft-200/50">
+												{bulkResults.results.map((result, index) => (
+													<tr
+														key={`${result.email}-${index}`}
+														className="hover:bg-bg-weak-50"
+													>
+														<td className="px-4 py-3">
+															<span className="font-mono text-sm text-text-strong-950">
+																{result.email}
+															</span>
+														</td>
+														<td className="px-4 py-3 text-center">
+															<span
+																className={cn(
+																	"inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-medium text-xs",
+																	getStateBadge(result.state),
+																)}
+															>
+																<Icon
+																	name={
+																		result.state === "deliverable"
+																			? "check-circle"
+																			: result.state === "risky"
+																				? "alert-triangle"
+																				: "x-circle"
+																	}
+																	className="h-3 w-3"
+																/>
+																{result.state}
+															</span>
+														</td>
+														<td className="px-4 py-3 text-center">
+															<span
+																className={cn(
+																	"font-semibold",
+																	getScoreColor(result.score),
+																)}
+															>
+																{result.score}
+															</span>
+														</td>
+														<td className="px-4 py-3">
+															<span className="text-sm text-text-sub-600">
+																{result.reason.replace(/_/g, " ")}
+															</span>
+														</td>
+													</tr>
+												))}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				)}
+
+			{/* Past Bulk Jobs Section - Only show on Bulk tab */}
+			{activeTab === "bulk" && (
+				<div className="border-stroke-soft-200/50 border-b">
+					<div
+						className={cn(isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32")}
+					>
+						<div className="border-stroke-soft-200/50 border-r border-l p-6">
+							<div className="mx-auto max-w-3xl">
+								<h2 className="mb-4 font-semibold text-lg text-text-strong-950">
+									Past Bulk Jobs
+								</h2>
+
+								{isLoadingBulkJobs ? (
+									<div className="flex items-center justify-center py-8">
+										<div className="h-6 w-6 animate-spin rounded-full border-2 border-primary-base border-t-transparent" />
+									</div>
+								) : pastBulkJobs.length === 0 ? (
+									<div className="flex flex-col items-center justify-center rounded-xl border border-stroke-soft-200/50 border-dashed bg-bg-weak-50 py-8">
+										<Icon
+											name="folder"
+											className="mb-3 h-8 w-8 text-text-disabled-300"
+										/>
+										<p className="text-text-sub-600">No bulk jobs yet</p>
+										<p className="text-[13px] text-text-soft-400">
+											Upload a CSV to start bulk verification
+										</p>
+									</div>
+								) : (
+									<div className="space-y-3">
+										{pastBulkJobs.map((job) => (
+											<button
+												key={job.id}
+												type="button"
+												onClick={() => loadJobResults(job.id)}
+												className="w-full rounded-xl border border-stroke-soft-200/50 p-4 text-left transition-colors hover:bg-bg-weak-50"
+											>
+												<div className="flex items-center justify-between">
+													<div>
+														<p className="font-medium text-text-strong-950">
+															{job.name || "Bulk Verification"}
+														</p>
+														<p className="text-sm text-text-soft-400">
+															{job.totalEmails} emails •{" "}
+															{new Date(job.createdAt).toLocaleDateString()}
+														</p>
+													</div>
+													<div className="flex items-center gap-3">
+														{job.status === "completed" && job.stats && (
+															<div className="flex items-center gap-2 text-sm">
+																<span className="text-success-base">
+																	{job.stats.deliverable} ✓
+																</span>
+																<span className="text-warning-base">
+																	{job.stats.risky} ⚠
+																</span>
+																<span className="text-error-base">
+																	{job.stats.undeliverable} ✕
+																</span>
+															</div>
+														)}
+														<span
+															className={cn(
+																"rounded-full px-2 py-0.5 font-medium text-xs",
+																job.status === "completed"
+																	? "bg-success-alpha-10 text-success-base"
+																	: job.status === "processing"
+																		? "bg-warning-alpha-10 text-warning-base"
+																		: job.status === "failed"
+																			? "bg-error-alpha-10 text-error-base"
+																			: "bg-bg-weak-50 text-text-soft-400",
+															)}
+														>
+															{job.status}
+														</span>
+													</div>
+												</div>
+											</button>
+										))}
 									</div>
 								)}
-
-								{/* Results Table */}
-								<div className="overflow-hidden rounded-xl border border-stroke-soft-200/50">
-									<table className="w-full">
-										<thead className="bg-bg-weak-50">
-											<tr>
-												<th className="px-4 py-3 text-left font-medium text-sm text-text-sub-600">
-													Email
-												</th>
-												<th className="px-4 py-3 text-center font-medium text-sm text-text-sub-600">
-													Status
-												</th>
-												<th className="px-4 py-3 text-center font-medium text-sm text-text-sub-600">
-													Score
-												</th>
-												<th className="px-4 py-3 text-left font-medium text-sm text-text-sub-600">
-													Reason
-												</th>
-											</tr>
-										</thead>
-										<tbody className="divide-y divide-stroke-soft-200/50">
-											{bulkResults.results.map((result, index) => (
-												<tr
-													key={`${result.email}-${index}`}
-													className="hover:bg-bg-weak-50"
-												>
-													<td className="px-4 py-3">
-														<span className="font-mono text-sm text-text-strong-950">
-															{result.email}
-														</span>
-													</td>
-													<td className="px-4 py-3 text-center">
-														<span
-															className={cn(
-																"inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-medium text-xs",
-																getStateBadge(result.state),
-															)}
-														>
-															<Icon
-																name={
-																	result.state === "deliverable"
-																		? "check-circle"
-																		: result.state === "risky"
-																			? "alert-triangle"
-																			: "x-circle"
-																}
-																className="h-3 w-3"
-															/>
-															{result.state}
-														</span>
-													</td>
-													<td className="px-4 py-3 text-center">
-														<span
-															className={cn(
-																"font-semibold",
-																getScoreColor(result.score),
-															)}
-														>
-															{result.score}
-														</span>
-													</td>
-													<td className="px-4 py-3">
-														<span className="text-sm text-text-sub-600">
-															{result.reason.replace(/_/g, " ")}
-														</span>
-													</td>
-												</tr>
-											))}
-										</tbody>
-									</table>
-								</div>
 							</div>
 						</div>
 					</div>
