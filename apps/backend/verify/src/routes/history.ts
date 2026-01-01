@@ -184,4 +184,66 @@ export const historyRoute = new Elysia({
         tags: ["History"],
       },
     },
+  )
+  .get(
+    "/results/:resultId",
+    async ({ params, organizationId }) => {
+      if (!organizationId) {
+        return {
+          success: false,
+          error: "Organization context required",
+        };
+      }
+
+      try {
+        logger.info(
+          { organizationId, resultId: params.resultId },
+          "Fetching verification result",
+        );
+
+        const [result] = await db
+          .select()
+          .from(schema.verificationResult)
+          .where(eq(schema.verificationResult.id, params.resultId))
+          .limit(1);
+
+        if (!result) {
+          return {
+            success: false,
+            error: "Verification result not found",
+          };
+        }
+
+        // Ensure result belongs to this organization
+        if (result.organizationId !== organizationId) {
+          return {
+            success: false,
+            error: "Verification result not found",
+          };
+        }
+
+        return {
+          success: true,
+          data: result,
+        };
+      } catch (error) {
+        logger.error(
+          { error, resultId: params.resultId },
+          "Failed to fetch verification result",
+        );
+        return {
+          success: false,
+          error: "Failed to fetch verification result",
+        };
+      }
+    },
+    {
+      auth: true,
+      params: t.Object({ resultId: t.String() }),
+      detail: {
+        summary: "Get verification result",
+        description: "Get a single verification result by ID",
+        tags: ["History"],
+      },
+    },
   );
