@@ -4,7 +4,7 @@ import { useSidebar } from "@fe/dashboard/providers/sidebar-provider";
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
 import { AnimatePresence, motion } from "framer-motion";
-import { useCallback, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
 
 type TabType = "single" | "bulk";
@@ -67,6 +67,17 @@ const PlaygroundPage = () => {
 		status: string;
 		progress: number;
 		total: number;
+	} | null>(null);
+	const [bulkResults, setBulkResults] = useState<{
+		results: VerificationResult[];
+		stats: {
+			total: number;
+			deliverable: number;
+			undeliverable: number;
+			risky: number;
+			unknown: number;
+			averageScore: number;
+		} | null;
 	} | null>(null);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -192,7 +203,9 @@ const PlaygroundPage = () => {
 		for (const line of lines) {
 			// Simple email extraction - assumes first column or whole line is email
 			const parts = line.split(",");
-			const potential = parts[0].trim().replace(/["']/g, "");
+			const firstPart = parts[0];
+			if (!firstPart) continue;
+			const potential = firstPart.trim().replace(/["']/g, "");
 			if (potential.includes("@")) {
 				emails.push(potential);
 			}
@@ -257,6 +270,21 @@ const PlaygroundPage = () => {
 						});
 
 						if (job.status === "completed") {
+							// Fetch the results
+							try {
+								const resultsRes = await fetch(
+									`/api/verify/v1/jobs/${jobId}/results`,
+								);
+								const resultsData = await resultsRes.json();
+								if (resultsData.success && resultsData.data) {
+									setBulkResults({
+										results: resultsData.data.results,
+										stats: resultsData.data.stats,
+									});
+								}
+							} catch (e) {
+								console.error("Failed to fetch results:", e);
+							}
 							toast.success(
 								`Bulk verification completed! ${job.stats?.deliverable || 0} deliverable.`,
 							);
@@ -868,6 +896,139 @@ const PlaygroundPage = () => {
 					</motion.div>
 				)}
 			</AnimatePresence>
+
+			{/* Bulk Results Section */}
+			{bulkResults && bulkResults.results.length > 0 && (
+				<div className="border-stroke-soft-200/50 border-b">
+					<div className="px-52 2xl:px-[350px]">
+						<div className="border-stroke-soft-200/50 border-r border-l px-7 py-8">
+							<div className="mx-auto max-w-4xl">
+								<div className="mb-4 flex items-center justify-between">
+									<h3 className="font-semibold text-lg text-text-strong-950">
+										Bulk Verification Results
+									</h3>
+									<button
+										type="button"
+										onClick={() => setBulkResults(null)}
+										className="text-text-soft-400 hover:text-text-sub-600"
+									>
+										<Icon name="x" className="h-5 w-5" />
+									</button>
+								</div>
+
+								{/* Stats Cards */}
+								{bulkResults.stats && (
+									<div className="mb-6 grid grid-cols-5 gap-3">
+										<div className="rounded-lg bg-bg-weak-50 p-3 text-center">
+											<p className="font-bold text-2xl text-text-strong-950">
+												{bulkResults.stats.total}
+											</p>
+											<p className="text-text-soft-400 text-xs">Total</p>
+										</div>
+										<div className="rounded-lg bg-success-alpha-10 p-3 text-center">
+											<p className="font-bold text-2xl text-success-base">
+												{bulkResults.stats.deliverable}
+											</p>
+											<p className="text-text-soft-400 text-xs">Deliverable</p>
+										</div>
+										<div className="rounded-lg bg-warning-alpha-10 p-3 text-center">
+											<p className="font-bold text-2xl text-warning-base">
+												{bulkResults.stats.risky}
+											</p>
+											<p className="text-text-soft-400 text-xs">Risky</p>
+										</div>
+										<div className="rounded-lg bg-error-alpha-10 p-3 text-center">
+											<p className="font-bold text-2xl text-error-base">
+												{bulkResults.stats.undeliverable}
+											</p>
+											<p className="text-text-soft-400 text-xs">
+												Undeliverable
+											</p>
+										</div>
+										<div className="rounded-lg bg-primary-alpha-10 p-3 text-center">
+											<p className="font-bold text-2xl text-primary-base">
+												{bulkResults.stats.averageScore}
+											</p>
+											<p className="text-text-soft-400 text-xs">Avg Score</p>
+										</div>
+									</div>
+								)}
+
+								{/* Results Table */}
+								<div className="overflow-hidden rounded-xl border border-stroke-soft-200/50">
+									<table className="w-full">
+										<thead className="bg-bg-weak-50">
+											<tr>
+												<th className="px-4 py-3 text-left font-medium text-sm text-text-sub-600">
+													Email
+												</th>
+												<th className="px-4 py-3 text-center font-medium text-sm text-text-sub-600">
+													Status
+												</th>
+												<th className="px-4 py-3 text-center font-medium text-sm text-text-sub-600">
+													Score
+												</th>
+												<th className="px-4 py-3 text-left font-medium text-sm text-text-sub-600">
+													Reason
+												</th>
+											</tr>
+										</thead>
+										<tbody className="divide-y divide-stroke-soft-200/50">
+											{bulkResults.results.map((result, index) => (
+												<tr
+													key={`${result.email}-${index}`}
+													className="hover:bg-bg-weak-50"
+												>
+													<td className="px-4 py-3">
+														<span className="font-mono text-sm text-text-strong-950">
+															{result.email}
+														</span>
+													</td>
+													<td className="px-4 py-3 text-center">
+														<span
+															className={cn(
+																"inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-medium text-xs",
+																getStateBadge(result.state),
+															)}
+														>
+															<Icon
+																name={
+																	result.state === "deliverable"
+																		? "check-circle"
+																		: result.state === "risky"
+																			? "alert-triangle"
+																			: "x-circle"
+																}
+																className="h-3 w-3"
+															/>
+															{result.state}
+														</span>
+													</td>
+													<td className="px-4 py-3 text-center">
+														<span
+															className={cn(
+																"font-semibold",
+																getScoreColor(result.score),
+															)}
+														>
+															{result.score}
+														</span>
+													</td>
+													<td className="px-4 py-3">
+														<span className="text-sm text-text-sub-600">
+															{result.reason.replace(/_/g, " ")}
+														</span>
+													</td>
+												</tr>
+											))}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			)}
 
 			{/* Recent Runs Section */}
 			<div className="border-stroke-soft-200/50 border-b">
