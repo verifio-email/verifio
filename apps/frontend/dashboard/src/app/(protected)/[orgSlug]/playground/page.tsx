@@ -4,7 +4,7 @@ import { useSidebar } from "@fe/dashboard/providers/sidebar-provider";
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
 import { AnimatePresence, motion } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 type TabType = "single" | "bulk";
@@ -80,6 +80,58 @@ const PlaygroundPage = () => {
 		} | null;
 	} | null>(null);
 	const fileInputRef = useRef<HTMLInputElement>(null);
+	const [isLoadingHistory, setIsLoadingHistory] = useState(true);
+	const [historyPage, setHistoryPage] = useState(1);
+	const [historyTotalPages, setHistoryTotalPages] = useState(1);
+
+	// Fetch verification history from database
+	const fetchHistory = async (page = 1) => {
+		setIsLoadingHistory(true);
+		try {
+			const response = await fetch(
+				`/api/verify/v1/history?limit=10&page=${page}`,
+				{
+					credentials: "include",
+				},
+			);
+			const data = await response.json();
+
+			if (data.success && data.data?.results) {
+				const historyRuns: RecentRun[] = data.data.results.map(
+					(item: {
+						id: string;
+						email: string;
+						state: string;
+						score: number;
+						reason: string;
+						createdAt: string;
+					}) => ({
+						id: item.id,
+						email: item.email,
+						result: {
+							email: item.email,
+							state: item.state,
+							score: item.score,
+							reason: item.reason,
+						} as VerificationResult,
+						timestamp: new Date(item.createdAt),
+					}),
+				);
+				setRecentRuns(historyRuns);
+				setHistoryPage(data.data.pagination?.page ?? 1);
+				setHistoryTotalPages(data.data.pagination?.totalPages ?? 1);
+			}
+		} catch (error) {
+			console.error("Failed to fetch history:", error);
+		} finally {
+			setIsLoadingHistory(false);
+		}
+	};
+
+	// Fetch history on mount
+	useEffect(() => {
+		fetchHistory();
+	}, []);
 
 	const tabs = [
 		{ id: "single" as TabType, label: "Verify", dots: 3 },
@@ -97,12 +149,13 @@ const PlaygroundPage = () => {
 		setCurrentResult(null);
 
 		try {
-			// Call the verify API
-			const response = await fetch("/api/verify/v1/email", {
+			// Call the authenticated verify API (stores result in DB)
+			const response = await fetch("/api/verify/v1/verify", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
+				credentials: "include", // Include cookies for auth
 				body: JSON.stringify({ email: email.trim() }),
 			});
 
@@ -1030,101 +1083,132 @@ const PlaygroundPage = () => {
 				</div>
 			)}
 
-			{/* Recent Runs Section */}
-			<div className="border-stroke-soft-200/50 border-b">
-				<div className={cn(isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32")}>
-					<div className="border-stroke-soft-200/50 border-r border-l p-6">
-						<div className="mx-auto max-w-3xl">
-							<h2 className="mb-4 font-semibold text-lg text-text-strong-950">
-								Recent Verifications
-							</h2>
+			{/* Recent Runs Section - Only show on Single tab */}
+			{activeTab === "single" && (
+				<div className="border-stroke-soft-200/50 border-b">
+					<div
+						className={cn(isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32")}
+					>
+						<div className="border-stroke-soft-200/50 border-r border-l p-6">
+							<div className="mx-auto max-w-3xl">
+								<h2 className="mb-4 font-semibold text-lg text-text-strong-950">
+									Recent Verifications
+								</h2>
 
-							<div className="grid gap-4 md:grid-cols-2">
-								{recentRuns.length === 0 ? (
-									<div className="col-span-2 flex flex-col items-center justify-center rounded-xl border border-stroke-soft-200/50 border-dashed bg-bg-weak-50 py-12">
-										<Icon
-											name="mail"
-											className="mb-3 h-8 w-8 text-text-disabled-300"
-										/>
-										<p className="text-text-sub-600">No verifications yet</p>
-										<p className="text-[13px] text-text-soft-400">
-											Enter an email above to start verifying
-										</p>
-									</div>
-								) : (
-									recentRuns.map((run) => (
-										<button
-											key={run.id}
-											type="button"
-											onClick={() => {
-												setEmail(run.email);
-												setCurrentResult(run.result);
-											}}
-											className="rounded-xl border border-stroke-soft-200/50 bg-bg-white-0 p-4 text-left transition-colors hover:bg-bg-weak-50"
-										>
-											<div className="mb-3 flex items-center gap-3">
-												<div
-													className={cn(
-														"flex h-8 w-8 items-center justify-center rounded-lg",
-														run.result.state === "deliverable"
-															? "bg-success-alpha-10"
-															: run.result.state === "risky"
-																? "bg-warning-alpha-10"
-																: "bg-error-alpha-10",
-													)}
-												>
-													<Icon
-														name={
-															run.result.state === "deliverable"
-																? "check-circle"
-																: run.result.state === "risky"
-																	? "alert-triangle"
-																	: "x-circle"
-														}
+								<div className="grid gap-4 md:grid-cols-2">
+									{recentRuns.length === 0 ? (
+										<div className="col-span-2 flex flex-col items-center justify-center rounded-xl border border-stroke-soft-200/50 border-dashed bg-bg-weak-50 py-12">
+											<Icon
+												name="mail"
+												className="mb-3 h-8 w-8 text-text-disabled-300"
+											/>
+											<p className="text-text-sub-600">No verifications yet</p>
+											<p className="text-[13px] text-text-soft-400">
+												Enter an email above to start verifying
+											</p>
+										</div>
+									) : (
+										recentRuns.map((run) => (
+											<button
+												key={run.id}
+												type="button"
+												onClick={() => {
+													setEmail(run.email);
+													setCurrentResult(run.result);
+												}}
+												className="rounded-xl border border-stroke-soft-200/50 bg-bg-white-0 p-4 text-left transition-colors hover:bg-bg-weak-50"
+											>
+												<div className="mb-3 flex items-center gap-3">
+													<div
 														className={cn(
-															"h-4 w-4",
+															"flex h-8 w-8 items-center justify-center rounded-lg",
 															run.result.state === "deliverable"
-																? "text-success-base"
+																? "bg-success-alpha-10"
 																: run.result.state === "risky"
-																	? "text-warning-base"
-																	: "text-error-base",
+																	? "bg-warning-alpha-10"
+																	: "bg-error-alpha-10",
 														)}
-													/>
+													>
+														<Icon
+															name={
+																run.result.state === "deliverable"
+																	? "check-circle"
+																	: run.result.state === "risky"
+																		? "alert-triangle"
+																		: "x-circle"
+															}
+															className={cn(
+																"h-4 w-4",
+																run.result.state === "deliverable"
+																	? "text-success-base"
+																	: run.result.state === "risky"
+																		? "text-warning-base"
+																		: "text-error-base",
+															)}
+														/>
+													</div>
+													<span className="flex-1 truncate font-mono text-sm text-text-strong-950">
+														{run.email}
+													</span>
+													<span
+														className={cn(
+															"font-semibold text-sm",
+															getScoreColor(run.result.score),
+														)}
+													>
+														{run.result.score}
+													</span>
 												</div>
-												<span className="flex-1 truncate font-mono text-sm text-text-strong-950">
-													{run.email}
-												</span>
-												<span
-													className={cn(
-														"font-semibold text-sm",
-														getScoreColor(run.result.score),
-													)}
-												>
-													{run.result.score}
-												</span>
-											</div>
 
-											<div className="flex items-center justify-between text-[13px]">
-												<span
-													className={cn(
-														"rounded-full px-2 py-0.5 text-xs",
-														getStateBadge(run.result.state),
-													)}
-												>
-													{run.result.state}
-												</span>
-												<span className="text-text-soft-400">
-													{run.result.duration}ms
-												</span>
-											</div>
+												<div className="flex items-center justify-between text-[13px]">
+													<span
+														className={cn(
+															"rounded-full px-2 py-0.5 text-xs",
+															getStateBadge(run.result.state),
+														)}
+													>
+														{run.result.state}
+													</span>
+													<span className="text-text-soft-400">
+														{run.result.duration}ms
+													</span>
+												</div>
+											</button>
+										))
+									)}
+								</div>
+
+								{/* Pagination */}
+								{historyTotalPages > 1 && (
+									<div className="mt-4 flex items-center justify-center gap-2">
+										<button
+											type="button"
+											onClick={() => fetchHistory(historyPage - 1)}
+											disabled={historyPage <= 1 || isLoadingHistory}
+											className="rounded-lg border border-stroke-soft-200/50 px-3 py-1.5 text-sm text-text-sub-600 hover:bg-bg-weak-50 disabled:cursor-not-allowed disabled:opacity-50"
+										>
+											Previous
 										</button>
-									))
+										<span className="text-sm text-text-soft-400">
+											Page {historyPage} of {historyTotalPages}
+										</span>
+										<button
+											type="button"
+											onClick={() => fetchHistory(historyPage + 1)}
+											disabled={
+												historyPage >= historyTotalPages || isLoadingHistory
+											}
+											className="rounded-lg border border-stroke-soft-200/50 px-3 py-1.5 text-sm text-text-sub-600 hover:bg-bg-weak-50 disabled:cursor-not-allowed disabled:opacity-50"
+										>
+											Next
+										</button>
+									</div>
 								)}
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	);
 };

@@ -9,7 +9,9 @@ import { serverTiming } from "@elysiajs/server-timing";
 import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
 import { verifyConfig } from "./config";
+import { authenticatedSingleRoute } from "./routes/authenticated";
 import { bulkVerifyRoute } from "./routes/bulk";
+import { historyRoute } from "./routes/history";
 import { landing } from "./routes/landing";
 import { singleVerifyRoute } from "./routes/single";
 
@@ -23,7 +25,8 @@ const verifyService = new Elysia({
     cors({
       origin: true,
       methods: ["GET", "POST", "OPTIONS"],
-      allowedHeaders: ["Content-Type", "X-API-Key", "Authorization"],
+      allowedHeaders: ["Content-Type", "X-API-Key", "Authorization", "Cookie"],
+      credentials: true,
     }),
   )
   .use(
@@ -44,14 +47,20 @@ const verifyService = new Elysia({
             name: "Bulk Verification",
             description: "Bulk email verification endpoints",
           },
+          {
+            name: "History",
+            description: "Verification history endpoints",
+          },
         ],
       },
     }),
   )
   .use(serverTiming())
   .use(landing)
-  .use(singleVerifyRoute)
-  .use(bulkVerifyRoute)
+  .use(singleVerifyRoute)          // Public: POST /v1/email
+  .use(bulkVerifyRoute)            // Public: POST /v1/bulk
+  .use(authenticatedSingleRoute)   // Authenticated: POST /v1/verify (stores in DB)
+  .use(historyRoute)               // Authenticated: GET /v1/history, GET /v1/jobs
   .listen(port, () => {
     logger.info(
       `Email Verification Service running on http://localhost:${port}/api/verify`,
