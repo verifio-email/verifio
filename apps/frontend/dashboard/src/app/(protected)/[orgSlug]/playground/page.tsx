@@ -1,9 +1,12 @@
 "use client";
 
+import { PageSizeDropdown } from "@fe/dashboard/components/page-size-dropdown";
+import { PaginationControls } from "@fe/dashboard/components/pagination-controls";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
 import { useSidebar } from "@fe/dashboard/providers/sidebar-provider";
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
+import * as Input from "@verifio/ui/input";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -104,6 +107,10 @@ const PlaygroundPage = () => {
 		}>
 	>([]);
 	const [isLoadingBulkJobs, setIsLoadingBulkJobs] = useState(false);
+	// Bulk results pagination and search
+	const [bulkResultsPage, setBulkResultsPage] = useState(1);
+	const [bulkResultsSearch, setBulkResultsSearch] = useState("");
+	const [bulkResultsPageSize, setBulkResultsPageSize] = useState(10);
 
 	// Fetch verification history from database
 	const fetchHistory = async (page = 1) => {
@@ -165,36 +172,6 @@ const PlaygroundPage = () => {
 			console.error("Failed to fetch bulk jobs:", error);
 		} finally {
 			setIsLoadingBulkJobs(false);
-		}
-	};
-
-	// Load completed job results
-	const loadJobResults = async (jobId: string) => {
-		try {
-			const resultsRes = await fetch(
-				`/api/verify/v1/bulk-jobs/${jobId}/results`,
-				{
-					credentials: "include",
-				},
-			);
-			const resultsData = await resultsRes.json();
-			if (resultsData.success && resultsData.data) {
-				setBulkResults({
-					results: resultsData.data.results.map(
-						(r: {
-							email: string;
-							state: string;
-							score: number;
-							reason: string;
-							result?: VerificationResult;
-						}) => r.result || (r as VerificationResult),
-					),
-					stats: resultsData.data.stats,
-				});
-			}
-		} catch (error) {
-			console.error("Failed to load job results:", error);
-			toast.error("Failed to load job results");
 		}
 	};
 
@@ -1035,148 +1012,217 @@ const PlaygroundPage = () => {
 			{/* Bulk Results Section - Only show on Bulk tab */}
 			{activeTab === "bulk" &&
 				bulkResults &&
-				bulkResults.results.length > 0 && (
-					<div className="border-stroke-soft-200/50 border-b">
-						<div className="px-52 2xl:px-[350px]">
-							<div className="border-stroke-soft-200/50 border-r border-l px-7 py-8">
-								<div className="mx-auto max-w-4xl">
-									<div className="mb-4 flex items-center justify-between">
-										<h3 className="font-semibold text-lg text-text-strong-950">
-											Bulk Verification Results
-										</h3>
-										<button
-											type="button"
-											onClick={() => setBulkResults(null)}
-											className="text-text-soft-400 hover:text-text-sub-600"
-										>
-											<Icon name="x" className="h-5 w-5" />
-										</button>
-									</div>
+				bulkResults.results.length > 0 &&
+				(() => {
+					// Filter results by search
+					const filteredResults = bulkResults.results.filter((result) =>
+						result.email
+							.toLowerCase()
+							.includes(bulkResultsSearch.toLowerCase()),
+					);
+					// Paginate filtered results
+					const totalPages = Math.ceil(
+						filteredResults.length / bulkResultsPageSize,
+					);
+					const paginatedResults = filteredResults.slice(
+						(bulkResultsPage - 1) * bulkResultsPageSize,
+						bulkResultsPage * bulkResultsPageSize,
+					);
+					const startIndex = (bulkResultsPage - 1) * bulkResultsPageSize + 1;
+					const endIndex = Math.min(
+						bulkResultsPage * bulkResultsPageSize,
+						filteredResults.length,
+					);
 
-									{/* Stats Cards */}
-									{bulkResults.stats && (
-										<div className="mb-6 grid grid-cols-5 gap-3">
-											<div className="rounded-lg bg-bg-weak-50 p-3 text-center">
-												<p className="font-bold text-2xl text-text-strong-950">
-													{bulkResults.stats.total}
-												</p>
-												<p className="text-text-soft-400 text-xs">Total</p>
+					return (
+						<div className="border-stroke-soft-200/50 border-b">
+							<div className="px-52 2xl:px-[350px]">
+								<div className="border-stroke-soft-200/50 border-r border-l">
+									<div className="mx-auto max-w-4xl px-6 py-6">
+										{/* Header with title, inline stats, search and close */}
+										<div className="mb-6 flex items-center justify-between">
+											<div className="flex items-center gap-6">
+												<h3 className="font-semibold text-lg text-text-strong-950">
+													Verification Results
+												</h3>
+												{/* Inline Stats */}
+												{bulkResults.stats && (
+													<div className="flex items-center gap-4 text-sm">
+														<span className="text-text-sub-600">
+															<span className="font-medium text-text-strong-950">
+																{bulkResults.stats.total}
+															</span>{" "}
+															total
+														</span>
+														<span className="text-text-disabled-300">•</span>
+														<span className="text-success-base">
+															{bulkResults.stats.deliverable} valid
+														</span>
+														<span className="text-text-disabled-300">•</span>
+														<span className="text-warning-base">
+															{bulkResults.stats.risky} risky
+														</span>
+														<span className="text-text-disabled-300">•</span>
+														<span className="text-error-base">
+															{bulkResults.stats.undeliverable} invalid
+														</span>
+													</div>
+												)}
 											</div>
-											<div className="rounded-lg bg-success-alpha-10 p-3 text-center">
-												<p className="font-bold text-2xl text-success-base">
-													{bulkResults.stats.deliverable}
-												</p>
-												<p className="text-text-soft-400 text-xs">
-													Deliverable
-												</p>
-											</div>
-											<div className="rounded-lg bg-warning-alpha-10 p-3 text-center">
-												<p className="font-bold text-2xl text-warning-base">
-													{bulkResults.stats.risky}
-												</p>
-												<p className="text-text-soft-400 text-xs">Risky</p>
-											</div>
-											<div className="rounded-lg bg-error-alpha-10 p-3 text-center">
-												<p className="font-bold text-2xl text-error-base">
-													{bulkResults.stats.undeliverable}
-												</p>
-												<p className="text-text-soft-400 text-xs">
-													Undeliverable
-												</p>
-											</div>
-											<div className="rounded-lg bg-primary-alpha-10 p-3 text-center">
-												<p className="font-bold text-2xl text-primary-base">
-													{bulkResults.stats.averageScore}
-												</p>
-												<p className="text-text-soft-400 text-xs">Avg Score</p>
+											<div className="flex items-center gap-3">
+												{/* Search */}
+												<div className="w-52">
+													<Input.Root size="small" className="rounded-lg">
+														<Input.Wrapper>
+															<Input.Icon
+																as={() => (
+																	<Icon name="search" className="h-4 w-4" />
+																)}
+															/>
+															<Input.Input
+																type="text"
+																placeholder="Search..."
+																value={bulkResultsSearch}
+																onChange={(e) => {
+																	setBulkResultsSearch(e.target.value);
+																	setBulkResultsPage(1);
+																}}
+															/>
+														</Input.Wrapper>
+													</Input.Root>
+												</div>
+												{/* Close button */}
+												<button
+													type="button"
+													onClick={() => setBulkResults(null)}
+													className="flex h-8 w-8 items-center justify-center rounded-lg text-text-soft-400 transition-colors hover:bg-bg-weak-50 hover:text-text-sub-600"
+												>
+													<Icon name="x" className="h-4 w-4" />
+												</button>
 											</div>
 										</div>
-									)}
 
-									{/* Results Table */}
-									<div className="overflow-hidden rounded-xl border border-stroke-soft-200/50">
-										<table className="w-full">
-											<thead className="bg-bg-weak-50">
-												<tr>
-													<th className="px-4 py-3 text-left font-medium text-sm text-text-sub-600">
-														Email
-													</th>
-													<th className="px-4 py-3 text-center font-medium text-sm text-text-sub-600">
-														Status
-													</th>
-													<th className="px-4 py-3 text-center font-medium text-sm text-text-sub-600">
-														Score
-													</th>
-													<th className="px-4 py-3 text-left font-medium text-sm text-text-sub-600">
-														Reason
-													</th>
-												</tr>
-											</thead>
-											<tbody className="divide-y divide-stroke-soft-200/50">
-												{bulkResults.results.map((result, index) => (
-													<tr
-														key={`${result.email}-${index}`}
-														className="hover:bg-bg-weak-50"
-													>
-														<td className="px-4 py-3">
-															<span className="font-mono text-sm text-text-strong-950">
-																{result.email}
-															</span>
-														</td>
-														<td className="px-4 py-3 text-center">
-															<span
-																className={cn(
-																	"inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-medium text-xs",
-																	getStateBadge(result.state),
-																)}
-															>
-																<Icon
-																	name={
-																		result.state === "deliverable"
-																			? "check-circle"
-																			: result.state === "risky"
-																				? "alert-triangle"
-																				: "x-circle"
-																	}
-																	className="h-3 w-3"
-																/>
-																{result.state}
-															</span>
-														</td>
-														<td className="px-4 py-3 text-center">
-															<span
-																className={cn(
-																	"font-semibold",
-																	getScoreColor(result.score),
-																)}
-															>
-																{result.score}
-															</span>
-														</td>
-														<td className="px-4 py-3">
-															<span className="text-sm text-text-sub-600">
-																{result.reason.replace(/_/g, " ")}
-															</span>
-														</td>
+										{/* Results Table - Minimal */}
+										<div className="overflow-hidden rounded-lg border border-stroke-soft-200/50">
+											<table className="w-full">
+												<thead>
+													<tr className="border-stroke-soft-200/50 border-b bg-bg-weak-50/50">
+														<th className="px-4 py-2.5 text-left font-medium text-text-sub-600 text-xs uppercase tracking-wide">
+															Email
+														</th>
+														<th className="px-4 py-2.5 text-center font-medium text-text-sub-600 text-xs uppercase tracking-wide">
+															Status
+														</th>
+														<th className="px-4 py-2.5 text-center font-medium text-text-sub-600 text-xs uppercase tracking-wide">
+															Score
+														</th>
+														<th className="px-4 py-2.5 text-left font-medium text-text-sub-600 text-xs uppercase tracking-wide">
+															Reason
+														</th>
 													</tr>
-												))}
-											</tbody>
-										</table>
+												</thead>
+												<tbody>
+													{paginatedResults.length > 0 ? (
+														paginatedResults.map((result, index) => (
+															<tr
+																key={`${result.email}-${index}`}
+																className="border-stroke-soft-200/50 border-b transition-colors last:border-b-0 hover:bg-bg-weak-50/30"
+															>
+																<td className="px-4 py-3">
+																	<span className="font-mono text-sm text-text-strong-950">
+																		{result.email}
+																	</span>
+																</td>
+																<td className="px-4 py-3 text-center">
+																	<span
+																		className={cn(
+																			"inline-flex items-center gap-1 text-sm",
+																			result.state === "deliverable"
+																				? "text-success-base"
+																				: result.state === "risky"
+																					? "text-warning-base"
+																					: "text-error-base",
+																		)}
+																	>
+																		<Icon
+																			name={
+																				result.state === "deliverable"
+																					? "check-circle"
+																					: result.state === "risky"
+																						? "alert-triangle"
+																						: "x-circle"
+																			}
+																			className="h-3.5 w-3.5"
+																		/>
+																		{result.state}
+																	</span>
+																</td>
+																<td className="px-4 py-3 text-center">
+																	<span
+																		className={cn(
+																			"font-medium text-sm",
+																			getScoreColor(result.score),
+																		)}
+																	>
+																		{result.score}
+																	</span>
+																</td>
+																<td className="px-4 py-3">
+																	<span className="text-sm text-text-sub-600">
+																		{result.reason.replace(/_/g, " ")}
+																	</span>
+																</td>
+															</tr>
+														))
+													) : (
+														<tr>
+															<td
+																colSpan={4}
+																className="px-4 py-8 text-center text-sm text-text-soft-400"
+															>
+																No results found for "{bulkResultsSearch}"
+															</td>
+														</tr>
+													)}
+												</tbody>
+											</table>
+										</div>
+
+										{/* Pagination Footer - Minimal */}
+										{filteredResults.length > 0 && (
+											<div className="mt-4 flex items-center justify-between text-sm">
+												<div className="flex items-center gap-2 text-text-sub-600">
+													<span>
+														{startIndex}–{endIndex} of {filteredResults.length}
+													</span>
+													<PageSizeDropdown
+														value={bulkResultsPageSize}
+														onValueChange={(value) => {
+															setBulkResultsPageSize(value);
+															setBulkResultsPage(1);
+														}}
+													/>
+												</div>
+												<PaginationControls
+													currentPage={bulkResultsPage}
+													totalPages={totalPages}
+													onPageChange={setBulkResultsPage}
+												/>
+											</div>
+										)}
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				)}
+					);
+				})()}
 
 			{/* Past Bulk Jobs Section - Only show on Bulk tab */}
 			{activeTab === "bulk" && (
 				<div className="border-stroke-soft-200/50 border-b">
-					<div
-						className={cn(isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32")}
-					>
-						<div className="border-stroke-soft-200/50 border-r border-l p-6">
-							<div className="mx-auto max-w-3xl">
+					<div className="px-52 2xl:px-[350px]">
+						<div className="border-stroke-soft-200/50 border-r border-l">
+							<div className="mx-auto max-w-4xl px-6 py-6">
 								<h2 className="mb-4 font-semibold text-lg text-text-strong-950">
 									Past Bulk Jobs
 								</h2>
@@ -1186,63 +1232,101 @@ const PlaygroundPage = () => {
 										<div className="h-6 w-6 animate-spin rounded-full border-2 border-primary-base border-t-transparent" />
 									</div>
 								) : pastBulkJobs.length === 0 ? (
-									<div className="flex flex-col items-center justify-center rounded-xl border border-stroke-soft-200/50 border-dashed bg-bg-weak-50 py-8">
+									<div className="flex flex-col items-center justify-center rounded-lg border border-stroke-soft-200/50 border-dashed py-12">
 										<Icon
 											name="folder"
 											className="mb-3 h-8 w-8 text-text-disabled-300"
 										/>
-										<p className="text-text-sub-600">No bulk jobs yet</p>
-										<p className="text-[13px] text-text-soft-400">
+										<p className="text-sm text-text-sub-600">
+											No bulk jobs yet
+										</p>
+										<p className="text-text-soft-400 text-xs">
 											Upload a CSV to start bulk verification
 										</p>
 									</div>
 								) : (
-									<div className="space-y-3">
+									<div className="grid gap-3">
 										{pastBulkJobs.map((job) => (
 											<button
 												key={job.id}
 												type="button"
-												onClick={() => loadJobResults(job.id)}
-												className="w-full rounded-xl border border-stroke-soft-200/50 p-4 text-left transition-colors hover:bg-bg-weak-50"
+												onClick={() => push(`/playground/bulk/${job.id}`)}
+												className="group overflow-hidden rounded-lg border border-stroke-soft-200/50 bg-bg-white-0 text-left transition-all hover:border-stroke-soft-200 hover:shadow-sm"
 											>
-												<div className="flex items-center justify-between">
-													<div>
-														<p className="font-medium text-text-strong-950">
-															{job.name || "Bulk Verification"}
-														</p>
-														<p className="text-sm text-text-soft-400">
-															{job.totalEmails} emails •{" "}
-															{new Date(job.createdAt).toLocaleDateString()}
-														</p>
-													</div>
-													<div className="flex items-center gap-3">
+												<div className="flex items-stretch">
+													{/* Left section - Job info */}
+													<div className="flex-1 p-4">
+														<div className="flex items-start justify-between">
+															<div>
+																<p className="font-medium text-sm text-text-strong-950 group-hover:text-primary-base">
+																	{job.name || "Bulk Verification"}
+																</p>
+																<p className="mt-0.5 text-text-soft-400 text-xs">
+																	{job.totalEmails} emails •{" "}
+																	{new Date(job.createdAt).toLocaleDateString(
+																		"en-US",
+																		{
+																			month: "short",
+																			day: "numeric",
+																			year: "numeric",
+																		},
+																	)}
+																</p>
+															</div>
+															{job.status === "completed" ? (
+																<Icon
+																	name="check-circle"
+																	className="h-4 w-4 text-text-disabled-300"
+																/>
+															) : job.status === "processing" ? (
+																<Icon
+																	name="loader"
+																	className="h-4 w-4 animate-spin text-warning-base"
+																/>
+															) : job.status === "failed" ? (
+																<Icon
+																	name="x-circle"
+																	className="h-4 w-4 text-error-base"
+																/>
+															) : (
+																<Icon
+																	name="clock"
+																	className="h-4 w-4 text-text-soft-400"
+																/>
+															)}
+														</div>
+
+														{/* Stats row */}
 														{job.status === "completed" && job.stats && (
-															<div className="flex items-center gap-2 text-sm">
-																<span className="text-success-base">
-																	{job.stats.deliverable} ✓
-																</span>
-																<span className="text-warning-base">
-																	{job.stats.risky} ⚠
-																</span>
-																<span className="text-error-base">
-																	{job.stats.undeliverable} ✕
-																</span>
+															<div className="mt-3 flex items-center gap-4">
+																<div className="flex items-center gap-1.5">
+																	<div className="h-2 w-2 rounded-full bg-success-base" />
+																	<span className="text-text-sub-600 text-xs">
+																		{job.stats.deliverable} valid
+																	</span>
+																</div>
+																<div className="flex items-center gap-1.5">
+																	<div className="h-2 w-2 rounded-full bg-warning-base" />
+																	<span className="text-text-sub-600 text-xs">
+																		{job.stats.risky} risky
+																	</span>
+																</div>
+																<div className="flex items-center gap-1.5">
+																	<div className="h-2 w-2 rounded-full bg-error-base" />
+																	<span className="text-text-sub-600 text-xs">
+																		{job.stats.undeliverable} invalid
+																	</span>
+																</div>
 															</div>
 														)}
-														<span
-															className={cn(
-																"rounded-full px-2 py-0.5 font-medium text-xs",
-																job.status === "completed"
-																	? "bg-success-alpha-10 text-success-base"
-																	: job.status === "processing"
-																		? "bg-warning-alpha-10 text-warning-base"
-																		: job.status === "failed"
-																			? "bg-error-alpha-10 text-error-base"
-																			: "bg-bg-weak-50 text-text-soft-400",
-															)}
-														>
-															{job.status}
-														</span>
+													</div>
+
+													{/* Right section - Arrow indicator */}
+													<div className="flex w-10 items-center justify-center border-stroke-soft-200/50 border-l bg-bg-weak-50/50 transition-colors group-hover:bg-bg-weak-50">
+														<Icon
+															name="chevron-right"
+															className="h-4 w-4 text-text-soft-400 transition-transform group-hover:translate-x-0.5 group-hover:text-text-sub-600"
+														/>
 													</div>
 												</div>
 											</button>
@@ -1286,7 +1370,7 @@ const PlaygroundPage = () => {
 											key={run.id}
 											type="button"
 											onClick={() => {
-												push(`/playground/verify/${run.id}`);// Navigate to detail
+												push(`/playground/verify/${run.id}`); // Navigate to detail
 											}}
 											className="flex w-full items-center justify-between border-stroke-soft-200/50 border-b px-6 py-4 text-left transition-colors last:border-b-0 hover:bg-bg-weak-50"
 										>
