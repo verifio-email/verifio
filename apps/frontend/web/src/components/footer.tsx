@@ -396,9 +396,6 @@ export const Footer = () => {
 				<div className="mx-4 max-w-7xl border-stroke-soft-100/60 border-t border-r border-b border-l md:mx-auto">
 					<div className="flex items-center justify-between gap-3 px-4 py-4 sm:items-center md:gap-4 md:px-6 md:py-6">
 						<div className="flex items-center gap-2 md:gap-3">
-							<small className="text-text-sub-600 text-xs md:text-sm">
-								© {currentYear} Verifio. All rights reserved.
-							</small>
 							<output
 								className="flex items-center gap-2"
 								aria-label="System status"
