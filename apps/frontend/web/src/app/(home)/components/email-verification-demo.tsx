@@ -11,7 +11,7 @@ export function EmailVerificationDemo() {
 	const [activeTab, setActiveTab] = useState("email");
 
 	return (
-		<div className="mx-auto w-full max-w-2xl -mt-[57px]">
+		<div className="-mt-[57px] mx-auto w-full max-w-2xl">
 			<SegmentedControl.Root value={activeTab} onValueChange={setActiveTab}>
 				<Input.Root className="flex-col rounded-2xl! border-stroke-soft-100/60!">
 					<Input.Wrapper className="hover:[&:not(&:has(input:focus))]:bg-bg-white-0!">
