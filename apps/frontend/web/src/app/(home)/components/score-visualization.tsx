@@ -9,24 +9,54 @@ export function ScoreVisualization({ score }: ScoreVisualizationProps) {
 		return `${score}%`;
 	};
 
+	// Determine colors based on score percentage
+	const getScoreColors = (score: number) => {
+		if (score < 10) {
+			return {
+				bg: "bg-error-lighter",
+				text: "text-error-base",
+				border: "border-error-base",
+				solid: "bg-error-base",
+			};
+		}
+		if (score < 80) {
+			return {
+				bg: "bg-warning-lighter",
+				text: "text-warning-base",
+				border: "border-warning-base",
+				solid: "bg-warning-base",
+			};
+		}
+		return {
+			bg: "bg-success-lighter",
+			text: "text-success-base",
+			border: "border-success-base",
+			solid: "bg-success-base",
+		};
+	};
+
+	const colors = getScoreColors(score);
+
 	return (
 		<div className="px-6 py-6">
 			<div className="relative">
 				{/* Score indicator tooltip/pin */}
 				<div
-					className="-top-14 absolute flex flex-col items-center"
+					className="-top-14 absolute z-10 flex flex-col items-center"
 					style={{
 						left: getScorePosition(score),
 						transform: "translateX(-50%)",
 					}}
 				>
 					{/* Tooltip bubble */}
-					<div className="flex h-10 w-12 items-center justify-center rounded-lg bg-success-lighter font-semibold text-base text-success-base shadow-sm">
+					<div
+						className={`flex h-10 w-12 items-center justify-center rounded-lg font-semibold text-base shadow-sm ${colors.bg} ${colors.text}`}
+					>
 						{score}
 					</div>
 					{/* Pin/pointer */}
 					<div
-						className="h-0 w-0 border-t-6 border-t-success-lighter border-r-6 border-r-transparent border-l-6 border-l-transparent"
+						className={`h-0 w-0 border-t-6 border-r-6 border-r-transparent border-l-6 border-l-transparent ${colors.border}`}
 						style={{
 							borderLeftWidth: "6px",
 							borderRightWidth: "6px",
@@ -34,9 +64,11 @@ export function ScoreVisualization({ score }: ScoreVisualizationProps) {
 						}}
 					/>
 					{/* Vertical line connecting to bar */}
-					<div className="h-4 w-0.5 bg-success-base" />
+					<div className="h-[5px]" />
 					{/* Circle at connection point */}
-					<div className="h-2.5 w-2.5 rounded-full bg-success-base" />
+					<div
+						className={`h-4 w-4 rounded-full border-[3px] ${colors.border} bg-bg-white-0`}
+					/>
 				</div>
 
 				{/* Progress bar with manual gradient segments */}
@@ -54,7 +86,7 @@ export function ScoreVisualization({ score }: ScoreVisualizationProps) {
 				</div>
 
 				{/* Labels */}
-				<div className="relative mt-2 h-4 w-full text-text-sub-600 font-medium">
+				<div className="relative mt-2 h-4 w-full font-medium text-text-sub-600">
 					<span className="absolute" style={{ left: "0%" }}>
 						?
 					</span>
