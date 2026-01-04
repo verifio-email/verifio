@@ -20,7 +20,7 @@
 		"better-auth": "catalog:",
 		"framer-motion": "catalog:ui",
 		"motion": "catalog:ui",
-		"@rc-component/slider": "catalog:ui",
+		"rc-progress": "catalog:ui",
 		"next": "catalog:ui",
 		"next-themes": "catalog:ui",
 		"postcss": "catalog:ui",
