@@ -1,8 +1,7 @@
 "use client";
 
 import { Icon } from "@verifio/ui/icon";
-import * as Badge from "@verifio/ui/badge";
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface GeneralSectionProps {
 	state: string;
@@ -107,24 +106,19 @@ export function GeneralSection({
 						<Icon name="activity" className="h-4 w-4" />
 						State
 					</span>
-					<div className="flex items-center gap-2">
-						<Badge.Root
-							variant="light"
-							color={state === "deliverable" ? "green" : "red"}
-							size="small"
-						>
-							<Icon
-								name={state === "deliverable" ? "check-circle" : "cross-circle"}
-								className="h-3 w-3"
-							/>
-							{state === "deliverable" ? "Deliverable" : state}
-						</Badge.Root>
-						{state !== "deliverable" && (
-							<Badge.Root variant="lighter" color="red" size="small">
-								0x
-							</Badge.Root>
-						)}
-					</div>
+					<span
+						className={`flex items-center gap-1.5 font-medium text-sm ${
+							state === "deliverable"
+								? "text-green-600 dark:text-green-500"
+								: "text-red-600 dark:text-red-500"
+						}`}
+					>
+						<Icon
+							name={state === "deliverable" ? "check-circle" : "cross-circle"}
+							className="h-3.5 w-3.5"
+						/>
+						{state === "deliverable" ? "Deliverable" : state}
+					</span>
 				</div>
 				<div
 					ref={(el) => {
@@ -137,9 +131,9 @@ export function GeneralSection({
 						<Icon name="alert-circle" className="h-4 w-4" />
 						Reason
 					</span>
-					<Badge.Root variant="lighter" color="blue" size="small">
+					<span className="rounded-md bg-blue-50 px-2.5 py-1 font-medium text-blue-700 text-xs dark:bg-blue-950/40 dark:text-blue-400">
 						{reason.toUpperCase().replace(/_/g, " ")}
-					</Badge.Root>
+					</span>
 				</div>
 				<div
 					ref={(el) => {
@@ -162,13 +156,13 @@ export function GeneralSection({
 						onMouseEnter={() => setHoveredIndex(5)}
 						className="relative flex items-center justify-between px-6 py-3"
 					>
-						<div className="flex items-center gap-2 text-sm text-text-sub-600">
+						<span className="flex items-center gap-2 text-sm text-text-sub-600">
 							<Icon name="help-circle" className="h-4 w-4" />
 							Did you mean
-							<Badge.Root variant="lighter" color="blue" size="small">
+							<span className="rounded-md bg-blue-50 px-2 py-0.5 font-medium text-blue-700 text-xs dark:bg-blue-950/40 dark:text-blue-400">
 								0.9x
-							</Badge.Root>
-						</div>
+							</span>
+						</span>
 						<div className="flex items-center gap-2">
 							<span className="font-mono text-sm text-text-strong-950">
 								{didYouMean}
