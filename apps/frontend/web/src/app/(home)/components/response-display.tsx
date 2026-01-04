@@ -116,13 +116,8 @@ export function ResponseDisplay() {
 			<div className="border-stroke-soft-100/60 border-r border-l">
 				<div className="mx-auto max-w-4xl border-stroke-soft-100/60 border-r border-l pt-24">
 					<div className="border-stroke-soft-100/60 border-t">
-						{/* Header with avatar, email and score */}
 						<ResponseHeader email={data.email} score={data.score} />
-
-						{/* Score Visualization Bar */}
 						<ScoreVisualization score={data.score} />
-
-						{/* View Toggle Buttons */}
 						<div className="border-stroke-soft-100/60 border-t border-b">
 							<div className="relative flex w-fit gap-2 bg-bg-white-0 px-4 py-3">
 								{/* Animated floating background */}
