@@ -2,13 +2,14 @@ import * as Button from "@verifio/ui/button";
 import Link from "next/link";
 import { Icon } from "@verifio/ui/icon";
 import { EmailVerificationDemo } from "./email-verification-demo";
+import { ResponseDisplay } from "./response-display";
 
 export default function Hero() {
 	return (
-		<div className="border border-stroke-soft-100/60 border-b">
+		<div className="border-stroke-soft-100/60 border-r border-b border-l">
 			<div className="mx-auto max-w-7xl">
 				<div className="border-stroke-soft-100/60 border-r border-b border-l">
-					<div className="mx-auto max-w-3xl border-stroke-soft-100/60 border-r border-l py-20">
+					<div className="mx-auto max-w-3xl border-stroke-soft-100/60 border-r border-l pt-20 pb-28">
 						<div className="mx-auto mb-6 flex justify-center">
 							<a
 								href="/dashboard/signup"
@@ -43,6 +44,7 @@ export default function Hero() {
 				</div>
 			</div>
 			<EmailVerificationDemo />
+			<ResponseDisplay />
 		</div>
 	);
 }

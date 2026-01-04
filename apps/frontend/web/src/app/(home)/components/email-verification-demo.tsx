@@ -2,7 +2,7 @@
 import { Icon } from "@verifio/ui/icon";
 import { useState } from "react";
 import * as Input from "@verifio/ui/input";
-import * as BUtton from "@verifio/ui/button";
+import * as Button from "@verifio/ui/button";
 import * as SegmentedControl from "@verifio/ui/segmented-control";
 import * as FileFormatIcon from "@verifio/ui/file-format-icon";
 
@@ -11,14 +11,14 @@ export function EmailVerificationDemo() {
 	const [activeTab, setActiveTab] = useState("email");
 
 	return (
-		<div className="mx-auto w-full max-w-2xl">
+		<div className="mx-auto w-full max-w-2xl -mt-[57px]">
 			<SegmentedControl.Root value={activeTab} onValueChange={setActiveTab}>
-				<Input.Root className="flex-col">
-					<Input.Wrapper>
+				<Input.Root className="flex-col rounded-2xl! border-stroke-soft-100/60!">
+					<Input.Wrapper className="hover:[&:not(&:has(input:focus))]:bg-bg-white-0!">
 						<Input.Icon as={Icon} name="at" className="h-3.5 w-3.5" />
-						<Input.Input placeholder="www.alignui.com" />
+						<Input.Input placeholder="www.alignui.com" className="h-14" />
 					</Input.Wrapper>
-					<div className="flex items-center justify-between border-stroke-soft-100/60 border-t px-3 py-2">
+					<div className="flex h-[62px] items-center justify-between border-stroke-soft-100/60 border-t px-2">
 						<div>
 							<SegmentedControl.List>
 								<SegmentedControl.Trigger
@@ -26,7 +26,7 @@ export function EmailVerificationDemo() {
 									className="font-medium text-sm"
 								>
 									<Icon name="mail-single" className="h-3.5 w-3.5" />
-									Email
+									Single Email
 								</SegmentedControl.Trigger>
 								<SegmentedControl.Trigger
 									value="csv"
@@ -35,15 +35,20 @@ export function EmailVerificationDemo() {
 									<FileFormatIcon.Root
 										format="CSV"
 										color="green"
-										className="w-5 h-5"
+										className="h-5 w-5"
 									/>
 									CSV Upload
 								</SegmentedControl.Trigger>
 							</SegmentedControl.List>
 						</div>
-						<BUtton.Root size="xsmall" className="px-5">
-							<BUtton.Icon as={Icon} name="arrow-left" className="rotate-180" />
-						</BUtton.Root>
+						<Button.Root size="xsmall" className="px-4 font-medium">
+							Verify Email
+							<Button.Icon
+								as={Icon}
+								name="arrow-left"
+								className="h-3 w-3 rotate-180"
+							/>
+						</Button.Root>
 					</div>
 				</Input.Root>
 			</SegmentedControl.Root>
