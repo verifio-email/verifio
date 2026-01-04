@@ -17,7 +17,8 @@ export function AttributesSection({
 }: AttributesSectionProps) {
 	return (
 		<div>
-			<h4 className="border-stroke-soft-100/60 border-b px-6 py-4 font-semibold text-sm text-text-strong-950">
+			<h4 className="flex items-center gap-2 border-stroke-soft-100/60 border-b px-6 py-4 font-semibold text-sm text-text-strong-950">
+				<Icon name="list" className="h-4 w-4 text-primary-base" />
 				Attributes
 			</h4>
 			<div className="divide-y divide-stroke-soft-100/60">
