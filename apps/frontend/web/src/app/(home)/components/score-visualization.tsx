@@ -41,7 +41,7 @@ export function ScoreVisualization({ score }: ScoreVisualizationProps) {
 	const colors = getScoreColors(score);
 
 	return (
-		<div className="px-6 pt-16 pb-6">
+		<div className="mx-auto max-w-xl px-6 pt-16 pb-6">
 			<div className="relative">
 				{/* Score indicator tooltip/pin */}
 				<div
