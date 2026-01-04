@@ -12,7 +12,7 @@ export const BounceReduction = () => {
 					{/* Label */}
 					<div className="flex items-center gap-2">
 						<Icon name="mail-check-02" className="h-4 w-4 text-text-sub-600" />
-						<span className="text-text-sub-600 text-sm">
+						<span className="text-sm text-text-sub-600">
 							Reduce bounce rates
 						</span>
 					</div>
