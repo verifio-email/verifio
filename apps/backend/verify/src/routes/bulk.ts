@@ -1,6 +1,7 @@
 /**
  * Bulk Email Verification Route
  * POST /v1/bulk - Verify multiple emails
+ * Rate limited: 1 request per hour per IP
  */
 
 import { createId } from "@paralleldrive/cuid2";
@@ -12,6 +13,10 @@ import {
 import { logger } from "@verifio/logger";
 import { Elysia, t } from "elysia";
 import { verifyConfig } from "../config";
+import {
+  blockRateLimited,
+  createRateLimiter,
+} from "../middleware/rate-limit";
 
 /**
  * In-memory job storage (for demo - use database in production)
@@ -180,6 +185,8 @@ async function processBulkVerification(
 }
 
 export const bulkVerifyRoute = new Elysia({ prefix: "/v1" })
+  .use(createRateLimiter("bulkEmail"))
+  .use(blockRateLimited)
   /**
    * Start bulk verification job
    */

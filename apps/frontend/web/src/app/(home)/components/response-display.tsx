@@ -1,95 +1,24 @@
 "use client";
 
 import { Icon } from "@verifio/ui/icon";
-import React, { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { AttributesSection } from "./attributes-section";
+import { GeneralSection } from "./general-section";
+import { JsonViewer } from "./json-viewer";
+import { MailServerSection } from "./mail-server-section";
 import { ResponseHeader } from "./response-header";
 import { ScoreVisualization } from "./score-visualization";
-import { GeneralSection } from "./general-section";
-import { MailServerSection } from "./mail-server-section";
-import { AttributesSection } from "./attributes-section";
-import { JsonViewer } from "./json-viewer";
-
-// Hardcoded response data
-const mockResponse = {
-	success: true,
-	data: {
-		id: "vr_vh0ng2gd2cy6swugrj7yeggu",
-		jobId: null,
-		organizationId: "kwexx705yFgYVMHWjbFCANbKbsxngJCS",
-		userId: "KaNiK1XYGImcl07by8cbwcCs1iYyGgJr",
-		email: "pranav@gmai.com",
-		state: "deliverable",
-		score: 80,
-		reason: "valid_mailbox",
-		result: {
-			tag: null,
-			user: "pranav",
-			email: "pranav@gmai.com",
-			score: 80,
-			state: "deliverable",
-			checks: {
-				dns: {
-					hasMx: true,
-					valid: true,
-					mxRecords: ["mail.h-email.net"],
-					preferredMx: "mail.h-email.net",
-					domainExists: true,
-				},
-				role: {
-					isRole: false,
-				},
-				smtp: {
-					valid: null,
-					isCatchAll: null,
-					mailboxExists: null,
-				},
-				typo: {
-					hasTypo: true,
-					suggestion: "pranav@gmail.com",
-					originalDomain: "gmai.com",
-					suggestedDomain: "gmail.com",
-				},
-				syntax: {
-					valid: true,
-				},
-				disposable: {
-					isDisposable: false,
-				},
-				freeProvider: {
-					isFree: false,
-				},
-			},
-			domain: "gmai.com",
-			reason: "valid_mailbox",
-			duration: 587,
-			analytics: {
-				warnings: ["possible_typo"],
-				domainAge: null,
-				riskLevel: "medium",
-				didYouMean: "pranav@gmail.com",
-				smtpProvider: null,
-				qualityIndicators: [
-					"valid_syntax",
-					"domain_exists",
-					"has_mx_records",
-					"not_disposable",
-					"personal_email",
-				],
-			},
-			verifiedAt: "2026-01-04T09:06:35.289Z",
-		},
-		createdAt: "2026-01-04T09:06:35.312Z",
-	},
-};
+import { useVerification } from "./verification-context";
 
 export function ResponseDisplay() {
+	const { result, isLoading } = useVerification();
 	const [viewMode, setViewMode] = useState<"details" | "json">("details");
 	const [indicatorStyle, setIndicatorStyle] = useState({ width: 0, left: 0 });
 	const [mounted, setMounted] = useState(false);
 	const detailsButtonRef = useRef<HTMLButtonElement>(null);
 	const jsonButtonRef = useRef<HTMLButtonElement>(null);
 
-	// Initial measurement on mount
+	// Initial measurement on mount - hooks MUST be called before any conditional returns
 	useEffect(() => {
 		const activeButton = detailsButtonRef.current;
 		if (activeButton) {
@@ -109,15 +38,77 @@ export function ResponseDisplay() {
 		}
 	}, [viewMode]);
 
-	const { data } = mockResponse;
+	// Show empty state when no result and not loading
+	if (!result && !isLoading) {
+		return (
+			<div className="-mt-[51px] mx-auto max-w-7xl">
+				<div className="border-stroke-soft-200/50 border-r border-l">
+					<div className="mx-auto max-w-4xl border-stroke-soft-200/50 border-r border-l pt-24 pb-16">
+						<div className="flex flex-col items-center justify-center gap-4 border-stroke-soft-200/50 border-t px-6 py-16 text-center">
+							<Icon
+								name="mail-single"
+								className="h-12 w-12 text-text-sub-400"
+							/>
+							<div>
+								<h3 className="font-semibold text-lg text-text-strong-950">
+									Try it out
+								</h3>
+								<p className="mt-1 text-sm text-text-sub-600">
+									Enter an email address above to see verification results
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
+
+	// Show loading state when verifying
+	if (isLoading && !result) {
+		return (
+			<div className="-mt-[51px] mx-auto max-w-7xl">
+				<div className="border-stroke-soft-200/50 border-r border-l">
+					<div className="mx-auto max-w-4xl border-stroke-soft-200/50 border-r border-l pt-24 pb-16">
+						<div className="flex flex-col items-center justify-center gap-4 border-stroke-soft-200/50 border-t px-6 py-16 text-center">
+							<Icon
+								name="loading"
+								className="h-12 w-12 animate-spin text-primary-base"
+							/>
+							<div>
+								<h3 className="font-semibold text-lg text-text-strong-950">
+									Verifying email...
+								</h3>
+								<p className="mt-1 text-sm text-text-sub-600">
+									Please wait while we check this email address
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
+
+	// result is guaranteed to exist here due to the early returns above
+	const displayData = result!;
 
 	return (
 		<div className="-mt-[51px] mx-auto max-w-7xl">
 			<div className="border-stroke-soft-200/50 border-r border-l">
 				<div className="mx-auto max-w-4xl border-stroke-soft-200/50 border-r border-l pt-24">
 					<div className="border-stroke-soft-200/50 border-t">
-						<ResponseHeader email={data.email} score={data.score} />
-						<ScoreVisualization score={data.score} />
+						{/* Show indicator that this is a live result */}
+						<div className="flex items-center gap-2 bg-primary-base/5 px-4 py-2 text-primary-base text-sm">
+							<Icon name="check-circle-filled" className="h-4 w-4" />
+							<span>Live verification result</span>
+						</div>
+
+						<ResponseHeader
+							email={displayData.email}
+							score={displayData.score}
+						/>
+						<ScoreVisualization score={displayData.score} />
 						<div className="border-stroke-soft-200/50 border-t border-b">
 							<div className="relative flex w-fit gap-2 bg-bg-white-0 px-4 py-3">
 								{/* Animated floating background */}
@@ -159,30 +150,37 @@ export function ResponseDisplay() {
 								{/* Left Column: General and Mail Server */}
 								<div className="border-stroke-soft-200/50 border-r">
 									<GeneralSection
-										state={data.state}
-										reason={data.reason}
-										domain={data.result.domain}
-										didYouMean={data.result.analytics.didYouMean}
+										state={displayData.state}
+										reason={displayData.reason}
+										domain={displayData.result.domain}
+										didYouMean={
+											displayData.result.analytics.didYouMean || undefined
+										}
 									/>
 									<MailServerSection
-										smtpProvider={data.result.analytics.smtpProvider}
-										mxRecord={data.result.checks.dns.preferredMx}
+										smtpProvider={displayData.result.analytics.smtpProvider}
+										mxRecord={displayData.result.checks.dns.preferredMx}
 									/>
 								</div>
 
 								{/* Right Column: Attributes */}
 								<div>
 									<AttributesSection
-										isFree={data.result.checks.freeProvider.isFree}
-										isRole={data.result.checks.role.isRole}
-										isDisposable={data.result.checks.disposable.isDisposable}
-										isCatchAll={data.result.checks.smtp.isCatchAll}
-										tag={data.result.tag}
+										isFree={displayData.result.checks.freeProvider.isFree}
+										isRole={displayData.result.checks.role.isRole}
+										isDisposable={
+											displayData.result.checks.disposable.isDisposable
+										}
+										isCatchAll={displayData.result.checks.smtp.isCatchAll}
+										tag={displayData.result.tag}
 									/>
 								</div>
 							</div>
 						) : (
-							<JsonViewer data={mockResponse} filename="response.json" />
+							<JsonViewer
+								data={{ success: true, data: result }}
+								filename="response.json"
+							/>
 						)}
 					</div>
 				</div>

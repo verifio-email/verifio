@@ -1,8 +1,7 @@
-import * as Button from "@verifio/ui/button";
-import Link from "next/link";
 import { Icon } from "@verifio/ui/icon";
 import { EmailVerificationDemo } from "./email-verification-demo";
 import { ResponseDisplay } from "./response-display";
+import { VerificationProvider } from "./verification-context";
 
 export default function Hero() {
 	return (
@@ -43,8 +42,10 @@ export default function Hero() {
 					</div>
 				</div>
 			</div>
-			<EmailVerificationDemo />
-			<ResponseDisplay />
+			<VerificationProvider>
+				<EmailVerificationDemo />
+				<ResponseDisplay />
+			</VerificationProvider>
 		</div>
 	);
 }

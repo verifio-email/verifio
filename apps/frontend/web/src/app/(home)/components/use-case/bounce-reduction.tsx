@@ -23,7 +23,7 @@ export const BounceReduction = () => {
 					</h3>
 
 					{/* Description */}
-					<p className="max-w-md text-text-sub-600 text-base leading-relaxed">
+					<p className="max-w-md text-base text-text-sub-600 leading-relaxed">
 						Verify email addresses before sending to eliminate hard bounces.
 						Real-time validation checks syntax, domain, and mailbox existence.
 					</p>
