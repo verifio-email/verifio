@@ -190,32 +190,99 @@ export function ResponseDisplay() {
 	const jsonString = JSON.stringify(mockResponse, null, 2);
 	const { data } = mockResponse;
 
+	// Get score color based on value
+	const getScoreColor = (score: number) => {
+		if (score >= 80) return "text-success-base";
+		if (score >= 50) return "text-warning-base";
+		return "text-error-base";
+	};
+
+	// Get score position percentage
+	const getScorePosition = (score: number) => {
+		return `${score}%`;
+	};
+
 	return (
 		<div className="mx-auto max-w-7xl">
 			<div className="border-stroke-soft-100/60 border-r border-b border-l">
-				<div className="mx-auto max-w-3xl border-stroke-soft-100/60 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l">
 					<SegmentedControl.Root
 						value={viewMode}
 						onValueChange={(value) => setViewMode(value as "details" | "json")}
 					>
 						<div className="border-stroke-soft-100/60 border-b">
-							{/* Header with segmented control */}
-							<div className="flex items-center justify-between px-6 py-4">
-								<div className="flex items-center gap-2">
-									<Icon
-										name="check-verified-02"
-										className="h-4 w-4 text-success-base"
-									/>
-									<span className="font-medium text-sm text-text-strong-950">
-										Verification Result
-									</span>
+							{/* Header with avatar, email and score */}
+							<div className="flex items-center justify-between border-stroke-soft-100/60 border-b px-6 py-4">
+								<div className="flex items-center gap-3">
+									{/* Avatar */}
+									<div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-base text-white font-semibold">
+										{data.email.charAt(0).toUpperCase()}
+									</div>
+									<div className="flex items-center gap-2">
+										<span className="font-semibold text-text-strong-950">
+											{data.email}
+										</span>
+										<Icon name="copy" className="h-4 w-4 text-text-sub-600" />
+									</div>
 								</div>
+								<Badge.Root
+									variant="light"
+									color={
+										data.score >= 80
+											? "green"
+											: data.score >= 50
+												? "orange"
+												: "red"
+									}
+									size="medium"
+								>
+									{data.score}
+								</Badge.Root>
+							</div>
+
+							{/* Score Visualization Bar */}
+							<div className="px-6 py-6">
+								<div className="relative">
+									{/* Score indicator circle */}
+									<div
+										className="absolute -top-3 flex h-12 w-12 items-center justify-center rounded-full bg-error-lighter text-error-base font-semibold text-sm"
+										style={{
+											left: getScorePosition(data.score),
+											transform: "translateX(-50%)",
+										}}
+									>
+										{data.score}
+									</div>
+									{/* Progress bar */}
+									<div className="mt-6 h-2 w-full rounded-full bg-stroke-soft-100">
+										<div className="relative h-full">
+											{/* Gradient segments */}
+											<div className="absolute inset-0 flex">
+												<div className="h-full w-[20%] rounded-l-full bg-error-base" />
+												<div className="h-full w-[30%] bg-warning-base" />
+												<div className="h-full w-[50%] rounded-r-full bg-success-base" />
+											</div>
+										</div>
+									</div>
+									{/* Labels */}
+									<div className="mt-2 flex justify-between text-xs text-text-sub-600">
+										<span>0</span>
+										<span>20</span>
+										<span>50</span>
+										<span>80</span>
+										<span>100</span>
+									</div>
+								</div>
+							</div>
+
+							{/* Tab Controls */}
+							<div className="flex items-center justify-end border-stroke-soft-100/60 border-t px-6 py-3">
 								<SegmentedControl.List>
 									<SegmentedControl.Trigger
 										value="details"
 										className="font-medium text-sm"
 									>
-										<Icon name="file-02" className="h-3.5 w-3.5" />
+										<Icon name="file-text" className="h-3.5 w-3.5" />
 										Details
 									</SegmentedControl.Trigger>
 									<SegmentedControl.Trigger
@@ -230,180 +297,282 @@ export function ResponseDisplay() {
 
 							{/* Details View */}
 							<SegmentedControl.Content value="details">
-								<div className="space-y-6 p-6">
-									{/* Email and State */}
-									<div className="space-y-3">
-										<div className="flex items-center justify-between">
-											<span className="text-sm text-text-sub-600">Email</span>
-											<span className="font-mono text-sm text-text-strong-950">
-												{data.email}
-											</span>
-										</div>
-										<div className="flex items-center justify-between">
-											<span className="text-sm text-text-sub-600">State</span>
-											<Badge.Root
-												variant="light"
-												color={data.state === "deliverable" ? "green" : "red"}
-												size="medium"
-											>
-												<Badge.Icon
-													as={Icon}
-													name={
-														data.state === "deliverable"
-															? "check-circle"
-															: "x-circle"
-													}
-												/>
-												{data.state}
-											</Badge.Root>
-										</div>
-										<div className="flex items-center justify-between">
-											<span className="text-sm text-text-sub-600">
-												Quality Score
-											</span>
-											<Badge.Root
-												variant="light"
-												color={
-													data.score >= 80
-														? "green"
-														: data.score >= 50
-															? "yellow"
-															: "red"
-												}
-												size="medium"
-											>
-												{data.score}/100
-											</Badge.Root>
+								<div className="space-y-0">
+									{/* General Section */}
+									<div className="border-stroke-soft-100/60 border-t px-6 py-4">
+										<h4 className="mb-4 font-semibold text-sm text-text-strong-950">
+											General
+										</h4>
+										<div className="space-y-3">
+											<div className="flex items-center justify-between">
+												<span className="text-sm text-text-sub-600">
+													Full Name
+												</span>
+												<span className="text-sm text-text-sub-600">—</span>
+											</div>
+											<div className="flex items-center justify-between">
+												<span className="text-sm text-text-sub-600">
+													Gender
+												</span>
+												<span className="text-sm text-text-sub-600">—</span>
+											</div>
+											<div className="flex items-center justify-between">
+												<span className="text-sm text-text-sub-600">State</span>
+												<div className="flex items-center gap-2">
+													<Badge.Root
+														variant="light"
+														color={
+															data.state === "deliverable" ? "green" : "red"
+														}
+														size="small"
+													>
+														<Icon
+															name={
+																data.state === "deliverable"
+																	? "check-circle"
+																	: "cross-circle"
+															}
+															className="h-3 w-3"
+														/>
+														{data.state === "deliverable"
+															? "Deliverable"
+															: data.state}
+													</Badge.Root>
+													{data.state !== "deliverable" && (
+														<Badge.Root
+															variant="lighter"
+															color="red"
+															size="small"
+														>
+															0x
+														</Badge.Root>
+													)}
+												</div>
+											</div>
+											<div className="flex items-center justify-between">
+												<span className="text-sm text-text-sub-600">
+													Reason
+												</span>
+												<Badge.Root variant="lighter" color="blue" size="small">
+													{data.reason.toUpperCase().replace(/_/g, " ")}
+												</Badge.Root>
+											</div>
+											<div className="flex items-center justify-between">
+												<span className="text-sm text-text-sub-600">
+													Domain
+												</span>
+												<span className="text-sm font-mono text-primary-base">
+													{data.result.domain}
+												</span>
+											</div>
+											{data.result.analytics.didYouMean && (
+												<div className="flex items-center justify-between">
+													<span className="text-sm text-text-sub-600">
+														Did you mean
+													</span>
+													<div className="flex items-center gap-2">
+														<span className="text-sm font-mono text-text-strong-950">
+															{data.result.analytics.didYouMean}
+														</span>
+														<Badge.Root
+															variant="lighter"
+															color="blue"
+															size="small"
+														>
+															0.9x
+														</Badge.Root>
+													</div>
+												</div>
+											)}
 										</div>
 									</div>
 
-									<div className="border-stroke-soft-100 border-t" />
-
-									{/* Checks Grid */}
-									<div className="space-y-3">
-										<h3 className="font-medium text-sm text-text-strong-950">
-											Validation Checks
-										</h3>
-										<div className="grid grid-cols-2 gap-3">
-											<div className="flex items-center justify-between rounded-lg border border-stroke-soft-100 bg-bg-weak-50 px-3 py-2">
-												<span className="text-text-sub-600 text-xs">
-													Disposable
+									{/* Attributes Section */}
+									<div className="border-stroke-soft-100/60 border-t px-6 py-4">
+										<h4 className="mb-4 font-semibold text-sm text-text-strong-950">
+											Attributes
+										</h4>
+										<div className="space-y-3">
+											<div className="flex items-center justify-between">
+												<div className="flex items-center gap-2">
+													<Icon
+														name="dollar"
+														className="h-3.5 w-3.5 text-primary-base"
+													/>
+													<span className="text-sm text-text-sub-600">
+														Free
+													</span>
+												</div>
+												<span className="text-sm text-text-strong-950">
+													{data.result.checks.freeProvider.isFree
+														? "Yes"
+														: "No"}
 												</span>
-												<Badge.Root
-													variant="lighter"
-													color={
-														data.result.checks.disposable.isDisposable
-															? "red"
-															: "green"
-													}
-													size="small"
-												>
+											</div>
+											<div className="flex items-center justify-between">
+												<div className="flex items-center gap-2">
+													<Icon
+														name="users"
+														className="h-3.5 w-3.5 text-primary-base"
+													/>
+													<span className="text-sm text-text-sub-600">
+														Role
+													</span>
+												</div>
+												<span className="text-sm text-text-strong-950">
+													{data.result.checks.role.isRole ? "Yes" : "No"}
+												</span>
+											</div>
+											<div className="flex items-center justify-between">
+												<div className="flex items-center gap-2">
+													<Icon
+														name="trash"
+														className="h-3.5 w-3.5 text-primary-base"
+													/>
+													<span className="text-sm text-text-sub-600">
+														Disposable
+													</span>
+												</div>
+												<span className="text-sm text-text-strong-950">
 													{data.result.checks.disposable.isDisposable
 														? "Yes"
 														: "No"}
-												</Badge.Root>
-											</div>
-											<div className="flex items-center justify-between rounded-lg border border-stroke-soft-100 bg-bg-weak-50 px-3 py-2">
-												<span className="text-text-sub-600 text-xs">
-													Role Account
 												</span>
-												<Badge.Root
-													variant="lighter"
-													color={
-														data.result.checks.role.isRole ? "orange" : "green"
-													}
-													size="small"
-												>
-													{data.result.checks.role.isRole ? "Yes" : "No"}
-												</Badge.Root>
 											</div>
-											<div className="flex items-center justify-between rounded-lg border border-stroke-soft-100 bg-bg-weak-50 px-3 py-2">
-												<span className="text-text-sub-600 text-xs">
-													Valid Syntax
+											<div className="flex items-center justify-between">
+												<div className="flex items-center gap-2">
+													<Icon
+														name="check-circle"
+														className="h-3.5 w-3.5 text-primary-base"
+													/>
+													<span className="text-sm text-text-sub-600">
+														Accept-All
+													</span>
+												</div>
+												<span className="text-sm text-text-strong-950">
+													{data.result.checks.smtp.isCatchAll === null
+														? "No"
+														: data.result.checks.smtp.isCatchAll
+															? "Yes"
+															: "No"}
 												</span>
-												<Badge.Root
-													variant="lighter"
-													color={
-														data.result.checks.syntax.valid ? "green" : "red"
-													}
-													size="small"
-												>
-													{data.result.checks.syntax.valid ? "Yes" : "No"}
-												</Badge.Root>
 											</div>
-											<div className="flex items-center justify-between rounded-lg border border-stroke-soft-100 bg-bg-weak-50 px-3 py-2">
-												<span className="text-text-sub-600 text-xs">
-													MX Records
+											<div className="flex items-center justify-between">
+												<div className="flex items-center gap-2">
+													<Icon
+														name="hash"
+														className="h-3.5 w-3.5 text-primary-base"
+													/>
+													<span className="text-sm text-text-sub-600">Tag</span>
+												</div>
+												<span className="text-sm text-text-strong-950">
+													{data.result.tag || "No"}
 												</span>
-												<Badge.Root
-													variant="lighter"
-													color={data.result.checks.dns.hasMx ? "green" : "red"}
-													size="small"
-												>
-													{data.result.checks.dns.hasMx ? "Found" : "None"}
-												</Badge.Root>
+											</div>
+											<div className="flex items-center justify-between">
+												<div className="flex items-center gap-2">
+													<Icon
+														name="hash"
+														className="h-3.5 w-3.5 text-primary-base"
+													/>
+													<span className="text-sm text-text-sub-600">
+														Numerical Characters
+													</span>
+												</div>
+												<span className="text-sm text-text-strong-950">0</span>
+											</div>
+											<div className="flex items-center justify-between">
+												<div className="flex items-center gap-2">
+													<Icon
+														name="file-text"
+														className="h-3.5 w-3.5 text-primary-base"
+													/>
+													<span className="text-sm text-text-sub-600">
+														Alphabetical Characters
+													</span>
+												</div>
+												<span className="text-sm text-text-strong-950">6</span>
+											</div>
+											<div className="flex items-center justify-between">
+												<div className="flex items-center gap-2">
+													<Icon
+														name="globe"
+														className="h-3.5 w-3.5 text-primary-base"
+													/>
+													<span className="text-sm text-text-sub-600">
+														Unicode Symbols
+													</span>
+												</div>
+												<span className="text-sm text-text-strong-950">0</span>
+											</div>
+											<div className="flex items-center justify-between">
+												<div className="flex items-center gap-2">
+													<Icon
+														name="at-filled"
+														className="h-3.5 w-3.5 text-primary-base"
+													/>
+													<span className="text-sm text-text-sub-600">
+														Mailbox Full
+													</span>
+												</div>
+												<span className="text-sm text-text-strong-950">No</span>
+											</div>
+											<div className="flex items-center justify-between">
+												<div className="flex items-center gap-2">
+													<Icon
+														name="cross-circle"
+														className="h-3.5 w-3.5 text-primary-base"
+													/>
+													<span className="text-sm text-text-sub-600">
+														No Reply
+													</span>
+												</div>
+												<span className="text-sm text-text-strong-950">No</span>
+											</div>
+											<div className="flex items-center justify-between">
+												<div className="flex items-center gap-2">
+													<Icon
+														name="lock"
+														className="h-3.5 w-3.5 text-primary-base"
+													/>
+													<span className="text-sm text-text-sub-600">
+														Secure Email Gateway
+													</span>
+												</div>
+												<span className="text-sm text-text-strong-950">No</span>
 											</div>
 										</div>
 									</div>
 
-									{/* Warnings */}
-									{data.result.analytics.warnings.length > 0 && (
-										<>
-											<div className="border-stroke-soft-100 border-t" />
-											<div className="space-y-2">
-												<h3 className="font-medium text-sm text-text-strong-950">
-													Warnings
-												</h3>
-												{data.result.analytics.didYouMean && (
-													<div className="flex items-start gap-2 rounded-lg border border-warning-light bg-warning-lighter p-3">
-														<Icon
-															name="alert-triangle"
-															className="h-4 w-4 shrink-0 text-warning-base"
-														/>
-														<div className="flex-1">
-															<p className="text-sm text-warning-dark">
-																Did you mean{" "}
-																<span className="font-mono font-semibold">
-																	{data.result.analytics.didYouMean}
-																</span>
-																?
-															</p>
-														</div>
-													</div>
-												)}
+									{/* Mail Server Section */}
+									<div className="border-stroke-soft-100/60 border-t px-6 py-4">
+										<h4 className="mb-4 font-semibold text-sm text-text-strong-950">
+											Mail Server
+										</h4>
+										<div className="space-y-3">
+											<div className="flex items-center justify-between">
+												<span className="text-sm text-text-sub-600">
+													SMTP Provider
+												</span>
+												<span className="text-sm text-text-sub-600">—</span>
 											</div>
-										</>
-									)}
-
-									{/* Risk Level */}
-									<div className="border-stroke-soft-100 border-t" />
-									<div className="flex items-center justify-between">
-										<span className="text-sm text-text-sub-600">
-											Risk Level
-										</span>
-										<Badge.Root
-											variant="light"
-											color={
-												data.result.analytics.riskLevel === "low"
-													? "green"
-													: data.result.analytics.riskLevel === "medium"
-														? "yellow"
-														: "red"
-											}
-											size="medium"
-										>
-											<Badge.Icon
-												as={Icon}
-												name={
-													data.result.analytics.riskLevel === "low"
-														? "shield-tick"
-														: data.result.analytics.riskLevel === "medium"
-															? "shield-zap"
-															: "shield-off"
-												}
-											/>
-											{data.result.analytics.riskLevel}
-										</Badge.Root>
+											<div className="flex items-center justify-between">
+												<span className="text-sm text-text-sub-600">
+													MX Record
+												</span>
+												<span className="text-sm font-mono text-text-strong-950">
+													{data.result.checks.dns.preferredMx ||
+														data.result.analytics.smtpProvider ||
+														"—"}
+												</span>
+											</div>
+											<div className="flex items-center justify-between">
+												<span className="text-sm text-text-sub-600">
+													Implicit MX Record
+												</span>
+												<span className="text-sm text-text-sub-600">—</span>
+											</div>
+										</div>
 									</div>
 								</div>
 							</SegmentedControl.Content>
@@ -412,7 +581,7 @@ export function ResponseDisplay() {
 							<SegmentedControl.Content value="json">
 								<div className="border-stroke-soft-100/60 border-t">
 									<div className="flex items-center justify-between border-stroke-soft-100/60 border-b px-4 py-2">
-										<span className="font-mono text-text-sub-600 text-xs">
+										<span className="text-xs font-mono text-text-sub-600">
 											response.json
 										</span>
 										<Button.Root
@@ -421,7 +590,7 @@ export function ResponseDisplay() {
 											onClick={() => copyToClipboard(jsonString)}
 										>
 											<Icon
-												name="clipboard-copy"
+												name="copy"
 												className="h-3.5 w-3.5 stroke-1 text-text-sub-600"
 											/>
 											Copy
@@ -430,7 +599,7 @@ export function ResponseDisplay() {
 									<div className="max-h-96 overflow-auto bg-[#1e1e1e]">
 										<div className="flex">
 											{/* Line Numbers */}
-											<div className="sticky left-0 z-10 border-stroke-soft-200 border-r bg-[#252526] px-4 py-4 text-right font-mono text-[#858585] text-xs leading-6">
+											<div className="sticky left-0 z-10 border-r border-stroke-soft-200 bg-[#252526] px-4 py-4 text-right text-xs font-mono leading-6 text-[#858585]">
 												{jsonString.split("\n").map((_, index) => (
 													<div key={index} className="select-none">
 														{index + 1}
