@@ -30,12 +30,12 @@ export const CodeBlock = ({
 	const effectiveTheme = resolvedTheme || systemTheme || currentTheme;
 
 	// Map design system theme to Shiki theme
-	// Using themes that match the slate/gray color palette:
-	// - Dark: "one-dark-pro" (matches slate-950 dark blue-gray background)
+	// Using themes that match the neutral/slate color palette:
+	// - Dark: "github-dark" (neutral grays, matches dark mode design system)
 	// - Light: "github-light" (clean, minimal, matches white/gray palette)
 	const shikiTheme =
 		themeOverride ||
-		(effectiveTheme === "dark" ? "one-dark-pro" : "github-light");
+		(effectiveTheme === "dark" ? "github-dark" : "github-light");
 
 	useEffect(() => {
 		codeToHtml(code, {
