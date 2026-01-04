@@ -1,5 +1,7 @@
 "use client";
 
+import { useTheme } from "next-themes";
+
 export const Logo = ({ className }: { className?: string }) => {
 	return (
 		<svg
@@ -35,6 +37,53 @@ export const Logo = ({ className }: { className?: string }) => {
 					fill="white"
 				/>
 			</svg>
+		</svg>
+	);
+};
+
+export const Logo3D = ({ className }: { className?: string }) => {
+	return (
+		<svg
+			width={27}
+			height={24}
+			viewBox="0 0 27 24"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+			className={className}
+		>
+			{/* Small square - shadow layer */}
+			<rect
+				x={1.5}
+				y={4.5}
+				width={10}
+				height={10}
+				rx={5}
+				fill="#000000"
+				opacity="0.05"
+			/>
+			{/* Small square - front layer */}
+			<rect y={3} width={10} height={10} rx={5} fill="#000000" />
+
+			{/* Rotated rectangle - shadow layer */}
+			<rect
+				x={18.5}
+				y={1.5}
+				width={10}
+				height={20}
+				rx={5}
+				transform="rotate(30 18.5 1.5)"
+				fill="#000000"
+				opacity="0.05"
+			/>
+			{/* Rotated rectangle - front layer */}
+			<rect
+				x={17}
+				width={10}
+				height={20}
+				rx={5}
+				transform="rotate(30 17 0)"
+				fill="#000000"
+			/>
 		</svg>
 	);
 };
