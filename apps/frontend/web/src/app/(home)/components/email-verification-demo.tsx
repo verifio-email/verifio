@@ -11,14 +11,14 @@ export function EmailVerificationDemo() {
 	const [activeTab, setActiveTab] = useState("email");
 
 	return (
-		<div className="-mt-[57px] mx-auto w-full max-w-2xl">
+		<div className="-mt-[49px] mx-auto w-full max-w-lg">
 			<SegmentedControl.Root value={activeTab} onValueChange={setActiveTab}>
 				<Input.Root className="flex-col rounded-2xl! border-stroke-soft-100/60!">
 					<Input.Wrapper className="hover:[&:not(&:has(input:focus))]:bg-bg-white-0!">
 						<Input.Icon as={Icon} name="at" className="h-3.5 w-3.5" />
-						<Input.Input placeholder="www.alignui.com" className="h-14" />
+						<Input.Input placeholder="www.alignui.com" className="h-12" />
 					</Input.Wrapper>
-					<div className="flex h-[62px] items-center justify-between border-stroke-soft-100/60 border-t px-2">
+					<div className="flex h-[52px] items-center justify-between border-stroke-soft-100/60 border-t px-2">
 						<div>
 							<SegmentedControl.List>
 								<SegmentedControl.Trigger

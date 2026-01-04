@@ -16,6 +16,7 @@ export function ScoreVisualization({ score }: ScoreVisualizationProps) {
 				bg: "bg-error-lighter",
 				text: "text-error-base",
 				border: "border-error-base",
+				borderlight: "border-error-lighter",
 				solid: "bg-error-base",
 			};
 		}
@@ -24,6 +25,7 @@ export function ScoreVisualization({ score }: ScoreVisualizationProps) {
 				bg: "bg-warning-lighter",
 				text: "text-warning-base",
 				border: "border-warning-base",
+				borderlight: "border-warning-lighter",
 				solid: "bg-warning-base",
 			};
 		}
@@ -31,6 +33,7 @@ export function ScoreVisualization({ score }: ScoreVisualizationProps) {
 			bg: "bg-success-lighter",
 			text: "text-success-base",
 			border: "border-success-base",
+			borderlight: "border-success-lighter",
 			solid: "bg-success-base",
 		};
 	};
@@ -38,7 +41,7 @@ export function ScoreVisualization({ score }: ScoreVisualizationProps) {
 	const colors = getScoreColors(score);
 
 	return (
-		<div className="px-6 py-6">
+		<div className="px-6 pt-16 pb-6">
 			<div className="relative">
 				{/* Score indicator tooltip/pin */}
 				<div
@@ -56,15 +59,15 @@ export function ScoreVisualization({ score }: ScoreVisualizationProps) {
 					</div>
 					{/* Pin/pointer */}
 					<div
-						className={`h-0 w-0 border-t-6 border-r-6 border-r-transparent border-l-6 border-l-transparent ${colors.border}`}
+						className={`h-0 w-0 border-t-6 border-r-6 border-r-transparent border-l-6 border-l-transparent ${colors.borderlight}`}
 						style={{
-							borderLeftWidth: "6px",
-							borderRightWidth: "6px",
-							borderTopWidth: "6px",
+							borderLeftWidth: "8px",
+							borderRightWidth: "8px",
+							borderTopWidth: "8px",
 						}}
 					/>
 					{/* Vertical line connecting to bar */}
-					<div className="h-[5px]" />
+					<div className="h-[3px]" />
 					{/* Circle at connection point */}
 					<div
 						className={`h-4 w-4 rounded-full border-[3px] ${colors.border} bg-bg-white-0`}
