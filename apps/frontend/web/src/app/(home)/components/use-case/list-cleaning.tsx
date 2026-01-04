@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 export const ListCleaning = () => {
 	return (
-		<div className="border-stroke-soft-100 border-b">
+		<div className="border-stroke-soft-200/50 border-b">
 			<div className="grid grid-cols-1 lg:grid-cols-2">
 				{/* Left Content Section */}
 				<div className="flex flex-col justify-center space-y-6 p-10 md:p-16 lg:p-20">
@@ -38,7 +38,7 @@ export const ListCleaning = () => {
 				</div>
 
 				{/* Right Visual Section */}
-				<div className="flex items-center justify-center border-stroke-soft-100 p-8 md:p-12 lg:border-l lg:p-16">
+				<div className="flex items-center justify-center border-stroke-soft-200/50 p-8 md:p-12 lg:border-l lg:p-16">
 					<div className="w-full max-w-sm space-y-5">
 						{/* Header with status */}
 						<div className="flex items-center justify-between">
@@ -59,7 +59,7 @@ export const ListCleaning = () => {
 							whileInView={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.4 }}
 							viewport={{ once: true }}
-							className="rounded-xl border border-stroke-soft-100 bg-bg-white-0 p-5 shadow-sm"
+							className="rounded-xl border border-stroke-soft-200/50 bg-bg-white-0 p-5 shadow-sm"
 						>
 							<div className="mb-5 flex items-center justify-between">
 								<h4 className="font-semibold text-text-strong-950">
@@ -155,11 +155,11 @@ export const ListCleaning = () => {
 							viewport={{ once: true }}
 							className="grid grid-cols-2 gap-3"
 						>
-							<div className="rounded-lg border border-stroke-soft-100 bg-bg-white-0 p-3 text-center">
+							<div className="rounded-lg border border-stroke-soft-200/50 bg-bg-white-0 p-3 text-center">
 								<p className="font-semibold text-lg text-text-strong-950">1M</p>
 								<p className="text-text-sub-600 text-xs">Max per batch</p>
 							</div>
-							<div className="rounded-lg border border-stroke-soft-100 bg-bg-white-0 p-3 text-center">
+							<div className="rounded-lg border border-stroke-soft-200/50 bg-bg-white-0 p-3 text-center">
 								<p className="font-semibold text-lg text-text-strong-950">
 									&lt;1min
 								</p>

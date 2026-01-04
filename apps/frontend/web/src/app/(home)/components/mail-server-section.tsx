@@ -45,8 +45,8 @@ export function MailServerSection({
 	}, []);
 
 	return (
-		<div className="border-stroke-soft-100/60 border-t">
-			<h4 className="flex items-center gap-2 border-stroke-soft-100/60 border-b px-6 py-4 font-semibold text-sm text-text-strong-950">
+		<div className="border-stroke-soft-200/50 border-t">
+			<h4 className="flex items-center gap-2 border-stroke-soft-200/50 border-b px-6 py-4 font-semibold text-sm text-text-strong-950">
 				<Icon name="server" className="h-4 w-4 text-primary-base" />
 				Mail Server
 			</h4>
@@ -101,7 +101,7 @@ export function MailServerSection({
 						rowRefs.current[2] = el;
 					}}
 					onMouseEnter={() => setHoveredIndex(2)}
-					className="relative flex items-center justify-between border-stroke-soft-100/60 border-b px-6 py-3"
+					className="relative flex items-center justify-between border-stroke-soft-200/50 border-b px-6 py-3"
 				>
 					<span className="flex items-center gap-2 text-sm text-text-sub-600">
 						<Icon name="link" className="h-4 w-4" />

@@ -138,11 +138,11 @@ const Faq = () => {
 			</Script>
 
 			<section
-				className="border-stroke-soft-100/60 border-t border-b"
+				className="border-stroke-soft-200/50 border-t border-b"
 				aria-labelledby="faq-heading"
 			>
-				<div className="mx-auto max-w-7xl border-stroke-soft-100/60 md:border-r md:border-l">
-					<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+				<div className="mx-auto max-w-7xl border-stroke-soft-200/50 md:border-r md:border-l">
+					<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-200/50 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 						<span className="text-text-sub-600 text-xs">[06] FAQ</span>
 						<span className="text-text-sub-600 text-xs">
 							/ EMAIL VERIFICATION QUESTIONS
@@ -152,7 +152,7 @@ const Faq = () => {
 						{faqCategories.map((category, categoryIndex) => (
 							<div key={categoryIndex} className="flex flex-col lg:flex-row">
 								<div
-									className={`w-full border-stroke-soft-100/60 lg:w-3xl lg:border-r ${categoryIndex !== faqCategories.length - 1 ? "border-b" : ""}`}
+									className={`w-full border-stroke-soft-200/50 lg:w-3xl lg:border-r ${categoryIndex !== faqCategories.length - 1 ? "border-b" : ""}`}
 								>
 									<h2
 										className="border-b border-b-stroke-soft-100/60 px-4 py-[18px] font-semibold text-lg text-text-strong-950 sm:px-6 sm:text-xl md:px-10"
@@ -175,7 +175,7 @@ const Faq = () => {
 										const isVeryLastItem = isLastCategory && isLastItem;
 										return (
 											<Accordion.Item
-												className={`rounded-none border-stroke-soft-100/60 ${!isVeryLastItem ? "border-b" : ""} bg-transparent p-0! ring-0 hover:bg-transparent has-[:focus-visible]:bg-transparent data-[state=open]:bg-transparent`}
+												className={`rounded-none border-stroke-soft-200/50 ${!isVeryLastItem ? "border-b" : ""} bg-transparent p-0! ring-0 hover:bg-transparent has-[:focus-visible]:bg-transparent data-[state=open]:bg-transparent`}
 												value={itemValue}
 												key={questionIndex}
 											>

@@ -234,15 +234,15 @@ export const Sdk = () => {
 	const [selectedSdk, setSelectedSdk] = useState<SdkType>(sdks[0] as SdkType);
 
 	return (
-		<div className="border-stroke-soft-100 border-t">
-			<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
-				<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
+		<div className="border-stroke-soft-200/50 border-t">
+			<div className="mx-auto max-w-7xl border-stroke-soft-200/50 border-r border-l">
+				<div className="flex items-center justify-between border-stroke-soft-200/50 border-b px-10 py-4">
 					<span className="text-sm text-text-sub-600">[02] SDK</span>
 					<span className="text-sm text-text-sub-600">/ DEVELOPER TOOLS</span>
 				</div>
-				<div className="flex flex-col border-stroke-soft-100">
+				<div className="flex flex-col border-stroke-soft-200/50">
 					{/* Header Section */}
-					<div className="border-stroke-soft-100 border-b p-10">
+					<div className="border-stroke-soft-200/50 border-b p-10">
 						<h2 className="mb-3 font-semibold text-3xl text-text-strong-950">
 							Email Verification API for Every Language
 						</h2>
@@ -254,9 +254,9 @@ export const Sdk = () => {
 					</div>
 
 					{/* SDK Selection and Code Display */}
-					<div className="flex flex-col border-stroke-soft-100">
+					<div className="flex flex-col border-stroke-soft-200/50">
 						{/* Tabs */}
-						<div className="flex items-center gap-1 border-stroke-soft-100 border-b px-6 py-2">
+						<div className="flex items-center gap-1 border-stroke-soft-200/50 border-b px-6 py-2">
 							{sdks.map((sdk) => (
 								<button
 									key={sdk.id}
@@ -264,7 +264,7 @@ export const Sdk = () => {
 									onClick={() => setSelectedSdk(sdk)}
 									className={`flex items-center gap-2 rounded-t-lg border-b-2 px-4 py-2.5 transition-all ${
 										selectedSdk.id === sdk.id
-											? "border-stroke-soft-200 bg-bg-weak-50"
+											? "border-stroke-soft-200/50 bg-bg-weak-50"
 											: "border-transparent bg-transparent hover:bg-bg-weak-50"
 									}`}
 								>
@@ -307,7 +307,7 @@ export const Sdk = () => {
 							<div className="relative h-full overflow-auto">
 								<div className="flex">
 									{/* Line Numbers */}
-									<div className="sticky left-0 z-10 border-stroke-soft-200 border-r bg-[#252526] px-4 py-4 text-right font-mono text-[#858585] text-xs leading-6">
+									<div className="sticky left-0 z-10 border-stroke-soft-200/50 border-r bg-[#252526] px-4 py-4 text-right font-mono text-[#858585] text-xs leading-6">
 										{selectedSdk.code.split("\n").map((_, index) => (
 											<div key={index} className="select-none">
 												{index + 1}

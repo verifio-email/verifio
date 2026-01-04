@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 export const FraudPrevention = () => {
 	return (
-		<div className="border-stroke-soft-100 border-b">
+		<div className="border-stroke-soft-200/50 border-b">
 			<div className="grid grid-cols-1 lg:grid-cols-2">
 				{/* Left Content Section */}
 				<div className="flex flex-col justify-center space-y-6 p-10 md:p-16 lg:p-20">
@@ -40,7 +40,7 @@ export const FraudPrevention = () => {
 				</div>
 
 				{/* Right Visual Section */}
-				<div className="flex items-center justify-center border-stroke-soft-100 p-8 md:p-12 lg:border-l lg:p-16">
+				<div className="flex items-center justify-center border-stroke-soft-200/50 p-8 md:p-12 lg:border-l lg:p-16">
 					<div className="w-full max-w-sm space-y-4">
 						{/* Header with status */}
 						<div className="flex items-center justify-between">
@@ -143,19 +143,19 @@ export const FraudPrevention = () => {
 							viewport={{ once: true }}
 							className="grid grid-cols-3 gap-3 pt-2"
 						>
-							<div className="rounded-lg border border-stroke-soft-100 bg-bg-white-0 p-3 text-center">
+							<div className="rounded-lg border border-stroke-soft-200/50 bg-bg-white-0 p-3 text-center">
 								<p className="font-semibold text-lg text-text-strong-950">
 									99%
 								</p>
 								<p className="text-text-sub-600 text-xs">Detection</p>
 							</div>
-							<div className="rounded-lg border border-stroke-soft-100 bg-bg-white-0 p-3 text-center">
+							<div className="rounded-lg border border-stroke-soft-200/50 bg-bg-white-0 p-3 text-center">
 								<p className="font-semibold text-lg text-text-strong-950">
 									50k+
 								</p>
 								<p className="text-text-sub-600 text-xs">Domains</p>
 							</div>
-							<div className="rounded-lg border border-stroke-soft-100 bg-bg-white-0 p-3 text-center">
+							<div className="rounded-lg border border-stroke-soft-200/50 bg-bg-white-0 p-3 text-center">
 								<p className="font-semibold text-lg text-text-strong-950">0</p>
 								<p className="text-text-sub-600 text-xs">False +</p>
 							</div>

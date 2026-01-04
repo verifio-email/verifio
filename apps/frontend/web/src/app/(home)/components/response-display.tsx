@@ -113,16 +113,16 @@ export function ResponseDisplay() {
 
 	return (
 		<div className="-mt-[51px] mx-auto max-w-7xl">
-			<div className="border-stroke-soft-100/60 border-r border-l">
-				<div className="mx-auto max-w-4xl border-stroke-soft-100/60 border-r border-l pt-24">
-					<div className="border-stroke-soft-100/60 border-t">
+			<div className="border-stroke-soft-200/50 border-r border-l">
+				<div className="mx-auto max-w-4xl border-stroke-soft-200/50 border-r border-l pt-24">
+					<div className="border-stroke-soft-200/50 border-t">
 						<ResponseHeader email={data.email} score={data.score} />
 						<ScoreVisualization score={data.score} />
-						<div className="border-stroke-soft-100/60 border-t border-b">
+						<div className="border-stroke-soft-200/50 border-t border-b">
 							<div className="relative flex w-fit gap-2 bg-bg-white-0 px-4 py-3">
 								{/* Animated floating background */}
 								<div
-									className={`absolute inset-y-3 rounded-full border border-stroke-soft-200 bg-bg-white-100 transition-all duration-300 ${
+									className={`absolute inset-y-3 rounded-full border border-stroke-soft-200/50 bg-bg-white-100 transition-all duration-300 ${
 										mounted ? "opacity-100" : "opacity-0"
 									}`}
 									style={{
@@ -155,9 +155,9 @@ export function ResponseDisplay() {
 
 						{/* Conditional Rendering Based on View Mode */}
 						{viewMode === "details" ? (
-							<div className="grid grid-cols-2 border-stroke-soft-100/60">
+							<div className="grid grid-cols-2 border-stroke-soft-200/50">
 								{/* Left Column: General and Mail Server */}
-								<div className="border-stroke-soft-100/60 border-r">
+								<div className="border-stroke-soft-200/50 border-r">
 									<GeneralSection
 										state={data.state}
 										reason={data.reason}

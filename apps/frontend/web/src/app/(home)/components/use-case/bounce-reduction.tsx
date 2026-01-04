@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 export const BounceReduction = () => {
 	return (
-		<div className="border-stroke-soft-100 border-b">
+		<div className="border-stroke-soft-200/50 border-b">
 			<div className="grid grid-cols-1 lg:grid-cols-2">
 				{/* Left Content Section */}
 				<div className="flex flex-col justify-center space-y-6 p-10 md:p-16 lg:p-20">
@@ -39,7 +39,7 @@ export const BounceReduction = () => {
 				</div>
 
 				{/* Right Visual Section */}
-				<div className="flex items-center justify-center border-stroke-soft-100 p-8 md:p-12 lg:border-l lg:p-16">
+				<div className="flex items-center justify-center border-stroke-soft-200/50 p-8 md:p-12 lg:border-l lg:p-16">
 					<div className="w-full max-w-sm space-y-6">
 						{/* Header with status */}
 						<div className="flex items-center justify-between">
@@ -60,7 +60,7 @@ export const BounceReduction = () => {
 							whileInView={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.4 }}
 							viewport={{ once: true }}
-							className="rounded-xl border border-stroke-soft-100 bg-bg-white-0 p-5 shadow-sm"
+							className="rounded-xl border border-stroke-soft-200/50 bg-bg-white-0 p-5 shadow-sm"
 						>
 							<div className="flex items-center justify-between">
 								<div className="flex items-center gap-3">
@@ -104,7 +104,7 @@ export const BounceReduction = () => {
 								whileInView={{ opacity: 1, scale: 1 }}
 								transition={{ duration: 0.3, delay: 0.4 }}
 								viewport={{ once: true }}
-								className="flex h-8 w-8 items-center justify-center rounded-full border border-stroke-soft-100 bg-bg-white-0 shadow-sm"
+								className="flex h-8 w-8 items-center justify-center rounded-full border border-stroke-soft-200/50 bg-bg-white-0 shadow-sm"
 							>
 								<Icon name="arrow-down" className="h-4 w-4 text-text-sub-600" />
 							</motion.div>
@@ -161,19 +161,19 @@ export const BounceReduction = () => {
 							viewport={{ once: true }}
 							className="grid grid-cols-3 gap-3"
 						>
-							<div className="rounded-lg border border-stroke-soft-100 bg-bg-white-0 p-3 text-center">
+							<div className="rounded-lg border border-stroke-soft-200/50 bg-bg-white-0 p-3 text-center">
 								<p className="font-semibold text-lg text-text-strong-950">
 									98%
 								</p>
 								<p className="text-text-sub-600 text-xs">Reduction</p>
 							</div>
-							<div className="rounded-lg border border-stroke-soft-100 bg-bg-white-0 p-3 text-center">
+							<div className="rounded-lg border border-stroke-soft-200/50 bg-bg-white-0 p-3 text-center">
 								<p className="font-semibold text-lg text-text-strong-950">
 									&lt;50ms
 								</p>
 								<p className="text-text-sub-600 text-xs">Response</p>
 							</div>
-							<div className="rounded-lg border border-stroke-soft-100 bg-bg-white-0 p-3 text-center">
+							<div className="rounded-lg border border-stroke-soft-200/50 bg-bg-white-0 p-3 text-center">
 								<p className="font-semibold text-lg text-text-strong-950">
 									99.9%
 								</p>

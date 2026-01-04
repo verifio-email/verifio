@@ -6,10 +6,10 @@ import { ResponseDisplay } from "./response-display";
 
 export default function Hero() {
 	return (
-		<div className="border-stroke-soft-100/60 border-r border-b border-l">
+		<div className="border-stroke-soft-200/50 border-r border-b border-l">
 			<div className="mx-auto max-w-7xl">
-				<div className="border-stroke-soft-100/60 border-r border-b border-l">
-					<div className="mx-auto max-w-3xl border-stroke-soft-100/60 border-r border-l pt-20 pb-28">
+				<div className="border-stroke-soft-200/50 border-r border-b border-l">
+					<div className="mx-auto max-w-3xl border-stroke-soft-200/50 border-r border-l pt-20 pb-28">
 						<div className="mx-auto mb-6 flex justify-center">
 							<a
 								href="/dashboard/signup"
