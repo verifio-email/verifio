@@ -297,280 +297,306 @@ export function ResponseDisplay() {
 
 							{/* Details View */}
 							<SegmentedControl.Content value="details">
-								<div className="space-y-0">
-									{/* General Section */}
-									<div className="border-stroke-soft-100/60 border-t px-6 py-4">
-										<h4 className="mb-4 font-semibold text-sm text-text-strong-950">
-											General
-										</h4>
-										<div className="space-y-3">
-											<div className="flex items-center justify-between">
-												<span className="text-sm text-text-sub-600">
-													Full Name
-												</span>
-												<span className="text-sm text-text-sub-600">—</span>
-											</div>
-											<div className="flex items-center justify-between">
-												<span className="text-sm text-text-sub-600">
-													Gender
-												</span>
-												<span className="text-sm text-text-sub-600">—</span>
-											</div>
-											<div className="flex items-center justify-between">
-												<span className="text-sm text-text-sub-600">State</span>
-												<div className="flex items-center gap-2">
-													<Badge.Root
-														variant="light"
-														color={
-															data.state === "deliverable" ? "green" : "red"
-														}
-														size="small"
-													>
-														<Icon
-															name={
-																data.state === "deliverable"
-																	? "check-circle"
-																	: "cross-circle"
-															}
-															className="h-3 w-3"
-														/>
-														{data.state === "deliverable"
-															? "Deliverable"
-															: data.state}
-													</Badge.Root>
-													{data.state !== "deliverable" && (
-														<Badge.Root
-															variant="lighter"
-															color="red"
-															size="small"
-														>
-															0x
-														</Badge.Root>
-													)}
-												</div>
-											</div>
-											<div className="flex items-center justify-between">
-												<span className="text-sm text-text-sub-600">
-													Reason
-												</span>
-												<Badge.Root variant="lighter" color="blue" size="small">
-													{data.reason.toUpperCase().replace(/_/g, " ")}
-												</Badge.Root>
-											</div>
-											<div className="flex items-center justify-between">
-												<span className="text-sm text-text-sub-600">
-													Domain
-												</span>
-												<span className="text-sm font-mono text-primary-base">
-													{data.result.domain}
-												</span>
-											</div>
-											{data.result.analytics.didYouMean && (
-												<div className="flex items-center justify-between">
+								{/* Two-column grid layout */}
+								<div className="grid grid-cols-2 border-stroke-soft-100/60 border-t">
+									{/* Left Column: General and Mail Server */}
+									<div className="border-stroke-soft-100/60 border-r">
+										{/* General Section */}
+										<div className="px-6 py-4">
+											<h4 className="mb-4 font-semibold text-sm text-text-strong-950">
+												General
+											</h4>
+											<div className="divide-y divide-stroke-soft-100/60">
+												<div className="flex items-center justify-between py-3 first:pt-0">
 													<span className="text-sm text-text-sub-600">
-														Did you mean
+														Full Name
+													</span>
+													<span className="text-sm text-text-sub-600">—</span>
+												</div>
+												<div className="flex items-center justify-between py-3 first:pt-0">
+													<span className="text-sm text-text-sub-600">
+														Gender
+													</span>
+													<span className="text-sm text-text-sub-600">—</span>
+												</div>
+												<div className="flex items-center justify-between py-3 first:pt-0">
+													<span className="text-sm text-text-sub-600">
+														State
 													</span>
 													<div className="flex items-center gap-2">
-														<span className="text-sm font-mono text-text-strong-950">
-															{data.result.analytics.didYouMean}
-														</span>
 														<Badge.Root
-															variant="lighter"
-															color="blue"
+															variant="light"
+															color={
+																data.state === "deliverable" ? "green" : "red"
+															}
 															size="small"
 														>
-															0.9x
+															<Icon
+																name={
+																	data.state === "deliverable"
+																		? "check-circle"
+																		: "cross-circle"
+																}
+																className="h-3 w-3"
+															/>
+															{data.state === "deliverable"
+																? "Deliverable"
+																: data.state}
 														</Badge.Root>
+														{data.state !== "deliverable" && (
+															<Badge.Root
+																variant="lighter"
+																color="red"
+																size="small"
+															>
+																0x
+															</Badge.Root>
+														)}
 													</div>
 												</div>
-											)}
+												<div className="flex items-center justify-between py-3 first:pt-0">
+													<span className="text-sm text-text-sub-600">
+														Reason
+													</span>
+													<Badge.Root
+														variant="lighter"
+														color="blue"
+														size="small"
+													>
+														{data.reason.toUpperCase().replace(/_/g, " ")}
+													</Badge.Root>
+												</div>
+												<div className="flex items-center justify-between py-3 first:pt-0">
+													<span className="text-sm text-text-sub-600">
+														Domain
+													</span>
+													<span className="text-sm font-mono text-primary-base">
+														{data.result.domain}
+													</span>
+												</div>
+												{data.result.analytics.didYouMean && (
+													<div className="flex items-center justify-between py-3 first:pt-0">
+														<span className="text-sm text-text-sub-600">
+															Did you mean
+														</span>
+														<div className="flex items-center gap-2">
+															<span className="text-sm font-mono text-text-strong-950">
+																{data.result.analytics.didYouMean}
+															</span>
+															<Badge.Root
+																variant="lighter"
+																color="blue"
+																size="small"
+															>
+																0.9x
+															</Badge.Root>
+														</div>
+													</div>
+												)}
+											</div>
+										</div>
+
+										{/* Mail Server Section */}
+										<div className="border-stroke-soft-100/60 border-t px-6 py-4">
+											<h4 className="mb-4 font-semibold text-sm text-text-strong-950">
+												Mail Server
+											</h4>
+											<div className="divide-y divide-stroke-soft-100/60">
+												<div className="flex items-center justify-between py-3 first:pt-0">
+													<span className="text-sm text-text-sub-600">
+														SMTP Provider
+													</span>
+													<span className="text-sm text-text-sub-600">—</span>
+												</div>
+												<div className="flex items-center justify-between py-3 first:pt-0">
+													<span className="text-sm text-text-sub-600">
+														MX Record
+													</span>
+													<span className="text-sm font-mono text-text-strong-950">
+														{data.result.checks.dns.preferredMx ||
+															data.result.analytics.smtpProvider ||
+															"—"}
+													</span>
+												</div>
+												<div className="flex items-center justify-between py-3 first:pt-0">
+													<span className="text-sm text-text-sub-600">
+														Implicit MX Record
+													</span>
+													<span className="text-sm text-text-sub-600">—</span>
+												</div>
+											</div>
 										</div>
 									</div>
 
-									{/* Attributes Section */}
-									<div className="border-stroke-soft-100/60 border-t px-6 py-4">
-										<h4 className="mb-4 font-semibold text-sm text-text-strong-950">
-											Attributes
-										</h4>
-										<div className="space-y-3">
-											<div className="flex items-center justify-between">
-												<div className="flex items-center gap-2">
-													<Icon
-														name="dollar"
-														className="h-3.5 w-3.5 text-primary-base"
-													/>
-													<span className="text-sm text-text-sub-600">
-														Free
-													</span>
-												</div>
-												<span className="text-sm text-text-strong-950">
-													{data.result.checks.freeProvider.isFree
-														? "Yes"
-														: "No"}
-												</span>
-											</div>
-											<div className="flex items-center justify-between">
-												<div className="flex items-center gap-2">
-													<Icon
-														name="users"
-														className="h-3.5 w-3.5 text-primary-base"
-													/>
-													<span className="text-sm text-text-sub-600">
-														Role
-													</span>
-												</div>
-												<span className="text-sm text-text-strong-950">
-													{data.result.checks.role.isRole ? "Yes" : "No"}
-												</span>
-											</div>
-											<div className="flex items-center justify-between">
-												<div className="flex items-center gap-2">
-													<Icon
-														name="trash"
-														className="h-3.5 w-3.5 text-primary-base"
-													/>
-													<span className="text-sm text-text-sub-600">
-														Disposable
-													</span>
-												</div>
-												<span className="text-sm text-text-strong-950">
-													{data.result.checks.disposable.isDisposable
-														? "Yes"
-														: "No"}
-												</span>
-											</div>
-											<div className="flex items-center justify-between">
-												<div className="flex items-center gap-2">
-													<Icon
-														name="check-circle"
-														className="h-3.5 w-3.5 text-primary-base"
-													/>
-													<span className="text-sm text-text-sub-600">
-														Accept-All
-													</span>
-												</div>
-												<span className="text-sm text-text-strong-950">
-													{data.result.checks.smtp.isCatchAll === null
-														? "No"
-														: data.result.checks.smtp.isCatchAll
+									{/* Right Column: Attributes */}
+									<div>
+										<div className="px-6 py-4">
+											<h4 className="mb-4 font-semibold text-sm text-text-strong-950">
+												Attributes
+											</h4>
+											<div className="divide-y divide-stroke-soft-100/60">
+												<div className="flex items-center justify-between py-3 first:pt-0">
+													<div className="flex items-center gap-2">
+														<Icon
+															name="dollar"
+															className="h-3.5 w-3.5 text-primary-base"
+														/>
+														<span className="text-sm text-text-sub-600">
+															Free
+														</span>
+													</div>
+													<span className="text-sm text-text-strong-950">
+														{data.result.checks.freeProvider.isFree
 															? "Yes"
 															: "No"}
-												</span>
-											</div>
-											<div className="flex items-center justify-between">
-												<div className="flex items-center gap-2">
-													<Icon
-														name="hash"
-														className="h-3.5 w-3.5 text-primary-base"
-													/>
-													<span className="text-sm text-text-sub-600">Tag</span>
-												</div>
-												<span className="text-sm text-text-strong-950">
-													{data.result.tag || "No"}
-												</span>
-											</div>
-											<div className="flex items-center justify-between">
-												<div className="flex items-center gap-2">
-													<Icon
-														name="hash"
-														className="h-3.5 w-3.5 text-primary-base"
-													/>
-													<span className="text-sm text-text-sub-600">
-														Numerical Characters
 													</span>
 												</div>
-												<span className="text-sm text-text-strong-950">0</span>
-											</div>
-											<div className="flex items-center justify-between">
-												<div className="flex items-center gap-2">
-													<Icon
-														name="file-text"
-														className="h-3.5 w-3.5 text-primary-base"
-													/>
-													<span className="text-sm text-text-sub-600">
-														Alphabetical Characters
+												<div className="flex items-center justify-between py-3 first:pt-0">
+													<div className="flex items-center gap-2">
+														<Icon
+															name="users"
+															className="h-3.5 w-3.5 text-primary-base"
+														/>
+														<span className="text-sm text-text-sub-600">
+															Role
+														</span>
+													</div>
+													<span className="text-sm text-text-strong-950">
+														{data.result.checks.role.isRole ? "Yes" : "No"}
 													</span>
 												</div>
-												<span className="text-sm text-text-strong-950">6</span>
-											</div>
-											<div className="flex items-center justify-between">
-												<div className="flex items-center gap-2">
-													<Icon
-														name="globe"
-														className="h-3.5 w-3.5 text-primary-base"
-													/>
-													<span className="text-sm text-text-sub-600">
-														Unicode Symbols
+												<div className="flex items-center justify-between py-3 first:pt-0">
+													<div className="flex items-center gap-2">
+														<Icon
+															name="trash"
+															className="h-3.5 w-3.5 text-primary-base"
+														/>
+														<span className="text-sm text-text-sub-600">
+															Disposable
+														</span>
+													</div>
+													<span className="text-sm text-text-strong-950">
+														{data.result.checks.disposable.isDisposable
+															? "Yes"
+															: "No"}
 													</span>
 												</div>
-												<span className="text-sm text-text-strong-950">0</span>
-											</div>
-											<div className="flex items-center justify-between">
-												<div className="flex items-center gap-2">
-													<Icon
-														name="at-filled"
-														className="h-3.5 w-3.5 text-primary-base"
-													/>
-													<span className="text-sm text-text-sub-600">
-														Mailbox Full
+												<div className="flex items-center justify-between py-3 first:pt-0">
+													<div className="flex items-center gap-2">
+														<Icon
+															name="check-circle"
+															className="h-3.5 w-3.5 text-primary-base"
+														/>
+														<span className="text-sm text-text-sub-600">
+															Accept-All
+														</span>
+													</div>
+													<span className="text-sm text-text-strong-950">
+														{data.result.checks.smtp.isCatchAll === null
+															? "No"
+															: data.result.checks.smtp.isCatchAll
+																? "Yes"
+																: "No"}
 													</span>
 												</div>
-												<span className="text-sm text-text-strong-950">No</span>
-											</div>
-											<div className="flex items-center justify-between">
-												<div className="flex items-center gap-2">
-													<Icon
-														name="cross-circle"
-														className="h-3.5 w-3.5 text-primary-base"
-													/>
-													<span className="text-sm text-text-sub-600">
-														No Reply
+												<div className="flex items-center justify-between py-3 first:pt-0">
+													<div className="flex items-center gap-2">
+														<Icon
+															name="hash"
+															className="h-3.5 w-3.5 text-primary-base"
+														/>
+														<span className="text-sm text-text-sub-600">
+															Tag
+														</span>
+													</div>
+													<span className="text-sm text-text-strong-950">
+														{data.result.tag || "No"}
 													</span>
 												</div>
-												<span className="text-sm text-text-strong-950">No</span>
-											</div>
-											<div className="flex items-center justify-between">
-												<div className="flex items-center gap-2">
-													<Icon
-														name="lock"
-														className="h-3.5 w-3.5 text-primary-base"
-													/>
-													<span className="text-sm text-text-sub-600">
-														Secure Email Gateway
+												<div className="flex items-center justify-between py-3 first:pt-0">
+													<div className="flex items-center gap-2">
+														<Icon
+															name="hash"
+															className="h-3.5 w-3.5 text-primary-base"
+														/>
+														<span className="text-sm text-text-sub-600">
+															Numerical Characters
+														</span>
+													</div>
+													<span className="text-sm text-text-strong-950">
+														0
 													</span>
 												</div>
-												<span className="text-sm text-text-strong-950">No</span>
-											</div>
-										</div>
-									</div>
-
-									{/* Mail Server Section */}
-									<div className="border-stroke-soft-100/60 border-t px-6 py-4">
-										<h4 className="mb-4 font-semibold text-sm text-text-strong-950">
-											Mail Server
-										</h4>
-										<div className="space-y-3">
-											<div className="flex items-center justify-between">
-												<span className="text-sm text-text-sub-600">
-													SMTP Provider
-												</span>
-												<span className="text-sm text-text-sub-600">—</span>
-											</div>
-											<div className="flex items-center justify-between">
-												<span className="text-sm text-text-sub-600">
-													MX Record
-												</span>
-												<span className="text-sm font-mono text-text-strong-950">
-													{data.result.checks.dns.preferredMx ||
-														data.result.analytics.smtpProvider ||
-														"—"}
-												</span>
-											</div>
-											<div className="flex items-center justify-between">
-												<span className="text-sm text-text-sub-600">
-													Implicit MX Record
-												</span>
-												<span className="text-sm text-text-sub-600">—</span>
+												<div className="flex items-center justify-between py-3 first:pt-0">
+													<div className="flex items-center gap-2">
+														<Icon
+															name="file-text"
+															className="h-3.5 w-3.5 text-primary-base"
+														/>
+														<span className="text-sm text-text-sub-600">
+															Alphabetical Characters
+														</span>
+													</div>
+													<span className="text-sm text-text-strong-950">
+														6
+													</span>
+												</div>
+												<div className="flex items-center justify-between py-3 first:pt-0">
+													<div className="flex items-center gap-2">
+														<Icon
+															name="globe"
+															className="h-3.5 w-3.5 text-primary-base"
+														/>
+														<span className="text-sm text-text-sub-600">
+															Unicode Symbols
+														</span>
+													</div>
+													<span className="text-sm text-text-strong-950">
+														0
+													</span>
+												</div>
+												<div className="flex items-center justify-between py-3 first:pt-0">
+													<div className="flex items-center gap-2">
+														<Icon
+															name="at-filled"
+															className="h-3.5 w-3.5 text-primary-base"
+														/>
+														<span className="text-sm text-text-sub-600">
+															Mailbox Full
+														</span>
+													</div>
+													<span className="text-sm text-text-strong-950">
+														No
+													</span>
+												</div>
+												<div className="flex items-center justify-between py-3 first:pt-0">
+													<div className="flex items-center gap-2">
+														<Icon
+															name="cross-circle"
+															className="h-3.5 w-3.5 text-primary-base"
+														/>
+														<span className="text-sm text-text-sub-600">
+															No Reply
+														</span>
+													</div>
+													<span className="text-sm text-text-strong-950">
+														No
+													</span>
+												</div>
+												<div className="flex items-center justify-between py-3 first:pt-0">
+													<div className="flex items-center gap-2">
+														<Icon
+															name="lock"
+															className="h-3.5 w-3.5 text-primary-base"
+														/>
+														<span className="text-sm text-text-sub-600">
+															Secure Email Gateway
+														</span>
+													</div>
+													<span className="text-sm text-text-strong-950">
+														No
+													</span>
+												</div>
 											</div>
 										</div>
 									</div>
