@@ -79,7 +79,7 @@ export function AttributesSection({
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
-						<Icon name="dollar" className="h-3.5 w-3.5 text-primary-base" />
+						<Icon name="dollar" className="h-3.5 w-3.5" />
 						<span className="text-sm text-text-sub-600">Free</span>
 					</div>
 					<span className="text-sm text-text-strong-950">
@@ -94,7 +94,7 @@ export function AttributesSection({
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
-						<Icon name="users" className="h-3.5 w-3.5 text-primary-base" />
+						<Icon name="users" className="h-3.5 w-3.5" />
 						<span className="text-sm text-text-sub-600">Role</span>
 					</div>
 					<span className="text-sm text-text-strong-950">
@@ -109,7 +109,7 @@ export function AttributesSection({
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
-						<Icon name="trash" className="h-3.5 w-3.5 text-primary-base" />
+						<Icon name="trash" className="h-3.5 w-3.5" />
 						<span className="text-sm text-text-sub-600">Disposable</span>
 					</div>
 					<span className="text-sm text-text-strong-950">
@@ -124,10 +124,7 @@ export function AttributesSection({
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
-						<Icon
-							name="check-circle"
-							className="h-3.5 w-3.5 text-primary-base"
-						/>
+						<Icon name="check-circle" className="h-3.5 w-3.5" />
 						<span className="text-sm text-text-sub-600">Accept-All</span>
 					</div>
 					<span className="text-sm text-text-strong-950">
@@ -142,7 +139,7 @@ export function AttributesSection({
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
-						<Icon name="hash" className="h-3.5 w-3.5 text-primary-base" />
+						<Icon name="hash" className="h-3.5 w-3.5" />
 						<span className="text-sm text-text-sub-600">Tag</span>
 					</div>
 					<span className="text-sm text-text-strong-950">{tag || "No"}</span>
@@ -155,7 +152,7 @@ export function AttributesSection({
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
-						<Icon name="hash" className="h-3.5 w-3.5 text-primary-base" />
+						<Icon name="hash" className="h-3.5 w-3.5" />
 						<span className="text-sm text-text-sub-600">
 							Numerical Characters
 						</span>
@@ -170,7 +167,7 @@ export function AttributesSection({
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
-						<Icon name="file-text" className="h-3.5 w-3.5 text-primary-base" />
+						<Icon name="file-text" className="h-3.5 w-3.5" />
 						<span className="text-sm text-text-sub-600">
 							Alphabetical Characters
 						</span>
@@ -185,7 +182,7 @@ export function AttributesSection({
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
-						<Icon name="globe" className="h-3.5 w-3.5 text-primary-base" />
+						<Icon name="emoji-wow" className="h-3.5 w-3.5" />
 						<span className="text-sm text-text-sub-600">Unicode Symbols</span>
 					</div>
 					<span className="text-sm text-text-strong-950">0</span>
@@ -198,7 +195,7 @@ export function AttributesSection({
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
-						<Icon name="at-filled" className="h-3.5 w-3.5 text-primary-base" />
+						<Icon name="server-2" className="h-3.5 w-3.5" />
 						<span className="text-sm text-text-sub-600">Mailbox Full</span>
 					</div>
 					<span className="text-sm text-text-strong-950">No</span>
@@ -211,10 +208,7 @@ export function AttributesSection({
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
-						<Icon
-							name="cross-circle"
-							className="h-3.5 w-3.5 text-primary-base"
-						/>
+						<Icon name="cross-circle" className="h-3.5 w-3.5" />
 						<span className="text-sm text-text-sub-600">No Reply</span>
 					</div>
 					<span className="text-sm text-text-strong-950">No</span>
@@ -227,7 +221,7 @@ export function AttributesSection({
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
-						<Icon name="lock" className="h-3.5 w-3.5 text-primary-base" />
+						<Icon name="lock" className="h-3.5 w-3.5" />
 						<span className="text-sm text-text-sub-600">
 							Secure Email Gateway
 						</span>

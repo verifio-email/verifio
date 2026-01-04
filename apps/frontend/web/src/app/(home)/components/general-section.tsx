@@ -146,7 +146,14 @@ export function GeneralSection({
 						<Icon name="globe" className="h-4 w-4" />
 						Domain
 					</span>
-					<span className="font-mono text-primary-base text-sm">{domain}</span>
+					<a
+						href={`https://${domain}`}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="text-sm underline transition-colors hover:text-primary-base hover:decoration-primary-base"
+					>
+						{domain}
+					</a>
 				</div>
 				{didYouMean && (
 					<div

@@ -124,6 +124,25 @@ export const IconsSprite = () => (
 					strokeLinecap="round"
 				/>
 			</symbol>
+			<symbol
+				id="server-2"
+				viewBox="0 0 24 24"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path
+					opacity="0.12"
+					d="M12 22C16.9706 22 21 20.6569 21 19V5C21 5 20.5 8 12 8C3.5 8 3 5 3 5V19C3 20.6569 7.02944 22 12 22Z"
+					fill="currentColor"
+				/>
+				<path
+					d="M21 12C21 13.6569 16.9706 15 12 15C7.02944 15 3 13.6569 3 12M21 5C21 6.65685 16.9706 8 12 8C7.02944 8 3 6.65685 3 5M21 5C21 3.34315 16.9706 2 12 2C7.02944 2 3 3.34315 3 5M21 5V19C21 20.6569 16.9706 22 12 22C7.02944 22 3 20.6569 3 19V5"
+					stroke="currentColor"
+					stroke-width="1.5"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+			</symbol>
 
 			<symbol
 				id="hourglass"
@@ -607,6 +626,23 @@ export const IconsSprite = () => (
 					strokeLinejoin="round"
 				/>
 			</symbol>
+			<symbol id="emoji-wow" viewBox="0 0 24 24" fill="none">
+				<path
+					opacity="0.12"
+					fillRule="evenodd"
+					clipRule="evenodd"
+					d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM12 12C10.8954 12 10 12.8954 10 14V16C10 17.1046 10.8954 18 12 18C13.1046 18 14 17.1046 14 16V14C14 12.8954 13.1046 12 12 12Z"
+					fill="currentColor"
+				/>
+				<path
+					d="M9.5 9C9.5 9.27614 9.27614 9.5 9 9.5C8.72386 9.5 8.5 9.27614 8.5 9M9.5 9C9.5 8.72386 9.27614 8.5 9 8.5C8.72386 8.5 8.5 8.72386 8.5 9M9.5 9H8.5M15.5 9C15.5 9.27614 15.2761 9.5 15 9.5C14.7239 9.5 14.5 9.27614 14.5 9M15.5 9C15.5 8.72386 15.2761 8.5 15 8.5C14.7239 8.5 14.5 8.72386 14.5 9M15.5 9H14.5M12 18C10.8954 18 10 17.1046 10 16V14C10 12.8954 10.8954 12 12 12C13.1046 12 14 12.8954 14 14V16C14 17.1046 13.1046 18 12 18ZM12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22Z"
+					stroke="currentColor"
+					strokeWidth="1.5"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+				/>
+			</symbol>
+
 			<symbol
 				id="cross"
 				viewBox="0 0 24 24"
