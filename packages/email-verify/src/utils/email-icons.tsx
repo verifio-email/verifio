@@ -1,6 +1,6 @@
 import type { SVGProps } from "react";
 
-const gmail = (props: SVGProps<SVGSVGElement>) => {
+const gmail = (props: SVGProps<SVGSVGElement>) => (
 	<svg {...props} viewBox="0 49.4 512 399.42">
 		<g fill="none" fillRule="evenodd">
 			<g fillRule="nonzero">
@@ -27,10 +27,10 @@ const gmail = (props: SVGProps<SVGSVGElement>) => {
 				d="M0 117.182v46.545L116.364 251V99.727L83.782 75.291C49.25 49.4 0 74.04 0 117.18z"
 			/>
 		</g>
-	</svg>;
-};
+	</svg>
+);
 
-const outlook = (props: SVGProps<SVGSVGElement>) => {
+const outlook = (props: SVGProps<SVGSVGElement>) => (
 	<svg {...props} viewBox="60 90.4 570.02 539.67">
 		<defs>
 			<linearGradient
@@ -336,10 +336,10 @@ const outlook = (props: SVGProps<SVGSVGElement>) => {
 				fillOpacity: 1,
 			}}
 		/>
-	</svg>;
-};
+	</svg>
+);
 
-const protonMail = (props: SVGProps<SVGSVGElement>) => {
+const protonMail = (props: SVGProps<SVGSVGElement>) => (
 	<svg {...props} fill="none" viewBox="0 0 918 745">
 		<g clipPath="url(#protonmail__a)">
 			<path
@@ -397,16 +397,16 @@ const protonMail = (props: SVGProps<SVGSVGElement>) => {
 				<path fill="#fff" d="M0 0h918v745H0z" />
 			</clipPath>
 		</defs>
-	</svg>;
-};
+	</svg>
+);
 
-const apple = (props: SVGProps<SVGSVGElement>) => {
+const apple = (props: SVGProps<SVGSVGElement>) => (
 	<svg {...props} xmlSpace="preserve" viewBox="0 0 814 1000">
 		<path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76.5 0-103.7 40.8-165.9 40.8s-105.6-57-155.5-127C46.7 790.7 0 663 0 541.8c0-194.4 126.4-297.5 250.8-297.5 66.1 0 121.2 43.4 162.7 43.4 39.5 0 101.1-46 176.3-46 28.5 0 130.9 2.6 198.3 99.2zm-234-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z" />
-	</svg>;
-};
+	</svg>
+);
 
-const adobe = (props: SVGProps<SVGSVGElement>) => {
+const adobe = (props: SVGProps<SVGSVGElement>) => (
 	<svg {...props} viewBox="0 0 91 80" fill="none">
 		<g clipPath="url(#adobe__clip0_906_1839)">
 			<path d="M56.9686 0H90.4318V80L56.9686 0Z" fill="#EB1000" />
@@ -421,10 +421,10 @@ const adobe = (props: SVGProps<SVGSVGElement>) => {
 				<rect width="90.4318" height={80} fill="white" />
 			</clipPath>
 		</defs>
-	</svg>;
-};
+	</svg>
+);
 
-const yahoo = (props: SVGProps<SVGSVGElement>) => {
+const yahoo = (props: SVGProps<SVGSVGElement>) => (
 	<svg
 		{...props}
 		xmlns="http://www.w3.org/2000/svg"
@@ -440,17 +440,17 @@ const yahoo = (props: SVGProps<SVGSVGElement>) => {
 			fill="currentColor"
 			fillRule="nonzero"
 		/>
-	</svg>;
-};
+	</svg>
+);
 
-const AOL = (props: SVGProps<SVGSVGElement>) => {
+const AOL = (props: SVGProps<SVGSVGElement>) => (
 	<svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 48.6">
 		<title>aol</title>
 		<path d="M66.92,10.65c12.93,0,19.14,10.23,19.14,19s-6.21,19-19.14,19-19.15-10.22-19.15-19,6.21-19,19.15-19Zm0,28a8.68,8.68,0,0,0,8.51-9,8.53,8.53,0,1,0-17,0,8.69,8.69,0,0,0,8.52,9ZM92.07,0h10.78V47.61H92.07V0Zm23.65,33.62a7.16,7.16,0,1,0,7.16,7.16,7.17,7.17,0,0,0-7.16-7.16ZM28.34,0H18.75L0,47.61H12.71l2.51-6.88H31.75l2.32,6.88H46.9L28.34,0ZM18.56,31.07l5-16.6,5,16.6Z" />
-	</svg>;
-};
+	</svg>
+);
 
-const zoho = (props: SVGProps<SVGSVGElement>) => {
+const zoho = (props: SVGProps<SVGSVGElement>) => (
 	<svg
 		{...props}
 		viewBox="0 0 1024 1024"
@@ -499,10 +499,10 @@ const zoho = (props: SVGProps<SVGSVGElement>) => {
 				</g>{" "}
 			</g>{" "}
 		</g>
-	</svg>;
-};
+	</svg>
+);
 
-const GMX = (props: SVGProps<SVGSVGElement>) => {
+const GMX = (props: SVGProps<SVGSVGElement>) => (
 	<>
 		{/*?xml version="1.0" ?*/}
 		<svg
@@ -542,10 +542,10 @@ const GMX = (props: SVGProps<SVGSVGElement>) => {
 				/>
 			</g>
 		</svg>
-	</>;
-};
+	</>
+);
 
-const yandex = (props: SVGProps<SVGSVGElement>) => {
+const yandex = (props: SVGProps<SVGSVGElement>) => (
 	<svg
 		{...props}
 		viewBox="0 0 512 512"
@@ -565,10 +565,10 @@ const yandex = (props: SVGProps<SVGSVGElement>) => {
 			fill="#fff"
 			fillRule="nonzero"
 		/>
-	</svg>;
-};
+	</svg>
+);
 
-const mailru = (props: SVGProps<SVGSVGElement>) => {
+const mailru = (props: SVGProps<SVGSVGElement>) => (
 	<svg
 		{...props}
 		fill="#000000"
@@ -585,10 +585,10 @@ const mailru = (props: SVGProps<SVGSVGElement>) => {
 			{" "}
 			<path d="M15.448 7.021c2.443 0 4.745 1.083 6.432 2.776v0.005c0-0.813 0.547-1.428 1.303-1.428h0.192c1.193 0 1.432 1.125 1.432 1.48l0.005 12.635c-0.083 0.828 0.855 1.256 1.376 0.724 2.025-2.083 4.452-10.719-1.261-15.719-5.328-4.667-12.479-3.896-16.281-1.276-4.041 2.792-6.624 8.959-4.115 14.755 2.74 6.319 10.573 8.204 15.235 6.324 2.36-0.953 3.448 2.233 0.995 3.276-3.697 1.577-14 1.416-18.812-6.917-3.251-5.629-3.079-15.531 5.547-20.661 6.593-3.927 15.292-2.839 20.536 2.636 5.48 5.729 5.163 16.448-0.187 20.615-2.423 1.895-6.021 0.052-5.995-2.709l-0.027-0.9c-1.687 1.671-3.932 2.651-6.375 2.651-4.833 0-9.088-4.256-9.088-9.084 0-4.88 4.255-9.181 9.088-9.181zM21.527 15.855c-0.183-3.537-2.808-5.667-5.98-5.667h-0.12c-3.656 0-5.687 2.88-5.687 6.145 0 3.661 2.453 5.973 5.672 5.973 3.593 0 5.952-2.629 6.124-5.739z" />{" "}
 		</g>
-	</svg>;
-};
+	</svg>
+);
 
-const tutanota = (props: SVGProps<SVGSVGElement>) => {
+const tutanota = (props: SVGProps<SVGSVGElement>) => (
 	<svg
 		{...props}
 		viewBox="0 0 48 48"
@@ -606,10 +606,10 @@ const tutanota = (props: SVGProps<SVGSVGElement>) => {
 		<g id="SVGRepo_iconCarrier">
 			<path d="M7.5,5.5a2,2,0,0,0-2,2V40.68a1,1,0,0,0,1.28,1c8-2.34,20.44-5.85,23.38-10.15,1.57-3-8.56-5.07-8.14-8.21s6.46-4.3,9-4.83a8,8,0,0,1,2.92,0s-8.35,2.6-8.13,4.4,9.77,2.32,14.89,4.74l1.13.56a.49.49,0,0,0,.72-.44V7.5a2,2,0,0,0-2-2Z" />
 		</g>
-	</svg>;
-};
+	</svg>
+);
 
-const fastMail = (props: SVGProps<SVGSVGElement>) => {
+const fastMail = (props: SVGProps<SVGSVGElement>) => (
 	<svg
 		{...props}
 		viewBox="0 0 1024 1024"
@@ -641,10 +641,10 @@ const fastMail = (props: SVGProps<SVGSVGElement>) => {
 				/>{" "}
 			</g>{" "}
 		</g>
-	</svg>;
-};
+	</svg>
+);
 
-const QQ = (props: SVGProps<SVGSVGElement>) => {
+const QQ = (props: SVGProps<SVGSVGElement>) => (
 	<svg
 		{...props}
 		viewBox="0 0 24 24"
@@ -668,10 +668,10 @@ const QQ = (props: SVGProps<SVGSVGElement>) => {
 				/>{" "}
 			</g>{" "}
 		</g>
-	</svg>;
-};
+	</svg>
+);
 
-const naver = (props: SVGProps<SVGSVGElement>) => {
+const naver = (props: SVGProps<SVGSVGElement>) => (
 	<svg
 		{...props}
 		viewBox="0 0 512 512"
@@ -691,10 +691,10 @@ const naver = (props: SVGProps<SVGSVGElement>) => {
 				d="M9 32V480H181.366V255.862L331.358 480H504V32H331.358V255.862L181.366 32H9Z"
 			/>
 		</g>
-	</svg>;
-};
+	</svg>
+);
 
-const orange = (props: SVGProps<SVGSVGElement>) => {
+const orange = (props: SVGProps<SVGSVGElement>) => (
 	<svg
 		{...props}
 		xmlns="http://www.w3.org/2000/svg"
@@ -769,10 +769,10 @@ const orange = (props: SVGProps<SVGSVGElement>) => {
 				strokeLinecap="round"
 			/>
 		</g>
-	</svg>;
-};
+	</svg>
+);
 
-const rediffmail = (props: SVGProps<SVGSVGElement>) => {
+const rediffmail = (props: SVGProps<SVGSVGElement>) => (
 	<svg
 		{...props}
 		xmlns="http://www.w3.org/2000/svg"
@@ -799,10 +799,10 @@ const rediffmail = (props: SVGProps<SVGSVGElement>) => {
 			fill="none"
 			d="M23.1 24.92a4.566 4.566 0 0 1 4.552-4.553h0m-4.549 10.091V20.365"
 		/>
-	</svg>;
-};
+	</svg>
+);
 
-const UOL = (props: SVGProps<SVGSVGElement>) => {
+const UOL = (props: SVGProps<SVGSVGElement>) => (
 	<>
 		{/*?xml version="1.0" ?*/}
 		<svg
@@ -989,10 +989,10 @@ const UOL = (props: SVGProps<SVGSVGElement>) => {
 				/>
 			</g>
 		</svg>
-	</>;
-};
+	</>
+);
 
-const ATandT = (props: SVGProps<SVGSVGElement>) => {
+const ATandT = (props: SVGProps<SVGSVGElement>) => (
 	<svg
 		{...props}
 		xmlns="http://www.w3.org/2000/svg"
@@ -1005,10 +1005,10 @@ const ATandT = (props: SVGProps<SVGSVGElement>) => {
 			d="M16.57 4.513a21.17 21.17 0 0 0 12.994 4.452c5.354 0 10.235-1.988 13.96-5.25.045-.04.023-.066-.022-.04-1.672 1.116-6.436 3.553-13.938 3.553-6.52 0-10.64-1.455-12.967-2.753-.045-.022-.06.01-.028.04m14.433 1.083c5.215 0 10.945-1.422 14.372-4.235.938-.767 1.83-1.787 2.63-3.158a20.32 20.32 0 0 0 1.278-2.648c.016-.045-.01-.067-.045-.016C46.05.24 36.82 3.156 27.3 3.156c-6.736 0-13.983-2.154-16.82-6.267-.028-.038-.056-.022-.04.022C13.074 2.53 21.093 5.598 31 5.598m-5.698-9.32c-10.846 0-15.96-5.05-16.887-8.498-.01-.05-.044-.04-.044.006 0 1.16.116 2.658.316 3.652.095.484.5 1.243 1.066 1.85 2.63 2.732 9.176 6.57 20.516 6.57 15.45 0 18.982-5.146 19.703-6.84.516-1.2.783-3.398.783-5.235a22.91 22.91 0 0 0-.028-1.148c0-.057-.033-.06-.044-.006-.772 4.14-13.972 9.647-25.378 9.647m-14.9-17.58a21.7 21.7 0 0 0-1.515 4.39c-.1.46-.052.683.1 1.027 1.3 2.758 7.875 7.17 23.212 7.17 9.357 0 16.626-2.3 17.803-6.494.217-.772.228-1.588-.05-2.686-.3-1.228-.894-2.66-1.388-3.665-.016-.033-.045-.028-.04.01.183 5.502-15.16 9.048-22.902 9.048-8.386 0-15.38-3.34-15.38-7.56 0-.405.084-.8.2-1.233.01-.04-.022-.045-.04-.01M43.56-28.06a.85.85 0 0 1 .133.49c0 2.354-7.203 6.517-18.67 6.517-8.425 0-10.002-3.125-10.002-5.113 0-.7.272-1.437.873-2.176.033-.044.005-.06-.033-.028a21.15 21.15 0 0 0-2.982 3.098c-.422.533-.683 1.005-.683 1.288 0 4.12 10.328 7.106 19.986 7.106 10.3 0 14.882-3.36 14.882-6.3 0-1.055-.4-1.67-1.46-2.865-.682-.777-1.327-1.4-2-2.032-.033-.027-.056-.005-.033.028M40.416-30.4c-3.176-1.904-6.864-2.987-10.84-2.987-4.004 0-7.802 1.12-11 3.075-.956.588-1.494 1.06-1.494 1.666 0 1.787 4.176 3.708 11.583 3.708 7.33 0 13.017-2.104 13.017-4.13 0-.483-.423-.822-1.278-1.332"
 			fill="#00a8e0"
 		/>
-	</svg>;
-};
+	</svg>
+);
 
-const comcast = (props: SVGProps<SVGSVGElement>) => {
+const comcast = (props: SVGProps<SVGSVGElement>) => (
 	<svg
 		{...props}
 		xmlns="http://www.w3.org/2000/svg"
@@ -1040,10 +1040,10 @@ const comcast = (props: SVGProps<SVGSVGElement>) => {
 			d="M-92.006 353.38h21.772l-17.954-12.508c-4.15-2.66-8.8-1.105-10.494 3.307-1.426 5.053 2.14 9.202 6.675 9.202"
 			fill="#fcb711"
 		/>
-	</svg>;
-};
+	</svg>
+);
 
-const verizon = (props: SVGProps<SVGSVGElement>) => {
+const verizon = (props: SVGProps<SVGSVGElement>) => (
 	<svg
 		{...props}
 		role="img"
@@ -1052,8 +1052,8 @@ const verizon = (props: SVGProps<SVGSVGElement>) => {
 	>
 		<title>Verizon</title>
 		<path d="M18.302 0H22v.003L10.674 24H7.662L2 12h3.727l3.449 7.337z" />
-	</svg>;
-};
+	</svg>
+);
 
 export {
 	gmail,

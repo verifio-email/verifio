@@ -4,6 +4,7 @@ import { PageSizeDropdown } from "@fe/dashboard/components/page-size-dropdown";
 import { PaginationControls } from "@fe/dashboard/components/pagination-controls";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
 import { useSidebar } from "@fe/dashboard/providers/sidebar-provider";
+import { getProviderIcon } from "@fe/dashboard/utils/email-provider-icon";
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
 import * as Input from "@verifio/ui/input";
@@ -1375,23 +1376,31 @@ const PlaygroundPage = () => {
 											className="flex w-full items-center justify-between border-stroke-soft-200/50 border-b px-6 py-4 text-left transition-colors last:border-b-0 hover:bg-bg-weak-50"
 										>
 											<div className="flex items-center gap-3">
-												<Icon
-													name={
-														run.result.state === "deliverable"
-															? "check-circle"
-															: run.result.state === "risky"
-																? "alert-triangle"
-																: "x-circle"
+												{(() => {
+													const ProviderIcon = getProviderIcon(run.email);
+													if (ProviderIcon) {
+														return <ProviderIcon className="h-5 w-5" />;
 													}
-													className={cn(
-														"h-5 w-5",
-														run.result.state === "deliverable"
-															? "text-success-base"
-															: run.result.state === "risky"
-																? "text-warning-base"
-																: "text-error-base",
-													)}
-												/>
+													return (
+														<Icon
+															name={
+																run.result.state === "deliverable"
+																	? "check-circle"
+																	: run.result.state === "risky"
+																		? "alert-triangle"
+																		: "x-circle"
+															}
+															className={cn(
+																"h-5 w-5",
+																run.result.state === "deliverable"
+																	? "text-success-base"
+																	: run.result.state === "risky"
+																		? "text-warning-base"
+																		: "text-error-base",
+															)}
+														/>
+													);
+												})()}
 												<span className="font-mono text-sm text-text-strong-950">
 													{run.email}
 												</span>
@@ -1418,9 +1427,11 @@ const PlaygroundPage = () => {
 												>
 													{run.result.state}
 												</span>
-												<span className="text-sm text-text-soft-400">
-													{run.result.duration}ms
-												</span>
+												{run.result.duration && (
+													<span className="text-sm text-text-soft-400">
+														{run.result.duration}ms
+													</span>
+												)}
 											</div>
 										</button>
 									))
