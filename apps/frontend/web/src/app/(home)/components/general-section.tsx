@@ -16,19 +16,19 @@ export function GeneralSection({
 }: GeneralSectionProps) {
 	return (
 		<div>
-			<h4 className="mb-4 px-6 py-4 font-semibold text-sm text-text-strong-950">
+			<h4 className=" border-stroke-soft-100/60 border-b px-6 py-4 font-semibold text-sm text-text-strong-950">
 				General
 			</h4>
 			<div className="divide-y divide-stroke-soft-100/60">
-				<div className="flex items-center justify-between py-3 first:pt-0">
+				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
 					<span className="text-sm text-text-sub-600">Full Name</span>
 					<span className="text-sm text-text-sub-600">—</span>
 				</div>
-				<div className="flex items-center justify-between py-3 first:pt-0">
+				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
 					<span className="text-sm text-text-sub-600">Gender</span>
 					<span className="text-sm text-text-sub-600">—</span>
 				</div>
-				<div className="flex items-center justify-between py-3 first:pt-0">
+				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
 					<span className="text-sm text-text-sub-600">State</span>
 					<div className="flex items-center gap-2">
 						<Badge.Root
@@ -49,18 +49,18 @@ export function GeneralSection({
 						)}
 					</div>
 				</div>
-				<div className="flex items-center justify-between py-3 first:pt-0">
+				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
 					<span className="text-sm text-text-sub-600">Reason</span>
 					<Badge.Root variant="lighter" color="blue" size="small">
 						{reason.toUpperCase().replace(/_/g, " ")}
 					</Badge.Root>
 				</div>
-				<div className="flex items-center justify-between py-3 first:pt-0">
+				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
 					<span className="text-sm text-text-sub-600">Domain</span>
 					<span className="text-sm font-mono text-primary-base">{domain}</span>
 				</div>
 				{didYouMean && (
-					<div className="flex items-center justify-between py-3 first:pt-0">
+					<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
 						<span className="text-sm text-text-sub-600">Did you mean</span>
 						<div className="flex items-center gap-2">
 							<span className="text-sm font-mono text-text-strong-950">
