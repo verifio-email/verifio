@@ -22,7 +22,7 @@ export function AttributesSection({
 				Attributes
 			</h4>
 			<div className="divide-y divide-stroke-soft-100/60">
-				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
+				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-soft-200/50">
 					<div className="flex items-center gap-2">
 						<Icon name="dollar" className="h-3.5 w-3.5 text-primary-base" />
 						<span className="text-sm text-text-sub-600">Free</span>
@@ -31,7 +31,7 @@ export function AttributesSection({
 						{isFree ? "Yes" : "No"}
 					</span>
 				</div>
-				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
+				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-soft-200/50">
 					<div className="flex items-center gap-2">
 						<Icon name="users" className="h-3.5 w-3.5 text-primary-base" />
 						<span className="text-sm text-text-sub-600">Role</span>
@@ -40,7 +40,7 @@ export function AttributesSection({
 						{isRole ? "Yes" : "No"}
 					</span>
 				</div>
-				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
+				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-soft-200/50">
 					<div className="flex items-center gap-2">
 						<Icon name="trash" className="h-3.5 w-3.5 text-primary-base" />
 						<span className="text-sm text-text-sub-600">Disposable</span>
@@ -49,7 +49,7 @@ export function AttributesSection({
 						{isDisposable ? "Yes" : "No"}
 					</span>
 				</div>
-				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
+				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-soft-200/50">
 					<div className="flex items-center gap-2">
 						<Icon
 							name="check-circle"
@@ -61,14 +61,14 @@ export function AttributesSection({
 						{isCatchAll === null ? "No" : isCatchAll ? "Yes" : "No"}
 					</span>
 				</div>
-				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
+				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-soft-200/50">
 					<div className="flex items-center gap-2">
 						<Icon name="hash" className="h-3.5 w-3.5 text-primary-base" />
 						<span className="text-sm text-text-sub-600">Tag</span>
 					</div>
 					<span className="text-sm text-text-strong-950">{tag || "No"}</span>
 				</div>
-				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
+				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-soft-200/50">
 					<div className="flex items-center gap-2">
 						<Icon name="hash" className="h-3.5 w-3.5 text-primary-base" />
 						<span className="text-sm text-text-sub-600">
@@ -77,7 +77,7 @@ export function AttributesSection({
 					</div>
 					<span className="text-sm text-text-strong-950">0</span>
 				</div>
-				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
+				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-soft-200/50">
 					<div className="flex items-center gap-2">
 						<Icon name="file-text" className="h-3.5 w-3.5 text-primary-base" />
 						<span className="text-sm text-text-sub-600">
@@ -86,21 +86,21 @@ export function AttributesSection({
 					</div>
 					<span className="text-sm text-text-strong-950">6</span>
 				</div>
-				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
+				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-soft-200/50">
 					<div className="flex items-center gap-2">
 						<Icon name="globe" className="h-3.5 w-3.5 text-primary-base" />
 						<span className="text-sm text-text-sub-600">Unicode Symbols</span>
 					</div>
 					<span className="text-sm text-text-strong-950">0</span>
 				</div>
-				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
+				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-soft-200/50">
 					<div className="flex items-center gap-2">
 						<Icon name="at-filled" className="h-3.5 w-3.5 text-primary-base" />
 						<span className="text-sm text-text-sub-600">Mailbox Full</span>
 					</div>
 					<span className="text-sm text-text-strong-950">No</span>
 				</div>
-				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
+				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-soft-200/50">
 					<div className="flex items-center gap-2">
 						<Icon
 							name="cross-circle"
@@ -110,7 +110,7 @@ export function AttributesSection({
 					</div>
 					<span className="text-sm text-text-strong-950">No</span>
 				</div>
-				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
+				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-soft-200/50">
 					<div className="flex items-center gap-2">
 						<Icon name="lock" className="h-3.5 w-3.5 text-primary-base" />
 						<span className="text-sm text-text-sub-600">

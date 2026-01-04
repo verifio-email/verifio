@@ -21,15 +21,15 @@ export function GeneralSection({
 				General
 			</h4>
 			<div className="divide-y divide-stroke-soft-100/60">
-				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
+				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-soft-200/50">
 					<span className="text-sm text-text-sub-600">Full Name</span>
 					<span className="text-sm text-text-sub-600">—</span>
 				</div>
-				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
+				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-soft-200/50">
 					<span className="text-sm text-text-sub-600">Gender</span>
 					<span className="text-sm text-text-sub-600">—</span>
 				</div>
-				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
+				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-soft-200/50">
 					<span className="text-sm text-text-sub-600">State</span>
 					<div className="flex items-center gap-2">
 						<Badge.Root
@@ -50,21 +50,21 @@ export function GeneralSection({
 						)}
 					</div>
 				</div>
-				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
+				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-soft-200/50">
 					<span className="text-sm text-text-sub-600">Reason</span>
 					<Badge.Root variant="lighter" color="blue" size="small">
 						{reason.toUpperCase().replace(/_/g, " ")}
 					</Badge.Root>
 				</div>
-				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
+				<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-soft-200/50">
 					<span className="text-sm text-text-sub-600">Domain</span>
-					<span className="text-sm font-mono text-primary-base">{domain}</span>
+					<span className="font-mono text-primary-base text-sm">{domain}</span>
 				</div>
 				{didYouMean && (
-					<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-white-200">
+					<div className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-bg-soft-200/50">
 						<span className="text-sm text-text-sub-600">Did you mean</span>
 						<div className="flex items-center gap-2">
-							<span className="text-sm font-mono text-text-strong-950">
+							<span className="font-mono text-sm text-text-strong-950">
 								{didYouMean}
 							</span>
 							<Badge.Root variant="lighter" color="blue" size="small">
