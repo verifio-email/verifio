@@ -77,7 +77,10 @@ export function GeneralSection({
 					onMouseEnter={() => setHoveredIndex(0)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
-					<span className="text-sm text-text-sub-600">Full Name</span>
+					<span className="flex items-center gap-2 text-sm text-text-sub-600">
+						<Icon name="user" className="h-4 w-4" />
+						Full Name
+					</span>
 					<span className="text-sm text-text-sub-600">—</span>
 				</div>
 				<div
@@ -87,7 +90,10 @@ export function GeneralSection({
 					onMouseEnter={() => setHoveredIndex(1)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
-					<span className="text-sm text-text-sub-600">Gender</span>
+					<span className="flex items-center gap-2 text-sm text-text-sub-600">
+						<Icon name="users" className="h-4 w-4" />
+						Gender
+					</span>
 					<span className="text-sm text-text-sub-600">—</span>
 				</div>
 				<div
@@ -97,7 +103,10 @@ export function GeneralSection({
 					onMouseEnter={() => setHoveredIndex(2)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
-					<span className="text-sm text-text-sub-600">State</span>
+					<span className="flex items-center gap-2 text-sm text-text-sub-600">
+						<Icon name="activity" className="h-4 w-4" />
+						State
+					</span>
 					<div className="flex items-center gap-2">
 						<Badge.Root
 							variant="light"
@@ -124,7 +133,10 @@ export function GeneralSection({
 					onMouseEnter={() => setHoveredIndex(3)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
-					<span className="text-sm text-text-sub-600">Reason</span>
+					<span className="flex items-center gap-2 text-sm text-text-sub-600">
+						<Icon name="alert-circle" className="h-4 w-4" />
+						Reason
+					</span>
 					<Badge.Root variant="lighter" color="blue" size="small">
 						{reason.toUpperCase().replace(/_/g, " ")}
 					</Badge.Root>
@@ -136,7 +148,10 @@ export function GeneralSection({
 					onMouseEnter={() => setHoveredIndex(4)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
-					<span className="text-sm text-text-sub-600">Domain</span>
+					<span className="flex items-center gap-2 text-sm text-text-sub-600">
+						<Icon name="globe" className="h-4 w-4" />
+						Domain
+					</span>
 					<span className="font-mono text-primary-base text-sm">{domain}</span>
 				</div>
 				{didYouMean && (
@@ -147,14 +162,17 @@ export function GeneralSection({
 						onMouseEnter={() => setHoveredIndex(5)}
 						className="relative flex items-center justify-between px-6 py-3"
 					>
-						<span className="text-sm text-text-sub-600">Did you mean</span>
+						<div className="flex items-center gap-2 text-sm text-text-sub-600">
+							<Icon name="help-circle" className="h-4 w-4" />
+							Did you mean
+							<Badge.Root variant="lighter" color="blue" size="small">
+								0.9x
+							</Badge.Root>
+						</div>
 						<div className="flex items-center gap-2">
 							<span className="font-mono text-sm text-text-strong-950">
 								{didYouMean}
 							</span>
-							<Badge.Root variant="lighter" color="blue" size="small">
-								0.9x
-							</Badge.Root>
 						</div>
 					</div>
 				)}
