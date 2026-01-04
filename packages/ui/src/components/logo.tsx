@@ -42,6 +42,14 @@ export const Logo = ({ className }: { className?: string }) => {
 };
 
 export const Logo3D = ({ className }: { className?: string }) => {
+	const { resolvedTheme } = useTheme();
+	const isDark = resolvedTheme === "dark";
+
+	// Use black/gray colors based on theme
+	const mainColor = isDark ? "#ffffff" : "#000000";
+	const shadowColor = isDark ? "#ffffff" : "#000000";
+	const shadowOpacity = isDark ? "0.08" : "0.05";
+
 	return (
 		<svg
 			width={27}
@@ -58,11 +66,11 @@ export const Logo3D = ({ className }: { className?: string }) => {
 				width={10}
 				height={10}
 				rx={5}
-				fill="#000000"
-				opacity="0.05"
+				fill={shadowColor}
+				opacity={shadowOpacity}
 			/>
 			{/* Small square - front layer */}
-			<rect y={3} width={10} height={10} rx={5} fill="#000000" />
+			<rect y={3} width={10} height={10} rx={5} fill={mainColor} />
 
 			{/* Rotated rectangle - shadow layer */}
 			<rect
@@ -72,8 +80,8 @@ export const Logo3D = ({ className }: { className?: string }) => {
 				height={20}
 				rx={5}
 				transform="rotate(30 18.5 1.5)"
-				fill="#000000"
-				opacity="0.05"
+				fill={shadowColor}
+				opacity={shadowOpacity}
 			/>
 			{/* Rotated rectangle - front layer */}
 			<rect
@@ -82,7 +90,7 @@ export const Logo3D = ({ className }: { className?: string }) => {
 				height={20}
 				rx={5}
 				transform="rotate(30 17 0)"
-				fill="#000000"
+				fill={mainColor}
 			/>
 		</svg>
 	);
