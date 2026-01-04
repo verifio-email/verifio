@@ -45,6 +45,7 @@
 		"./drawer": "./src/components/drawer.tsx",
 		"./dropdown-menu": "./src/components/dropdown-menu.tsx",
 		"./kbd": "./src/components/kbd.tsx",
+		"./compact-button": "./src/components/compact-button.tsx",
 		"./form": "./src/components/form.tsx",
 		"./editor": "./src/components/editor/index.tsx",
 		"./globals.css": "./src/globals.css",

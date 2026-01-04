@@ -6,9 +6,32 @@ import { Header } from "@verifio/web/components/header";
 import { ThemeProvider } from "next-themes";
 
 export const metadata: Metadata = {
-	title: "Verifio",
+	title: "Verifio - 99.9% Accurate Email Verification Platform | Free API",
 	description:
-		"An open-source & self-hostable SendGrid / Mailchimp / Resend / Loops alternative.",
+		"Validate email addresses in real-time with 99.9% accuracy. Free email verification API that reduces bounce rates and protects sender reputation. Open-source and developer-friendly.",
+	openGraph: {
+		title: "99.9% Accurate Email Verification Platform | Verifio",
+		description:
+			"Validate emails in real-time with our free, open-source API. Reduce bounce rates by 98% and protect your sender reputation.",
+		url: "https://verifio.com",
+		siteName: "Verifio",
+		type: "website",
+		images: [
+			{
+				url: "/og-image.png",
+				width: 1200,
+				height: 630,
+				alt: "Verifio - Email Verification Platform",
+			},
+		],
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: "99.9% Accurate Email Verification Platform",
+		description:
+			"Free email verification API with real-time validation and 99.9% accuracy. Open-source and developer-friendly.",
+		images: ["/twitter-card.png"],
+	},
 };
 
 export default function RootLayout({
