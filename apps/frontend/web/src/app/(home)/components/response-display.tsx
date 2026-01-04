@@ -85,9 +85,21 @@ const mockResponse = {
 export function ResponseDisplay() {
 	const [viewMode, setViewMode] = useState<"details" | "json">("details");
 	const [indicatorStyle, setIndicatorStyle] = useState({ width: 0, left: 0 });
+	const [mounted, setMounted] = useState(false);
 	const detailsButtonRef = useRef<HTMLButtonElement>(null);
 	const jsonButtonRef = useRef<HTMLButtonElement>(null);
 
+	// Initial measurement on mount
+	useEffect(() => {
+		const activeButton = detailsButtonRef.current;
+		if (activeButton) {
+			const { offsetWidth: width, offsetLeft: left } = activeButton;
+			setIndicatorStyle({ width, left });
+			setMounted(true);
+		}
+	}, []);
+
+	// Update on viewMode change
 	useEffect(() => {
 		const activeButton =
 			viewMode === "details" ? detailsButtonRef.current : jsonButtonRef.current;
@@ -115,9 +127,11 @@ export function ResponseDisplay() {
 							<div className="relative flex w-fit gap-2 bg-bg-white-0 px-4 py-3">
 								{/* Animated floating background */}
 								<div
-									className="absolute inset-y-3 rounded-full border border-stroke-soft-200 bg-bg-white-100 transition-all duration-300"
+									className={`absolute inset-y-3 rounded-full border border-stroke-soft-200 bg-bg-white-100 transition-all duration-300 ${
+										mounted ? "opacity-100" : "opacity-0"
+									}`}
 									style={{
-										transform: `translate3d(${indicatorStyle.left}px, 0, 0)`,
+										left: `${indicatorStyle.left}px`,
 										width: `${indicatorStyle.width}px`,
 										transitionTimingFunction: "cubic-bezier(0.65, 0, 0.35, 1)",
 									}}
@@ -138,7 +152,7 @@ export function ResponseDisplay() {
 									onClick={() => setViewMode("json")}
 									className="relative z-10 flex items-center gap-2 rounded-full border border-transparent px-4 py-1.5 transition-colors hover:opacity-70"
 								>
-									<Icon name="code" className="h-3.5 w-3.5" />
+									<Icon name="json" className="h-3.5 w-3.5" />
 									JSON
 								</button>
 							</div>
