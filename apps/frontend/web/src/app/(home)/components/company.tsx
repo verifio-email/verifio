@@ -116,12 +116,11 @@ export default function Company() {
 					<div className="mx-auto max-w-5xl px-10 py-20">
 						<div className="mb-16 space-y-4 text-center">
 							<h2 className="font-semibold text-3xl text-white">
-								You're in good company.
+								Trusted by Businesses Worldwide
 							</h2>
 							<p className="mx-auto max-w-2xl text-gray-300 text-lg">
-								Over the past two decades, countless companies have grown from
-								their first users to millions, reaching billions in market
-								value.
+								Companies of all sizes use Verifio to verify email addresses,
+								reduce bounce rates, and protect their sender reputation.
 							</p>
 						</div>
 						<div className="grid grid-cols-4 gap-0 border-white/10 border-t border-l">

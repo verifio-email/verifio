@@ -9,15 +9,16 @@ const CTA = () => {
 				<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 					<span className="text-sm text-text-sub-600">[05] GET STARTED</span>
 					<span className="text-sm text-text-sub-600">
-						/ START BUILDING TODAY
+						/ START VERIFYING TODAY
 					</span>
 				</div>
 				<div className="grid grid-cols-2 p-20">
 					<div className="flex-1 text-left">
 						<h2 className="max-w-2xl font-semibold text-3xl text-text-strong-950">
-							10K emails for free per month. <br />
+							Start Verifying Emails for Free. <br />
 							<span className="text-text-sub-600 leading-8">
-								No credit card required.
+								10,000 free email verifications per month. No credit card
+								required.
 							</span>
 						</h2>
 						<div className="flex flex-col gap-4 pt-6 sm:flex-row">
@@ -28,7 +29,7 @@ const CTA = () => {
 									size: "xsmall",
 								}).root({})}
 							>
-								Start for free
+								Verify Email Free
 							</Link>
 							<Link
 								href="/pricing"
@@ -38,7 +39,7 @@ const CTA = () => {
 									size: "xsmall",
 								}).root({})}
 							>
-								See our plans
+								See Pricing
 							</Link>
 						</div>
 					</div>

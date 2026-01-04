@@ -379,7 +379,7 @@ export const Footer = () => {
 												<Link
 													href={item.href}
 													title={item.description}
-													className="block py-2 text-text-sub-600 text-xs transition-colors duration-150 hover:text-primary-base md:py-3 md:text-[13px]"
+													className="block py-2 text-text-sub-600 text-xs transition-colors duration-150 hover:text-primary-base md:py-3 md:text-sm"
 												>
 													{item.title}
 												</Link>

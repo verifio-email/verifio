@@ -9,8 +9,8 @@ const securityFeatures = [
 				className="h-[42px] w-[42px] text-text-sub-600"
 			/>
 		),
-		label: "SSL",
-		description: "End-to-end encryption",
+		label: "GDPR",
+		description: "Compliant verification",
 	},
 	{
 		icon: (
@@ -19,8 +19,8 @@ const securityFeatures = [
 				className="mt-3 h-[42px] w-[42px] text-text-sub-600"
 			/>
 		),
-		label: "DKIM/SPF/DMARC",
-		description: "Email Authentication",
+		label: "Encrypted",
+		description: "Secure API calls",
 	},
 	{
 		icon: (
@@ -29,8 +29,8 @@ const securityFeatures = [
 				className="h-[42px] w-[42px] text-text-sub-600"
 			/>
 		),
-		label: "OSS",
-		description: "Transparent & Auditable",
+		label: "Private",
+		description: "No data retention",
 	},
 ];
 
@@ -42,10 +42,10 @@ export default function Security() {
 					{/* Left Section */}
 					<div className="space-y-6 py-20 pl-10">
 						<h2 className="max-w-2xl font-semibold text-3xl text-text-strong-950">
-							Built for scale. Secured by design.{" "}
+							Secure Email Verification You Can Trust.{" "}
 							<span className="text-text-sub-600 leading-8">
-								Open-source platform you control—complete privacy, no vendor
-								lock-in.
+								GDPR-compliant platform with end-to-end encryption. We verify
+								emails without storing your data.
 							</span>
 						</h2>
 						<div className="flex gap-4">

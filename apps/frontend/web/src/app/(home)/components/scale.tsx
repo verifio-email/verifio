@@ -1,9 +1,9 @@
 export const Scale = () => {
 	const stats = [
-		{ value: "50K+", label: "Emails sent" },
-		{ value: "99.9%", label: "Inbox placement" },
-		{ value: "< 900ms", label: "Delivery latency" },
-		{ value: "99.9%", label: "Uptime" },
+		{ value: "10M+", label: "Emails verified daily" },
+		{ value: "99.9%", label: "Accuracy rate" },
+		{ value: "< 200ms", label: "Verification speed" },
+		{ value: "99.9%", label: "API uptime" },
 	];
 
 	return (
@@ -13,17 +13,17 @@ export const Scale = () => {
 					<span className="text-sm text-text-sub-600">
 						[04] BUILT FOR SCALE
 					</span>
-					<span className="text-sm text-text-sub-600">/ GROWTH + SECURITY</span>
+					<span className="text-sm text-text-sub-600">/ FAST + ACCURATE</span>
 				</div>
 				<div className="relative">
 					<div className="flex items-stretch pb-36">
 						<div className="flex-1 space-y-8 py-20 pr-20 pl-10">
 							<div className="space-y-4">
 								<h2 className="max-w-3xl font-semibold text-3xl text-text-strong-950">
-									Email infrastructure for the next generation.{" "}
+									Email Verification at Scale.{" "}
 									<span className="text-text-sub-600 leading-8">
-										Verifio sends millions of emails with sub-900ms latency and
-										99.9% inbox placement.
+										Verifio verifies millions of emails daily with sub-200ms
+										response times and 99.9% accuracy.
 									</span>
 								</h2>
 							</div>

@@ -140,13 +140,19 @@ const verifio = new Verifio({
   key: 'your-api-key'
 });
 
-// Send an email
-const result = await verifio.mail.send({
-  from: 'sender@example.com',
-  to: 'recipient@example.com',
-  subject: 'Hello',
-  text: 'Hello World!'
-});`,
+// Verify a single email
+const result = await verifio.verify.email({
+  email: 'user@example.com'
+});
+
+console.log(result);
+// {
+//   valid: true,
+//   email: 'user@example.com',
+//   disposable: false,
+//   role: false,
+//   score: 95
+// }`,
 	},
 	{
 		id: "go",
@@ -163,11 +169,8 @@ import (
 func main() {
   client := verifio.NewClient("your-api-key")
 
-  result, err := client.Mail.Send(&verifio.MailRequest{
-    From:    "sender@example.com",
-    To:      "recipient@example.com",
-    Subject: "Hello",
-    Text:    "Hello World!",
+  result, err := client.Verify.Email(&verifio.VerifyRequest{
+    Email: "user@example.com",
   })
 
   if err != nil {
@@ -175,7 +178,8 @@ func main() {
     return
   }
 
-  fmt.Println("Success:", result)
+  fmt.Printf("Valid: %v\\n", result.Valid)
+  fmt.Printf("Score: %d\\n", result.Score)
 }`,
 	},
 	{
@@ -194,13 +198,13 @@ $verifio = new Verifio([
   'key' => 'your-api-key'
 ]);
 
-// Send an email
-$result = $verifio->mail->send([
-  'from' => 'sender@example.com',
-  'to' => 'recipient@example.com',
-  'subject' => 'Hello',
-  'text' => 'Hello World!'
-]);`,
+// Verify an email address
+$result = $verifio->verify->email([
+  'email' => 'user@example.com'
+]);
+
+echo "Valid: " . ($result['valid'] ? 'Yes' : 'No');
+echo "Score: " . $result['score'];`,
 	},
 	{
 		id: "python",
@@ -215,15 +219,14 @@ verifio = Verifio(
     key='your-api-key'
 )
 
-# Send an email
-result = verifio.mail.send(
-    from_email='sender@example.com',
-    to='recipient@example.com',
-    subject='Hello',
-    text='Hello World!'
+# Verify an email address
+result = verifio.verify.email(
+    email='user@example.com'
 )
 
-print(result)`,
+print(f"Valid: {result['valid']}")
+print(f"Disposable: {result['disposable']}")
+print(f"Score: {result['score']}")`,
 	},
 ];
 
@@ -241,11 +244,12 @@ export const Sdk = () => {
 					{/* Header Section */}
 					<div className="border-stroke-soft-100 border-b p-10">
 						<h2 className="mb-3 font-semibold text-3xl text-text-strong-950">
-							SDKs for every language
+							Email Verification API for Every Language
 						</h2>
 						<p className="max-w-2xl text-text-sub-600 leading-7">
-							Get started quickly with our official SDKs. Choose your preferred
-							language and start sending emails in minutes.
+							Integrate email verification into your application in minutes. Our
+							official SDKs make it easy to verify email addresses with just a
+							few lines of code.
 						</p>
 					</div>
 

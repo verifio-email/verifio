@@ -1025,6 +1025,25 @@
 		opacity: 0.15;
 	}
 }
+
+@keyframes accordion-down {
+	from {
+		height: 0;
+	}
+	to {
+		height: var(--radix-accordion-content-height);
+	}
+}
+
+@keyframes accordion-up {
+	from {
+		height: var(--radix-accordion-content-height);
+	}
+	to {
+		height: 0;
+	}
+}
+
 .default-shadow {
 	box-shadow:
 		0 2px 24px 0 rgba(0, 0, 0, 0.03),
@@ -1032,6 +1051,10 @@
 		0 2px 2px 0 rgba(0, 0, 0, 0.01);
 }
 
-.animate-spinnerFade {
-	animation: spinnerFade 1.2s linear infinite;
+.accordion-content[data-state="open"] {
+	animation: accordion-down 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accordion-content[data-state="closed"] {
+	animation: accordion-up 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }

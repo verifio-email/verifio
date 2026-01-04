@@ -1,105 +1,206 @@
 "use client";
 
 import * as Accordion from "@verifio/ui/accordion";
+import { Icon } from "@verifio/ui/icon";
+import Script from "next/script";
 
 const faqCategories = [
 	{
-		name: "General",
+		name: "Email Verification Basics",
 		questions: [
 			{
-				question: "What is Verifio?",
+				question: "What is email verification?",
 				answer:
-					"Verifio is a secure, reliable, and scalable email infrastructure platform designed for developers and marketing teams. We provide 99.9% inbox placement with sub-900ms latency and complete transparency through our open-source platform.",
+					"Email verification is the process of validating email addresses to ensure they are valid, deliverable, and safe to send emails to. It checks syntax, domain validity, mailbox existence, and identifies risky addresses like disposable emails or spam traps.",
 			},
 			{
-				question: "What email providers are supported?",
+				question: "How does email verification work?",
 				answer:
-					"Verifio supports all major email providers and SMTP servers. Our platform is designed to work with any email service that uses standard SMTP protocols, ensuring maximum compatibility and flexibility.",
+					"Our email verification API performs multiple checks: syntax validation to catch typos, DNS/MX record verification to confirm the domain exists, SMTP validation to verify the mailbox is active, and risk assessment to identify disposable or role-based addresses. All of this happens in under 200ms.",
 			},
 			{
-				question: "Who can benefit from using Verifio?",
+				question: "Why should I verify email addresses?",
 				answer:
-					"Verifio is ideal for developers building applications that require email functionality, marketing teams managing large-scale email campaigns, and businesses that need reliable email delivery without vendor lock-in.",
+					"Verifying emails reduces bounce rates by up to 98%, protects your sender reputation, improves email deliverability, prevents fake signups, and saves money by not sending to invalid addresses. It's essential for maintaining a healthy email list and avoiding spam filters.",
 			},
 			{
-				question: "Is Verifio open-source?",
+				question: "Is email verification free?",
 				answer:
-					"Yes, Verifio is open-source. You can view our codebase on GitHub, audit it for security, and even contribute to the project. This ensures complete transparency and gives you full control over your email infrastructure.",
-			},
-			{
-				question:
-					"What is the difference between Verifio and other email services?",
-				answer:
-					"Verifio offers several key advantages: open-source architecture for complete transparency, sub-900ms delivery latency, 99.9% inbox placement rates, no vendor lock-in, and end-to-end encryption. Unlike proprietary solutions, you maintain full control over your email infrastructure.",
+					"Yes! Verifio offers 10,000 free email verifications per month with no credit card required. This is perfect for small businesses and developers getting started. For higher volumes, we offer affordable paid plans.",
 			},
 			{
 				question:
-					"What is the difference between the open-source version and the hosted version?",
+					"What's the difference between syntax validation and email verification?",
 				answer:
-					"The open-source version gives you complete control to self-host and customize Verifio to your needs. The hosted version provides managed infrastructure with automatic updates, scaling, and support, while maintaining the same open-source codebase and transparency.",
+					"Syntax validation only checks if an email follows the correct format (e.g., user@domain.com), but doesn't verify if the email actually exists. Email verification goes further by checking DNS records, SMTP servers, and mailbox existence to confirm the email is real and deliverable. Verifio performs comprehensive verification, not just syntax checks.",
 			},
 		],
 	},
 	{
-		name: "Infrastructure & Delivery",
+		name: "Features & Accuracy",
 		questions: [
 			{
-				question: "How does Verifio handle email delivery?",
+				question: "How accurate is Verifio's email verification?",
 				answer:
-					"Verifio uses advanced email delivery infrastructure with intelligent routing, automatic retries, and delivery optimization. Our platform monitors delivery rates in real-time and adjusts routing to ensure maximum inbox placement.",
+					"Verifio maintains a 99.9% accuracy rate through advanced validation techniques including real-time SMTP checks, comprehensive domain validation, and continuous updates to our disposable email database. We verify millions of emails daily with industry-leading precision.",
 			},
 			{
-				question: "Why is delivery latency so low?",
+				question: "Can I verify emails in bulk?",
 				answer:
-					"Verifio achieves sub-900ms delivery latency through optimized infrastructure, direct connections to major email providers, and efficient routing algorithms. Our platform is built from the ground up for speed and reliability.",
+					"Absolutely! Our bulk email verification tool can process up to 1 million email addresses at once. Simply upload your CSV file, and we'll return a detailed report with validation results, quality scores, and actionable insights within minutes.",
+			},
+			{
+				question: "What types of email addresses can be verified?",
+				answer:
+					"Verifio can verify all types of email addresses including personal emails (Gmail, Yahoo, Outlook), business emails, educational domains, and international addresses. We detect and flag disposable emails, role-based addresses (info@, support@), and catch-all domains.",
+			},
+			{
+				question: "How fast is the email verification API?",
+				answer:
+					"Our email verification API delivers results in under 200ms on average, making it one of the fastest in the industry. This speed allows you to verify emails in real-time during signup forms without impacting user experience.",
+			},
+			{
+				question:
+					"Does Verifio detect disposable and temporary email addresses?",
+				answer:
+					"Yes! Verifio maintains an up-to-date database of over 100,000 disposable email domains. We detect temporary email services like Mailinator, Guerrilla Mail, and 10 Minute Mail to help you prevent fake signups and maintain list quality.",
+			},
+		],
+	},
+	{
+		name: "API & Integration",
+		questions: [
+			{
+				question: "How do I integrate the email verification API?",
+				answer:
+					"Integration is simple! Sign up for a free API key, then make a REST API call to our verification endpoint with the email address. We provide SDKs for JavaScript, Python, PHP, Ruby, and more. Most developers complete integration in under 10 minutes with our comprehensive documentation and code examples.",
+			},
+			{
+				question: "What programming languages does Verifio support?",
+				answer:
+					"Verifio provides official SDKs for JavaScript/Node.js, Python, PHP, Ruby, Go, and Java. Our REST API works with any language that can make HTTP requests. We also offer plugins for popular platforms like WordPress, Shopify, and Zapier.",
+			},
+			{
+				question: "Can I use Verifio with my signup forms?",
+				answer:
+					"Yes! Verifio is perfect for real-time email validation on signup forms. Our API's sub-200ms response time ensures a smooth user experience. You can validate emails as users type or on form submission to catch typos and prevent invalid signups immediately.",
+			},
+			{
+				question: "Does Verifio offer webhooks for bulk verification?",
+				answer:
+					"Yes, for bulk email verification jobs, we offer webhook notifications to alert you when processing is complete. This allows you to upload large lists and receive results asynchronously without waiting or polling our API.",
+			},
+		],
+	},
+	{
+		name: "Security & Compliance",
+		questions: [
+			{
+				question: "Is my email data secure with Verifio?",
+				answer:
+					"Absolutely. We use enterprise-grade encryption (TLS 1.3) for all data in transit and at rest. We never store, share, or sell your email data. All verifications are processed in real-time and data is immediately discarded after verification.",
+			},
+			{
+				question: "What are your API rate limits?",
+				answer:
+					"Free plans include 10,000 verifications per month with a rate limit of 10 requests per second. Paid plans offer higher rate limits up to 1,000 requests per second for enterprise customers. All plans include burst capacity to handle traffic spikes without interruption.",
 			},
 		],
 	},
 ];
 
 const Faq = () => {
+	// Generate JSON-LD structured data for SEO
+	const faqStructuredData = {
+		"@context": "https://schema.org",
+		"@type": "FAQPage",
+		mainEntity: faqCategories.flatMap((category) =>
+			category.questions.map((faq) => ({
+				"@type": "Question",
+				name: faq.question,
+				acceptedAnswer: {
+					"@type": "Answer",
+					text: faq.answer,
+				},
+			})),
+		),
+	};
+
 	return (
-		<div className="border-stroke-soft-100 border-t">
-			<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
-				<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
-					<span className="text-sm text-text-sub-600">[05] FAQ</span>
-					<span className="text-sm text-text-sub-600">
-						/ QUESTIONS & ANSWERS
-					</span>
-				</div>
-				<div className="flex-1">
-					{faqCategories.map((category, categoryIndex) => (
-						<div key={categoryIndex} className="flex">
-							<div className="w-3xl border-stroke-soft-100 border-r border-b">
-								<p className="border-b border-b-stroke-soft-100 px-10 py-6 font-semibold text-2xl text-text-strong-950">
-									{category.name}
-								</p>
+		<>
+			{/* JSON-LD Structured Data for SEO */}
+			<Script
+				id="faq-structured-data"
+				type="application/ld+json"
+				strategy="afterInteractive"
+			>
+				{JSON.stringify(faqStructuredData)}
+			</Script>
+
+			<section
+				className="border-stroke-soft-100/60 border-t border-b"
+				aria-labelledby="faq-heading"
+			>
+				<div className="mx-auto max-w-7xl border-stroke-soft-100/60 md:border-r md:border-l">
+					<div className="flex flex-col items-start justify-between gap-2 border-stroke-soft-100/60 border-b px-4 py-3 sm:flex-row sm:items-center sm:gap-0 sm:px-6 sm:py-4 md:px-10">
+						<span className="text-text-sub-600 text-xs sm:text-sm">
+							[06] FAQ
+						</span>
+						<span className="text-text-sub-600 text-xs sm:text-sm">
+							/ EMAIL VERIFICATION QUESTIONS
+						</span>
+					</div>
+					<div className="flex-1">
+						{faqCategories.map((category, categoryIndex) => (
+							<div key={categoryIndex} className="flex flex-col lg:flex-row">
+								<div
+									className={`w-full border-stroke-soft-100/60 lg:w-3xl lg:border-r ${categoryIndex !== faqCategories.length - 1 ? "border-b" : ""}`}
+								>
+									<h2
+										className="border-b border-b-stroke-soft-100/60 px-4 py-[18px] font-semibold text-lg text-text-strong-950 sm:px-6 sm:text-xl md:px-10"
+										id={
+											categoryIndex === 0
+												? "faq-heading"
+												: `faq-category-${categoryIndex}`
+										}
+									>
+										{category.name}
+									</h2>
+								</div>
+								<Accordion.Root type="multiple" className="w-full">
+									{category.questions.map((faq, questionIndex) => {
+										const itemValue = `${categoryIndex}-${questionIndex}`;
+										const isLastCategory =
+											categoryIndex === faqCategories.length - 1;
+										const isLastItem =
+											questionIndex === category.questions.length - 1;
+										const isVeryLastItem = isLastCategory && isLastItem;
+										return (
+											<Accordion.Item
+												className={`rounded-none border-stroke-soft-100/60 ${!isVeryLastItem ? "border-b" : ""} bg-transparent p-0! ring-0 hover:bg-transparent has-[:focus-visible]:bg-transparent data-[state=open]:bg-transparent`}
+												value={itemValue}
+												key={questionIndex}
+											>
+												<Accordion.Trigger className="group flex w-full items-center justify-between px-4 py-5 text-left font-medium text-sm sm:px-6 sm:text-base md:px-10">
+													{faq.question}
+													<Icon
+														name="plus"
+														className="size-4 shrink-0 text-text-sub-600 transition-transform duration-300 ease-in-out group-data-[state=open]:rotate-45 sm:size-5"
+													/>
+												</Accordion.Trigger>
+												<Accordion.Content className="px-4 pb-3 text-sm sm:px-6 sm:pb-4 sm:text-base md:px-10">
+													{faq.answer}
+												</Accordion.Content>
+											</Accordion.Item>
+										);
+									})}
+								</Accordion.Root>
 							</div>
-							<Accordion.Root type="single" collapsible className="w-full">
-								{category.questions.map((faq, questionIndex) => {
-									const itemValue = `${categoryIndex}-${questionIndex}`;
-									return (
-										<Accordion.Item
-											className="rounded-none border-stroke-soft-100 border-b bg-transparent p-0! ring-0 hover:bg-transparent has-[:focus-visible]:bg-transparent data-[state=open]:bg-transparent"
-											value={itemValue}
-											key={questionIndex}
-										>
-											<Accordion.Trigger className="flex w-full items-center justify-between px-10 py-7 text-left font-medium text-base">
-												{faq.question}
-												<Accordion.Arrow />
-											</Accordion.Trigger>
-											<Accordion.Content className="-mt-3 px-10 pb-4">
-												{faq.answer}
-											</Accordion.Content>
-										</Accordion.Item>
-									);
-								})}
-							</Accordion.Root>
-						</div>
-					))}
+						))}
+					</div>
 				</div>
-			</div>
-		</div>
+			</section>
+		</>
 	);
 };
 
