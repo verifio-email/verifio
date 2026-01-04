@@ -10,12 +10,17 @@ export default function Home() {
 	return (
 		<div>
 			<Hero />
-			<Sdk />
+			<div className="h-10" />
 			<UseCase />
+			<div className="h-10" />
 			<Scale />
+			<div className="h-10" />
 			<Security />
+			<div className="h-10" />
 			<Company />
+			<div className="h-10" />
 			<CTA />
+			<div className="h-10" />
 			<Faq />
 			<div className="h-10" />
 		</div>
