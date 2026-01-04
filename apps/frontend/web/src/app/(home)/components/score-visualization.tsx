@@ -1,7 +1,5 @@
 "use client";
 
-import { Line } from "rc-progress";
-
 interface ScoreVisualizationProps {
 	score: number;
 }
@@ -41,32 +39,46 @@ export function ScoreVisualization({ score }: ScoreVisualizationProps) {
 					<div className="h-2.5 w-2.5 rounded-full bg-success-base" />
 				</div>
 
-				{/* Progress bar with rc-progress */}
-				<div className="relative mt-2 h-1.5">
-					<Line
-						percent={100}
-						strokeWidth={1.5}
-						trailWidth={1.5}
-						strokeColor={{
-							"0%": "hsl(var(--error-base))",
-							"5%": "hsl(var(--error-base))",
-							"20%": "hsl(var(--warning-base))",
-							"50%": "hsl(var(--warning-base))",
-							"80%": "hsl(var(--success-base))",
-							"100%": "hsl(var(--success-base))",
-						}}
-						trailColor="transparent"
-						strokeLinecap="round"
-					/>
+				{/* Progress bar with manual gradient segments */}
+				<div className="relative mt-2 h-1.5 w-full overflow-hidden rounded-full">
+					{/* Background segments with colors */}
+					<div className="absolute inset-0 flex gap-0.5">
+						{/* Red/Blue zone: 0-10% (ends near "0" label) */}
+						<div className="h-full w-[4%] bg-primary-base" />
+						<div className="h-full w-[6%] bg-error-base" />
+						{/* Orange/Yellow zone: 10-80% (from "0" to "80" labels) */}
+						<div className="h-full w-[70%] bg-warning-base" />
+						{/* Green zone: 80-100% (from "80" to "100" labels) */}
+						<div className="h-full w-[20%] bg-success-base" />
+					</div>
 				</div>
 
 				{/* Labels */}
-				<div className="mt-2 flex justify-between text-xs text-text-sub-600">
-					<span>?</span>
-					<span>0</span>
-					<span>1</span>
-					<span>80</span>
-					<span>100</span>
+				<div className="relative mt-2 h-4 w-full text-text-sub-600 font-medium">
+					<span className="absolute" style={{ left: "0%" }}>
+						?
+					</span>
+					<span
+						className="absolute"
+						style={{ left: "4%", transform: "translateX(-50%)" }}
+					>
+						0
+					</span>
+					<span
+						className="absolute"
+						style={{ left: "10%", transform: "translateX(-50%)" }}
+					>
+						1
+					</span>
+					<span
+						className="absolute"
+						style={{ left: "80%", transform: "translateX(-50%)" }}
+					>
+						80
+					</span>
+					<span className="absolute" style={{ right: "0%" }}>
+						100
+					</span>
 				</div>
 			</div>
 		</div>
