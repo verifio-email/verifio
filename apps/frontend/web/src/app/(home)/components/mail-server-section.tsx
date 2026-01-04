@@ -45,7 +45,7 @@ export function MailServerSection({
 	}, []);
 
 	return (
-		<div className="border-stroke-soft-100/60 border-t ">
+		<div className="border-stroke-soft-100/60 border-t">
 			<h4 className="flex items-center gap-2 border-stroke-soft-100/60 border-b px-6 py-4 font-semibold text-sm text-text-strong-950">
 				<Icon name="server" className="h-4 w-4 text-primary-base" />
 				Mail Server
@@ -73,7 +73,10 @@ export function MailServerSection({
 					onMouseEnter={() => setHoveredIndex(0)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
-					<span className="text-sm text-text-sub-600">SMTP Provider</span>
+					<span className="flex items-center gap-2 text-sm text-text-sub-600">
+						<Icon name="mail-single" className="h-4 w-4" />
+						SMTP Provider
+					</span>
 					<span className="text-sm text-text-sub-600">
 						{smtpProvider || "—"}
 					</span>
@@ -85,8 +88,11 @@ export function MailServerSection({
 					onMouseEnter={() => setHoveredIndex(1)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
-					<span className="text-sm text-text-sub-600">MX Record</span>
-					<span className="text-sm font-mono text-text-strong-950">
+					<span className="flex items-center gap-2 text-sm text-text-sub-600">
+						<Icon name="database" className="h-4 w-4" />
+						MX Record
+					</span>
+					<span className="font-mono text-sm text-text-strong-950">
 						{mxRecord || "—"}
 					</span>
 				</div>
@@ -95,9 +101,12 @@ export function MailServerSection({
 						rowRefs.current[2] = el;
 					}}
 					onMouseEnter={() => setHoveredIndex(2)}
-					className="relative flex items-center justify-between px-6 py-3"
+					className="relative flex items-center justify-between border-stroke-soft-100/60 border-b px-6 py-3"
 				>
-					<span className="text-sm text-text-sub-600">Implicit MX Record</span>
+					<span className="flex items-center gap-2 text-sm text-text-sub-600">
+						<Icon name="link" className="h-4 w-4" />
+						Implicit MX Record
+					</span>
 					<span className="text-sm text-text-sub-600">—</span>
 				</div>
 			</div>
