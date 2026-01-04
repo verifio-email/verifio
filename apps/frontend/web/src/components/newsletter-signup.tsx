@@ -41,7 +41,7 @@ export const NewsletterSignup = () => {
 	};
 
 	return (
-		<div className="border-stroke-soft-100 border-t px-3 py-4 md:border-t-0 md:border-b md:px-4">
+		<div className="border-stroke-soft-100/60 border-t px-3 py-4 md:border-t-0 md:border-b md:px-4">
 			{isSubscribed ? (
 				<motion.div
 					className="flex flex-col items-center justify-center py-4 text-center"
@@ -97,10 +97,10 @@ export const NewsletterSignup = () => {
 				</motion.div>
 			) : (
 				<form onSubmit={handleSubmit(onSubmit)}>
-					<p className="font-medium text-sm text-text-strong-950 z-0">
+					<p className="font-medium text-base text-text-strong-950 z-0">
 						Stay updated
 					</p>
-					<p className="mt-1 text-text-sub-600 text-xs">
+					<p className="mt-1 text-text-sub-600 text-sm">
 						Get email deliverability tips & product updates
 					</p>
 					<div className="mt-4 flex gap-2">

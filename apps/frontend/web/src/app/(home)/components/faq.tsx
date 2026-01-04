@@ -142,11 +142,9 @@ const Faq = () => {
 				aria-labelledby="faq-heading"
 			>
 				<div className="mx-auto max-w-7xl border-stroke-soft-100/60 md:border-r md:border-l">
-					<div className="flex flex-col items-start justify-between gap-2 border-stroke-soft-100/60 border-b px-4 py-3 sm:flex-row sm:items-center sm:gap-0 sm:px-6 sm:py-4 md:px-10">
-						<span className="text-text-sub-600 text-xs sm:text-sm">
-							[06] FAQ
-						</span>
-						<span className="text-text-sub-600 text-xs sm:text-sm">
+					<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+						<span className="text-text-sub-600 text-xs">[06] FAQ</span>
+						<span className="text-text-sub-600 text-xs">
 							/ EMAIL VERIFICATION QUESTIONS
 						</span>
 					</div>

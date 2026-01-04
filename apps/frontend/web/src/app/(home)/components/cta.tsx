@@ -6,9 +6,9 @@ const CTA = () => {
 	return (
 		<section className="border-stroke-soft-100">
 			<div className="relative mx-auto max-w-7xl flex-1 border-stroke-soft-100 border-r border-l">
-				<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
-					<span className="text-sm text-text-sub-600">[05] GET STARTED</span>
-					<span className="text-sm text-text-sub-600">
+				<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+					<span className="text-text-sub-600 text-xs">[05] GET STARTED</span>
+					<span className="text-text-sub-600 text-xs">
 						/ START VERIFYING TODAY
 					</span>
 				</div>

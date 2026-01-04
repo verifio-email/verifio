@@ -182,8 +182,6 @@ const siteNavigationSchema = {
 };
 
 export const Footer = () => {
-	const currentYear = new Date().getFullYear();
-
 	return (
 		<footer itemScope itemType="https://schema.org/WPFooter">
 			{/* JSON-LD Structured Data */}
@@ -204,12 +202,12 @@ export const Footer = () => {
 
 			<div className="border-stroke-soft-100/60 border-t border-b">
 				<div className="mx-4 max-w-7xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
-					<div className="sticky top-[66px] z-10 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 uppercase md:px-10 md:py-4">
+					<div className="flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 						<span className="text-text-sub-600 text-xs" aria-hidden="true">
-							[Footer]
+							[FOOTER]
 						</span>
 						<span className="text-text-sub-600 text-xs" aria-hidden="true">
-							/ Socials + Resources
+							/ SOCIALS + RESOURCES
 						</span>
 					</div>
 					<div className="grid grid-cols-1 gap-0 md:grid-cols-2">
