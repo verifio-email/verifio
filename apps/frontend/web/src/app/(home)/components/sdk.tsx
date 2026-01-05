@@ -158,33 +158,33 @@ export const Sdk = () => {
 	};
 
 	return (
-		<div className="border-stroke-soft-200/50 border-t border-b">
-			<div className="mx-auto max-w-7xl border-stroke-soft-200/50 border-r border-l">
-				<div className="flex items-center justify-between border-stroke-soft-200/50 border-b px-10 py-4">
-					<span className="text-sm text-text-sub-600">[02] SDK</span>
-					<span className="text-sm text-text-sub-600">/ DEVELOPER TOOLS</span>
+		<div className="border-stroke-soft-100/60 border-t border-b">
+			<div className="mx-auto max-w-7xl border-stroke-soft-100/60 border-r border-l">
+				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-10 py-4">
+					<span className="text-text-sub-600 text-xs">[02] SDK</span>
+					<span className="text-text-sub-600 text-xs">/ DEVELOPER TOOLS</span>
 				</div>
-				<div className="flex flex-col border-stroke-soft-200/50">
+				<div className="flex flex-col border-stroke-soft-100/60">
 					{/* Header Section */}
-					<div className="border-stroke-soft-200/50 border-b p-10">
-						<h2 className="mb-3 font-semibold text-3xl text-text-strong-950">
-							Email Verification API for Every Language
+					<div className="flex justify-center border-stroke-soft-100/60 border-b p-10 text-center">
+						<h2 className="max-w-3xl font-semibold text-3xl text-text-strong-950">
+							Email Verification API for Every Language.{" "}
+							<span className="text-text-sub-600 leading-8">
+								Integrate email verification into your application in minutes.
+								Our official SDKs make it easy to verify email addresses with
+								just a few lines of code.
+							</span>
 						</h2>
-						<p className="max-w-2xl text-text-sub-600 leading-7">
-							Integrate email verification into your application in minutes. Our
-							official SDKs make it easy to verify email addresses with just a
-							few lines of code.
-						</p>
 					</div>
 
 					{/* SDK Selection and Code Display */}
-					<div className="flex flex-col border-stroke-soft-200/50">
+					<div className="flex flex-col border-stroke-soft-100/60">
 						{/* Tabs */}
-						<div className="border-stroke-soft-200/50 border-b">
-							<div className="relative flex w-fit items-stretch border-stroke-soft-200/50 border-r bg-bg-white-0">
+						<div className="border-stroke-soft-100/60 border-b">
+							<div className="relative flex w-fit items-stretch border-stroke-soft-100/60 border-r bg-bg-white-0">
 								{/* Animated floating background */}
 								<div
-									className={`absolute inset-y-3 rounded-full border border-stroke-soft-200/50 bg-bg-white-100 transition-all duration-300 ${
+									className={`absolute inset-y-3 rounded-full border border-stroke-soft-200 bg-bg-white-100 transition-all duration-300 ${
 										mounted ? "opacity-100" : "opacity-0"
 									}`}
 									style={{
@@ -236,8 +236,8 @@ export const Sdk = () => {
 						</div>
 
 						{/* Actions Footer */}
-						<div className="flex items-center justify-end border-stroke-soft-200/50 border-t">
-							<div className="flex items-center gap-2 border-stroke-soft-200/50 border-l px-4 py-3">
+						<div className="flex items-center justify-end border-stroke-soft-100/60 border-t">
+							<div className="flex items-center gap-2 border-stroke-soft-100/60 border-l px-4 py-3">
 								<Button.Root
 									mode="stroke"
 									size="small"
