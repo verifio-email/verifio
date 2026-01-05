@@ -49,7 +49,7 @@ export const BounceReduction = () => {
 						<div className="relative mx-auto max-w-sm">
 							<div className="grid gap-0 border border-stroke-soft-200/50">
 								{/* Before State */}
-								<div className="border-stroke-soft-200/50 border-b bg-red-50/10 p-6">
+								<div className="border-stroke-soft-200/50 border-b bg-bg-white-0 p-6">
 									<div className="mb-4 flex items-center justify-between">
 										<div className="flex items-center gap-3">
 											<div className="flex h-8 w-8 items-center justify-center border border-red-200 bg-red-50 text-red-600">
@@ -98,7 +98,7 @@ export const BounceReduction = () => {
 								</div>
 
 								{/* After State */}
-								<div className="bg-green-50/10 p-6">
+								<div className="bg-bg-white-0 p-6">
 									<div className="mb-4 flex items-center justify-between">
 										<div className="flex items-center gap-3">
 											<div className="flex h-8 w-8 items-center justify-center border border-green-200 bg-green-50 text-green-600">

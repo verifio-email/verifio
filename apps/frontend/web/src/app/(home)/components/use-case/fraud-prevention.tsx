@@ -64,7 +64,7 @@ export const FraudPrevention = () => {
 									whileInView={{ opacity: 1, x: 0 }}
 									transition={{ duration: 0.4 }}
 									viewport={{ once: true }}
-									className="flex items-center justify-between border-stroke-soft-200/50 border-b bg-red-50/10 p-4"
+									className="flex items-center justify-between border-stroke-soft-200/50 border-b bg-bg-white-0 p-4"
 								>
 									<div className="flex items-center gap-3">
 										<Icon name="x-close" className="h-4 w-4 text-red-600" />
@@ -88,7 +88,7 @@ export const FraudPrevention = () => {
 									whileInView={{ opacity: 1, x: 0 }}
 									transition={{ duration: 0.4, delay: 0.15 }}
 									viewport={{ once: true }}
-									className="flex items-center justify-between border-stroke-soft-200/50 border-b bg-red-50/10 p-4"
+									className="flex items-center justify-between border-stroke-soft-200/50 border-b bg-bg-white-0 p-4"
 								>
 									<div className="flex items-center gap-3">
 										<Icon name="x-close" className="h-4 w-4 text-red-600" />
@@ -112,7 +112,7 @@ export const FraudPrevention = () => {
 									whileInView={{ opacity: 1, x: 0 }}
 									transition={{ duration: 0.4, delay: 0.3 }}
 									viewport={{ once: true }}
-									className="flex items-center justify-between p-4 bg-green-50/10"
+									className="flex items-center justify-between p-4 bg-bg-white-0"
 								>
 									<div className="flex items-center gap-3">
 										<Icon

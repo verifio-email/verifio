@@ -58,7 +58,7 @@ export const DeliverabilityProtection = () => {
 						<div className="relative mx-auto max-w-sm">
 							<div className="grid gap-0 border border-stroke-soft-200/50">
 								{/* Overall Status */}
-								<div className="border-stroke-soft-200/50 border-b bg-green-50/10 p-4">
+								<div className="border-stroke-soft-200/50 border-b bg-bg-white-0 p-4">
 									<div className="flex items-center justify-between">
 										<span className="font-mono text-xs font-medium text-text-strong-950 uppercase">
 											Sender Reputation
