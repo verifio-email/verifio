@@ -4,7 +4,7 @@ import * as Button from "@verifio/ui/button";
 import { CodeBlock } from "@verifio/ui/code-block";
 import { Icon } from "@verifio/ui/icon";
 import { Fragment, type ReactNode, useEffect, useRef, useState } from "react";
-import { Go, Nodejs, Python } from "./language-svg";
+import { Go, Nodejs, Python, Php } from "./language-svg";
 
 const copyToClipboard = async (text: string) => {
 	try {
@@ -52,7 +52,7 @@ console.log(result);
 	{
 		id: "go",
 		name: "Go",
-		icon: <Go className="h-5 w-5" />,
+		icon: <Go className="h-4 w-11" />,
 		install: "go get github.com/verifio/sdk-go",
 		code: `package main
 
@@ -80,7 +80,7 @@ func main() {
 	{
 		id: "php",
 		name: "PHP",
-		icon: "🐘",
+		icon: <Php className="h-5 w-8" />,
 		install: "composer require verifio/sdk",
 		code: `<?php
 
