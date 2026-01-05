@@ -8,11 +8,11 @@ export const ListCleaning = () => {
 		<div className="border-stroke-soft-200/50 border-b">
 			<div className="grid grid-cols-1 lg:grid-cols-2">
 				{/* Left Content Section */}
-				<div className="flex flex-col justify-center space-y-6 p-10 md:p-16 lg:p-20">
+				<div className="flex flex-col justify-center space-y-6 border-stroke-soft-200/50 p-10 md:p-16 lg:border-r lg:p-20">
 					{/* Label */}
 					<div className="flex items-center gap-2">
 						<Icon name="file-02" className="h-4 w-4 text-text-sub-600" />
-						<span className="text-text-sub-600 text-sm">Bulk verification</span>
+						<span className="text-sm text-text-sub-600">Bulk verification</span>
 					</div>
 
 					{/* Heading */}
@@ -21,7 +21,7 @@ export const ListCleaning = () => {
 					</h3>
 
 					{/* Description */}
-					<p className="max-w-md text-text-sub-600 text-base leading-relaxed">
+					<p className="max-w-md text-base text-text-sub-600 leading-relaxed">
 						Upload and verify thousands of emails in seconds. Get detailed
 						reports on list quality and remove invalid contacts to boost
 						campaign performance.
@@ -38,134 +38,129 @@ export const ListCleaning = () => {
 				</div>
 
 				{/* Right Visual Section */}
-				<div className="flex items-center justify-center border-stroke-soft-200/50 p-8 md:p-12 lg:border-l lg:p-16">
-					<div className="w-full max-w-sm space-y-5">
-						{/* Header with status */}
-						<div className="flex items-center justify-between">
-							<div className="flex items-center gap-2">
-								<div className="h-2 w-2 animate-pulse rounded-full bg-blue-500" />
-								<span className="font-medium text-sm text-text-sub-600">
-									List Analysis
-								</span>
-							</div>
-							<span className="text-text-sub-600 text-xs">
-								Processing complete
+				<div className="flex flex-col">
+					{/* Header */}
+					<div className="flex items-center justify-between border-stroke-soft-200/50 border-b bg-bg-white-0 px-6 py-3">
+						<div className="flex items-center gap-2">
+							<div className="h-1.5 w-1.5 rounded-full bg-blue-500 animate-pulse" />
+							<span className="font-mono text-[10px] uppercase tracking-wider text-text-sub-600">
+								List Analysis
 							</span>
 						</div>
+						<span className="font-mono text-[10px] uppercase tracking-wider text-text-sub-600">
+							[PROCESSING COMPLETE]
+						</span>
+					</div>
 
-						{/* Main list health card */}
-						<motion.div
-							initial={{ opacity: 0, y: 10 }}
-							whileInView={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.4 }}
-							viewport={{ once: true }}
-							className="rounded-xl border border-stroke-soft-200/50 bg-bg-white-0 p-5 shadow-sm"
-						>
-							<div className="mb-5 flex items-center justify-between">
-								<h4 className="font-semibold text-text-strong-950">
-									Email List Health
-								</h4>
-								<div className="flex items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-1">
-									<div className="h-1.5 w-1.5 rounded-full bg-green-500" />
-									<span className="font-medium text-green-700 text-xs">
-										94.5% Clean
-									</span>
+					{/* Visual Grid */}
+					<div className="flex-1 bg-bg-white-0 p-8 md:p-12">
+						<div className="relative mx-auto max-w-sm">
+							<div className="grid gap-0 border border-stroke-soft-200/50">
+								{/* Overall Quality */}
+								<div className="border-stroke-soft-200/50 border-b bg-green-50/10 p-4">
+									<div className="flex items-center justify-between">
+										<span className="font-mono text-xs font-medium text-text-strong-950 uppercase">
+											Efficiency Score
+										</span>
+										<div className="flex items-center gap-2">
+											<div className="h-1.5 w-1.5 rounded-full bg-green-500" />
+											<span className="text-[10px] font-bold text-green-700 uppercase tracking-wide">
+												94.5% Clean
+											</span>
+										</div>
+									</div>
+									<div className="mt-3 h-1.5 w-full overflow-hidden bg-stroke-soft-200/50">
+										<motion.div
+											initial={{ width: 0 }}
+											whileInView={{ width: "94.5%" }}
+											transition={{ duration: 0.8, delay: 0.2 }}
+											viewport={{ once: true }}
+											className="h-full bg-green-500"
+										/>
+									</div>
 								</div>
-							</div>
 
-							{/* Stats grid */}
-							<div className="mb-4 grid grid-cols-2 gap-3">
-								<motion.div
-									initial={{ opacity: 0, scale: 0.95 }}
-									whileInView={{ opacity: 1, scale: 1 }}
-									transition={{ duration: 0.3, delay: 0.2 }}
-									viewport={{ once: true }}
-									className="rounded-lg bg-bg-weak-50 p-3"
-								>
-									<p className="mb-1 text-text-sub-600 text-xs">Total Emails</p>
-									<p className="font-semibold text-xl text-text-strong-950">
-										50,000
-									</p>
-								</motion.div>
-								<motion.div
-									initial={{ opacity: 0, scale: 0.95 }}
-									whileInView={{ opacity: 1, scale: 1 }}
-									transition={{ duration: 0.3, delay: 0.3 }}
-									viewport={{ once: true }}
-									className="rounded-lg bg-green-50 p-3"
-								>
-									<p className="mb-1 text-green-700 text-xs">Valid</p>
-									<p className="font-semibold text-xl text-green-700">47,250</p>
-								</motion.div>
-								<motion.div
-									initial={{ opacity: 0, scale: 0.95 }}
-									whileInView={{ opacity: 1, scale: 1 }}
-									transition={{ duration: 0.3, delay: 0.4 }}
-									viewport={{ once: true }}
-									className="rounded-lg bg-red-50 p-3"
-								>
-									<p className="mb-1 text-red-700 text-xs">Invalid</p>
-									<p className="font-semibold text-xl text-red-700">2,100</p>
-								</motion.div>
-								<motion.div
-									initial={{ opacity: 0, scale: 0.95 }}
-									whileInView={{ opacity: 1, scale: 1 }}
-									transition={{ duration: 0.3, delay: 0.5 }}
-									viewport={{ once: true }}
-									className="rounded-lg bg-yellow-50 p-3"
-								>
-									<p className="mb-1 text-yellow-700 text-xs">Risky</p>
-									<p className="font-semibold text-xl text-yellow-700">650</p>
-								</motion.div>
-							</div>
-
-							{/* Quality bar */}
-							<motion.div
-								initial={{ opacity: 0 }}
-								whileInView={{ opacity: 1 }}
-								transition={{ duration: 0.3, delay: 0.6 }}
-								viewport={{ once: true }}
-								className="rounded-lg bg-green-50 p-3"
-							>
-								<div className="mb-2 flex items-center justify-between">
-									<span className="font-medium text-green-900 text-sm">
-										List Quality
-									</span>
-									<span className="font-semibold text-green-700 text-lg">
-										94.5%
-									</span>
-								</div>
-								<div className="h-2 w-full overflow-hidden rounded-full bg-green-100">
+								{/* Stats Grid */}
+								<div className="grid grid-cols-2">
 									<motion.div
-										initial={{ width: 0 }}
-										whileInView={{ width: "94.5%" }}
-										transition={{ duration: 0.8, delay: 0.7 }}
+										initial={{ opacity: 0 }}
+										whileInView={{ opacity: 1 }}
+										transition={{ duration: 0.3, delay: 0.3 }}
 										viewport={{ once: true }}
-										className="h-2 rounded-full bg-green-500"
-									/>
+										className="border-stroke-soft-200/50 border-r border-b p-4 text-center"
+									>
+										<p className="mb-1 font-bold text-lg text-text-strong-950 tabular-nums">
+											50,000
+										</p>
+										<p className="font-mono text-[10px] text-text-sub-600 uppercase tracking-wide">
+											Total Emails
+										</p>
+									</motion.div>
+									<motion.div
+										initial={{ opacity: 0 }}
+										whileInView={{ opacity: 1 }}
+										transition={{ duration: 0.3, delay: 0.4 }}
+										viewport={{ once: true }}
+										className="border-stroke-soft-200/50 border-b p-4 text-center"
+									>
+										<p className="mb-1 font-bold text-lg text-green-600 tabular-nums">
+											47,250
+										</p>
+										<p className="font-mono text-[10px] text-green-600 uppercase tracking-wide">
+											Valid
+										</p>
+									</motion.div>
+									<motion.div
+										initial={{ opacity: 0 }}
+										whileInView={{ opacity: 1 }}
+										transition={{ duration: 0.3, delay: 0.5 }}
+										viewport={{ once: true }}
+										className="border-stroke-soft-200/50 border-r p-4 text-center"
+									>
+										<p className="mb-1 font-bold text-lg text-red-600 tabular-nums">
+											2,100
+										</p>
+										<p className="font-mono text-[10px] text-red-600 uppercase tracking-wide">
+											Invalid
+										</p>
+									</motion.div>
+									<motion.div
+										initial={{ opacity: 0 }}
+										whileInView={{ opacity: 1 }}
+										transition={{ duration: 0.3, delay: 0.6 }}
+										viewport={{ once: true }}
+										className="p-4 text-center"
+									>
+										<p className="mb-1 font-bold text-lg text-yellow-600 tabular-nums">
+											650
+										</p>
+										<p className="font-mono text-[10px] text-yellow-600 uppercase tracking-wide">
+											Risky
+										</p>
+									</motion.div>
 								</div>
-							</motion.div>
-						</motion.div>
+							</div>
+						</div>
+					</div>
 
-						{/* Bottom stats */}
-						<motion.div
-							initial={{ opacity: 0 }}
-							whileInView={{ opacity: 1 }}
-							transition={{ duration: 0.4, delay: 0.8 }}
-							viewport={{ once: true }}
-							className="grid grid-cols-2 gap-3"
-						>
-							<div className="rounded-lg border border-stroke-soft-200/50 bg-bg-white-0 p-3 text-center">
-								<p className="font-semibold text-lg text-text-strong-950">1M</p>
-								<p className="text-text-sub-600 text-xs">Max per batch</p>
-							</div>
-							<div className="rounded-lg border border-stroke-soft-200/50 bg-bg-white-0 p-3 text-center">
-								<p className="font-semibold text-lg text-text-strong-950">
-									&lt;1min
-								</p>
-								<p className="text-text-sub-600 text-xs">Processing time</p>
-							</div>
-						</motion.div>
+					{/* Footer Stats */}
+					<div className="grid grid-cols-2 border-stroke-soft-200/50 border-t">
+						<div className="border-stroke-soft-200/50 border-r p-4 text-center">
+							<p className="mb-1 font-bold text-lg text-text-strong-950 tabular-nums">
+								1M
+							</p>
+							<p className="font-mono text-[10px] text-text-sub-600 uppercase tracking-wide">
+								Max Per Batch
+							</p>
+						</div>
+						<div className="p-4 text-center">
+							<p className="mb-1 font-bold text-lg text-text-strong-950 tabular-nums">
+								&lt;1min
+							</p>
+							<p className="font-mono text-[10px] text-text-sub-600 uppercase tracking-wide">
+								Processing Time
+							</p>
+						</div>
 					</div>
 				</div>
 			</div>

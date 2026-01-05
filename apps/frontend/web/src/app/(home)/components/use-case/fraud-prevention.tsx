@@ -8,11 +8,11 @@ export const FraudPrevention = () => {
 		<div className="border-stroke-soft-200/50 border-b">
 			<div className="grid grid-cols-1 lg:grid-cols-2">
 				{/* Left Content Section */}
-				<div className="flex flex-col justify-center space-y-6 p-10 md:p-16 lg:p-20">
+				<div className="flex flex-col justify-center space-y-6 border-stroke-soft-200/50 p-10 md:p-16 lg:border-r lg:p-20">
 					{/* Label */}
 					<div className="flex items-center gap-2">
 						<Icon name="shield-check" className="h-4 w-4 text-text-sub-600" />
-						<span className="text-text-sub-600 text-sm">
+						<span className="text-sm text-text-sub-600">
 							Prevent fake signups
 						</span>
 					</div>
@@ -23,7 +23,7 @@ export const FraudPrevention = () => {
 					</h3>
 
 					{/* Description */}
-					<p className="max-w-md text-text-sub-600 text-base leading-relaxed">
+					<p className="max-w-md text-base text-text-sub-600 leading-relaxed">
 						Stop bots and fraudsters instantly. Detect disposable emails,
 						role-based addresses, and suspicious patterns to keep your platform
 						secure.
@@ -40,126 +40,128 @@ export const FraudPrevention = () => {
 				</div>
 
 				{/* Right Visual Section */}
-				<div className="flex items-center justify-center border-stroke-soft-200/50 p-8 md:p-12 lg:border-l lg:p-16">
-					<div className="w-full max-w-sm space-y-4">
-						{/* Header with status */}
-						<div className="flex items-center justify-between">
-							<div className="flex items-center gap-2">
-								<div className="h-2 w-2 animate-pulse rounded-full bg-red-500" />
-								<span className="font-medium text-sm text-text-sub-600">
-									Fraud Detection
-								</span>
-							</div>
-							<span className="text-text-sub-600 text-xs">
-								3 threats blocked
+				<div className="flex flex-col">
+					{/* Header */}
+					<div className="flex items-center justify-between border-stroke-soft-200/50 border-b bg-bg-white-0 px-6 py-3">
+						<div className="flex items-center gap-2">
+							<div className="h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse" />
+							<span className="font-mono text-[10px] uppercase tracking-wider text-text-sub-600">
+								Fraud Detection
 							</span>
 						</div>
+						<span className="font-mono text-[10px] uppercase tracking-wider text-text-sub-600">
+							[3 THREATS BLOCKED]
+						</span>
+					</div>
 
-						{/* Blocked email cards */}
-						<motion.div
-							initial={{ opacity: 0, x: 20 }}
-							whileInView={{ opacity: 1, x: 0 }}
-							transition={{ duration: 0.4 }}
-							viewport={{ once: true }}
-							className="rounded-xl border border-red-200 bg-red-50/50 p-4 shadow-sm"
-						>
-							<div className="flex items-center justify-between">
-								<div className="flex items-center gap-3">
-									<div className="flex h-9 w-9 items-center justify-center rounded-lg bg-red-100">
+					{/* Visual Grid */}
+					<div className="flex-1 bg-bg-white-0 p-8 md:p-12">
+						<div className="relative mx-auto max-w-sm">
+							<div className="grid gap-0 border border-stroke-soft-200/50">
+								{/* Blocked 1 */}
+								<motion.div
+									initial={{ opacity: 0, x: 20 }}
+									whileInView={{ opacity: 1, x: 0 }}
+									transition={{ duration: 0.4 }}
+									viewport={{ once: true }}
+									className="flex items-center justify-between border-stroke-soft-200/50 border-b bg-red-50/10 p-4"
+								>
+									<div className="flex items-center gap-3">
 										<Icon name="x-close" className="h-4 w-4 text-red-600" />
+										<div>
+											<p className="font-mono text-[10px] text-text-strong-950">
+												temp123@tempmail.com
+											</p>
+											<p className="text-[10px] text-red-600 uppercase tracking-wide">
+												Disposable
+											</p>
+										</div>
 									</div>
-									<div>
-										<p className="font-medium text-sm text-text-strong-950">
-											temp123@tempmail.com
-										</p>
-										<p className="text-red-600 text-xs">Disposable email</p>
+									<div className="rounded-sm border border-red-200 bg-red-50 px-1.5 py-0.5 font-mono text-[10px] text-red-700 uppercase">
+										Blocked
 									</div>
-								</div>
-								<span className="rounded-full bg-red-100 px-2 py-0.5 font-medium text-red-700 text-xs">
-									Blocked
-								</span>
-							</div>
-						</motion.div>
+								</motion.div>
 
-						<motion.div
-							initial={{ opacity: 0, x: 20 }}
-							whileInView={{ opacity: 1, x: 0 }}
-							transition={{ duration: 0.4, delay: 0.15 }}
-							viewport={{ once: true }}
-							className="rounded-xl border border-red-200 bg-red-50/50 p-4 shadow-sm"
-						>
-							<div className="flex items-center justify-between">
-								<div className="flex items-center gap-3">
-									<div className="flex h-9 w-9 items-center justify-center rounded-lg bg-red-100">
+								{/* Blocked 2 */}
+								<motion.div
+									initial={{ opacity: 0, x: 20 }}
+									whileInView={{ opacity: 1, x: 0 }}
+									transition={{ duration: 0.4, delay: 0.15 }}
+									viewport={{ once: true }}
+									className="flex items-center justify-between border-stroke-soft-200/50 border-b bg-red-50/10 p-4"
+								>
+									<div className="flex items-center gap-3">
 										<Icon name="x-close" className="h-4 w-4 text-red-600" />
+										<div>
+											<p className="font-mono text-[10px] text-text-strong-950">
+												abuse@example.com
+											</p>
+											<p className="text-[10px] text-red-600 uppercase tracking-wide">
+												Role-based
+											</p>
+										</div>
 									</div>
-									<div>
-										<p className="font-medium text-sm text-text-strong-950">
-											abuse@example.com
-										</p>
-										<p className="text-red-600 text-xs">Role-based address</p>
+									<div className="rounded-sm border border-red-200 bg-red-50 px-1.5 py-0.5 font-mono text-[10px] text-red-700 uppercase">
+										Blocked
 									</div>
-								</div>
-								<span className="rounded-full bg-red-100 px-2 py-0.5 font-medium text-red-700 text-xs">
-									Blocked
-								</span>
-							</div>
-						</motion.div>
+								</motion.div>
 
-						{/* Verified email card */}
-						<motion.div
-							initial={{ opacity: 0, x: 20 }}
-							whileInView={{ opacity: 1, x: 0 }}
-							transition={{ duration: 0.4, delay: 0.3 }}
-							viewport={{ once: true }}
-							className="rounded-xl border border-green-200 bg-green-50/50 p-4 shadow-sm"
-						>
-							<div className="flex items-center justify-between">
-								<div className="flex items-center gap-3">
-									<div className="flex h-9 w-9 items-center justify-center rounded-lg bg-green-100">
+								{/* Verified */}
+								<motion.div
+									initial={{ opacity: 0, x: 20 }}
+									whileInView={{ opacity: 1, x: 0 }}
+									transition={{ duration: 0.4, delay: 0.3 }}
+									viewport={{ once: true }}
+									className="flex items-center justify-between p-4 bg-green-50/10"
+								>
+									<div className="flex items-center gap-3">
 										<Icon
 											name="check-circle"
 											className="h-4 w-4 text-green-600"
 										/>
+										<div>
+											<p className="font-mono text-[10px] text-text-strong-950">
+												john.doe@gmail.com
+											</p>
+											<p className="text-[10px] text-green-600 uppercase tracking-wide">
+												Valid Email
+											</p>
+										</div>
 									</div>
-									<div>
-										<p className="font-medium text-sm text-text-strong-950">
-											john.doe@gmail.com
-										</p>
-										<p className="text-green-600 text-xs">Valid email</p>
+									<div className="rounded-sm border border-green-200 bg-green-50 px-1.5 py-0.5 font-mono text-[10px] text-green-700 uppercase">
+										Verified
 									</div>
-								</div>
-								<span className="rounded-full bg-green-100 px-2 py-0.5 font-medium text-green-700 text-xs">
-									Verified
-								</span>
+								</motion.div>
 							</div>
-						</motion.div>
+						</div>
+					</div>
 
-						{/* Stats row */}
-						<motion.div
-							initial={{ opacity: 0 }}
-							whileInView={{ opacity: 1 }}
-							transition={{ duration: 0.4, delay: 0.45 }}
-							viewport={{ once: true }}
-							className="grid grid-cols-3 gap-3 pt-2"
-						>
-							<div className="rounded-lg border border-stroke-soft-200/50 bg-bg-white-0 p-3 text-center">
-								<p className="font-semibold text-lg text-text-strong-950">
-									99%
-								</p>
-								<p className="text-text-sub-600 text-xs">Detection</p>
-							</div>
-							<div className="rounded-lg border border-stroke-soft-200/50 bg-bg-white-0 p-3 text-center">
-								<p className="font-semibold text-lg text-text-strong-950">
-									50k+
-								</p>
-								<p className="text-text-sub-600 text-xs">Domains</p>
-							</div>
-							<div className="rounded-lg border border-stroke-soft-200/50 bg-bg-white-0 p-3 text-center">
-								<p className="font-semibold text-lg text-text-strong-950">0</p>
-								<p className="text-text-sub-600 text-xs">False +</p>
-							</div>
-						</motion.div>
+					{/* Footer Stats */}
+					<div className="grid grid-cols-3 border-stroke-soft-200/50 border-t">
+						<div className="border-stroke-soft-200/50 border-r p-4 text-center">
+							<p className="mb-1 font-bold text-lg text-text-strong-950 tabular-nums">
+								99%
+							</p>
+							<p className="font-mono text-[10px] text-text-sub-600 uppercase tracking-wide">
+								Detection
+							</p>
+						</div>
+						<div className="border-stroke-soft-200/50 border-r p-4 text-center">
+							<p className="mb-1 font-bold text-lg text-text-strong-950 tabular-nums">
+								50k+
+							</p>
+							<p className="font-mono text-[10px] text-text-sub-600 uppercase tracking-wide">
+								Domains
+							</p>
+						</div>
+						<div className="p-4 text-center">
+							<p className="mb-1 font-bold text-lg text-text-strong-950 tabular-nums">
+								0
+							</p>
+							<p className="font-mono text-[10px] text-text-sub-600 uppercase tracking-wide">
+								False +
+							</p>
+						</div>
 					</div>
 				</div>
 			</div>
