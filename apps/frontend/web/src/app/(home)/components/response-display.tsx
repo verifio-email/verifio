@@ -44,20 +44,7 @@ export function ResponseDisplay() {
 			<div className="-mt-[51px] mx-auto max-w-7xl">
 				<div className="border-stroke-soft-200/50 border-r border-l">
 					<div className="mx-auto max-w-4xl border-stroke-soft-200/50 border-r border-l pt-24 pb-16">
-						<div className="flex flex-col items-center justify-center gap-4 border-stroke-soft-200/50 border-t px-6 py-16 text-center">
-							<Icon
-								name="mail-single"
-								className="h-12 w-12 text-text-sub-400"
-							/>
-							<div>
-								<h3 className="font-semibold text-lg text-text-strong-950">
-									Try it out
-								</h3>
-								<p className="mt-1 text-sm text-text-sub-600">
-									Enter an email address above to see verification results
-								</p>
-							</div>
-						</div>
+						<div className="flex flex-col items-center justify-center gap-4 border-stroke-soft-200/50 border-t px-6 py-16 text-center" />
 					</div>
 				</div>
 			</div>
