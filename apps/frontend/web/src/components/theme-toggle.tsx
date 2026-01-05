@@ -1,8 +1,11 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+
+const themes = ["system", "light", "dark"] as const;
+type ThemeOption = (typeof themes)[number];
 
 export const ThemeToggle = () => {
 	const { theme, setTheme } = useTheme();
@@ -15,34 +18,65 @@ export const ThemeToggle = () => {
 
 	if (!mounted) {
 		return (
-			<div className="flex h-8 w-20 items-center justify-center rounded-full border border-stroke-soft-100 px-3 py-1.5">
+			<div className="flex h-8 w-[104px] items-center justify-center rounded-full border border-stroke-soft-100 bg-bg-weak-50">
 				<div className="size-4 animate-pulse rounded-full bg-stroke-soft-100" />
 			</div>
 		);
 	}
 
-	const isDark = theme === "dark";
+	const currentTheme = (theme as ThemeOption) || "system";
+	const activeIndex = themes.indexOf(currentTheme);
 
 	return (
-		<button
-			type="button"
-			onClick={() => setTheme(isDark ? "light" : "dark")}
-			className="flex items-center gap-2 rounded-full border border-stroke-soft-100 px-3 py-1.5 text-xs text-text-sub-600 transition-colors hover:bg-bg-weak-50 hover:text-text-strong-950 md:text-sm"
-			aria-label="Toggle theme"
+		<div
+			className="relative flex h-8 items-center rounded-full border border-stroke-soft-100 bg-bg-weak-50 p-1"
+			role="radiogroup"
+			aria-label="Select theme"
 		>
-			<span className="relative flex size-4 items-center justify-center">
-				<AnimatePresence mode="wait">
-					{isDark ? (
-						<motion.svg
-							key="sun"
-							initial={{ rotate: -90, scale: 0, opacity: 0 }}
-							animate={{ rotate: 0, scale: 1, opacity: 1 }}
-							exit={{ rotate: 90, scale: 0, opacity: 0 }}
-							transition={{ duration: 0.3, ease: "easeInOut" }}
-							className="absolute size-4"
+			{/* Sliding background indicator */}
+			<motion.div
+				className="absolute h-6 w-8 rounded-full bg-bg-white-0 shadow-sm dark:bg-bg-strong-950"
+				initial={false}
+				animate={{
+					x: activeIndex * 32,
+				}}
+				transition={{
+					type: "spring",
+					stiffness: 300,
+					damping: 30,
+				}}
+			/>
+
+			{/* Theme buttons */}
+			{themes.map((themeOption) => (
+				<button
+					key={themeOption}
+					type="button"
+					role="radio"
+					aria-checked={currentTheme === themeOption}
+					onClick={() => setTheme(themeOption)}
+					className="relative z-10 flex h-6 w-8 items-center justify-center rounded-full transition-colors"
+					aria-label={`${themeOption.charAt(0).toUpperCase() + themeOption.slice(1)} theme`}
+				>
+					{themeOption === "system" && (
+						<svg
+							className={`size-4 transition-colors ${currentTheme === "system" ? "text-text-strong-950" : "text-text-soft-400"}`}
 							xmlns="http://www.w3.org/2000/svg"
-							width="1em"
-							height="1em"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							strokeWidth="2"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+						>
+							<rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+							<path d="M12 18h.01" />
+						</svg>
+					)}
+					{themeOption === "light" && (
+						<svg
+							className={`size-4 transition-colors ${currentTheme === "light" ? "text-text-strong-950" : "text-text-soft-400"}`}
+							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 24 24"
 							fill="none"
 							stroke="currentColor"
@@ -59,18 +93,12 @@ export const ThemeToggle = () => {
 							<path d="M20 12h2" />
 							<path d="m6.34 17.66-1.41 1.41" />
 							<path d="m19.07 4.93-1.41 1.41" />
-						</motion.svg>
-					) : (
-						<motion.svg
-							key="moon"
-							initial={{ rotate: 90, scale: 0, opacity: 0 }}
-							animate={{ rotate: 0, scale: 1, opacity: 1 }}
-							exit={{ rotate: -90, scale: 0, opacity: 0 }}
-							transition={{ duration: 0.3, ease: "easeInOut" }}
-							className="absolute size-4"
+						</svg>
+					)}
+					{themeOption === "dark" && (
+						<svg
+							className={`size-4 transition-colors ${currentTheme === "dark" ? "text-text-strong-950" : "text-text-soft-400"}`}
 							xmlns="http://www.w3.org/2000/svg"
-							width="1em"
-							height="1em"
 							viewBox="0 0 24 24"
 							fill="none"
 							stroke="currentColor"
@@ -79,21 +107,10 @@ export const ThemeToggle = () => {
 							strokeLinejoin="round"
 						>
 							<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
-						</motion.svg>
+						</svg>
 					)}
-				</AnimatePresence>
-			</span>
-			<AnimatePresence mode="wait">
-				<motion.span
-					key={isDark ? "light" : "dark"}
-					initial={{ y: 10, opacity: 0 }}
-					animate={{ y: 0, opacity: 1 }}
-					exit={{ y: -10, opacity: 0 }}
-					transition={{ duration: 0.2 }}
-				>
-					{isDark ? "Light" : "Dark"}
-				</motion.span>
-			</AnimatePresence>
-		</button>
+				</button>
+			))}
+		</div>
 	);
 };
