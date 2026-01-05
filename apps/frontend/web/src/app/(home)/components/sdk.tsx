@@ -3,6 +3,7 @@
 import * as Button from "@verifio/ui/button";
 import { CodeBlock } from "@verifio/ui/code-block";
 import { Icon } from "@verifio/ui/icon";
+import Link from "next/link";
 import { Fragment, type ReactNode, useEffect, useRef, useState } from "react";
 import { Go, Nodejs, Python, Php } from "./language-svg";
 
@@ -168,11 +169,9 @@ export const Sdk = () => {
 					{/* Header Section */}
 					<div className="flex justify-center border-stroke-soft-100/60 border-b p-10 text-center">
 						<h2 className="max-w-3xl font-semibold text-3xl text-text-strong-950">
-							Email Verification API for Every Language.{" "}
+							Native SDKs for Modern Stacks.{" "}
 							<span className="text-text-sub-600 leading-8">
-								Integrate email verification into your application in minutes.
-								Our official SDKs make it easy to verify email addresses with
-								just a few lines of code.
+								Integrate email verification into your codebase in minutes.
 							</span>
 						</h2>
 					</div>
@@ -251,18 +250,20 @@ export const Sdk = () => {
 									/>
 									Copy
 								</Button.Root>
-								<Button.Root
-									mode="stroke"
-									size="small"
-									variant="neutral"
-									className="rounded-full"
-								>
-									View Docs
-									<Icon
-										name="chevron-right"
-										className="h-3.5 w-3.5 stroke-1 text-text-sub-600"
-									/>
-								</Button.Root>
+								<Link href="/docs/sdks">
+									<Button.Root
+										mode="stroke"
+										size="small"
+										variant="neutral"
+										className="rounded-full"
+									>
+										View Docs
+										<Icon
+											name="chevron-right"
+											className="h-3.5 w-3.5 stroke-1 text-text-sub-600"
+										/>
+									</Button.Root>
+								</Link>
 							</div>
 						</div>
 					</div>
