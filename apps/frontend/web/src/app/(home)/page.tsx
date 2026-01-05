@@ -11,6 +11,8 @@ export default function Home() {
 		<div>
 			<Hero />
 			<div className="h-10" />
+			<Sdk />
+			<div className="h-10" />
 			<UseCase />
 			<div className="h-10" />
 			<Scale />

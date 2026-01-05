@@ -1,8 +1,10 @@
 "use client";
 
 import * as Button from "@verifio/ui/button";
+import { CodeBlock } from "@verifio/ui/code-block";
 import { Icon } from "@verifio/ui/icon";
-import { useState } from "react";
+import { Fragment, type ReactNode, useEffect, useRef, useState } from "react";
+import { Go, Nodejs, Python } from "./language-svg";
 
 const copyToClipboard = async (text: string) => {
 	try {
@@ -12,117 +14,10 @@ const copyToClipboard = async (text: string) => {
 	}
 };
 
-const highlightCode = (code: string) => {
-	const lines = code.split("\n");
-	return lines.map((line, lineIndex) => {
-		// Basic syntax highlighting patterns
-		const patterns = [
-			// Strings (single and double quotes)
-			{
-				regex: /(["'`])(?:(?=(\\?))\2.)*?\1/g,
-				className: "text-[#ce9178]",
-			},
-			// Comments
-			{
-				regex: /(\/\/.*$|\/\*[\s\S]*?\*\/|#.*$)/gm,
-				className: "text-[#6a9955]",
-			},
-			// Keywords (common across languages)
-			{
-				regex:
-					/\b(import|from|const|let|var|function|async|await|return|if|else|for|while|class|extends|new|this|package|func|type|interface|struct|public|private|static|final|try|catch|throw|use|namespace|require|def|print|<?php|<\?php)\b/g,
-				className: "text-[#569cd6]",
-			},
-			// Numbers
-			{
-				regex: /\b\d+\.?\d*\b/g,
-				className: "text-[#b5cea8]",
-			},
-			// Function calls
-			{
-				regex: /\b([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/g,
-				className: "text-[#dcdcaa]",
-			},
-		];
-
-		const parts: Array<{ text: string; className?: string }> = [];
-		let lastIndex = 0;
-
-		// Find all matches
-		const matches: Array<{
-			start: number;
-			end: number;
-			className: string;
-		}> = [];
-
-		patterns.forEach((pattern) => {
-			const regex = new RegExp(pattern.regex.source, pattern.regex.flags);
-			let match = regex.exec(line);
-			while (match !== null) {
-				matches.push({
-					start: match.index,
-					end: match.index + match[0].length,
-					className: pattern.className,
-				});
-				match = regex.exec(line);
-			}
-		});
-
-		// Sort matches by start position
-		matches.sort((a, b) => a.start - b.start);
-
-		// Merge overlapping matches (prioritize first match)
-		const mergedMatches: Array<{
-			start: number;
-			end: number;
-			className: string;
-		}> = [];
-		matches.forEach((match) => {
-			const overlapping = mergedMatches.find(
-				(m) => !(match.end <= m.start || match.start >= m.end),
-			);
-			if (!overlapping) {
-				mergedMatches.push(match);
-			}
-		});
-
-		// Build parts array
-		mergedMatches.forEach((match) => {
-			if (match.start > lastIndex) {
-				parts.push({ text: line.slice(lastIndex, match.start) });
-			}
-			parts.push({
-				text: line.slice(match.start, match.end),
-				className: match.className,
-			});
-			lastIndex = Math.max(lastIndex, match.end);
-		});
-
-		if (lastIndex < line.length) {
-			parts.push({ text: line.slice(lastIndex) });
-		}
-
-		if (parts.length === 0) {
-			parts.push({ text: line });
-		}
-
-		return (
-			<span key={lineIndex} className="block">
-				{parts.map((part, partIndex) => (
-					<span key={partIndex} className={part.className}>
-						{part.text}
-					</span>
-				))}
-				{line === "" && "\u00A0"}
-			</span>
-		);
-	});
-};
-
 type SdkType = {
 	id: string;
 	name: string;
-	icon: string;
+	icon: ReactNode;
 	install: string;
 	code: string;
 };
@@ -131,7 +26,7 @@ const sdks: SdkType[] = [
 	{
 		id: "node",
 		name: "Node.js",
-		icon: "⚡",
+		icon: <Nodejs className="h-5 w-5" />,
 		install: "npm install @verifio/sdk",
 		code: `import Verifio from '@verifio/sdk';
 
@@ -157,7 +52,7 @@ console.log(result);
 	{
 		id: "go",
 		name: "Go",
-		icon: "🐹",
+		icon: <Go className="h-5 w-5" />,
 		install: "go get github.com/verifio/sdk-go",
 		code: `package main
 
@@ -209,7 +104,7 @@ echo "Score: " . $result['score'];`,
 	{
 		id: "python",
 		name: "Python",
-		icon: "🐍",
+		icon: <Python className="h-5 w-5" />,
 		install: "pip install verifio-sdk",
 		code: `from verifio import Verifio
 
@@ -232,6 +127,35 @@ print(f"Score: {result['score']}")`,
 
 export const Sdk = () => {
 	const [selectedSdk, setSelectedSdk] = useState<SdkType>(sdks[0] as SdkType);
+	const [indicatorStyle, setIndicatorStyle] = useState({ width: 0, left: 0 });
+	const [mounted, setMounted] = useState(false);
+	const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
+
+	useEffect(() => {
+		const activeIndex = sdks.findIndex((sdk) => sdk.id === selectedSdk.id);
+		const activeTab = tabsRef.current[activeIndex];
+
+		if (activeTab) {
+			const { offsetWidth: width, offsetLeft: left } = activeTab;
+			setIndicatorStyle({ width, left });
+			setMounted(true);
+		}
+	}, [selectedSdk]);
+
+	const getLanguage = (id: string) => {
+		switch (id) {
+			case "node":
+				return "javascript";
+			case "go":
+				return "go";
+			case "php":
+				return "php";
+			case "python":
+				return "python";
+			default:
+				return "javascript";
+		}
+	};
 
 	return (
 		<div className="border-stroke-soft-200/50 border-t">
@@ -256,73 +180,85 @@ export const Sdk = () => {
 					{/* SDK Selection and Code Display */}
 					<div className="flex flex-col border-stroke-soft-200/50">
 						{/* Tabs */}
-						<div className="flex items-center gap-1 border-stroke-soft-200/50 border-b px-6 py-2">
-							{sdks.map((sdk) => (
-								<button
-									key={sdk.id}
-									type="button"
-									onClick={() => setSelectedSdk(sdk)}
-									className={`flex items-center gap-2 rounded-t-lg border-b-2 px-4 py-2.5 transition-all ${
-										selectedSdk.id === sdk.id
-											? "border-stroke-soft-200/50 bg-bg-weak-50"
-											: "border-transparent bg-transparent hover:bg-bg-weak-50"
+						<div className="border-stroke-soft-200/50 border-b">
+							<div className="relative flex w-fit items-center gap-2 bg-bg-white-0 px-4 py-3">
+								{/* Animated floating background */}
+								<div
+									className={`absolute inset-y-3 rounded-full border border-stroke-soft-200/50 bg-bg-white-100 transition-all duration-300 ${
+										mounted ? "opacity-100" : "opacity-0"
 									}`}
-								>
-									<span className="text-lg">{sdk.icon}</span>
-									<span
-										className={`font-semibold text-sm ${
-											selectedSdk.id === sdk.id
-												? "text-text-strong-950"
-												: "text-text-sub-600"
-										}`}
-									>
-										{sdk.name}
-									</span>
-								</button>
-							))}
-							<div className="ml-auto flex items-center gap-2">
+									style={{
+										left: `${indicatorStyle.left}px`,
+										width: `${indicatorStyle.width}px`,
+										transitionTimingFunction: "cubic-bezier(0.65, 0, 0.35, 1)",
+									}}
+									aria-hidden="true"
+								/>
+								{sdks.map((sdk, index) => (
+									<Fragment key={sdk.id}>
+										<button
+											ref={(el) => {
+												tabsRef.current[index] = el;
+											}}
+											type="button"
+											onClick={() => setSelectedSdk(sdk)}
+											className="relative z-10 flex items-center gap-2 rounded-full border border-transparent px-4 py-1.5 transition-colors hover:opacity-70"
+										>
+											<span className="text-lg">{sdk.icon}</span>
+											<span
+												className={`font-semibold text-sm ${
+													selectedSdk.id === sdk.id
+														? "text-text-strong-950"
+														: "text-text-sub-600"
+												}`}
+											>
+												{sdk.name}
+											</span>
+										</button>
+										{index < sdks.length - 1 && (
+											<div className="h-4 w-px bg-stroke-soft-200/50" />
+										)}
+									</Fragment>
+								))}
+							</div>
+						</div>
+
+						{/* Code Display */}
+						<div className="max-h-[500px] overflow-auto">
+							<CodeBlock
+								code={selectedSdk.code}
+								lang={getLanguage(selectedSdk.id)}
+							/>
+						</div>
+
+						{/* Actions Footer */}
+						<div className="flex items-center justify-end border-stroke-soft-200/50 border-t">
+							<div className="flex items-center gap-2 border-stroke-soft-200/50 border-l px-4 py-3">
 								<Button.Root
-									mode="lighter"
-									size="xsmall"
+									mode="stroke"
+									size="small"
+									variant="neutral"
 									onClick={() => copyToClipboard(selectedSdk.code)}
+									className="rounded-full"
 								>
 									<Icon
-										name="clipboard-copy"
+										name="copy"
 										className="h-3.5 w-3.5 stroke-1 text-text-sub-600"
 									/>
 									Copy
 								</Button.Root>
-								<Button.Root variant="neutral" mode="lighter" size="xsmall">
+								<Button.Root
+									mode="stroke"
+									size="small"
+									variant="neutral"
+									className="rounded-full"
+								>
 									View Docs
 									<Icon
 										name="chevron-right"
 										className="h-3.5 w-3.5 stroke-1 text-text-sub-600"
 									/>
 								</Button.Root>
-							</div>
-						</div>
-
-						{/* Code Display */}
-						<div className="flex-1 overflow-hidden bg-[#1e1e1e]">
-							<div className="relative h-full overflow-auto">
-								<div className="flex">
-									{/* Line Numbers */}
-									<div className="sticky left-0 z-10 border-stroke-soft-200/50 border-r bg-[#252526] px-4 py-4 text-right font-mono text-[#858585] text-xs leading-6">
-										{selectedSdk.code.split("\n").map((_, index) => (
-											<div key={index} className="select-none">
-												{index + 1}
-											</div>
-										))}
-									</div>
-									{/* Code Content */}
-									<div className="flex-1 px-6 py-4">
-										<pre className="font-mono text-sm leading-6">
-											<code className="block text-[#d4d4d4]">
-												{highlightCode(selectedSdk.code)}
-											</code>
-										</pre>
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>
