@@ -167,11 +167,19 @@ export const Sdk = () => {
 				</div>
 				<div className="flex flex-col border-stroke-soft-100/60">
 					{/* Header Section */}
-					<div className="flex justify-center border-stroke-soft-100/60 border-b p-10 text-center">
+					<div className="flex flex-col items-center justify-center border-stroke-soft-100/60 border-b p-10 text-center">
+						{/* Developer First Badge */}
+						<div className="mb-4 flex items-center gap-1">
+							<Icon name="code-box" className="h-4 w-4 text-primary-base" />
+							<span className="font-medium text-sm text-text-sub-600">
+								Developer First
+							</span>
+						</div>
 						<h2 className="max-w-3xl font-semibold text-3xl text-text-strong-950">
-							Native SDKs for Modern Stacks.{" "}
+							Email Verification for Developers.{" "}
 							<span className="text-text-sub-600 leading-8">
-								Integrate email verification into your codebase in minutes.
+								First-class SDKs that integrate in minutes with just a few lines
+								of code.
 							</span>
 						</h2>
 					</div>
@@ -180,7 +188,7 @@ export const Sdk = () => {
 					<div className="flex flex-col border-stroke-soft-100/60">
 						{/* Tabs */}
 						<div className="border-stroke-soft-100/60 border-b">
-							<div className="relative flex w-fit items-stretch border-stroke-soft-100/60 border-r bg-bg-white-0">
+							<div className="relative flex w-fit items-stretch border-stroke-soft-200/60 border-r bg-bg-white-0">
 								{/* Animated floating background */}
 								<div
 									className={`absolute inset-y-3 rounded-full border border-stroke-soft-200 bg-bg-white-100 transition-all duration-300 ${
