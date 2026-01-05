@@ -1,5 +1,5 @@
 {
-	"name": "logs",
+	"name": "logging",
 	"main": "src/index.ts",
 	"type": "module",
 	"scripts": {
@@ -11,23 +11,12 @@
 	},
 	"dependencies": {
 		"@elysiajs/cors": "catalog:backend",
-		"@elysiajs/cron": "catalog:backend",
-		"@elysiajs/opentelemetry": "catalog:backend",
 		"@elysiajs/openapi": "catalog:backend",
 		"@elysiajs/server-timing": "catalog:backend",
-		"@elysiajs/swagger": "catalog:backend",
-		"@opentelemetry/exporter-trace-otlp-http": "catalog:backend",
-		"@opentelemetry/exporter-trace-otlp-proto": "catalog:backend",
-		"@opentelemetry/instrumentation-express": "catalog:backend",
-		"@opentelemetry/instrumentation-http": "catalog:backend",
-		"@opentelemetry/resources": "catalog:backend",
-		"@opentelemetry/sdk-trace-node": "catalog:backend",
-		"@opentelemetry/semantic-conventions": "catalog:backend",
 		"dotenv": "catalog:backend",
-		"elysia": "catalog:backend",
 		"drizzle-orm": "catalog:db",
+		"elysia": "catalog:backend",
 		"pg": "catalog:db",
-		"zod": "catalog:ui",
 		"@verifio/logger": "workspace:*"
 	},
 	"devDependencies": {
@@ -38,4 +27,3 @@
 		"@types/bun": "catalog:backend"
 	}
 }
-

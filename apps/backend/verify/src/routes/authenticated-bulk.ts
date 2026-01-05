@@ -10,6 +10,7 @@ import {
   verifyEmail,
 } from "@verifio/email-verify";
 import { logger } from "@verifio/logger";
+import { logActivity } from "@verifio/logging";
 import { count, desc, eq } from "drizzle-orm";
 import { Elysia, t } from "elysia";
 import { verifyConfig } from "../config";
@@ -186,6 +187,27 @@ async function processBulkVerification(
       },
       "Bulk verification completed",
     );
+
+    // Log activity for completed job
+    logActivity({
+      service: "verify",
+      endpoint: "/v1/bulk-verify",
+      method: "POST",
+      organization_id: organizationId,
+      user_id: userId,
+      resource_type: "bulk-job",
+      resource_id: jobId,
+      status: "success",
+      result: `completed:${stats.deliverable}/${stats.total}`,
+      credits_used: emails.length,
+      duration_ms: stats.totalDuration,
+      metadata: {
+        deliverable: stats.deliverable,
+        undeliverable: stats.undeliverable,
+        risky: stats.risky,
+        unknown: stats.unknown,
+      },
+    }).catch(() => { });
   } catch (error) {
     const errorMessage =
       error instanceof Error ? error.message : "Unknown error";
@@ -199,6 +221,19 @@ async function processBulkVerification(
       .where(eq(schema.verificationJob.id, jobId));
 
     logger.error({ jobId, error: errorMessage }, "Bulk verification failed");
+
+    // Log failed activity
+    logActivity({
+      service: "verify",
+      endpoint: "/v1/bulk-verify",
+      method: "POST",
+      organization_id: organizationId,
+      user_id: userId,
+      resource_type: "bulk-job",
+      resource_id: jobId,
+      status: "error",
+      error_message: errorMessage,
+    }).catch(() => { });
   }
 }
 

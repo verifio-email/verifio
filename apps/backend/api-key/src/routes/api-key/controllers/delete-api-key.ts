@@ -1,7 +1,7 @@
-import type { ApiKeyTypes } from "@verifio/api-key/types/api-key.type";
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
 import { logger } from "@verifio/logger";
+import { logActivity } from "@verifio/logging";
 import { and, eq } from "drizzle-orm";
 import { status } from "elysia";
 
@@ -56,6 +56,7 @@ export async function deleteApiKeyHandler(
 	organizationId: string,
 	userId: string,
 ): Promise<{ message: string }> {
+	const startTime = Date.now();
 	logger.info({ apiKeyId, organizationId, userId }, "Deleting API key");
 
 	try {
@@ -64,6 +65,21 @@ export async function deleteApiKeyHandler(
 			{ apiKeyId, organizationId, userId },
 			"API key deleted successfully",
 		);
+
+		// Log successful deletion
+		logActivity({
+			service: "api-key",
+			endpoint: `/v1/${apiKeyId}`,
+			method: "DELETE",
+			organization_id: organizationId,
+			user_id: userId,
+			resource_type: "api-key",
+			resource_id: apiKeyId,
+			status: "success",
+			result: "deleted",
+			duration_ms: Date.now() - startTime,
+		}).catch(() => { });
+
 		return { message: "API key deleted successfully" };
 	} catch (error) {
 		logger.error(
@@ -75,6 +91,21 @@ export async function deleteApiKeyHandler(
 			},
 			"Error deleting API key",
 		);
+
+		// Log failed deletion
+		logActivity({
+			service: "api-key",
+			endpoint: `/v1/${apiKeyId}`,
+			method: "DELETE",
+			organization_id: organizationId,
+			user_id: userId,
+			resource_type: "api-key",
+			resource_id: apiKeyId,
+			status: "error",
+			error_message: error instanceof Error ? error.message : String(error),
+			duration_ms: Date.now() - startTime,
+		}).catch(() => { });
+
 		throw error;
 	}
 }

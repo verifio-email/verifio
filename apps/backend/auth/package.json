@@ -36,6 +36,7 @@
 		"@verifio/cache": "workspace:*",
 		"@verifio/react-email": "workspace:*",
 		"@verifio/logger": "workspace:*",
+		"@verifio/logging": "workspace:*",
 		"@elysiajs/eden": "catalog:backend"
 	},
 	"devDependencies": {

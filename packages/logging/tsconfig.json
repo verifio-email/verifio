@@ -8,14 +8,10 @@
 		"strict": true,
 		"skipLibCheck": true,
 		"outDir": "./dist",
-		"types": ["bun"],
 		"composite": false,
-		"jsx": "react-jsx",
 		"declaration": false,
-		"declarationMap": false,
-		"baseUrl": ".",
-		"paths": {
-			"@verifio/tracehub/*": ["./src/*"]
-		}
-	}
+		"declarationMap": false
+	},
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "dist"]
 }

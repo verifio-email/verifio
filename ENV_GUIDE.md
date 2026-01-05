@@ -28,7 +28,7 @@ When copying to a service, update the `PORT` variable:
 | Webhook | 8013 | `apps/backend/webhook/.env` |
 | Audience | 8014 | `apps/backend/audience/.env` |
 | Mail | 8015 | `apps/backend/mail/.env` |
-| Tracehub | 8016 | `apps/backend/tracehub/.env` |
+| Logging | 8020 | `apps/backend/logging/.env` |
 | Inngest | 8017 | `apps/backend/inngest/.env` |
 | Web (Frontend) | 3000 | `apps/frontend/web/.env` |
 | Dashboard (Frontend) | 3001 | `apps/frontend/dashboard/.env` |
@@ -116,11 +116,8 @@ Use these for:
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` ✅
 - `BASE_URL` ✅
 
-### Tracehub Service
-- `CLICKHOUSE_URL` ✅
-- `CLICKHOUSE_DB` ✅
-- `CLICKHOUSE_USER` ✅
-- `CLICKHOUSE_PASSWORD` ✅
+### Logging Service
+- `PG_URL` ✅
 
 ### Inngest Service
 - `PG_URL` ✅

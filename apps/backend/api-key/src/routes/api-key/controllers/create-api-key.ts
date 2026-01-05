@@ -5,6 +5,7 @@ import type { ApiKeyTypes } from "@verifio/api-key/types/api-key.type";
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
 import { logger } from "@verifio/logger";
+import { logActivity } from "@verifio/logging";
 import { eq } from "drizzle-orm";
 import { status } from "elysia";
 
@@ -123,8 +124,24 @@ export async function createApiKeyHandler(
 	userId: string,
 	body: ApiKeyTypes.CreateApiKeyRequest,
 ): Promise<ApiKeyTypes.ApiKeyWithKeyResponse> {
+	const startTime = Date.now();
 	try {
 		const apiKey = await createApiKey(organizationId, userId, body);
+
+		// Log successful API key creation
+		logActivity({
+			service: "api-key",
+			endpoint: "/v1/",
+			method: "POST",
+			organization_id: organizationId,
+			user_id: userId,
+			resource_type: "api-key",
+			resource_id: apiKey.id,
+			status: "success",
+			result: "created",
+			duration_ms: Date.now() - startTime,
+		}).catch(() => { });
+
 		return apiKey;
 	} catch (error) {
 		logger.error(
@@ -135,6 +152,20 @@ export async function createApiKeyHandler(
 			},
 			"Error creating API key",
 		);
+
+		// Log failed API key creation
+		logActivity({
+			service: "api-key",
+			endpoint: "/v1/",
+			method: "POST",
+			organization_id: organizationId,
+			user_id: userId,
+			resource_type: "api-key",
+			status: "error",
+			error_message: error instanceof Error ? error.message : String(error),
+			duration_ms: Date.now() - startTime,
+		}).catch(() => { });
+
 		throw error;
 	}
 }

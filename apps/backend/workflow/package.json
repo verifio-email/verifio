@@ -16,7 +16,8 @@
 		"elysia": "catalog:backend",
 		"inngest": "catalog:backend",
 		"@verifio/db": "workspace:*",
-		"@verifio/logger": "workspace:*"
+		"@verifio/logger": "workspace:*",
+		"@verifio/logging": "workspace:*"
 	},
 	"devDependencies": {
 		"@verifio/tsconfig": "workspace:*",

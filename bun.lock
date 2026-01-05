@@ -3,9 +3,6 @@
   "workspaces": {
     "": {
       "name": "reloop",
-      "dependencies": {
-        "rc-progress": "^4.0.0",
-      },
       "devDependencies": {
         "@biomejs/biome": "2.2.6",
         "husky": "9.1.7",
@@ -35,6 +32,7 @@
         "@verifio/cache": "workspace:*",
         "@verifio/db": "workspace:*",
         "@verifio/logger": "workspace:*",
+        "@verifio/logging": "workspace:*",
         "better-auth": "catalog:",
         "dotenv": "catalog:backend",
         "drizzle-orm": "catalog:db",
@@ -74,6 +72,7 @@
         "@verifio/cache": "workspace:*",
         "@verifio/db": "workspace:*",
         "@verifio/logger": "workspace:*",
+        "@verifio/logging": "workspace:*",
         "@verifio/react-email": "workspace:*",
         "better-auth": "catalog:",
         "dotenv": "catalog:backend",
@@ -94,28 +93,17 @@
         "typescript": "catalog:",
       },
     },
-    "apps/backend/logs": {
-      "name": "logs",
+    "apps/backend/logging": {
+      "name": "logging",
       "dependencies": {
         "@elysiajs/cors": "catalog:backend",
-        "@elysiajs/cron": "catalog:backend",
         "@elysiajs/openapi": "catalog:backend",
-        "@elysiajs/opentelemetry": "catalog:backend",
         "@elysiajs/server-timing": "catalog:backend",
-        "@elysiajs/swagger": "catalog:backend",
-        "@opentelemetry/exporter-trace-otlp-http": "catalog:backend",
-        "@opentelemetry/exporter-trace-otlp-proto": "catalog:backend",
-        "@opentelemetry/instrumentation-express": "catalog:backend",
-        "@opentelemetry/instrumentation-http": "catalog:backend",
-        "@opentelemetry/resources": "catalog:backend",
-        "@opentelemetry/sdk-trace-node": "catalog:backend",
-        "@opentelemetry/semantic-conventions": "catalog:backend",
         "@verifio/logger": "workspace:*",
         "dotenv": "catalog:backend",
         "drizzle-orm": "catalog:db",
         "elysia": "catalog:backend",
         "pg": "catalog:db",
-        "zod": "catalog:ui",
       },
       "devDependencies": {
         "@types/bun": "catalog:backend",
@@ -148,6 +136,7 @@
         "@verifio/cache": "workspace:*",
         "@verifio/db": "workspace:*",
         "@verifio/logger": "workspace:*",
+        "@verifio/logging": "workspace:*",
         "better-auth": "catalog:",
         "dotenv": "catalog:backend",
         "drizzle-orm": "catalog:db",
@@ -180,6 +169,7 @@
         "@verifio/db": "workspace:*",
         "@verifio/email-verify": "workspace:*",
         "@verifio/logger": "workspace:*",
+        "@verifio/logging": "workspace:*",
         "dotenv": "catalog:backend",
         "drizzle-orm": "catalog:db",
         "elysia": "catalog:backend",
@@ -197,6 +187,7 @@
         "@elysiajs/cors": "catalog:backend",
         "@verifio/db": "workspace:*",
         "@verifio/logger": "workspace:*",
+        "@verifio/logging": "workspace:*",
         "dotenv": "catalog:backend",
         "drizzle-orm": "catalog:db",
         "elysia": "catalog:backend",
@@ -308,7 +299,6 @@
       "version": "0.1.0",
       "dependencies": {
         "@hookform/resolvers": "catalog:ui",
-        "@rc-component/slider": "catalog:ui",
         "@react-three/drei": "^10.7.6",
         "@react-three/fiber": "^9.4.0",
         "@tailwindcss/postcss": "catalog:ui",
@@ -322,6 +312,7 @@
         "next": "catalog:ui",
         "next-themes": "catalog:ui",
         "postcss": "catalog:ui",
+        "rc-progress": "catalog:ui",
         "react": "catalog:ui",
         "react-dom": "catalog:ui",
         "react-hook-form": "catalog:ui",
@@ -440,6 +431,17 @@
       },
       "devDependencies": {
         "@types/node": "catalog:",
+        "@verifio/tsconfig": "workspace:*",
+        "typescript": "catalog:",
+      },
+    },
+    "packages/logging": {
+      "name": "@verifio/logging",
+      "version": "1.0.0",
+      "dependencies": {
+        "@verifio/logger": "workspace:*",
+      },
+      "devDependencies": {
         "@verifio/tsconfig": "workspace:*",
         "typescript": "catalog:",
       },
@@ -615,6 +617,7 @@
       "nuqs": "^2.6.0",
       "postcss": "8.5.6",
       "radix-ui": "1.4.2",
+      "rc-progress": "^4.0.0",
       "react": "^19.2.0",
       "react-aria-components": "1.11.0",
       "react-day-picker": "9.8.0",
@@ -1380,10 +1383,6 @@
 
     "@radix-ui/rect": ["@radix-ui/rect@1.1.1", "", {}, "sha512-HPwpGIzkl28mWyZqG52jiqDJ12waP11Pa1lGoiyUkIEuMLBP0oeK/C89esbXrxsky5we7dfd8U58nm0SgAWpVw=="],
 
-    "@rc-component/slider": ["@rc-component/slider@1.0.1", "", { "dependencies": { "@rc-component/util": "^1.3.0", "clsx": "^2.1.1" }, "peerDependencies": { "react": ">=16.9.0", "react-dom": ">=16.9.0" } }, "sha512-uDhEPU1z3WDfCJhaL9jfd2ha/Eqpdfxsn0Zb0Xcq1NGQAman0TWaR37OWp2vVXEOdV2y0njSILTMpTfPV1454g=="],
-
-    "@rc-component/util": ["@rc-component/util@1.7.0", "", { "dependencies": { "is-mobile": "^5.0.0", "react-is": "^18.2.0" }, "peerDependencies": { "react": ">=18.0.0", "react-dom": ">=18.0.0" } }, "sha512-tIvIGj4Vl6fsZFvWSkYw9sAfiCKUXMyhVz6kpKyZbwyZyRPqv2vxYZROdaO1VB4gqTNvUZFXh6i3APUiterw5g=="],
-
     "@react-aria/autocomplete": ["@react-aria/autocomplete@3.0.0-beta.6", "", { "dependencies": { "@react-aria/combobox": "^3.13.0", "@react-aria/focus": "^3.21.0", "@react-aria/i18n": "^3.12.11", "@react-aria/interactions": "^3.25.4", "@react-aria/listbox": "^3.14.7", "@react-aria/searchfield": "^3.8.7", "@react-aria/textfield": "^3.18.0", "@react-aria/utils": "^3.30.0", "@react-stately/autocomplete": "3.0.0-beta.3", "@react-stately/combobox": "^3.11.0", "@react-types/autocomplete": "3.0.0-alpha.33", "@react-types/button": "^3.13.0", "@react-types/shared": "^3.31.0", "@swc/helpers": "^0.5.0" }, "peerDependencies": { "react": "^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1", "react-dom": "^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1" } }, "sha512-/i0Y1nJNSDk5k49tlApYfFCylZO597KQSMy4AbG60W6VNUw51QrmY9bzO3zdGAEVdPSuMys/72KwvV6LOpllyQ=="],
 
     "@react-aria/breadcrumbs": ["@react-aria/breadcrumbs@3.5.29", "", { "dependencies": { "@react-aria/i18n": "^3.12.13", "@react-aria/link": "^3.8.6", "@react-aria/utils": "^3.31.0", "@react-types/breadcrumbs": "^3.7.17", "@react-types/shared": "^3.32.1", "@swc/helpers": "^0.5.0" }, "peerDependencies": { "react": "^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1", "react-dom": "^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1" } }, "sha512-rKS0dryllaZJqrr3f/EAf2liz8CBEfmL5XACj+Z1TAig6GIYe1QuA3BtkX0cV9OkMugXdX8e3cbA7nD10ORRqg=="],
@@ -1881,6 +1880,8 @@
     "@verifio/email-verify": ["@verifio/email-verify@workspace:packages/email-verify"],
 
     "@verifio/logger": ["@verifio/logger@workspace:packages/logger"],
+
+    "@verifio/logging": ["@verifio/logging@workspace:packages/logging"],
 
     "@verifio/react-email": ["@verifio/react-email@workspace:packages/email"],
 
@@ -2514,8 +2515,6 @@
 
     "is-interactive": ["is-interactive@1.0.0", "", {}, "sha512-2HvIEKRoqS62guEC+qBjpvRubdX910WCMuJTZ+I9yvqKU2/12eSL549HMwtabb4oupdj2sMP50k+XJfB/8JE6w=="],
 
-    "is-mobile": ["is-mobile@5.0.0", "", {}, "sha512-Tz/yndySvLAEXh+Uk8liFCxOwVH6YutuR74utvOcu7I9Di+DwM0mtdPVZNaVvvBUM2OXxne/NhOs1zAO7riusQ=="],
-
     "is-number": ["is-number@7.0.0", "", {}, "sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng=="],
 
     "is-plain-obj": ["is-plain-obj@4.1.0", "", {}, "sha512-+Pgi+vMuUNkJyExiMBt5IlFoMyKnr5zhJ4Uspz58WOhBF5QoIZkFyNHIbBAtHwzVAgk5RtndVNsDRN61/mmDqg=="],
@@ -2616,7 +2615,7 @@
 
     "log-update": ["log-update@6.1.0", "", { "dependencies": { "ansi-escapes": "^7.0.0", "cli-cursor": "^5.0.0", "slice-ansi": "^7.1.0", "strip-ansi": "^7.1.0", "wrap-ansi": "^9.0.0" } }, "sha512-9ie8ItPR6tjY5uYJh8K/Zrv/RMZ5VOlOWvtZdEHYSTFKZfIBPQa9tOAEeAWhd+AnIneLJ22w5fjOYtoutpWq5w=="],
 
-    "logs": ["logs@workspace:apps/backend/logs"],
+    "logging": ["logging@workspace:apps/backend/logging"],
 
     "long": ["long@5.3.2", "", {}, "sha512-mNAgZ1GmyNhD7AuqnTG3/VQ26o760+ZYBPKjPvugO8+nLbYfX6TVpJPseBvopbdY+qpZ/lKUnmEc1LeZYS3QAA=="],
 

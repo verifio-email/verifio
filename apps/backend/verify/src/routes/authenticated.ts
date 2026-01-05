@@ -7,6 +7,7 @@ import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
 import { verifyEmail } from "@verifio/email-verify";
 import { logger } from "@verifio/logger";
+import { logActivity } from "@verifio/logging";
 import { Elysia, t } from "elysia";
 import { authMiddleware } from "../middleware/auth";
 
@@ -34,7 +35,7 @@ export const authenticatedSingleRoute = new Elysia({
   .use(authMiddleware)
   .post(
     "/verify",
-    async ({ body, user, organizationId, userId }) => {
+    async ({ body, organizationId, userId, request }) => {
       const startTime = Date.now();
 
       try {
@@ -48,6 +49,8 @@ export const authenticatedSingleRoute = new Elysia({
           skipRole: body.options?.skipRole,
           skipTypo: body.options?.skipTypo,
         });
+
+        const duration = Date.now() - startTime;
 
         // Store result in database if we have auth context
         if (organizationId && userId) {
@@ -73,6 +76,25 @@ export const authenticatedSingleRoute = new Elysia({
               "Failed to store verification result in database"
             );
           }
+
+          // Log activity for tracking
+          logActivity({
+            service: "verify",
+            endpoint: "/v1/verify",
+            method: "POST",
+            organization_id: organizationId,
+            user_id: userId,
+            resource_type: "email",
+            resource_id: body.email,
+            status: "success",
+            result: result.state,
+            credits_used: 1,
+            duration_ms: duration,
+            ip_address: request.headers.get("x-forwarded-for") || undefined,
+            user_agent: request.headers.get("user-agent") || undefined,
+          }).catch(() => {
+            // Fire and forget - don't block on logging
+          });
         }
 
         logger.info(
@@ -80,7 +102,7 @@ export const authenticatedSingleRoute = new Elysia({
             email: body.email,
             state: result.state,
             score: result.score,
-            duration: Date.now() - startTime,
+            duration,
           },
           "Email verification completed"
         );
@@ -92,11 +114,32 @@ export const authenticatedSingleRoute = new Elysia({
       } catch (error) {
         const errorMessage =
           error instanceof Error ? error.message : "Unknown error";
+        const duration = Date.now() - startTime;
 
         logger.error(
           { email: body.email, error: errorMessage },
           "Email verification failed"
         );
+
+        // Log failed activity
+        if (organizationId) {
+          logActivity({
+            service: "verify",
+            endpoint: "/v1/verify",
+            method: "POST",
+            organization_id: organizationId,
+            user_id: userId,
+            resource_type: "email",
+            resource_id: body.email,
+            status: "error",
+            error_message: errorMessage,
+            duration_ms: duration,
+            ip_address: request.headers.get("x-forwarded-for") || undefined,
+            user_agent: request.headers.get("user-agent") || undefined,
+          }).catch(() => {
+            // Fire and forget
+          });
+        }
 
         return {
           success: false,
