@@ -34,6 +34,6 @@ COPY --from=builder /app/node_modules ./node_modules
 # Copy workspace packages that are used as external dependencies
 COPY --from=builder /app/packages ./packages
 
-EXPOSE 8013
+EXPOSE 3040
 
 CMD ["bun", "run", "dist/index.js"]
