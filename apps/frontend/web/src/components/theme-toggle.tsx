@@ -29,13 +29,13 @@ export const ThemeToggle = () => {
 
 	return (
 		<div
-			className="relative flex h-8 items-center rounded-full border border-stroke-soft-100 bg-bg-weak-50 p-1"
+			className="relative flex h-8 items-center gap-0 rounded-full border border-stroke-soft-200/60 p-1"
 			role="radiogroup"
 			aria-label="Select theme"
 		>
 			{/* Sliding background indicator */}
 			<motion.div
-				className="absolute h-6 w-8 rounded-full bg-bg-white-0 shadow-sm dark:bg-bg-strong-950"
+				className="pointer-events-none absolute left-1 h-6 w-8 rounded-full border border-stroke-soft-200/60 bg-bg-white-0"
 				initial={false}
 				animate={{
 					x: activeIndex * 32,
