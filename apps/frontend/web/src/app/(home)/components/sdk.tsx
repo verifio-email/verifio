@@ -129,7 +129,7 @@ export const Sdk = () => {
 	const [selectedSdk, setSelectedSdk] = useState<SdkType>(sdks[0] as SdkType);
 	const [indicatorStyle, setIndicatorStyle] = useState({ width: 0, left: 0 });
 	const [mounted, setMounted] = useState(false);
-	const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
+	const tabsRef = useRef<(HTMLDivElement | null)[]>([]);
 
 	useEffect(() => {
 		const activeIndex = sdks.findIndex((sdk) => sdk.id === selectedSdk.id);
@@ -158,7 +158,7 @@ export const Sdk = () => {
 	};
 
 	return (
-		<div className="border-stroke-soft-200/50 border-t">
+		<div className="border-stroke-soft-200/50 border-t border-b">
 			<div className="mx-auto max-w-7xl border-stroke-soft-200/50 border-r border-l">
 				<div className="flex items-center justify-between border-stroke-soft-200/50 border-b px-10 py-4">
 					<span className="text-sm text-text-sub-600">[02] SDK</span>
@@ -181,7 +181,7 @@ export const Sdk = () => {
 					<div className="flex flex-col border-stroke-soft-200/50">
 						{/* Tabs */}
 						<div className="border-stroke-soft-200/50 border-b">
-							<div className="relative flex w-fit items-center gap-2 bg-bg-white-0 px-4 py-3">
+							<div className="relative flex w-fit items-stretch border-stroke-soft-200/50 border-r bg-bg-white-0">
 								{/* Animated floating background */}
 								<div
 									className={`absolute inset-y-3 rounded-full border border-stroke-soft-200/50 bg-bg-white-100 transition-all duration-300 ${
@@ -196,27 +196,31 @@ export const Sdk = () => {
 								/>
 								{sdks.map((sdk, index) => (
 									<Fragment key={sdk.id}>
-										<button
+										<div
 											ref={(el) => {
 												tabsRef.current[index] = el;
 											}}
-											type="button"
-											onClick={() => setSelectedSdk(sdk)}
-											className="relative z-10 flex items-center gap-2 rounded-full border border-transparent px-4 py-1.5 transition-colors hover:opacity-70"
+											className="relative z-10 mx-3 flex flex-col justify-center py-3"
 										>
-											<span className="text-lg">{sdk.icon}</span>
-											<span
-												className={`font-semibold text-sm ${
-													selectedSdk.id === sdk.id
-														? "text-text-strong-950"
-														: "text-text-sub-600"
-												}`}
+											<button
+												type="button"
+												onClick={() => setSelectedSdk(sdk)}
+												className="flex cursor-pointer items-center gap-2 rounded-full border border-transparent px-4 py-3 transition-colors"
 											>
-												{sdk.name}
-											</span>
-										</button>
+												<span className="text-lg">{sdk.icon}</span>
+												<span
+													className={`font-semibold text-sm ${
+														selectedSdk.id === sdk.id
+															? "text-text-strong-950"
+															: "text-text-sub-600"
+													}`}
+												>
+													{sdk.name}
+												</span>
+											</button>
+										</div>
 										{index < sdks.length - 1 && (
-											<div className="h-4 w-px bg-stroke-soft-200/50" />
+											<div className="w-px bg-stroke-soft-200/50" />
 										)}
 									</Fragment>
 								))}
