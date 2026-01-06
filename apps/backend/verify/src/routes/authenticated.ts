@@ -53,9 +53,10 @@ export const authenticatedSingleRoute = new Elysia({
         const duration = Date.now() - startTime;
 
         // Store result in database if we have auth context
+        let resultId: string | undefined;
         if (organizationId && userId) {
           try {
-            await db.insert(schema.verificationResult).values({
+            const [inserted] = await db.insert(schema.verificationResult).values({
               organizationId,
               userId,
               email: result.email,
@@ -63,10 +64,12 @@ export const authenticatedSingleRoute = new Elysia({
               score: result.score,
               reason: result.reason,
               result: result,
-            });
+            }).returning({ id: schema.verificationResult.id });
+
+            resultId = inserted?.id;
 
             logger.info(
-              { email: body.email, organizationId },
+              { email: body.email, organizationId, resultId },
               "Verification result stored in database"
             );
           } catch (dbError) {
@@ -109,7 +112,10 @@ export const authenticatedSingleRoute = new Elysia({
 
         return {
           success: true,
-          data: result,
+          data: {
+            ...result,
+            id: resultId,
+          },
         };
       } catch (error) {
         const errorMessage =

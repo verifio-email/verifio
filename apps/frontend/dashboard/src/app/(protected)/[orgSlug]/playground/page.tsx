@@ -16,6 +16,7 @@ type TabType = "single" | "bulk";
 
 // Verification result types matching the API response
 interface VerificationResult {
+	id?: string; // Database ID returned from authenticated API
 	email: string;
 	user: string;
 	domain: string;
@@ -133,7 +134,7 @@ const PlaygroundPage = () => {
 						state: string;
 						score: number;
 						reason: string;
-						duration?: number;
+						result?: { duration?: number };
 						createdAt: string;
 					}) => ({
 						id: item.id,
@@ -143,7 +144,7 @@ const PlaygroundPage = () => {
 							state: item.state,
 							score: item.score,
 							reason: item.reason,
-							duration: item.duration,
+							duration: item.result?.duration,
 						} as VerificationResult,
 						timestamp: new Date(item.createdAt),
 					}),
@@ -222,8 +223,9 @@ const PlaygroundPage = () => {
 				const result = data.data as VerificationResult;
 				setCurrentResult(result);
 
+				// Use the database ID if available, otherwise fall back to timestamp
 				const newRun: RecentRun = {
-					id: Date.now().toString(),
+					id: result.id || Date.now().toString(),
 					email: result.email,
 					result: result,
 					timestamp: new Date(),

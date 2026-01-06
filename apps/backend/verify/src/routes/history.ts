@@ -63,6 +63,7 @@ export const historyRoute = new Elysia({
             state: schema.verificationResult.state,
             score: schema.verificationResult.score,
             reason: schema.verificationResult.reason,
+            result: schema.verificationResult.result,
             createdAt: schema.verificationResult.createdAt,
           })
           .from(schema.verificationResult)
