@@ -1,36 +1,17 @@
 /**
  * Disposable Email Detection
  * Check if email uses a temporary/throwaway service
+ *
+ * Uses a comprehensive database of 70,000+ disposable domains
+ * sourced from FakeFilter, disposable-email-domains, and disposable repositories
  */
 
 import {
   DISPOSABLE_DOMAINS,
+  getDisposableProvider,
   isDisposableDomain,
 } from "../data/disposable-domains";
 import type { DisposableCheckResult } from "../types";
-
-/**
- * Well-known disposable email providers with names
- */
-const KNOWN_DISPOSABLE_PROVIDERS: Map<string, string> = new Map([
-  ["10minutemail.com", "10 Minute Mail"],
-  ["guerrillamail.com", "Guerrilla Mail"],
-  ["mailinator.com", "Mailinator"],
-  ["tempmail.com", "Temp Mail"],
-  ["temp-mail.org", "Temp Mail"],
-  ["yopmail.com", "YOPmail"],
-  ["maildrop.cc", "Maildrop"],
-  ["throwaway.email", "Throwaway Email"],
-  ["trashmail.com", "Trash Mail"],
-  ["fakeinbox.com", "Fake Inbox"],
-  ["getnada.com", "Nada"],
-  ["sharklasers.com", "Shark Lasers"],
-  ["spam4.me", "Spam4.me"],
-  ["mailnesia.com", "Mailnesia"],
-  ["dispostable.com", "Dispostable"],
-  ["dropmail.me", "Dropmail"],
-  ["emailondeck.com", "Email On Deck"],
-]);
 
 /**
  * Check if email domain is disposable
@@ -46,8 +27,8 @@ export function checkDisposable(domain: string): DisposableCheckResult {
     };
   }
 
-  // Get provider name if known
-  const provider = KNOWN_DISPOSABLE_PROVIDERS.get(lowerDomain);
+  // Get provider name if known (uses comprehensive FakeFilter data)
+  const provider = getDisposableProvider(lowerDomain);
 
   return {
     isDisposable: true,
