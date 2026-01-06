@@ -133,6 +133,7 @@ const PlaygroundPage = () => {
 						state: string;
 						score: number;
 						reason: string;
+						duration?: number;
 						createdAt: string;
 					}) => ({
 						id: item.id,
@@ -142,6 +143,7 @@ const PlaygroundPage = () => {
 							state: item.state,
 							score: item.score,
 							reason: item.reason,
+							duration: item.duration,
 						} as VerificationResult,
 						timestamp: new Date(item.createdAt),
 					}),
@@ -1376,31 +1378,43 @@ const PlaygroundPage = () => {
 											className="flex w-full items-center justify-between border-stroke-soft-200/50 border-b px-6 py-4 text-left transition-colors last:border-b-0 hover:bg-bg-weak-50"
 										>
 											<div className="flex items-center gap-3">
-												{(() => {
-													const ProviderIcon = getProviderIcon(run.email);
-													if (ProviderIcon) {
-														return <ProviderIcon className="h-5 w-5" />;
-													}
-													return (
-														<Icon
-															name={
-																run.result.state === "deliverable"
-																	? "check-circle"
-																	: run.result.state === "risky"
-																		? "alert-triangle"
-																		: "x-circle"
-															}
-															className={cn(
-																"h-5 w-5",
-																run.result.state === "deliverable"
-																	? "text-success-base"
-																	: run.result.state === "risky"
-																		? "text-warning-base"
-																		: "text-error-base",
-															)}
-														/>
-													);
-												})()}
+												{/* Consistent icon container */}
+												<div
+													className={cn(
+														"flex h-8 w-8 shrink-0 items-center justify-center rounded-lg",
+														run.result.state === "deliverable"
+															? "bg-success-alpha-10"
+															: run.result.state === "risky"
+																? "bg-warning-alpha-10"
+																: "bg-error-alpha-10",
+													)}
+												>
+													{(() => {
+														const ProviderIcon = getProviderIcon(run.email);
+														if (ProviderIcon) {
+															return <ProviderIcon className="h-4 w-4" />;
+														}
+														return (
+															<Icon
+																name={
+																	run.result.state === "deliverable"
+																		? "check-circle"
+																		: run.result.state === "risky"
+																			? "alert-triangle"
+																			: "x-circle"
+																}
+																className={cn(
+																	"h-4 w-4",
+																	run.result.state === "deliverable"
+																		? "text-success-base"
+																		: run.result.state === "risky"
+																			? "text-warning-base"
+																			: "text-error-base",
+																)}
+															/>
+														);
+													})()}
+												</div>
 												<span className="font-mono text-sm text-text-strong-950">
 													{run.email}
 												</span>
@@ -1409,7 +1423,7 @@ const PlaygroundPage = () => {
 											<div className="flex items-center gap-4">
 												<span
 													className={cn(
-														"font-semibold text-sm",
+														"font-semibold text-sm tabular-nums",
 														getScoreColor(run.result.score),
 													)}
 												>
@@ -1428,7 +1442,7 @@ const PlaygroundPage = () => {
 													{run.result.state}
 												</span>
 												{run.result.duration && (
-													<span className="text-sm text-text-soft-400">
+													<span className="min-w-[50px] text-right text-sm text-text-soft-400 tabular-nums">
 														{run.result.duration}ms
 													</span>
 												)}

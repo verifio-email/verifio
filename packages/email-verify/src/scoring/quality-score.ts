@@ -40,9 +40,12 @@ export function calculateScore(checks: VerificationChecks): number {
     score += SCORING_WEIGHTS.hasMx;
   }
 
-  // Not disposable
+  // Not disposable (bonus for legitimate domains, penalty for disposable)
   if (!checks.disposable.isDisposable) {
     score += SCORING_WEIGHTS.notDisposable;
+  } else {
+    // Significant penalty for disposable emails - they're high risk
+    score -= 30;
   }
 
   // Not role-based
