@@ -37,7 +37,7 @@ const securityFeatures = [
 export default function Security() {
 	return (
 		<div className="border-stroke-soft-200/50 border-t border-b">
-			<div className="mx-auto max-w-7xl border-stroke-soft-200/50 border-r border-l">
+			<div className="mx-auto max-w-5xl border-stroke-soft-200/50 border-r border-l">
 				<div className="flex items-stretch justify-between">
 					{/* Left Section */}
 					<div className="space-y-6 py-20 pl-10">

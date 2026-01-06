@@ -5,7 +5,7 @@ import { CodeBlock } from "@verifio/ui/code-block";
 import { Icon } from "@verifio/ui/icon";
 import Link from "next/link";
 import { Fragment, type ReactNode, useEffect, useRef, useState } from "react";
-import { Go, Nodejs, Python, Php } from "./language-svg";
+import { Go, Nodejs, Php, Python } from "./language-svg";
 
 const copyToClipboard = async (text: string) => {
 	try {
@@ -160,7 +160,7 @@ export const Sdk = () => {
 
 	return (
 		<div className="border-stroke-soft-100/60 border-t border-b">
-			<div className="mx-auto max-w-7xl border-stroke-soft-100/60 border-r border-l">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l">
 				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-10 py-4">
 					<span className="text-text-sub-600 text-xs">[02] SDK</span>
 					<span className="text-text-sub-600 text-xs">/ DEVELOPER TOOLS</span>
@@ -169,19 +169,19 @@ export const Sdk = () => {
 					{/* Header Section */}
 					<div className="flex flex-col items-center justify-center border-stroke-soft-100/60 border-b p-10 text-center">
 						{/* Developer First Badge */}
-						<div className="mb-4 flex items-center gap-1">
+						<div className="mb-6 flex items-center gap-1">
 							<Icon name="code-box" className="h-4 w-4 text-primary-base" />
 							<span className="font-medium text-sm text-text-sub-600">
 								Developer First
 							</span>
 						</div>
 						<h2 className="max-w-3xl font-semibold text-3xl text-text-strong-950">
-							Email Verification for Developers.{" "}
-							<span className="text-text-sub-600 leading-8">
-								First-class SDKs that integrate in minutes with just a few lines
-								of code.
-							</span>
+							Email Verification for Developers. <br />
 						</h2>
+						<p className="mt-0.5 font-medium text-text-sub-600 leading-8">
+							First-class SDKs that integrate in minutes with just a few lines
+							of code.
+						</p>
 					</div>
 
 					{/* SDK Selection and Code Display */}

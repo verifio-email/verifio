@@ -201,7 +201,7 @@ export const Footer = () => {
 			</Script>
 
 			<div className="border-stroke-soft-100/60 border-t border-b">
-				<div className="mx-4 max-w-7xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
+				<div className="mx-4 max-w-5xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
 					<div className="flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 						<span className="text-text-sub-600 text-xs" aria-hidden="true">
 							[FOOTER]
@@ -341,12 +341,12 @@ export const Footer = () => {
 						</div>
 					</div>
 				</div>
-				<div className="mx-4 h-10 max-w-7xl border border-stroke-soft-100/60 md:mx-auto md:h-16" />
+				<div className="mx-4 h-10 max-w-5xl border border-stroke-soft-100/60 md:mx-auto md:h-16" />
 
 				{/* Main Footer Navigation */}
 				<nav
 					aria-label="Footer navigation"
-					className="mx-4 max-w-7xl border-stroke-soft-100/60 border-r border-l md:mx-auto"
+					className="mx-4 max-w-5xl border-stroke-soft-100/60 border-r border-l md:mx-auto"
 				>
 					<div className="grid grid-cols-2 gap-0 border-stroke-soft-100/60 md:grid-cols-4">
 						{links.map((link, index) => (
@@ -391,7 +391,7 @@ export const Footer = () => {
 				</nav>
 
 				{/* Lower Footer Section - Copyright, Status, Legal */}
-				<div className="mx-4 max-w-7xl border-stroke-soft-100/60 border-t border-r border-b border-l md:mx-auto">
+				<div className="mx-4 max-w-5xl border-stroke-soft-100/60 border-t border-r border-b border-l md:mx-auto">
 					<div className="flex items-center justify-between gap-3 px-4 py-4 sm:items-center md:gap-4 md:px-6 md:py-6">
 						<div className="flex items-center gap-2 md:gap-3">
 							<output
@@ -412,7 +412,7 @@ export const Footer = () => {
 					</div>
 				</div>
 				<div
-					className="mx-4 h-10 max-w-7xl border-stroke-soft-100/60 border-r border-l md:mx-auto md:h-16"
+					className="mx-4 h-10 max-w-5xl border-stroke-soft-100/60 border-r border-l md:mx-auto md:h-16"
 					aria-hidden="true"
 				/>
 			</div>

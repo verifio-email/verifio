@@ -8,7 +8,7 @@ export const Scale = () => {
 
 	return (
 		<div className="border-stroke-soft-200/50 border-t">
-			<div className="mx-auto max-w-7xl border-stroke-soft-200/50 border-r border-l">
+			<div className="mx-auto max-w-5xl border-stroke-soft-200/50 border-r border-l">
 				<div className="flex items-center justify-between border-stroke-soft-200/50 border-b px-10 py-4">
 					<span className="text-sm text-text-sub-600">
 						[04] BUILT FOR SCALE
