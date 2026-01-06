@@ -19,7 +19,7 @@ import {
 	yahoo,
 	yandex,
 	zoho,
-} from "@verifio/email-verify/utils/email-icons";
+} from "@fe/dashboard/components/email-icons";
 import type { ComponentType, SVGProps } from "react";
 
 // Map domains to their icon components
