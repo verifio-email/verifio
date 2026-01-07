@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import { useSWRConfig } from "swr";
 import { EditApiKeyModal } from "../../components/edit-api-key-modal";
 import { RotateApiKeyModal } from "../../components/rotate-api-key-modal";
+import { RecentActivity } from "./recent-activity";
 
 interface ApiKeyData {
 	id: string;
@@ -173,7 +174,7 @@ export const ApiKeyHeader = ({
 
 	return (
 		<>
-			<div className="h-full">
+			<div className="h-full overflow-hidden">
 				<div
 					className={cn(
 						"h-full",
@@ -512,6 +513,9 @@ export const ApiKeyHeader = ({
 							</div>
 							<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
 						</div>
+
+						{/* Recent Activity Section */}
+						{apiKey && <RecentActivity apiKeyId={apiKey.id} />}
 					</div>
 				</div>
 			</div>

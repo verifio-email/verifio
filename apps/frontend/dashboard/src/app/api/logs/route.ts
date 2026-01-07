@@ -26,6 +26,7 @@ export async function GET(request: NextRequest) {
     params.set("organization_id", organizationId);
 
     // Forward optional filters
+    const apiKeyId = searchParams.get("api_key_id");
     const service = searchParams.get("service");
     const endpoint = searchParams.get("endpoint");
     const status = searchParams.get("status");
@@ -35,6 +36,7 @@ export async function GET(request: NextRequest) {
     const page = searchParams.get("page");
     const limit = searchParams.get("limit");
 
+    if (apiKeyId) params.set("api_key_id", apiKeyId);
     if (service) params.set("service", service);
     if (endpoint) params.set("endpoint", endpoint);
     if (status) params.set("status", status);

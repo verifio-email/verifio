@@ -36,7 +36,7 @@ export const authenticatedSingleRoute = new Elysia({
   .use(authMiddleware)
   .post(
     "/verify",
-    async ({ body, organizationId, userId, request, set }) => {
+    async ({ body, organizationId, userId, apiKeyId, request, set }) => {
       const startTime = Date.now();
 
       try {
@@ -109,6 +109,7 @@ export const authenticatedSingleRoute = new Elysia({
             method: "POST",
             organization_id: organizationId,
             user_id: userId,
+            api_key_id: apiKeyId,
             resource_type: "email",
             resource_id: body.email,
             status: "success",

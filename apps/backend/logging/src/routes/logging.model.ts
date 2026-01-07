@@ -51,6 +51,7 @@ export namespace LoggingModel {
   // GET /v1/logs query parameters
   export const logsQuery = t.Object({
     organization_id: t.String({ description: "Organization ID (required)" }),
+    api_key_id: t.Optional(t.String({ description: "Filter by API key ID" })),
     service: t.Optional(t.String({ description: "Filter by service" })),
     endpoint: t.Optional(t.String({ description: "Filter by endpoint" })),
     status: t.Optional(t.String({ description: "Filter by status" })),

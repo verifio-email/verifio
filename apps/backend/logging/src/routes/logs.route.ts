@@ -21,6 +21,9 @@ export const logsRoute = new Elysia().get(
       // Build where conditions
       const conditions = [eq(activityLogs.organizationId, query.organization_id)];
 
+      if (query.api_key_id) {
+        conditions.push(eq(activityLogs.apiKeyId, query.api_key_id));
+      }
       if (query.service) {
         conditions.push(eq(activityLogs.service, query.service));
       }

@@ -107,6 +107,7 @@ async function authenticateWithCookie(cookie: string): Promise<{
   session: Session["session"];
   organizationId: string | null;
   userId: string;
+  apiKeyId: undefined;
   authMethod: "cookie";
 } | null> {
   const authUrl = `${verifyConfig.baseUrl}/api/auth/v1/get-session`;
@@ -138,6 +139,7 @@ async function authenticateWithCookie(cookie: string): Promise<{
         session: session.session,
         organizationId,
         userId: session.user.id,
+        apiKeyId: undefined,
         authMethod: "cookie" as const,
       };
     }
