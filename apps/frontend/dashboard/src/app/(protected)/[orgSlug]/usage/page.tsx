@@ -76,7 +76,7 @@ const UsagePage = () => {
 			</div>
 
 			{/* Content Area with vertical borders extending to bottom */}
-			<div className="flex-1 overflow-y-auto">
+			<div className="flex-1 overflow-y-auto overflow-x-hidden">
 				<div
 					className={cn(
 						"h-full",
