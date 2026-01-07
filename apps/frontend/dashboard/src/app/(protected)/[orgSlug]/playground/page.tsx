@@ -113,6 +113,75 @@ const PlaygroundPage = () => {
 	const [bulkResultsPage, setBulkResultsPage] = useState(1);
 	const [bulkResultsSearch, setBulkResultsSearch] = useState("");
 	const [bulkResultsPageSize, setBulkResultsPageSize] = useState(10);
+	const [emailValidationError, setEmailValidationError] = useState<
+		string | null
+	>(null);
+
+	// Client-side email validation (matches backend syntax.ts checks)
+	const validateEmailSyntax = (
+		emailToValidate: string,
+	): { valid: boolean; error?: string } => {
+		const normalizedEmail = emailToValidate.trim().toLowerCase();
+
+		// Check if empty
+		if (!normalizedEmail) {
+			return { valid: false, error: "Email address is required" };
+		}
+
+		// Check for @ symbol
+		if (!normalizedEmail.includes("@")) {
+			return { valid: false, error: "Email must contain @ symbol" };
+		}
+
+		// Split into local and domain parts
+		const atIndex = normalizedEmail.lastIndexOf("@");
+		const localPart = normalizedEmail.substring(0, atIndex);
+		const domainPart = normalizedEmail.substring(atIndex + 1);
+
+		// Validate local part
+		if (localPart.length === 0) {
+			return { valid: false, error: "Email address is incomplete" };
+		}
+
+		// Validate domain part
+		if (domainPart.length === 0) {
+			return { valid: false, error: "Domain is required after @" };
+		}
+
+		// Check domain has at least one dot (TLD) - like Firecrawl's check
+		if (!domainPart.includes(".")) {
+			return {
+				valid: false,
+				error: "Email must have a valid top-level domain (e.g., .com, .org)",
+			};
+		}
+
+		// Check for leading/trailing dots or hyphens in domain
+		if (
+			domainPart.startsWith(".") ||
+			domainPart.endsWith(".") ||
+			domainPart.startsWith("-") ||
+			domainPart.endsWith("-")
+		) {
+			return { valid: false, error: "Invalid domain format" };
+		}
+
+		// Check TLD length (min 2 characters)
+		const tld = domainPart.split(".").pop() || "";
+		if (tld.length < 2) {
+			return {
+				valid: false,
+				error: "Top-level domain must be at least 2 characters",
+			};
+		}
+
+		// Check for consecutive dots
+		if (normalizedEmail.includes("..")) {
+			return { valid: false, error: "Email cannot contain consecutive dots" };
+		}
+
+		return { valid: true };
+	};
 
 	// Fetch verification history from database
 	const fetchHistory = async (page = 1) => {
@@ -198,8 +267,13 @@ const PlaygroundPage = () => {
 
 	// Call the verification API
 	const handleVerify = async () => {
-		if (!email.trim()) {
-			toast.error("Please enter an email address");
+		// Clear previous validation error
+		setEmailValidationError(null);
+
+		// Client-side validation first (like Firecrawl)
+		const validation = validateEmailSyntax(email);
+		if (!validation.valid) {
+			setEmailValidationError(validation.error || "Invalid email format");
 			return;
 		}
 
@@ -223,9 +297,10 @@ const PlaygroundPage = () => {
 				const result = data.data as VerificationResult;
 				setCurrentResult(result);
 
-				// Use the database ID if available, otherwise fall back to timestamp
+				// Use the database ID if available, otherwise fall back to timestamp for local display
+				// Note: Items with timestamp IDs won't be clickable (can't navigate to detail page)
 				const newRun: RecentRun = {
-					id: result.id || Date.now().toString(),
+					id: result.id || `local-${Date.now()}`,
 					email: result.email,
 					result: result,
 					timestamp: new Date(),
@@ -548,7 +623,13 @@ const PlaygroundPage = () => {
 													className="w-full flex-1 bg-transparent text-text-strong-950 outline-none placeholder:text-text-soft-400"
 													placeholder="example.com"
 													value={email}
-													onChange={(e) => setEmail(e.target.value)}
+													onChange={(e) => {
+														setEmail(e.target.value);
+														// Clear validation error when user types
+														if (emailValidationError) {
+															setEmailValidationError(null);
+														}
+													}}
 													onKeyDown={(e) => {
 														if (e.key === "Enter") {
 															handleVerify();
@@ -603,6 +684,19 @@ const PlaygroundPage = () => {
 												</button>
 											</div>
 										</div>
+
+										{/* Validation Error Display - like Firecrawl */}
+										{emailValidationError && (
+											<div className="flex items-center gap-2 border-stroke-soft-200/50 border-t bg-warning-alpha-10 px-3 py-2">
+												<Icon
+													name="alert-triangle"
+													className="h-4 w-4 shrink-0 text-warning-base"
+												/>
+												<span className="text-sm text-warning-base">
+													{emailValidationError}
+												</span>
+											</div>
+										)}
 									</>
 								) : (
 									<>
@@ -1375,7 +1469,14 @@ const PlaygroundPage = () => {
 											key={run.id}
 											type="button"
 											onClick={() => {
-												push(`/playground/verify/${run.id}`); // Navigate to detail
+												// Only navigate if we have a valid DB ID (not a local ID)
+												if (run.id && !run.id.startsWith("local-")) {
+													push(`/playground/verify/${run.id}`);
+												} else {
+													// For local results, show the result inline instead
+													setCurrentResult(run.result);
+													setEmail(run.email);
+												}
 											}}
 											className="flex w-full items-center justify-between border-stroke-soft-200/50 border-b px-6 py-4 text-left transition-colors last:border-b-0 hover:bg-bg-weak-50"
 										>
