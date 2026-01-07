@@ -398,12 +398,39 @@ export function WhatWeStandFor() {
 	return (
 		<div className="border-stroke-soft-200/50 border-t border-b">
 			<div className="mx-auto max-w-5xl border-stroke-soft-200/50 border-r border-l">
-				{/* Header */}
 				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-200/50 border-b bg-bg-white-0 px-10 py-4">
 					<span className="text-text-sub-600 text-xs">
 						[03] WHAT WE STAND FOR
 					</span>
 					<span className="text-text-sub-600 text-xs">/ OUR PROMISE</span>
+				</div>
+
+				{/* Title Section */}
+				<div className="flex flex-col gap-8 border-stroke-soft-200/50 border-b px-10 py-16 md:flex-row md:items-center md:gap-16">
+					{/* Badge */}
+					<div className="flex shrink-0 items-center gap-2">
+						<span className="text-text-sub-600/40">{"⁄⁄"}</span>
+						<div className="flex items-center gap-2 rounded-full border border-stroke-soft-200/50 bg-bg-white-0 px-3 py-1.5">
+							<Icon name="heart" className="h-4 w-4 text-primary-base" />
+							<span className="font-medium text-sm text-text-sub-600">
+								Built for Trust
+							</span>
+						</div>
+						<span className="text-text-sub-600/40">\\</span>
+					</div>
+
+					{/* Heading */}
+					<div className="space-y-3">
+						<h2 className="font-semibold text-3xl text-text-strong-950 md:text-4xl">
+							Core principles,
+							<br />
+							proven <span className="text-primary-base">performance</span>
+						</h2>
+						<p className="max-w-md text-text-sub-600">
+							Built from the ground up to outperform traditional email
+							verification services.
+						</p>
+					</div>
 				</div>
 
 				{/* Promise Cards - 3x3 Grid */}
