@@ -207,6 +207,29 @@ export const IconsSprite = () => (
 					strokeLinejoin="round"
 				/>
 			</symbol>
+			<symbol
+				id="activity"
+				viewBox="0 0 24 24"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<rect
+					opacity="0.12"
+					x={2}
+					y={2}
+					width={20}
+					height={20}
+					rx={6}
+					fill="currentColor"
+				/>
+				<path
+					d="M6 12H8L10 15L14 9L16 12H18M11.6 22H12.4C15.7603 22 17.4405 22 18.7239 21.346C19.8529 20.7708 20.7708 19.8529 21.346 18.7239C22 17.4405 22 15.7603 22 12.4V11.6C22 8.23969 22 6.55953 21.346 5.27606C20.7708 4.14708 19.8529 3.2292 18.7239 2.65396C17.4405 2 15.7603 2 12.4 2H11.6C8.23969 2 6.55953 2 5.27606 2.65396C4.14709 3.2292 3.22921 4.14708 2.65397 5.27606C2 6.55953 2 8.23969 2 11.6V12.4C2 15.7603 2 17.4405 2.65397 18.7239C3.22921 19.8529 4.14709 20.7708 5.27606 21.346C6.55953 22 8.23969 22 11.6 22Z"
+					stroke="currentColor"
+					strokeWidth="1.5"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+				/>
+			</symbol>
 
 			<symbol
 				id="cross"
