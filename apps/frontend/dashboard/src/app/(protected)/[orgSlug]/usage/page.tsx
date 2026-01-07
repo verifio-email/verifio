@@ -86,20 +86,20 @@ const UsagePage = () => {
 						{/* Billing Cycle Info */}
 						<div className="border-stroke-soft-200/50 border-b">
 							<div className="flex items-center gap-2 px-6 py-4">
-								<div className="h-1.5 w-1.5 rounded-full bg-primary-base" />
+								<Icon name="clock" className="h-4 w-4 text-text-sub-600" />
 								<span className="font-mono text-sm text-text-sub-600">
 									{creditData
 										? `${formatDate(creditData.resetInfo.periodStart)} - ${formatDate(creditData.resetInfo.periodEnd)}`
 										: "Loading..."}
 								</span>
 								<span className="text-text-disabled-300 text-xs">
-									CURRENT BILLING PERIOD
+									CURRENT CREDITS PERIOD
 								</span>
 							</div>
 						</div>
 
 						{/* Credit Cards Grid - Only 2 cards now */}
-						<div className="border-stroke-soft-200/50 border-b">
+						<div className="border-stroke-soft-200/50">
 							<div className="grid grid-cols-2">
 								{/* Monthly Credits */}
 								<div className="border-stroke-soft-200/50 border-r px-6 py-6">
@@ -121,15 +121,13 @@ const UsagePage = () => {
 												</p>
 											)}
 										</div>
-										<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-alpha-10">
-											<Icon
-												name="activity"
-												className="h-5 w-5 text-primary-base"
-											/>
-										</div>
+										<Icon
+											name="activity"
+											className="h-5 w-5 text-text-sub-600"
+										/>
 									</div>
 									{/* Progress Bar */}
-									<div className="mt-4">
+									<div className="">
 										<div className="h-1.5 w-full overflow-hidden rounded-full bg-bg-weak-100">
 											<div
 												className={cn(
@@ -170,12 +168,7 @@ const UsagePage = () => {
 												</p>
 											)}
 										</div>
-										<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-warning-alpha-10">
-											<Icon
-												name="clock"
-												className="h-5 w-5 text-warning-base"
-											/>
-										</div>
+										<Icon name="clock" className="h-5 w-5 text-text-sub-600" />
 									</div>
 									<div className="mt-4">
 										<p className="text-text-soft-400 text-xs">
@@ -187,64 +180,97 @@ const UsagePage = () => {
 							</div>
 						</div>
 
-						{/* Info Section */}
-						<div className="border-stroke-soft-200/50 border-b">
-							<div className="px-6 py-5">
-								<h3 className="mb-4 font-medium text-label-md text-text-strong-950">
-									Credit Usage
+						{/* Credit Usage Info Section - Box UI Pattern */}
+						<div>
+							<div className="relative flex items-center gap-2 px-6 py-4">
+								<Icon name="info" className="h-4 w-4 text-text-sub-600" />
+								<h3 className="font-medium text-label-md text-text-strong-950">
+									How credits work
 								</h3>
-								<div className="rounded-lg border border-stroke-soft-200/50 bg-bg-weak-50/50 p-4">
-									<div className="flex items-start gap-3">
-										<div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary-alpha-10">
-											<Icon name="info" className="h-4 w-4 text-primary-base" />
-										</div>
-										<div>
-											<p className="mb-2 font-medium text-sm text-text-strong-950">
-												How credits work
-											</p>
-											<ul className="space-y-1 text-sm text-text-sub-600">
-												<li className="flex items-center gap-2">
-													<div className="h-1 w-1 rounded-full bg-text-sub-600" />
-													Each email verification uses 1 credit
-												</li>
-												<li className="flex items-center gap-2">
-													<div className="h-1 w-1 rounded-full bg-text-sub-600" />
-													Monthly limit: 3,000 credits for free users
-												</li>
-												<li className="flex items-center gap-2">
-													<div className="h-1 w-1 rounded-full bg-text-sub-600" />
-													Credits reset at the end of each billing period
-												</li>
-												<li className="flex items-center gap-2">
-													<div className="h-1 w-1 rounded-full bg-text-sub-600" />
-													Credits do not carry forward to the next month
-												</li>
-											</ul>
-										</div>
+								{/* Top border extending to both edges */}
+								<div className="absolute top-0 right-[-100vw] left-[-100vw] h-px bg-stroke-soft-200/50" />
+								{/* Bottom border extending to both edges */}
+								<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200/50" />
+							</div>
+							{/* Box UI Grid for credit info */}
+							<div className="grid grid-cols-2">
+								<div className="border-stroke-soft-200/50 border-r border-b px-6 py-4">
+									<div className="flex items-center gap-3">
+										<Icon name="mail" className="h-4 w-4 text-text-soft-400" />
+										<span className="text-sm text-text-sub-600">
+											Each email verification uses 1 credit
+										</span>
+									</div>
+								</div>
+								<div className="border-stroke-soft-200/50 border-b px-6 py-4">
+									<div className="flex items-center gap-3">
+										<Icon
+											name="activity"
+											className="h-4 w-4 text-text-soft-400"
+										/>
+										<span className="text-sm text-text-sub-600">
+											Monthly limit: 3,000 credits for free users
+										</span>
+									</div>
+								</div>
+								<div className="border-stroke-soft-200/50 border-r px-6 py-4">
+									<div className="flex items-center gap-3">
+										<Icon
+											name="refresh-cw"
+											className="h-4 w-4 text-text-soft-400"
+										/>
+										<span className="text-sm text-text-sub-600">
+											Credits reset at the end of each billing period
+										</span>
+									</div>
+								</div>
+								<div className="border-stroke-soft-200/50 px-6 py-4">
+									<div className="flex items-center gap-3">
+										<Icon
+											name="alert-circle"
+											className="h-4 w-4 text-text-soft-400"
+										/>
+										<span className="text-sm text-text-sub-600">
+											Credits do not carry forward to the next month
+										</span>
 									</div>
 								</div>
 							</div>
 						</div>
 
 						{/* Recent Activity Link */}
-						<div className="px-6 py-5">
-							<div className="flex items-center justify-between">
-								<div>
-									<h3 className="font-medium text-label-md text-text-strong-950">
-										View Activity
-									</h3>
-									<p className="mt-1 text-sm text-text-sub-600">
-										See detailed logs of your API requests and credit usage
-									</p>
+						<div className="relative">
+							{/* Top border extending to both edges */}
+							<div className="absolute top-0 right-[-100vw] left-[-100vw] h-px bg-stroke-soft-200/50" />
+							<div className="grid grid-cols-2">
+								<div className="border-stroke-soft-200/50 border-r px-6 py-5">
+									<div className="flex items-center gap-3">
+										<Icon
+											name="file-text"
+											className="h-4 w-4 text-text-soft-400"
+										/>
+										<div>
+											<h3 className="font-medium text-sm text-text-strong-950">
+												View Activity
+											</h3>
+											<p className="mt-0.5 text-text-sub-600 text-xs">
+												Detailed logs of your API requests
+											</p>
+										</div>
+									</div>
 								</div>
-								<a
-									href={`/${activeOrganization.slug}/logs`}
-									className="flex items-center gap-1.5 rounded-lg bg-bg-weak-50 px-3 py-2 text-sm text-text-sub-600 ring-1 ring-stroke-soft-200/50 transition-all hover:bg-bg-soft-200"
-								>
-									<span>View Logs</span>
-									<Icon name="arrow-right" className="h-4 w-4" />
-								</a>
+								<div className="flex items-center px-6 py-5">
+									<a
+										href={`/dashboard/${activeOrganization.slug}/logs`}
+										className="borderx-4 flex items-center gap-1.5 rounded border border-stroke-soft-200/50 px-2 py-1 text-sm text-text-sub-600 transition-all hover:border-text-sub-600 hover:text-text-strong-950"
+									>
+										<span>View Logs</span>
+										<Icon name="arrow-right-rec" className="h-4 w-4" />
+									</a>
+								</div>
 							</div>
+							{/* Bottom border extending to both edges */}
+							<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200/50" />
 						</div>
 					</div>
 				</div>
