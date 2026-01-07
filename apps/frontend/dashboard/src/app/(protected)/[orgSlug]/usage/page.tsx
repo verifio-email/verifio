@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatedClock } from "@fe/dashboard/components/animated-clock";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
 import { useSidebar } from "@fe/dashboard/providers/sidebar-provider";
 import { cn } from "@verifio/ui/cn";
@@ -86,7 +87,7 @@ const UsagePage = () => {
 						{/* Billing Cycle Info */}
 						<div className="border-stroke-soft-200/50 border-b">
 							<div className="flex items-center gap-2 px-6 py-4">
-								<Icon name="clock" className="h-4 w-4 text-text-sub-600" />
+								<AnimatedClock className="h-4 w-4 text-text-sub-600" />
 								<span className="font-mono text-sm text-text-sub-600">
 									{creditData
 										? `${formatDate(creditData.resetInfo.periodStart)} - ${formatDate(creditData.resetInfo.periodEnd)}`
