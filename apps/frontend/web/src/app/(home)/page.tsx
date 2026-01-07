@@ -6,12 +6,15 @@ import { Scale } from "./components/scale";
 import Sdk from "./components/sdk";
 import Security from "./components/security";
 import UseCase from "./components/use-case";
+import WhatWeStandFor from "./components/what-we-stand-for";
 export default function Home() {
 	return (
 		<div>
 			<Hero />
 			<div className="h-10" />
 			<Sdk />
+			<div className="h-10" />
+			<WhatWeStandFor />
 			<div className="h-10" />
 			<UseCase />
 			<div className="h-10" />
