@@ -235,14 +235,16 @@ export const ApiKeyTable = ({
 	};
 
 	const handleCopyKey = async (apiKey: ApiKeyData) => {
-		const keyToCopy = apiKey.prefix || apiKey.start || "";
-		try {
-			await navigator.clipboard.writeText(keyToCopy);
-			setCopiedId(apiKey.id);
-			toast.success("API key copied to clipboard");
-			setTimeout(() => setCopiedId(null), 2000);
-		} catch {
-			toast.error("Failed to copy API key");
+		const textToCopy = apiKey?.key || "";
+		if (textToCopy) {
+			try {
+				await navigator.clipboard.writeText(textToCopy);
+				toast.success("API key copied to clipboard");
+				setCopiedId(apiKey.id);
+				setTimeout(() => setCopiedId(null), 2000);
+			} catch {
+				toast.error("Failed to copy API key");
+			}
 		}
 	};
 
