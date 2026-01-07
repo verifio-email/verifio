@@ -10,6 +10,7 @@ import { logger } from "@verifio/logger";
 import { logActivity } from "@verifio/logging";
 import { Elysia, t } from "elysia";
 import { authMiddleware } from "../middleware/auth";
+import { checkCredits, deductCredits } from "../services/credits-client";
 
 /**
  * Request body schema
@@ -35,10 +36,26 @@ export const authenticatedSingleRoute = new Elysia({
   .use(authMiddleware)
   .post(
     "/verify",
-    async ({ body, organizationId, userId, request }) => {
+    async ({ body, organizationId, userId, request, set }) => {
       const startTime = Date.now();
 
       try {
+        // Check credits before verification
+        if (organizationId) {
+          const creditCheck = await checkCredits(organizationId, 1);
+          if (creditCheck.success && creditCheck.data && !creditCheck.data.hasCredits) {
+            set.status = 402;
+            return {
+              success: false,
+              error: "Insufficient credits",
+              data: {
+                remaining: creditCheck.data.remaining,
+                required: creditCheck.data.required,
+              },
+            };
+          }
+        }
+
         logger.info(
           { email: body.email, organizationId, userId },
           "Verifying single email (authenticated)"
@@ -79,6 +96,11 @@ export const authenticatedSingleRoute = new Elysia({
               "Failed to store verification result in database"
             );
           }
+
+          // Deduct credits after successful verification
+          deductCredits(organizationId, 1).catch((err) => {
+            logger.error({ error: err }, "Failed to deduct credits");
+          });
 
           // Log activity for tracking
           logActivity({

@@ -1,0 +1,30 @@
+{
+	"name": "credits",
+	"main": "src/index.ts",
+	"type": "module",
+	"scripts": {
+		"build": "tsdown",
+		"check-types": "tsc --noEmit",
+		"compile": "bun build --compile --minify --sourcemap --bytecode ./src/index.ts --outfile server",
+		"dev": "bun run --hot src/index.ts",
+		"start": "bun run dist/index.js"
+	},
+	"dependencies": {
+		"@elysiajs/cors": "catalog:backend",
+		"@elysiajs/openapi": "catalog:backend",
+		"@elysiajs/server-timing": "catalog:backend",
+		"@paralleldrive/cuid2": "catalog:backend",
+		"dotenv": "catalog:backend",
+		"drizzle-orm": "catalog:db",
+		"elysia": "catalog:backend",
+		"@verifio/db": "workspace:*",
+		"@verifio/logger": "workspace:*",
+		"@verifio/auth": "workspace:*"
+	},
+	"devDependencies": {
+		"@verifio/tsconfig": "workspace:*",
+		"tsdown": "catalog:backend",
+		"typescript": "catalog:",
+		"@types/bun": "catalog:backend"
+	}
+}

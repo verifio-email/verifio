@@ -93,6 +93,27 @@
         "typescript": "catalog:",
       },
     },
+    "apps/backend/credits": {
+      "name": "credits",
+      "dependencies": {
+        "@elysiajs/cors": "catalog:backend",
+        "@elysiajs/openapi": "catalog:backend",
+        "@elysiajs/server-timing": "catalog:backend",
+        "@paralleldrive/cuid2": "catalog:backend",
+        "@verifio/auth": "workspace:*",
+        "@verifio/db": "workspace:*",
+        "@verifio/logger": "workspace:*",
+        "dotenv": "catalog:backend",
+        "drizzle-orm": "catalog:db",
+        "elysia": "catalog:backend",
+      },
+      "devDependencies": {
+        "@types/bun": "catalog:backend",
+        "@verifio/tsconfig": "workspace:*",
+        "tsdown": "catalog:backend",
+        "typescript": "catalog:",
+      },
+    },
     "apps/backend/logging": {
       "name": "logging",
       "dependencies": {
@@ -2120,6 +2141,8 @@
     "cookie": ["cookie@1.0.2", "", {}, "sha512-9Kr/j4O16ISv8zBBhJoi4bXOYNTkFLOqSL3UDB0njXxCXNezjeyVrJyGOWtgfs/q2km1gwBcfH8q1yEGoMYunA=="],
 
     "cors": ["cors@2.8.5", "", { "dependencies": { "object-assign": "^4", "vary": "^1" } }, "sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g=="],
+
+    "credits": ["credits@workspace:apps/backend/credits"],
 
     "croner": ["croner@6.0.7", "", {}, "sha512-k3Xx3Rcclfr60Yx4TmvsF3Yscuiql8LSvYLaphTsaq5Hk8La4Z/udmUANMOTKpgGGroI2F6/XOr9cU9OFkYluQ=="],
 

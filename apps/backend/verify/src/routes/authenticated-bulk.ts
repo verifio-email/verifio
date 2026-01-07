@@ -15,6 +15,7 @@ import { count, desc, eq } from "drizzle-orm";
 import { Elysia, t } from "elysia";
 import { verifyConfig } from "../config";
 import { authMiddleware } from "../middleware/auth";
+import { checkCredits, deductCredits } from "../services/credits-client";
 
 /**
  * Request body schema
@@ -188,6 +189,11 @@ async function processBulkVerification(
       "Bulk verification completed",
     );
 
+    // Deduct credits after successful completion
+    deductCredits(organizationId, results.length).catch((err) => {
+      logger.error({ error: err, jobId }, "Failed to deduct credits for bulk job");
+    });
+
     // Log activity for completed job
     logActivity({
       service: "verify",
@@ -247,11 +253,25 @@ export const authenticatedBulkRoute = new Elysia({
    */
   .post(
     "/bulk-verify",
-    async ({ body, organizationId, userId }) => {
+    async ({ body, organizationId, userId, set }) => {
       if (!organizationId || !userId) {
         return {
           success: false,
           error: "Authentication required",
+        };
+      }
+
+      // Check credits before starting bulk job
+      const creditCheck = await checkCredits(organizationId, body.emails.length);
+      if (creditCheck.success && creditCheck.data && !creditCheck.data.hasCredits) {
+        set.status = 402;
+        return {
+          success: false,
+          error: "Insufficient credits",
+          data: {
+            remaining: creditCheck.data.remaining,
+            required: creditCheck.data.required,
+          },
         };
       }
 

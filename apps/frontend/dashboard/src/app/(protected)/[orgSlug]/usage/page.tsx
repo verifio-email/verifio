@@ -7,12 +7,6 @@ import { Icon } from "@verifio/ui/icon";
 import { useCallback, useEffect, useState } from "react";
 
 interface CreditData {
-	daily: {
-		used: number;
-		limit: number;
-		remaining: number;
-		percentage: number;
-	};
 	monthly: {
 		used: number;
 		limit: number;
@@ -20,13 +14,9 @@ interface CreditData {
 		percentage: number;
 	};
 	resetInfo: {
-		dailyResetAt: string;
-		monthlyResetAt: string;
-		daysUntilMonthlyReset: number;
-	};
-	billingCycle: {
-		start: string;
-		end: string;
+		periodStart: string;
+		periodEnd: string;
+		daysUntilReset: number;
 	};
 }
 
@@ -39,10 +29,9 @@ const UsagePage = () => {
 	const fetchCredits = useCallback(async () => {
 		setLoading(true);
 		try {
-			const response = await fetch(
-				`/dashboard/api/credits?organization_id=${activeOrganization.id}`,
-				{ credentials: "include" },
-			);
+			const response = await fetch("/dashboard/api/credits", {
+				credentials: "include",
+			});
 			const data = await response.json();
 			if (data.success) {
 				setCreditData(data.data);
@@ -52,7 +41,7 @@ const UsagePage = () => {
 		} finally {
 			setLoading(false);
 		}
-	}, [activeOrganization.id]);
+	}, []);
 
 	useEffect(() => {
 		fetchCredits();
@@ -78,7 +67,7 @@ const UsagePage = () => {
 								Usage
 							</h1>
 							<p className="text-paragraph-md text-text-sub-600">
-								Monitor your email verification credits and usage
+								Monitor your email verification credits
 							</p>
 						</div>
 					</div>
@@ -100,67 +89,18 @@ const UsagePage = () => {
 								<div className="h-1.5 w-1.5 rounded-full bg-primary-base" />
 								<span className="font-mono text-sm text-text-sub-600">
 									{creditData
-										? `${formatDate(creditData.billingCycle.start)} - ${formatDate(creditData.billingCycle.end)}`
+										? `${formatDate(creditData.resetInfo.periodStart)} - ${formatDate(creditData.resetInfo.periodEnd)}`
 										: "Loading..."}
 								</span>
 								<span className="text-text-disabled-300 text-xs">
-									CURRENT BILLING CYCLE
+									CURRENT BILLING PERIOD
 								</span>
 							</div>
 						</div>
 
-						{/* Credit Cards Grid */}
+						{/* Credit Cards Grid - Only 2 cards now */}
 						<div className="border-stroke-soft-200/50 border-b">
-							<div className="grid grid-cols-3">
-								{/* Daily Credits */}
-								<div className="border-stroke-soft-200/50 border-r px-6 py-6">
-									<div className="flex items-start justify-between">
-										<div>
-											<p className="mb-1 text-text-sub-600 text-xs uppercase tracking-wider">
-												Daily Credits
-											</p>
-											{loading ? (
-												<div className="h-8 w-24 animate-pulse rounded bg-bg-weak-100" />
-											) : (
-												<p className="font-semibold text-3xl text-text-strong-950">
-													{creditData?.daily.used ?? 0}
-													<span className="ml-1 font-normal text-lg text-text-sub-600">
-														/ {creditData?.daily.limit ?? 100}
-													</span>
-												</p>
-											)}
-										</div>
-										<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-alpha-10">
-											<Icon
-												name="activity"
-												className="h-5 w-5 text-primary-base"
-											/>
-										</div>
-									</div>
-									{/* Progress Bar */}
-									<div className="mt-4">
-										<div className="h-1.5 w-full overflow-hidden rounded-full bg-bg-weak-100">
-											<div
-												className={cn(
-													"h-full rounded-full transition-all duration-500",
-													(creditData?.daily.percentage ?? 0) >= 90
-														? "bg-error-base"
-														: (creditData?.daily.percentage ?? 0) >= 70
-															? "bg-warning-base"
-															: "bg-primary-base",
-												)}
-												style={{
-													width: `${creditData?.daily.percentage ?? 0}%`,
-												}}
-											/>
-										</div>
-										<p className="mt-2 text-text-soft-400 text-xs">
-											{creditData?.daily.remaining ?? 100} credits remaining
-											today
-										</p>
-									</div>
-								</div>
-
+							<div className="grid grid-cols-2">
 								{/* Monthly Credits */}
 								<div className="border-stroke-soft-200/50 border-r px-6 py-6">
 									<div className="flex items-start justify-between">
@@ -181,10 +121,10 @@ const UsagePage = () => {
 												</p>
 											)}
 										</div>
-										<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-success-alpha-10">
+										<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-alpha-10">
 											<Icon
-												name="calendar"
-												className="h-5 w-5 text-success-base"
+												name="activity"
+												className="h-5 w-5 text-primary-base"
 											/>
 										</div>
 									</div>
@@ -198,7 +138,7 @@ const UsagePage = () => {
 														? "bg-error-base"
 														: (creditData?.monthly.percentage ?? 0) >= 70
 															? "bg-warning-base"
-															: "bg-success-base",
+															: "bg-primary-base",
 												)}
 												style={{
 													width: `${creditData?.monthly.percentage ?? 0}%`,
@@ -207,7 +147,7 @@ const UsagePage = () => {
 										</div>
 										<p className="mt-2 text-text-soft-400 text-xs">
 											{creditData?.monthly.remaining?.toLocaleString() ?? 3000}{" "}
-											credits remaining this month
+											credits remaining
 										</p>
 									</div>
 								</div>
@@ -217,13 +157,13 @@ const UsagePage = () => {
 									<div className="flex items-start justify-between">
 										<div>
 											<p className="mb-1 text-text-sub-600 text-xs uppercase tracking-wider">
-												Monthly Reset
+												Resets In
 											</p>
 											{loading ? (
 												<div className="h-8 w-20 animate-pulse rounded bg-bg-weak-100" />
 											) : (
 												<p className="font-semibold text-3xl text-text-strong-950">
-													{creditData?.resetInfo.daysUntilMonthlyReset ?? 0}
+													{creditData?.resetInfo.daysUntilReset ?? 0}
 													<span className="ml-1 font-normal text-lg text-text-sub-600">
 														days
 													</span>
@@ -239,7 +179,8 @@ const UsagePage = () => {
 									</div>
 									<div className="mt-4">
 										<p className="text-text-soft-400 text-xs">
-											Credits reset on the 1st of each month at midnight UTC
+											Credits reset automatically at the end of your billing
+											period
 										</p>
 									</div>
 								</div>
@@ -268,11 +209,11 @@ const UsagePage = () => {
 												</li>
 												<li className="flex items-center gap-2">
 													<div className="h-1 w-1 rounded-full bg-text-sub-600" />
-													Daily limit: 100 credits (resets at midnight UTC)
+													Monthly limit: 3,000 credits for free users
 												</li>
 												<li className="flex items-center gap-2">
 													<div className="h-1 w-1 rounded-full bg-text-sub-600" />
-													Monthly limit: 3,000 credits (resets on the 1st)
+													Credits reset at the end of each billing period
 												</li>
 												<li className="flex items-center gap-2">
 													<div className="h-1 w-1 rounded-full bg-text-sub-600" />

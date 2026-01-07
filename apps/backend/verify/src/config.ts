@@ -8,6 +8,8 @@ const defaults = {
   NODE_ENV: "development",
   MAX_BULK_EMAILS: "10000",
   DEFAULT_TIMEOUT: "5000",
+  CREDITS_SERVICE_URL: "http://localhost:8030",
+  INTERNAL_SERVICE_SECRET: "internal-secret",
 } as const;
 
 export const verifyConfig = {
@@ -16,4 +18,6 @@ export const verifyConfig = {
   maxBulkEmails: Number(process.env.MAX_BULK_EMAILS || defaults.MAX_BULK_EMAILS),
   defaultTimeout: Number(process.env.DEFAULT_TIMEOUT || defaults.DEFAULT_TIMEOUT),
   baseUrl: process.env.BASE_URL || defaults.BASE_URL,
+  creditsServiceUrl: process.env.CREDITS_SERVICE_URL || defaults.CREDITS_SERVICE_URL,
+  internalSecret: process.env.INTERNAL_SERVICE_SECRET || defaults.INTERNAL_SERVICE_SECRET,
 };

@@ -43,6 +43,13 @@
       "when": 1765641156608,
       "tag": "0005_romantic_moondragon",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1767766281065,
+      "tag": "0006_steady_surge",
+      "breakpoints": true
     }
   ]
 }
