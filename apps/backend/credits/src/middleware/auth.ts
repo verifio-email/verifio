@@ -6,23 +6,21 @@
 import type { Session } from "@verifio/auth/server";
 import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
-import { creditsConfig } from "../config";
+import { creditsConfig } from "../credits.config";
 
-const baseUrl = process.env.BASE_URL || "http://localhost:3000";
-
-if (process.env.NODE_ENV !== "production") {
+if (creditsConfig.environment !== "production") {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 }
 
 export const authMiddleware = new Elysia({ name: "credits-auth" }).macro({
   auth: {
     async resolve({ status, request: { headers } }) {
-      const authUrl = `${baseUrl}/api/auth/v1/get-session`;
+      const authUrl = `${creditsConfig.baseUrl}/api/auth/v1/get-session`;
       const cookie = headers.get("cookie") || "";
 
       logger.debug(
         {
-          baseUrl,
+          baseUrl: creditsConfig.baseUrl,
           authUrl,
           hasCookie: !!cookie,
         },

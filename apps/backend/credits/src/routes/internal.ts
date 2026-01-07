@@ -4,7 +4,7 @@
  */
 
 import { Elysia, t } from "elysia";
-import { creditsConfig } from "../config";
+import { creditsConfig } from "../credits.config";
 import { checkCredits, deductCredits } from "../services/credit-manager";
 
 /**

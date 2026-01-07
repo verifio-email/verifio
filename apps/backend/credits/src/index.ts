@@ -8,7 +8,7 @@ import { openapi } from "@elysiajs/openapi";
 import { serverTiming } from "@elysiajs/server-timing";
 import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
-import { creditsConfig } from "./config";
+import { creditsConfig } from "./credits.config";
 import { creditsRoute } from "./routes/credits";
 import { internalRoute } from "./routes/internal";
 

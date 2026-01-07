@@ -6,7 +6,7 @@
 import { db } from "@verifio/db/client";
 import { creditHistory, orgCredits } from "@verifio/db/schema";
 import { desc, eq } from "drizzle-orm";
-import { creditsConfig } from "../config";
+import { creditsConfig } from "../credits.config";
 
 /**
  * Add 1 month to a date, handling edge cases
