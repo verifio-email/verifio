@@ -1440,14 +1440,15 @@ const PlaygroundPage = () => {
 
 			{/* Recent Runs Section - Only show on Single tab */}
 			{activeTab === "single" && (
-				<div className="border-stroke-soft-200/50 border-b">
+				<div className="overflow-hidden border-stroke-soft-200/50 border-b">
 					<div className="px-[340px] 2xl:px-[450px]">
 						<div className="border-stroke-soft-200/50 border-r border-l">
 							{/* Section Header */}
-							<div className="border-stroke-soft-200/50 border-b px-6 py-4">
+							<div className="relative px-6 py-4">
 								<h2 className="font-semibold text-lg text-text-strong-950">
 									Recent Verifications
 								</h2>
+								<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200/50" />
 							</div>
 
 							{/* Table-like content */}
@@ -1557,7 +1558,8 @@ const PlaygroundPage = () => {
 
 							{/* Pagination */}
 							{historyTotalPages > 1 && (
-								<div className="flex items-center justify-between border-stroke-soft-200/50 border-t px-6 py-4">
+								<div className="relative flex items-center justify-between px-6 py-4">
+									<div className="absolute top-0 right-[-100vw] left-[-100vw] h-px bg-stroke-soft-200/50" />
 									<div className="flex items-center gap-3 text-paragraph-sm text-text-sub-600">
 										<span>
 											Showing {(historyPage - 1) * 10 + 1}–
