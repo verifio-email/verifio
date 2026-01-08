@@ -1544,7 +1544,7 @@ const PlaygroundPage = () => {
 												>
 													{run.result.state}
 												</span>
-												{run.result.duration && (
+												{run.result.duration !== undefined && (
 													<span className="min-w-[50px] text-right text-sm text-text-soft-400 tabular-nums">
 														{run.result.duration}ms
 													</span>
@@ -1557,28 +1557,20 @@ const PlaygroundPage = () => {
 
 							{/* Pagination */}
 							{historyTotalPages > 1 && (
-								<div className="mt-4 flex items-center justify-center gap-2">
-									<button
-										type="button"
-										onClick={() => fetchHistory(historyPage - 1)}
-										disabled={historyPage <= 1 || isLoadingHistory}
-										className="rounded-lg border border-stroke-soft-200/50 px-3 py-1.5 text-sm text-text-sub-600 hover:bg-bg-weak-50 disabled:cursor-not-allowed disabled:opacity-50"
-									>
-										Previous
-									</button>
-									<span className="text-sm text-text-soft-400">
-										Page {historyPage} of {historyTotalPages}
-									</span>
-									<button
-										type="button"
-										onClick={() => fetchHistory(historyPage + 1)}
-										disabled={
-											historyPage >= historyTotalPages || isLoadingHistory
-										}
-										className="rounded-lg border border-stroke-soft-200/50 px-3 py-1.5 text-sm text-text-sub-600 hover:bg-bg-weak-50 disabled:cursor-not-allowed disabled:opacity-50"
-									>
-										Next
-									</button>
+								<div className="flex items-center justify-between border-stroke-soft-200/50 border-t px-6 py-4">
+									<div className="flex items-center gap-3 text-paragraph-sm text-text-sub-600">
+										<span>
+											Showing {(historyPage - 1) * 10 + 1}–
+											{Math.min(historyPage * 10, historyTotalPages * 10)} of{" "}
+											{historyTotalPages * 10} results
+										</span>
+									</div>
+									<PaginationControls
+										currentPage={historyPage}
+										totalPages={historyTotalPages}
+										onPageChange={fetchHistory}
+										isLoading={isLoadingHistory}
+									/>
 								</div>
 							)}
 						</div>
