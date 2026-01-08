@@ -104,7 +104,7 @@ export const RecentActivity = ({ apiKeyId }: RecentActivityProps) => {
 							Recent Activity
 						</span>
 						{!loading && total > 0 && (
-							<span className="ml-1 rounded-full bg-bg-weak-100 px-1.5 py-0.5 text-[10px] text-text-sub-600">
+							<span className="ml-1 rounded bg-primary-alpha-10 px-1.5 py-0.5 text-[10px] text-text-sub-600">
 								{total}
 							</span>
 						)}

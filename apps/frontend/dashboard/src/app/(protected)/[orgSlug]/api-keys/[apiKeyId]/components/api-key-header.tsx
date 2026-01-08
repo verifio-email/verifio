@@ -384,7 +384,7 @@ export const ApiKeyHeader = ({
 							<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200/50" />
 						</div>
 
-						{/* Stats Section - 3 Boxed Columns */}
+						{/* Stats Section - 4 Boxed Columns */}
 						<div className="relative">
 							<div className="flex">
 								{/* Total Requests Box */}
@@ -436,7 +436,6 @@ export const ApiKeyHeader = ({
 									{/* Right border - extends full height */}
 									<div className="absolute top-0 right-0 bottom-0 w-px bg-stroke-soft-200/50" />
 								</div>
-
 								{/* Created Box */}
 								<div className="relative flex flex-1 items-center justify-center px-5 py-5 lg:px-6">
 									<div className="flex flex-col items-center gap-1.5 text-center">
@@ -459,14 +458,10 @@ export const ApiKeyHeader = ({
 											</span>
 										)}
 									</div>
+									{/* Right border - extends full height */}
+									<div className="absolute top-0 right-0 bottom-0 w-px bg-stroke-soft-200/50" />
 								</div>
-							</div>
-							<div className="absolute right-0 bottom-0 left-0 h-px bg-stroke-soft-200/50" />
-						</div>
 
-						{/* Created By Section - 3 Boxed Columns to match row above */}
-						<div className="relative">
-							<div className="flex">
 								{/* Created By Box */}
 								<div className="relative flex flex-1 items-center justify-center px-5 py-5 lg:px-6">
 									<div className="flex flex-col items-center gap-1.5 text-center">
@@ -499,15 +494,7 @@ export const ApiKeyHeader = ({
 											</div>
 										)}
 									</div>
-									{/* Right border - extends full height */}
-									<div className="absolute top-0 right-0 bottom-0 w-px bg-stroke-soft-200/50" />
 								</div>
-
-								{/* Empty Box 2 - no vertical line since empty */}
-								<div className="flex flex-1 px-5 py-5 lg:px-6" />
-
-								{/* Empty Box 3 - no vertical line since empty */}
-								<div className="flex flex-1 px-5 py-5 lg:px-6" />
 							</div>
 							<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200/50" />
 						</div>
