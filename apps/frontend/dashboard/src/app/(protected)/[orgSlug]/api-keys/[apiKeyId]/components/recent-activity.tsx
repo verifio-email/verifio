@@ -138,7 +138,7 @@ export const RecentActivity = ({ apiKeyId }: RecentActivityProps) => {
 								</div>
 							</div>
 							<Skeleton className="h-5 w-16 rounded-full" />
-							<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200/50" />
+							<div className="absolute right-0 bottom-0 left-0 h-px bg-stroke-soft-200/50" />
 						</div>
 					))}
 				</div>
@@ -155,7 +155,7 @@ export const RecentActivity = ({ apiKeyId }: RecentActivityProps) => {
 							Activity will appear here when this API key is used
 						</p>
 					</div>
-					<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200/50" />
+					<div className="absolute right-0 bottom-0 left-0 h-px bg-stroke-soft-200/50" />
 				</div>
 			) : (
 				<div>
@@ -193,7 +193,7 @@ export const RecentActivity = ({ apiKeyId }: RecentActivityProps) => {
 							</div>
 
 							{getStatusBadge(log.status)}
-							<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200/50" />
+							<div className="absolute right-0 bottom-0 left-0 h-px bg-stroke-soft-200/50" />
 						</div>
 					))}
 				</div>

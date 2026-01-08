@@ -187,7 +187,7 @@ export const ApiKeyHeader = ({
 							<div className="px-5 py-4 lg:px-6">
 								<AnimatedBackButton onClick={() => push("/api-keys")} />
 							</div>
-							<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
+							<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200/50" />
 						</div>
 
 						{/* Header Section */}
@@ -336,7 +336,7 @@ export const ApiKeyHeader = ({
 									) : null}
 								</div>
 							</div>
-							<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
+							<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200/50" />
 						</div>
 
 						{/* API Key Section */}
@@ -381,7 +381,7 @@ export const ApiKeyHeader = ({
 									</button>
 								</div>
 							</div>
-							<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
+							<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200/50" />
 						</div>
 
 						{/* Stats Section - 3 Boxed Columns */}
@@ -459,11 +459,9 @@ export const ApiKeyHeader = ({
 											</span>
 										)}
 									</div>
-									{/* Right border - just a simple line at right edge of box */}
-									<div className="absolute top-0 right-0 bottom-0 w-px bg-stroke-soft-200/50" />
 								</div>
 							</div>
-							<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
+							<div className="absolute right-0 bottom-0 left-0 h-px bg-stroke-soft-200/50" />
 						</div>
 
 						{/* Created By Section - 3 Boxed Columns to match row above */}
@@ -511,7 +509,7 @@ export const ApiKeyHeader = ({
 								{/* Empty Box 3 - no vertical line since empty */}
 								<div className="flex flex-1 px-5 py-5 lg:px-6" />
 							</div>
-							<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
+							<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200/50" />
 						</div>
 
 						{/* Recent Activity Section */}
