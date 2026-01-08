@@ -435,14 +435,9 @@ const BulkPage = () => {
 			</div>
 
 			{/* Content Area with vertical borders */}
-			<div className="flex-1 overflow-y-auto overflow-x-hidden">
-				<div
-					className={cn(
-						"h-full",
-						isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32",
-					)}
-				>
-					<div className="flex h-full flex-col border-stroke-soft-200/50 border-r border-l">
+			<div className="flex-1">
+				<div className={cn(isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32")}>
+					<div className="flex flex-col border-stroke-soft-200/50 border-r border-l">
 						{/* Stats Grid */}
 						<div className="border-stroke-soft-200/50">
 							<div className="grid grid-cols-4">
@@ -461,7 +456,7 @@ const BulkPage = () => {
 												</p>
 											)}
 										</div>
-										<Icon name="mail" className="h-5 w-5 text-text-soft-400" />
+										<Icon name="mail" className="h-4 w-4 text-text-soft-400" />
 									</div>
 								</div>
 
@@ -485,7 +480,7 @@ const BulkPage = () => {
 										</div>
 										<Icon
 											name="check-circle"
-											className="h-5 w-5 text-text-soft-400"
+											className="h-4 w-4 text-text-soft-400"
 										/>
 									</div>
 								</div>
@@ -510,7 +505,7 @@ const BulkPage = () => {
 										</div>
 										<Icon
 											name="activity"
-											className="h-5 w-5 text-text-soft-400"
+											className="h-4 w-4 text-text-soft-400"
 										/>
 									</div>
 								</div>
@@ -532,7 +527,7 @@ const BulkPage = () => {
 										</div>
 										<Icon
 											name="layers"
-											className="h-5 w-5 text-text-soft-400"
+											className="h-4 w-4 text-text-soft-400"
 										/>
 									</div>
 								</div>
@@ -665,6 +660,11 @@ const BulkPage = () => {
 							</div>
 						</div>
 
+						{/* Section separator - full width line */}
+						<div className="relative py-4">
+							<div className="absolute top-1/2 right-[-100vw] left-[-100vw] h-px bg-stroke-soft-200/50" />
+						</div>
+
 						{/* Recent Jobs Section */}
 						<div>
 							<div className="relative flex items-center justify-between px-6 py-4">
@@ -736,7 +736,7 @@ const BulkPage = () => {
 													}
 													disabled={job.status !== "completed"}
 													className={cn(
-														"flex w-full items-center justify-between border-stroke-soft-200/50 border-b px-6 py-4 text-left transition-colors",
+														"flex w-full items-center justify-between border-stroke-soft-200/50 px-6 py-4 text-left transition-colors",
 														job.status === "completed" &&
 															"cursor-pointer hover:bg-bg-weak-50/50",
 														expandedJobId === job.id && "bg-bg-weak-50/30",
@@ -1035,6 +1035,10 @@ const BulkPage = () => {
 									</div>
 								</div>
 							</div>
+						</div>
+						{/* Bottom border of How it works extending to edges */}
+						<div className="relative">
+							<div className="absolute top-0 right-[-100vw] left-[-100vw] h-px bg-stroke-soft-200/50" />
 						</div>
 					</div>
 				</div>
