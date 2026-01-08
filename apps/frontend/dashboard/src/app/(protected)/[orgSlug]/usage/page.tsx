@@ -129,7 +129,7 @@ const UsagePage = () => {
 									</div>
 									{/* Progress Bar */}
 									<div className="">
-										<div className="h-1.5 w-full overflow-hidden rounded-full bg-bg-weak-100">
+										<div className="mt-1 h-1 w-full overflow-hidden rounded-full bg-stroke-soft-200/50">
 											<div
 												className={cn(
 													"h-full rounded-full transition-all duration-500",
@@ -144,7 +144,7 @@ const UsagePage = () => {
 												}}
 											/>
 										</div>
-										<p className="mt-2 text-text-soft-400 text-xs">
+										<p className="mt-3 text-text-soft-400 text-xs">
 											{creditData?.monthly.remaining?.toLocaleString() ?? 3000}{" "}
 											credits remaining
 										</p>
