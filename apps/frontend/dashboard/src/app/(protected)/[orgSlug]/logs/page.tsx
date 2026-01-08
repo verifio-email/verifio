@@ -123,7 +123,7 @@ const LogsPage = () => {
 
 	useEffect(() => {
 		fetchLogs(1);
-	}, [activeOrganization.id, filters]);
+	}, [fetchLogs]);
 
 	const handleSearch = () => {
 		fetchLogs(1);

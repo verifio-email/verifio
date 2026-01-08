@@ -91,6 +91,7 @@ const PlaygroundPage = () => {
 	const [isLoadingHistory, setIsLoadingHistory] = useState(true);
 	const [historyPage, setHistoryPage] = useState(1);
 	const [historyTotalPages, setHistoryTotalPages] = useState(1);
+	const [historyTotal, setHistoryTotal] = useState(0);
 	const [pastBulkJobs, setPastBulkJobs] = useState<
 		Array<{
 			id: string;
@@ -222,6 +223,7 @@ const PlaygroundPage = () => {
 				setRecentRuns(historyRuns);
 				setHistoryPage(data.data.pagination?.page ?? 1);
 				setHistoryTotalPages(data.data.pagination?.totalPages ?? 1);
+				setHistoryTotal(data.data.pagination?.total ?? historyRuns.length);
 			}
 		} catch (error) {
 			console.error("Failed to fetch history:", error);
@@ -250,11 +252,13 @@ const PlaygroundPage = () => {
 	};
 
 	// Fetch history on mount
+	// biome-ignore lint/correctness/useExhaustiveDependencies: intentional mount-only fetch
 	useEffect(() => {
 		fetchHistory();
 	}, []);
 
 	// Fetch bulk jobs when switching to Bulk tab
+	// biome-ignore lint/correctness/useExhaustiveDependencies: only re-fetch when tab changes
 	useEffect(() => {
 		if (activeTab === "bulk") {
 			fetchBulkJobs();
@@ -1570,8 +1574,8 @@ const PlaygroundPage = () => {
 									<div className="flex items-center gap-3 text-paragraph-sm text-text-sub-600">
 										<span>
 											Showing {(historyPage - 1) * 10 + 1}–
-											{Math.min(historyPage * 10, historyTotalPages * 10)} of{" "}
-											{historyTotalPages * 10} results
+											{Math.min(historyPage * 10, historyTotal)} of{" "}
+											{historyTotal} results
 										</span>
 									</div>
 									<PaginationControls
