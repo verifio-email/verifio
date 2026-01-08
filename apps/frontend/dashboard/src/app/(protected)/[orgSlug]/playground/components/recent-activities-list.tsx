@@ -1,0 +1,284 @@
+"use client";
+
+import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
+import { getProviderIcon } from "@fe/dashboard/utils/email-provider-icon";
+import { cn } from "@verifio/ui/cn";
+import * as FileFormatIcon from "@verifio/ui/file-format-icon";
+import { Icon } from "@verifio/ui/icon";
+import useSWR from "swr";
+import type { RecentActivity, VerificationResult } from "../types";
+
+interface RecentActivitiesListProps {
+	onShowResult?: (result: VerificationResult) => void;
+}
+
+// Get score color
+const getScoreColor = (score: number) => {
+	if (score >= 90) return "text-success-base";
+	if (score >= 70) return "text-primary-base";
+	if (score >= 50) return "text-warning-base";
+	return "text-error-base";
+};
+
+// Fetcher function for SWR
+const fetchActivities = async (): Promise<RecentActivity[]> => {
+	const [historyRes, jobsRes] = await Promise.all([
+		fetch("/api/verify/v1/history?limit=10", { credentials: "include" }),
+		fetch("/api/verify/v1/jobs?limit=10", { credentials: "include" }),
+	]);
+
+	const [historyData, jobsData] = await Promise.all([
+		historyRes.json(),
+		jobsRes.json(),
+	]);
+
+	const newActivities: RecentActivity[] = [];
+
+	if (historyData.success && historyData.data?.results) {
+		const singleActivities = historyData.data.results.map(
+			(item: {
+				id: string;
+				email: string;
+				state: string;
+				score: number;
+				reason: string;
+				result?: { duration?: number };
+				createdAt: string;
+			}) => ({
+				type: "single" as const,
+				id: item.id,
+				email: item.email,
+				result: {
+					email: item.email,
+					state: item.state,
+					score: item.score,
+					reason: item.reason,
+					duration: item.result?.duration,
+				} as VerificationResult,
+				timestamp: new Date(item.createdAt),
+			}),
+		);
+		newActivities.push(...singleActivities);
+	}
+
+	if (jobsData.success && jobsData.data?.jobs) {
+		const bulkActivities: RecentActivity[] = jobsData.data.jobs.map(
+			(job: {
+				id: string;
+				name: string | null;
+				status: string;
+				totalEmails: number;
+				stats: {
+					deliverable: number;
+					undeliverable: number;
+					risky: number;
+					unknown: number;
+					averageScore: number;
+				} | null;
+				createdAt: string;
+			}) => ({
+				type: "bulk" as const,
+				id: job.id,
+				name: job.name,
+				totalEmails: job.totalEmails,
+				status: job.status,
+				stats: job.stats,
+				timestamp: new Date(job.createdAt),
+			}),
+		);
+		newActivities.push(...bulkActivities);
+	}
+
+	newActivities.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+	return newActivities.slice(0, 10);
+};
+
+export const RecentActivitiesList = ({
+	onShowResult,
+}: RecentActivitiesListProps) => {
+	const { push } = useUserOrganization();
+
+	const { data: activities = [], isLoading } = useSWR<RecentActivity[]>(
+		"/api/verify/recent-activities",
+		fetchActivities,
+		{
+			revalidateOnFocus: true,
+			refreshInterval: 30000, // Refresh every 30 seconds
+		},
+	);
+
+	const handleActivityClick = (activity: RecentActivity) => {
+		if (activity.type === "single") {
+			if (activity.id && !activity.id.startsWith("local-")) {
+				push(`/playground/verify/${activity.id}`);
+			} else if (onShowResult) {
+				onShowResult(activity.result);
+			}
+		} else {
+			push(`/playground/bulk/${activity.id}`);
+		}
+	};
+
+	return (
+		<div className="overflow-hidden border-stroke-soft-100 border-b">
+			<div className="mx-auto max-w-2xl">
+				<div className="border-stroke-soft-100 border-r border-l">
+					{/* Section Header */}
+					<div className="relative px-6 py-4">
+						<h2 className="font-semibold text-lg text-text-strong-950">
+							Recent Verifications
+						</h2>
+						<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-100" />
+					</div>
+
+					{/* Stack of activities */}
+					<div>
+						{isLoading ? (
+							<div className="flex flex-col items-center justify-center px-6 py-12">
+								<div className="h-6 w-6 animate-spin rounded-full border-2 border-primary-base border-t-transparent" />
+							</div>
+						) : activities.length === 0 ? (
+							<div className="flex flex-col items-center justify-center px-6 py-12">
+								<Icon
+									name="mail"
+									className="mb-3 h-8 w-8 text-text-disabled-300"
+								/>
+								<p className="text-text-sub-600">No verifications yet</p>
+								<p className="text-[13px] text-text-soft-400">
+									Verify an email or upload a CSV to get started
+								</p>
+							</div>
+						) : (
+							activities.map((activity) => (
+								<button
+									key={activity.id}
+									type="button"
+									onClick={() => handleActivityClick(activity)}
+									className="flex w-full items-center justify-between border-stroke-soft-200/50 border-b px-6 py-4 text-left transition-colors last:border-b-0 hover:bg-bg-weak-50"
+								>
+									<div className="flex items-center gap-3">
+										{activity.type === "single" ? (
+											<div
+												className={cn(
+													"flex h-8 w-8 shrink-0 items-center justify-center rounded-lg",
+													activity.result.state === "deliverable"
+														? "bg-success-alpha-10"
+														: activity.result.state === "risky"
+															? "bg-warning-alpha-10"
+															: "bg-error-alpha-10",
+												)}
+											>
+												{(() => {
+													const ProviderIcon = getProviderIcon(activity.email);
+													if (ProviderIcon) {
+														return <ProviderIcon className="h-4 w-4" />;
+													}
+													return (
+														<Icon
+															name="mail-single"
+															className="h-4 w-4 text-text-sub-600"
+														/>
+													);
+												})()}
+											</div>
+										) : (
+											<div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-bg-weak-50">
+												<FileFormatIcon.Root
+													format="CSV"
+													color="green"
+													className="h-4 w-4"
+												/>
+											</div>
+										)}
+										<div>
+											<span className="font-mono text-sm text-text-strong-950">
+												{activity.type === "single"
+													? activity.email
+													: activity.name || "Bulk Verification"}
+											</span>
+											{activity.type === "bulk" && (
+												<p className="mt-0.5 text-text-soft-400 text-xs">
+													{activity.totalEmails} emails
+												</p>
+											)}
+										</div>
+									</div>
+
+									<div className="flex items-center gap-4">
+										{activity.type === "single" ? (
+											<>
+												<span
+													className={cn(
+														"font-semibold text-sm tabular-nums",
+														getScoreColor(activity.result.score),
+													)}
+												>
+													{activity.result.score}
+												</span>
+												<span
+													className={cn(
+														"min-w-[90px] text-sm",
+														activity.result.state === "deliverable"
+															? "text-success-base"
+															: activity.result.state === "risky"
+																? "text-warning-base"
+																: "text-error-base",
+													)}
+												>
+													{activity.result.state}
+												</span>
+											</>
+										) : (
+											<>
+												{activity.status === "completed" && activity.stats && (
+													<div className="flex items-center gap-3">
+														<div className="flex items-center gap-1.5">
+															<div className="h-2 w-2 rounded-full bg-success-base" />
+															<span className="text-text-sub-600 text-xs">
+																{activity.stats.deliverable}
+															</span>
+														</div>
+														<div className="flex items-center gap-1.5">
+															<div className="h-2 w-2 rounded-full bg-warning-base" />
+															<span className="text-text-sub-600 text-xs">
+																{activity.stats.risky}
+															</span>
+														</div>
+														<div className="flex items-center gap-1.5">
+															<div className="h-2 w-2 rounded-full bg-error-base" />
+															<span className="text-text-sub-600 text-xs">
+																{activity.stats.undeliverable}
+															</span>
+														</div>
+													</div>
+												)}
+												{activity.status === "processing" && (
+													<Icon
+														name="loader"
+														className="h-4 w-4 animate-spin text-warning-base"
+													/>
+												)}
+												{activity.status === "completed" && (
+													<Icon
+														name="check-circle"
+														className="h-4 w-4 text-success-base"
+													/>
+												)}
+												{activity.status === "failed" && (
+													<Icon
+														name="x-circle"
+														className="h-4 w-4 text-error-base"
+													/>
+												)}
+											</>
+										)}
+									</div>
+								</button>
+							))
+						)}
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};
