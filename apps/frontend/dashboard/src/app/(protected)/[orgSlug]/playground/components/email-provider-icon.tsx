@@ -23,6 +23,7 @@ export const EmailProviderIcon = ({
 }: EmailProviderIconProps) => {
 	const [faviconLoaded, setFaviconLoaded] = useState(false);
 	const [tryWww, setTryWww] = useState(false);
+	const [tryGoogle, setTryGoogle] = useState(false);
 	const [faviconFailed, setFaviconFailed] = useState(false);
 
 	// Extract domain from email
@@ -36,7 +37,7 @@ export const EmailProviderIcon = ({
 		return <ProviderIcon className={iconClassName} />;
 	}
 
-	// If both URLs failed, show fallback
+	// If all URLs failed, show fallback
 	if (faviconFailed || !domain) {
 		return (
 			<Icon
@@ -46,13 +47,24 @@ export const EmailProviderIcon = ({
 		);
 	}
 
-	const faviconUrl = tryWww
-		? `https://www.${domain}/favicon.ico`
-		: `https://${domain}/favicon.ico`;
+	// Try: 1. domain/favicon.ico, 2. www.domain/favicon.ico, 3. Google's service
+	const getFaviconUrl = () => {
+		if (tryGoogle) {
+			return `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+		}
+		if (tryWww) {
+			return `https://www.${domain}/favicon.ico`;
+		}
+		return `https://${domain}/favicon.ico`;
+	};
+
+	const faviconUrl = getFaviconUrl();
 
 	const handleError = () => {
 		if (!tryWww) {
 			setTryWww(true);
+		} else if (!tryGoogle) {
+			setTryGoogle(true);
 		} else {
 			setFaviconFailed(true);
 		}
