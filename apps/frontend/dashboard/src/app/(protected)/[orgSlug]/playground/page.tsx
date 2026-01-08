@@ -6,6 +6,7 @@ import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
 import { useSidebar } from "@fe/dashboard/providers/sidebar-provider";
 import { getProviderIcon } from "@fe/dashboard/utils/email-provider-icon";
 import { cn } from "@verifio/ui/cn";
+import * as FileFormatIcon from "@verifio/ui/file-format-icon";
 import { Icon } from "@verifio/ui/icon";
 import * as Input from "@verifio/ui/input";
 import { AnimatePresence, motion } from "framer-motion";
@@ -261,8 +262,13 @@ const PlaygroundPage = () => {
 	}, [activeTab]);
 
 	const tabs = [
-		{ id: "single" as TabType, label: "Verify", dots: 3 },
-		{ id: "bulk" as TabType, label: "Bulk", dots: 2, badge: "New" },
+		{
+			id: "single" as TabType,
+			label: "Verify",
+			icon: "mail-single",
+			useCsvIcon: false,
+		},
+		{ id: "bulk" as TabType, label: "Bulk", icon: null, useCsvIcon: true },
 	];
 
 	// Call the verification API
@@ -575,28 +581,25 @@ const PlaygroundPage = () => {
 											}}
 										/>
 									)}
-									{/* Dot pattern icon */}
-									<span
-										className={cn(
-											"relative z-10 flex items-center gap-[2px] transition-colors duration-200",
-											activeTab === tab.id
-												? "text-primary-base"
-												: "text-text-soft-400 group-hover:text-text-sub-600",
-										)}
-									>
-										{Array.from({ length: tab.dots }).map((_, i) => (
-											<span key={i} className="flex flex-col gap-[2px]">
-												<span className="h-[3px] w-[3px] rounded-full bg-current" />
-												<span className="h-[3px] w-[3px] rounded-full bg-current" />
-											</span>
-										))}
-									</span>
-									<span className="label-sm relative z-10">{tab.label}</span>
-									{tab.badge && (
-										<span className="relative z-10 rounded bg-bg-soft-200 px-1.5 py-0.5 font-medium text-[10px] text-text-sub-600">
-											{tab.badge}
-										</span>
+									{/* Tab icon */}
+									{tab.useCsvIcon ? (
+										<FileFormatIcon.Root
+											format="CSV"
+											color="green"
+											className="relative z-10 h-5 w-5"
+										/>
+									) : (
+										<Icon
+											name={tab.icon as "mail-single"}
+											className={cn(
+												"relative z-10 h-4 w-4 transition-colors duration-200",
+												activeTab === tab.id
+													? "text-primary-base"
+													: "text-text-soft-400 group-hover:text-text-sub-600",
+											)}
+										/>
 									)}
+									<span className="label-sm relative z-10">{tab.label}</span>
 								</button>
 							))}
 						</div>
@@ -725,8 +728,12 @@ const PlaygroundPage = () => {
 													csvFile && "border-success-base bg-success-alpha-10",
 												)}
 											>
-												<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-bg-weak-50 text-text-sub-600">
-													<Icon name="upload" className="h-6 w-6" />
+												<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-bg-weak-50">
+													<FileFormatIcon.Root
+														format="CSV"
+														color="green"
+														className="h-7 w-7"
+													/>
 												</div>
 												<div className="text-center">
 													<p className="font-medium text-text-strong-950">
