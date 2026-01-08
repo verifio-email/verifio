@@ -2,6 +2,7 @@
 
 import { getProviderIcon } from "@fe/dashboard/utils/email-provider-icon";
 import { Icon } from "@verifio/ui/icon";
+import { Skeleton } from "@verifio/ui/skeleton";
 import { useState } from "react";
 
 interface EmailProviderIconProps {
@@ -12,7 +13,7 @@ interface EmailProviderIconProps {
 
 /**
  * Component that displays email provider icon.
- * Tries to load the domain's favicon first, falls back to known provider icons,
+ * Tries to load the domain's favicon first (without www, then with www),
  * and finally falls back to a generic mail icon.
  */
 export const EmailProviderIcon = ({
@@ -21,6 +22,7 @@ export const EmailProviderIcon = ({
 	imgClassName = "h-4 w-4",
 }: EmailProviderIconProps) => {
 	const [faviconLoaded, setFaviconLoaded] = useState(false);
+	const [tryWww, setTryWww] = useState(false);
 	const [faviconFailed, setFaviconFailed] = useState(false);
 
 	// Extract domain from email
@@ -34,7 +36,7 @@ export const EmailProviderIcon = ({
 		return <ProviderIcon className={iconClassName} />;
 	}
 
-	// If favicon has failed, show fallback immediately
+	// If both URLs failed, show fallback
 	if (faviconFailed || !domain) {
 		return (
 			<Icon
@@ -44,25 +46,29 @@ export const EmailProviderIcon = ({
 		);
 	}
 
-	// Use Google's favicon service for better reliability
-	const faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+	const faviconUrl = tryWww
+		? `https://www.${domain}/favicon.ico`
+		: `https://${domain}/favicon.ico`;
+
+	const handleError = () => {
+		if (!tryWww) {
+			setTryWww(true);
+		} else {
+			setFaviconFailed(true);
+		}
+	};
 
 	return (
 		<>
-			{/* Loading spinner while favicon loads */}
 			{!faviconLoaded && (
-				<Icon
-					name="loader"
-					className={`${iconClassName} animate-spin text-text-soft-400`}
-				/>
+				<Skeleton className={`${imgClassName} rounded-full`} />
 			)}
-			{/* Favicon image - hidden until loaded */}
 			<img
 				src={faviconUrl}
 				alt={`${domain} icon`}
 				className={`${imgClassName} ${faviconLoaded ? "block" : "hidden"} rounded-full`}
 				onLoad={() => setFaviconLoaded(true)}
-				onError={() => setFaviconFailed(true)}
+				onError={handleError}
 			/>
 		</>
 	);

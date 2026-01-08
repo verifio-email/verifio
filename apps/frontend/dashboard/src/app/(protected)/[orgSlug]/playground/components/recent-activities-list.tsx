@@ -171,7 +171,7 @@ export const RecentActivitiesList = ({
 												<EmailProviderIcon
 													email={activity.email}
 													iconClassName="h-4 w-4"
-													imgClassName="h-6 w-6"
+													imgClassName="h-5 w-5"
 												/>
 											</div>
 										) : (
