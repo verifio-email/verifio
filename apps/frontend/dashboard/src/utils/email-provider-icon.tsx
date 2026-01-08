@@ -67,7 +67,7 @@ const providerIcons: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
 	"rocketmail.com": yahoo,
 
 	// Apple
-	"icloud.com": apple,
+	"apple.com": apple,
 	"me.com": apple,
 	"mac.com": apple,
 

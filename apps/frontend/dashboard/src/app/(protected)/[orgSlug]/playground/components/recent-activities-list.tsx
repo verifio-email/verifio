@@ -1,12 +1,12 @@
 "use client";
 
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
-import { getProviderIcon } from "@fe/dashboard/utils/email-provider-icon";
 import { cn } from "@verifio/ui/cn";
 import * as FileFormatIcon from "@verifio/ui/file-format-icon";
 import { Icon } from "@verifio/ui/icon";
 import useSWR from "swr";
 import type { RecentActivity, VerificationResult } from "../types";
+import { EmailProviderIcon } from "./email-provider-icon";
 
 interface RecentActivitiesListProps {
 	onShowResult?: (result: VerificationResult) => void;
@@ -156,7 +156,7 @@ export const RecentActivitiesList = ({
 									onClick={() => handleActivityClick(activity)}
 									className="flex w-full items-center justify-between border-stroke-soft-200/50 border-b px-6 py-4 text-left transition-colors last:border-b-0 hover:bg-bg-weak-50"
 								>
-									<div className="flex items-center gap-3">
+									<div className="flex items-center gap-1.5">
 										{activity.type === "single" ? (
 											<div
 												className={cn(
@@ -168,18 +168,11 @@ export const RecentActivitiesList = ({
 															: "bg-error-alpha-10",
 												)}
 											>
-												{(() => {
-													const ProviderIcon = getProviderIcon(activity.email);
-													if (ProviderIcon) {
-														return <ProviderIcon className="h-4 w-4" />;
-													}
-													return (
-														<Icon
-															name="mail-single"
-															className="h-4 w-4 text-text-sub-600"
-														/>
-													);
-												})()}
+												<EmailProviderIcon
+													email={activity.email}
+													iconClassName="h-4 w-4"
+													imgClassName="h-6 w-6"
+												/>
 											</div>
 										) : (
 											<div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-bg-weak-50">
