@@ -12,6 +12,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import {
+	BulkResultsFilterDropdown,
+	type BulkResultsFilters,
+} from "./components/bulk-results-filter-dropdown";
+import {
 	EmailDetailModal,
 	type EmailVerificationData,
 } from "./components/email-detail-modal";
@@ -75,6 +79,9 @@ const BulkPage = () => {
 	const [resultsSearch, setResultsSearch] = useState("");
 	const [resultsPage, setResultsPage] = useState(1);
 	const resultsPageSize = 10;
+	const [resultsFilter, setResultsFilter] = useState<BulkResultsFilters>({
+		states: [],
+	});
 
 	// Selected email for detail modal
 	const [selectedEmail, setSelectedEmail] = useState<VerificationResult | null>(
@@ -418,9 +425,15 @@ const BulkPage = () => {
 	};
 
 	// Filter and paginate results
-	const filteredResults = jobResults.filter((r) =>
-		r.email.toLowerCase().includes(resultsSearch.toLowerCase()),
-	);
+	const filteredResults = jobResults.filter((r) => {
+		const matchesSearch = r.email
+			.toLowerCase()
+			.includes(resultsSearch.toLowerCase());
+		const matchesState =
+			resultsFilter.states.length === 0 ||
+			resultsFilter.states.includes(r.state);
+		return matchesSearch && matchesState;
+	});
 	const resultsTotalPages = Math.ceil(filteredResults.length / resultsPageSize);
 	const paginatedResults = filteredResults.slice(
 		(resultsPage - 1) * resultsPageSize,
@@ -853,6 +866,10 @@ const BulkPage = () => {
 																					/>
 																				</Input.Wrapper>
 																			</Input.Root>
+																			<BulkResultsFilterDropdown
+																				value={resultsFilter}
+																				onChange={setResultsFilter}
+																			/>
 																			<span className="text-sm text-text-sub-600">
 																				{filteredResults.length} results
 																			</span>
