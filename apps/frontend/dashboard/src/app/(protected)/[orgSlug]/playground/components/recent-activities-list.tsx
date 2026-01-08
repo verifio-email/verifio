@@ -6,7 +6,7 @@ import * as FileFormatIcon from "@verifio/ui/file-format-icon";
 import { Icon } from "@verifio/ui/icon";
 import useSWR from "swr";
 import type { RecentActivity, VerificationResult } from "../types";
-import { EmailProviderIcon } from "./email-provider-icon";
+import { EmailAvatar } from "./email-avatar";
 
 interface RecentActivitiesListProps {
 	onShowResult?: (result: VerificationResult) => void;
@@ -168,10 +168,9 @@ export const RecentActivitiesList = ({
 															: "bg-error-alpha-10",
 												)}
 											>
-												<EmailProviderIcon
+												<EmailAvatar
 													email={activity.email}
-													iconClassName="h-4 w-4"
-													imgClassName="h-5 w-5"
+													className="h-5 w-5"
 												/>
 											</div>
 										) : (
