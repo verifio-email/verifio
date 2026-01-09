@@ -1,5 +1,6 @@
 import { Icon } from "@verifio/ui/icon";
 import { AnimatedBounce } from "./animated-bounce";
+import { AnimatedSpamFlag } from "./animated-spam-flag";
 
 // Unique visual components for each problem
 function BounceRateVisual() {
@@ -7,65 +8,7 @@ function BounceRateVisual() {
 }
 
 function SpamFlagVisual() {
-	return (
-		<div className="relative flex h-44 items-center justify-center">
-			<div className="relative flex items-center gap-6">
-				{/* Valid Email - left side */}
-				<div className="relative flex flex-col items-center">
-					<div className="flex h-10 w-10 items-center justify-center rounded-lg border border-green-400/50 bg-green-50 dark:bg-green-950/30">
-						<Icon name="mail-single" className="h-4 w-4 text-green-500" />
-					</div>
-					{/* Valid checkmark */}
-					<div className="-right-1 -top-1 absolute flex h-4 w-4 items-center justify-center rounded-full bg-green-500">
-						<Icon name="check" className="h-2.5 w-2.5 text-white" />
-					</div>
-					<span className="mt-1.5 font-mono text-[8px] text-green-600">
-						valid
-					</span>
-				</div>
-
-				{/* Arrow pointing to block */}
-				<div className="flex flex-col items-center gap-1">
-					<div className="h-px w-6 bg-gradient-to-r from-green-400/40 via-amber-400/60 to-red-400/40" />
-					<div className="flex h-3 w-3 items-center justify-center">
-						<Icon name="arrow-right" className="h-3 w-3 text-text-sub-600/40" />
-					</div>
-				</div>
-
-				{/* Block/Filter - center */}
-				<div className="relative flex flex-col items-center">
-					{/* Warning pulse rings */}
-					<div className="-inset-3 absolute rounded-lg border border-red-400/20" />
-					<div className="-inset-5 absolute rounded-lg border border-red-400/10 border-dashed" />
-
-					<div className="flex h-12 w-12 items-center justify-center rounded-lg border border-red-400/50 bg-red-50 dark:bg-red-950/30">
-						<Icon name="shield-cross" className="h-5 w-5 text-red-500" />
-					</div>
-					<span className="mt-1.5 rounded bg-red-100 px-1.5 py-0.5 font-mono text-[7px] font-semibold text-red-600 dark:bg-red-950/50">
-						BLOCKED
-					</span>
-				</div>
-			</div>
-
-			{/* Bottom reputation indicator */}
-			<div className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded border border-stroke-soft-200/30 bg-bg-white-0 px-2 py-1 dark:bg-gray-900/50">
-				<div className="flex items-center gap-2">
-					<div className="flex items-center gap-1">
-						<Icon name="trending-down" className="h-3 w-3 text-red-500" />
-						<span className="font-mono text-[8px] text-text-sub-600">
-							sender_reputation
-						</span>
-					</div>
-					<div className="h-1.5 w-12 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
-						<div className="h-full w-3 rounded-full bg-red-500" />
-					</div>
-					<span className="font-mono text-[8px] font-semibold text-red-500">
-						LOW
-					</span>
-				</div>
-			</div>
-		</div>
-	);
+	return <AnimatedSpamFlag />;
 }
 
 function WastedSpendVisual() {
@@ -74,7 +17,7 @@ function WastedSpendVisual() {
 			<div className="relative">
 				{/* Money drain visual */}
 				<div className="rounded-lg border border-stroke-soft-200/30 bg-bg-white-0 p-3 font-mono text-[10px] dark:bg-gray-900/50">
-					<div className="flex items-center justify-between gap-4 border-b border-stroke-soft-200/20 pb-2">
+					<div className="flex items-center justify-between gap-4 border-stroke-soft-200/20 border-b pb-2">
 						<span className="text-text-sub-600">spend.total</span>
 						<span className="text-text-strong-950">$10,000</span>
 					</div>
