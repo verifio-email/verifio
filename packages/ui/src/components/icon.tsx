@@ -2013,6 +2013,20 @@ export const IconsSprite = () => (
 					strokeLinejoin="round"
 				/>
 			</symbol>
+			<symbol id="flag" fill="none" viewBox="0 0 24 24">
+				<path
+					opacity="0.12"
+					d="M5 15V4L6.31951 3.67012C8.0358 3.24105 9.85224 3.51134 11.3692 4.42154C13.039 5.4234 15.0632 5.6456 16.9105 5.02982L20 4V15L16.9105 16.0298C15.0632 16.6456 13.039 16.4234 11.3692 15.4215C9.85224 14.5113 8.0358 14.241 6.31951 14.6701L5 15Z"
+					fill="currentColor"
+				/>
+				<path
+					d="M5 4V15M5 4V2M5 4L6.31951 3.67012C8.0358 3.24105 9.85224 3.51134 11.3692 4.42154C13.039 5.4234 15.0632 5.6456 16.9105 5.02982L20 4V15L16.9105 16.0298C15.0632 16.6456 13.039 16.4234 11.3692 15.4215C9.85224 14.5113 8.0358 14.2411 6.31951 14.6701L5 15M5 22V15"
+					stroke="currentColor"
+					strokeWidth="1.5"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+				/>
+			</symbol>
 			<symbol id="checkbox-circle" viewBox="0 0 24 24">
 				<circle opacity="0.12" cx="12" cy="12" r="10" fill="currentColor" />
 				<path

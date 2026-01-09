@@ -1,29 +1,154 @@
 import { Icon } from "@verifio/ui/icon";
+import { AnimatedBounce } from "./animated-bounce";
+
+// Unique visual components for each problem
+function BounceRateVisual() {
+	return <AnimatedBounce />;
+}
+
+function SpamFlagVisual() {
+	return (
+		<div className="relative flex h-44 items-center justify-center">
+			<div className="relative">
+				{/* Warning rings */}
+				<div className="-inset-6 absolute rounded-full border border-amber-400/30" />
+				<div className="-inset-10 absolute rounded-full border border-amber-400/20 border-dashed" />
+
+				{/* Center icon */}
+				<div className="flex h-12 w-12 items-center justify-center rounded-full border border-amber-400/50 bg-amber-50 dark:bg-amber-950/30">
+					<Icon name="alert-triangle" className="h-5 w-5 text-amber-500" />
+				</div>
+
+				{/* Connection lines to blacklist */}
+				<div className="-bottom-8 -translate-x-1/2 absolute left-1/2 h-8 w-px bg-gradient-to-b from-amber-400/40 to-transparent" />
+				<div className="-bottom-12 -translate-x-1/2 absolute left-1/2 rounded border border-stroke-soft-200/30 bg-bg-white-0 px-2 py-0.5 font-mono text-[9px] text-text-sub-600 dark:bg-gray-900/50">
+					blacklist.db
+				</div>
+
+				{/* Flag indicator */}
+				<div className="-left-6 absolute top-0 flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/40">
+					<Icon name="flag" className="h-3 w-3 text-amber-600" />
+				</div>
+			</div>
+		</div>
+	);
+}
+
+function WastedSpendVisual() {
+	return (
+		<div className="relative flex h-44 items-center justify-center">
+			<div className="relative">
+				{/* Money drain visual */}
+				<div className="rounded-lg border border-stroke-soft-200/30 bg-bg-white-0 p-3 font-mono text-[10px] dark:bg-gray-900/50">
+					<div className="flex items-center justify-between gap-4 border-b border-stroke-soft-200/20 pb-2">
+						<span className="text-text-sub-600">spend.total</span>
+						<span className="text-text-strong-950">$10,000</span>
+					</div>
+					<div className="mt-2 space-y-1">
+						<div className="flex items-center justify-between gap-4">
+							<span className="text-text-sub-600/60">valid_emails</span>
+							<span className="text-green-500">$8,000</span>
+						</div>
+						<div className="flex items-center justify-between gap-4">
+							<span className="text-text-sub-600/60">invalid_emails</span>
+							<span className="text-red-500 line-through">$2,000</span>
+						</div>
+					</div>
+				</div>
+
+				{/* Percentage badge */}
+				<div className="absolute -right-3 -top-3 flex h-8 w-8 items-center justify-center rounded-full bg-red-100 font-mono text-[10px] font-semibold text-red-600 dark:bg-red-950/50">
+					20%
+				</div>
+			</div>
+		</div>
+	);
+}
+
+function BrokenOnboardingVisual() {
+	return (
+		<div className="relative flex h-44 items-center justify-center">
+			<div className="relative">
+				{/* User flow with break */}
+				<div className="flex items-center gap-2">
+					{/* Step 1: Signup */}
+					<div className="flex flex-col items-center">
+						<div className="flex h-8 w-8 items-center justify-center rounded-full border border-green-400/50 bg-green-50 dark:bg-green-950/30">
+							<Icon name="user" className="h-3.5 w-3.5 text-green-500" />
+						</div>
+						<span className="mt-1 font-mono text-[8px] text-text-sub-600/60">
+							signup
+						</span>
+					</div>
+
+					{/* Arrow */}
+					<div className="h-px w-4 bg-green-400/40" />
+
+					{/* Step 2: Email verify - BROKEN */}
+					<div className="flex flex-col items-center">
+						<div className="relative flex h-8 w-8 items-center justify-center rounded-full border border-red-400/50 bg-red-50 dark:bg-red-950/30">
+							<Icon name="mail" className="h-3.5 w-3.5 text-red-500" />
+							<div className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500">
+								<Icon name="x" className="h-2.5 w-2.5 text-white" />
+							</div>
+						</div>
+						<span className="mt-1 font-mono text-[8px] text-red-400">
+							verify
+						</span>
+					</div>
+
+					{/* Broken arrow */}
+					<div className="h-px w-4 border-t border-dashed border-text-sub-600/30" />
+
+					{/* Step 3: Activate - Never reached */}
+					<div className="flex flex-col items-center opacity-40">
+						<div className="flex h-8 w-8 items-center justify-center rounded-full border border-stroke-soft-200/30 bg-bg-white-0">
+							<Icon name="check" className="h-3.5 w-3.5 text-text-sub-600" />
+						</div>
+						<span className="mt-1 font-mono text-[8px] text-text-sub-600/60">
+							activate
+						</span>
+					</div>
+				</div>
+
+				{/* Drop-off stat */}
+				<div className="absolute -bottom-8 left-1/2 -translate-x-1/2 rounded border border-stroke-soft-200/30 bg-bg-white-0 px-2 py-1 font-mono text-[9px] dark:bg-gray-900/50">
+					<span className="text-red-500 font-semibold">40%</span>
+					<span className="text-text-sub-600/60"> drop-off</span>
+				</div>
+			</div>
+		</div>
+	);
+}
 
 const problems = [
 	{
-		icon: "arrow-top-right-circle" as const,
+		number: "01",
 		title: "High bounce rates.",
 		description:
 			"Invalid emails cause hard bounces, hurting sender reputation and deliverability scores.",
+		Visual: BounceRateVisual,
 	},
 	{
-		icon: "alert-triangle" as const,
+		number: "02",
 		title: "Spam flags & reputation damage.",
 		description:
 			"Sending to risky addresses triggers spam traps and blacklists that are hard to escape.",
+		Visual: SpamFlagVisual,
 	},
 	{
-		icon: "dollar" as const,
+		number: "03",
 		title: "Wasted acquisition spend.",
 		description:
 			"Every invalid email is money spent on leads that will never convert or engage.",
+		Visual: WastedSpendVisual,
 	},
 	{
-		icon: "cross-circle" as const,
+		number: "04",
 		title: "Broken onboarding flows.",
 		description:
 			"Users who can't receive emails drop off before activation, killing conversion.",
+		Visual: BrokenOnboardingVisual,
 	},
 ];
 
@@ -43,78 +168,96 @@ export function EmailQualityProblem() {
 					<div className="flex flex-col items-center justify-center border-stroke-soft-100 border-b px-4 py-8 text-center md:p-10">
 						{/* Warning Badge */}
 						<div className="mb-4 flex items-center gap-1.5 md:mb-6">
-							<Icon name="alert-triangle" className="h-4 w-4 text-amber-500" />
+							<Icon
+								name="alert-triangle"
+								className="h-4 w-4 text-primary-base"
+							/>
 							<span className="font-medium text-sm text-text-sub-600">
 								Silent Growth Killer
 							</span>
 						</div>
 
-						<h2 className="max-w-3xl font-semibold text-2xl text-text-strong-950 md:text-3xl">
-							Email quality silently kills growth
-						</h2>
-						<p className="mt-2 max-w-xl px-2 font-medium text-sm text-text-sub-600 leading-7 md:max-w-none md:px-0 md:text-base md:leading-8">
-							Invalid and risky emails lead to bounce rates, spam flags, and
-							wasted spend.
-						</p>
+						<div className="space-y-3">
+							<h2 className="font-semibold text-3xl text-text-strong-950 md:text-4xl">
+								Email quality silently{" "}
+								<span className="text-primary-base">kills growth</span>
+							</h2>
+							<p className="mx-auto max-w-md text-text-sub-600">
+								Invalid and risky emails lead to bounce rates, spam flags, and
+								wasted spend.
+							</p>
+						</div>
 					</div>
 
-					{/* Problems Grid - 4 columns on desktop, 2 on tablet, 1 on mobile */}
-					<div className="grid grid-cols-1 border-stroke-soft-100 border-b sm:grid-cols-2 lg:grid-cols-4">
+					{/* Problems Grid - 2x2 with unique visuals */}
+					<div className="grid grid-cols-1 md:grid-cols-2">
 						{problems.map((problem, index) => {
-							const isLastColumn = index === problems.length - 1;
+							const isRightColumn = index % 2 === 1;
+							const isLastRow = index >= problems.length - 2;
+							const Visual = problem.Visual;
 
 							return (
 								<div
 									key={index}
-									className={`flex flex-col items-center px-6 py-8 text-center ${
-										!isLastColumn
-											? "border-stroke-soft-100 border-b sm:border-b lg:border-r lg:border-b-0"
-											: "border-stroke-soft-100 border-b sm:border-b-0"
-									} ${index === 1 ? "sm:border-r lg:border-r" : ""} ${index === 2 ? "sm:border-r-0 sm:border-b lg:border-r lg:border-b-0" : ""}`}
+									className={`group relative flex flex-col p-6 ${
+										!isRightColumn
+											? "md:border-stroke-soft-100 md:border-r"
+											: ""
+									} ${
+										!isLastRow
+											? "border-stroke-soft-100 border-b"
+											: "border-stroke-soft-100 border-b md:border-b-0"
+									}`}
 								>
-									{/* Icon */}
-									<div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-stroke-soft-200/50 bg-bg-white-0">
-										<Icon
-											name={problem.icon}
-											className="h-5 w-5 text-primary-base"
-										/>
+									{/* Number indicator */}
+									<div className="mb-4 font-mono text-text-sub-600/60 text-xs">
+										[ {problem.number} ]
 									</div>
 
-									{/* Title & Description */}
-									<p className="text-sm text-text-sub-600 leading-relaxed">
-										<span className="font-semibold text-text-strong-950">
+									{/* Visual element */}
+									<div className="mb-6">
+										<Visual />
+									</div>
+
+									{/* Description */}
+									<div className="mt-auto space-y-1">
+										<h3 className="font-semibold text-sm text-text-strong-950">
 											{problem.title}
-										</span>{" "}
-										{problem.description}
-									</p>
+										</h3>
+										<p className="text-text-sub-600 text-xs leading-relaxed">
+											{problem.description}
+										</p>
+									</div>
 								</div>
 							);
 						})}
 					</div>
 
 					{/* Black Box Callout */}
-					<div className="flex flex-col items-center justify-center px-4 py-8 text-center md:p-10">
-						<div className="relative mx-auto max-w-2xl">
-							{/* Quote marks */}
-							<div className="absolute -top-2 -left-4 font-serif text-4xl text-stroke-soft-200 md:-left-8">
-								"
-							</div>
-							<div className="absolute -right-4 -bottom-4 font-serif text-4xl text-stroke-soft-200 md:-right-8">
-								"
+					<div className="border-stroke-soft-100 border-t">
+						<div className="flex flex-col items-center justify-center px-4 py-8 text-center md:p-10">
+							<div className="relative mx-auto max-w-2xl">
+								{/* Quote marks */}
+								<div className="absolute -top-2 -left-4 font-serif text-4xl text-stroke-soft-200 md:-left-8">
+									"
+								</div>
+								<div className="absolute -right-4 -bottom-4 font-serif text-4xl text-stroke-soft-200 md:-right-8">
+									"
+								</div>
+
+								<p className="text-base font-medium italic text-text-strong-950 md:text-lg">
+									Most verification tools are black boxes —
+									<span className="text-primary-base"> you never know why</span>{" "}
+									an email passed or failed.
+								</p>
 							</div>
 
-							<p className="text-base font-medium italic text-text-strong-950 md:text-lg">
-								Most verification tools are black boxes —
-								<span className="text-primary-base"> you never know why</span>{" "}
-								an email passed or failed.
-							</p>
-						</div>
-
-						<div className="mt-6 flex items-center gap-2">
-							<Icon name="lightbulb" className="h-4 w-4 text-primary-base" />
-							<span className="text-sm text-text-sub-600">
-								Verifio shows you every check, every signal, every reason.
-							</span>
+							<div className="mt-6 flex items-center gap-2">
+								<Icon name="lightbulb" className="h-4 w-4 text-primary-base" />
+								<span className="text-sm text-text-sub-600">
+									Verifio shows you every check, every signal, every reason.
+								</span>
+							</div>
 						</div>
 					</div>
 				</div>
