@@ -1,3 +1,7 @@
+import {
+	getStateBadge,
+	getStateColor,
+} from "@fe/dashboard/utils/verification-state";
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
 import { AnimatePresence, motion } from "framer-motion";
@@ -6,28 +10,6 @@ import type { VerificationResult } from "../types";
 interface VerificationResultCardProps {
 	result: VerificationResult;
 }
-
-// Get score color
-const getScoreColor = (score: number) => {
-	if (score >= 90) return "text-success-base";
-	if (score >= 70) return "text-primary-base";
-	if (score >= 50) return "text-warning-base";
-	return "text-error-base";
-};
-
-// Get state badge style
-const getStateBadge = (state: string) => {
-	switch (state) {
-		case "deliverable":
-			return "bg-success-alpha-10 text-success-base";
-		case "risky":
-			return "bg-warning-alpha-10 text-warning-base";
-		case "undeliverable":
-			return "bg-error-alpha-10 text-error-base";
-		default:
-			return "bg-bg-weak-50 text-text-sub-600";
-	}
-};
 
 export const VerificationResultCard = ({
 	result,
@@ -104,7 +86,7 @@ export const VerificationResultCard = ({
 										<p
 											className={cn(
 												"font-bold text-3xl",
-												getScoreColor(result.score),
+												getStateColor(result.state),
 											)}
 										>
 											{result.score}

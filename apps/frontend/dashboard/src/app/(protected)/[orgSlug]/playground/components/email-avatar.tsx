@@ -80,7 +80,7 @@ export const EmailAvatar = ({
 	if (avatarFailed || !avatarUrl) {
 		return (
 			<div
-				className={`${className} flex items-center justify-center rounded-full ${bgColor} font-semibold text-white text-xs`}
+				className={`${className} flex items-center justify-center rounded-full ${bgColor} font-medium text-[11px] text-white`}
 			>
 				{firstLetter}
 			</div>

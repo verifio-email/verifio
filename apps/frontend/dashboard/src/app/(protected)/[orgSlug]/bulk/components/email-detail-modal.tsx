@@ -1,5 +1,9 @@
 "use client";
 
+import {
+	getStateColor,
+	getStateIcon,
+} from "@fe/dashboard/utils/verification-state";
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
 import { AnimatePresence, motion } from "framer-motion";
@@ -51,32 +55,6 @@ const getScoreColor = (score: number) => {
 	if (score >= 80) return "text-success-base";
 	if (score >= 60) return "text-warning-base";
 	return "text-error-base";
-};
-
-const getStateColor = (state: string) => {
-	switch (state) {
-		case "deliverable":
-			return "text-success-base";
-		case "risky":
-			return "text-warning-base";
-		case "undeliverable":
-			return "text-error-base";
-		default:
-			return "text-text-sub-600";
-	}
-};
-
-const getStateIcon = (state: string) => {
-	switch (state) {
-		case "deliverable":
-			return "check-circle";
-		case "risky":
-			return "alert-triangle";
-		case "undeliverable":
-			return "x-circle";
-		default:
-			return "help-circle";
-	}
 };
 
 export const EmailDetailModal = ({ email, onClose }: EmailDetailModalProps) => {

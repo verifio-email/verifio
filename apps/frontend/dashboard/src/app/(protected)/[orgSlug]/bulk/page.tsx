@@ -4,6 +4,10 @@ import { PageSizeDropdown } from "@fe/dashboard/components/page-size-dropdown";
 import { PaginationControls } from "@fe/dashboard/components/pagination-controls";
 import { useSidebar } from "@fe/dashboard/providers/sidebar-provider";
 import { getProviderIcon } from "@fe/dashboard/utils/email-provider-icon";
+import {
+	getStateBadge,
+	getStateColor,
+} from "@fe/dashboard/utils/verification-state";
 import { cn } from "@verifio/ui/cn";
 import * as FileFormatIcon from "@verifio/ui/file-format-icon";
 import { Icon } from "@verifio/ui/icon";
@@ -401,26 +405,6 @@ const BulkPage = () => {
 						Pending
 					</span>
 				);
-		}
-	};
-
-	const getScoreColor = (score: number) => {
-		if (score >= 90) return "text-success-base";
-		if (score >= 70) return "text-primary-base";
-		if (score >= 50) return "text-warning-base";
-		return "text-error-base";
-	};
-
-	const getStateBadge = (state: string) => {
-		switch (state) {
-			case "deliverable":
-				return "bg-success-alpha-10 text-success-base";
-			case "risky":
-				return "bg-warning-alpha-10 text-warning-base";
-			case "undeliverable":
-				return "bg-error-alpha-10 text-error-base";
-			default:
-				return "bg-bg-weak-50 text-text-sub-600";
 		}
 	};
 
@@ -952,7 +936,7 @@ const BulkPage = () => {
 																						<span
 																							className={cn(
 																								"font-semibold text-sm tabular-nums",
-																								getScoreColor(result.score),
+																								getStateColor(result.state),
 																							)}
 																						>
 																							{result.score}

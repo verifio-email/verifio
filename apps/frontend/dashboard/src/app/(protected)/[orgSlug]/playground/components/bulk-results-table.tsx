@@ -2,6 +2,7 @@
 
 import { PageSizeDropdown } from "@fe/dashboard/components/page-size-dropdown";
 import { PaginationControls } from "@fe/dashboard/components/pagination-controls";
+import { getStateColor } from "@fe/dashboard/utils/verification-state";
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
 import * as Input from "@verifio/ui/input";
@@ -13,14 +14,6 @@ interface BulkResultsTableProps {
 	stats: BulkStats | null;
 	onClose: () => void;
 }
-
-// Get score color
-const getScoreColor = (score: number) => {
-	if (score >= 90) return "text-success-base";
-	if (score >= 70) return "text-primary-base";
-	if (score >= 50) return "text-warning-base";
-	return "text-error-base";
-};
 
 export const BulkResultsTable = ({
 	results,
@@ -170,7 +163,7 @@ export const BulkResultsTable = ({
 													<span
 														className={cn(
 															"font-medium text-sm",
-															getScoreColor(result.score),
+															getStateColor(result.state),
 														)}
 													>
 														{result.score}

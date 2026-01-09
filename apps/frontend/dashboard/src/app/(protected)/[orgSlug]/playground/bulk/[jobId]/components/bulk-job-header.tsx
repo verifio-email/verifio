@@ -1,9 +1,12 @@
 "use client";
-
 import { AnimatedBackButton } from "@fe/dashboard/components/animated-back-button";
 import { PageSizeDropdown } from "@fe/dashboard/components/page-size-dropdown";
 import { PaginationControls } from "@fe/dashboard/components/pagination-controls";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
+import {
+	getStateBadge,
+	getStateColor,
+} from "@fe/dashboard/utils/verification-state";
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
 import * as Input from "@verifio/ui/input";
@@ -26,7 +29,6 @@ interface BulkJobData {
 	createdAt: string;
 	completedAt: string | null;
 }
-
 interface BulkJobResultsData {
 	results: Array<{
 		email: string;
@@ -51,27 +53,12 @@ interface BulkJobResultsData {
 		averageScore: number;
 	};
 }
-
 interface BulkJobHeaderProps {
 	job: BulkJobData | undefined;
 	results: BulkJobResultsData | undefined;
 	isLoading: boolean;
 	isFailed?: boolean;
 }
-
-const getStateBadge = (state: string) => {
-	switch (state) {
-		case "deliverable":
-			return "bg-success-alpha-10 text-success-base";
-		case "risky":
-			return "bg-warning-alpha-10 text-warning-base";
-		case "undeliverable":
-			return "bg-error-alpha-10 text-error-base";
-		default:
-			return "bg-bg-weak-50 text-text-sub-600";
-	}
-};
-
 export const BulkJobHeader = ({
 	job,
 	results,
@@ -81,19 +68,16 @@ export const BulkJobHeader = ({
 	const [searchQuery, setSearchQuery] = useState("");
 	const [currentPage, setCurrentPage] = useState(1);
 	const [pageSize, setPageSize] = useState(10);
-
 	// Filter results based on search
 	const filteredResults =
 		results?.results.filter((r) =>
 			r.email.toLowerCase().includes(searchQuery.toLowerCase()),
 		) || [];
-
 	// Pagination
 	const totalPages = Math.ceil(filteredResults.length / pageSize);
 	const startIndex = (currentPage - 1) * pageSize;
 	const endIndex = Math.min(startIndex + pageSize, filteredResults.length);
 	const paginatedResults = filteredResults.slice(startIndex, endIndex);
-
 	return (
 		<div className="h-full overflow-y-auto">
 			{/* Back Button Section */}
@@ -104,7 +88,6 @@ export const BulkJobHeader = ({
 					</div>
 				</div>
 			</div>
-
 			{/* Header Section */}
 			<div className="border-stroke-soft-200/50 border-b">
 				<div className="px-[340px] 2xl:px-[450px]">
@@ -166,7 +149,6 @@ export const BulkJobHeader = ({
 					</div>
 				</div>
 			</div>
-
 			{/* Stats Section */}
 			<div className="border-stroke-soft-200/50 border-b">
 				<div className="px-[340px] 2xl:px-[450px]">
@@ -174,7 +156,6 @@ export const BulkJobHeader = ({
 						<h3 className="mb-4 font-semibold text-lg text-text-strong-950">
 							Summary
 						</h3>
-
 						{isLoading ? (
 							<div className="flex gap-6">
 								{[1, 2, 3, 4].map((i) => (
@@ -212,7 +193,6 @@ export const BulkJobHeader = ({
 					</div>
 				</div>
 			</div>
-
 			{/* Results Section */}
 			<div className="border-stroke-soft-200/50 border-b">
 				<div className="px-[340px] 2xl:px-[450px]">
@@ -221,7 +201,6 @@ export const BulkJobHeader = ({
 							<h3 className="font-semibold text-lg text-text-strong-950">
 								Results
 							</h3>
-
 							{/* Search */}
 							<div className="w-64">
 								<Input.Root size="small">
@@ -239,7 +218,6 @@ export const BulkJobHeader = ({
 								</Input.Root>
 							</div>
 						</div>
-
 						{isLoading ? (
 							<div className="space-y-2">
 								{[1, 2, 3, 4, 5].map((i) => (
@@ -293,11 +271,7 @@ export const BulkJobHeader = ({
 															<span
 																className={cn(
 																	"font-medium text-sm",
-																	result.score >= 80
-																		? "text-success-base"
-																		: result.score >= 50
-																			? "text-warning-base"
-																			: "text-error-base",
+																	getStateColor(result.state),
 																)}
 															>
 																{result.score}
@@ -325,7 +299,6 @@ export const BulkJobHeader = ({
 										</tbody>
 									</table>
 								</div>
-
 								{/* Pagination */}
 								{filteredResults.length > 0 && (
 									<div className="mt-4 flex items-center justify-between text-sm">

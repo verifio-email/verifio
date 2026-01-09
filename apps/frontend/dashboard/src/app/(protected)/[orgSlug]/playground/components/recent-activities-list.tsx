@@ -1,6 +1,10 @@
 "use client";
 
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
+import {
+	getStateColor,
+	getStateIcon,
+} from "@fe/dashboard/utils/verification-state";
 import { cn } from "@verifio/ui/cn";
 import * as FileFormatIcon from "@verifio/ui/file-format-icon";
 import { Icon } from "@verifio/ui/icon";
@@ -11,14 +15,6 @@ import { EmailAvatar } from "./email-avatar";
 interface RecentActivitiesListProps {
 	onShowResult?: (result: VerificationResult) => void;
 }
-
-// Get score color
-const getScoreColor = (score: number) => {
-	if (score >= 90) return "text-success-base";
-	if (score >= 70) return "text-primary-base";
-	if (score >= 50) return "text-warning-base";
-	return "text-error-base";
-};
 
 // Fetcher function for SWR
 const fetchActivities = async (): Promise<RecentActivity[]> => {
@@ -156,7 +152,7 @@ export const RecentActivitiesList = ({
 									onClick={() => handleActivityClick(activity)}
 									className="flex w-full items-center justify-between border-stroke-soft-200/50 border-b px-6 py-4 text-left transition-colors last:border-b-0 hover:bg-bg-weak-50"
 								>
-									<div className="flex items-center gap-1.5">
+									<div className="flex items-center gap-3">
 										{activity.type === "single" ? (
 											<div
 												className={cn(
@@ -170,7 +166,7 @@ export const RecentActivitiesList = ({
 											>
 												<EmailAvatar
 													email={activity.email}
-													className="h-5 w-5"
+													className="h-4.5 w-4.5"
 												/>
 											</div>
 										) : (
@@ -201,66 +197,57 @@ export const RecentActivitiesList = ({
 											<>
 												<span
 													className={cn(
-														"font-semibold text-sm tabular-nums",
-														getScoreColor(activity.result.score),
+														"flex w-[110px] items-center gap-1.5 text-sm",
+														getStateColor(activity.result.state),
 													)}
 												>
-													{activity.result.score}
+													<Icon
+														name={getStateIcon(activity.result.state)}
+														className="h-3.5 w-3.5 shrink-0"
+													/>
+													{activity.result.state}
 												</span>
 												<span
 													className={cn(
-														"min-w-[90px] text-sm",
-														activity.result.state === "deliverable"
-															? "text-success-base"
-															: activity.result.state === "risky"
-																? "text-warning-base"
-																: "text-error-base",
+														"text-sm tabular-nums",
+														getStateColor(activity.result.state),
 													)}
 												>
-													{activity.result.state}
+													{activity.result.score}
 												</span>
 											</>
 										) : (
 											<>
 												{activity.status === "completed" && activity.stats && (
-													<div className="flex items-center gap-3">
-														<div className="flex items-center gap-1.5">
-															<div className="h-2 w-2 rounded-full bg-success-base" />
-															<span className="text-text-sub-600 text-xs">
-																{activity.stats.deliverable}
-															</span>
-														</div>
-														<div className="flex items-center gap-1.5">
-															<div className="h-2 w-2 rounded-full bg-warning-base" />
-															<span className="text-text-sub-600 text-xs">
-																{activity.stats.risky}
-															</span>
-														</div>
-														<div className="flex items-center gap-1.5">
-															<div className="h-2 w-2 rounded-full bg-error-base" />
-															<span className="text-text-sub-600 text-xs">
-																{activity.stats.undeliverable}
-															</span>
-														</div>
+													<div className="flex items-center gap-3 text-xs">
+														<span className="text-success-base">
+															{activity.stats.deliverable} passed
+														</span>
+														<span className="text-warning-base">
+															{activity.stats.risky} risky
+														</span>
+														<span className="text-error-base">
+															{activity.stats.undeliverable} failed
+														</span>
 													</div>
 												)}
 												{activity.status === "processing" && (
-													<Icon
-														name="loader"
-														className="h-4 w-4 animate-spin text-warning-base"
-													/>
-												)}
-												{activity.status === "completed" && (
-													<Icon
-														name="check-circle"
-														className="h-4 w-4 text-success-base"
-													/>
+													<span className="flex items-center gap-1.5 text-sm text-warning-base">
+														<Icon
+															name="loader"
+															className="h-3.5 w-3.5 shrink-0 animate-spin"
+														/>
+														processing
+													</span>
 												)}
 												{activity.status === "failed" && (
-													<Icon
-														name="x-circle"
-														className="h-4 w-4 text-error-base"
-													/>
+													<span className="flex items-center gap-1.5 text-error-base text-sm">
+														<Icon
+															name="x-circle"
+															className="h-3.5 w-3.5 shrink-0"
+														/>
+														failed
+													</span>
 												)}
 											</>
 										)}
@@ -268,6 +255,10 @@ export const RecentActivitiesList = ({
 								</button>
 							))
 						)}
+					</div>
+					{/* Bottom border + spacer */}
+					<div className="relative py-6">
+						<div className="absolute top-0 right-[-100vw] left-[-100vw] h-px bg-stroke-soft-100" />
 					</div>
 				</div>
 			</div>

@@ -2,6 +2,10 @@
 
 import { AnimatedBackButton } from "@fe/dashboard/components/animated-back-button";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
+import {
+	getStateColor,
+	getStateIcon,
+} from "@fe/dashboard/utils/verification-state";
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
 import { Skeleton } from "@verifio/ui/skeleton";
@@ -53,32 +57,6 @@ interface VerificationResultHeaderProps {
 	isLoading: boolean;
 	isFailed?: boolean;
 }
-
-const getStateColor = (state: string) => {
-	switch (state) {
-		case "deliverable":
-			return "text-success-base";
-		case "risky":
-			return "text-warning-base";
-		case "undeliverable":
-			return "text-error-base";
-		default:
-			return "text-text-sub-600";
-	}
-};
-
-const getStateIcon = (state: string) => {
-	switch (state) {
-		case "deliverable":
-			return "check-circle";
-		case "risky":
-			return "alert-triangle";
-		case "undeliverable":
-			return "x-circle";
-		default:
-			return "help-circle";
-	}
-};
 
 const getScoreColor = (score: number) => {
 	if (score >= 80) return "text-success-base bg-success-alpha-10";
