@@ -199,7 +199,7 @@ export function EmailQualityProblem() {
 							return (
 								<div
 									key={index}
-									className={`group relative flex flex-col p-6 ${
+									className={`group relative flex flex-col p-6 transition-colors duration-300 hover:bg-bg-weak-50/40 ${
 										!isRightColumn
 											? "md:border-stroke-soft-100 md:border-r"
 											: ""
