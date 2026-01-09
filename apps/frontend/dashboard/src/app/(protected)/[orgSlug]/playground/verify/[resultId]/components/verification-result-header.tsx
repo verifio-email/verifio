@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatedBackButton } from "@fe/dashboard/components/animated-back-button";
+import { DomainFavicon } from "@fe/dashboard/components/domain-favicon";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
 import {
 	getStateColor,
@@ -115,9 +116,17 @@ export const VerificationResultHeader = ({
 											</p>
 										</div>
 									</div>
-									<h1 className="font-medium font-mono text-2xl text-text-strong-950">
-										{result?.email || "---"}
-									</h1>
+									<div className="flex items-center gap-3">
+										{result?.result?.domain && (
+											<DomainFavicon
+												domain={result.result.domain ?? ""}
+												size={28}
+											/>
+										)}
+										<h1 className="font-medium font-mono text-2xl text-text-strong-950">
+											{result?.email || "---"}
+										</h1>
+									</div>
 								</>
 							)}
 						</div>
