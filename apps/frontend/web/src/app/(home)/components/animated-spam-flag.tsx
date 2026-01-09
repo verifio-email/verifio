@@ -137,7 +137,7 @@ export function AnimatedSpamFlag() {
 						</motion.div>
 					</motion.div>
 					<motion.span
-						className="mt-1.5 rounded bg-red-100 px-1.5 py-0.5 font-mono text-[7px] font-semibold text-red-600 dark:bg-red-950/50"
+						className="mt-1.5 rounded bg-red-100 px-1.5 py-0.5 font-mono font-semibold text-[7px] text-red-600 dark:bg-red-950/50"
 						initial={{ opacity: 0, y: -5, scale: 0.8 }}
 						animate={{ opacity: 1, y: 0, scale: 1 }}
 						transition={{ delay: 1.7, duration: 0.3, type: "spring" }}
@@ -145,55 +145,86 @@ export function AnimatedSpamFlag() {
 						BLOCKED
 					</motion.span>
 				</motion.div>
-			</div>
 
-			{/* Bottom reputation indicator - animated */}
-			<motion.div
-				className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded border border-stroke-soft-200/30 bg-bg-white-0 px-2 py-1 dark:bg-gray-900/50"
-				initial={{ opacity: 0, y: 10 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ delay: 2.0, duration: 0.4, ease: "easeOut" }}
-			>
-				<div className="flex items-center gap-2">
-					<div className="flex items-center gap-1">
-						<motion.div
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							transition={{ delay: 2.2, duration: 0.3 }}
+				{/* Bottom reputation indicator - animated */}
+				<motion.div
+					className="-bottom-10 -translate-x-1/2 absolute left-1/2 rounded border border-stroke-soft-200/30 bg-bg-white-0 px-2 py-1 dark:bg-gray-900/50"
+					initial={{ opacity: 0, y: 10 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ delay: 2.0, duration: 0.4, ease: "easeOut" }}
+				>
+					<div className="flex items-center gap-2">
+						<div className="flex items-center gap-1">
+							<motion.div
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								transition={{ delay: 2.2, duration: 0.3 }}
+							>
+								<motion.div
+									initial={{ color: "#22c55e" }}
+									animate={{ color: "#ef4444" }}
+									transition={{ delay: 2.6, duration: 0.6 }}
+								>
+									<Icon
+										name="trending-down"
+										className="h-3 w-3"
+										style={{ color: "inherit" }}
+									/>
+								</motion.div>
+							</motion.div>
+							<motion.span
+								className="font-mono text-[8px] text-text-sub-600"
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								transition={{ delay: 2.3, duration: 0.3 }}
+							>
+								sender_reputation
+							</motion.span>
+						</div>
+						<div className="h-1.5 w-12 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+							<motion.div
+								className="h-full rounded-full"
+								initial={{ width: "100%", backgroundColor: "#22c55e" }}
+								animate={{ width: "25%", backgroundColor: "#ef4444" }}
+								transition={{
+									delay: 2.4,
+									duration: 0.8,
+									ease: [0.4, 0, 0.2, 1],
+								}}
+							/>
+						</div>
+						<div
+							className="relative h-3 w-8 overflow-hidden text-center"
+							style={{ perspective: "50px" }}
 						>
-							<Icon name="trending-down" className="h-3 w-3 text-red-500" />
-						</motion.div>
-						<motion.span
-							className="font-mono text-[8px] text-text-sub-600"
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							transition={{ delay: 2.3, duration: 0.3 }}
-						>
-							sender_reputation
-						</motion.span>
+							<motion.span
+								className="absolute inset-0 flex items-center justify-center font-mono font-semibold text-[8px] text-green-500"
+								initial={{ rotateX: 0, opacity: 1 }}
+								animate={{ rotateX: 90, opacity: 0 }}
+								transition={{ delay: 2.8, duration: 0.25, ease: "easeIn" }}
+								style={{
+									transformOrigin: "center center",
+									backfaceVisibility: "hidden",
+								}}
+							>
+								HIGH
+							</motion.span>
+							<motion.span
+								className="absolute inset-0 flex items-center justify-center font-mono font-semibold text-[8px] text-red-500"
+								initial={{ rotateX: -90, opacity: 0 }}
+								animate={{ rotateX: 0, opacity: 1 }}
+								transition={{ delay: 3.0, duration: 0.25, ease: "easeOut" }}
+								style={{
+									transformOrigin: "center center",
+									backfaceVisibility: "hidden",
+								}}
+							>
+								LOW
+							</motion.span>
+						</div>
 					</div>
-					<div className="h-1.5 w-12 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
-						<motion.div
-							className="h-full rounded-full bg-red-500"
-							initial={{ width: "100%" }}
-							animate={{ width: "25%" }}
-							transition={{
-								delay: 2.4,
-								duration: 0.8,
-								ease: [0.4, 0, 0.2, 1],
-							}}
-						/>
-					</div>
-					<motion.span
-						className="font-mono font-semibold text-[8px] text-red-500"
-						initial={{ opacity: 0, scale: 0.8 }}
-						animate={{ opacity: 1, scale: 1 }}
-						transition={{ delay: 3.0, duration: 0.3, type: "spring" }}
-					>
-						LOW
-					</motion.span>
-				</div>
-			</motion.div>
+				</motion.div>
+			</div>
 		</div>
 	);
 }
