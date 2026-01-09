@@ -2,7 +2,10 @@
 
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
-import type { ActivityLog } from "./types";
+import { Skeleton } from "@verifio/ui/skeleton";
+import useSWR from "swr";
+import { LogJsonViewer } from "./log-json-viewer";
+import type { ActivityLog, VerificationEnrichment } from "./types";
 
 type DeveloperLogRowProps = {
 	log: ActivityLog;
@@ -10,6 +13,7 @@ type DeveloperLogRowProps = {
 	formatDate: (date: string) => string;
 	isExpanded: boolean;
 	onToggle: () => void;
+	enrichment?: VerificationEnrichment;
 };
 
 const getMethodColor = (method: string) => {
@@ -68,8 +72,20 @@ export function DeveloperLogRow({
 	formatDate,
 	isExpanded,
 	onToggle,
+	enrichment,
 }: DeveloperLogRowProps) {
 	const isClickable = log.service === "verify" && log.resource_id;
+
+	// Fetch full verification result when expanded and we have a resultId
+	const { data: fullResult, isLoading: isLoadingResult } = useSWR<{
+		success: boolean;
+		data: Record<string, unknown>;
+	}>(
+		isExpanded && enrichment?.resultId
+			? `/api/verify/v1/results/${enrichment.resultId}`
+			: null,
+		{ revalidateOnFocus: false },
+	);
 
 	const handleNavigate = () => {
 		if (isClickable && onNavigate) {
@@ -95,8 +111,17 @@ export function DeveloperLogRow({
 		return request;
 	};
 
-	// Parse response object
+	// Get response object - prefer full result from API, fallback to log.result
 	const getResponseObject = () => {
+		// If we have the full result from the API, use it
+		if (fullResult?.data) {
+			return {
+				success: true,
+				data: fullResult.data,
+			};
+		}
+
+		// Fallback to original behavior
 		if (log.error_message) {
 			return { error: log.error_message };
 		}
@@ -213,9 +238,9 @@ export function DeveloperLogRow({
 							<h4 className="mb-2 font-medium text-text-strong-950 text-xs uppercase tracking-wide">
 								Request
 							</h4>
-							<pre className="max-h-[300px] overflow-x-auto rounded-md border border-stroke-soft-200/50 bg-bg-white-0 p-3 font-mono text-[11px] text-text-strong-950">
-								{JSON.stringify(getRequestObject(), null, 2)}
-							</pre>
+							<div className="overflow-hidden rounded-lg border border-stroke-soft-200/50">
+								<LogJsonViewer data={getRequestObject()} />
+							</div>
 						</div>
 
 						{/* Response Section */}
@@ -223,17 +248,19 @@ export function DeveloperLogRow({
 							<h4 className="mb-2 font-medium text-text-strong-950 text-xs uppercase tracking-wide">
 								Response
 							</h4>
-							{getResponseObject() ? (
-								<pre
-									className={cn(
-										"max-h-[300px] overflow-x-auto rounded-md border p-3 font-mono text-[11px]",
-										log.error_message
-											? "border-red-200 bg-red-50 text-red-700 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-400"
-											: "border-stroke-soft-200/50 bg-bg-white-0 text-text-strong-950",
-									)}
-								>
-									{JSON.stringify(getResponseObject(), null, 2)}
-								</pre>
+							{isLoadingResult ? (
+								<div className="overflow-hidden rounded-lg border border-stroke-soft-200/50 p-4">
+									<div className="space-y-2">
+										<Skeleton className="h-4 w-full" />
+										<Skeleton className="h-4 w-3/4" />
+										<Skeleton className="h-4 w-1/2" />
+										<Skeleton className="h-4 w-2/3" />
+									</div>
+								</div>
+							) : getResponseObject() ? (
+								<div className="overflow-hidden rounded-lg border border-stroke-soft-200/50">
+									<LogJsonViewer data={getResponseObject()} />
+								</div>
 							) : (
 								<span className="text-text-soft-400 text-xs">
 									No response data

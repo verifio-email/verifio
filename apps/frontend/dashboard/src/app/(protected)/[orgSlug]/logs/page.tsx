@@ -346,6 +346,11 @@ const LogsPage = () => {
 													expandedLogId === log.id ? null : log.id,
 												)
 											}
+											enrichment={
+												log.resource_id
+													? verificationMap.get(log.resource_id)
+													: undefined
+											}
 											onNavigate={() => {
 												const en = log.resource_id
 													? verificationMap.get(log.resource_id)
