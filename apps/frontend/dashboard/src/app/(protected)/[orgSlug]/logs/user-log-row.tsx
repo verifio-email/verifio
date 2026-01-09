@@ -73,18 +73,25 @@ export function UserLogRow({
 				)}
 			</div>
 
-			{/* Right side: Verified At, Status, Score */}
-			<div className="flex items-center gap-20">
+			{/* Right side: Verified At, Credit, Status, Score */}
+			<div className="flex items-center gap-12">
 				{/* Verified At */}
-				<span className="text-sm text-text-sub-600">
+				<span className="w-[220px] text-sm text-text-sub-600">
 					{formatDate(log.created_at)}
+				</span>
+
+				{/* Credit Used */}
+				<span className="w-[80px] text-sm text-text-sub-600">
+					{log.credits_used !== null
+						? `${log.credits_used} credit${log.credits_used !== 1 ? "s" : ""}`
+						: "-"}
 				</span>
 
 				{/* Status with icon */}
 				{state ? (
 					<span
 						className={cn(
-							"flex w-[100px] items-center gap-1.5 text-sm",
+							"flex w-[120px] items-center gap-1.5 text-sm",
 							getStateColor(state),
 						)}
 					>

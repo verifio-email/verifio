@@ -286,9 +286,10 @@ const LogsPage = () => {
 							) : (
 								<div className="flex items-center justify-between px-6 py-3 text-[11px] text-text-sub-600 uppercase tracking-wide">
 									<div className="font-semibold">Email</div>
-									<div className="flex items-center gap-20">
-										<span className="font-semibold">Verified At</span>
-										<span className="w-[80px] font-semibold">Status</span>
+									<div className="flex items-center gap-12">
+										<span className="w-[220px] font-semibold">Verified At</span>
+										<span className="w-[80px] font-semibold">Credit</span>
+										<span className="w-[100px] font-semibold">Status</span>
 										<span className="font-semibold">Score</span>
 									</div>
 								</div>
