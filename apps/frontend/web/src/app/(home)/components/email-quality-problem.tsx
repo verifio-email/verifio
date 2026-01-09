@@ -9,25 +9,59 @@ function BounceRateVisual() {
 function SpamFlagVisual() {
 	return (
 		<div className="relative flex h-44 items-center justify-center">
-			<div className="relative">
-				{/* Warning rings */}
-				<div className="-inset-6 absolute rounded-full border border-amber-400/30" />
-				<div className="-inset-10 absolute rounded-full border border-amber-400/20 border-dashed" />
-
-				{/* Center icon */}
-				<div className="flex h-12 w-12 items-center justify-center rounded-full border border-amber-400/50 bg-amber-50 dark:bg-amber-950/30">
-					<Icon name="alert-triangle" className="h-5 w-5 text-amber-500" />
+			<div className="relative flex items-center gap-6">
+				{/* Valid Email - left side */}
+				<div className="relative flex flex-col items-center">
+					<div className="flex h-10 w-10 items-center justify-center rounded-lg border border-green-400/50 bg-green-50 dark:bg-green-950/30">
+						<Icon name="mail-single" className="h-4 w-4 text-green-500" />
+					</div>
+					{/* Valid checkmark */}
+					<div className="-right-1 -top-1 absolute flex h-4 w-4 items-center justify-center rounded-full bg-green-500">
+						<Icon name="check" className="h-2.5 w-2.5 text-white" />
+					</div>
+					<span className="mt-1.5 font-mono text-[8px] text-green-600">
+						valid
+					</span>
 				</div>
 
-				{/* Connection lines to blacklist */}
-				<div className="-bottom-8 -translate-x-1/2 absolute left-1/2 h-8 w-px bg-gradient-to-b from-amber-400/40 to-transparent" />
-				<div className="-bottom-12 -translate-x-1/2 absolute left-1/2 rounded border border-stroke-soft-200/30 bg-bg-white-0 px-2 py-0.5 font-mono text-[9px] text-text-sub-600 dark:bg-gray-900/50">
-					blacklist.db
+				{/* Arrow pointing to block */}
+				<div className="flex flex-col items-center gap-1">
+					<div className="h-px w-6 bg-gradient-to-r from-green-400/40 via-amber-400/60 to-red-400/40" />
+					<div className="flex h-3 w-3 items-center justify-center">
+						<Icon name="arrow-right" className="h-3 w-3 text-text-sub-600/40" />
+					</div>
 				</div>
 
-				{/* Flag indicator */}
-				<div className="-left-6 absolute top-0 flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/40">
-					<Icon name="flag" className="h-3 w-3 text-amber-600" />
+				{/* Block/Filter - center */}
+				<div className="relative flex flex-col items-center">
+					{/* Warning pulse rings */}
+					<div className="-inset-3 absolute rounded-lg border border-red-400/20" />
+					<div className="-inset-5 absolute rounded-lg border border-red-400/10 border-dashed" />
+
+					<div className="flex h-12 w-12 items-center justify-center rounded-lg border border-red-400/50 bg-red-50 dark:bg-red-950/30">
+						<Icon name="shield-cross" className="h-5 w-5 text-red-500" />
+					</div>
+					<span className="mt-1.5 rounded bg-red-100 px-1.5 py-0.5 font-mono text-[7px] font-semibold text-red-600 dark:bg-red-950/50">
+						BLOCKED
+					</span>
+				</div>
+			</div>
+
+			{/* Bottom reputation indicator */}
+			<div className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded border border-stroke-soft-200/30 bg-bg-white-0 px-2 py-1 dark:bg-gray-900/50">
+				<div className="flex items-center gap-2">
+					<div className="flex items-center gap-1">
+						<Icon name="trending-down" className="h-3 w-3 text-red-500" />
+						<span className="font-mono text-[8px] text-text-sub-600">
+							sender_reputation
+						</span>
+					</div>
+					<div className="h-1.5 w-12 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+						<div className="h-full w-3 rounded-full bg-red-500" />
+					</div>
+					<span className="font-mono text-[8px] font-semibold text-red-500">
+						LOW
+					</span>
 				</div>
 			</div>
 		</div>
