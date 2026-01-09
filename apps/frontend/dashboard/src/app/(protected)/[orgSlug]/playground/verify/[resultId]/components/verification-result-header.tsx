@@ -133,38 +133,17 @@ export const VerificationResultHeader = ({
 									<Skeleton className="h-7 w-64 rounded-lg" />
 								</>
 							) : (
-								<>
-									<div className="mb-1 flex items-center gap-1.5">
-										<p className="font-medium text-paragraph-xs text-text-sub-600">
-											Email Verification
-										</p>
-										<p className="font-semibold text-paragraph-xs text-text-sub-600">
-											•
-										</p>
-										<div
-											className={`flex items-center gap-1 ${getStateColor(result?.state || "unknown")}`}
-										>
-											<Icon
-												name={getStateIcon(result?.state || "unknown")}
-												className="h-3.5 w-3.5"
-											/>
-											<p className="font-medium text-paragraph-xs capitalize">
-												{result?.state || "Unknown"}
-											</p>
-										</div>
-									</div>
-									<div className="flex items-center gap-3">
-										{result?.result?.domain && (
-											<DomainFavicon
-												domain={result.result.domain ?? ""}
-												size={28}
-											/>
-										)}
-										<h1 className="font-medium font-mono text-2xl text-text-strong-950">
-											{result?.email || "---"}
-										</h1>
-									</div>
-								</>
+								<div className="flex items-center gap-3">
+									{result?.result?.domain && (
+										<DomainFavicon
+											domain={result.result.domain ?? ""}
+											size={22}
+										/>
+									)}
+									<h1 className="font-medium font-mono text-2xl text-text-strong-950">
+										{result?.email || "---"}
+									</h1>
+								</div>
 							)}
 						</div>
 
@@ -173,13 +152,26 @@ export const VerificationResultHeader = ({
 							{isLoading ? (
 								<Skeleton className="h-14 w-14 rounded-xl" />
 							) : (
-								<div
-									className={cn(
-										"flex h-14 w-14 items-center justify-center rounded-xl font-bold text-2xl",
-										getScoreColor(result?.score || 0),
-									)}
-								>
-									{result?.score || 0}
+								<div className="flex items-center gap-3">
+									<div
+										className={`flex items-center gap-1 ${getStateColor(result?.state || "unknown")}`}
+									>
+										<Icon
+											name={getStateIcon(result?.state || "unknown")}
+											className="h-4 w-4"
+										/>
+										<p className="font-medium text-paragraph-sm capitalize">
+											{result?.state || "Unknown"}
+										</p>
+									</div>
+									<div
+										className={cn(
+											"font-bold text-[22px]",
+											getScoreColor(result?.score || 0),
+										)}
+									>
+										{result?.score || 0}
+									</div>
 								</div>
 							)}
 						</div>

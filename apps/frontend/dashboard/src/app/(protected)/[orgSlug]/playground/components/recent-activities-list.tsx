@@ -166,7 +166,7 @@ export const RecentActivitiesList = ({
 											>
 												<EmailAvatar
 													email={activity.email}
-													className="h-4.5 w-4.5"
+													className="h-5 w-5"
 												/>
 											</div>
 										) : (
@@ -209,7 +209,7 @@ export const RecentActivitiesList = ({
 												</span>
 												<span
 													className={cn(
-														"font-semibold tabular-nums",
+														"font-bold tabular-nums",
 														getStateColor(activity.result.state),
 													)}
 												>

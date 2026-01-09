@@ -117,9 +117,6 @@ export const VerificationResultCard = ({
 													{result.state.charAt(0).toUpperCase() +
 														result.state.slice(1)}
 												</span>
-												<span className="text-text-soft-400 text-xs">
-													{result.reason.replace(/_/g, " ")}
-												</span>
 											</div>
 										</div>
 									</div>
