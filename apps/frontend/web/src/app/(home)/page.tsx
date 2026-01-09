@@ -1,5 +1,6 @@
 import Company from "./components/company";
 import CTA from "./components/cta";
+import { EmailQualityProblem } from "./components/email-quality-problem";
 import Faq from "./components/faq";
 import Hero from "./components/hero";
 import { Scale } from "./components/scale";
@@ -11,6 +12,8 @@ export default function Home() {
 	return (
 		<div>
 			<Hero />
+			<div className="h-10" />
+			<EmailQualityProblem />
 			<div className="h-10" />
 			<Sdk />
 			<div className="h-10" />

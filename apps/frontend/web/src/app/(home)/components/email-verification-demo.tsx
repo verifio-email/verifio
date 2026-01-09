@@ -35,13 +35,8 @@ export function EmailVerificationDemo() {
 				<form onSubmit={handleSubmit}>
 					<Input.Root className="flex-col rounded-2xl! border-stroke-soft-100!">
 						<motion.div
-							animate={{
-								height: activeTab === "email" ? 48 : 196,
-							}}
-							transition={{
-								duration: 0.3,
-								ease: [0.4, 0, 0.2, 1],
-							}}
+							animate={{ height: activeTab === "email" ? 48 : 196 }}
+							transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
 						>
 							<AnimatePresence mode="wait" initial={false}>
 								{activeTab === "email" ? (
