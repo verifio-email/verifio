@@ -7,9 +7,9 @@ export const Scale = () => {
 	];
 
 	return (
-		<div className="border-stroke-soft-200/50 border-t">
-			<div className="mx-auto max-w-5xl border-stroke-soft-200/50 border-r border-l">
-				<div className="flex items-center justify-between border-stroke-soft-200/50 border-b px-10 py-4">
+		<div className="border-stroke-soft-100 border-t">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
+				<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 					<span className="text-sm text-text-sub-600">
 						[04] BUILT FOR SCALE
 					</span>
@@ -31,7 +31,7 @@ export const Scale = () => {
 								{stats.map((stat, index) => (
 									<div key={index} className="pr-8">
 										<div className="space-y-2">
-											<div className="border-stroke-soft-200/50 border-l-2 pl-4 font-semibold text-3xl text-text-strong-950">
+											<div className="border-stroke-soft-100 border-l-2 pl-4 font-semibold text-3xl text-text-strong-950">
 												{stat.value}
 											</div>
 											<div className="pl-4 font-semibold text-sm text-text-sub-600">

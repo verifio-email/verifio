@@ -396,9 +396,9 @@ const visualComponents = {
 
 export function WhatWeStandFor() {
 	return (
-		<div className="border-stroke-soft-200/50 border-t border-b">
-			<div className="mx-auto max-w-5xl border-stroke-soft-200/50 border-r border-l">
-				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-200/50 border-b bg-bg-white-0 px-10 py-4">
+		<div className="border-stroke-soft-100 border-t border-b">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
+				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100 border-b bg-bg-white-0 px-10 py-4">
 					<span className="text-text-sub-600 text-xs">
 						[03] WHAT WE STAND FOR
 					</span>
@@ -406,29 +406,26 @@ export function WhatWeStandFor() {
 				</div>
 
 				{/* Title Section */}
-				<div className="flex flex-col gap-8 border-stroke-soft-200/50 border-b px-10 py-16 md:flex-row md:items-center md:gap-16">
+				<div className="flex flex-col items-center gap-6 border-stroke-soft-100 border-b px-10 py-16 text-center">
 					{/* Badge */}
 					<div className="flex shrink-0 items-center gap-2">
-						<span className="text-text-sub-600/40">{"⁄⁄"}</span>
-						<div className="flex items-center gap-2 rounded-full border border-stroke-soft-200/50 bg-bg-white-0 px-3 py-1.5">
+						<div className="flex items-center gap-2 rounded-full border border-stroke-soft-100 bg-bg-white-0 px-3 py-1.5">
 							<Icon name="heart" className="h-4 w-4 text-primary-base" />
 							<span className="font-medium text-sm text-text-sub-600">
 								Built for Trust
 							</span>
 						</div>
-						<span className="text-text-sub-600/40">\\</span>
 					</div>
 
 					{/* Heading */}
 					<div className="space-y-3">
 						<h2 className="font-semibold text-3xl text-text-strong-950 md:text-4xl">
-							Core principles,
+							Why teams choose
 							<br />
-							proven <span className="text-primary-base">performance</span>
+							<span className="text-primary-base">Verifio</span>
 						</h2>
-						<p className="max-w-md text-text-sub-600">
-							Built from the ground up to outperform traditional email
-							verification services.
+						<p className="mx-auto max-w-md text-text-sub-600">
+							Everything you need to verify emails with confidence.
 						</p>
 					</div>
 				</div>
@@ -443,12 +440,12 @@ export function WhatWeStandFor() {
 						return (
 							<div
 								key={index}
-								className={`group relative flex flex-col p-6 transition-colors hover:bg-bg-weak-50 ${
-									!isRightEdge ? "md:border-stroke-soft-200/50 md:border-r" : ""
+								className={`group relative flex flex-col p-6 ${
+									!isRightEdge ? "md:border-stroke-soft-100 md:border-r" : ""
 								} ${
 									!isLastRow
-										? "border-stroke-soft-200/50 border-b"
-										: "border-stroke-soft-200/50 border-b md:border-b-0"
+										? "border-stroke-soft-100 border-b"
+										: "border-stroke-soft-100 border-b md:border-b-0"
 								}`}
 							>
 								{/* Number indicator */}
