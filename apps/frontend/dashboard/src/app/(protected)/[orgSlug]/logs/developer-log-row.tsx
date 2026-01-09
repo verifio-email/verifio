@@ -111,13 +111,7 @@ export function DeveloperLogRow({
 	return (
 		<div className="border-stroke-soft-200/50 border-b">
 			{/* Main Row */}
-			<div
-				className={cn(
-					"grid w-full grid-cols-[70px_140px_1fr_120px_80px_80px_80px_40px] items-center gap-3 px-6 py-3 transition-colors hover:bg-bg-weak-50/50",
-					isClickable && "cursor-pointer",
-				)}
-				onClick={handleNavigate}
-			>
+			<div className="grid w-full grid-cols-[70px_140px_1fr_120px_80px_80px_80px_60px] items-center gap-3 px-6 py-3 transition-colors hover:bg-bg-weak-50/50">
 				{/* Method Badge */}
 				<div>
 					<span
@@ -176,11 +170,27 @@ export function DeveloperLogRow({
 				{/* Status */}
 				<div className="flex justify-center">{getStatusBadge(log.status)}</div>
 
-				{/* Action - Expand Button */}
-				<div className="flex justify-end">
+				{/* Action - Navigation & Expand Buttons */}
+				<div className="flex items-center justify-end gap-1">
+					{isClickable && (
+						<button
+							type="button"
+							onClick={(e) => {
+								e.stopPropagation();
+								handleNavigate();
+							}}
+							className="flex h-6 w-6 items-center justify-center rounded text-text-sub-600 transition-all hover:bg-bg-weak-100 hover:text-text-strong-950"
+							title="View email details"
+						>
+							<Icon name="arrow-right-02" className="h-3.5 w-3.5" />
+						</button>
+					)}
 					<button
 						type="button"
-						onClick={onToggle}
+						onClick={(e) => {
+							e.stopPropagation();
+							onToggle();
+						}}
 						className={cn(
 							"flex h-6 w-6 items-center justify-center rounded text-text-sub-600 transition-all",
 							isExpanded

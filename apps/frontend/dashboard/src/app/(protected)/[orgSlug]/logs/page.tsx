@@ -274,7 +274,7 @@ const LogsPage = () => {
 						{/* Table Header */}
 						<div className="border-stroke-soft-200/50 border-b bg-bg-weak-50/50">
 							{developerMode ? (
-								<div className="grid grid-cols-[70px_140px_1fr_120px_80px_80px_80px_40px] items-center gap-3 px-6 py-3 text-[11px] text-text-sub-600 uppercase tracking-wide">
+								<div className="grid grid-cols-[70px_140px_1fr_120px_80px_80px_80px_60px] items-center gap-3 px-6 py-3 text-[11px] text-text-sub-600 uppercase tracking-wide">
 									<div className="font-semibold">Method</div>
 									<div className="font-semibold">Endpoint</div>
 									<div className="font-semibold">Email ID</div>
