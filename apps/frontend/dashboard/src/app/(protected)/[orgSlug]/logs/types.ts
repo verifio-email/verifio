@@ -40,6 +40,7 @@ export type VerificationHistoryItem = {
 
 // Type for enrichment data passed to UserLogRow
 export type VerificationEnrichment = {
+  resultId: string;
   score: number;
   state: string;
   riskLevel: string | null;

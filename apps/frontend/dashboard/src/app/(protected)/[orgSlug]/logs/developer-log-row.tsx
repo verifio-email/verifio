@@ -111,7 +111,13 @@ export function DeveloperLogRow({
 	return (
 		<div className="border-stroke-soft-200/50 border-b">
 			{/* Main Row */}
-			<div className="grid w-full grid-cols-[70px_140px_1fr_120px_80px_80px_80px_40px] items-center gap-3 px-6 py-3 transition-colors hover:bg-bg-weak-50/50">
+			<div
+				className={cn(
+					"grid w-full grid-cols-[70px_140px_1fr_120px_80px_80px_80px_40px] items-center gap-3 px-6 py-3 transition-colors hover:bg-bg-weak-50/50",
+					isClickable && "cursor-pointer",
+				)}
+				onClick={handleNavigate}
+			>
 				{/* Method Badge */}
 				<div>
 					<span
@@ -130,7 +136,7 @@ export function DeveloperLogRow({
 						<button
 							type="button"
 							onClick={handleNavigate}
-							className="font-mono text-[12px] text-primary-base hover:underline"
+							className="font-mono text-[12px] text-primary-base"
 						>
 							{log.endpoint}
 						</button>
@@ -183,7 +189,7 @@ export function DeveloperLogRow({
 						)}
 						title={isExpanded ? "Hide details" : "View API details"}
 					>
-						<Icon name="code" className="h-3.5 w-3.5" />
+						<Icon name="code" className="h-3.5 w-3.5 cursor-pointer" />
 					</button>
 				</div>
 			</div>

@@ -122,8 +122,6 @@ const LogsPage = () => {
 
 	// Fetch verification history when switching to user mode
 	useEffect(() => {
-		if (developerMode) return;
-
 		const fetchVerificationHistory = async () => {
 			try {
 				const response = await fetch("/api/verify/v1/history?limit=100", {
@@ -136,6 +134,7 @@ const LogsPage = () => {
 					for (const item of data.data.results as VerificationHistoryItem[]) {
 						// Store by email for lookup
 						map.set(item.email, {
+							resultId: item.id,
 							score: item.score,
 							state: item.state,
 							riskLevel: item.result?.analytics?.riskLevel ?? null,
@@ -149,7 +148,7 @@ const LogsPage = () => {
 		};
 
 		fetchVerificationHistory();
-	}, [developerMode]);
+	}, []);
 
 	const handleSearch = () => {
 		fetchLogs(1);
@@ -328,9 +327,13 @@ const LogsPage = () => {
 													expandedLogId === log.id ? null : log.id,
 												)
 											}
-											onNavigate={(l) =>
-												push(`/playground/verify/${l.resource_id}`)
-											}
+											onNavigate={() => {
+												const en = log.resource_id
+													? verificationMap.get(log.resource_id)
+													: undefined;
+												if (en?.resultId)
+													push(`/playground/verify/${en.resultId}`);
+											}}
 										/>
 									))}
 								</div>
@@ -346,9 +349,13 @@ const LogsPage = () => {
 													? verificationMap.get(log.resource_id)
 													: undefined
 											}
-											onNavigate={(l) =>
-												push(`/playground/verify/${l.resource_id}`)
-											}
+											onNavigate={() => {
+												const en = log.resource_id
+													? verificationMap.get(log.resource_id)
+													: undefined;
+												if (en?.resultId)
+													push(`/playground/verify/${en.resultId}`);
+											}}
 										/>
 									))}
 								</div>
