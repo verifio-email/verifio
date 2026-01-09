@@ -136,12 +136,12 @@ export function DeveloperLogRow({
 						<button
 							type="button"
 							onClick={handleNavigate}
-							className="font-mono text-[12px] text-primary-base"
+							className="font-mono text-[14px] text-primary-base"
 						>
 							{log.endpoint}
 						</button>
 					) : (
-						<span className="font-mono text-[12px] text-text-strong-950">
+						<span className="font-mono text-[14px] text-text-strong-950">
 							{log.endpoint}
 						</span>
 					)}
@@ -150,26 +150,26 @@ export function DeveloperLogRow({
 				{/* Email ID */}
 				<div className="min-w-0">
 					{log.resource_id && (
-						<span className="block truncate text-text-sub-600 text-xs">
+						<span className="block truncate text-sm text-text-sub-600">
 							{log.resource_id}
 						</span>
 					)}
 				</div>
 
 				{/* Verified At */}
-				<div className="text-text-sub-600 text-xs">
+				<div className="text-sm text-text-sub-600">
 					{formatDate(log.created_at)}
 				</div>
 
 				{/* Credit Used */}
-				<div className="text-text-sub-600 text-xs">
+				<div className="text-sm text-text-sub-600">
 					{log.credits_used !== null
 						? `${log.credits_used} credit${log.credits_used !== 1 ? "s" : ""}`
 						: "-"}
 				</div>
 
 				{/* Duration */}
-				<div className="text-right font-mono text-text-sub-600 text-xs">
+				<div className="text-right font-mono text-sm text-text-sub-600">
 					{log.duration_ms ? `${log.duration_ms}ms` : "-"}
 				</div>
 

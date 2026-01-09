@@ -35,7 +35,7 @@ const LogsPage = () => {
 	const [logs, setLogs] = useState<ActivityLog[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [expandedLogId, setExpandedLogId] = useState<string | null>(null);
-	const [developerMode, setDeveloperMode] = useState(true);
+	const [developerMode, setDeveloperMode] = useState(false);
 	const [pagination, setPagination] = useState({
 		page: 1,
 		limit: 20,
@@ -154,16 +154,34 @@ const LogsPage = () => {
 		fetchLogs(1);
 	};
 
-	// Client-side filtering for endpoint/path (supplements server-side search)
+	// Client-side filtering for endpoint/path and verificationState
 	const filteredLogs = useMemo(() => {
-		if (!search.trim()) return logs;
-		const searchLower = search.toLowerCase();
-		return logs.filter(
-			(log) =>
-				log.endpoint.toLowerCase().includes(searchLower) ||
-				(log.resource_id?.toLowerCase().includes(searchLower) ?? false),
-		);
-	}, [logs, search]);
+		let result = logs;
+
+		// Filter by search text
+		if (search.trim()) {
+			const searchLower = search.toLowerCase();
+			result = result.filter(
+				(log) =>
+					log.endpoint.toLowerCase().includes(searchLower) ||
+					(log.resource_id?.toLowerCase().includes(searchLower) ?? false),
+			);
+		}
+
+		// Filter by verificationState (user mode only)
+		if (!developerMode && filters.verificationState.length > 0) {
+			result = result.filter((log) => {
+				if (!log.resource_id) return false;
+				const enrichment = verificationMap.get(log.resource_id);
+				if (!enrichment) return false;
+				return filters.verificationState.includes(
+					enrichment.state as "deliverable" | "risky" | "undeliverable",
+				);
+			});
+		}
+
+		return result;
+	}, [logs, search, developerMode, filters.verificationState, verificationMap]);
 
 	const handlePageChange = (page: number) => {
 		fetchLogs(page);
@@ -270,7 +288,7 @@ const LogsPage = () => {
 									<div className="font-semibold">Email</div>
 									<div className="flex items-center gap-20">
 										<span className="font-semibold">Verified At</span>
-										<span className="w-[110px] font-semibold">Status</span>
+										<span className="w-[80px] font-semibold">Status</span>
 										<span className="font-semibold">Score</span>
 									</div>
 								</div>

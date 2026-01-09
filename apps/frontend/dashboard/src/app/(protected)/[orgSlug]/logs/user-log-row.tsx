@@ -66,11 +66,9 @@ export function UserLogRow({
 										: "bg-error-alpha-10",
 							)}
 						>
-							<EmailAvatar email={log.resource_id} className="h-4 w-4" />
+							<EmailAvatar email={log.resource_id} className="h-5 w-5" />
 						</div>
-						<span className="text-text-strong-950 text-xs">
-							{log.resource_id}
-						</span>
+						<span className="text-sm text-text-sub-600">{log.resource_id}</span>
 					</>
 				)}
 			</div>
@@ -78,7 +76,7 @@ export function UserLogRow({
 			{/* Right side: Verified At, Status, Score */}
 			<div className="flex items-center gap-20">
 				{/* Verified At */}
-				<span className="text-text-sub-600 text-xs">
+				<span className="text-sm text-text-sub-600">
 					{formatDate(log.created_at)}
 				</span>
 
@@ -86,29 +84,29 @@ export function UserLogRow({
 				{state ? (
 					<span
 						className={cn(
-							"flex w-[100px] items-center gap-1.5 text-xs",
+							"flex w-[100px] items-center gap-1.5 text-sm",
 							getStateColor(state),
 						)}
 					>
-						<Icon name={getStateIcon(state)} className="h-3 w-3 shrink-0" />
+						<Icon name={getStateIcon(state)} className="h-3.5 w-3.5 shrink-0" />
 						{state}
 					</span>
 				) : (
-					<span className="w-[100px] text-text-soft-400 text-xs">-</span>
+					<span className="w-[100px] text-sm text-text-soft-400">-</span>
 				)}
 
 				{/* Score */}
 				{score !== null ? (
 					<span
 						className={cn(
-							"font-semibold text-xs tabular-nums",
+							"font-semibold text-sm tabular-nums",
 							state ? getStateColor(state) : "text-text-strong-950",
 						)}
 					>
 						{score}
 					</span>
 				) : (
-					<span className="text-text-soft-400 text-xs">-</span>
+					<span className="text-sm text-text-soft-400">-</span>
 				)}
 			</div>
 		</div>
