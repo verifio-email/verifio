@@ -220,7 +220,7 @@ const LogsPage = () => {
 			</div>
 
 			{/* Content Area with vertical borders extending to bottom */}
-			<div className="flex-1 overflow-hidden">
+			<div className="flex-1 overflow-y-auto overflow-x-hidden">
 				<div
 					className={cn(
 						"h-full",
@@ -388,8 +388,9 @@ const LogsPage = () => {
 
 						{/* Pagination */}
 						{!loading && logs.length > 0 && (
-							<div className="border-stroke-soft-200/50 border-t">
-								<div className="flex items-center justify-between px-6 py-4">
+							<div className="relative">
+								<div className="absolute top-0 right-[-100vw] left-[-100vw] h-px bg-stroke-soft-200/50" />
+								<div className="flex items-center justify-between px-6 py-3.5">
 									<div className="flex items-center gap-2 text-sm text-text-sub-600">
 										<span>
 											Showing {(pagination.page - 1) * pagination.limit + 1} to{" "}

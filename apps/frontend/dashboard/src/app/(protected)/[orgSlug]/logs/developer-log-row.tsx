@@ -136,7 +136,13 @@ export function DeveloperLogRow({
 	return (
 		<div className="border-stroke-soft-200/50 border-b">
 			{/* Main Row */}
-			<div className="grid w-full grid-cols-[70px_140px_1fr_120px_80px_80px_80px_60px] items-center gap-3 px-6 py-3 transition-colors hover:bg-bg-weak-50/50">
+			<div
+				className={cn(
+					"grid w-full grid-cols-[70px_140px_1fr_120px_80px_80px_80px_60px] items-center gap-3 px-6 py-3 transition-colors hover:bg-bg-weak-50/50",
+					isClickable && "cursor-pointer",
+				)}
+				onClick={handleNavigate}
+			>
 				{/* Method Badge */}
 				<div>
 					<span
