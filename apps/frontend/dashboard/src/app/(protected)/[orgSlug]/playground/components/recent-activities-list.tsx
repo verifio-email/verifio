@@ -5,6 +5,7 @@ import {
 	getStateColor,
 	getStateIcon,
 } from "@fe/dashboard/utils/verification-state";
+import * as Button from "@verifio/ui/button";
 import { cn } from "@verifio/ui/cn";
 import * as FileFormatIcon from "@verifio/ui/file-format-icon";
 import { Icon } from "@verifio/ui/icon";
@@ -121,9 +122,24 @@ export const RecentActivitiesList = ({
 				<div className="border-stroke-soft-100 border-r border-l">
 					{/* Section Header */}
 					<div className="relative px-6 py-4">
-						<h2 className="font-semibold text-lg text-text-strong-950">
-							Recent Verifications
-						</h2>
+						<div className="flex items-center justify-between">
+							<h2 className="font-semibold text-lg text-text-strong-950">
+								Recent Verifications
+							</h2>
+							<Button.Root
+								variant="neutral"
+								mode="ghost"
+								size="xsmall"
+								onClick={() => push("/logs")}
+							>
+								View Logs
+								<Button.Icon
+									as={Icon}
+									name="arrow-left"
+									className="h-3 w-3 rotate-180"
+								/>
+							</Button.Root>
+						</div>
 						<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-100" />
 					</div>
 

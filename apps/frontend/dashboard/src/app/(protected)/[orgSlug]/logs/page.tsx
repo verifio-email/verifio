@@ -4,32 +4,19 @@ import { PageSizeDropdown } from "@fe/dashboard/components/page-size-dropdown";
 import { PaginationControls } from "@fe/dashboard/components/pagination-controls";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
 import { useSidebar } from "@fe/dashboard/providers/sidebar-provider";
+import * as Button from "@verifio/ui/button";
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
 import * as Input from "@verifio/ui/input";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { DeveloperLogRow } from "./developer-log-row";
 import { LogsFilterDropdown, type LogsFilters } from "./logs-filter-dropdown";
-
-type ActivityLog = {
-	id: string;
-	user_id: string | null;
-	organization_id: string;
-	api_key_id: string | null;
-	service: string;
-	endpoint: string;
-	method: string;
-	resource_type: string | null;
-	resource_id: string | null;
-	status: string;
-	result: string | null;
-	error_message: string | null;
-	credits_used: number | null;
-	duration_ms: number | null;
-	ip_address: string | null;
-	user_agent: string | null;
-	metadata: Record<string, unknown>;
-	created_at: string;
-};
+import type {
+	ActivityLog,
+	VerificationEnrichment,
+	VerificationHistoryItem,
+} from "./types";
+import { UserLogRow } from "./user-log-row";
 
 type LogsResponse = {
 	success: boolean;
@@ -43,10 +30,12 @@ type LogsResponse = {
 };
 
 const LogsPage = () => {
-	const { activeOrganization } = useUserOrganization();
+	const { activeOrganization, push } = useUserOrganization();
 	const { isCollapsed } = useSidebar();
 	const [logs, setLogs] = useState<ActivityLog[]>([]);
 	const [loading, setLoading] = useState(true);
+	const [expandedLogId, setExpandedLogId] = useState<string | null>(null);
+	const [developerMode, setDeveloperMode] = useState(true);
 	const [pagination, setPagination] = useState({
 		page: 1,
 		limit: 20,
@@ -54,10 +43,16 @@ const LogsPage = () => {
 		total_pages: 0,
 	});
 
+	// Verification history for enriching user mode display
+	const [verificationMap, setVerificationMap] = useState<
+		Map<string, VerificationEnrichment>
+	>(new Map());
+
 	// Filters
 	const [search, setSearch] = useState("");
 	const [filters, setFilters] = useState<LogsFilters>({
 		status: [],
+		verificationState: [],
 		services: [],
 		dateRange: "7d",
 	});
@@ -71,7 +66,7 @@ const LogsPage = () => {
 				params.set("page", String(page));
 				params.set("limit", String(pagination.limit));
 
-				if (search) params.set("search", search);
+				// Note: Search is done client-side for endpoint/path filtering
 				// Apply service filters
 				if (filters.services.length > 0) {
 					params.set("service", filters.services.join(","));
@@ -118,16 +113,58 @@ const LogsPage = () => {
 				setLoading(false);
 			}
 		},
-		[activeOrganization.id, search, filters, pagination.limit],
+		[activeOrganization.id, filters, pagination.limit],
 	);
 
 	useEffect(() => {
 		fetchLogs(1);
 	}, [fetchLogs]);
 
+	// Fetch verification history when switching to user mode
+	useEffect(() => {
+		if (developerMode) return;
+
+		const fetchVerificationHistory = async () => {
+			try {
+				const response = await fetch("/api/verify/v1/history?limit=100", {
+					credentials: "include",
+				});
+				const data = await response.json();
+
+				if (data.success && data.data?.results) {
+					const map = new Map<string, VerificationEnrichment>();
+					for (const item of data.data.results as VerificationHistoryItem[]) {
+						// Store by email for lookup
+						map.set(item.email, {
+							score: item.score,
+							state: item.state,
+							riskLevel: item.result?.analytics?.riskLevel ?? null,
+						});
+					}
+					setVerificationMap(map);
+				}
+			} catch (error) {
+				console.error("Failed to fetch verification history:", error);
+			}
+		};
+
+		fetchVerificationHistory();
+	}, [developerMode]);
+
 	const handleSearch = () => {
 		fetchLogs(1);
 	};
+
+	// Client-side filtering for endpoint/path (supplements server-side search)
+	const filteredLogs = useMemo(() => {
+		if (!search.trim()) return logs;
+		const searchLower = search.toLowerCase();
+		return logs.filter(
+			(log) =>
+				log.endpoint.toLowerCase().includes(searchLower) ||
+				(log.resource_id?.toLowerCase().includes(searchLower) ?? false),
+		);
+	}, [logs, search]);
 
 	const handlePageChange = (page: number) => {
 		fetchLogs(page);
@@ -135,38 +172,6 @@ const LogsPage = () => {
 
 	const handlePageSizeChange = (size: number) => {
 		setPagination((prev) => ({ ...prev, limit: size }));
-	};
-
-	const getStatusBadge = (status: string) => {
-		switch (status) {
-			case "success":
-				return (
-					<span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-0.5 font-medium text-green-700 text-xs">
-						<div className="h-1.5 w-1.5 rounded-full bg-green-500" />
-						Success
-					</span>
-				);
-			case "failed":
-				return (
-					<span className="inline-flex items-center gap-1 rounded-full bg-red-100 px-2 py-0.5 font-medium text-red-700 text-xs">
-						<div className="h-1.5 w-1.5 rounded-full bg-red-500" />
-						Failed
-					</span>
-				);
-			case "error":
-				return (
-					<span className="inline-flex items-center gap-1 rounded-full bg-orange-100 px-2 py-0.5 font-medium text-orange-700 text-xs">
-						<div className="h-1.5 w-1.5 rounded-full bg-orange-500" />
-						Error
-					</span>
-				);
-			default:
-				return (
-					<span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 font-medium text-gray-700 text-xs">
-						{status}
-					</span>
-				);
-		}
 	};
 
 	const formatDate = (dateString: string) => {
@@ -209,9 +214,6 @@ const LogsPage = () => {
 						{/* Filters Section */}
 						<div className="relative border-stroke-soft-200/50 border-b">
 							<div className="flex items-center justify-between gap-3 px-5 py-4 lg:px-6">
-								<h3 className="font-medium text-label-md text-text-strong-950">
-									Request Logs
-								</h3>
 								<div className="flex items-center gap-3">
 									{/* Search - Full width matching Team page */}
 									<div className="flex-1">
@@ -219,7 +221,7 @@ const LogsPage = () => {
 											<Input.Wrapper>
 												<Input.Icon as={Icon} name="search" size="xsmall" />
 												<Input.Input
-													placeholder="Search by email or endpoint"
+													placeholder="Search by email, path or endpoint"
 													value={search}
 													onChange={(e) => setSearch(e.target.value)}
 													onKeyDown={(e) => e.key === "Enter" && handleSearch()}
@@ -228,9 +230,52 @@ const LogsPage = () => {
 										</Input.Root>
 									</div>
 									{/* Filter Dropdown - Matching Team page style */}
-									<LogsFilterDropdown value={filters} onChange={setFilters} />
+									<LogsFilterDropdown
+										value={filters}
+										onChange={setFilters}
+										isDeveloperMode={developerMode}
+									/>
 								</div>
+								{/* Developer Mode Toggle */}
+								<Button.Root
+									type="button"
+									size="xsmall"
+									variant={developerMode ? "primary" : "neutral"}
+									mode={developerMode ? "filled" : "stroke"}
+									onClick={() => setDeveloperMode(!developerMode)}
+									title={
+										developerMode
+											? "Switch to User View"
+											: "Switch to Developer View"
+									}
+								>
+									<Button.Icon as={Icon} name="code" />
+								</Button.Root>
 							</div>
+						</div>
+
+						{/* Table Header */}
+						<div className="border-stroke-soft-200/50 border-b bg-bg-weak-50/50">
+							{developerMode ? (
+								<div className="grid grid-cols-[70px_140px_1fr_120px_80px_80px_80px_40px] items-center gap-3 px-6 py-3 text-[11px] text-text-sub-600 uppercase tracking-wide">
+									<div className="font-semibold">Method</div>
+									<div className="font-semibold">Endpoint</div>
+									<div className="font-semibold">Email ID</div>
+									<div className="font-semibold">Verified At</div>
+									<div className="font-semibold">Credit</div>
+									<div className="text-right font-semibold">Duration</div>
+									<div />
+								</div>
+							) : (
+								<div className="flex items-center justify-between px-6 py-3 text-[11px] text-text-sub-600 uppercase tracking-wide">
+									<div className="font-semibold">Email</div>
+									<div className="flex items-center gap-20">
+										<span className="font-semibold">Verified At</span>
+										<span className="w-[110px] font-semibold">Status</span>
+										<span className="font-semibold">Score</span>
+									</div>
+								</div>
+							)}
 						</div>
 
 						{/* Logs List - Scrollable */}
@@ -239,17 +284,21 @@ const LogsPage = () => {
 								<div className="w-full">
 									{Array.from({ length: 5 }).map((_, i) => (
 										<div key={i} className="border-stroke-soft-200/50 border-b">
-											<div className="flex items-center justify-between px-6 py-4">
-												<div className="space-y-2">
+											<div className="grid grid-cols-[70px_180px_1fr_80px_80px_40px] items-center gap-4 px-6 py-4">
+												<div className="h-6 w-14 animate-pulse rounded-full bg-bg-weak-100" />
+												<div className="h-4 w-24 animate-pulse rounded bg-bg-weak-100" />
+												<div className="flex items-center gap-3">
 													<div className="h-4 w-32 animate-pulse rounded bg-bg-weak-100" />
-													<div className="h-3 w-48 animate-pulse rounded bg-bg-weak-100" />
+													<div className="h-3 w-24 animate-pulse rounded bg-bg-weak-100" />
 												</div>
-												<div className="h-6 w-20 animate-pulse rounded bg-bg-weak-100" />
+												<div className="ml-auto h-4 w-12 animate-pulse rounded bg-bg-weak-100" />
+												<div className="mx-auto h-5 w-16 animate-pulse rounded-full bg-bg-weak-100" />
+												<div />
 											</div>
 										</div>
 									))}
 								</div>
-							) : logs.length === 0 ? (
+							) : filteredLogs.length === 0 ? (
 								<div className="flex flex-col items-center justify-center py-16">
 									<div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-bg-weak-50">
 										<Icon
@@ -258,70 +307,49 @@ const LogsPage = () => {
 										/>
 									</div>
 									<h2 className="mb-2 font-medium text-text-strong-950">
-										No logs found
+										{search ? "No matching logs found" : "No logs found"}
 									</h2>
 									<p className="text-text-sub-600">
-										Make some API requests to see them here.
+										{search
+											? "Try a different search term."
+											: "Make some API requests to see them here."}
 									</p>
+								</div>
+							) : developerMode ? (
+								<div>
+									{filteredLogs.map((log) => (
+										<DeveloperLogRow
+											key={log.id}
+											log={log}
+											formatDate={formatDate}
+											isExpanded={expandedLogId === log.id}
+											onToggle={() =>
+												setExpandedLogId(
+													expandedLogId === log.id ? null : log.id,
+												)
+											}
+											onNavigate={(l) =>
+												push(`/playground/verify/${l.resource_id}`)
+											}
+										/>
+									))}
 								</div>
 							) : (
 								<div>
-									{logs.map((log) => (
-										<div
+									{filteredLogs.map((log) => (
+										<UserLogRow
 											key={log.id}
-											className="border-stroke-soft-200/50 border-b"
-										>
-											<div className="flex items-center justify-between px-6 py-4 transition-colors hover:bg-bg-weak-50/50">
-												{/* Left Section: Context */}
-												<div className="flex items-center gap-4">
-													{/* Method Badge */}
-													<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-stroke-soft-200/40 bg-bg-weak-50">
-														<span className="font-mono font-semibold text-text-sub-600 text-xs">
-															{log.method}
-														</span>
-													</div>
-
-													<div>
-														<div className="flex items-center gap-2">
-															<p className="font-medium font-mono text-sm text-text-strong-950">
-																{log.endpoint}
-															</p>
-															{log.resource_id && (
-																<span className="rounded-full border border-stroke-soft-200/50 bg-bg-weak-50 px-2 py-0.5 text-[10px] text-text-sub-600">
-																	{log.resource_id}
-																</span>
-															)}
-														</div>
-														<div className="mt-0.5 flex items-center gap-2">
-															<span className="text-text-sub-600 text-xs">
-																{formatDate(log.created_at)}
-															</span>
-															<span className="text-text-disabled-300 text-xs">
-																•
-															</span>
-															<span className="text-text-sub-600 text-xs">
-																{log.duration_ms ? `${log.duration_ms}ms` : "-"}
-															</span>
-															{log.credits_used !== null && (
-																<>
-																	<span className="text-text-disabled-300 text-xs">
-																		•
-																	</span>
-																	<span className="text-text-sub-600 text-xs">
-																		{log.credits_used} credits
-																	</span>
-																</>
-															)}
-														</div>
-													</div>
-												</div>
-
-												{/* Right Section: Status */}
-												<div className="flex items-center gap-4">
-													{getStatusBadge(log.status)}
-												</div>
-											</div>
-										</div>
+											log={log}
+											formatDate={formatDate}
+											enrichment={
+												log.resource_id
+													? verificationMap.get(log.resource_id)
+													: undefined
+											}
+											onNavigate={(l) =>
+												push(`/playground/verify/${l.resource_id}`)
+											}
+										/>
 									))}
 								</div>
 							)}

@@ -7,7 +7,10 @@ import * as Dropdown from "@verifio/ui/dropdown";
 import { Icon } from "@verifio/ui/icon";
 import { useRef, useState } from "react";
 
+// Developer mode status options (API status)
 export type StatusFilterOption = "success" | "failed" | "error";
+// User mode status options (verification state)
+export type VerificationStateOption = "deliverable" | "risky" | "undeliverable";
 export type ServiceFilterOption =
 	| "verify"
 	| "api-key"
@@ -18,6 +21,7 @@ export type DateRangeOption = "24h" | "7d" | "30d" | "all";
 
 export interface LogsFilters {
 	status: StatusFilterOption[];
+	verificationState: VerificationStateOption[];
 	services: ServiceFilterOption[];
 	dateRange: DateRangeOption;
 }
@@ -25,12 +29,24 @@ export interface LogsFilters {
 interface LogsFilterDropdownProps {
 	value: LogsFilters;
 	onChange: (value: LogsFilters) => void;
+	isDeveloperMode: boolean;
 }
 
+// Developer mode: API status options
 const statusOptions: { id: StatusFilterOption; label: string }[] = [
 	{ id: "success", label: "Success" },
 	{ id: "failed", label: "Failed" },
 	{ id: "error", label: "Error" },
+];
+
+// User mode: Verification state options
+const verificationStateOptions: {
+	id: VerificationStateOption;
+	label: string;
+}[] = [
+	{ id: "deliverable", label: "Deliverable" },
+	{ id: "risky", label: "Risky" },
+	{ id: "undeliverable", label: "Undeliverable" },
 ];
 
 const serviceOptions: { id: ServiceFilterOption; label: string }[] = [
@@ -51,6 +67,7 @@ const dateRangeOptions: { id: DateRangeOption; label: string }[] = [
 export const LogsFilterDropdown = ({
 	value,
 	onChange,
+	isDeveloperMode,
 }: LogsFilterDropdownProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [hoverIdx, setHoverIdx] = useState<number | undefined>(undefined);
@@ -58,14 +75,20 @@ export const LogsFilterDropdown = ({
 
 	const currentTab = buttonRefs.current[hoverIdx ?? -1];
 
-	const activeFilterCount =
-		value.status.length +
-		value.services.length +
-		(value.dateRange !== "7d" ? 1 : 0);
+	const activeFilterCount = isDeveloperMode
+		? value.status.length +
+			value.services.length +
+			(value.dateRange !== "7d" ? 1 : 0)
+		: value.verificationState.length + (value.dateRange !== "7d" ? 1 : 0);
 	const hasActiveFilter = activeFilterCount > 0;
 
 	const handleReset = () => {
-		onChange({ status: [], services: [], dateRange: "7d" });
+		onChange({
+			status: [],
+			verificationState: [],
+			services: [],
+			dateRange: "7d",
+		});
 	};
 
 	const handleToggleStatus = (optionId: StatusFilterOption) => {
@@ -76,6 +99,22 @@ export const LogsFilterDropdown = ({
 			});
 		} else {
 			onChange({ ...value, status: [...value.status, optionId] });
+		}
+	};
+
+	const handleToggleVerificationState = (optionId: VerificationStateOption) => {
+		if (value.verificationState.includes(optionId)) {
+			onChange({
+				...value,
+				verificationState: value.verificationState.filter(
+					(v) => v !== optionId,
+				),
+			});
+		} else {
+			onChange({
+				...value,
+				verificationState: [...value.verificationState, optionId],
+			});
 		}
 	};
 
@@ -127,85 +166,130 @@ export const LogsFilterDropdown = ({
 
 				{/* All Filter Options in a single relative container for animation */}
 				<div className="relative mt-2">
-					{/* Status Section */}
-					<span className="mb-1 block px-1 font-medium text-[10px] text-text-soft-400 uppercase tracking-wider">
-						Status
-					</span>
-					{statusOptions.map((option) => {
-						const currentRefIdx = refIdx++;
-						const isChecked = value.status.includes(option.id);
-						return (
-							<button
-								key={option.id}
-								ref={(el) => {
-									if (el) buttonRefs.current[currentRefIdx] = el;
-								}}
-								type="button"
-								onPointerEnter={() => setHoverIdx(currentRefIdx)}
-								onPointerLeave={() => setHoverIdx(undefined)}
-								onClick={() => handleToggleStatus(option.id)}
-								className={cn(
-									"flex w-full cursor-pointer items-center gap-2 rounded-lg px-1 py-1.5 font-normal text-xs transition-colors",
-									"text-text-strong-950",
-								)}
-							>
-								<div
-									className={cn(
-										"flex h-3.5 w-3.5 items-center justify-center rounded border p-[1px] transition-colors",
-										isChecked
-											? "border-stroke-soft-900 bg-neutral-900"
-											: "border-stroke-soft-200",
-									)}
-								>
-									{isChecked && (
-										<Icon name="check" className="h-3 w-3 text-white" />
-									)}
-								</div>
-								<span>{option.label}</span>
-							</button>
-						);
-					})}
+					{isDeveloperMode ? (
+						<>
+							{/* Developer Mode: Status Section */}
+							<span className="mb-1 block px-1 font-medium text-[10px] text-text-soft-400 uppercase tracking-wider">
+								Status
+							</span>
+							{statusOptions.map((option) => {
+								const currentRefIdx = refIdx++;
+								const isChecked = value.status.includes(option.id);
+								return (
+									<button
+										key={option.id}
+										ref={(el) => {
+											if (el) buttonRefs.current[currentRefIdx] = el;
+										}}
+										type="button"
+										onPointerEnter={() => setHoverIdx(currentRefIdx)}
+										onPointerLeave={() => setHoverIdx(undefined)}
+										onClick={() => handleToggleStatus(option.id)}
+										className={cn(
+											"flex w-full cursor-pointer items-center gap-2 rounded-lg px-1 py-1.5 font-normal text-xs transition-colors",
+											"text-text-strong-950",
+										)}
+									>
+										<div
+											className={cn(
+												"flex h-3.5 w-3.5 items-center justify-center rounded border p-[1px] transition-colors",
+												isChecked
+													? "border-stroke-soft-900 bg-neutral-900"
+													: "border-stroke-soft-200",
+											)}
+										>
+											{isChecked && (
+												<Icon name="check" className="h-3 w-3 text-white" />
+											)}
+										</div>
+										<span>{option.label}</span>
+									</button>
+								);
+							})}
 
-					{/* Service Section */}
-					<span className="mt-3 mb-1 block px-1 font-medium text-[10px] text-text-soft-400 uppercase tracking-wider">
-						Service
-					</span>
-					{serviceOptions.map((option) => {
-						const currentRefIdx = refIdx++;
-						const isChecked = value.services.includes(option.id);
-						return (
-							<button
-								key={option.id}
-								ref={(el) => {
-									if (el) buttonRefs.current[currentRefIdx] = el;
-								}}
-								type="button"
-								onPointerEnter={() => setHoverIdx(currentRefIdx)}
-								onPointerLeave={() => setHoverIdx(undefined)}
-								onClick={() => handleToggleService(option.id)}
-								className={cn(
-									"flex w-full cursor-pointer items-center gap-2 rounded-lg px-1 py-1.5 font-normal text-xs transition-colors",
-									"text-text-strong-950",
-								)}
-							>
-								<div
-									className={cn(
-										"flex h-3.5 w-3.5 items-center justify-center rounded border p-[1px] transition-colors",
-										isChecked
-											? "border-stroke-soft-900 bg-neutral-900"
-											: "border-stroke-soft-200",
-									)}
-								>
-									{isChecked && (
-										<Icon name="check" className="h-3 w-3 text-white" />
-									)}
-								</div>
-								<span>{option.label}</span>
-							</button>
-						);
-					})}
+							{/* Developer Mode: Service Section */}
+							<span className="mt-3 mb-1 block px-1 font-medium text-[10px] text-text-soft-400 uppercase tracking-wider">
+								Service
+							</span>
+							{serviceOptions.map((option) => {
+								const currentRefIdx = refIdx++;
+								const isChecked = value.services.includes(option.id);
+								return (
+									<button
+										key={option.id}
+										ref={(el) => {
+											if (el) buttonRefs.current[currentRefIdx] = el;
+										}}
+										type="button"
+										onPointerEnter={() => setHoverIdx(currentRefIdx)}
+										onPointerLeave={() => setHoverIdx(undefined)}
+										onClick={() => handleToggleService(option.id)}
+										className={cn(
+											"flex w-full cursor-pointer items-center gap-2 rounded-lg px-1 py-1.5 font-normal text-xs transition-colors",
+											"text-text-strong-950",
+										)}
+									>
+										<div
+											className={cn(
+												"flex h-3.5 w-3.5 items-center justify-center rounded border p-[1px] transition-colors",
+												isChecked
+													? "border-stroke-soft-900 bg-neutral-900"
+													: "border-stroke-soft-200",
+											)}
+										>
+											{isChecked && (
+												<Icon name="check" className="h-3 w-3 text-white" />
+											)}
+										</div>
+										<span>{option.label}</span>
+									</button>
+								);
+							})}
+						</>
+					) : (
+						<>
+							{/* User Mode: Verification State Section */}
+							<span className="mb-1 block px-1 font-medium text-[10px] text-text-soft-400 uppercase tracking-wider">
+								Status
+							</span>
+							{verificationStateOptions.map((option) => {
+								const currentRefIdx = refIdx++;
+								const isChecked = value.verificationState.includes(option.id);
+								return (
+									<button
+										key={option.id}
+										ref={(el) => {
+											if (el) buttonRefs.current[currentRefIdx] = el;
+										}}
+										type="button"
+										onPointerEnter={() => setHoverIdx(currentRefIdx)}
+										onPointerLeave={() => setHoverIdx(undefined)}
+										onClick={() => handleToggleVerificationState(option.id)}
+										className={cn(
+											"flex w-full cursor-pointer items-center gap-2 rounded-lg px-1 py-1.5 font-normal text-xs transition-colors",
+											"text-text-strong-950",
+										)}
+									>
+										<div
+											className={cn(
+												"flex h-3.5 w-3.5 items-center justify-center rounded border p-[1px] transition-colors",
+												isChecked
+													? "border-stroke-soft-900 bg-neutral-900"
+													: "border-stroke-soft-200",
+											)}
+										>
+											{isChecked && (
+												<Icon name="check" className="h-3 w-3 text-white" />
+											)}
+										</div>
+										<span>{option.label}</span>
+									</button>
+								);
+							})}
+						</>
+					)}
 
-					{/* Date Range Section */}
+					{/* Date Range Section - Common to both modes */}
 					<span className="mt-3 mb-1 block px-1 font-medium text-[10px] text-text-soft-400 uppercase tracking-wider">
 						Date Range
 					</span>
