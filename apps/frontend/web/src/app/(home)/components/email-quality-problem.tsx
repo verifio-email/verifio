@@ -2,35 +2,28 @@ import { Icon } from "@verifio/ui/icon";
 
 const problems = [
 	{
-		icon: "arrow-up-right" as const,
-		title: "High Bounce Rates",
+		icon: "arrow-top-right-circle" as const,
+		title: "High bounce rates.",
 		description:
-			"Invalid emails cause hard bounces, hurting sender reputation and deliverability.",
-		stat: "15%",
-		statLabel: "avg. bounce rate with unverified lists",
+			"Invalid emails cause hard bounces, hurting sender reputation and deliverability scores.",
 	},
 	{
 		icon: "alert-triangle" as const,
-		title: "Spam Flags & Reputation Damage",
+		title: "Spam flags & reputation damage.",
 		description:
-			"Sending to risky addresses triggers spam traps and blacklists.",
-		stat: "3x",
-		statLabel: "higher spam complaints",
+			"Sending to risky addresses triggers spam traps and blacklists that are hard to escape.",
 	},
 	{
-		icon: "dollar-circle" as const,
-		title: "Wasted Acquisition Spend",
+		icon: "dollar" as const,
+		title: "Wasted acquisition spend.",
 		description:
-			"Every invalid email is money spent on leads that will never convert.",
-		stat: "20%",
-		statLabel: "of marketing budget wasted",
+			"Every invalid email is money spent on leads that will never convert or engage.",
 	},
 	{
-		icon: "x-circle" as const,
-		title: "Broken Onboarding Flows",
-		description: "Users who can't receive emails drop off before activation.",
-		stat: "40%",
-		statLabel: "drop-off at email verification",
+		icon: "cross-circle" as const,
+		title: "Broken onboarding flows.",
+		description:
+			"Users who can't receive emails drop off before activation, killing conversion.",
 	},
 ];
 
@@ -62,88 +55,66 @@ export function EmailQualityProblem() {
 						<p className="mt-2 max-w-xl px-2 font-medium text-sm text-text-sub-600 leading-7 md:max-w-none md:px-0 md:text-base md:leading-8">
 							Invalid and risky emails lead to bounce rates, spam flags, and
 							wasted spend.
-							<br className="hidden md:block" />
-							Most tools are black boxes — you never know why an email passed or
-							failed.
 						</p>
 					</div>
 
-					{/* Problems Grid */}
-					<div className="grid grid-cols-1 md:grid-cols-2">
+					{/* Problems Grid - 4 columns on desktop, 2 on tablet, 1 on mobile */}
+					<div className="grid grid-cols-1 border-stroke-soft-100 border-b sm:grid-cols-2 lg:grid-cols-4">
 						{problems.map((problem, index) => {
-							const isRightColumn = index % 2 === 1;
-							const isLastRow = index >= problems.length - 2;
+							const isLastColumn = index === problems.length - 1;
 
 							return (
 								<div
 									key={index}
-									className={`group relative flex flex-col p-6 md:p-8 ${
-										!isRightColumn
-											? "md:border-stroke-soft-100 md:border-r"
-											: ""
-									} ${
-										!isLastRow
-											? "border-stroke-soft-100 border-b"
-											: "border-stroke-soft-100 border-b md:border-b-0"
-									}`}
+									className={`flex flex-col items-center px-6 py-8 text-center ${
+										!isLastColumn
+											? "border-stroke-soft-100 border-b sm:border-b lg:border-r lg:border-b-0"
+											: "border-stroke-soft-100 border-b sm:border-b-0"
+									} ${index === 1 ? "sm:border-r lg:border-r" : ""} ${index === 2 ? "sm:border-r-0 sm:border-b lg:border-r lg:border-b-0" : ""}`}
 								>
 									{/* Icon */}
-									<div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-stroke-soft-200/50 bg-bg-white-0">
+									<div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-stroke-soft-200/50 bg-bg-white-0">
 										<Icon
 											name={problem.icon}
-											className="h-5 w-5 text-text-sub-600"
+											className="h-5 w-5 text-primary-base"
 										/>
 									</div>
 
-									{/* Title */}
-									<h3 className="mb-2 font-semibold text-base text-text-strong-950">
-										{problem.title}
-									</h3>
-
-									{/* Description */}
-									<p className="mb-4 text-sm text-text-sub-600 leading-relaxed">
+									{/* Title & Description */}
+									<p className="text-sm text-text-sub-600 leading-relaxed">
+										<span className="font-semibold text-text-strong-950">
+											{problem.title}
+										</span>{" "}
 										{problem.description}
 									</p>
-
-									{/* Stat */}
-									<div className="mt-auto flex items-baseline gap-2 rounded-lg border border-stroke-soft-100 bg-bg-white-50 px-3 py-2">
-										<span className="text-xl font-bold text-red-500">
-											{problem.stat}
-										</span>
-										<span className="text-xs text-text-sub-600">
-											{problem.statLabel}
-										</span>
-									</div>
 								</div>
 							);
 						})}
 					</div>
 
 					{/* Black Box Callout */}
-					<div className="border-stroke-soft-100 border-t">
-						<div className="flex flex-col items-center justify-center px-4 py-8 text-center md:p-10">
-							<div className="relative mx-auto max-w-2xl">
-								{/* Quote marks */}
-								<div className="absolute -top-2 -left-4 font-serif text-4xl text-stroke-soft-200 md:-left-8">
-									"
-								</div>
-								<div className="absolute -right-4 -bottom-4 font-serif text-4xl text-stroke-soft-200 md:-right-8">
-									"
-								</div>
-
-								<p className="text-base font-medium italic text-text-strong-950 md:text-lg">
-									Most verification tools are black boxes —
-									<span className="text-primary-base"> you never know why</span>{" "}
-									an email passed or failed.
-								</p>
+					<div className="flex flex-col items-center justify-center px-4 py-8 text-center md:p-10">
+						<div className="relative mx-auto max-w-2xl">
+							{/* Quote marks */}
+							<div className="absolute -top-2 -left-4 font-serif text-4xl text-stroke-soft-200 md:-left-8">
+								"
+							</div>
+							<div className="absolute -right-4 -bottom-4 font-serif text-4xl text-stroke-soft-200 md:-right-8">
+								"
 							</div>
 
-							<div className="mt-6 flex items-center gap-2">
-								<Icon name="lightbulb" className="h-4 w-4 text-primary-base" />
-								<span className="text-sm text-text-sub-600">
-									Verifio shows you every check, every signal, every reason.
-								</span>
-							</div>
+							<p className="text-base font-medium italic text-text-strong-950 md:text-lg">
+								Most verification tools are black boxes —
+								<span className="text-primary-base"> you never know why</span>{" "}
+								an email passed or failed.
+							</p>
+						</div>
+
+						<div className="mt-6 flex items-center gap-2">
+							<Icon name="lightbulb" className="h-4 w-4 text-primary-base" />
+							<span className="text-sm text-text-sub-600">
+								Verifio shows you every check, every signal, every reason.
+							</span>
 						</div>
 					</div>
 				</div>
