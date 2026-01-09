@@ -85,7 +85,10 @@ const PlaygroundPage = () => {
 					</div>
 				</div>
 			</div>
-			{currentResult && <VerificationResultCard result={currentResult} />}
+			{/* Show verification result card when result is available */}
+			{currentTab === "single" && currentResult && (
+				<VerificationResultCard result={currentResult} />
+			)}
 			{currentTab === "bulk" &&
 				bulkResults &&
 				bulkResults.results.length > 0 && (

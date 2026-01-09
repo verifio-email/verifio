@@ -1,3 +1,5 @@
+"use client";
+
 import {
 	getStateBadge,
 	getStateColor,
@@ -5,7 +7,13 @@ import {
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
 import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import type { VerificationResult } from "../types";
+import { AttributesSection } from "./attributes-section";
+import { GeneralSection } from "./general-section";
+import { JsonViewer } from "./json-viewer";
+import { MailServerSection } from "./mail-server-section";
+import { ScoreVisualization } from "./score-visualization";
 
 interface VerificationResultCardProps {
 	result: VerificationResult;
@@ -14,6 +22,32 @@ interface VerificationResultCardProps {
 export const VerificationResultCard = ({
 	result,
 }: VerificationResultCardProps) => {
+	const [viewMode, setViewMode] = useState<"details" | "json">("details");
+	const [indicatorStyle, setIndicatorStyle] = useState({ width: 0, left: 0 });
+	const [mounted, setMounted] = useState(false);
+	const detailsButtonRef = useRef<HTMLButtonElement>(null);
+	const jsonButtonRef = useRef<HTMLButtonElement>(null);
+
+	// Initial measurement on mount
+	useEffect(() => {
+		const activeButton = detailsButtonRef.current;
+		if (activeButton) {
+			const { offsetWidth: width, offsetLeft: left } = activeButton;
+			setIndicatorStyle({ width, left });
+			setMounted(true);
+		}
+	}, []);
+
+	// Update on viewMode change
+	useEffect(() => {
+		const activeButton =
+			viewMode === "details" ? detailsButtonRef.current : jsonButtonRef.current;
+		if (activeButton) {
+			const { offsetWidth: width, offsetLeft: left } = activeButton;
+			setIndicatorStyle({ width, left });
+		}
+	}, [viewMode]);
+
 	return (
 		<AnimatePresence mode="wait">
 			<motion.div
@@ -95,189 +129,80 @@ export const VerificationResultCard = ({
 									</div>
 								</div>
 
-								{/* Checks Grid */}
-								<div className="grid grid-cols-3 gap-px bg-stroke-soft-200/50">
-									{/* Syntax Check */}
-									<div className="bg-bg-white-0 p-3">
-										<div className="flex items-center gap-2">
-											<Icon
-												name={result.checks.syntax.valid ? "check" : "x"}
-												className={cn(
-													"h-4 w-4",
-													result.checks.syntax.valid
-														? "text-success-base"
-														: "text-error-base",
-												)}
-											/>
-											<span className="text-sm text-text-sub-600">
-												Syntax Valid
-											</span>
-										</div>
-									</div>
+								{/* Score Visualization */}
+								<ScoreVisualization score={result.score} />
 
-									{/* MX Records */}
-									<div className="bg-bg-white-0 p-3">
-										<div className="flex items-center gap-2">
-											<Icon
-												name={result.checks.dns.hasMx ? "check" : "x"}
-												className={cn(
-													"h-4 w-4",
-													result.checks.dns.hasMx
-														? "text-success-base"
-														: "text-error-base",
-												)}
-											/>
-											<span className="text-sm text-text-sub-600">
-												MX Records
-											</span>
-										</div>
-									</div>
-
-									{/* Domain Exists */}
-									<div className="bg-bg-white-0 p-3">
-										<div className="flex items-center gap-2">
-											<Icon
-												name={result.checks.dns.domainExists ? "check" : "x"}
-												className={cn(
-													"h-4 w-4",
-													result.checks.dns.domainExists
-														? "text-success-base"
-														: "text-error-base",
-												)}
-											/>
-											<span className="text-sm text-text-sub-600">
-												Domain Exists
-											</span>
-										</div>
-									</div>
-
-									{/* Disposable */}
-									<div className="bg-bg-white-0 p-3">
-										<div className="flex items-center gap-2">
-											<Icon
-												name={
-													result.checks.disposable.isDisposable
-														? "alert-triangle"
-														: "check"
-												}
-												className={cn(
-													"h-4 w-4",
-													result.checks.disposable.isDisposable
-														? "text-warning-base"
-														: "text-success-base",
-												)}
-											/>
-											<span className="text-sm text-text-sub-600">
-												{result.checks.disposable.isDisposable
-													? "Disposable"
-													: "Not Disposable"}
-											</span>
-										</div>
-									</div>
-
-									{/* Role-based */}
-									<div className="bg-bg-white-0 p-3">
-										<div className="flex items-center gap-2">
-											<Icon
-												name={
-													result.checks.role.isRole ? "alert-triangle" : "check"
-												}
-												className={cn(
-													"h-4 w-4",
-													result.checks.role.isRole
-														? "text-warning-base"
-														: "text-success-base",
-												)}
-											/>
-											<span className="text-sm text-text-sub-600">
-												{result.checks.role.isRole
-													? `Role (${result.checks.role.role})`
-													: "Personal Email"}
-											</span>
-										</div>
-									</div>
-
-									{/* Free Provider */}
-									<div className="bg-bg-white-0 p-3">
-										<div className="flex items-center gap-2">
-											<Icon
-												name="info"
-												className="h-4 w-4 text-text-soft-400"
-											/>
-											<span className="text-sm text-text-sub-600">
-												{result.checks.freeProvider.isFree
-													? result.checks.freeProvider.provider
-													: "Business Email"}
-											</span>
-										</div>
+								{/* Tab Navigation */}
+								<div className="border-stroke-soft-200/50 border-t border-b">
+									<div className="relative flex w-fit gap-2 bg-bg-white-0 px-4 py-3">
+										{/* Animated floating background */}
+										<div
+											className={`absolute inset-y-3 rounded-full border border-stroke-soft-200/50 bg-bg-white-100 transition-all duration-300 ${
+												mounted ? "opacity-100" : "opacity-0"
+											}`}
+											style={{
+												left: `${indicatorStyle.left}px`,
+												width: `${indicatorStyle.width}px`,
+												transitionTimingFunction:
+													"cubic-bezier(0.65, 0, 0.35, 1)",
+											}}
+											aria-hidden="true"
+										/>
+										<button
+											ref={detailsButtonRef}
+											type="button"
+											onClick={() => setViewMode("details")}
+											className="relative z-10 flex items-center gap-2 rounded-full border border-transparent px-4 py-1.5 transition-colors hover:opacity-70"
+										>
+											<Icon name="file-text" className="h-3.5 w-3.5" />
+											Details
+										</button>
+										<button
+											ref={jsonButtonRef}
+											type="button"
+											onClick={() => setViewMode("json")}
+											className="relative z-10 flex items-center gap-2 rounded-full border border-transparent px-4 py-1.5 transition-colors hover:opacity-70"
+										>
+											<Icon name="json" className="h-3.5 w-3.5" />
+											JSON
+										</button>
 									</div>
 								</div>
 
-								{/* Analytics Section */}
-								<div className="border-stroke-soft-200/50 border-t p-4">
-									<div className="flex flex-wrap gap-4 text-sm">
-										<div>
-											<span className="text-text-soft-400">Risk Level:</span>
-											<span
-												className={cn(
-													"ml-2 font-medium",
-													result.analytics.riskLevel === "low"
-														? "text-success-base"
-														: result.analytics.riskLevel === "medium"
-															? "text-warning-base"
-															: "text-error-base",
-												)}
-											>
-												{result.analytics.riskLevel.toUpperCase()}
-											</span>
+								{/* Conditional Rendering Based on View Mode */}
+								{viewMode === "details" ? (
+									<div className="grid grid-cols-2 border-stroke-soft-200/50">
+										{/* Left Column: General and Mail Server */}
+										<div className="border-stroke-soft-200/50 border-r">
+											<GeneralSection
+												state={result.state}
+												reason={result.reason}
+												domain={result.domain}
+												didYouMean={result.analytics.didYouMean || undefined}
+											/>
+											<MailServerSection
+												smtpProvider={result.analytics.smtpProvider}
+												mxRecord={result.checks.dns.preferredMx || null}
+											/>
 										</div>
-										{result.analytics.smtpProvider && (
-											<div>
-												<span className="text-text-soft-400">Provider:</span>
-												<span className="ml-2 text-text-strong-950">
-													{result.analytics.smtpProvider}
-												</span>
-											</div>
-										)}
+
+										{/* Right Column: Attributes */}
 										<div>
-											<span className="text-text-soft-400">Verified in:</span>
-											<span className="ml-2 text-text-strong-950">
-												{result.duration}ms
-											</span>
+											<AttributesSection
+												isFree={result.checks.freeProvider.isFree}
+												isRole={result.checks.role.isRole}
+												isDisposable={result.checks.disposable.isDisposable}
+												isCatchAll={result.checks.smtp.isCatchAll}
+												tag={result.tag}
+											/>
 										</div>
 									</div>
-
-									{/* Did you mean? */}
-									{result.analytics.didYouMean && (
-										<div className="flex items-center gap-2 rounded-lg bg-primary-alpha-10 px-3 py-2">
-											<Icon
-												name="lightbulb-single"
-												className="h-4 w-4 text-primary-base"
-											/>
-											<span className="text-primary-darker text-sm">
-												Did you mean:{" "}
-												<span className="font-medium">
-													{result.analytics.didYouMean}
-												</span>
-												?
-											</span>
-										</div>
-									)}
-
-									{/* Warnings */}
-									{result.analytics.warnings.length > 0 && (
-										<div className="mt-3 flex flex-wrap gap-2">
-											{result.analytics.warnings.map((warning) => (
-												<span
-													key={warning}
-													className="rounded-full bg-warning-alpha-10 px-2 py-0.5 text-warning-base text-xs"
-												>
-													{warning.replace(/_/g, " ")}
-												</span>
-											))}
-										</div>
-									)}
-								</div>
+								) : (
+									<JsonViewer
+										data={{ success: true, data: result }}
+										filename="response.json"
+									/>
+								)}
 							</div>
 						</div>
 					</div>

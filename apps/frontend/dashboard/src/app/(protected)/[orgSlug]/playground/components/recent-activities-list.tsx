@@ -209,7 +209,7 @@ export const RecentActivitiesList = ({
 												</span>
 												<span
 													className={cn(
-														"text-sm tabular-nums",
+														"font-semibold tabular-nums",
 														getStateColor(activity.result.state),
 													)}
 												>
