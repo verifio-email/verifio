@@ -33,16 +33,15 @@ export function EmailVerificationDemo() {
 		<div className="-mt-[49px] mx-auto w-full max-w-lg px-4 md:px-0">
 			<SegmentedControl.Root value={activeTab} onValueChange={setActiveTab}>
 				<form onSubmit={handleSubmit}>
-					<Input.Root className="flex-col overflow-hidden rounded-2xl! border-stroke-soft-100!">
+					<Input.Root className="flex-col rounded-2xl! border-stroke-soft-100!">
 						<motion.div
 							animate={{
-								height: activeTab === "email" ? 56 : 196,
+								height: activeTab === "email" ? 48 : 196,
 							}}
 							transition={{
 								duration: 0.3,
 								ease: [0.4, 0, 0.2, 1],
 							}}
-							className="relative"
 						>
 							<AnimatePresence mode="wait" initial={false}>
 								{activeTab === "email" ? (
@@ -52,13 +51,12 @@ export function EmailVerificationDemo() {
 										animate={{ opacity: 1 }}
 										exit={{ opacity: 0 }}
 										transition={{ duration: 0.15 }}
-										className="absolute inset-0"
 									>
 										<Input.Wrapper className="hover:[&:not(&:has(input:focus))]:bg-bg-white-0!">
 											<Input.Icon as={Icon} name="at" className="h-3.5 w-3.5" />
 											<Input.Input
 												placeholder="Enter email to verify..."
-												className="h-12"
+												className="h-12!"
 												type="email"
 												value={email}
 												onChange={(e) => setEmail(e.target.value)}
@@ -92,7 +90,7 @@ export function EmailVerificationDemo() {
 										exit={{ opacity: 0 }}
 										transition={{ duration: 0.15 }}
 									>
-										<FileUpload.Root className="rounded-none border-0 px-4 pt-10">
+										<FileUpload.Root className="rounded-none border-0 px-4 pt-5">
 											<input
 												type="file"
 												accept=".csv"
@@ -122,7 +120,7 @@ export function EmailVerificationDemo() {
 								)}
 							</AnimatePresence>
 						</motion.div>
-						<div className="flex h-[52px] items-center justify-between border-stroke-soft-100 border-t px-2">
+						<div className="flex h-[58px] items-center justify-between border-stroke-soft-100 border-t px-2">
 							<div>
 								<SegmentedControl.List>
 									<SegmentedControl.Trigger
