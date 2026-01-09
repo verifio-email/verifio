@@ -3,6 +3,7 @@
 import * as Button from "@verifio/ui/button";
 import { CodeBlock } from "@verifio/ui/code-block";
 import { Icon } from "@verifio/ui/icon";
+import { useState } from "react";
 
 interface JsonViewerProps {
 	data: any;
@@ -21,7 +22,14 @@ export function JsonViewer({
 	data,
 	filename = "response.json",
 }: JsonViewerProps) {
+	const [copied, setCopied] = useState(false);
 	const jsonString = JSON.stringify(data, null, 2);
+
+	const handleCopy = async () => {
+		await copyToClipboard(jsonString);
+		setCopied(true);
+		setTimeout(() => setCopied(false), 2000);
+	};
 
 	return (
 		<div>
@@ -42,14 +50,30 @@ export function JsonViewer({
 						mode="stroke"
 						size="small"
 						variant="neutral"
-						onClick={() => copyToClipboard(jsonString)}
+						onClick={handleCopy}
 						className="rounded-full"
 					>
-						<Icon
-							name="copy"
-							className="h-3.5 w-3.5 stroke-1 text-text-sub-600"
-						/>
-						Copy as JSON
+						{copied ? (
+							<>
+								<Icon
+									name="check"
+									className="h-3.5 w-3.5 stroke-1 text-success-base"
+								/>
+								<span className="text-success-base transition-colors duration-200">
+									Copied
+								</span>
+							</>
+						) : (
+							<>
+								<Icon
+									name="copy"
+									className="h-3.5 w-3.5 stroke-1 text-text-sub-600"
+								/>
+								<span className="transition-colors duration-200">
+									Copy as JSON
+								</span>
+							</>
+						)}
 					</Button.Root>
 				</div>
 			</div>

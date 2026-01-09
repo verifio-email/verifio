@@ -240,39 +240,37 @@ export function DeveloperLogRow({
 				<div className="border-stroke-soft-200/30 border-t bg-bg-weak-50/30 px-6 py-4">
 					<div className="grid grid-cols-2 gap-6">
 						{/* Request Section */}
-						<div>
-							<h4 className="mb-2 font-medium text-text-strong-950 text-xs uppercase tracking-wide">
-								Request
-							</h4>
-							<div className="overflow-hidden rounded-lg border border-stroke-soft-200/50">
-								<LogJsonViewer data={getRequestObject()} />
-							</div>
+						<div className="overflow-hidden rounded-lg border border-stroke-soft-200/50">
+							<LogJsonViewer
+								data={getRequestObject()}
+								filename="request.json"
+							/>
 						</div>
 
 						{/* Response Section */}
-						<div>
-							<h4 className="mb-2 font-medium text-text-strong-950 text-xs uppercase tracking-wide">
-								Response
-							</h4>
-							{isLoadingResult ? (
-								<div className="overflow-hidden rounded-lg border border-stroke-soft-200/50 p-4">
-									<div className="space-y-2">
-										<Skeleton className="h-4 w-full" />
-										<Skeleton className="h-4 w-3/4" />
-										<Skeleton className="h-4 w-1/2" />
-										<Skeleton className="h-4 w-2/3" />
-									</div>
+						{isLoadingResult ? (
+							<div className="overflow-hidden rounded-lg border border-stroke-soft-200/50 p-4">
+								<div className="space-y-2">
+									<Skeleton className="h-4 w-full" />
+									<Skeleton className="h-4 w-3/4" />
+									<Skeleton className="h-4 w-1/2" />
+									<Skeleton className="h-4 w-2/3" />
 								</div>
-							) : getResponseObject() ? (
-								<div className="overflow-hidden rounded-lg border border-stroke-soft-200/50">
-									<LogJsonViewer data={getResponseObject()} />
-								</div>
-							) : (
+							</div>
+						) : getResponseObject() ? (
+							<div className="overflow-hidden rounded-lg border border-stroke-soft-200/50">
+								<LogJsonViewer
+									data={getResponseObject()}
+									filename="response.json"
+								/>
+							</div>
+						) : (
+							<div className="flex items-center justify-center overflow-hidden rounded-lg border border-stroke-soft-200/50 p-4">
 								<span className="text-text-soft-400 text-xs">
 									No response data
 								</span>
-							)}
-						</div>
+							</div>
+						)}
 					</div>
 				</div>
 			)}

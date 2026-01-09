@@ -1,12 +1,23 @@
 "use client";
 
+import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { codeToHtml, type ThemeRegistration } from "shiki";
 
 interface LogJsonViewerProps {
 	data: any;
+	filename?: string;
 }
+
+const copyToClipboard = async (text: string) => {
+	try {
+		await navigator.clipboard.writeText(text);
+	} catch (err) {
+		console.error("Failed to copy:", err);
+	}
+};
 
 // Dark theme with one accent color and light gray tones
 const darkTheme: ThemeRegistration = {
@@ -120,12 +131,22 @@ const lightTheme: ThemeRegistration = {
 	],
 };
 
-export function LogJsonViewer({ data }: LogJsonViewerProps) {
+export function LogJsonViewer({
+	data,
+	filename = "data.json",
+}: LogJsonViewerProps) {
 	const { resolvedTheme } = useTheme();
 	const [html, setHtml] = useState<string>("");
 	const [mounted, setMounted] = useState(false);
+	const [copied, setCopied] = useState(false);
 
 	const jsonString = JSON.stringify(data, null, 2);
+
+	const handleCopy = async () => {
+		await copyToClipboard(jsonString);
+		setCopied(true);
+		setTimeout(() => setCopied(false), 2000);
+	};
 
 	useEffect(() => {
 		setMounted(true);
@@ -159,13 +180,32 @@ export function LogJsonViewer({ data }: LogJsonViewerProps) {
 	return (
 		<div>
 			{/* Header */}
-			<div className="flex items-center justify-between border-stroke-soft-200/50 border-b px-3 py-2.5">
-				<div className="flex items-center gap-1.5">
-					<div className="h-2.5 w-2.5 rounded-full border border-stroke-soft-200/50" />
-					<div className="h-2.5 w-2.5 rounded-full border border-stroke-soft-200/50" />
-					<div className="h-2.5 w-2.5 rounded-full border border-stroke-soft-200/50" />
-				</div>
-				<span className="text-[10px] text-text-sub-600">[ .JSON ]</span>
+			<div className="flex items-center justify-between border-stroke-soft-200/50 border-b px-3 py-2">
+				<span className="text-[10px] text-text-sub-600">[ {filename} ]</span>
+				<Button.Root
+					mode="stroke"
+					size="xxsmall"
+					variant="neutral"
+					onClick={handleCopy}
+					className="rounded-full"
+					title="Copy to clipboard"
+				>
+					{copied ? (
+						<>
+							<Icon name="check" className="h-2.5 w-2.5 text-success-base" />
+							<span className="text-[11px] text-success-base transition-colors duration-200">
+								Copied
+							</span>
+						</>
+					) : (
+						<>
+							<Icon name="copy" className="h-2.5 w-2.5" />
+							<span className="text-[11px] text-text-sub-600 transition-colors duration-200">
+								Copy
+							</span>
+						</>
+					)}
+				</Button.Root>
 			</div>
 			{/* Code */}
 			<div className="max-h-72 overflow-auto">
