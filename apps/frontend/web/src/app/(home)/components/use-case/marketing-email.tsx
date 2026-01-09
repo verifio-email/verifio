@@ -3,13 +3,13 @@ import { Icon } from "@verifio/ui/icon";
 
 export const MarketingEmail = () => {
 	return (
-		<div className="flex flex-col border-stroke-soft-200/50 border-r border-b">
-			<div className="flex w-full items-center justify-between border-stroke-soft-200/50 border-b px-10 py-4">
+		<div className="flex flex-col border-stroke-soft-100 border-r border-b">
+			<div className="flex w-full items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 				<span className="text-sm text-text-sub-600">3/4</span>
 				<span className="text-sm text-text-sub-600">/marketingemail</span>
 			</div>
-			<div className="flex w-full border-stroke-soft-200/50">
-				<div className="flex-1 border-stroke-soft-200/50 border-r p-10">
+			<div className="flex w-full border-stroke-soft-100">
+				<div className="flex-1 border-stroke-soft-100 border-r p-10">
 					<div className="flex items-center gap-2">
 						<Icon
 							name="mega-phone"
@@ -38,7 +38,7 @@ export const MarketingEmail = () => {
 					</div>
 				</div>
 				<div className="flex-1">
-					<div className="border-stroke-soft-200/50 border-r border-b p-10">
+					<div className="border-stroke-soft-100 border-r border-b p-10">
 						<div className="flex items-center gap-2">
 							<Icon
 								name="route"

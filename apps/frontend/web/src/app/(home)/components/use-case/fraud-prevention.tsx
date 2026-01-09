@@ -5,10 +5,10 @@ import { motion } from "framer-motion";
 
 export const FraudPrevention = () => {
 	return (
-		<div className="border-stroke-soft-200/50 border-b">
+		<div className="border-stroke-soft-100 border-b">
 			<div className="grid grid-cols-1 lg:grid-cols-2">
 				{/* Left Content Section */}
-				<div className="flex flex-col justify-center space-y-6 border-stroke-soft-200/50 p-10 md:p-16 lg:border-r lg:p-20">
+				<div className="flex flex-col justify-center space-y-6 border-stroke-soft-100 p-10 md:p-16 lg:border-r lg:p-20">
 					{/* Label */}
 					<div className="flex items-center gap-2">
 						<Icon name="shield-check" className="h-4 w-4 text-text-sub-600" />
@@ -42,7 +42,7 @@ export const FraudPrevention = () => {
 				{/* Right Visual Section */}
 				<div className="flex flex-col">
 					{/* Header */}
-					<div className="flex items-center justify-between border-stroke-soft-200/50 border-b bg-bg-white-0 px-6 py-3">
+					<div className="flex items-center justify-between border-stroke-soft-100 border-b bg-bg-white-0 px-6 py-3">
 						<div className="flex items-center gap-2">
 							<div className="h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse" />
 							<span className="font-mono text-[10px] uppercase tracking-wider text-text-sub-600">
@@ -57,14 +57,14 @@ export const FraudPrevention = () => {
 					{/* Visual Grid */}
 					<div className="flex-1 bg-bg-white-0 p-8 md:p-12">
 						<div className="relative mx-auto max-w-sm">
-							<div className="grid gap-0 border border-stroke-soft-200/50">
+							<div className="grid gap-0 border border-stroke-soft-100">
 								{/* Blocked 1 */}
 								<motion.div
 									initial={{ opacity: 0, x: 20 }}
 									whileInView={{ opacity: 1, x: 0 }}
 									transition={{ duration: 0.4 }}
 									viewport={{ once: true }}
-									className="flex items-center justify-between border-stroke-soft-200/50 border-b bg-bg-white-0 p-4"
+									className="flex items-center justify-between border-stroke-soft-100 border-b bg-bg-white-0 p-4"
 								>
 									<div className="flex items-center gap-3">
 										<Icon name="x-close" className="h-4 w-4 text-red-600" />
@@ -88,7 +88,7 @@ export const FraudPrevention = () => {
 									whileInView={{ opacity: 1, x: 0 }}
 									transition={{ duration: 0.4, delay: 0.15 }}
 									viewport={{ once: true }}
-									className="flex items-center justify-between border-stroke-soft-200/50 border-b bg-bg-white-0 p-4"
+									className="flex items-center justify-between border-stroke-soft-100 border-b bg-bg-white-0 p-4"
 								>
 									<div className="flex items-center gap-3">
 										<Icon name="x-close" className="h-4 w-4 text-red-600" />
@@ -137,8 +137,8 @@ export const FraudPrevention = () => {
 					</div>
 
 					{/* Footer Stats */}
-					<div className="grid grid-cols-3 border-stroke-soft-200/50 border-t">
-						<div className="border-stroke-soft-200/50 border-r p-4 text-center">
+					<div className="grid grid-cols-3 border-stroke-soft-100 border-t">
+						<div className="border-stroke-soft-100 border-r p-4 text-center">
 							<p className="mb-1 font-bold text-lg text-text-strong-950 tabular-nums">
 								99%
 							</p>
@@ -146,7 +146,7 @@ export const FraudPrevention = () => {
 								Detection
 							</p>
 						</div>
-						<div className="border-stroke-soft-200/50 border-r p-4 text-center">
+						<div className="border-stroke-soft-100 border-r p-4 text-center">
 							<p className="mb-1 font-bold text-lg text-text-strong-950 tabular-nums">
 								50k+
 							</p>

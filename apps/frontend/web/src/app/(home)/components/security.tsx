@@ -36,8 +36,8 @@ const securityFeatures = [
 
 export default function Security() {
 	return (
-		<div className="border-stroke-soft-200/50 border-t border-b">
-			<div className="mx-auto max-w-5xl border-stroke-soft-200/50 border-r border-l">
+		<div className="border-stroke-soft-100 border-t border-b">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 				<div className="flex items-stretch justify-between">
 					{/* Left Section */}
 					<div className="space-y-6 py-20 pl-10">
@@ -59,7 +59,7 @@ export default function Security() {
 					</div>
 
 					{/* Right Section - Compliance Badges */}
-					<div className="grid w-full max-w-sm grid-cols-3 divide-x divide-stroke-soft-200/50 self-stretch border-stroke-soft-200/50 border-l">
+					<div className="grid w-full max-w-sm grid-cols-3 divide-x divide-stroke-soft-100 self-stretch border-stroke-soft-100 border-l">
 						{securityFeatures.map((feature, index) => (
 							<div
 								key={index}

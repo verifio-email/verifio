@@ -5,10 +5,10 @@ import { motion } from "framer-motion";
 
 export const DeliverabilityProtection = () => {
 	return (
-		<div className="border-stroke-soft-200/50 border-b">
+		<div className="border-stroke-soft-100 border-b">
 			<div className="grid grid-cols-1 lg:grid-cols-2">
 				{/* Left Content Section */}
-				<div className="flex flex-col justify-center space-y-6 border-stroke-soft-200/50 p-10 md:p-16 lg:border-r lg:p-20">
+				<div className="flex flex-col justify-center space-y-6 border-stroke-soft-100 p-10 md:p-16 lg:border-r lg:p-20">
 					{/* Label */}
 					<div className="flex items-center gap-2">
 						<Icon name="verified" className="h-4 w-4 text-text-sub-600" />
@@ -41,7 +41,7 @@ export const DeliverabilityProtection = () => {
 				{/* Right Visual Section */}
 				<div className="flex flex-col">
 					{/* Header */}
-					<div className="flex items-center justify-between border-stroke-soft-200/50 border-b bg-bg-white-0 px-6 py-3">
+					<div className="flex items-center justify-between border-stroke-soft-100 border-b bg-bg-white-0 px-6 py-3">
 						<div className="flex items-center gap-2">
 							<div className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
 							<span className="font-mono text-[10px] uppercase tracking-wider text-text-sub-600">
@@ -56,9 +56,9 @@ export const DeliverabilityProtection = () => {
 					{/* Visual Grid */}
 					<div className="flex-1 bg-bg-white-0 p-8 md:p-12">
 						<div className="relative mx-auto max-w-sm">
-							<div className="grid gap-0 border border-stroke-soft-200/50">
+							<div className="grid gap-0 border border-stroke-soft-100">
 								{/* Overall Status */}
-								<div className="border-stroke-soft-200/50 border-b bg-bg-white-0 p-4">
+								<div className="border-stroke-soft-100 border-b bg-bg-white-0 p-4">
 									<div className="flex items-center justify-between">
 										<span className="font-mono text-xs font-medium text-text-strong-950 uppercase">
 											Sender Reputation
@@ -75,7 +75,7 @@ export const DeliverabilityProtection = () => {
 								{/* Metrics Container */}
 								<div className="bg-bg-white-0">
 									{/* Domain Reputation */}
-									<div className="border-stroke-soft-200/50 border-b p-4">
+									<div className="border-stroke-soft-100 border-b p-4">
 										<motion.div
 											initial={{ opacity: 0 }}
 											whileInView={{ opacity: 1 }}
@@ -90,7 +90,7 @@ export const DeliverabilityProtection = () => {
 													95%
 												</span>
 											</div>
-											<div className="h-1.5 w-full overflow-hidden bg-stroke-soft-200/50">
+											<div className="h-1.5 w-full overflow-hidden bg-stroke-soft-100">
 												<motion.div
 													initial={{ width: 0 }}
 													whileInView={{ width: "95%" }}
@@ -103,7 +103,7 @@ export const DeliverabilityProtection = () => {
 									</div>
 
 									{/* IP Reputation */}
-									<div className="border-stroke-soft-200/50 border-b p-4">
+									<div className="border-stroke-soft-100 border-b p-4">
 										<motion.div
 											initial={{ opacity: 0 }}
 											whileInView={{ opacity: 1 }}
@@ -118,7 +118,7 @@ export const DeliverabilityProtection = () => {
 													92%
 												</span>
 											</div>
-											<div className="h-1.5 w-full overflow-hidden bg-stroke-soft-200/50">
+											<div className="h-1.5 w-full overflow-hidden bg-stroke-soft-100">
 												<motion.div
 													initial={{ width: 0 }}
 													whileInView={{ width: "92%" }}
@@ -146,7 +146,7 @@ export const DeliverabilityProtection = () => {
 													Low
 												</span>
 											</div>
-											<div className="h-1.5 w-full overflow-hidden bg-stroke-soft-200/50">
+											<div className="h-1.5 w-full overflow-hidden bg-stroke-soft-100">
 												<motion.div
 													initial={{ width: 0 }}
 													whileInView={{ width: "8%" }}
@@ -163,8 +163,8 @@ export const DeliverabilityProtection = () => {
 					</div>
 
 					{/* Footer Stats */}
-					<div className="grid grid-cols-2 border-stroke-soft-200/50 border-t">
-						<div className="border-stroke-soft-200/50 border-r p-4 text-center">
+					<div className="grid grid-cols-2 border-stroke-soft-100 border-t">
+						<div className="border-stroke-soft-100 border-r p-4 text-center">
 							<p className="mb-1 font-bold text-lg text-text-strong-950 tabular-nums">
 								99.2%
 							</p>

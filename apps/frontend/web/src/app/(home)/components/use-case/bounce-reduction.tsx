@@ -5,10 +5,10 @@ import { motion } from "framer-motion";
 
 export const BounceReduction = () => {
 	return (
-		<div className="border-stroke-soft-200/50 border-b">
+		<div className="border-stroke-soft-100 border-b">
 			<div className="grid grid-cols-1 lg:grid-cols-2">
 				{/* Left Content Section */}
-				<div className="flex flex-col justify-center space-y-6 border-stroke-soft-200/50 p-10 md:p-16 lg:border-r lg:p-20">
+				<div className="flex flex-col justify-center space-y-6 border-stroke-soft-100 p-10 md:p-16 lg:border-r lg:p-20">
 					{/* Label */}
 					<div className="flex items-center gap-2">
 						<Icon name="mail-check-02" className="h-4 w-4 text-text-sub-600" />
@@ -32,7 +32,7 @@ export const BounceReduction = () => {
 				{/* Right Visual Section */}
 				<div className="flex flex-col">
 					{/* Status Header */}
-					<div className="flex items-center justify-between border-stroke-soft-200/50 border-b bg-bg-white-0 px-6 py-3">
+					<div className="flex items-center justify-between border-stroke-soft-100 border-b bg-bg-white-0 px-6 py-3">
 						<div className="flex items-center gap-2">
 							<div className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
 							<span className="font-mono text-[10px] uppercase tracking-wider text-text-sub-600">
@@ -47,9 +47,9 @@ export const BounceReduction = () => {
 					{/* Visual Grid */}
 					<div className="flex-1 bg-bg-white-0 p-8 md:p-12">
 						<div className="relative mx-auto max-w-sm">
-							<div className="grid gap-0 border border-stroke-soft-200/50">
+							<div className="grid gap-0 border border-stroke-soft-100">
 								{/* Before State */}
-								<div className="border-stroke-soft-200/50 border-b bg-bg-white-0 p-6">
+								<div className="border-stroke-soft-100 border-b bg-bg-white-0 p-6">
 									<div className="mb-4 flex items-center justify-between">
 										<div className="flex items-center gap-3">
 											<div className="flex h-8 w-8 items-center justify-center border border-red-200 bg-red-50 text-red-600">
@@ -70,7 +70,7 @@ export const BounceReduction = () => {
 											</p>
 										</div>
 									</div>
-									<div className="h-1.5 w-full overflow-hidden bg-stroke-soft-200/50">
+									<div className="h-1.5 w-full overflow-hidden bg-stroke-soft-100">
 										<motion.div
 											initial={{ width: 0 }}
 											whileInView={{ width: "12.3%" }}
@@ -88,7 +88,7 @@ export const BounceReduction = () => {
 										whileInView={{ opacity: 1, scale: 1 }}
 										transition={{ duration: 0.3, delay: 0.4 }}
 										viewport={{ once: true }}
-										className="flex h-6 w-6 items-center justify-center border border-stroke-soft-200 bg-bg-white-0"
+										className="flex h-6 w-6 items-center justify-center border border-stroke-soft-100 bg-bg-white-0"
 									>
 										<Icon
 											name="arrow-down"
@@ -119,7 +119,7 @@ export const BounceReduction = () => {
 											</p>
 										</div>
 									</div>
-									<div className="h-1.5 w-full overflow-hidden bg-stroke-soft-200/50">
+									<div className="h-1.5 w-full overflow-hidden bg-stroke-soft-100">
 										<motion.div
 											initial={{ width: 0 }}
 											whileInView={{ width: "2%" }}
@@ -134,8 +134,8 @@ export const BounceReduction = () => {
 					</div>
 
 					{/* Stats Footer */}
-					<div className="grid grid-cols-3 border-stroke-soft-200/50 border-t">
-						<div className="border-stroke-soft-200/50 border-r p-4 text-center">
+					<div className="grid grid-cols-3 border-stroke-soft-100 border-t">
+						<div className="border-stroke-soft-100 border-r p-4 text-center">
 							<p className="mb-1 font-bold text-lg text-text-strong-950 tabular-nums">
 								98%
 							</p>
@@ -143,7 +143,7 @@ export const BounceReduction = () => {
 								Reduction
 							</p>
 						</div>
-						<div className="border-stroke-soft-200/50 border-r p-4 text-center">
+						<div className="border-stroke-soft-100 border-r p-4 text-center">
 							<p className="mb-1 font-bold text-lg text-text-strong-950 tabular-nums">
 								&lt;50ms
 							</p>

@@ -86,7 +86,7 @@ const Card = ({ card, cardDelay }: CardProps) => {
 							delay: cardDelay + 0.1,
 							ease: [0.34, 1.56, 0.64, 1],
 						}}
-						className={`flex h-6 w-6 items-center justify-center rounded-lg border border-stroke-soft-200/50 ${card.iconBg || "bg-verified-base/20"}`}
+						className={`flex h-6 w-6 items-center justify-center rounded-lg border border-stroke-soft-100 ${card.iconBg || "bg-verified-base/20"}`}
 					>
 						<Icon
 							name={card.icon || "route"}
@@ -95,7 +95,7 @@ const Card = ({ card, cardDelay }: CardProps) => {
 					</motion.div>
 					<p className="font-semibold text-sm">{card.title}</p>
 				</div>
-				<p className="rounded-md border border-stroke-soft-200/50 bg-bg-weak-50 px-2 py-0.5 font-medium text-text-sub-600 text-xs">
+				<p className="rounded-md border border-stroke-soft-100 bg-bg-weak-50 px-2 py-0.5 font-medium text-text-sub-600 text-xs">
 					{card.subtitle}
 				</p>
 			</div>
@@ -103,7 +103,7 @@ const Card = ({ card, cardDelay }: CardProps) => {
 				initial={{ opacity: 0 }}
 				animate={{ opacity: 1 }}
 				transition={{ delay: cardDelay + 0.3, duration: 0.5 }}
-				className="mt-3 border-stroke-soft-200/50 border-t pt-2"
+				className="mt-3 border-stroke-soft-100 border-t pt-2"
 			>
 				<p className="font-medium text-sm text-text-sub-600">
 					{card.message}{" "}
@@ -124,13 +124,13 @@ export const AutomatedWorkflowEmail = () => {
 	};
 
 	return (
-		<div className="relative flex flex-col border-stroke-soft-200/50 border-r border-b">
-			<div className="flex w-full items-center justify-between border-stroke-soft-200/50 border-b px-10 py-4">
+		<div className="relative flex flex-col border-stroke-soft-100 border-r border-b">
+			<div className="flex w-full items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 				<span className="text-sm text-text-sub-600">2/4</span>
 				<span className="text-sm text-text-sub-600">/automation</span>
 			</div>
-			<div className="relative flex w-full border-stroke-soft-200/50">
-				<div className="w-1/3 border-stroke-soft-200/50 border-r p-10">
+			<div className="relative flex w-full border-stroke-soft-100">
+				<div className="w-1/3 border-stroke-soft-100 border-r p-10">
 					<div className="flex items-center gap-2">
 						<Icon
 							name="route"
@@ -159,7 +159,7 @@ export const AutomatedWorkflowEmail = () => {
 						</Button.Root>
 					</div>
 				</div>
-				<div className="relative flex-1 border-stroke-soft-200/50 border-r">
+				<div className="relative flex-1 border-stroke-soft-100 border-r">
 					{/* Replay Button */}
 					<Button.Root
 						mode="ghost"
@@ -200,7 +200,7 @@ export const AutomatedWorkflowEmail = () => {
 										duration: 0.6,
 										ease: [0.34, 1.56, 0.64, 1],
 									}}
-									className="flex h-5 w-5 items-center justify-center rounded-sm border border-stroke-soft-200/50 bg-success-base/20"
+									className="flex h-5 w-5 items-center justify-center rounded-sm border border-stroke-soft-100 bg-success-base/20"
 								>
 									<Icon
 										name="user-plus"
@@ -388,7 +388,7 @@ export const AutomatedWorkflowEmail = () => {
 													duration: 0.6,
 													ease: [0.34, 1.56, 0.64, 1],
 												}}
-												className="flex h-5 w-5 items-center justify-center rounded-sm border border-stroke-soft-200/50 bg-error-base/20"
+												className="flex h-5 w-5 items-center justify-center rounded-sm border border-stroke-soft-100 bg-error-base/20"
 											>
 												<Icon
 													name="check-circle"

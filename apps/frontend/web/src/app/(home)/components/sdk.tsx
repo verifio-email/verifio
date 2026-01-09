@@ -159,39 +159,39 @@ export const Sdk = () => {
 	};
 
 	return (
-		<div className="border-stroke-soft-100/60 border-t border-b">
-			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l">
-				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-10 py-4">
+		<div className="border-stroke-soft-100 border-t border-b">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
+				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100 border-b bg-bg-white-0 px-4 py-4 md:px-10">
 					<span className="text-text-sub-600 text-xs">[02] SDK</span>
 					<span className="text-text-sub-600 text-xs">/ DEVELOPER TOOLS</span>
 				</div>
-				<div className="flex flex-col border-stroke-soft-100/60">
+				<div className="flex flex-col border-stroke-soft-100">
 					{/* Header Section */}
-					<div className="flex flex-col items-center justify-center border-stroke-soft-100/60 border-b p-10 text-center">
+					<div className="flex flex-col items-center justify-center border-stroke-soft-100 border-b px-4 py-8 text-center md:p-10">
 						{/* Developer First Badge */}
-						<div className="mb-6 flex items-center gap-1">
+						<div className="mb-4 flex items-center gap-1 md:mb-6">
 							<Icon name="code-box" className="h-4 w-4 text-primary-base" />
 							<span className="font-medium text-sm text-text-sub-600">
 								Developer First
 							</span>
 						</div>
-						<h2 className="max-w-3xl font-semibold text-3xl text-text-strong-950">
+						<h2 className="max-w-3xl font-semibold text-2xl text-text-strong-950 md:text-3xl">
 							Email Verification for Developers. <br />
 						</h2>
-						<p className="mt-0.5 font-medium text-text-sub-600 leading-8">
+						<p className="mt-0.5 max-w-md px-2 font-medium text-sm text-text-sub-600 leading-7 md:max-w-none md:px-0 md:text-base md:leading-8">
 							First-class SDKs that integrate in minutes with just a few lines
 							of code.
 						</p>
 					</div>
 
 					{/* SDK Selection and Code Display */}
-					<div className="flex flex-col border-stroke-soft-100/60">
+					<div className="flex flex-col border-stroke-soft-100">
 						{/* Tabs */}
-						<div className="border-stroke-soft-100/60 border-b">
-							<div className="relative flex w-fit items-stretch border-stroke-soft-200/60 border-r bg-bg-white-0">
+						<div className="overflow-x-auto border-stroke-soft-100 border-b">
+							<div className="relative flex w-fit min-w-full items-stretch border-stroke-soft-100 bg-bg-white-0 md:border-r">
 								{/* Animated floating background */}
 								<div
-									className={`absolute inset-y-3 rounded-full border border-stroke-soft-200 bg-bg-white-100 transition-all duration-300 ${
+									className={`absolute inset-y-3 rounded-full border border-stroke-soft-100 bg-bg-white-100 transition-all duration-300 ${
 										mounted ? "opacity-100" : "opacity-0"
 									}`}
 									style={{
@@ -227,7 +227,7 @@ export const Sdk = () => {
 											</button>
 										</div>
 										{index < sdks.length - 1 && (
-											<div className="w-px bg-stroke-soft-200/50" />
+											<div className="w-px bg-stroke-soft-100" />
 										)}
 									</Fragment>
 								))}
@@ -235,7 +235,7 @@ export const Sdk = () => {
 						</div>
 
 						{/* Code Display */}
-						<div className="max-h-[500px] overflow-auto">
+						<div className="max-h-[400px] overflow-auto text-sm md:max-h-[500px] md:text-base">
 							<CodeBlock
 								code={selectedSdk.code}
 								lang={getLanguage(selectedSdk.id)}
@@ -243,8 +243,8 @@ export const Sdk = () => {
 						</div>
 
 						{/* Actions Footer */}
-						<div className="flex items-center justify-end border-stroke-soft-100/60 border-t">
-							<div className="flex items-center gap-2 border-stroke-soft-100/60 border-l px-4 py-3">
+						<div className="flex items-center justify-end border-stroke-soft-100 border-t">
+							<div className="flex items-center gap-2 border-stroke-soft-100 px-4 py-3 md:border-l">
 								<Button.Root
 									mode="stroke"
 									size="small"
