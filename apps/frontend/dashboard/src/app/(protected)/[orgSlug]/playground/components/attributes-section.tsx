@@ -17,6 +17,8 @@ interface AttributesSectionProps {
 	numericalChars?: number;
 	alphabeticalChars?: number;
 	unicodeSymbols?: number;
+	verificationTime?: number;
+	verifiedAt?: string;
 }
 
 export function AttributesSection({
@@ -33,6 +35,8 @@ export function AttributesSection({
 	numericalChars,
 	alphabeticalChars,
 	unicodeSymbols,
+	verificationTime,
+	verifiedAt,
 }: AttributesSectionProps) {
 	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 	const [indicatorStyle, setIndicatorStyle] = useState({ top: 0, height: 0 });
@@ -61,6 +65,25 @@ export function AttributesSection({
 			}
 		};
 	}, []);
+
+	// Format date nicely
+	const formatDate = (dateStr?: string) => {
+		if (!dateStr) return "—";
+		try {
+			const date = new Date(dateStr);
+			const options: Intl.DateTimeFormatOptions = {
+				day: "2-digit",
+				month: "short",
+				year: "numeric",
+				hour: "2-digit",
+				minute: "2-digit",
+				hour12: true,
+			};
+			return date.toLocaleDateString("en-US", options);
+		} catch {
+			return "—";
+		}
+	};
 
 	let rowIndex = 0;
 
@@ -237,6 +260,36 @@ export function AttributesSection({
 					</div>
 					<span className="text-sm text-text-strong-950">
 						{unicodeSymbols ?? "—"}
+					</span>
+				</div>
+				<div
+					ref={(el) => {
+						rowRefs.current[rowIndex] = el;
+					}}
+					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					className="relative flex items-center justify-between px-6 py-3"
+				>
+					<div className="flex items-center gap-2">
+						<Icon name="clock" className="h-3.5 w-3.5" />
+						<span className="text-sm text-text-sub-600">Verification Time</span>
+					</div>
+					<span className="text-sm text-text-strong-950">
+						{verificationTime !== undefined ? `${verificationTime}ms` : "—"}
+					</span>
+				</div>
+				<div
+					ref={(el) => {
+						rowRefs.current[rowIndex] = el;
+					}}
+					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					className="relative flex items-center justify-between px-6 py-3"
+				>
+					<div className="flex items-center gap-2">
+						<Icon name="calendar" className="h-3.5 w-3.5" />
+						<span className="text-sm text-text-sub-600">Verified At</span>
+					</div>
+					<span className="text-sm text-text-strong-950">
+						{formatDate(verifiedAt)}
 					</span>
 				</div>
 			</div>

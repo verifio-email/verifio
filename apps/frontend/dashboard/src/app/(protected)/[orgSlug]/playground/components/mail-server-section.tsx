@@ -1,6 +1,5 @@
 "use client";
 
-import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
 import { useEffect, useRef, useState } from "react";
 
@@ -8,16 +7,11 @@ interface MailServerSectionProps {
 	smtpProvider: string | null;
 	mxRecord: string | null;
 	riskLevel?: "low" | "medium" | "high" | null;
-	verificationTime?: number;
-	verifiedAt?: string;
 }
 
 export function MailServerSection({
 	smtpProvider,
 	mxRecord,
-	riskLevel,
-	verificationTime,
-	verifiedAt,
 }: MailServerSectionProps) {
 	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 	const [indicatorStyle, setIndicatorStyle] = useState({ top: 0, height: 0 });
@@ -46,25 +40,6 @@ export function MailServerSection({
 			}
 		};
 	}, []);
-
-	// Format date nicely
-	const formatDate = (dateStr?: string) => {
-		if (!dateStr) return "—";
-		try {
-			const date = new Date(dateStr);
-			const options: Intl.DateTimeFormatOptions = {
-				day: "2-digit",
-				month: "short",
-				year: "numeric",
-				hour: "2-digit",
-				minute: "2-digit",
-				hour12: true,
-			};
-			return date.toLocaleDateString("en-US", options);
-		} catch {
-			return "—";
-		}
-	};
 
 	let rowIndex = 0;
 
@@ -118,64 +93,6 @@ export function MailServerSection({
 					</span>
 					<span className="font-mono text-sm text-text-strong-950">
 						{mxRecord || "—"}
-					</span>
-				</div>
-				<div
-					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
-					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
-					className="relative flex items-center justify-between px-6 py-3"
-				>
-					<span className="flex items-center gap-2 text-sm text-text-sub-600">
-						<Icon name="alert-triangle" className="h-4 w-4" />
-						Risk Level
-					</span>
-					{riskLevel ? (
-						<span
-							className={cn(
-								"rounded px-2 py-0.5 font-medium text-sm capitalize",
-								riskLevel === "low"
-									? "bg-success-alpha-10 text-success-base"
-									: riskLevel === "medium"
-										? "bg-warning-alpha-10 text-warning-base"
-										: "bg-error-alpha-10 text-error-base",
-							)}
-						>
-							{riskLevel}
-						</span>
-					) : (
-						<span className="text-sm text-text-sub-600">—</span>
-					)}
-				</div>
-				<div
-					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
-					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
-					className="relative flex items-center justify-between px-6 py-3"
-				>
-					<span className="flex items-center gap-2 text-sm text-text-sub-600">
-						<Icon name="clock" className="h-4 w-4" />
-						Verification Time
-					</span>
-					<span className="text-sm text-text-strong-950">
-						{verificationTime !== undefined ? `${verificationTime}ms` : "—"}
-					</span>
-				</div>
-				<div
-					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
-					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
-					className="relative flex items-center justify-between px-6 py-3"
-				>
-					<span className="flex items-center gap-2 text-sm text-text-sub-600">
-						<Icon name="calendar" className="h-4 w-4" />
-						Verified At
-					</span>
-					<span className="text-sm text-text-strong-950">
-						{formatDate(verifiedAt)}
 					</span>
 				</div>
 			</div>

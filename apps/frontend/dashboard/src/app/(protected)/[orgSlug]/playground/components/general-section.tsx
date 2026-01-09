@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
 import { useEffect, useRef, useState } from "react";
 
@@ -10,6 +11,7 @@ interface GeneralSectionProps {
 	user?: string;
 	tag?: string | null;
 	didYouMean?: string;
+	riskLevel?: "low" | "medium" | "high" | null;
 }
 
 export function GeneralSection({
@@ -19,6 +21,7 @@ export function GeneralSection({
 	user,
 	tag,
 	didYouMean,
+	riskLevel,
 }: GeneralSectionProps) {
 	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 	const [indicatorStyle, setIndicatorStyle] = useState({ top: 0, height: 0 });
@@ -172,6 +175,34 @@ export function GeneralSection({
 						Tag
 					</span>
 					<span className="text-sm text-text-strong-950">{tag || "—"}</span>
+				</div>
+				<div
+					ref={(el) => {
+						rowRefs.current[rowIndex] = el;
+					}}
+					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					className="relative flex items-center justify-between px-6 py-3"
+				>
+					<span className="flex items-center gap-2 text-sm text-text-sub-600">
+						<Icon name="alert-triangle" className="h-4 w-4" />
+						Risk Level
+					</span>
+					{riskLevel ? (
+						<span
+							className={cn(
+								"rounded px-2 py-0.5 font-medium text-sm capitalize",
+								riskLevel === "low"
+									? "bg-success-alpha-10 text-success-base"
+									: riskLevel === "medium"
+										? "bg-warning-alpha-10 text-warning-base"
+										: "bg-error-alpha-10 text-error-base",
+							)}
+						>
+							{riskLevel}
+						</span>
+					) : (
+						<span className="text-sm text-text-sub-600">—</span>
+					)}
 				</div>
 				{didYouMean && (
 					<div

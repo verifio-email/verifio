@@ -261,13 +261,11 @@ export const VerificationResultHeader = ({
 											user={result?.result?.user}
 											tag={result?.result?.tag}
 											didYouMean={analytics?.didYouMean || undefined}
+											riskLevel={analytics?.riskLevel}
 										/>
 										<MailServerSection
 											smtpProvider={analytics?.smtpProvider || null}
 											mxRecord={checks?.dns?.preferredMx || null}
-											riskLevel={analytics?.riskLevel}
-											verificationTime={result?.result?.duration}
-											verifiedAt={result?.result?.verifiedAt}
 										/>
 									</>
 								)}
@@ -297,6 +295,8 @@ export const VerificationResultHeader = ({
 										numericalChars={numericalChars}
 										alphabeticalChars={alphabeticalChars}
 										unicodeSymbols={unicodeSymbols}
+										verificationTime={result?.result?.duration}
+										verifiedAt={result?.result?.verifiedAt}
 									/>
 								)}
 							</div>

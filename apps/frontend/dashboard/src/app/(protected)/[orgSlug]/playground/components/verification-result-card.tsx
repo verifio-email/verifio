@@ -188,13 +188,11 @@ export const VerificationResultCard = ({
 												user={result.user}
 												tag={result.tag}
 												didYouMean={result.analytics.didYouMean || undefined}
+												riskLevel={result.analytics.riskLevel}
 											/>
 											<MailServerSection
 												smtpProvider={result.analytics.smtpProvider}
 												mxRecord={result.checks.dns.preferredMx || null}
-												riskLevel={result.analytics.riskLevel}
-												verificationTime={result.duration}
-												verifiedAt={result.verifiedAt}
 											/>
 										</div>
 
@@ -214,6 +212,8 @@ export const VerificationResultCard = ({
 												numericalChars={numericalChars}
 												alphabeticalChars={alphabeticalChars}
 												unicodeSymbols={unicodeSymbols}
+												verificationTime={result.duration}
+												verifiedAt={result.verifiedAt}
 											/>
 										</div>
 									</div>
