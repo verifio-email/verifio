@@ -1,6 +1,7 @@
 import { Icon } from "@verifio/ui/icon";
 import { AnimatedBounce } from "./animated-bounce";
 import { AnimatedSpamFlag } from "./animated-spam-flag";
+import { AnimatedWastedSpend } from "./animated-wasted-spend";
 
 // Unique visual components for each problem
 function BounceRateVisual() {
@@ -12,34 +13,7 @@ function SpamFlagVisual() {
 }
 
 function WastedSpendVisual() {
-	return (
-		<div className="relative flex h-44 items-center justify-center">
-			<div className="relative">
-				{/* Money drain visual */}
-				<div className="rounded-lg border border-stroke-soft-200/30 bg-bg-white-0 p-3 font-mono text-[10px] dark:bg-gray-900/50">
-					<div className="flex items-center justify-between gap-4 border-stroke-soft-200/20 border-b pb-2">
-						<span className="text-text-sub-600">spend.total</span>
-						<span className="text-text-strong-950">$10,000</span>
-					</div>
-					<div className="mt-2 space-y-1">
-						<div className="flex items-center justify-between gap-4">
-							<span className="text-text-sub-600/60">valid_emails</span>
-							<span className="text-green-500">$8,000</span>
-						</div>
-						<div className="flex items-center justify-between gap-4">
-							<span className="text-text-sub-600/60">invalid_emails</span>
-							<span className="text-red-500 line-through">$2,000</span>
-						</div>
-					</div>
-				</div>
-
-				{/* Percentage badge */}
-				<div className="absolute -right-3 -top-3 flex h-8 w-8 items-center justify-center rounded-full bg-red-100 font-mono text-[10px] font-semibold text-red-600 dark:bg-red-950/50">
-					20%
-				</div>
-			</div>
-		</div>
-	);
+	return <AnimatedWastedSpend />;
 }
 
 function BrokenOnboardingVisual() {
@@ -65,7 +39,7 @@ function BrokenOnboardingVisual() {
 					<div className="flex flex-col items-center">
 						<div className="relative flex h-8 w-8 items-center justify-center rounded-full border border-red-400/50 bg-red-50 dark:bg-red-950/30">
 							<Icon name="mail" className="h-3.5 w-3.5 text-red-500" />
-							<div className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500">
+							<div className="-right-1 -top-1 absolute flex h-4 w-4 items-center justify-center rounded-full bg-red-500">
 								<Icon name="x" className="h-2.5 w-2.5 text-white" />
 							</div>
 						</div>
@@ -75,7 +49,7 @@ function BrokenOnboardingVisual() {
 					</div>
 
 					{/* Broken arrow */}
-					<div className="h-px w-4 border-t border-dashed border-text-sub-600/30" />
+					<div className="h-px w-4 border-text-sub-600/30 border-t border-dashed" />
 
 					{/* Step 3: Activate - Never reached */}
 					<div className="flex flex-col items-center opacity-40">
@@ -89,8 +63,8 @@ function BrokenOnboardingVisual() {
 				</div>
 
 				{/* Drop-off stat */}
-				<div className="absolute -bottom-8 left-1/2 -translate-x-1/2 rounded border border-stroke-soft-200/30 bg-bg-white-0 px-2 py-1 font-mono text-[9px] dark:bg-gray-900/50">
-					<span className="text-red-500 font-semibold">40%</span>
+				<div className="-bottom-8 -translate-x-1/2 absolute left-1/2 rounded border border-stroke-soft-200/30 bg-bg-white-0 px-2 py-1 font-mono text-[9px] dark:bg-gray-900/50">
+					<span className="font-semibold text-red-500">40%</span>
 					<span className="text-text-sub-600/60"> drop-off</span>
 				</div>
 			</div>
@@ -215,14 +189,14 @@ export function EmailQualityProblem() {
 						<div className="flex flex-col items-center justify-center px-4 py-8 text-center md:p-10">
 							<div className="relative mx-auto max-w-2xl">
 								{/* Quote marks */}
-								<div className="absolute -top-2 -left-4 font-serif text-4xl text-stroke-soft-200 md:-left-8">
+								<div className="-top-2 -left-4 md:-left-8 absolute font-serif text-4xl text-stroke-soft-200">
 									"
 								</div>
-								<div className="absolute -right-4 -bottom-4 font-serif text-4xl text-stroke-soft-200 md:-right-8">
+								<div className="-right-4 -bottom-4 md:-right-8 absolute font-serif text-4xl text-stroke-soft-200">
 									"
 								</div>
 
-								<p className="text-base font-medium italic text-text-strong-950 md:text-lg">
+								<p className="font-medium text-base text-text-strong-950 italic md:text-lg">
 									Most verification tools are black boxes —
 									<span className="text-primary-base"> you never know why</span>{" "}
 									an email passed or failed.
