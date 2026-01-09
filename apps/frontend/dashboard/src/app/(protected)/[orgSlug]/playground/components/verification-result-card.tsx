@@ -28,6 +28,12 @@ export const VerificationResultCard = ({
 	const detailsButtonRef = useRef<HTMLButtonElement>(null);
 	const jsonButtonRef = useRef<HTMLButtonElement>(null);
 
+	// Calculate character counts from email user
+	const emailUser = result.user || "";
+	const numericalChars = (emailUser.match(/[0-9]/g) || []).length;
+	const alphabeticalChars = (emailUser.match(/[a-zA-Z]/g) || []).length;
+	const unicodeSymbols = (emailUser.match(/[^\w]/g) || []).length;
+
 	// Initial measurement on mount
 	useEffect(() => {
 		const activeButton = detailsButtonRef.current;
@@ -56,9 +62,10 @@ export const VerificationResultCard = ({
 				exit={{ opacity: 0, y: -20 }}
 				className="border-stroke-soft-200/50 border-b"
 			>
-				<div className="px-52 2xl:px-[350px]">
+				{/* Wider layout - reduced padding */}
+				<div className="px-24 2xl:px-52">
 					<div className="border-stroke-soft-200/50 border-r border-l px-7 py-8">
-						<div className="mx-auto max-w-3xl">
+						<div className="mx-auto">
 							<h3 className="mb-4 font-semibold text-lg text-text-strong-950">
 								Verification Result
 							</h3>
@@ -178,11 +185,16 @@ export const VerificationResultCard = ({
 												state={result.state}
 												reason={result.reason}
 												domain={result.domain}
+												user={result.user}
+												tag={result.tag}
 												didYouMean={result.analytics.didYouMean || undefined}
 											/>
 											<MailServerSection
 												smtpProvider={result.analytics.smtpProvider}
 												mxRecord={result.checks.dns.preferredMx || null}
+												riskLevel={result.analytics.riskLevel}
+												verificationTime={result.duration}
+												verifiedAt={result.verifiedAt}
 											/>
 										</div>
 
@@ -190,10 +202,18 @@ export const VerificationResultCard = ({
 										<div>
 											<AttributesSection
 												isFree={result.checks.freeProvider.isFree}
+												freeProvider={result.checks.freeProvider.provider}
 												isRole={result.checks.role.isRole}
+												roleName={result.checks.role.role}
 												isDisposable={result.checks.disposable.isDisposable}
+												disposableProvider={result.checks.disposable.provider}
 												isCatchAll={result.checks.smtp.isCatchAll}
-												tag={result.tag}
+												syntaxValid={result.checks.syntax.valid}
+												dnsValid={result.checks.dns.valid}
+												hasMx={result.checks.dns.hasMx}
+												numericalChars={numericalChars}
+												alphabeticalChars={alphabeticalChars}
+												unicodeSymbols={unicodeSymbols}
 											/>
 										</div>
 									</div>

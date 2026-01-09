@@ -7,6 +7,8 @@ interface GeneralSectionProps {
 	state: string;
 	reason: string;
 	domain: string;
+	user?: string;
+	tag?: string | null;
 	didYouMean?: string;
 }
 
@@ -14,6 +16,8 @@ export function GeneralSection({
 	state,
 	reason,
 	domain,
+	user,
+	tag,
 	didYouMean,
 }: GeneralSectionProps) {
 	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -23,12 +27,9 @@ export function GeneralSection({
 
 	useEffect(() => {
 		if (hoveredIndex !== null && rowRefs.current[hoveredIndex]) {
-			// Cancel any pending animation frame
 			if (rafRef.current) {
 				cancelAnimationFrame(rafRef.current);
 			}
-
-			// Use requestAnimationFrame for smooth 60fps updates
 			rafRef.current = requestAnimationFrame(() => {
 				const row = rowRefs.current[hoveredIndex];
 				if (row) {
@@ -39,7 +40,6 @@ export function GeneralSection({
 		}
 	}, [hoveredIndex]);
 
-	// Cleanup animation frame on unmount
 	useEffect(() => {
 		return () => {
 			if (rafRef.current) {
@@ -47,6 +47,8 @@ export function GeneralSection({
 			}
 		};
 	}, []);
+
+	let rowIndex = 0;
 
 	return (
 		<div>
@@ -71,35 +73,9 @@ export function GeneralSection({
 				/>
 				<div
 					ref={(el) => {
-						rowRefs.current[0] = el;
+						rowRefs.current[rowIndex] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(0)}
-					className="relative flex items-center justify-between px-6 py-3"
-				>
-					<span className="flex items-center gap-2 text-sm text-text-sub-600">
-						<Icon name="user" className="h-4 w-4" />
-						Full Name
-					</span>
-					<span className="text-sm text-text-sub-600">—</span>
-				</div>
-				<div
-					ref={(el) => {
-						rowRefs.current[1] = el;
-					}}
-					onMouseEnter={() => setHoveredIndex(1)}
-					className="relative flex items-center justify-between px-6 py-3"
-				>
-					<span className="flex items-center gap-2 text-sm text-text-sub-600">
-						<Icon name="users" className="h-4 w-4" />
-						Gender
-					</span>
-					<span className="text-sm text-text-sub-600">—</span>
-				</div>
-				<div
-					ref={(el) => {
-						rowRefs.current[2] = el;
-					}}
-					onMouseEnter={() => setHoveredIndex(2)}
+					onMouseEnter={() => setHoveredIndex(rowIndex++)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<span className="flex items-center gap-2 text-sm text-text-sub-600">
@@ -110,21 +86,31 @@ export function GeneralSection({
 						className={`flex items-center gap-1.5 font-medium text-sm ${
 							state === "deliverable"
 								? "text-green-600 dark:text-green-500"
-								: "text-red-600 dark:text-red-500"
+								: state === "risky"
+									? "text-warning-base"
+									: "text-red-600 dark:text-red-500"
 						}`}
 					>
 						<Icon
-							name={state === "deliverable" ? "check-circle" : "cross-circle"}
+							name={
+								state === "deliverable"
+									? "check-circle"
+									: state === "risky"
+										? "alert-triangle"
+										: "cross-circle"
+							}
 							className="h-3.5 w-3.5"
 						/>
-						{state === "deliverable" ? "Deliverable" : state}
+						{state === "deliverable"
+							? "Deliverable"
+							: state.charAt(0).toUpperCase() + state.slice(1)}
 					</span>
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[3] = el;
+						rowRefs.current[rowIndex] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(3)}
+					onMouseEnter={() => setHoveredIndex(rowIndex++)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<span className="flex items-center gap-2 text-sm text-text-sub-600">
@@ -132,49 +118,76 @@ export function GeneralSection({
 						Reason
 					</span>
 					<span className="rounded-md bg-blue-50 px-2.5 py-1 font-medium text-blue-700 text-xs dark:bg-blue-950/40 dark:text-blue-400">
-						{reason.toUpperCase().replace(/_/g, " ")}
+						{reason ? reason.toUpperCase().replace(/_/g, " ") : "—"}
 					</span>
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[4] = el;
+						rowRefs.current[rowIndex] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(4)}
+					onMouseEnter={() => setHoveredIndex(rowIndex++)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<span className="flex items-center gap-2 text-sm text-text-sub-600">
 						<Icon name="globe" className="h-4 w-4" />
 						Domain
 					</span>
-					<a
-						href={`https://${domain}`}
-						target="_blank"
-						rel="noopener noreferrer"
-						className="text-sm underline transition-colors hover:text-primary-base hover:decoration-primary-base"
-					>
-						{domain}
-					</a>
+					{domain ? (
+						<a
+							href={`https://${domain}`}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="text-sm underline transition-colors hover:text-primary-base hover:decoration-primary-base"
+						>
+							{domain}
+						</a>
+					) : (
+						<span className="text-sm text-text-sub-600">—</span>
+					)}
+				</div>
+				<div
+					ref={(el) => {
+						rowRefs.current[rowIndex] = el;
+					}}
+					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					className="relative flex items-center justify-between px-6 py-3"
+				>
+					<span className="flex items-center gap-2 text-sm text-text-sub-600">
+						<Icon name="user" className="h-4 w-4" />
+						User
+					</span>
+					<span className="font-medium text-sm text-text-strong-950">
+						{user || "—"}
+					</span>
+				</div>
+				<div
+					ref={(el) => {
+						rowRefs.current[rowIndex] = el;
+					}}
+					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					className="relative flex items-center justify-between px-6 py-3"
+				>
+					<span className="flex items-center gap-2 text-sm text-text-sub-600">
+						<Icon name="hash" className="h-4 w-4" />
+						Tag
+					</span>
+					<span className="text-sm text-text-strong-950">{tag || "—"}</span>
 				</div>
 				{didYouMean && (
 					<div
 						ref={(el) => {
-							rowRefs.current[5] = el;
+							rowRefs.current[rowIndex] = el;
 						}}
-						onMouseEnter={() => setHoveredIndex(5)}
+						onMouseEnter={() => setHoveredIndex(rowIndex++)}
 						className="relative flex items-center justify-between px-6 py-3"
 					>
 						<span className="flex items-center gap-2 text-sm text-text-sub-600">
 							<Icon name="help-circle" className="h-4 w-4" />
 							Did you mean
-							<span className="rounded-md bg-blue-50 px-2 py-0.5 font-medium text-blue-700 text-xs dark:bg-blue-950/40 dark:text-blue-400">
-								0.9x
-							</span>
 						</span>
-						<div className="flex items-center gap-2">
-							<span className="font-mono text-sm text-text-strong-950">
-								{didYouMean}
-							</span>
-						</div>
+						<span className="font-mono text-sm text-text-strong-950">
+							{didYouMean}
+						</span>
 					</div>
 				)}
 			</div>

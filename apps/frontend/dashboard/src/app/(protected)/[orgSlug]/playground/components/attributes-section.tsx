@@ -5,18 +5,34 @@ import { useEffect, useRef, useState } from "react";
 
 interface AttributesSectionProps {
 	isFree: boolean;
+	freeProvider?: string;
 	isRole: boolean;
+	roleName?: string;
 	isDisposable: boolean;
+	disposableProvider?: string;
 	isCatchAll: boolean | null;
-	tag: string | null;
+	syntaxValid?: boolean;
+	dnsValid?: boolean;
+	hasMx?: boolean;
+	numericalChars?: number;
+	alphabeticalChars?: number;
+	unicodeSymbols?: number;
 }
 
 export function AttributesSection({
 	isFree,
+	freeProvider,
 	isRole,
+	roleName,
 	isDisposable,
+	disposableProvider,
 	isCatchAll,
-	tag,
+	syntaxValid,
+	dnsValid,
+	hasMx,
+	numericalChars,
+	alphabeticalChars,
+	unicodeSymbols,
 }: AttributesSectionProps) {
 	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 	const [indicatorStyle, setIndicatorStyle] = useState({ top: 0, height: 0 });
@@ -25,12 +41,9 @@ export function AttributesSection({
 
 	useEffect(() => {
 		if (hoveredIndex !== null && rowRefs.current[hoveredIndex]) {
-			// Cancel any pending animation frame
 			if (rafRef.current) {
 				cancelAnimationFrame(rafRef.current);
 			}
-
-			// Use requestAnimationFrame for smooth 60fps updates
 			rafRef.current = requestAnimationFrame(() => {
 				const row = rowRefs.current[hoveredIndex];
 				if (row) {
@@ -41,7 +54,6 @@ export function AttributesSection({
 		}
 	}, [hoveredIndex]);
 
-	// Cleanup animation frame on unmount
 	useEffect(() => {
 		return () => {
 			if (rafRef.current) {
@@ -49,6 +61,8 @@ export function AttributesSection({
 			}
 		};
 	}, []);
+
+	let rowIndex = 0;
 
 	return (
 		<div>
@@ -73,39 +87,39 @@ export function AttributesSection({
 				/>
 				<div
 					ref={(el) => {
-						rowRefs.current[0] = el;
+						rowRefs.current[rowIndex] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(0)}
+					onMouseEnter={() => setHoveredIndex(rowIndex++)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
 						<Icon name="dollar" className="h-3.5 w-3.5" />
-						<span className="text-sm text-text-sub-600">Free</span>
+						<span className="text-sm text-text-sub-600">Free Provider</span>
 					</div>
 					<span className="text-sm text-text-strong-950">
-						{isFree ? "Yes" : "No"}
+						{isFree ? freeProvider || "Yes" : "No"}
 					</span>
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[1] = el;
+						rowRefs.current[rowIndex] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(1)}
+					onMouseEnter={() => setHoveredIndex(rowIndex++)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
 						<Icon name="users" className="h-3.5 w-3.5" />
-						<span className="text-sm text-text-sub-600">Role</span>
+						<span className="text-sm text-text-sub-600">Role Account</span>
 					</div>
 					<span className="text-sm text-text-strong-950">
-						{isRole ? "Yes" : "No"}
+						{isRole ? roleName || "Yes" : "No"}
 					</span>
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[2] = el;
+						rowRefs.current[rowIndex] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(2)}
+					onMouseEnter={() => setHoveredIndex(rowIndex++)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
@@ -113,14 +127,14 @@ export function AttributesSection({
 						<span className="text-sm text-text-sub-600">Disposable</span>
 					</div>
 					<span className="text-sm text-text-strong-950">
-						{isDisposable ? "Yes" : "No"}
+						{isDisposable ? disposableProvider || "Yes" : "No"}
 					</span>
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[3] = el;
+						rowRefs.current[rowIndex] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(3)}
+					onMouseEnter={() => setHoveredIndex(rowIndex++)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
@@ -128,27 +142,59 @@ export function AttributesSection({
 						<span className="text-sm text-text-sub-600">Accept-All</span>
 					</div>
 					<span className="text-sm text-text-strong-950">
-						{isCatchAll === null ? "No" : isCatchAll ? "Yes" : "No"}
+						{isCatchAll === null ? "—" : isCatchAll ? "Yes" : "No"}
 					</span>
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[4] = el;
+						rowRefs.current[rowIndex] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(4)}
+					onMouseEnter={() => setHoveredIndex(rowIndex++)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
-						<Icon name="hash" className="h-3.5 w-3.5" />
-						<span className="text-sm text-text-sub-600">Tag</span>
+						<Icon name="check" className="h-3.5 w-3.5" />
+						<span className="text-sm text-text-sub-600">Syntax Valid</span>
 					</div>
-					<span className="text-sm text-text-strong-950">{tag || "No"}</span>
+					<span className="text-sm text-text-strong-950">
+						{syntaxValid === undefined ? "—" : syntaxValid ? "Yes" : "No"}
+					</span>
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[5] = el;
+						rowRefs.current[rowIndex] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(5)}
+					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					className="relative flex items-center justify-between px-6 py-3"
+				>
+					<div className="flex items-center gap-2">
+						<Icon name="globe" className="h-3.5 w-3.5" />
+						<span className="text-sm text-text-sub-600">DNS Valid</span>
+					</div>
+					<span className="text-sm text-text-strong-950">
+						{dnsValid === undefined ? "—" : dnsValid ? "Yes" : "No"}
+					</span>
+				</div>
+				<div
+					ref={(el) => {
+						rowRefs.current[rowIndex] = el;
+					}}
+					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					className="relative flex items-center justify-between px-6 py-3"
+				>
+					<div className="flex items-center gap-2">
+						<Icon name="server" className="h-3.5 w-3.5" />
+						<span className="text-sm text-text-sub-600">Has MX</span>
+					</div>
+					<span className="text-sm text-text-strong-950">
+						{hasMx === undefined ? "—" : hasMx ? "Yes" : "No"}
+					</span>
+				</div>
+				<div
+					ref={(el) => {
+						rowRefs.current[rowIndex] = el;
+					}}
+					onMouseEnter={() => setHoveredIndex(rowIndex++)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
@@ -157,13 +203,15 @@ export function AttributesSection({
 							Numerical Characters
 						</span>
 					</div>
-					<span className="text-sm text-text-strong-950">0</span>
+					<span className="text-sm text-text-strong-950">
+						{numericalChars ?? "—"}
+					</span>
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[6] = el;
+						rowRefs.current[rowIndex] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(6)}
+					onMouseEnter={() => setHoveredIndex(rowIndex++)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
@@ -172,61 +220,24 @@ export function AttributesSection({
 							Alphabetical Characters
 						</span>
 					</div>
-					<span className="text-sm text-text-strong-950">6</span>
+					<span className="text-sm text-text-strong-950">
+						{alphabeticalChars ?? "—"}
+					</span>
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[7] = el;
+						rowRefs.current[rowIndex] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(7)}
+					onMouseEnter={() => setHoveredIndex(rowIndex++)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
 						<Icon name="emoji-wow" className="h-3.5 w-3.5" />
 						<span className="text-sm text-text-sub-600">Unicode Symbols</span>
 					</div>
-					<span className="text-sm text-text-strong-950">0</span>
-				</div>
-				<div
-					ref={(el) => {
-						rowRefs.current[8] = el;
-					}}
-					onMouseEnter={() => setHoveredIndex(8)}
-					className="relative flex items-center justify-between px-6 py-3"
-				>
-					<div className="flex items-center gap-2">
-						<Icon name="server-2" className="h-3.5 w-3.5" />
-						<span className="text-sm text-text-sub-600">Mailbox Full</span>
-					</div>
-					<span className="text-sm text-text-strong-950">No</span>
-				</div>
-				<div
-					ref={(el) => {
-						rowRefs.current[9] = el;
-					}}
-					onMouseEnter={() => setHoveredIndex(9)}
-					className="relative flex items-center justify-between px-6 py-3"
-				>
-					<div className="flex items-center gap-2">
-						<Icon name="cross-circle" className="h-3.5 w-3.5" />
-						<span className="text-sm text-text-sub-600">No Reply</span>
-					</div>
-					<span className="text-sm text-text-strong-950">No</span>
-				</div>
-				<div
-					ref={(el) => {
-						rowRefs.current[10] = el;
-					}}
-					onMouseEnter={() => setHoveredIndex(10)}
-					className="relative flex items-center justify-between px-6 py-3"
-				>
-					<div className="flex items-center gap-2">
-						<Icon name="lock" className="h-3.5 w-3.5" />
-						<span className="text-sm text-text-sub-600">
-							Secure Email Gateway
-						</span>
-					</div>
-					<span className="text-sm text-text-strong-950">No</span>
+					<span className="text-sm text-text-strong-950">
+						{unicodeSymbols ?? "—"}
+					</span>
 				</div>
 			</div>
 		</div>

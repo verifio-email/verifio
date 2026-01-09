@@ -10,6 +10,12 @@ import {
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
 import { Skeleton } from "@verifio/ui/skeleton";
+import { useEffect, useRef, useState } from "react";
+import { AttributesSection } from "../../../components/attributes-section";
+import { GeneralSection } from "../../../components/general-section";
+import { JsonViewer } from "../../../components/json-viewer";
+import { MailServerSection } from "../../../components/mail-server-section";
+import { ScoreVisualization } from "../../../components/score-visualization";
 
 interface VerificationResultData {
 	id: string;
@@ -70,15 +76,46 @@ export const VerificationResultHeader = ({
 	isLoading,
 }: VerificationResultHeaderProps) => {
 	const { push } = useUserOrganization();
+	const [viewMode, setViewMode] = useState<"details" | "json">("details");
+	const [indicatorStyle, setIndicatorStyle] = useState({ width: 0, left: 0 });
+	const [mounted, setMounted] = useState(false);
+	const detailsButtonRef = useRef<HTMLButtonElement>(null);
+	const jsonButtonRef = useRef<HTMLButtonElement>(null);
 
 	const checks = result?.result?.checks;
 	const analytics = result?.result?.analytics;
+
+	// Calculate character counts from email user
+	const emailUser = result?.result?.user || "";
+	const numericalChars = (emailUser.match(/[0-9]/g) || []).length;
+	const alphabeticalChars = (emailUser.match(/[a-zA-Z]/g) || []).length;
+	const unicodeSymbols = (emailUser.match(/[^\w]/g) || []).length;
+
+	// Initial measurement on mount
+	useEffect(() => {
+		const activeButton = detailsButtonRef.current;
+		if (activeButton) {
+			const { offsetWidth: width, offsetLeft: left } = activeButton;
+			setIndicatorStyle({ width, left });
+			setMounted(true);
+		}
+	}, []);
+
+	// Update on viewMode change
+	useEffect(() => {
+		const activeButton =
+			viewMode === "details" ? detailsButtonRef.current : jsonButtonRef.current;
+		if (activeButton) {
+			const { offsetWidth: width, offsetLeft: left } = activeButton;
+			setIndicatorStyle({ width, left });
+		}
+	}, [viewMode]);
 
 	return (
 		<div className="h-full overflow-y-auto">
 			{/* Back Button Section */}
 			<div className="border-stroke-soft-200/50 border-b">
-				<div className="px-[340px] 2xl:px-[450px]">
+				<div className="px-52 2xl:px-[340px]">
 					<div className="border-stroke-soft-200/50 border-r border-l px-5 py-4">
 						<AnimatedBackButton onClick={() => push("/playground")} />
 					</div>
@@ -87,7 +124,7 @@ export const VerificationResultHeader = ({
 
 			{/* Header Section */}
 			<div className="border-stroke-soft-200/50 border-b">
-				<div className="px-[340px] 2xl:px-[450px]">
+				<div className="px-52 2xl:px-[340px]">
 					<div className="flex items-center justify-between border-stroke-soft-200/50 border-r border-l px-5 py-6">
 						<div>
 							{isLoading ? (
@@ -150,262 +187,140 @@ export const VerificationResultHeader = ({
 				</div>
 			</div>
 
-			{/* General Section */}
-			<div className="border-stroke-soft-200/50 border-b">
-				<div className="px-[340px] 2xl:px-[450px]">
-					<div className="border-stroke-soft-200/50 border-r border-l px-5 py-5">
-						<h3 className="mb-4 font-semibold text-lg text-text-strong-950">
-							General
-						</h3>
+			{/* Score Visualization */}
+			{!isLoading && result && (
+				<div className="border-stroke-soft-200/50 border-b">
+					<div className="px-52 2xl:px-[340px]">
+						<div className="border-stroke-soft-200/50 border-r border-l">
+							<ScoreVisualization score={result?.score || 0} />
+						</div>
+					</div>
+				</div>
+			)}
 
-						<div className="space-y-3">
-							<div className="flex items-center justify-between">
-								<span className="text-sm text-text-sub-600">State</span>
+			{/* Tab Navigation */}
+			<div className="border-stroke-soft-200/50 border-b">
+				<div className="px-52 2xl:px-[340px]">
+					<div className="border-stroke-soft-200/50 border-r border-l px-5">
+						<div className="relative flex w-fit gap-2 bg-bg-white-0 py-3">
+							{/* Animated floating background */}
+							<div
+								className={`absolute inset-y-3 rounded-full border border-stroke-soft-200/50 bg-bg-white-100 transition-all duration-300 ${
+									mounted ? "opacity-100" : "opacity-0"
+								}`}
+								style={{
+									left: `${indicatorStyle.left}px`,
+									width: `${indicatorStyle.width}px`,
+									transitionTimingFunction: "cubic-bezier(0.65, 0, 0.35, 1)",
+								}}
+								aria-hidden="true"
+							/>
+							<button
+								ref={detailsButtonRef}
+								type="button"
+								onClick={() => setViewMode("details")}
+								className="relative z-10 flex items-center gap-2 rounded-full border border-transparent px-4 py-1.5 transition-colors hover:opacity-70"
+							>
+								<Icon name="file-text" className="h-3.5 w-3.5" />
+								Details
+							</button>
+							<button
+								ref={jsonButtonRef}
+								type="button"
+								onClick={() => setViewMode("json")}
+								className="relative z-10 flex items-center gap-2 rounded-full border border-transparent px-4 py-1.5 transition-colors hover:opacity-70"
+							>
+								<Icon name="json" className="h-3.5 w-3.5" />
+								JSON
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{/* Content Section */}
+			{viewMode === "details" ? (
+				<div className="border-stroke-soft-200/50 border-b">
+					<div className="px-52 2xl:px-[340px]">
+						<div className="grid grid-cols-2 border-stroke-soft-200/50 border-r border-l">
+							{/* Left Column: General and Mail Server */}
+							<div className="border-stroke-soft-200/50 border-r">
 								{isLoading ? (
-									<Skeleton className="h-5 w-24" />
-								) : (
-									<div
-										className={`flex items-center gap-1.5 ${getStateColor(result?.state || "unknown")}`}
-									>
-										<Icon
-											name={getStateIcon(result?.state || "unknown")}
-											className="h-4 w-4"
-										/>
-										<span className="font-medium text-sm capitalize">
-											{result?.state || "Unknown"}
-										</span>
+									<div className="space-y-3 p-5">
+										<Skeleton className="h-5 w-20" />
+										<Skeleton className="h-4 w-full" />
+										<Skeleton className="h-4 w-full" />
+										<Skeleton className="h-4 w-full" />
 									</div>
+								) : (
+									<>
+										<GeneralSection
+											state={result?.state || "unknown"}
+											reason={result?.reason || ""}
+											domain={result?.result?.domain || ""}
+											user={result?.result?.user}
+											tag={result?.result?.tag}
+											didYouMean={analytics?.didYouMean || undefined}
+										/>
+										<MailServerSection
+											smtpProvider={analytics?.smtpProvider || null}
+											mxRecord={checks?.dns?.preferredMx || null}
+											riskLevel={analytics?.riskLevel}
+											verificationTime={result?.result?.duration}
+											verifiedAt={result?.result?.verifiedAt}
+										/>
+									</>
 								)}
 							</div>
 
-							<div className="flex items-center justify-between">
-								<span className="text-sm text-text-sub-600">Reason</span>
+							{/* Right Column: Attributes */}
+							<div>
 								{isLoading ? (
-									<Skeleton className="h-5 w-32" />
+									<div className="space-y-3 p-5">
+										<Skeleton className="h-5 w-20" />
+										<Skeleton className="h-4 w-full" />
+										<Skeleton className="h-4 w-full" />
+										<Skeleton className="h-4 w-full" />
+									</div>
 								) : (
-									<span className="rounded bg-bg-weak-50 px-2 py-0.5 font-mono text-sm text-text-strong-950 uppercase">
-										{result?.reason || "---"}
-									</span>
-								)}
-							</div>
-
-							<div className="flex items-center justify-between">
-								<span className="text-sm text-text-sub-600">Domain</span>
-								{isLoading ? (
-									<Skeleton className="h-5 w-24" />
-								) : (
-									<span className="font-medium text-primary-base text-sm">
-										{result?.result?.domain || "---"}
-									</span>
-								)}
-							</div>
-
-							<div className="flex items-center justify-between">
-								<span className="text-sm text-text-sub-600">User</span>
-								{isLoading ? (
-									<Skeleton className="h-5 w-24" />
-								) : (
-									<span className="font-medium text-sm text-text-strong-950">
-										{result?.result?.user || "---"}
-									</span>
-								)}
-							</div>
-
-							<div className="flex items-center justify-between">
-								<span className="text-sm text-text-sub-600">Tag</span>
-								{isLoading ? (
-									<Skeleton className="h-5 w-16" />
-								) : (
-									<span className="text-sm text-text-strong-950">
-										{result?.result?.tag || "—"}
-									</span>
+									<AttributesSection
+										isFree={checks?.freeProvider?.isFree || false}
+										freeProvider={checks?.freeProvider?.provider}
+										isRole={checks?.role?.isRole || false}
+										roleName={checks?.role?.role}
+										isDisposable={checks?.disposable?.isDisposable || false}
+										disposableProvider={checks?.disposable?.provider}
+										isCatchAll={checks?.smtp?.isCatchAll ?? null}
+										syntaxValid={checks?.syntax?.valid}
+										dnsValid={checks?.dns?.valid}
+										hasMx={checks?.dns?.hasMx}
+										numericalChars={numericalChars}
+										alphabeticalChars={alphabeticalChars}
+										unicodeSymbols={unicodeSymbols}
+									/>
 								)}
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-
-			{/* Attributes Section */}
-			<div className="border-stroke-soft-200/50 border-b">
-				<div className="px-[340px] 2xl:px-[450px]">
-					<div className="border-stroke-soft-200/50 border-r border-l px-5 py-5">
-						<h3 className="mb-4 font-semibold text-lg text-text-strong-950">
-							Attributes
-						</h3>
-
-						<div className="space-y-3">
-							<div className="flex items-center justify-between">
-								<div className="flex items-center gap-2">
-									<Icon name="dollar" className="h-4 w-4 text-text-sub-600" />
-									<span className="text-sm text-text-sub-600">Free</span>
+			) : (
+				<div className="border-stroke-soft-200/50 border-b">
+					<div className="px-52 2xl:px-[340px]">
+						<div className="border-stroke-soft-200/50 border-r border-l">
+							{isLoading ? (
+								<div className="p-5">
+									<Skeleton className="h-64 w-full" />
 								</div>
-								{isLoading ? (
-									<Skeleton className="h-5 w-12" />
-								) : (
-									<span className="text-sm text-text-strong-950">
-										{checks?.freeProvider?.isFree ? "Yes" : "No"}
-									</span>
-								)}
-							</div>
-
-							<div className="flex items-center justify-between">
-								<div className="flex items-center gap-2">
-									<Icon name="user" className="h-4 w-4 text-text-sub-600" />
-									<span className="text-sm text-text-sub-600">Role</span>
-								</div>
-								{isLoading ? (
-									<Skeleton className="h-5 w-12" />
-								) : (
-									<span className="text-sm text-text-strong-950">
-										{checks?.role?.isRole ? checks.role.role || "Yes" : "No"}
-									</span>
-								)}
-							</div>
-
-							<div className="flex items-center justify-between">
-								<div className="flex items-center gap-2">
-									<Icon name="trash" className="h-4 w-4 text-text-sub-600" />
-									<span className="text-sm text-text-sub-600">Disposable</span>
-								</div>
-								{isLoading ? (
-									<Skeleton className="h-5 w-12" />
-								) : (
-									<span className="text-sm text-text-strong-950">
-										{checks?.disposable?.isDisposable ? "Yes" : "No"}
-									</span>
-								)}
-							</div>
-
-							<div className="flex items-center justify-between">
-								<div className="flex items-center gap-2">
-									<Icon name="mail" className="h-4 w-4 text-text-sub-600" />
-									<span className="text-sm text-text-sub-600">Accept-All</span>
-								</div>
-								{isLoading ? (
-									<Skeleton className="h-5 w-12" />
-								) : (
-									<span className="text-sm text-text-strong-950">
-										{checks?.smtp?.isCatchAll ? "Yes" : "No"}
-									</span>
-								)}
-							</div>
-
-							<div className="flex items-center justify-between">
-								<div className="flex items-center gap-2">
-									<Icon name="check" className="h-4 w-4 text-text-sub-600" />
-									<span className="text-sm text-text-sub-600">
-										Syntax Valid
-									</span>
-								</div>
-								{isLoading ? (
-									<Skeleton className="h-5 w-12" />
-								) : (
-									<span className="text-sm text-text-strong-950">
-										{checks?.syntax?.valid ? "Yes" : "No"}
-									</span>
-								)}
-							</div>
-
-							<div className="flex items-center justify-between">
-								<div className="flex items-center gap-2">
-									<Icon name="globe" className="h-4 w-4 text-text-sub-600" />
-									<span className="text-sm text-text-sub-600">DNS Valid</span>
-								</div>
-								{isLoading ? (
-									<Skeleton className="h-5 w-12" />
-								) : (
-									<span className="text-sm text-text-strong-950">
-										{checks?.dns?.valid ? "Yes" : "No"}
-									</span>
-								)}
-							</div>
-
-							<div className="flex items-center justify-between">
-								<div className="flex items-center gap-2">
-									<Icon name="server" className="h-4 w-4 text-text-sub-600" />
-									<span className="text-sm text-text-sub-600">Has MX</span>
-								</div>
-								{isLoading ? (
-									<Skeleton className="h-5 w-12" />
-								) : (
-									<span className="text-sm text-text-strong-950">
-										{checks?.dns?.hasMx ? "Yes" : "No"}
-									</span>
-								)}
-							</div>
+							) : (
+								<JsonViewer
+									data={{ success: true, data: result }}
+									filename="response.json"
+								/>
+							)}
 						</div>
 					</div>
 				</div>
-			</div>
-
-			{/* Mail Server Section */}
-			<div className="border-stroke-soft-200/50 border-b">
-				<div className="px-[340px] 2xl:px-[450px]">
-					<div className="border-stroke-soft-200/50 border-r border-l px-5 py-5">
-						<h3 className="mb-4 font-semibold text-lg text-text-strong-950">
-							Mail Server
-						</h3>
-
-						<div className="space-y-3">
-							<div className="flex items-center justify-between">
-								<span className="text-sm text-text-sub-600">SMTP Provider</span>
-								{isLoading ? (
-									<Skeleton className="h-5 w-24" />
-								) : (
-									<span className="font-medium text-sm text-text-strong-950">
-										{analytics?.smtpProvider || "—"}
-									</span>
-								)}
-							</div>
-
-							<div className="flex items-center justify-between">
-								<span className="text-sm text-text-sub-600">MX Record</span>
-								{isLoading ? (
-									<Skeleton className="h-5 w-40" />
-								) : (
-									<span className="font-mono text-sm text-text-strong-950">
-										{checks?.dns?.preferredMx || "—"}
-									</span>
-								)}
-							</div>
-
-							<div className="flex items-center justify-between">
-								<span className="text-sm text-text-sub-600">Risk Level</span>
-								{isLoading ? (
-									<Skeleton className="h-5 w-16" />
-								) : (
-									<span
-										className={cn(
-											"rounded px-2 py-0.5 font-medium text-sm capitalize",
-											analytics?.riskLevel === "low"
-												? "bg-success-alpha-10 text-success-base"
-												: analytics?.riskLevel === "medium"
-													? "bg-warning-alpha-10 text-warning-base"
-													: "bg-error-alpha-10 text-error-base",
-										)}
-									>
-										{analytics?.riskLevel || "—"}
-									</span>
-								)}
-							</div>
-
-							<div className="flex items-center justify-between">
-								<span className="text-sm text-text-sub-600">
-									Verification Time
-								</span>
-								{isLoading ? (
-									<Skeleton className="h-5 w-16" />
-								) : (
-									<span className="text-sm text-text-strong-950">
-										{result?.result?.duration || 0}ms
-									</span>
-								)}
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+			)}
 		</div>
 	);
 };
