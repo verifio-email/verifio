@@ -44,6 +44,79 @@ export function AnimatedBrokenOnboarding() {
 			className="relative flex h-64 cursor-pointer items-center justify-center"
 			onMouseEnter={handleHover}
 		>
+			{/* Timeline and connection elements - appear after section moves left */}
+			<motion.div
+				className="absolute top-[115px] flex items-center"
+				initial={{ opacity: 0 }}
+				animate={{ opacity: moveSection ? 1 : 0 }}
+				transition={{ delay: 0.2, duration: 0.5 }}
+			>
+				{/* Left dots */}
+				<div className="mr-10 flex items-center gap-2">
+					{[0, 1, 2].map((i) => (
+						<motion.div
+							key={`left-${i}`}
+							className="h-1 w-1 rounded-full bg-success-base/40 dark:bg-success-base/50"
+							initial={{ opacity: 0, scale: 0 }}
+							animate={{
+								opacity: moveSection ? 1 : 0,
+								scale: moveSection ? 1 : 0,
+							}}
+							transition={{
+								delay: 0.3 + i * 0.1,
+								duration: 0.3,
+								ease: smoothEase,
+							}}
+						/>
+					))}
+				</div>
+
+				{/* Center line */}
+				<motion.div
+					className="h-px w-10 bg-gradient-to-r from-success-base/40 via-success-base/60 to-success-base/40"
+					initial={{ scaleX: 0 }}
+					animate={{ scaleX: moveSection ? 1 : 0 }}
+					transition={{ delay: 0.4, duration: 0.5, ease: elegantEase }}
+				/>
+
+				{/* Center connector dot */}
+				<motion.div
+					className="mx-1 h-1.5 w-1.5 rounded-full border border-stroke-soft-200/60 bg-bg-white-0 dark:border-gray-600 dark:bg-gray-900"
+					initial={{ scale: 0 }}
+					animate={{ scale: moveSection ? 1 : 0 }}
+					transition={{ delay: 0.6, duration: 0.3, ease: smoothEase }}
+				/>
+
+				{/* Right line - dashed to show broken connection */}
+				<motion.div
+					className="h-px w-20 border-red-400/40 border-t border-dashed"
+					initial={{ scaleX: 0 }}
+					animate={{ scaleX: moveSection ? 1 : 0 }}
+					transition={{ delay: 0.8, duration: 0.5, ease: elegantEase }}
+					style={{ transformOrigin: "left" }}
+				/>
+
+				{/* Right dots - faded to show failure */}
+				<div className="ml-2 flex items-center gap-2">
+					{[0, 1, 2].map((i) => (
+						<motion.div
+							key={`right-${i}`}
+							className="h-1 w-1 rounded-full bg-red-400/30"
+							initial={{ opacity: 0, scale: 0 }}
+							animate={{
+								opacity: moveSection ? 1 : 0,
+								scale: moveSection ? 1 : 0,
+							}}
+							transition={{
+								delay: 1.0 + i * 0.1,
+								duration: 0.3,
+								ease: smoothEase,
+							}}
+						/>
+					))}
+				</div>
+			</motion.div>
+
 			<div
 				className="relative flex w-full max-w-md flex-col items-center"
 				key={animationKey}
@@ -156,79 +229,6 @@ export function AnimatedBrokenOnboarding() {
 						>
 							Success
 						</motion.div>
-					</motion.div>
-
-					{/* Timeline and connection elements - appear after section moves left */}
-					<motion.div
-						className="absolute top-8 flex items-center"
-						initial={{ opacity: 0 }}
-						animate={{ opacity: moveSection ? 1 : 0 }}
-						transition={{ delay: 0.2, duration: 0.5 }}
-					>
-						{/* Left dots */}
-						<div className="mr-10 flex items-center gap-2">
-							{[0, 1, 2].map((i) => (
-								<motion.div
-									key={`left-${i}`}
-									className="h-1 w-1 rounded-full bg-success-base/40 dark:bg-success-base/50"
-									initial={{ opacity: 0, scale: 0 }}
-									animate={{
-										opacity: moveSection ? 1 : 0,
-										scale: moveSection ? 1 : 0,
-									}}
-									transition={{
-										delay: 0.3 + i * 0.1,
-										duration: 0.3,
-										ease: smoothEase,
-									}}
-								/>
-							))}
-						</div>
-
-						{/* Center line */}
-						<motion.div
-							className="h-px w-10 bg-gradient-to-r from-success-base/40 via-success-base/60 to-success-base/40"
-							initial={{ scaleX: 0 }}
-							animate={{ scaleX: moveSection ? 1 : 0 }}
-							transition={{ delay: 0.4, duration: 0.5, ease: elegantEase }}
-						/>
-
-						{/* Center connector dot */}
-						<motion.div
-							className="mx-1 h-1.5 w-1.5 rounded-full border border-stroke-soft-200/60 bg-bg-white-0 dark:border-gray-600 dark:bg-gray-900"
-							initial={{ scale: 0 }}
-							animate={{ scale: moveSection ? 1 : 0 }}
-							transition={{ delay: 0.6, duration: 0.3, ease: smoothEase }}
-						/>
-
-						{/* Right line - dashed to show broken connection */}
-						<motion.div
-							className="h-px w-20 border-red-400/40 border-t border-dashed"
-							initial={{ scaleX: 0 }}
-							animate={{ scaleX: moveSection ? 1 : 0 }}
-							transition={{ delay: 0.8, duration: 0.5, ease: elegantEase }}
-							style={{ transformOrigin: "left" }}
-						/>
-
-						{/* Right dots - faded to show failure */}
-						<div className="ml-2 flex items-center gap-2">
-							{[0, 1, 2].map((i) => (
-								<motion.div
-									key={`right-${i}`}
-									className="h-1 w-1 rounded-full bg-red-400/30"
-									initial={{ opacity: 0, scale: 0 }}
-									animate={{
-										opacity: moveSection ? 1 : 0,
-										scale: moveSection ? 1 : 0,
-									}}
-									transition={{
-										delay: 1.0 + i * 0.1,
-										duration: 0.3,
-										ease: smoothEase,
-									}}
-								/>
-							))}
-						</div>
 					</motion.div>
 
 					{/* Email Verification Circle - appears on right after section moves */}
