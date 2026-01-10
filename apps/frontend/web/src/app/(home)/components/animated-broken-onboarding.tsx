@@ -17,270 +17,242 @@ export function AnimatedBrokenOnboarding() {
 
 	return (
 		<div
-			className="relative flex h-44 cursor-pointer items-center justify-center"
+			className="relative flex h-64 cursor-pointer items-center justify-center"
 			onMouseEnter={handleHover}
 		>
-			<div className="relative" key={animationKey}>
-				{/* User flow with break */}
-				<div className="flex items-center gap-2">
-					{/* Step 1: Signup - Success */}
+			<div
+				className="relative flex w-full max-w-md flex-col items-center"
+				key={animationKey}
+			>
+				{/* API Endpoint Badge - starts centered */}
+				<motion.div
+					className="mb-6"
+					initial={{ opacity: 0, y: 10, x: 0 }}
+					animate={{ opacity: 1, y: 0, x: -70 }}
+					transition={{
+						opacity: { duration: 0.5, ease: elegantEase },
+						y: { duration: 0.5, ease: elegantEase },
+						x: { delay: 1.0, duration: 0.6, ease: elegantEase },
+					}}
+				>
+					<div className="rounded-full border border-stroke-soft-100 px-3 py-1 font-medium text-[10px] text-text-sub-600">
+						New user signup
+					</div>
+				</motion.div>
+				<div className="relative flex h-24 w-full items-center justify-center">
 					<motion.div
-						className="flex flex-col items-center"
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.5, ease: elegantEase }}
+						className="absolute flex flex-col items-center"
+						initial={{ x: 0 }}
+						animate={{ x: -70 }}
+						transition={{ delay: 1.0, duration: 0.6, ease: elegantEase }}
 					>
 						<motion.div
-							className="relative flex h-10 w-10 items-center justify-center rounded-full border border-green-400/50 bg-green-50 dark:bg-green-950/30"
-							initial={{ scale: 0.8, opacity: 0 }}
-							animate={{ scale: 1, opacity: 1 }}
-							transition={{ delay: 0.1, duration: 0.4, ease: smoothEase }}
+							className="relative flex h-16 w-16 items-center justify-center"
+							initial={{ opacity: 0, scale: 0.8 }}
+							animate={{ opacity: 1, scale: 1 }}
+							transition={{ delay: 0.3, duration: 0.5, ease: smoothEase }}
 						>
+							<div className="absolute inset-0 rounded-full border border-stroke-soft-200/30 dark:border-gray-700/50" />
 							<motion.div
-								initial={{ opacity: 0, scale: 0.8 }}
-								animate={{ opacity: 1, scale: 1 }}
-								transition={{ delay: 0.3, duration: 0.3, ease: smoothEase }}
-							>
-								<Icon name="user" className="h-4 w-4 text-green-500" />
-							</motion.div>
-
-							{/* Success checkmark */}
-							<motion.div
-								className="-right-0.5 -top-0.5 absolute flex h-4 w-4 items-center justify-center rounded-full bg-green-500"
-								initial={{ scale: 0, opacity: 0 }}
+								className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke-soft-200/50 bg-bg-white-0 dark:border-gray-600/50 dark:bg-gray-800"
+								initial={{ scale: 0.8, opacity: 0 }}
 								animate={{ scale: 1, opacity: 1 }}
-								transition={{ delay: 0.5, duration: 0.3, ease: smoothEase }}
-							>
-								<Icon name="check" className="h-2.5 w-2.5 text-white" />
-							</motion.div>
-						</motion.div>
-						<motion.span
-							className="mt-1.5 font-mono text-[9px] text-green-500"
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							transition={{ delay: 0.4, duration: 0.3 }}
-						>
-							signup
-						</motion.span>
-					</motion.div>
-
-					{/* Arrow 1 - Animated flow */}
-					<motion.div
-						className="flex items-center"
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						transition={{ delay: 0.6, duration: 0.3 }}
-					>
-						<motion.div
-							className="h-px w-6 bg-gradient-to-r from-green-400/60 to-green-400/30"
-							initial={{ scaleX: 0 }}
-							animate={{ scaleX: 1 }}
-							transition={{ delay: 0.7, duration: 0.4, ease: elegantEase }}
-							style={{ transformOrigin: "left" }}
-						/>
-						<motion.div
-							initial={{ x: -5, opacity: 0 }}
-							animate={{ x: 0, opacity: 1 }}
-							transition={{ delay: 0.9, duration: 0.3, ease: smoothEase }}
-						>
-							<Icon
-								name="chevron-right"
-								className="h-3 w-3 text-green-400/60"
-							/>
-						</motion.div>
-					</motion.div>
-
-					{/* Step 2: Email verify - BROKEN */}
-					<motion.div
-						className="flex flex-col items-center"
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ delay: 1.0, duration: 0.5, ease: elegantEase }}
-					>
-						<motion.div
-							className="relative flex h-10 w-10 items-center justify-center rounded-full border border-amber-400/50 bg-amber-50 dark:bg-amber-950/30"
-							initial={{ scale: 0.8, opacity: 0 }}
-							animate={{
-								scale: 1,
-								opacity: 1,
-								borderColor: [
-									"rgba(251, 191, 36, 0.5)",
-									"rgba(239, 68, 68, 0.5)",
-								],
-								backgroundColor: [
-									"rgba(254, 243, 199, 1)",
-									"rgba(254, 226, 226, 1)",
-								],
-							}}
-							transition={{
-								scale: { delay: 1.1, duration: 0.4, ease: smoothEase },
-								opacity: { delay: 1.1, duration: 0.4 },
-								borderColor: { delay: 1.6, duration: 0.5, ease: smoothEase },
-								backgroundColor: {
-									delay: 1.6,
-									duration: 0.5,
-									ease: smoothEase,
-								},
-							}}
-						>
-							<motion.div
-								initial={{ opacity: 0, scale: 0.8 }}
-								animate={{
-									opacity: 1,
-									scale: 1,
-									color: ["#f59e0b", "#ef4444"],
-								}}
-								transition={{
-									opacity: { delay: 1.3, duration: 0.3 },
-									scale: { delay: 1.3, duration: 0.3, ease: smoothEase },
-									color: { delay: 1.6, duration: 0.5 },
-								}}
-								className="text-amber-500"
-							>
-								<Icon name="mail" className="h-4 w-4" />
-							</motion.div>
-
-							{/* Loading then X animation */}
-							<motion.div
-								className="-right-0.5 -top-0.5 absolute flex h-4 w-4 items-center justify-center rounded-full bg-red-500"
-								initial={{ scale: 0, opacity: 0 }}
-								animate={{ scale: 1, opacity: 1 }}
-								transition={{ delay: 1.8, duration: 0.3, ease: smoothEase }}
+								transition={{ delay: 0.5, duration: 0.4, ease: smoothEase }}
 							>
 								<motion.div
-									initial={{ rotate: 0, opacity: 0 }}
-									animate={{ opacity: 1 }}
-									transition={{ delay: 1.9, duration: 0.2 }}
+									initial={{ opacity: 0, scale: 0 }}
+									animate={{ opacity: 1, scale: 1 }}
+									transition={{ delay: 0.7, duration: 0.3, ease: smoothEase }}
 								>
-									<Icon name="x" className="h-2.5 w-2.5 text-white" />
+									<Icon
+										name="user-check"
+										className="h-4 w-4 text-text-sub-600 dark:text-gray-400"
+									/>
 								</motion.div>
 							</motion.div>
 						</motion.div>
-						<motion.span
-							className="mt-1.5 font-mono text-[9px]"
-							initial={{ opacity: 0, color: "#f59e0b" }}
-							animate={{ opacity: 1, color: ["#f59e0b", "#ef4444"] }}
-							transition={{
-								opacity: { delay: 1.2, duration: 0.3 },
-								color: { delay: 1.6, duration: 0.5 },
-							}}
-						>
-							verify
-						</motion.span>
-					</motion.div>
-
-					{/* Broken arrow - dashed and fading */}
-					<motion.div
-						className="flex items-center"
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 0.4 }}
-						transition={{ delay: 2.0, duration: 0.4 }}
-					>
 						<motion.div
-							className="h-px w-6 border-text-sub-600/30 border-t border-dashed"
-							initial={{ scaleX: 0 }}
-							animate={{ scaleX: 1 }}
-							transition={{ delay: 2.1, duration: 0.4, ease: elegantEase }}
-							style={{ transformOrigin: "left" }}
-						/>
-						<motion.div
-							initial={{ x: -5, opacity: 0 }}
-							animate={{ x: 0, opacity: 0.4 }}
-							transition={{ delay: 2.3, duration: 0.3, ease: smoothEase }}
-						>
-							<Icon
-								name="chevron-right"
-								className="h-3 w-3 text-text-sub-600/30"
-							/>
-						</motion.div>
-					</motion.div>
-
-					{/* Step 3: Activate - Never reached */}
-					<motion.div
-						className="flex flex-col items-center"
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 0.4, y: 0 }}
-						transition={{ delay: 2.2, duration: 0.5, ease: elegantEase }}
-					>
-						<motion.div
-							className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke-soft-200/30 bg-bg-white-0 dark:bg-gray-800/50"
-							initial={{ scale: 0.8 }}
-							animate={{ scale: 1 }}
-							transition={{ delay: 2.3, duration: 0.4, ease: smoothEase }}
-						>
-							<Icon name="check" className="h-4 w-4 text-text-sub-600/50" />
-						</motion.div>
-						<motion.span
-							className="mt-1.5 font-mono text-[9px] text-text-sub-600/50"
+							className="mt-2 rounded-full border border-success-base/40 bg-success-base/10 px-2 py-0.5 font-medium text-[10px] text-success-base"
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
-							transition={{ delay: 2.4, duration: 0.3 }}
+							transition={{ delay: 0.8, duration: 0.4 }}
 						>
-							activate
-						</motion.span>
-					</motion.div>
-				</div>
-
-				{/* Drop-off stat - animated count up */}
-				<motion.div
-					className="-bottom-9 -translate-x-1/2 absolute left-1/2 rounded border border-stroke-soft-200/30 bg-bg-white-0 px-3 py-1.5 dark:bg-gray-900/50"
-					initial={{ opacity: 0, y: 10, scale: 0.9 }}
-					animate={{ opacity: 1, y: 0, scale: 1 }}
-					transition={{ delay: 2.6, duration: 0.5, ease: elegantEase }}
-				>
-					<div className="flex items-center gap-1.5">
-						<motion.div
-							initial={{ opacity: 0, scale: 0.8 }}
-							animate={{ opacity: 1, scale: 1 }}
-							transition={{ delay: 2.8, duration: 0.3, ease: smoothEase }}
-						>
-							<Icon name="trending-down" className="h-3 w-3 text-red-500" />
+							Success
 						</motion.div>
-						<span className="font-mono text-[9px]">
-							<motion.span
-								className="font-semibold text-red-500"
-								initial={{ opacity: 0 }}
-								animate={{ opacity: 1 }}
-								transition={{ delay: 2.9, duration: 0.3 }}
-							>
-								40%
-							</motion.span>
-							<motion.span
-								className="text-text-sub-600/60"
-								initial={{ opacity: 0 }}
-								animate={{ opacity: 1 }}
-								transition={{ delay: 3.0, duration: 0.3 }}
-							>
-								{" "}
-								user drop-off
-							</motion.span>
-						</span>
-					</div>
-				</motion.div>
-
-				{/* Floating users being lost - subtle animation */}
-				<motion.div
-					className="-right-4 absolute top-0"
-					initial={{ opacity: 0, x: -10, y: 5 }}
-					animate={{ opacity: 1, x: 0, y: 0 }}
-					transition={{ delay: 2.5, duration: 0.5, ease: elegantEase }}
-				>
+					</motion.div>
 					<motion.div
-						className="flex items-center gap-1 rounded-md border border-red-200/50 bg-red-50/80 px-1.5 py-1 dark:border-red-400/20 dark:bg-red-950/50"
+						className="-translate-y-1/2 absolute top-1/2 flex items-center"
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						transition={{ delay: 1.4, duration: 0.5 }}
+					>
+						{/* Left dots */}
+						<div className="mr-2 flex items-center gap-2">
+							{[0, 1, 2].map((i) => (
+								<motion.div
+									key={`left-${i}`}
+									className="h-1 w-1 rounded-full bg-stroke-soft-200/40 dark:bg-gray-600/50"
+									initial={{ opacity: 0, scale: 0 }}
+									animate={{ opacity: 1, scale: 1 }}
+									transition={{
+										delay: 1.5 + i * 0.1,
+										duration: 0.3,
+										ease: smoothEase,
+									}}
+								/>
+							))}
+						</div>
+
+						{/* Center line */}
+						<motion.div
+							className="h-px w-20 bg-gradient-to-r from-stroke-soft-200/40 via-stroke-soft-200/60 to-stroke-soft-200/40 dark:from-gray-600/40 dark:via-gray-600/60 dark:to-gray-600/40"
+							initial={{ scaleX: 0 }}
+							animate={{ scaleX: 1 }}
+							transition={{ delay: 1.6, duration: 0.5, ease: elegantEase }}
+						/>
+
+						{/* Center connector dot */}
+						<motion.div
+							className="mx-1 h-1.5 w-1.5 rounded-full border border-stroke-soft-200/60 bg-bg-white-0 dark:border-gray-600 dark:bg-gray-900"
+							initial={{ scale: 0 }}
+							animate={{ scale: 1 }}
+							transition={{ delay: 1.8, duration: 0.3, ease: smoothEase }}
+						/>
+
+						{/* Right line - dashed to show broken connection */}
+						<motion.div
+							className="h-px w-20 border-red-400/40 border-t border-dashed"
+							initial={{ scaleX: 0 }}
+							animate={{ scaleX: 1 }}
+							transition={{ delay: 2.0, duration: 0.5, ease: elegantEase }}
+							style={{ transformOrigin: "left" }}
+						/>
+
+						{/* Right dots - faded to show failure */}
+						<div className="ml-2 flex items-center gap-2">
+							{[0, 1, 2].map((i) => (
+								<motion.div
+									key={`right-${i}`}
+									className="h-1 w-1 rounded-full bg-red-400/30"
+									initial={{ opacity: 0, scale: 0 }}
+									animate={{ opacity: 1, scale: 1 }}
+									transition={{
+										delay: 2.2 + i * 0.1,
+										duration: 0.3,
+										ease: smoothEase,
+									}}
+								/>
+							))}
+						</div>
+					</motion.div>
+
+					{/* Email Verification Circle - appears on right */}
+					<motion.div
+						className="absolute flex flex-col items-center"
+						initial={{ x: 0, opacity: 0 }}
+						animate={{ x: 70, opacity: 1 }}
+						transition={{ delay: 1.8, duration: 0.5, ease: elegantEase }}
+					>
+						{/* Outer ring */}
+						<motion.div
+							className="relative flex h-16 w-16 items-center justify-center"
+							initial={{ scale: 0.8 }}
+							animate={{ scale: 1 }}
+							transition={{ delay: 1.9, duration: 0.4, ease: smoothEase }}
+						>
+							<motion.div
+								className="absolute inset-0 rounded-full border"
+								initial={{ borderColor: "rgba(156, 163, 175, 0.3)" }}
+								animate={{
+									borderColor: [
+										"rgba(156, 163, 175, 0.3)",
+										"rgba(239, 68, 68, 0.4)",
+									],
+								}}
+								transition={{ delay: 2.2, duration: 0.5 }}
+							/>
+
+							{/* Inner circle with icon */}
+							<motion.div
+								className="flex h-10 w-10 items-center justify-center rounded-full border bg-bg-white-0 dark:bg-gray-800"
+								initial={{
+									borderColor: "rgba(156, 163, 175, 0.5)",
+								}}
+								animate={{
+									borderColor: [
+										"rgba(156, 163, 175, 0.5)",
+										"rgba(239, 68, 68, 0.5)",
+									],
+								}}
+								transition={{ delay: 2.2, duration: 0.5 }}
+							>
+								<motion.div
+									initial={{ opacity: 0, scale: 0 }}
+									animate={{ opacity: 1, scale: 1 }}
+									transition={{ delay: 2.1, duration: 0.3, ease: smoothEase }}
+								>
+									<motion.div
+										animate={{ color: ["#6b7280", "#ef4444"] }}
+										transition={{ delay: 2.2, duration: 0.5 }}
+										className="text-gray-500"
+									>
+										<Icon name="mail-single" className="h-4 w-4" />
+									</motion.div>
+								</motion.div>
+							</motion.div>
+						</motion.div>
+						<motion.div
+							className="mt-2 rounded-full border border-error-base/40 bg-error-base/10 px-2 py-0.5 font-medium text-[10px] text-error-base"
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							transition={{ delay: 2.4, duration: 0.4 }}
+						>
+							Email Failed
+						</motion.div>
+					</motion.div>
+
+					{/* Traveling dot along the timeline */}
+					<motion.div
+						className="-translate-y-1/2 absolute top-1/2 h-1.5 w-1.5 rounded-full bg-green-500 shadow-green-500/50 shadow-sm"
+						initial={{ x: -60, opacity: 0 }}
 						animate={{
-							y: [0, -3, 0],
+							x: [-60, 0, 0],
+							opacity: [0, 1, 0],
+							backgroundColor: ["#22c55e", "#22c55e", "#ef4444"],
 						}}
 						transition={{
-							delay: 3.0,
-							duration: 2,
+							delay: 2.6,
+							duration: 1.0,
 							ease: smoothEase,
+							times: [0, 0.6, 1],
 							repeat: Number.POSITIVE_INFINITY,
-							repeatDelay: 0.5,
+							repeatDelay: 2,
 						}}
-					>
-						<Icon name="user-x" className="h-3 w-3 text-red-400" />
-						<span className="font-mono text-[7px] text-red-500">lost</span>
-					</motion.div>
+					/>
+				</div>
+
+				{/* Bottom status message */}
+				<motion.div
+					className="mt-4 flex items-center gap-2"
+					initial={{ opacity: 0, y: 10 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ delay: 2.6, duration: 0.5, ease: elegantEase }}
+				>
+					<div className="flex items-center gap-1.5 rounded border border-red-500/30 bg-red-500/5 px-2.5 py-1">
+						<motion.div
+							animate={{ opacity: [1, 0.5, 1] }}
+							transition={{
+								delay: 3,
+								duration: 1.5,
+								repeat: Number.POSITIVE_INFINITY,
+							}}
+						>
+							<Icon name="alert-circle" className="h-3 w-3 text-red-500" />
+						</motion.div>
+						<span className="font-mono text-[10px] text-red-500/90">
+							verification email not sent — low score detected
+						</span>
+					</div>
 				</motion.div>
 			</div>
 		</div>

@@ -270,6 +270,25 @@ export const IconsSprite = () => (
 					strokeLinejoin="round"
 				/>
 			</symbol>
+			<symbol id="user-check" fill="none" viewBox="0 0 24 24">
+				<g opacity="0.12">
+					<path
+						d="M2 18.8C2 16.149 4.14903 14 6.8 14H11.2C13.851 14 16 16.149 16 18.8C16 20.5673 14.5673 22 12.8 22H5.2C3.43269 22 2 20.5673 2 18.8Z"
+						fill="currentColor"
+					/>
+					<path
+						d="M13 6C13 8.20914 11.2091 10 9 10C6.79086 10 5 8.20914 5 6C5 3.79086 6.79086 2 9 2C11.2091 2 13 3.79086 13 6Z"
+						fill="currentColor"
+					/>
+				</g>
+				<path
+					d="M17 10L19 12L23 8M13 6C13 8.20914 11.2091 10 9 10C6.79086 10 5 8.20914 5 6C5 3.79086 6.79086 2 9 2C11.2091 2 13 3.79086 13 6ZM5.2 22H12.8C14.5673 22 16 20.5673 16 18.8C16 16.149 13.851 14 11.2 14H6.8C4.14903 14 2 16.149 2 18.8C2 20.5673 3.43269 22 5.2 22Z"
+					stroke="#2F384C"
+					strokeWidth="1.5"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+				/>
+			</symbol>
 			<symbol id="arrow-swap" fill="none" viewBox="0 0 24 24">
 				<path
 					d="M6 2L2 6M2 6L6 10M2 6H16M18 14L22 18M22 18L18 22M22 18H8"
