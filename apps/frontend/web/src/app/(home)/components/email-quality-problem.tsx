@@ -1,4 +1,5 @@
 import { Icon } from "@verifio/ui/icon";
+import { DotPattern } from "@verifio/web/components/dot-pattern";
 import { AnimatedBounce } from "./animated-bounce";
 import { AnimatedBrokenOnboarding } from "./animated-broken-onboarding";
 import { AnimatedSpamFlag } from "./animated-spam-flag";
@@ -135,14 +136,7 @@ export function EmailQualityProblem() {
 
 					{/* Black Box Callout */}
 					<div className="relative border-stroke-soft-100 border-t py-10">
-						<div
-							className="absolute inset-0 top-2 right-1 left-3 z-0"
-							style={{
-								backgroundImage:
-									"radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.1) 1px, transparent 0)",
-								backgroundSize: "20px 20px",
-							}}
-						/>
+						<DotPattern className="absolute inset-0 top-2 right-1 left-3 z-0" />
 
 						<div className="flex flex-col items-center justify-center px-4 py-8 text-center md:p-10">
 							<div className="relative mx-auto max-w-2xl">
