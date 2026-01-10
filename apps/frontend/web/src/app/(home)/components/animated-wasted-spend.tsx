@@ -47,7 +47,7 @@ export function AnimatedWastedSpend() {
 
 							{/* Animated money amount */}
 							<motion.div
-								className="-bottom-2 absolute rounded-md border border-primary-base/30 bg-bg-white-0 px-1.5 py-0.5 font-mono font-semibold text-[9px] text-text-strong-950 dark:bg-gray-900"
+								className="-bottom-2 absolute rounded-md border border-primary-base/30 bg-bg-white-0 px-1.5 py-0.5 font-mono font-semibold text-[9px] text-primary-base"
 								initial={{ opacity: 0, y: 8 }}
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ delay: 0.5, duration: 0.4, ease: smoothEase }}
