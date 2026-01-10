@@ -2,11 +2,146 @@
 
 import { Icon } from "@verifio/ui/icon";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // Smooth easing curves
 const smoothEase = [0.4, 0, 0.2, 1] as const;
 const elegantEase = [0.65, 0, 0.35, 1] as const;
+
+// Animated counter component
+function AnimatedCounter({
+	value,
+	delay = 0,
+}: {
+	value: number;
+	delay?: number;
+}) {
+	const [displayValue, setDisplayValue] = useState(0);
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			const duration = 1500;
+			const startTime = Date.now();
+
+			const animate = () => {
+				const elapsed = Date.now() - startTime;
+				const progress = Math.min(elapsed / duration, 1);
+				// Ease out cubic
+				const eased = 1 - (1 - progress) ** 3;
+				setDisplayValue(Math.floor(eased * value));
+
+				if (progress < 1) {
+					requestAnimationFrame(animate);
+				}
+			};
+			requestAnimationFrame(animate);
+		}, delay);
+
+		return () => clearTimeout(timer);
+	}, [value, delay]);
+
+	return <>{displayValue.toLocaleString()}</>;
+}
+
+// Floating money particle
+function FloatingMoney({
+	delay,
+	startX,
+	direction,
+}: {
+	delay: number;
+	startX: number;
+	direction: "up" | "down";
+}) {
+	return (
+		<motion.div
+			className="absolute font-bold font-mono text-sm"
+			initial={{
+				x: startX,
+				y: direction === "up" ? 60 : -20,
+				opacity: 0,
+				scale: 0.5,
+			}}
+			animate={{
+				y: direction === "up" ? -40 : 80,
+				opacity: [0, 1, 1, 0],
+				scale: [0.5, 1, 1, 0.3],
+				x: startX + (Math.random() - 0.5) * 30,
+			}}
+			transition={{
+				delay,
+				duration: 2,
+				ease: elegantEase,
+			}}
+		>
+			<span
+				className={
+					direction === "up"
+						? "text-green-500"
+						: "text-red-500 line-through opacity-60"
+				}
+			>
+				$
+			</span>
+		</motion.div>
+	);
+}
+
+// Email envelope that transforms
+function TransformingEmail({ delay, index }: { delay: number; index: number }) {
+	const positions = [
+		{ x: -60, y: -25 },
+		{ x: -35, y: 15 },
+		{ x: 60, y: -20 },
+		{ x: 45, y: 25 },
+		{ x: 0, y: -35 },
+	];
+
+	const pos = positions[index % positions.length] ?? { x: 0, y: 0 };
+	const isInvalid = index >= 3;
+
+	return (
+		<motion.div
+			className="absolute"
+			initial={{ x: pos.x, y: pos.y, opacity: 0, scale: 0 }}
+			animate={{
+				opacity: 1,
+				scale: 1,
+			}}
+			transition={{ delay, duration: 0.4, ease: smoothEase }}
+		>
+			<motion.div
+				className={`flex h-7 w-7 items-center justify-center rounded-md border transition-all duration-500 ${
+					isInvalid
+						? "border-red-400/60 bg-red-50/80 dark:bg-red-950/40"
+						: "border-green-400/60 bg-green-50/80 dark:bg-green-950/40"
+				}`}
+				initial={{ rotate: -10 }}
+				animate={{ rotate: isInvalid ? [0, 5, -5, 0] : 0 }}
+				transition={{
+					delay: delay + 0.3,
+					duration: 0.4,
+					ease: smoothEase,
+				}}
+			>
+				<Icon
+					name="mail-single"
+					className={`h-3.5 w-3.5 ${isInvalid ? "text-red-500" : "text-green-500"}`}
+				/>
+				{isInvalid && (
+					<motion.div
+						className="-bottom-0.5 -right-0.5 absolute"
+						initial={{ scale: 0, opacity: 0 }}
+						animate={{ scale: 1, opacity: 1 }}
+						transition={{ delay: delay + 0.5, duration: 0.3 }}
+					>
+						<Icon name="x-close" className="h-2.5 w-2.5 text-red-600" />
+					</motion.div>
+				)}
+			</motion.div>
+		</motion.div>
+	);
+}
 
 export function AnimatedWastedSpend() {
 	const [animationKey, setAnimationKey] = useState(0);
@@ -17,282 +152,133 @@ export function AnimatedWastedSpend() {
 
 	return (
 		<div
-			className="relative flex h-44 cursor-pointer items-center justify-center"
+			className="relative flex h-48 cursor-pointer items-center justify-center overflow-hidden"
 			onMouseEnter={handleHover}
 		>
 			<div className="relative" key={animationKey}>
-				{/* Main spending visualization */}
-				<div className="flex items-center gap-6">
-					{/* Budget allocation visual */}
-					<motion.div
-						className="flex flex-col items-center gap-2"
-						initial={{ opacity: 0, x: -20 }}
-						animate={{ opacity: 1, x: 0 }}
-						transition={{ duration: 0.5, ease: elegantEase }}
-					>
-						{/* Total budget indicator */}
-						<motion.div
-							className="relative flex h-16 w-16 items-center justify-center rounded-xl border border-primary-base/40 bg-gradient-to-br from-bg-white-0 to-bg-weak-50/50 dark:from-gray-900/50 dark:to-gray-800/50"
-							initial={{ scale: 0.8, opacity: 0 }}
-							animate={{ scale: 1, opacity: 1 }}
-							transition={{ delay: 0.1, duration: 0.4, ease: smoothEase }}
-						>
-							<motion.div
-								initial={{ opacity: 0, scale: 0.8 }}
-								animate={{ opacity: 1, scale: 1 }}
-								transition={{ delay: 0.3, duration: 0.4, ease: smoothEase }}
-							>
-								<Icon name="wallet" className="h-6 w-6 text-primary-base" />
-							</motion.div>
+				{/* Floating money particles */}
+				<FloatingMoney delay={0.8} startX={-50} direction="up" />
+				<FloatingMoney delay={1.0} startX={50} direction="up" />
+				<FloatingMoney delay={1.2} startX={0} direction="up" />
+				<FloatingMoney delay={1.6} startX={30} direction="down" />
+				<FloatingMoney delay={1.8} startX={-20} direction="down" />
 
-							{/* Animated money amount */}
-							<motion.div
-								className="-bottom-2 absolute rounded-md border border-primary-base/30 bg-bg-white-0 px-1.5 py-0.5 font-mono font-semibold text-[9px] text-text-strong-950 dark:bg-gray-900"
-								initial={{ opacity: 0, y: 8 }}
+				{/* Central money counter display */}
+				<motion.div
+					className="relative z-10 flex flex-col items-center"
+					initial={{ opacity: 0, scale: 0.9 }}
+					animate={{ opacity: 1, scale: 1 }}
+					transition={{ duration: 0.5, ease: elegantEase }}
+				>
+					{/* Main counter card */}
+					<motion.div
+						className="relative overflow-hidden rounded-2xl border border-stroke-soft-200/50 bg-gradient-to-b from-bg-white-0 to-bg-weak-50/30 px-8 py-5 shadow-lg dark:border-gray-700/50 dark:from-gray-900/80 dark:to-gray-800/60"
+						initial={{ y: 20, opacity: 0 }}
+						animate={{ y: 0, opacity: 1 }}
+						transition={{ delay: 0.2, duration: 0.5, ease: elegantEase }}
+					>
+						{/* Subtle gradient overlay */}
+						<div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-red-500/3 to-transparent" />
+
+						{/* Counter display */}
+						<div className="relative flex flex-col items-center gap-1">
+							<motion.span
+								className="font-medium text-[10px] text-text-sub-600/70 uppercase tracking-wide"
+								initial={{ opacity: 0, y: -5 }}
 								animate={{ opacity: 1, y: 0 }}
-								transition={{ delay: 0.5, duration: 0.4, ease: smoothEase }}
+								transition={{ delay: 0.4, duration: 0.4 }}
 							>
-								$10,000
-							</motion.div>
-						</motion.div>
-					</motion.div>
+								Money Wasted
+							</motion.span>
 
-					{/* Flow arrow with splitting effect */}
-					<motion.div
-						className="flex flex-col items-center"
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						transition={{ delay: 0.6, duration: 0.4 }}
-					>
-						<motion.div
-							className="h-px w-8 bg-gradient-to-r from-text-sub-600/30 to-text-sub-600/10"
-							initial={{ scaleX: 0 }}
-							animate={{ scaleX: 1 }}
-							transition={{ delay: 0.7, duration: 0.4, ease: elegantEase }}
-							style={{ transformOrigin: "left" }}
-						/>
-						<motion.div
-							className="mt-1 flex h-4 w-4 items-center justify-center"
-							initial={{ x: -10, opacity: 0 }}
-							animate={{ x: 0, opacity: 1 }}
-							transition={{ delay: 0.9, duration: 0.3, ease: smoothEase }}
-						>
-							<Icon
-								name="arrow-right"
-								className="h-3 w-3 text-text-sub-600/40"
-							/>
-						</motion.div>
-					</motion.div>
-
-					{/* Split visualization - Valid vs Invalid */}
-					<div className="flex flex-col gap-3">
-						{/* Valid emails - gets the money */}
-						<motion.div
-							className="flex items-center gap-2"
-							initial={{ opacity: 0, x: 20 }}
-							animate={{ opacity: 1, x: 0 }}
-							transition={{ delay: 1.0, duration: 0.5, ease: elegantEase }}
-						>
 							<motion.div
-								className="flex h-10 w-10 items-center justify-center rounded-lg border border-green-400/50 bg-green-50 dark:bg-green-950/30"
-								initial={{ scale: 0.8, opacity: 0 }}
-								animate={{ scale: 1, opacity: 1 }}
-								transition={{ delay: 1.1, duration: 0.4, ease: smoothEase }}
+								className="flex items-baseline gap-0.5"
+								initial={{ opacity: 0.5 }}
+								animate={{ opacity: 1 }}
+								transition={{ delay: 0.5, duration: 0.4 }}
 							>
-								<motion.div
-									initial={{ opacity: 0, rotate: -20 }}
-									animate={{ opacity: 1, rotate: 0 }}
-									transition={{ delay: 1.3, duration: 0.3, ease: smoothEase }}
-								>
-									<Icon name="mail-single" className="h-4 w-4 text-green-500" />
-								</motion.div>
+								<span className="font-bold font-mono text-2xl text-red-500">
+									$<AnimatedCounter value={2847} delay={600} />
+								</span>
 							</motion.div>
 
-							{/* Money going to valid */}
+							{/* Wasted rate indicator */}
 							<motion.div
-								className="flex flex-col"
-								initial={{ opacity: 0, x: -8 }}
-								animate={{ opacity: 1, x: 0 }}
-								transition={{ delay: 1.4, duration: 0.4, ease: smoothEase }}
-							>
-								<div className="flex items-center gap-1.5">
-									<span className="font-mono text-[8px] text-text-sub-600/60">
-										valid
-									</span>
-									<motion.span
-										className="font-mono font-semibold text-[10px] text-green-500"
-										initial={{ opacity: 0 }}
-										animate={{ opacity: 1 }}
-										transition={{ delay: 1.6, duration: 0.3 }}
-									>
-										$8,000
-									</motion.span>
-								</div>
-								{/* Progress bar for valid */}
-								<div className="mt-1 h-1 w-16 overflow-hidden rounded-full bg-gray-200/50 dark:bg-gray-700/50">
-									<motion.div
-										className="h-full rounded-full bg-green-400"
-										initial={{ width: 0 }}
-										animate={{ width: "80%" }}
-										transition={{
-											delay: 1.5,
-											duration: 0.6,
-											ease: elegantEase,
-										}}
-									/>
-								</div>
-							</motion.div>
-						</motion.div>
-
-						{/* Invalid emails - wasted money */}
-						<motion.div
-							className="flex items-center gap-2"
-							initial={{ opacity: 0, x: 20 }}
-							animate={{ opacity: 1, x: 0 }}
-							transition={{ delay: 1.3, duration: 0.5, ease: elegantEase }}
-						>
-							<motion.div
-								className="relative flex h-10 w-10 items-center justify-center rounded-lg border border-red-400/50 bg-red-50 dark:bg-red-950/30"
-								initial={{ scale: 0.8, opacity: 0 }}
-								animate={{ scale: 1, opacity: 1 }}
-								transition={{ delay: 1.4, duration: 0.4, ease: smoothEase }}
+								className="mt-1 flex items-center gap-1.5"
+								initial={{ opacity: 0, y: 5 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ delay: 1.8, duration: 0.4 }}
 							>
 								<motion.div
-									initial={{ opacity: 0, rotate: 20 }}
-									animate={{ opacity: 1, rotate: 0 }}
-									transition={{ delay: 1.6, duration: 0.3, ease: smoothEase }}
-								>
-									<Icon name="mail-single" className="h-4 w-4 text-red-500" />
-								</motion.div>
-
-								{/* Animated drain effect */}
-								<motion.div
-									className="-bottom-1 -right-1 absolute flex h-4 w-4 items-center justify-center rounded-full bg-red-500"
-									initial={{ scale: 0, opacity: 0 }}
-									animate={{ scale: 1, opacity: 1 }}
+									className="flex items-center gap-1 rounded-full bg-red-100/80 px-2 py-0.5 dark:bg-red-900/30"
+									animate={{
+										scale: [1, 1.03, 1],
+									}}
 									transition={{
-										delay: 1.8,
-										duration: 0.3,
-										ease: smoothEase,
+										delay: 2.5,
+										duration: 1.5,
+										repeat: Number.POSITIVE_INFINITY,
 									}}
 								>
 									<Icon
 										name="trending-down"
-										className="h-2.5 w-2.5 text-white"
+										className="h-2.5 w-2.5 text-red-500"
 									/>
-								</motion.div>
-							</motion.div>
-
-							{/* Money wasted */}
-							<motion.div
-								className="flex flex-col"
-								initial={{ opacity: 0, x: -8 }}
-								animate={{ opacity: 1, x: 0 }}
-								transition={{ delay: 1.7, duration: 0.4, ease: smoothEase }}
-							>
-								<div className="flex items-center gap-1.5">
-									<span className="font-mono text-[8px] text-text-sub-600/60">
-										invalid
+									<span className="font-mono font-semibold text-[9px] text-red-600">
+										23%
 									</span>
-									<motion.span
-										className="font-mono font-semibold text-[10px] text-red-500 line-through decoration-red-400/60"
-										initial={{ opacity: 0 }}
-										animate={{ opacity: 1 }}
-										transition={{ delay: 1.9, duration: 0.3 }}
-									>
-										$2,000
-									</motion.span>
-								</div>
-								{/* Progress bar for invalid - with drain effect */}
-								<div className="mt-1 h-1 w-16 overflow-hidden rounded-full bg-gray-200/50 dark:bg-gray-700/50">
-									<motion.div
-										className="h-full rounded-full bg-red-400"
-										initial={{ width: 0 }}
-										animate={{ width: "20%" }}
-										transition={{
-											delay: 1.8,
-											duration: 0.6,
-											ease: elegantEase,
-										}}
-									/>
-								</div>
+								</motion.div>
+								<span className="font-mono text-[8px] text-text-sub-600/60">
+									of budget
+								</span>
 							</motion.div>
-						</motion.div>
-					</div>
-				</div>
+						</div>
 
-				{/* Wasted percentage indicator - pulsing badge */}
-				<motion.div
-					className="-right-8 -top-4 absolute flex flex-col items-center"
-					initial={{ opacity: 0, scale: 0.8, y: 10 }}
-					animate={{ opacity: 1, scale: 1, y: 0 }}
-					transition={{ delay: 2.2, duration: 0.5, ease: elegantEase }}
-				>
-					{/* Subtle pulse glow */}
-					<motion.div
-						className="-m-2 absolute inset-0 rounded-full"
-						style={{
-							background:
-								"radial-gradient(circle, rgba(239, 68, 68, 0.15) 0%, transparent 70%)",
-						}}
-						initial={{ opacity: 0, scale: 1 }}
-						animate={{
-							opacity: [0, 0.6, 0],
-							scale: [1, 1.3, 1],
-						}}
-						transition={{
-							delay: 2.5,
-							duration: 1.8,
-							ease: smoothEase,
-							repeat: Number.POSITIVE_INFINITY,
-							repeatDelay: 0.8,
-						}}
-					/>
-
-					<motion.div
-						className="flex h-9 w-9 items-center justify-center rounded-full border border-red-400/50 bg-red-100 font-bold font-mono text-[11px] text-red-600 dark:bg-red-950/60"
-						initial={{ rotate: -10 }}
-						animate={{ rotate: 0 }}
-						transition={{ delay: 2.3, duration: 0.4, ease: smoothEase }}
-					>
-						20%
+						{/* Drain line effect */}
+						<motion.div
+							className="absolute right-0 bottom-0 left-0 h-0.5 origin-left"
+							style={{
+								background:
+									"linear-gradient(90deg, transparent, #ef4444 50%, transparent)",
+							}}
+							initial={{ scaleX: 0 }}
+							animate={{ scaleX: [0, 1, 0] }}
+							transition={{
+								delay: 2.2,
+								duration: 2,
+								ease: elegantEase,
+								repeat: Number.POSITIVE_INFINITY,
+								repeatDelay: 1,
+							}}
+						/>
 					</motion.div>
 
-					<motion.span
-						className="mt-1 font-medium font-mono text-[7px] text-red-500/80"
-						initial={{ opacity: 0, y: -5 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ delay: 2.6, duration: 0.3, ease: smoothEase }}
-					>
-						WASTED
-					</motion.span>
+					{/* Floating email icons around the counter */}
+					{[0, 1, 2, 3, 4].map((i) => (
+						<TransformingEmail key={i} delay={0.8 + i * 0.15} index={i} />
+					))}
 				</motion.div>
 
-				{/* Bottom insight label */}
+				{/* Bottom call-to-action hint */}
 				<motion.div
-					className="-bottom-7 -translate-x-1/2 absolute left-1/2 rounded border border-stroke-soft-200/30 bg-bg-white-0 px-2 py-1 dark:bg-gray-900/50"
-					initial={{ opacity: 0, y: 10 }}
+					className="-bottom-8 -translate-x-1/2 absolute left-1/2 whitespace-nowrap"
+					initial={{ opacity: 0, y: 5 }}
 					animate={{ opacity: 1, y: 0 }}
-					transition={{ delay: 2.8, duration: 0.5, ease: elegantEase }}
+					transition={{ delay: 2.5, duration: 0.5 }}
 				>
-					<div className="flex items-center gap-1.5">
-						<motion.div
-							initial={{ opacity: 0, scale: 0.8 }}
-							animate={{ opacity: 1, scale: 1 }}
-							transition={{ delay: 3.0, duration: 0.3, ease: smoothEase }}
-						>
-							<Icon name="alert-circle" className="h-3 w-3 text-amber-500" />
-						</motion.div>
+					<span className="font-mono text-[9px] text-text-sub-600/60">
+						Stop paying for{" "}
 						<motion.span
-							className="font-mono text-[8px] text-text-sub-600"
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							transition={{ delay: 3.1, duration: 0.3 }}
+							className="font-semibold text-red-500"
+							animate={{ opacity: [1, 0.6, 1] }}
+							transition={{
+								duration: 1.5,
+								repeat: Number.POSITIVE_INFINITY,
+							}}
 						>
-							sending to{" "}
-							<span className="font-semibold text-red-500">dead leads</span>
+							dead emails
 						</motion.span>
-					</div>
+					</span>
 				</motion.div>
 			</div>
 		</div>
