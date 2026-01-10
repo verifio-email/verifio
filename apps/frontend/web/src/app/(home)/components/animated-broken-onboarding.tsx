@@ -11,20 +11,33 @@ const elegantEase = [0.65, 0, 0.35, 1] as const;
 export function AnimatedBrokenOnboarding() {
 	const [animationKey, setAnimationKey] = useState(0);
 	const [showCheck, setShowCheck] = useState(false);
+	const [moveSection, setMoveSection] = useState(false);
 
 	const handleHover = () => {
 		setShowCheck(false);
+		setMoveSection(false);
 		setAnimationKey((prev) => prev + 1);
 	};
 
 	// Reset showCheck when animationKey changes, then set it after 2 seconds
 	useEffect(() => {
 		setShowCheck(false);
+		setMoveSection(false);
 		const timer = setTimeout(() => {
 			setShowCheck(true);
 		}, 2000);
 		return () => clearTimeout(timer);
 	}, [animationKey]);
+
+	// After showCheck becomes true, wait 0.5s then move section
+	useEffect(() => {
+		if (showCheck) {
+			const timer = setTimeout(() => {
+				setMoveSection(true);
+			}, 500);
+			return () => clearTimeout(timer);
+		}
+	}, [showCheck]);
 
 	return (
 		<div
@@ -35,11 +48,11 @@ export function AnimatedBrokenOnboarding() {
 				className="relative flex w-full max-w-md flex-col items-center"
 				key={animationKey}
 			>
-				{/* API Endpoint Badge - starts centered, moves left after user check appears */}
+				{/* API Endpoint Badge - starts centered, moves left after success shows */}
 				<motion.div
 					className="mb-6"
 					initial={{ opacity: 0, y: 10, x: 0 }}
-					animate={{ opacity: 1, y: 0, x: showCheck ? -70 : 0 }}
+					animate={{ opacity: 1, y: 0, x: moveSection ? -70 : 0 }}
 					transition={{
 						opacity: { duration: 0.5, ease: elegantEase },
 						y: { duration: 0.5, ease: elegantEase },
@@ -54,7 +67,7 @@ export function AnimatedBrokenOnboarding() {
 					<motion.div
 						className="absolute flex flex-col items-center"
 						initial={{ x: 0 }}
-						animate={{ x: showCheck ? -70 : 0 }}
+						animate={{ x: moveSection ? -70 : 0 }}
 						transition={{ duration: 0.6, ease: elegantEase }}
 					>
 						<motion.div
@@ -122,8 +135,8 @@ export function AnimatedBrokenOnboarding() {
 					<motion.div
 						className="absolute top-8 flex items-center"
 						initial={{ opacity: 0 }}
-						animate={{ opacity: showCheck ? 1 : 0 }}
-						transition={{ delay: 0.4, duration: 0.5 }}
+						animate={{ opacity: moveSection ? 1 : 0 }}
+						transition={{ delay: 0.2, duration: 0.5 }}
 					>
 						{/* Left dots */}
 						<div className="mr-2 flex items-center gap-2">
@@ -133,11 +146,11 @@ export function AnimatedBrokenOnboarding() {
 									className="h-1 w-1 rounded-full bg-stroke-soft-200/40 dark:bg-gray-600/50"
 									initial={{ opacity: 0, scale: 0 }}
 									animate={{
-										opacity: showCheck ? 1 : 0,
-										scale: showCheck ? 1 : 0,
+										opacity: moveSection ? 1 : 0,
+										scale: moveSection ? 1 : 0,
 									}}
 									transition={{
-										delay: 0.5 + i * 0.1,
+										delay: 0.3 + i * 0.1,
 										duration: 0.3,
 										ease: smoothEase,
 									}}
@@ -149,24 +162,24 @@ export function AnimatedBrokenOnboarding() {
 						<motion.div
 							className="h-px w-20 bg-gradient-to-r from-stroke-soft-200/40 via-stroke-soft-200/60 to-stroke-soft-200/40 dark:from-gray-600/40 dark:via-gray-600/60 dark:to-gray-600/40"
 							initial={{ scaleX: 0 }}
-							animate={{ scaleX: showCheck ? 1 : 0 }}
-							transition={{ delay: 0.6, duration: 0.5, ease: elegantEase }}
+							animate={{ scaleX: moveSection ? 1 : 0 }}
+							transition={{ delay: 0.4, duration: 0.5, ease: elegantEase }}
 						/>
 
 						{/* Center connector dot */}
 						<motion.div
 							className="mx-1 h-1.5 w-1.5 rounded-full border border-stroke-soft-200/60 bg-bg-white-0 dark:border-gray-600 dark:bg-gray-900"
 							initial={{ scale: 0 }}
-							animate={{ scale: showCheck ? 1 : 0 }}
-							transition={{ delay: 0.8, duration: 0.3, ease: smoothEase }}
+							animate={{ scale: moveSection ? 1 : 0 }}
+							transition={{ delay: 0.6, duration: 0.3, ease: smoothEase }}
 						/>
 
 						{/* Right line - dashed to show broken connection */}
 						<motion.div
 							className="h-px w-20 border-red-400/40 border-t border-dashed"
 							initial={{ scaleX: 0 }}
-							animate={{ scaleX: showCheck ? 1 : 0 }}
-							transition={{ delay: 1.0, duration: 0.5, ease: elegantEase }}
+							animate={{ scaleX: moveSection ? 1 : 0 }}
+							transition={{ delay: 0.8, duration: 0.5, ease: elegantEase }}
 							style={{ transformOrigin: "left" }}
 						/>
 
@@ -178,11 +191,11 @@ export function AnimatedBrokenOnboarding() {
 									className="h-1 w-1 rounded-full bg-red-400/30"
 									initial={{ opacity: 0, scale: 0 }}
 									animate={{
-										opacity: showCheck ? 1 : 0,
-										scale: showCheck ? 1 : 0,
+										opacity: moveSection ? 1 : 0,
+										scale: moveSection ? 1 : 0,
 									}}
 									transition={{
-										delay: 1.2 + i * 0.1,
+										delay: 1.0 + i * 0.1,
 										duration: 0.3,
 										ease: smoothEase,
 									}}
@@ -195,25 +208,25 @@ export function AnimatedBrokenOnboarding() {
 					<motion.div
 						className="absolute flex flex-col items-center"
 						initial={{ x: 0, opacity: 0 }}
-						animate={{ x: showCheck ? 70 : 0, opacity: showCheck ? 1 : 0 }}
-						transition={{ delay: 0.8, duration: 0.5, ease: elegantEase }}
+						animate={{ x: moveSection ? 70 : 0, opacity: moveSection ? 1 : 0 }}
+						transition={{ delay: 0.6, duration: 0.5, ease: elegantEase }}
 					>
 						{/* Outer ring */}
 						<motion.div
 							className="relative flex h-16 w-16 items-center justify-center"
 							initial={{ scale: 0.8 }}
-							animate={{ scale: showCheck ? 1 : 0.8 }}
-							transition={{ delay: 0.9, duration: 0.4, ease: smoothEase }}
+							animate={{ scale: moveSection ? 1 : 0.8 }}
+							transition={{ delay: 0.7, duration: 0.4, ease: smoothEase }}
 						>
 							<motion.div
 								className="absolute inset-0 rounded-full border"
 								initial={{ borderColor: "rgba(156, 163, 175, 0.3)" }}
 								animate={{
-									borderColor: showCheck
+									borderColor: moveSection
 										? ["rgba(156, 163, 175, 0.3)", "rgba(239, 68, 68, 0.4)"]
 										: "rgba(156, 163, 175, 0.3)",
 								}}
-								transition={{ delay: 1.2, duration: 0.5 }}
+								transition={{ delay: 1.0, duration: 0.5 }}
 							/>
 
 							{/* Inner circle with icon */}
@@ -223,25 +236,25 @@ export function AnimatedBrokenOnboarding() {
 									borderColor: "rgba(156, 163, 175, 0.5)",
 								}}
 								animate={{
-									borderColor: showCheck
+									borderColor: moveSection
 										? ["rgba(156, 163, 175, 0.5)", "rgba(239, 68, 68, 0.5)"]
 										: "rgba(156, 163, 175, 0.5)",
 								}}
-								transition={{ delay: 1.2, duration: 0.5 }}
+								transition={{ delay: 1.0, duration: 0.5 }}
 							>
 								<motion.div
 									initial={{ opacity: 0, scale: 0 }}
 									animate={{
-										opacity: showCheck ? 1 : 0,
-										scale: showCheck ? 1 : 0,
+										opacity: moveSection ? 1 : 0,
+										scale: moveSection ? 1 : 0,
 									}}
-									transition={{ delay: 1.1, duration: 0.3, ease: smoothEase }}
+									transition={{ delay: 0.9, duration: 0.3, ease: smoothEase }}
 								>
 									<motion.div
 										animate={{
-											color: showCheck ? ["#6b7280", "#ef4444"] : "#6b7280",
+											color: moveSection ? ["#6b7280", "#ef4444"] : "#6b7280",
 										}}
-										transition={{ delay: 1.2, duration: 0.5 }}
+										transition={{ delay: 1.0, duration: 0.5 }}
 										className="text-gray-500"
 									>
 										<Icon name="mail-single" className="h-4 w-4" />
@@ -252,15 +265,15 @@ export function AnimatedBrokenOnboarding() {
 						<motion.div
 							className="mt-2 rounded-full border border-error-base/40 bg-error-base/10 px-2 py-0.5 font-medium text-[10px] text-error-base"
 							initial={{ opacity: 0 }}
-							animate={{ opacity: showCheck ? 1 : 0 }}
-							transition={{ delay: 1.4, duration: 0.4 }}
+							animate={{ opacity: moveSection ? 1 : 0 }}
+							transition={{ delay: 1.2, duration: 0.4 }}
 						>
 							Email Failed
 						</motion.div>
 					</motion.div>
 
 					{/* Traveling dot along the timeline */}
-					{showCheck && (
+					{moveSection && (
 						<motion.div
 							className="absolute top-8 h-1.5 w-1.5 rounded-full bg-green-500 shadow-green-500/50 shadow-sm"
 							initial={{ x: -60, opacity: 0 }}
@@ -285,8 +298,8 @@ export function AnimatedBrokenOnboarding() {
 				<motion.div
 					className="mt-4 flex items-center gap-2"
 					initial={{ opacity: 0, y: 10 }}
-					animate={{ opacity: showCheck ? 1 : 0, y: showCheck ? 0 : 10 }}
-					transition={{ delay: 1.6, duration: 0.5, ease: elegantEase }}
+					animate={{ opacity: moveSection ? 1 : 0, y: moveSection ? 0 : 10 }}
+					transition={{ delay: 1.4, duration: 0.5, ease: elegantEase }}
 				>
 					<div className="flex items-center gap-1.5 rounded border border-red-500/30 bg-red-500/5 px-2.5 py-1">
 						<motion.div
