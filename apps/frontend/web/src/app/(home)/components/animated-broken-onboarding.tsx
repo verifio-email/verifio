@@ -232,9 +232,9 @@ export function AnimatedBrokenOnboarding() {
 					{moveSection && (
 						<motion.div
 							className="absolute top-8 h-1.5 w-1.5 rounded-full bg-green-500 shadow-green-500/50 shadow-sm"
-							initial={{ x: -60, opacity: 0 }}
+							initial={{ x: -70, opacity: 0 }}
 							animate={{
-								x: [-60, 0, 0],
+								x: [-70, 0, 0],
 								opacity: [0, 1, 0],
 								backgroundColor: ["#22c55e", "#22c55e", "#ef4444"],
 							}}
@@ -255,7 +255,7 @@ export function AnimatedBrokenOnboarding() {
 						transition={{ delay: 0.2, duration: 0.5 }}
 					>
 						{/* Left dots */}
-						<div className="mr-10 flex items-center gap-2">
+						<div className="mr-20 flex items-center gap-2">
 							{[0, 1, 2].map((i) => (
 								<motion.div
 									key={`left-${i}`}
@@ -276,7 +276,7 @@ export function AnimatedBrokenOnboarding() {
 
 						{/* Center line */}
 						<motion.div
-							className="h-px w-10 bg-gradient-to-r from-success-base/20 via-success-base/30 to-success-base/20"
+							className="h-px w-8 bg-gradient-to-r from-success-base/20 via-success-base/30 to-success-base/20"
 							initial={{ scaleX: 0 }}
 							animate={{ scaleX: moveSection ? 1 : 0 }}
 							transition={{ delay: 0.4, duration: 0.5, ease: elegantEase }}
@@ -292,7 +292,7 @@ export function AnimatedBrokenOnboarding() {
 
 						{/* Right line - dashed to show broken connection */}
 						<motion.div
-							className="h-px w-20 border-red-400/20 border-t border-dashed"
+							className="h-px w-7 border-red-400/20 border-t border-dashed"
 							initial={{ scaleX: 0 }}
 							animate={{ scaleX: moveSection ? 1 : 0 }}
 							transition={{ delay: 0.8, duration: 0.5, ease: elegantEase }}
@@ -300,7 +300,7 @@ export function AnimatedBrokenOnboarding() {
 						/>
 
 						{/* Right dots - faded to show failure */}
-						<div className="ml-2 flex items-center gap-2">
+						<div className="ml-20 flex items-center gap-2">
 							{[0, 1, 2].map((i) => (
 								<motion.div
 									key={`right-${i}`}
