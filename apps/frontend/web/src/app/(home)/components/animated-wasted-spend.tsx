@@ -1,5 +1,6 @@
 "use client";
 
+import NumberFlow from "@number-flow/react";
 import { Icon } from "@verifio/ui/icon";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -7,45 +8,6 @@ import { useEffect, useState } from "react";
 // Smooth easing curves
 const smoothEase = [0.4, 0, 0.2, 1] as const;
 const elegantEase = [0.65, 0, 0.35, 1] as const;
-
-// Animated counter
-function AnimatedCounter({
-	startValue,
-	endValue,
-	delay = 0,
-	duration = 1500,
-}: {
-	startValue: number;
-	endValue: number;
-	delay?: number;
-	duration?: number;
-}) {
-	const [displayValue, setDisplayValue] = useState(startValue);
-
-	useEffect(() => {
-		setDisplayValue(startValue);
-		const timer = setTimeout(() => {
-			const startTime = Date.now();
-			const difference = startValue - endValue;
-
-			const animate = () => {
-				const elapsed = Date.now() - startTime;
-				const progress = Math.min(elapsed / duration, 1);
-				const eased = 1 - (1 - progress) ** 3;
-				setDisplayValue(Math.floor(startValue - eased * difference));
-
-				if (progress < 1) {
-					requestAnimationFrame(animate);
-				}
-			};
-			requestAnimationFrame(animate);
-		}, delay);
-
-		return () => clearTimeout(timer);
-	}, [startValue, endValue, delay, duration]);
-
-	return <>{displayValue.toLocaleString()}</>;
-}
 
 // Invoice line item
 function InvoiceRow({
@@ -155,11 +117,11 @@ export function AnimatedWastedSpend() {
 							transition={{ delay: 0.5, duration: 0.4 }}
 						>
 							$
-							<AnimatedCounter
-								startValue={10000}
-								endValue={showDeductions ? 7327 : 10000}
-								delay={showDeductions ? 0 : 99999}
-								duration={1800}
+							<NumberFlow
+								value={showDeductions ? 7327 : 10000}
+								format={{ useGrouping: true }}
+								transformTiming={{ duration: 1200, easing: "ease-out" }}
+								spinTiming={{ duration: 1200, easing: "ease-out" }}
 							/>
 						</motion.div>
 					</div>

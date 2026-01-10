@@ -18,6 +18,7 @@
 		"@tailwindcss/postcss": "catalog:ui",
 		"babel-plugin-react-compiler": "catalog:ui",
 		"better-auth": "catalog:",
+		"@number-flow/react": "catalog:ui",
 		"framer-motion": "catalog:ui",
 		"motion": "catalog:ui",
 		"rc-progress": "catalog:ui",
