@@ -1,5 +1,6 @@
 import { Icon } from "@verifio/ui/icon";
 import { AnimatedBounce } from "./animated-bounce";
+import { AnimatedBrokenOnboarding } from "./animated-broken-onboarding";
 import { AnimatedSpamFlag } from "./animated-spam-flag";
 import { AnimatedWastedSpend } from "./animated-wasted-spend";
 
@@ -17,59 +18,7 @@ function WastedSpendVisual() {
 }
 
 function BrokenOnboardingVisual() {
-	return (
-		<div className="relative flex h-44 items-center justify-center">
-			<div className="relative">
-				{/* User flow with break */}
-				<div className="flex items-center gap-2">
-					{/* Step 1: Signup */}
-					<div className="flex flex-col items-center">
-						<div className="flex h-8 w-8 items-center justify-center rounded-full border border-green-400/50 bg-green-50 dark:bg-green-950/30">
-							<Icon name="user" className="h-3.5 w-3.5 text-green-500" />
-						</div>
-						<span className="mt-1 font-mono text-[8px] text-text-sub-600/60">
-							signup
-						</span>
-					</div>
-
-					{/* Arrow */}
-					<div className="h-px w-4 bg-green-400/40" />
-
-					{/* Step 2: Email verify - BROKEN */}
-					<div className="flex flex-col items-center">
-						<div className="relative flex h-8 w-8 items-center justify-center rounded-full border border-red-400/50 bg-red-50 dark:bg-red-950/30">
-							<Icon name="mail" className="h-3.5 w-3.5 text-red-500" />
-							<div className="-right-1 -top-1 absolute flex h-4 w-4 items-center justify-center rounded-full bg-red-500">
-								<Icon name="x" className="h-2.5 w-2.5 text-white" />
-							</div>
-						</div>
-						<span className="mt-1 font-mono text-[8px] text-red-400">
-							verify
-						</span>
-					</div>
-
-					{/* Broken arrow */}
-					<div className="h-px w-4 border-text-sub-600/30 border-t border-dashed" />
-
-					{/* Step 3: Activate - Never reached */}
-					<div className="flex flex-col items-center opacity-40">
-						<div className="flex h-8 w-8 items-center justify-center rounded-full border border-stroke-soft-200/30 bg-bg-white-0">
-							<Icon name="check" className="h-3.5 w-3.5 text-text-sub-600" />
-						</div>
-						<span className="mt-1 font-mono text-[8px] text-text-sub-600/60">
-							activate
-						</span>
-					</div>
-				</div>
-
-				{/* Drop-off stat */}
-				<div className="-bottom-8 -translate-x-1/2 absolute left-1/2 rounded border border-stroke-soft-200/30 bg-bg-white-0 px-2 py-1 font-mono text-[9px] dark:bg-gray-900/50">
-					<span className="font-semibold text-red-500">40%</span>
-					<span className="text-text-sub-600/60"> drop-off</span>
-				</div>
-			</div>
-		</div>
-	);
+	return <AnimatedBrokenOnboarding />;
 }
 
 const problems = [
@@ -185,7 +134,16 @@ export function EmailQualityProblem() {
 					</div>
 
 					{/* Black Box Callout */}
-					<div className="border-stroke-soft-100 border-t">
+					<div className="relative border-stroke-soft-100 border-t py-10">
+						<div
+							className="absolute inset-0 top-2 right-1 left-3 z-0"
+							style={{
+								backgroundImage:
+									"radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.1) 1px, transparent 0)",
+								backgroundSize: "20px 20px",
+							}}
+						/>
+
 						<div className="flex flex-col items-center justify-center px-4 py-8 text-center md:p-10">
 							<div className="relative mx-auto max-w-2xl">
 								{/* Quote marks */}
