@@ -34,7 +34,7 @@ export function AnimatedBrokenOnboarding() {
 		if (showCheck) {
 			const timer = setTimeout(() => {
 				setMoveSection(true);
-			}, 500);
+			}, 2500);
 			return () => clearTimeout(timer);
 		}
 	}, [showCheck]);
@@ -76,11 +76,30 @@ export function AnimatedBrokenOnboarding() {
 							animate={{ opacity: 1, scale: 1 }}
 							transition={{ delay: 0.3, duration: 0.5, ease: smoothEase }}
 						>
-							<div className="absolute inset-0 rounded-full border border-stroke-soft-200/30 dark:border-gray-700/50" />
 							<motion.div
-								className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke-soft-200/50 bg-bg-white-0 dark:border-gray-600/50 dark:bg-gray-800"
-								initial={{ scale: 0.8, opacity: 0 }}
-								animate={{ scale: 1, opacity: 1 }}
+								className="absolute inset-0 rounded-full border bg-bg-white-0"
+								initial={{ borderColor: "rgba(156, 163, 175, 0.3)" }}
+								animate={{
+									borderColor: showCheck
+										? ["rgba(156, 163, 175, 0.3)", "rgba(34, 197, 94, 0.4)"]
+										: "rgba(156, 163, 175, 0.3)",
+								}}
+								transition={{ delay: 0.5, duration: 0.4, ease: smoothEase }}
+							/>
+							<motion.div
+								className="z-10 flex h-10 w-10 items-center justify-center rounded-full border bg-bg-white-0"
+								initial={{
+									scale: 0.8,
+									opacity: 0,
+									borderColor: "rgba(156, 163, 175, 0.5)",
+								}}
+								animate={{
+									scale: 1,
+									opacity: 1,
+									borderColor: showCheck
+										? ["rgba(156, 163, 175, 0.5)", "rgba(34, 197, 94, 0.5)"]
+										: "rgba(156, 163, 175, 0.5)",
+								}}
 								transition={{ delay: 0.5, duration: 0.4, ease: smoothEase }}
 							>
 								<AnimatePresence mode="wait">
@@ -99,10 +118,18 @@ export function AnimatedBrokenOnboarding() {
 												scale: { delay: 0.7, duration: 0.3, ease: smoothEase },
 											}}
 										>
-											<Icon
-												name="refresh-cw"
-												className="h-4 w-4 animate-spin text-text-sub-600 dark:text-gray-400"
-											/>
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												className="h-4 w-4 animate-spin text-text-sub-600"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
+												strokeWidth={2}
+												strokeLinecap="round"
+												strokeLinejoin="round"
+											>
+												<path d="M21 12a9 9 0 1 1-6.219-8.56" />
+											</svg>
 										</motion.div>
 									) : (
 										<motion.div
@@ -113,7 +140,7 @@ export function AnimatedBrokenOnboarding() {
 										>
 											<Icon
 												name="user-check"
-												className="h-4 w-4 text-success-base dark:text-green-400"
+												className="h-4 w-4 text-success-base"
 											/>
 										</motion.div>
 									)}
@@ -125,7 +152,7 @@ export function AnimatedBrokenOnboarding() {
 							className="mt-2 rounded-full border border-success-base/40 bg-success-base/10 px-2 py-0.5 font-medium text-[10px] text-success-base"
 							initial={{ opacity: 0, y: -5 }}
 							animate={{ opacity: showCheck ? 1 : 0, y: showCheck ? 0 : -5 }}
-							transition={{ duration: 0.4, ease: smoothEase }}
+							transition={{ duration: 0.4, ease: smoothEase, delay: 1 }}
 						>
 							Success
 						</motion.div>
@@ -139,11 +166,11 @@ export function AnimatedBrokenOnboarding() {
 						transition={{ delay: 0.2, duration: 0.5 }}
 					>
 						{/* Left dots */}
-						<div className="mr-2 flex items-center gap-2">
+						<div className="mr-10 flex items-center gap-2">
 							{[0, 1, 2].map((i) => (
 								<motion.div
 									key={`left-${i}`}
-									className="h-1 w-1 rounded-full bg-stroke-soft-200/40 dark:bg-gray-600/50"
+									className="h-1 w-1 rounded-full bg-success-base/40 dark:bg-success-base/50"
 									initial={{ opacity: 0, scale: 0 }}
 									animate={{
 										opacity: moveSection ? 1 : 0,
@@ -160,7 +187,7 @@ export function AnimatedBrokenOnboarding() {
 
 						{/* Center line */}
 						<motion.div
-							className="h-px w-20 bg-gradient-to-r from-stroke-soft-200/40 via-stroke-soft-200/60 to-stroke-soft-200/40 dark:from-gray-600/40 dark:via-gray-600/60 dark:to-gray-600/40"
+							className="h-px w-10 bg-gradient-to-r from-success-base/40 via-success-base/60 to-success-base/40"
 							initial={{ scaleX: 0 }}
 							animate={{ scaleX: moveSection ? 1 : 0 }}
 							transition={{ delay: 0.4, duration: 0.5, ease: elegantEase }}
@@ -206,7 +233,7 @@ export function AnimatedBrokenOnboarding() {
 
 					{/* Email Verification Circle - appears on right after section moves */}
 					<motion.div
-						className="absolute flex flex-col items-center"
+						className="absolute flex flex-col items-center bg-bg-white-0"
 						initial={{ x: 0, opacity: 0 }}
 						animate={{ x: moveSection ? 70 : 0, opacity: moveSection ? 1 : 0 }}
 						transition={{ delay: 0.6, duration: 0.5, ease: elegantEase }}
@@ -231,7 +258,7 @@ export function AnimatedBrokenOnboarding() {
 
 							{/* Inner circle with icon */}
 							<motion.div
-								className="flex h-10 w-10 items-center justify-center rounded-full border bg-bg-white-0 dark:bg-gray-800"
+								className="flex h-10 w-10 items-center justify-center rounded-full border"
 								initial={{
 									borderColor: "rgba(156, 163, 175, 0.5)",
 								}}
