@@ -2,7 +2,7 @@
 
 Open-source email verification infrastructure — transparent, self-hostable, and free to start.
 
-⭐ An open-source alternative to ZeroBounce Emailable
+⭐ An open-source alternative to ZeroBounce, Emailable
 
 ---
 
