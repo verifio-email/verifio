@@ -513,7 +513,12 @@ const BulkPage = () => {
 								</div>
 
 								{/* Jobs Grid with Pie Charts */}
-								<div>
+								<div
+									className={cn(
+										"h-full",
+										isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32",
+									)}
+								>
 									{isLoadingJobs ? (
 										<div className="grid grid-cols-3 gap-4">
 											{Array.from({ length: 3 }).map((_, i) => (
@@ -544,8 +549,8 @@ const BulkPage = () => {
 										</div>
 									) : (
 										<>
-											{/* Outer box container with border */}
-											<div className="overflow-hidden rounded-lg border border-stroke-soft-200/50">
+											{/* Outer box container  */}
+											<div className="border-stroke-soft-200/50 border-r border-b border-l">
 												{/* Grid Rows - 3 jobs per row */}
 												{Array.from({
 													length: Math.ceil(jobs.length / 3),
@@ -615,7 +620,7 @@ const BulkPage = () => {
 																			)}
 																		>
 																			{/* Title/Label Section with border below */}
-																			<div className="flex w-full flex-col items-center border-stroke-soft-200/50 border-b px-4 py-3">
+																			<div className="relative flex w-full flex-col items-center px-4 py-3">
 																				<p className="text-center font-medium text-sm text-text-strong-950">
 																					{job.name ||
 																						`Job ${job.id.slice(0, 8)}`}
@@ -627,6 +632,8 @@ const BulkPage = () => {
 																					/>
 																					<span>{job.totalEmails} emails</span>
 																				</div>
+																				{/* Border extending to edges */}
+																				<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200/50" />
 																			</div>
 
 																			{/* Content Area - Pie chart etc */}
