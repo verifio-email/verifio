@@ -71,6 +71,7 @@ console.log(result);
     "catchAll": false
   }
 }
+```
 The same result format is returned whether you use the hosted API or self-host Verifio.
 
 Hosted API or Self-Hosted — your choice
