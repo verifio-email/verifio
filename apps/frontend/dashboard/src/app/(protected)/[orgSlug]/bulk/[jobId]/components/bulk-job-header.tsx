@@ -10,6 +10,7 @@ import {
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
 import * as Input from "@verifio/ui/input";
+import * as Select from "@verifio/ui/select";
 import { Skeleton } from "@verifio/ui/skeleton";
 import { useState } from "react";
 
@@ -67,13 +68,20 @@ export const BulkJobHeader = ({
 }: BulkJobHeaderProps) => {
 	const { push } = useUserOrganization();
 	const [searchQuery, setSearchQuery] = useState("");
+	const [stateFilter, setStateFilter] = useState<
+		"all" | "deliverable" | "risky" | "undeliverable" | "unknown"
+	>("all");
 	const [currentPage, setCurrentPage] = useState(1);
 	const [pageSize, setPageSize] = useState(10);
-	// Filter results based on search
+	// Filter results based on search and state
 	const filteredResults =
-		results?.results.filter((r) =>
-			r.email.toLowerCase().includes(searchQuery.toLowerCase()),
-		) || [];
+		results?.results.filter((r) => {
+			const matchesSearch = r.email
+				.toLowerCase()
+				.includes(searchQuery.toLowerCase());
+			const matchesState = stateFilter === "all" || r.state === stateFilter;
+			return matchesSearch && matchesState;
+		}) || [];
 	// Pagination
 	const totalPages = Math.ceil(filteredResults.length / pageSize);
 	const startIndex = (currentPage - 1) * pageSize;
@@ -202,21 +210,74 @@ export const BulkJobHeader = ({
 							<h3 className="font-semibold text-lg text-text-strong-950">
 								Results
 							</h3>
-							{/* Search */}
-							<div className="w-64">
-								<Input.Root size="small">
-									<Input.Wrapper>
-										<Input.Icon as={Icon} name="search" />
-										<Input.Input
-											placeholder="Search emails..."
-											value={searchQuery}
-											onChange={(e) => {
-												setSearchQuery(e.target.value);
-												setCurrentPage(1);
-											}}
-										/>
-									</Input.Wrapper>
-								</Input.Root>
+							{/* Search and Filter */}
+							<div className="flex items-center gap-3">
+								{/* State Filter */}
+								<Select.Root
+									size="small"
+									value={stateFilter}
+									onValueChange={(
+										value:
+											| "all"
+											| "deliverable"
+											| "risky"
+											| "undeliverable"
+											| "unknown",
+									) => {
+										setStateFilter(value);
+										setCurrentPage(1);
+									}}
+								>
+									<Select.Trigger className="w-32">
+										<Select.Value placeholder="All states" />
+									</Select.Trigger>
+									<Select.Content align="end">
+										<Select.Group>
+											<Select.GroupLabel>Filter by state</Select.GroupLabel>
+											<Select.Item value="all">All states</Select.Item>
+											<Select.Item value="deliverable">
+												<span className="flex items-center gap-2">
+													<span className="h-2 w-2 rounded-full bg-success-base" />
+													Valid
+												</span>
+											</Select.Item>
+											<Select.Item value="risky">
+												<span className="flex items-center gap-2">
+													<span className="h-2 w-2 rounded-full bg-warning-base" />
+													Risky
+												</span>
+											</Select.Item>
+											<Select.Item value="undeliverable">
+												<span className="flex items-center gap-2">
+													<span className="h-2 w-2 rounded-full bg-error-base" />
+													Invalid
+												</span>
+											</Select.Item>
+											<Select.Item value="unknown">
+												<span className="flex items-center gap-2">
+													<span className="h-2 w-2 rounded-full bg-bg-soft-200" />
+													Unknown
+												</span>
+											</Select.Item>
+										</Select.Group>
+									</Select.Content>
+								</Select.Root>
+								{/* Search */}
+								<div className="w-64">
+									<Input.Root size="small">
+										<Input.Wrapper>
+											<Input.Icon as={Icon} name="search" />
+											<Input.Input
+												placeholder="Search emails..."
+												value={searchQuery}
+												onChange={(e) => {
+													setSearchQuery(e.target.value);
+													setCurrentPage(1);
+												}}
+											/>
+										</Input.Wrapper>
+									</Input.Root>
+								</div>
 							</div>
 						</div>
 						{isLoading ? (

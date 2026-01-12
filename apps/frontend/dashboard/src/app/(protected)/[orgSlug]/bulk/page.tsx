@@ -386,9 +386,9 @@ const BulkPage = () => {
 		<>
 			<div className="flex h-full flex-col overflow-hidden">
 				{/* Header Section - Matching PlaygroundHeader */}
-				<div className="border-stroke-soft-200 border-b">
+				<div className="border-stroke-soft-100 border-b">
 					<div className="mx-auto max-w-2xl">
-						<div className="relative border-stroke-soft-200 border-r border-l pt-12 pb-12 text-center">
+						<div className="relative border-stroke-soft-100 border-r border-l pt-12 pb-12 text-center">
 							<h1 className="relative font-semibold text-2xl text-text-strong-950 md:text-3xl">
 								Bulk Verification
 							</h1>
@@ -405,7 +405,7 @@ const BulkPage = () => {
 						<div className="flex flex-col">
 							{/* Import CSV Section - Matching Playground BulkUploadInput */}
 							<div>
-								<div className="mx-auto max-w-2xl border-stroke-soft-200 border-r border-l">
+								<div className="mx-auto max-w-2xl border-stroke-soft-100 border-r border-l">
 									{/* Bulk CSV Upload - Drag & Drop */}
 									<div className="p-8">
 										{/* Hidden file input wrapped in label for better compatibility */}
@@ -426,14 +426,14 @@ const BulkPage = () => {
 													"flex h-[200px] cursor-pointer flex-col rounded-lg border-2 border-dashed transition-all duration-200",
 													isDragging
 														? "border-primary-base bg-primary-alpha-10"
-														: "border-stroke-soft-200 hover:border-primary-base hover:bg-bg-weak-50",
+														: "border-stroke-soft-100 hover:border-primary-base hover:bg-bg-weak-50",
 													csvFile && "border-success-base bg-success-alpha-10",
 												)}
 											>
 												{csvFile && csvPreview.length > 0 ? (
 													<div className="flex h-full flex-col">
 														{/* File info header */}
-														<div className="flex items-center justify-between border-stroke-soft-200 border-b px-4 py-3">
+														<div className="flex items-center justify-between border-stroke-soft-100 border-b px-4 py-3">
 															<div className="flex items-center gap-3">
 																<div className="flex h-9 w-9 items-center justify-center rounded-md bg-success-alpha-10">
 																	<FileFormatIcon.Root
@@ -466,7 +466,7 @@ const BulkPage = () => {
 															</button>
 														</div>
 														{/* Email preview section - table-like list */}
-														<div className="flex flex-1 flex-col divide-y divide-stroke-soft-200">
+														<div className="flex flex-1 flex-col divide-y divide-stroke-soft-100">
 															{csvPreview.slice(0, 3).map((email, idx) => (
 																<div
 																	key={`${email}-${idx}`}
@@ -546,7 +546,7 @@ const BulkPage = () => {
 
 									{/* Action Row */}
 									<div className="relative flex items-center justify-end gap-2 p-3">
-										<div className="absolute top-0 right-[-100vw] left-[-100vw] h-px bg-stroke-soft-200" />
+										<div className="absolute top-0 right-[-100vw] left-[-100vw] h-px bg-stroke-soft-100" />
 										<button
 											type="button"
 											onClick={handleStartVerification}
@@ -569,7 +569,7 @@ const BulkPage = () => {
 											)}
 										</button>
 										{/* Bottom border extending to viewport edges */}
-										<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200" />
+										<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-100" />
 									</div>
 								</div>
 							</div>
@@ -589,7 +589,7 @@ const BulkPage = () => {
 										</h3>
 									</div>
 
-									<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200" />
+									<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-100" />
 								</div>
 
 								{/* Jobs Grid with Pie Charts */}
@@ -604,7 +604,7 @@ const BulkPage = () => {
 											{Array.from({ length: 3 }).map((_, i) => (
 												<div
 													key={i}
-													className="flex flex-col items-center justify-center rounded-xl border border-stroke-soft-200 bg-bg-white-0 p-6"
+													className="flex flex-col items-center justify-center rounded-xl border border-stroke-soft-100 bg-bg-white-0 p-6"
 												>
 													<div className="h-32 w-32 animate-pulse rounded-full bg-bg-weak-100" />
 													<div className="mt-4 h-4 w-24 animate-pulse rounded bg-bg-weak-100" />
@@ -630,7 +630,7 @@ const BulkPage = () => {
 									) : (
 										<>
 											{/* Outer box container  */}
-											<div className="border-stroke-soft-200 border-r border-b border-l">
+											<div className="border-stroke-soft-100 border-r border-b border-l">
 												{/* Grid Rows - 3 jobs per row */}
 												{Array.from({
 													length: Math.ceil(jobs.length / 3),
@@ -641,13 +641,13 @@ const BulkPage = () => {
 													);
 													return (
 														<div key={rowIndex}>
-															<div className="grid grid-cols-3 divide-x divide-stroke-soft-200">
+															<div className="grid grid-cols-3 divide-x divide-stroke-soft-100">
 																{rowJobs.map((job) => {
 																	const PIE_COLORS = {
-																		deliverable: "#22c55e",
-																		risky: "#38bdf8",
-																		undeliverable: "#6366f1",
-																		unknown: "#a5b4fc",
+																		deliverable: "#1fc16b", // success-base
+																		risky: "#fa7319", // warning-base
+																		undeliverable: "#fb3748", // error-base
+																		unknown: "#d1d1d1", // gray-300
 																	};
 																	const pieData = job.stats
 																		? [
@@ -696,7 +696,7 @@ const BulkPage = () => {
 																				}
 																				disabled={job.status !== "completed"}
 																				className={cn(
-																					"relative flex w-full flex-col items-center border-stroke-soft-200 border-r border-l bg-bg-white-0 transition-all",
+																					"relative flex w-full flex-col items-center border-stroke-soft-100 border-r border-l bg-bg-white-0 transition-all",
 																					job.status === "completed" &&
 																						"cursor-pointer hover:bg-bg-weak-50",
 																					expandedJobId === job.id &&
@@ -704,7 +704,7 @@ const BulkPage = () => {
 																				)}
 																			>
 																				{/* Title/Label Section with border below */}
-																				<div className="relative flex w-full flex-col items-center border-stroke-soft-200 border-b px-6 py-4">
+																				<div className="relative flex w-full flex-col items-center border-stroke-soft-100 border-b px-6 py-4">
 																					<p className="text-center font-medium text-sm text-text-strong-950">
 																						{job.name ||
 																							`Job ${job.id.slice(0, 8)}`}
@@ -821,70 +821,94 @@ const BulkPage = () => {
 																					{/* Stats Table */}
 																					{job.status === "completed" &&
 																						job.stats && (
-																							<div className="mt-4 grid w-full grid-cols-4 divide-x divide-stroke-soft-200 border-stroke-soft-200 border-t">
-																								<div className="flex flex-col items-center gap-1 py-3">
-																									<Icon
-																										name="check-circle"
-																										className="h-4 w-4"
-																										style={{ color: "#22c55e" }}
-																									/>
-																									<span
-																										className="font-bold text-lg"
-																										style={{ color: "#22c55e" }}
-																									>
-																										{job.stats.deliverable}
-																									</span>
-																									<span className="text-[10px] text-text-soft-400 uppercase tracking-wide">
+																							<div className="w-full divide-y divide-stroke-soft-100 border-stroke-soft-100 border-t">
+																								<div className="flex items-center justify-between px-6 py-2">
+																									<span className="text-sm text-text-sub-600">
 																										Valid
 																									</span>
+																									<div className="flex items-center gap-2">
+																										<Icon
+																											name="check-circle"
+																											className="h-4 w-4"
+																											style={{
+																												color: "#1fc16b",
+																											}}
+																										/>
+																										<span
+																											className="font-semibold"
+																											style={{
+																												color: "#1fc16b",
+																											}}
+																										>
+																											{job.stats.deliverable}
+																										</span>
+																									</div>
 																								</div>
-																								<div className="flex flex-col items-center gap-1 py-3">
-																									<Icon
-																										name="alert-triangle"
-																										className="h-4 w-4"
-																										style={{ color: "#38bdf8" }}
-																									/>
-																									<span
-																										className="font-bold text-lg"
-																										style={{ color: "#38bdf8" }}
-																									>
-																										{job.stats.risky}
-																									</span>
-																									<span className="text-[10px] text-text-soft-400 uppercase tracking-wide">
+																								<div className="flex items-center justify-between px-6 py-2">
+																									<span className="text-sm text-text-sub-600">
 																										Risky
 																									</span>
+																									<div className="flex items-center gap-2">
+																										<Icon
+																											name="alert-triangle"
+																											className="h-4 w-4"
+																											style={{
+																												color: "#fa7319",
+																											}}
+																										/>
+																										<span
+																											className="font-semibold"
+																											style={{
+																												color: "#fa7319",
+																											}}
+																										>
+																											{job.stats.risky}
+																										</span>
+																									</div>
 																								</div>
-																								<div className="flex flex-col items-center gap-1 py-3">
-																									<Icon
-																										name="cross-circle"
-																										className="h-4 w-4"
-																										style={{ color: "#6366f1" }}
-																									/>
-																									<span
-																										className="font-bold text-lg"
-																										style={{ color: "#6366f1" }}
-																									>
-																										{job.stats.undeliverable}
-																									</span>
-																									<span className="text-[10px] text-text-soft-400 uppercase tracking-wide">
+																								<div className="flex items-center justify-between px-6 py-2">
+																									<span className="text-sm text-text-sub-600">
 																										Invalid
 																									</span>
+																									<div className="flex items-center gap-2">
+																										<Icon
+																											name="cross-circle"
+																											className="h-4 w-4"
+																											style={{
+																												color: "#fb3748",
+																											}}
+																										/>
+																										<span
+																											className="font-semibold"
+																											style={{
+																												color: "#fb3748",
+																											}}
+																										>
+																											{job.stats.undeliverable}
+																										</span>
+																									</div>
 																								</div>
-																								<div className="flex flex-col items-center gap-1 py-3">
-																									<Icon
-																										name="help-circle"
-																										className="h-4 w-4"
-																										style={{ color: "#a5b4fc" }}
-																									/>
-																									<span
-																										className="font-bold text-lg"
-																										style={{ color: "#a5b4fc" }}
-																									>
-																										{job.stats.unknown}
-																									</span>
-																									<span className="text-[10px] text-text-soft-400 uppercase tracking-wide">
+																								<div className="flex items-center justify-between px-6 py-2">
+																									<span className="text-sm text-text-sub-600">
 																										Unknown
 																									</span>
+																									<div className="flex items-center gap-2">
+																										<Icon
+																											name="help-circle"
+																											className="h-4 w-4"
+																											style={{
+																												color: "#d1d1d1",
+																											}}
+																										/>
+																										<span
+																											className="font-semibold"
+																											style={{
+																												color: "#d1d1d1",
+																											}}
+																										>
+																											{job.stats.unknown}
+																										</span>
+																									</div>
 																								</div>
 																							</div>
 																						)}
@@ -916,7 +940,7 @@ const BulkPage = () => {
 																			initial={{ opacity: 0, height: 0 }}
 																			animate={{ opacity: 1, height: "auto" }}
 																			exit={{ opacity: 0, height: 0 }}
-																			className="overflow-hidden border-stroke-soft-200 border-t bg-bg-weak-50/30"
+																			className="overflow-hidden border-stroke-soft-100 border-t bg-bg-weak-50/30"
 																		>
 																			<div className="px-6 py-4">
 																				{/* Header with search and download */}
@@ -965,7 +989,7 @@ const BulkPage = () => {
 																									jobResults,
 																								);
 																						}}
-																						className="flex h-8 items-center gap-1.5 rounded-lg px-3 text-text-sub-600 ring-1 ring-stroke-soft-200 transition-all hover:bg-bg-white-0"
+																						className="flex h-8 items-center gap-1.5 rounded-lg px-3 text-text-sub-600 ring-1 ring-stroke-soft-100 transition-all hover:bg-bg-white-0"
 																					>
 																						<Icon
 																							name="file-download"
@@ -984,7 +1008,7 @@ const BulkPage = () => {
 																							(_, i) => (
 																								<div
 																									key={i}
-																									className="flex items-center justify-between rounded-lg border border-stroke-soft-200 bg-bg-white-0 px-4 py-3"
+																									className="flex items-center justify-between rounded-lg border border-stroke-soft-100 bg-bg-white-0 px-4 py-3"
 																								>
 																									<div className="h-4 w-48 animate-pulse rounded bg-bg-weak-100" />
 																									<div className="h-4 w-16 animate-pulse rounded bg-bg-weak-100" />
@@ -1004,7 +1028,7 @@ const BulkPage = () => {
 																											result as unknown as EmailVerificationData,
 																										)
 																									}
-																									className="flex w-full cursor-pointer items-center justify-between rounded-lg border border-stroke-soft-200 bg-bg-white-0 px-4 py-3 text-left transition-all hover:bg-bg-weak-50"
+																									className="flex w-full cursor-pointer items-center justify-between rounded-lg border border-stroke-soft-100 bg-bg-white-0 px-4 py-3 text-left transition-all hover:bg-bg-weak-50"
 																								>
 																									<div className="flex items-center gap-3">
 																										<div
@@ -1105,7 +1129,7 @@ const BulkPage = () => {
 											</div>
 											{/* Jobs Pagination */}
 											{totalPages > 1 && (
-												<div className="flex items-center justify-between border-stroke-soft-200 border-t px-6 py-4">
+												<div className="flex items-center justify-between border-stroke-soft-100 border-t px-6 py-4">
 													<div className="flex items-center gap-2 text-sm text-text-sub-600">
 														<span>
 															Showing {(currentPage - 1) * pageSize + 1} to{" "}
@@ -1127,6 +1151,21 @@ const BulkPage = () => {
 										</>
 									)}
 								</div>
+							</div>
+
+							{/* Bottom border + spacer (matching playground footer) with extending vertical lines */}
+							<div
+								className={cn(
+									"relative",
+									isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32",
+								)}
+							>
+								<div className="grid grid-cols-3 divide-x divide-stroke-soft-100 border-stroke-soft-100 border-r border-l">
+									<div className="py-6" />
+									<div className="py-6" />
+									<div className="py-6" />
+								</div>
+								<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-100" />
 							</div>
 						</div>
 					</div>
