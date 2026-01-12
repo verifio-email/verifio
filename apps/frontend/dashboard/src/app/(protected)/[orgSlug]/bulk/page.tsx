@@ -384,9 +384,9 @@ const BulkPage = () => {
 		<>
 			<div className="flex h-full flex-col overflow-hidden">
 				{/* Header Section - Matching PlaygroundHeader */}
-				<div className="border-stroke-soft-100 border-b">
+				<div className="border-stroke-soft-200 border-b">
 					<div className="mx-auto max-w-2xl">
-						<div className="relative border-stroke-soft-100 border-r border-l pt-12 pb-12 text-center">
+						<div className="relative border-stroke-soft-200 border-r border-l pt-12 pb-12 text-center">
 							<h1 className="relative font-semibold text-2xl text-text-strong-950 md:text-3xl">
 								Bulk Verification
 							</h1>
@@ -403,7 +403,7 @@ const BulkPage = () => {
 						<div className="flex flex-col">
 							{/* Import CSV Section - Matching Playground BulkUploadInput */}
 							<div>
-								<div className="mx-auto max-w-2xl border-stroke-soft-100 border-r border-l">
+								<div className="mx-auto max-w-2xl border-stroke-soft-200 border-r border-l">
 									{/* Bulk CSV Upload - Drag & Drop */}
 									<div className="p-8">
 										{/* Hidden file input wrapped in label for better compatibility */}
@@ -424,14 +424,14 @@ const BulkPage = () => {
 													"flex h-[200px] cursor-pointer flex-col rounded-lg border-2 border-dashed transition-all duration-200",
 													isDragging
 														? "border-primary-base bg-primary-alpha-10"
-														: "border-stroke-soft-200/50 hover:border-primary-base hover:bg-bg-weak-50",
+														: "border-stroke-soft-200 hover:border-primary-base hover:bg-bg-weak-50",
 													csvFile && "border-success-base bg-success-alpha-10",
 												)}
 											>
 												{csvFile && csvPreview.length > 0 ? (
 													<div className="flex h-full flex-col">
 														{/* File info header */}
-														<div className="flex items-center justify-between border-stroke-soft-200/50 border-b px-4 py-3">
+														<div className="flex items-center justify-between border-stroke-soft-200 border-b px-4 py-3">
 															<div className="flex items-center gap-3">
 																<div className="flex h-9 w-9 items-center justify-center rounded-md bg-success-alpha-10">
 																	<FileFormatIcon.Root
@@ -464,7 +464,7 @@ const BulkPage = () => {
 															</button>
 														</div>
 														{/* Email preview section - table-like list */}
-														<div className="flex flex-1 flex-col divide-y divide-stroke-soft-200/50">
+														<div className="flex flex-1 flex-col divide-y divide-stroke-soft-200">
 															{csvPreview.slice(0, 3).map((email, idx) => (
 																<div
 																	key={`${email}-${idx}`}
@@ -544,7 +544,7 @@ const BulkPage = () => {
 
 									{/* Action Row */}
 									<div className="relative flex items-center justify-end gap-2 p-3">
-										<div className="absolute top-0 right-[-100vw] left-[-100vw] h-px bg-stroke-soft-200/50" />
+										<div className="absolute top-0 right-[-100vw] left-[-100vw] h-px bg-stroke-soft-200" />
 										<button
 											type="button"
 											onClick={handleStartVerification}
@@ -567,7 +567,7 @@ const BulkPage = () => {
 											)}
 										</button>
 										{/* Bottom border extending to viewport edges */}
-										<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200/50" />
+										<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200" />
 									</div>
 								</div>
 							</div>
@@ -586,8 +586,8 @@ const BulkPage = () => {
 											Recent Jobs
 										</h3>
 									</div>
-									<div className="absolute top-0 right-[-100vw] left-[-100vw] h-px bg-stroke-soft-200/50" />
-									<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200/50" />
+									<div className="absolute top-0 right-[-100vw] left-[-100vw] h-px bg-stroke-soft-200" />
+									<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200" />
 								</div>
 
 								{/* Jobs Grid with Pie Charts */}
@@ -628,7 +628,7 @@ const BulkPage = () => {
 									) : (
 										<>
 											{/* Outer box container  */}
-											<div className="border-stroke-soft-200/50 border-r border-b border-l">
+											<div className="border-stroke-soft-200 border-r border-b border-l">
 												{/* Grid Rows - 3 jobs per row */}
 												{Array.from({
 													length: Math.ceil(jobs.length / 3),
@@ -639,7 +639,7 @@ const BulkPage = () => {
 													);
 													return (
 														<div key={rowIndex}>
-															<div className="grid grid-cols-3 divide-x divide-stroke-soft-200/50">
+															<div className="grid grid-cols-3 divide-x divide-stroke-soft-200">
 																{rowJobs.map((job) => {
 																	const PIE_COLORS = {
 																		deliverable: "#22c55e",
@@ -681,176 +681,185 @@ const BulkPage = () => {
 																			: 0;
 
 																	return (
-																		<button
+																		<div
 																			key={job.id}
-																			type="button"
-																			onClick={() =>
-																				job.status === "completed" &&
-																				toggleJobExpansion(job.id)
-																			}
-																			disabled={job.status !== "completed"}
-																			className={cn(
-																				"relative flex w-full flex-col items-center bg-bg-white-0 transition-all",
-																				job.status === "completed" &&
-																					"cursor-pointer hover:bg-bg-weak-50",
-																				expandedJobId === job.id &&
-																					"bg-bg-weak-50",
-																			)}
+																			className="flex flex-col px-6"
 																		>
-																			{/* Title/Label Section with border below */}
-																			<div className="relative flex w-full flex-col items-center px-4 py-3">
-																				<p className="text-center font-medium text-sm text-text-strong-950">
-																					{job.name ||
-																						`Job ${job.id.slice(0, 8)}`}
-																				</p>
-																				<div className="flex items-center gap-1 text-text-sub-600 text-xs">
-																					<Icon
-																						name="folder"
-																						className="h-3 w-3"
-																					/>
-																					<span>{job.totalEmails} emails</span>
-																				</div>
-																				{/* Border extending to edges */}
-																				<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200/50" />
-																			</div>
-
-																			{/* Content Area - Pie chart etc */}
-																			<div className="flex w-full flex-col items-center">
-																				{/* Pie Chart */}
-																				{job.status === "completed" &&
-																				pieData.length > 0 ? (
-																					<div className="relative h-32 w-32">
-																						<ResponsiveContainer
-																							width="100%"
-																							height="100%"
-																						>
-																							<PieChart>
-																								<Pie
-																									data={pieData}
-																									cx="50%"
-																									cy="50%"
-																									innerRadius={40}
-																									outerRadius={55}
-																									paddingAngle={2}
-																									dataKey="value"
-																									stroke="none"
-																								>
-																									{pieData.map(
-																										(entry, index) => (
-																											<Cell
-																												key={`cell-${index}`}
-																												fill={entry.color}
-																											/>
-																										),
-																									)}
-																								</Pie>
-																								<Tooltip
-																									offset={10}
-																									wrapperStyle={{ zIndex: 100 }}
-																									content={({
-																										active,
-																										payload,
-																									}) => {
-																										if (
-																											active &&
-																											payload &&
-																											payload.length
-																										) {
-																											const data =
-																												payload[0]?.payload;
-																											const total =
-																												pieData.reduce(
-																													(sum, d) =>
-																														sum + d.value,
-																													0,
-																												);
-																											const percent =
-																												Math.round(
-																													(data.value / total) *
-																														100,
-																												);
-																											return (
-																												<div className="overflow-hidden rounded-lg bg-white shadow-lg">
-																													<div
-																														className="px-3 py-1.5 font-semibold text-white text-xs"
-																														style={{
-																															backgroundColor:
-																																data.color,
-																														}}
-																													>
-																														{data.name.toUpperCase()}
-																													</div>
-																													<div className="px-3 py-2 text-center text-gray-900 text-sm">
-																														{data.value} (
-																														{percent}
-																														%)
-																													</div>
-																												</div>
-																											);
-																										}
-																										return null;
-																									}}
-																								/>
-																							</PieChart>
-																						</ResponsiveContainer>
-																						{/* Center Label */}
-																						<div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center">
-																							<span className="font-bold text-text-strong-950 text-xs">
-																								{deliverablePercent}%
-																							</span>
-																							<span className="text-[11px] text-text-sub-600">
-																								Deliverable
-																							</span>
-																						</div>
-																					</div>
-																				) : (
-																					<div className="flex h-32 w-32 items-center justify-center">
-																						{getStatusBadge(job.status)}
-																					</div>
+																			<button
+																				key={job.id}
+																				type="button"
+																				onClick={() =>
+																					job.status === "completed" &&
+																					toggleJobExpansion(job.id)
+																				}
+																				disabled={job.status !== "completed"}
+																				className={cn(
+																					"relative flex w-full flex-col items-center border-stroke-soft-200 border-r border-l bg-bg-white-0 transition-all",
+																					job.status === "completed" &&
+																						"cursor-pointer hover:bg-bg-weak-50",
+																					expandedJobId === job.id &&
+																						"bg-bg-weak-50",
 																				)}
+																			>
+																				{/* Title/Label Section with border below */}
+																				<div className="relative flex w-full flex-col items-center border-stroke-soft-200 border-b px-6 py-4">
+																					<p className="text-center font-medium text-sm text-text-strong-950">
+																						{job.name ||
+																							`Job ${job.id.slice(0, 8)}`}
+																					</p>
+																					<div className="flex items-center gap-1 text-text-sub-600 text-xs">
+																						<Icon
+																							name="folder"
+																							className="h-3 w-3"
+																						/>
+																						<span>
+																							{job.totalEmails} emails
+																						</span>
+																					</div>
+																				</div>
 
-																				{/* Stats Table */}
-																				{job.status === "completed" &&
-																					job.stats && (
-																						<div className="mt-4 grid w-full grid-cols-4 divide-x divide-stroke-soft-200/50 border-stroke-soft-200/50 border-t">
-																							<div className="flex flex-col items-center bg-bg-white-0 py-2">
-																								<span className="text-text-soft-400 text-xs">
-																									Valid
+																				{/* Content Area - Pie chart etc */}
+																				<div className="flex w-full flex-col items-center">
+																					{/* Pie Chart */}
+																					{job.status === "completed" &&
+																					pieData.length > 0 ? (
+																						<div className="relative h-32 w-32">
+																							<ResponsiveContainer
+																								width="100%"
+																								height="100%"
+																							>
+																								<PieChart>
+																									<Pie
+																										data={pieData}
+																										cx="50%"
+																										cy="50%"
+																										innerRadius={40}
+																										outerRadius={55}
+																										paddingAngle={2}
+																										dataKey="value"
+																										stroke="none"
+																									>
+																										{pieData.map(
+																											(entry, index) => (
+																												<Cell
+																													key={`cell-${index}`}
+																													fill={entry.color}
+																												/>
+																											),
+																										)}
+																									</Pie>
+																									<Tooltip
+																										offset={10}
+																										wrapperStyle={{
+																											zIndex: 100,
+																										}}
+																										content={({
+																											active,
+																											payload,
+																										}) => {
+																											if (
+																												active &&
+																												payload &&
+																												payload.length
+																											) {
+																												const data =
+																													payload[0]?.payload;
+																												const total =
+																													pieData.reduce(
+																														(sum, d) =>
+																															sum + d.value,
+																														0,
+																													);
+																												const percent =
+																													Math.round(
+																														(data.value /
+																															total) *
+																															100,
+																													);
+																												return (
+																													<div className="overflow-hidden rounded-lg bg-white shadow-lg">
+																														<div
+																															className="px-3 py-1.5 font-semibold text-white text-xs"
+																															style={{
+																																backgroundColor:
+																																	data.color,
+																															}}
+																														>
+																															{data.name.toUpperCase()}
+																														</div>
+																														<div className="px-3 py-2 text-center text-gray-900 text-sm">
+																															{data.value} (
+																															{percent}
+																															%)
+																														</div>
+																													</div>
+																												);
+																											}
+																											return null;
+																										}}
+																									/>
+																								</PieChart>
+																							</ResponsiveContainer>
+																							{/* Center Label */}
+																							<div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center">
+																								<span className="font-bold text-text-strong-950 text-xs">
+																									{deliverablePercent}%
 																								</span>
-																								<span className="font-semibold text-sm text-success-base">
-																									{job.stats.deliverable}
+																								<span className="text-[11px] text-text-sub-600">
+																									Deliverable
 																								</span>
 																							</div>
-																							<div className="flex flex-col items-center bg-bg-white-0 py-2">
-																								<span className="text-text-soft-400 text-xs">
-																									Risky
-																								</span>
-																								<span className="font-semibold text-sm text-warning-base">
-																									{job.stats.risky}
-																								</span>
-																							</div>
-																							<div className="flex flex-col items-center bg-bg-white-0 py-2">
-																								<span className="text-text-soft-400 text-xs">
-																									Invalid
-																								</span>
-																								<span className="font-semibold text-error-base text-sm">
-																									{job.stats.undeliverable}
-																								</span>
-																							</div>
-																							<div className="flex flex-col items-center bg-bg-white-0 py-2">
-																								<span className="text-text-soft-400 text-xs">
-																									Unknown
-																								</span>
-																								<span className="font-semibold text-sm text-text-sub-600">
-																									{job.stats.unknown}
-																								</span>
-																							</div>
+																						</div>
+																					) : (
+																						<div className="flex h-32 w-32 items-center justify-center">
+																							{getStatusBadge(job.status)}
 																						</div>
 																					)}
-																			</div>
-																		</button>
+
+																					{/* Stats Table */}
+																					{job.status === "completed" &&
+																						job.stats && (
+																							<div className="mt-4 grid w-full grid-cols-4 divide-x divide-stroke-soft-200 border-stroke-soft-200 border-t">
+																								<div className="flex flex-col items-center bg-bg-white-0 py-2">
+																									<span className="text-text-soft-400 text-xs">
+																										Valid
+																									</span>
+																									<span className="font-semibold text-sm text-success-base">
+																										{job.stats.deliverable}
+																									</span>
+																								</div>
+																								<div className="flex flex-col items-center bg-bg-white-0 py-2">
+																									<span className="text-text-soft-400 text-xs">
+																										Risky
+																									</span>
+																									<span className="font-semibold text-sm text-warning-base">
+																										{job.stats.risky}
+																									</span>
+																								</div>
+																								<div className="flex flex-col items-center bg-bg-white-0 py-2">
+																									<span className="text-text-soft-400 text-xs">
+																										Invalid
+																									</span>
+																									<span className="font-semibold text-error-base text-sm">
+																										{job.stats.undeliverable}
+																									</span>
+																								</div>
+																								<div className="flex flex-col items-center bg-bg-white-0 py-2">
+																									<span className="text-text-soft-400 text-xs">
+																										Unknown
+																									</span>
+																									<span className="font-semibold text-sm text-text-sub-600">
+																										{job.stats.unknown}
+																									</span>
+																								</div>
+																							</div>
+																						)}
+																				</div>
+																			</button>
+																		</div>
 																	);
 																})}
+
 																{/* Fill empty grid cells if less than 3 jobs in row */}
 																{rowJobs.length < 3 &&
 																	Array.from({
@@ -873,7 +882,7 @@ const BulkPage = () => {
 																			initial={{ opacity: 0, height: 0 }}
 																			animate={{ opacity: 1, height: "auto" }}
 																			exit={{ opacity: 0, height: 0 }}
-																			className="overflow-hidden border-stroke-soft-200/50 border-t bg-bg-weak-50/30"
+																			className="overflow-hidden border-stroke-soft-200 border-t bg-bg-weak-50/30"
 																		>
 																			<div className="px-6 py-4">
 																				{/* Header with search and download */}
@@ -922,7 +931,7 @@ const BulkPage = () => {
 																									jobResults,
 																								);
 																						}}
-																						className="flex h-8 items-center gap-1.5 rounded-lg px-3 text-text-sub-600 ring-1 ring-stroke-soft-200/50 transition-all hover:bg-bg-white-0"
+																						className="flex h-8 items-center gap-1.5 rounded-lg px-3 text-text-sub-600 ring-1 ring-stroke-soft-200 transition-all hover:bg-bg-white-0"
 																					>
 																						<Icon
 																							name="file-download"
@@ -941,7 +950,7 @@ const BulkPage = () => {
 																							(_, i) => (
 																								<div
 																									key={i}
-																									className="flex items-center justify-between rounded-lg border border-stroke-soft-200/50 bg-bg-white-0 px-4 py-3"
+																									className="flex items-center justify-between rounded-lg border border-stroke-soft-200 bg-bg-white-0 px-4 py-3"
 																								>
 																									<div className="h-4 w-48 animate-pulse rounded bg-bg-weak-100" />
 																									<div className="h-4 w-16 animate-pulse rounded bg-bg-weak-100" />
@@ -961,7 +970,7 @@ const BulkPage = () => {
 																											result as unknown as EmailVerificationData,
 																										)
 																									}
-																									className="flex w-full cursor-pointer items-center justify-between rounded-lg border border-stroke-soft-200/50 bg-bg-white-0 px-4 py-3 text-left transition-all hover:bg-bg-weak-50"
+																									className="flex w-full cursor-pointer items-center justify-between rounded-lg border border-stroke-soft-200 bg-bg-white-0 px-4 py-3 text-left transition-all hover:bg-bg-weak-50"
 																								>
 																									<div className="flex items-center gap-3">
 																										<div
@@ -1062,7 +1071,7 @@ const BulkPage = () => {
 											</div>
 											{/* Jobs Pagination */}
 											{totalPages > 1 && (
-												<div className="flex items-center justify-between border-stroke-soft-200/50 border-t px-6 py-4">
+												<div className="flex items-center justify-between border-stroke-soft-200 border-t px-6 py-4">
 													<div className="flex items-center gap-2 text-sm text-text-sub-600">
 														<span>
 															Showing {(currentPage - 1) * pageSize + 1} to{" "}
