@@ -56,6 +56,8 @@ const BulkPage = () => {
 
 	// State
 	const [csvFile, setCsvFile] = useState<File | null>(null);
+	const [csvPreview, setCsvPreview] = useState<string[]>([]);
+	const [totalEmailCount, setTotalEmailCount] = useState(0);
 	const [isDragging, setIsDragging] = useState(false);
 	const [isVerifying, setIsVerifying] = useState(false);
 	const [jobs, setJobs] = useState<BulkJob[]>([]);
@@ -197,27 +199,32 @@ const BulkPage = () => {
 		setIsDragging(false);
 	};
 
-	const handleDrop = (e: React.DragEvent) => {
+	const handleDrop = async (e: React.DragEvent) => {
 		e.preventDefault();
 		setIsDragging(false);
 		const file = e.dataTransfer.files[0];
 		if (file && (file.type === "text/csv" || file.name.endsWith(".csv"))) {
 			setCsvFile(file);
-			toast.success(`File "${file.name}" ready for upload`);
+			const emails = await parseCSV(file);
+			setCsvPreview(emails.slice(0, 5));
+			setTotalEmailCount(emails.length);
+			toast.success(`Found ${emails.length} emails in "${file.name}"`);
 		} else {
 			toast.error("Please upload a CSV file");
 		}
 	};
 
-	const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
 		if (file && (file.type === "text/csv" || file.name.endsWith(".csv"))) {
 			setCsvFile(file);
-			toast.success(`File "${file.name}" ready for upload`);
+			const emails = await parseCSV(file);
+			setCsvPreview(emails.slice(0, 5));
+			setTotalEmailCount(emails.length);
+			toast.success(`Found ${emails.length} emails in "${file.name}"`);
 		} else {
 			toast.error("Please upload a CSV file");
 		}
-		// Reset input value to allow selecting same file again
 		e.target.value = "";
 	};
 
@@ -408,36 +415,98 @@ const BulkPage = () => {
 												onChange={handleFileSelect}
 											/>
 
-											{/* Drop zone */}
+											{/* Drop zone - fixed height to prevent layout shift */}
 											<div
 												onDragOver={handleDragOver}
 												onDragLeave={handleDragLeave}
 												onDrop={handleDrop}
 												className={cn(
-													"flex cursor-pointer flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-10 transition-all duration-200",
+													"flex h-[200px] cursor-pointer flex-col rounded-lg border-2 border-dashed transition-all duration-200",
 													isDragging
 														? "border-primary-base bg-primary-alpha-10"
 														: "border-stroke-soft-200/50 hover:border-primary-base hover:bg-bg-weak-50",
 													csvFile && "border-success-base bg-success-alpha-10",
 												)}
 											>
-												<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-bg-weak-50">
-													<FileFormatIcon.Root
-														format="CSV"
-														color="green"
-														className="h-7 w-7"
-													/>
-												</div>
-												<div className="text-center">
-													<p className="font-medium text-text-strong-950">
-														{csvFile ? csvFile.name : "Import CSV File"}
-													</p>
-													<p className="mt-1 text-sm text-text-soft-400">
-														{csvFile
-															? `${(csvFile.size / 1024).toFixed(1)} KB`
-															: "Drop file or click here to choose file."}
-													</p>
-												</div>
+												{csvFile && csvPreview.length > 0 ? (
+													<div className="flex h-full flex-col">
+														{/* File info header */}
+														<div className="flex items-center justify-between border-stroke-soft-200/50 border-b px-4 py-3">
+															<div className="flex items-center gap-3">
+																<div className="flex h-9 w-9 items-center justify-center rounded-md bg-success-alpha-10">
+																	<FileFormatIcon.Root
+																		format="CSV"
+																		color="green"
+																		className="h-5 w-5"
+																	/>
+																</div>
+																<div>
+																	<p className="font-medium text-sm text-text-strong-950">
+																		{csvFile.name}
+																	</p>
+																	<p className="text-text-soft-400 text-xs">
+																		{(csvFile.size / 1024).toFixed(1)} KB •{" "}
+																		{totalEmailCount} emails
+																	</p>
+																</div>
+															</div>
+															<button
+																type="button"
+																onClick={(e) => {
+																	e.preventDefault();
+																	e.stopPropagation();
+																	setCsvFile(null);
+																	setCsvPreview([]);
+																}}
+																className="flex h-7 w-7 items-center justify-center rounded-md text-text-soft-400 transition-colors hover:bg-bg-weak-50 hover:text-text-strong-950"
+															>
+																<Icon name="x" className="h-4 w-4" />
+															</button>
+														</div>
+														{/* Email preview section - table-like list */}
+														<div className="flex flex-1 flex-col divide-y divide-stroke-soft-200/50">
+															{csvPreview.slice(0, 3).map((email, idx) => (
+																<div
+																	key={`${email}-${idx}`}
+																	className="flex items-center gap-3 px-4 py-2"
+																>
+																	<Icon
+																		name="mail"
+																		className="h-4 w-4 text-success-base"
+																	/>
+																	<span className="font-mono text-sm text-text-strong-950">
+																		{email}
+																	</span>
+																</div>
+															))}
+															{totalEmailCount > 3 && (
+																<div className="flex items-center justify-center px-4 py-2">
+																	<span className="text-text-soft-400 text-xs">
+																		+{totalEmailCount - 3} more emails
+																	</span>
+																</div>
+															)}
+														</div>
+													</div>
+												) : (
+													<div className="flex h-full flex-col items-center justify-center gap-3">
+														<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-bg-weak-50">
+															<FileFormatIcon.Root
+																format="CSV"
+																color="green"
+																className="h-7 w-7"
+															/>
+														</div>
+														<div className="text-center">
+															<p className="font-medium text-text-strong-950">
+																Import CSV File
+															</p>
+															<p className="mt-1 text-sm text-text-soft-400">
+																Drop file or click here to choose file.
+															</p>
+														</div>
+													</div>
+												)}
 											</div>
 										</label>
 
@@ -479,7 +548,10 @@ const BulkPage = () => {
 											type="button"
 											onClick={handleStartVerification}
 											disabled={isVerifying || !csvFile}
-											className="flex h-8 items-center justify-center gap-1.5 rounded-lg bg-primary-base px-4 text-static-white transition-all duration-200 hover:bg-primary-darker active:scale-[0.995] disabled:opacity-50"
+											className={cn(
+												"flex h-8 items-center justify-center gap-1.5 rounded-lg bg-primary-base px-4 text-static-white transition-all duration-200 hover:bg-primary-darker active:scale-[0.995] disabled:opacity-50",
+												!csvFile && "invisible",
+											)}
 										>
 											{isVerifying ? (
 												<>
@@ -501,7 +573,12 @@ const BulkPage = () => {
 
 							{/* Recent Jobs Section */}
 							<div>
-								<div className="relative flex items-center justify-between px-6 py-4">
+								<div
+									className={cn(
+										"relative flex items-center justify-between py-4",
+										isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32",
+									)}
+								>
 									<div className="flex items-center gap-2">
 										<Icon name="layers" className="h-4 w-4 text-text-sub-600" />
 										<h3 className="font-medium text-label-md text-text-strong-950">
@@ -565,9 +642,9 @@ const BulkPage = () => {
 																{rowJobs.map((job) => {
 																	const PIE_COLORS = {
 																		deliverable: "#22c55e",
-																		risky: "#f59e0b",
-																		undeliverable: "#ef4444",
-																		unknown: "#94a3b8",
+																		risky: "#60a5fa",
+																		undeliverable: "#38bdf8",
+																		unknown: "#2dd4bf",
 																	};
 																	const pieData = job.stats
 																		? [
