@@ -586,7 +586,7 @@ const BulkPage = () => {
 											Recent Jobs
 										</h3>
 									</div>
-									<div className="absolute top-0 right-[-100vw] left-[-100vw] h-px bg-stroke-soft-200" />
+
 									<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200" />
 								</div>
 
