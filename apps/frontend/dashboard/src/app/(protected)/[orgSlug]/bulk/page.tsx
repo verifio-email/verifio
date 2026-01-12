@@ -820,36 +820,52 @@ const BulkPage = () => {
 																					{job.status === "completed" &&
 																						job.stats && (
 																							<div className="mt-4 grid w-full grid-cols-4 divide-x divide-stroke-soft-200 border-stroke-soft-200 border-t">
-																								<div className="flex flex-col items-center bg-bg-white-0 py-2">
-																									<span className="text-text-soft-400 text-xs">
-																										Valid
-																									</span>
-																									<span className="font-semibold text-sm text-success-base">
+																								<div className="flex flex-col items-center gap-1 bg-success-alpha-10 py-3">
+																									<Icon
+																										name="check-circle"
+																										className="h-4 w-4 text-success-base"
+																									/>
+																									<span className="font-bold text-lg text-success-base">
 																										{job.stats.deliverable}
 																									</span>
-																								</div>
-																								<div className="flex flex-col items-center bg-bg-white-0 py-2">
-																									<span className="text-text-soft-400 text-xs">
-																										Risky
+																									<span className="text-[10px] text-text-soft-400 uppercase tracking-wide">
+																										Valid
 																									</span>
-																									<span className="font-semibold text-sm text-warning-base">
+																								</div>
+																								<div className="flex flex-col items-center gap-1 bg-warning-alpha-10 py-3">
+																									<Icon
+																										name="alert-triangle"
+																										className="h-4 w-4 text-warning-base"
+																									/>
+																									<span className="font-bold text-lg text-warning-base">
 																										{job.stats.risky}
 																									</span>
-																								</div>
-																								<div className="flex flex-col items-center bg-bg-white-0 py-2">
-																									<span className="text-text-soft-400 text-xs">
-																										Invalid
+																									<span className="text-[10px] text-text-soft-400 uppercase tracking-wide">
+																										Risky
 																									</span>
-																									<span className="font-semibold text-error-base text-sm">
+																								</div>
+																								<div className="flex flex-col items-center gap-1 bg-error-alpha-10 py-3">
+																									<Icon
+																										name="cross-circle"
+																										className="h-4 w-4 text-error-base"
+																									/>
+																									<span className="font-bold text-error-base text-lg">
 																										{job.stats.undeliverable}
 																									</span>
-																								</div>
-																								<div className="flex flex-col items-center bg-bg-white-0 py-2">
-																									<span className="text-text-soft-400 text-xs">
-																										Unknown
+																									<span className="text-[10px] text-text-soft-400 uppercase tracking-wide">
+																										Invalid
 																									</span>
-																									<span className="font-semibold text-sm text-text-sub-600">
+																								</div>
+																								<div className="flex flex-col items-center gap-1 py-3">
+																									<Icon
+																										name="help-circle"
+																										className="h-4 w-4 text-text-sub-600"
+																									/>
+																									<span className="font-bold text-lg text-text-sub-600">
 																										{job.stats.unknown}
+																									</span>
+																									<span className="text-[10px] text-text-soft-400 uppercase tracking-wide">
+																										Unknown
 																									</span>
 																								</div>
 																							</div>
