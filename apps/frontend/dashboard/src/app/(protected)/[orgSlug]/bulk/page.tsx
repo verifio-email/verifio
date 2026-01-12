@@ -2,6 +2,7 @@
 
 import { PageSizeDropdown } from "@fe/dashboard/components/page-size-dropdown";
 import { PaginationControls } from "@fe/dashboard/components/pagination-controls";
+import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
 import { useSidebar } from "@fe/dashboard/providers/sidebar-provider";
 import { getProviderIcon } from "@fe/dashboard/utils/email-provider-icon";
 import {
@@ -53,6 +54,7 @@ interface BulkJob {
 
 const BulkPage = () => {
 	const { isCollapsed } = useSidebar();
+	const { push } = useUserOrganization();
 
 	// State
 	const [csvFile, setCsvFile] = useState<File | null>(null);
@@ -690,7 +692,7 @@ const BulkPage = () => {
 																				type="button"
 																				onClick={() =>
 																					job.status === "completed" &&
-																					toggleJobExpansion(job.id)
+																					push(`/bulk/${job.id}`)
 																				}
 																				disabled={job.status !== "completed"}
 																				className={cn(
