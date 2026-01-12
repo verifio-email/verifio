@@ -474,7 +474,7 @@ const BulkPage = () => {
 																		name="mail"
 																		className="h-4 w-4 text-success-base"
 																	/>
-																	<span className="font-mono text-sm text-text-strong-950">
+																	<span className="font-mono text-text-sub-600 text-xs">
 																		{email}
 																	</span>
 																</div>
@@ -543,7 +543,8 @@ const BulkPage = () => {
 									</div>
 
 									{/* Action Row */}
-									<div className="relative flex items-center justify-end gap-2 border-stroke-soft-200/50 border-t p-3">
+									<div className="relative flex items-center justify-end gap-2 p-3">
+										<div className="absolute top-0 right-[-100vw] left-[-100vw] h-px bg-stroke-soft-200/50" />
 										<button
 											type="button"
 											onClick={handleStartVerification}
@@ -689,7 +690,7 @@ const BulkPage = () => {
 																			}
 																			disabled={job.status !== "completed"}
 																			className={cn(
-																				"relative flex flex-col items-center bg-bg-white-0 transition-all",
+																				"relative flex w-full flex-col items-center bg-bg-white-0 transition-all",
 																				job.status === "completed" &&
 																					"cursor-pointer hover:bg-bg-weak-50",
 																				expandedJobId === job.id &&
@@ -714,7 +715,7 @@ const BulkPage = () => {
 																			</div>
 
 																			{/* Content Area - Pie chart etc */}
-																			<div className="flex flex-col items-center p-6">
+																			<div className="flex w-full flex-col items-center">
 																				{/* Pie Chart */}
 																				{job.status === "completed" &&
 																				pieData.length > 0 ? (
@@ -808,16 +809,44 @@ const BulkPage = () => {
 																					</div>
 																				)}
 
-																				{/* View Results Button */}
-																				{job.status === "completed" && (
-																					<div className="mt-4 flex items-center gap-1 font-medium text-primary-base text-sm">
-																						<span>View Results</span>
-																						<Icon
-																							name="arrow-right"
-																							className="h-4 w-4"
-																						/>
-																					</div>
-																				)}
+																				{/* Stats Table */}
+																				{job.status === "completed" &&
+																					job.stats && (
+																						<div className="mt-4 grid w-full grid-cols-4 divide-x divide-stroke-soft-200/50 border-stroke-soft-200/50 border-t">
+																							<div className="flex flex-col items-center bg-bg-white-0 py-2">
+																								<span className="text-text-soft-400 text-xs">
+																									Valid
+																								</span>
+																								<span className="font-semibold text-sm text-success-base">
+																									{job.stats.deliverable}
+																								</span>
+																							</div>
+																							<div className="flex flex-col items-center bg-bg-white-0 py-2">
+																								<span className="text-text-soft-400 text-xs">
+																									Risky
+																								</span>
+																								<span className="font-semibold text-sm text-warning-base">
+																									{job.stats.risky}
+																								</span>
+																							</div>
+																							<div className="flex flex-col items-center bg-bg-white-0 py-2">
+																								<span className="text-text-soft-400 text-xs">
+																									Invalid
+																								</span>
+																								<span className="font-semibold text-error-base text-sm">
+																									{job.stats.undeliverable}
+																								</span>
+																							</div>
+																							<div className="flex flex-col items-center bg-bg-white-0 py-2">
+																								<span className="text-text-soft-400 text-xs">
+																									Unknown
+																								</span>
+																								<span className="font-semibold text-sm text-text-sub-600">
+																									{job.stats.unknown}
+																								</span>
+																							</div>
+																						</div>
+																					)}
 																			</div>
 																		</button>
 																	);
