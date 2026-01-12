@@ -1,13 +1,12 @@
-import Company from "./components/company";
-import CTA from "./components/cta";
+import { ComparisonPricing } from "./components/comparison-pricing";
 import { EmailQualityProblem } from "./components/email-quality-problem";
 import Faq from "./components/faq";
+import { FinalCTA } from "./components/final-cta";
 import Hero from "./components/hero";
-import { Scale } from "./components/scale";
+import { HowItWorks } from "./components/how-it-works";
+import { OpenSourceDifference } from "./components/open-source-difference";
 import Sdk from "./components/sdk";
-import Security from "./components/security";
-import UseCase from "./components/use-case";
-import WhatWeStandFor from "./components/what-we-stand-for";
+import { UseCases } from "./components/use-cases";
 export default function Home() {
 	return (
 		<div>
@@ -17,17 +16,15 @@ export default function Home() {
 			<div className="h-10" />
 			<Sdk />
 			<div className="h-10" />
-			<WhatWeStandFor />
+			<OpenSourceDifference />
 			<div className="h-10" />
-			<UseCase />
+			<HowItWorks />
 			<div className="h-10" />
-			<Scale />
+			<UseCases />
 			<div className="h-10" />
-			<Security />
+			<ComparisonPricing />
 			<div className="h-10" />
-			<Company />
-			<div className="h-10" />
-			<CTA />
+			<FinalCTA />
 			<div className="h-10" />
 			<Faq />
 			<div className="h-10" />

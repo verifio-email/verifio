@@ -400,7 +400,7 @@ export function WhatWeStandFor() {
 			<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100 border-b bg-bg-white-0 px-10 py-4">
 					<span className="text-text-sub-600 text-xs">
-						[03] WHAT WE STAND FOR
+						[04] WHAT WE STAND FOR
 					</span>
 					<span className="text-text-sub-600 text-xs">/ OUR PROMISE</span>
 				</div>
