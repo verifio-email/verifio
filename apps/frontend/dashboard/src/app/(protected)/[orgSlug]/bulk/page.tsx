@@ -698,9 +698,9 @@ const BulkPage = () => {
 																				className={cn(
 																					"relative flex w-full flex-col items-center border-stroke-soft-100 border-r border-l bg-bg-white-0 transition-all",
 																					job.status === "completed" &&
-																						"cursor-pointer hover:bg-bg-weak-50",
+																						"cursor-pointer hover:bg-primary-alpha-10",
 																					expandedJobId === job.id &&
-																						"bg-bg-weak-50",
+																						"bg-primary-alpha-10",
 																				)}
 																			>
 																				{/* Title/Label Section with border below */}
@@ -725,7 +725,7 @@ const BulkPage = () => {
 																					{/* Pie Chart */}
 																					{job.status === "completed" &&
 																					pieData.length > 0 ? (
-																						<div className="relative h-32 w-32">
+																						<div className="relative my-3 h-32 w-32">
 																							<ResponsiveContainer
 																								width="100%"
 																								height="100%"

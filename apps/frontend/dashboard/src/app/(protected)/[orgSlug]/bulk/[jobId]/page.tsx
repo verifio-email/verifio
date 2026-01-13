@@ -97,7 +97,7 @@ const BulkJobDetailPage = () => {
 	}
 
 	return (
-		<div className="h-full">
+		<div className="h-full overflow-x-hidden">
 			<BulkJobHeader
 				job={jobData?.data}
 				results={resultsData?.data}
