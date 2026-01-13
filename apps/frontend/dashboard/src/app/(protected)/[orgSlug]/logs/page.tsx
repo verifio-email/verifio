@@ -13,6 +13,7 @@ import { DeveloperLogRow } from "./developer-log-row";
 import { LogsFilterDropdown, type LogsFilters } from "./logs-filter-dropdown";
 import type {
 	ActivityLog,
+	BulkJobInfo,
 	VerificationEnrichment,
 	VerificationHistoryItem,
 } from "./types";
@@ -47,6 +48,11 @@ const LogsPage = () => {
 	const [verificationMap, setVerificationMap] = useState<
 		Map<string, VerificationEnrichment>
 	>(new Map());
+
+	// Bulk job info for enriching bulk verification logs
+	const [bulkJobMap, setBulkJobMap] = useState<Map<string, BulkJobInfo>>(
+		new Map(),
+	);
 
 	// Filters
 	const [search, setSearch] = useState("");
@@ -149,6 +155,51 @@ const LogsPage = () => {
 
 		fetchVerificationHistory();
 	}, []);
+
+	// Fetch bulk job names when logs contain bulk verification entries
+	useEffect(() => {
+		const fetchBulkJobNames = async () => {
+			// Find all bulk job IDs in current logs (resource_id starting with "vj_")
+			const bulkJobIds = logs
+				.filter((log) => log.resource_id?.startsWith("vj_"))
+				.map((log) => log.resource_id as string)
+				.filter((id, index, self) => self.indexOf(id) === index); // unique
+
+			if (bulkJobIds.length === 0) return;
+
+			// Only fetch jobs we don't already have
+			const missingIds = bulkJobIds.filter((id) => !bulkJobMap.has(id));
+			if (missingIds.length === 0) return;
+
+			try {
+				// Fetch job details for each missing bulk job
+				const newMap = new Map(bulkJobMap);
+				for (const jobId of missingIds) {
+					try {
+						const response = await fetch(`/api/verify/v1/bulk-jobs/${jobId}`, {
+							credentials: "include",
+						});
+						const data = await response.json();
+						if (data.success && data.data) {
+							newMap.set(jobId, {
+								jobId: data.data.id,
+								name: data.data.name,
+								totalEmails: data.data.totalEmails ?? data.data.total ?? 0,
+								status: data.data.status,
+							});
+						}
+					} catch (error) {
+						console.error(`Failed to fetch bulk job ${jobId}:`, error);
+					}
+				}
+				setBulkJobMap(newMap);
+			} catch (error) {
+				console.error("Failed to fetch bulk job names:", error);
+			}
+		};
+
+		fetchBulkJobNames();
+	}, [logs, bulkJobMap]);
 
 	const handleSearch = () => {
 		fetchLogs(1);
@@ -351,7 +402,17 @@ const LogsPage = () => {
 													? verificationMap.get(log.resource_id)
 													: undefined
 											}
+											bulkJobInfo={
+												log.resource_id?.startsWith("vj_")
+													? bulkJobMap.get(log.resource_id)
+													: undefined
+											}
 											onNavigate={() => {
+												// For bulk jobs, navigate to bulk job page
+												if (log.resource_id?.startsWith("vj_")) {
+													push(`/bulk/${log.resource_id}`);
+													return;
+												}
 												const en = log.resource_id
 													? verificationMap.get(log.resource_id)
 													: undefined;
@@ -373,7 +434,17 @@ const LogsPage = () => {
 													? verificationMap.get(log.resource_id)
 													: undefined
 											}
+											bulkJobInfo={
+												log.resource_id?.startsWith("vj_")
+													? bulkJobMap.get(log.resource_id)
+													: undefined
+											}
 											onNavigate={() => {
+												// For bulk jobs, navigate to bulk job page
+												if (log.resource_id?.startsWith("vj_")) {
+													push(`/bulk/${log.resource_id}`);
+													return;
+												}
 												const en = log.resource_id
 													? verificationMap.get(log.resource_id)
 													: undefined;

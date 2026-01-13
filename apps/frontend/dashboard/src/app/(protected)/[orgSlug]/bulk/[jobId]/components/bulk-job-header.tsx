@@ -426,11 +426,19 @@ export const BulkJobHeader = ({
 							<>
 								{/* Table Header */}
 								<div className="border-stroke-soft-200/50 border-b bg-bg-weak-50/50 px-5">
-									<div className="grid grid-cols-[1fr_140px_120px_60px] items-center gap-4 py-3 text-[11px] text-text-sub-600 uppercase tracking-wide">
-										<div className="font-semibold">Email</div>
-										<div className="font-semibold">Reason</div>
-										<div className="font-semibold">Status</div>
-										<div className="text-right font-semibold">Score</div>
+									<div className="grid grid-cols-[1fr_140px_120px_60px] items-stretch text-[11px] text-text-sub-600 uppercase tracking-wide">
+										<div className="flex items-center py-3 font-semibold">
+											Email
+										</div>
+										<div className="flex items-center border-stroke-soft-200/50 border-l py-3 pl-4 font-semibold">
+											Reason
+										</div>
+										<div className="flex items-center border-stroke-soft-200/50 border-l py-3 pl-4 font-semibold">
+											Status
+										</div>
+										<div className="flex items-center justify-end border-stroke-soft-200/50 border-l py-3 pl-4 font-semibold">
+											Score
+										</div>
 									</div>
 								</div>
 
@@ -441,7 +449,7 @@ export const BulkJobHeader = ({
 											<div
 												key={result.id || result.email + idx}
 												className={cn(
-													"grid grid-cols-[1fr_140px_120px_60px] items-center gap-4 px-5 py-3 transition-colors hover:bg-bg-weak-50/50",
+													"grid grid-cols-[1fr_140px_120px_60px] items-stretch px-5 transition-colors hover:bg-bg-weak-50/50",
 													result.id && "cursor-pointer",
 												)}
 												onClick={() =>
@@ -451,7 +459,7 @@ export const BulkJobHeader = ({
 												}
 											>
 												{/* Email with Avatar */}
-												<div className="flex items-center gap-2 overflow-hidden">
+												<div className="flex items-center gap-2 overflow-hidden py-3">
 													<div
 														className={cn(
 															"flex h-6 w-6 shrink-0 items-center justify-center rounded-md",
@@ -473,14 +481,14 @@ export const BulkJobHeader = ({
 												</div>
 
 												{/* Reason */}
-												<span className="truncate text-sm text-text-sub-600">
+												<span className="flex items-center truncate border-stroke-soft-200/50 border-l py-3 pl-4 text-sm text-text-sub-600">
 													{result.reason.replace(/_/g, " ")}
 												</span>
 
 												{/* Status with icon */}
 												<span
 													className={cn(
-														"flex items-center gap-1.5 text-sm",
+														"flex items-center gap-1.5 border-stroke-soft-200/50 border-l py-3 pl-4 text-sm",
 														getStateColor(result.state),
 													)}
 												>
@@ -494,7 +502,7 @@ export const BulkJobHeader = ({
 												{/* Score */}
 												<span
 													className={cn(
-														"text-right font-semibold text-sm tabular-nums",
+														"flex items-center justify-end border-stroke-soft-200/50 border-l py-3 pl-4 font-semibold text-sm tabular-nums",
 														getStateColor(result.state),
 													)}
 												>

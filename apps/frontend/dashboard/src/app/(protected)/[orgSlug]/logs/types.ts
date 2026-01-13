@@ -45,3 +45,11 @@ export type VerificationEnrichment = {
   state: string;
   riskLevel: string | null;
 };
+
+// Type for bulk job enrichment data
+export type BulkJobInfo = {
+  jobId: string;
+  name: string | null;
+  totalEmails: number;
+  status: string;
+};

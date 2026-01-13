@@ -5,7 +5,7 @@ import { Icon } from "@verifio/ui/icon";
 import { Skeleton } from "@verifio/ui/skeleton";
 import useSWR from "swr";
 import { LogJsonViewer } from "./log-json-viewer";
-import type { ActivityLog, VerificationEnrichment } from "./types";
+import type { ActivityLog, BulkJobInfo, VerificationEnrichment } from "./types";
 
 type DeveloperLogRowProps = {
 	log: ActivityLog;
@@ -14,6 +14,7 @@ type DeveloperLogRowProps = {
 	isExpanded: boolean;
 	onToggle: () => void;
 	enrichment?: VerificationEnrichment;
+	bulkJobInfo?: BulkJobInfo;
 };
 
 const getMethodColor = (method: string) => {
@@ -73,8 +74,12 @@ export function DeveloperLogRow({
 	isExpanded,
 	onToggle,
 	enrichment,
+	bulkJobInfo,
 }: DeveloperLogRowProps) {
-	const isClickable = log.service === "verify" && log.resource_id;
+	// Check if this is a bulk verification log
+	const isBulkJob = log.resource_id?.startsWith("vj_");
+	const isClickable =
+		(log.service === "verify" && log.resource_id) || (isBulkJob && bulkJobInfo);
 
 	// Fetch full verification result when expanded and we have a resultId
 	const { data: fullResult, isLoading: isLoadingResult } = useSWR<{
@@ -172,12 +177,28 @@ export function DeveloperLogRow({
 					)}
 				</div>
 
-				{/* Email ID */}
+				{/* Email ID / Bulk Job Name */}
 				<div className="min-w-0">
 					{log.resource_id && (
-						<span className="block truncate text-sm text-text-sub-600">
-							{log.resource_id}
-						</span>
+						<>
+							{isBulkJob ? (
+								<div className="flex flex-col">
+									<span className="block truncate text-sm text-text-sub-600">
+										{bulkJobInfo?.name ||
+											`Bulk Job ${log.resource_id.slice(0, 8)}...`}
+									</span>
+									{bulkJobInfo && (
+										<span className="text-text-soft-400 text-xs">
+											{bulkJobInfo.totalEmails} emails
+										</span>
+									)}
+								</div>
+							) : (
+								<span className="block truncate text-sm text-text-sub-600">
+									{log.resource_id}
+								</span>
+							)}
+						</>
 					)}
 				</div>
 
