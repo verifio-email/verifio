@@ -61,12 +61,6 @@ export function Pricing() {
 				<div className="pt-12 md:pt-16">
 					{/* Pricing Header */}
 					<div className="mb-10 text-center">
-						<div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary-base/20 bg-primary-base/5 px-4 py-2">
-							<Icon name="cash" className="h-4 w-4 text-primary-base" />
-							<span className="font-medium text-primary-base text-sm">
-								Pay As You Go
-							</span>
-						</div>
 						<h2 className="font-semibold text-2xl text-text-strong-950 md:text-3xl">
 							Simple <span className="text-primary-base">credit-based</span>{" "}
 							pricing

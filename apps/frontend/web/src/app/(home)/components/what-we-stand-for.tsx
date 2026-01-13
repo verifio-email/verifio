@@ -407,16 +407,6 @@ export function WhatWeStandFor() {
 
 				{/* Title Section */}
 				<div className="flex flex-col items-center gap-6 border-stroke-soft-100 border-b px-10 py-16 text-center">
-					{/* Badge */}
-					<div className="flex shrink-0 items-center gap-2">
-						<div className="flex items-center gap-2 rounded-full border border-stroke-soft-100 bg-bg-white-0 px-3 py-1.5">
-							<Icon name="heart" className="h-4 w-4 text-primary-base" />
-							<span className="font-medium text-sm text-text-sub-600">
-								Built for Trust
-							</span>
-						</div>
-					</div>
-
 					{/* Heading */}
 					<div className="space-y-3">
 						<h2 className="font-semibold text-3xl text-text-strong-950 md:text-4xl">

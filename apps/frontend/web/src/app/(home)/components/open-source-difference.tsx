@@ -444,19 +444,6 @@ export function OpenSourceDifference() {
 
 				{/* Hero Title Section */}
 				<div className="flex flex-col items-center gap-6 border-stroke-soft-100 border-b px-6 py-12 text-center md:px-10 md:py-16">
-					{/* Badge */}
-					<motion.div
-						className="flex items-center gap-2 rounded-full border border-primary-base/20 bg-primary-base/5 px-4 py-2"
-						initial={{ opacity: 0, y: -10 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.5 }}
-					>
-						<Icon name="open-source" className="h-4 w-4 text-primary-base" />
-						<span className="font-medium text-primary-base text-sm">
-							Open Source First
-						</span>
-					</motion.div>
-
 					{/* Heading */}
 					<div className="space-y-3">
 						<h2 className="font-semibold text-2xl text-text-strong-950 md:text-4xl">

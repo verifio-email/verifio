@@ -280,19 +280,6 @@ export function HowItWorks() {
 
 				{/* Hero Title Section */}
 				<div className="flex flex-col items-center gap-4 border-stroke-soft-100 border-b px-6 py-10 text-center md:px-10 md:py-12">
-					{/* Badge */}
-					<motion.div
-						className="flex items-center gap-2 rounded-full border border-green-500/20 bg-green-500/5 px-4 py-2"
-						initial={{ opacity: 0, y: -10 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.5 }}
-					>
-						<Icon name="eye" className="h-4 w-4 text-green-500" />
-						<span className="text-sm font-medium text-green-600">
-							No Black Boxes
-						</span>
-					</motion.div>
-
 					{/* Heading */}
 					<div className="space-y-2">
 						<h2 className="text-2xl font-semibold text-text-strong-950 md:text-3xl">

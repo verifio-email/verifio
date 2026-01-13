@@ -67,17 +67,6 @@ export function EmailQualityProblem() {
 				<div className="flex flex-col">
 					{/* Hero Text */}
 					<div className="flex flex-col items-center justify-center border-stroke-soft-100 border-b px-4 py-8 text-center md:p-10">
-						{/* Warning Badge */}
-						<div className="mb-4 flex items-center gap-1.5 md:mb-6">
-							<Icon
-								name="alert-triangle"
-								className="h-4 w-4 text-primary-base"
-							/>
-							<span className="font-medium text-sm text-text-sub-600">
-								Silent Growth Killer
-							</span>
-						</div>
-
 						<div className="space-y-3">
 							<h2 className="font-semibold text-3xl text-text-strong-950 md:text-4xl">
 								Email quality silently{" "}
