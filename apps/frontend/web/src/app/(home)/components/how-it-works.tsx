@@ -302,16 +302,16 @@ export function HowItWorks() {
 							animate={{ opacity: 1, x: 0 }}
 							transition={{ delay: 0.3 }}
 						>
-							<h3 className="text-lg font-semibold text-text-strong-950">
+							<h3 className="font-semibold text-lg text-text-strong-950">
 								Verify everything
 							</h3>
-							<p className="mt-2 text-xs text-text-sub-600 leading-relaxed">
+							<p className="mt-2 text-text-sub-600 text-xs leading-relaxed">
 								No black boxes. See the exact signals behind every decision —
 								not just a pass/fail.
 							</p>
 							<motion.a
-								href="#"
-								className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-primary-base"
+								href="/docs/api"
+								className="mt-4 inline-flex items-center gap-1 font-medium text-primary-base text-xs"
 								whileHover={{ x: 4 }}
 							>
 								Explore API docs
@@ -330,7 +330,7 @@ export function HowItWorks() {
 						>
 							<Icon name="flash" className="h-3.5 w-3.5" />
 							<span>Verification Pipeline</span>
-							<div className="rounded-full bg-primary-base/10 px-2 py-0.5 text-[10px] font-medium text-primary-base">
+							<div className="rounded-full bg-primary-base/10 px-2 py-0.5 font-medium text-[10px] text-primary-base">
 								Automated
 							</div>
 						</motion.div>
