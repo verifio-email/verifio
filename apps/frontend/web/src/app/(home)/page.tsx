@@ -1,12 +1,14 @@
-import { ComparisonPricing } from "./components/comparison-pricing";
+import { ComparisonTable } from "./components/comparison-table";
 import { EmailQualityProblem } from "./components/email-quality-problem";
 import Faq from "./components/faq";
 import { FinalCTA } from "./components/final-cta";
 import Hero from "./components/hero";
 import { HowItWorks } from "./components/how-it-works";
 import { OpenSourceDifference } from "./components/open-source-difference";
+import { Pricing } from "./components/pricing";
 import Sdk from "./components/sdk";
 import { UseCases } from "./components/use-cases";
+
 export default function Home() {
 	return (
 		<div>
@@ -22,7 +24,9 @@ export default function Home() {
 			<div className="h-10" />
 			<UseCases />
 			<div className="h-10" />
-			<ComparisonPricing />
+			<ComparisonTable />
+			<div className="h-10" />
+			<Pricing />
 			<div className="h-10" />
 			<FinalCTA />
 			<div className="h-10" />
