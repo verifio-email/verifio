@@ -106,7 +106,7 @@ export function ComparisonTable() {
 								>
 									{/* Feature name */}
 									<td className="border-stroke-soft-200/50 border-r px-6 py-4 md:px-8">
-										<span className="text-sm text-text-strong-950 font-medium">
+										<span className="font-medium text-sm text-text-strong-950">
 											{row.feature}
 										</span>
 									</td>
@@ -117,7 +117,7 @@ export function ComparisonTable() {
 									</td>
 
 									{/* Traditional value */}
-									<td className="px-4 py-4 text-center">
+									<td className="px-4 py-3 text-center">
 										<StatusCell value={row.traditional} />
 									</td>
 								</tr>
