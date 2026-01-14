@@ -1,21 +1,21 @@
-# @verifio/sdk
+# @verifio/email-verification
 
 Official Node.js SDK for Verifio email verification.
 
 ## Installation
 
 ```bash
-npm install @verifio/sdk
+npm install @verifio/email-verification
 # or
-yarn add @verifio/sdk
+yarn add @verifio/email-verification
 # or
-bun add @verifio/sdk
+bun add @verifio/email-verification
 ```
 
 ## Quick Start
 
 ```typescript
-import { Verifio } from '@verifio/sdk';
+import { Verifio } from '@verifio/email-verification';
 
 const verifio = new Verifio({
   apiKey: 'your-api-key'
@@ -126,7 +126,7 @@ import {
   InsufficientCreditsError,
   RateLimitError,
   VerifioError
-} from '@verifio/sdk';
+} from '@verifio/email-verification';
 
 try {
   const result = await verifio.verify('test@example.com');
@@ -153,7 +153,7 @@ import type {
   VerificationState,
   BulkVerificationJob,
   VerifyOptions
-} from '@verifio/sdk';
+} from '@verifio/email-verification';
 ```
 
 ## Requirements

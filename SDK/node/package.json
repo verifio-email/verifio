@@ -1,5 +1,5 @@
 {
-  "name": "@verifio/sdk",
+  "name": "@verifio/email-verification",
   "version": "1.0.0",
   "description": "Official Node.js SDK for Verifio email verification",
   "main": "dist/index.js",
