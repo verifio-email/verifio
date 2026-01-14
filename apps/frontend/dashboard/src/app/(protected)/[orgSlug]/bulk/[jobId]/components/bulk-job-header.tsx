@@ -96,7 +96,7 @@ export const BulkJobHeader = ({
 		<div className="h-full overflow-y-auto overflow-x-hidden">
 			{/* Back Button Section */}
 			<div className="border-stroke-soft-200/50 border-b">
-				<div className="px-[300px] 2xl:px-[450px]">
+				<div className="mx-auto max-w-4xl">
 					<div className="border-stroke-soft-200/50 border-r border-l px-5 py-4">
 						<AnimatedBackButton onClick={() => push("/bulk")} />
 					</div>
@@ -104,7 +104,7 @@ export const BulkJobHeader = ({
 			</div>
 			{/* Header Section */}
 			<div className="border-stroke-soft-200/50 border-b">
-				<div className="px-[300px] 2xl:px-[450px]">
+				<div className="mx-auto max-w-4xl">
 					<div className="flex items-center justify-between border-stroke-soft-200/50 border-r border-l px-5 py-6">
 						<div>
 							{isLoading ? (
@@ -166,7 +166,7 @@ export const BulkJobHeader = ({
 			</div>
 			{/* Stats Section - Box UI */}
 			<div className="border-stroke-soft-200/50 border-b">
-				<div className="px-[300px] 2xl:px-[450px]">
+				<div className="mx-auto max-w-4xl">
 					{/* Summary Title */}
 					<div className="relative border-stroke-soft-200/50 border-r border-l px-5 py-4">
 						<h3 className="font-semibold text-lg text-text-strong-950">
@@ -226,15 +226,15 @@ export const BulkJobHeader = ({
 									{/* Pie Chart Column */}
 									<div className="flex flex-1 items-center justify-center border-stroke-soft-200/50 border-r p-6">
 										{pieData.length > 0 && (
-											<div className="relative h-32 w-32 shrink-0">
+											<div className="relative h-40 w-40 shrink-0">
 												<ResponsiveContainer width="100%" height="100%">
 													<PieChart>
 														<Pie
 															data={pieData}
 															cx="50%"
 															cy="50%"
-															innerRadius={40}
-															outerRadius={55}
+															innerRadius={50}
+															outerRadius={70}
 															paddingAngle={2}
 															dataKey="value"
 															stroke="none"
@@ -296,10 +296,29 @@ export const BulkJobHeader = ({
 									</div>
 
 									{/* Stats Table Column */}
-									<div className="flex-1 divide-y divide-stroke-soft-200/50">
-										<div className="flex items-center justify-between px-6 py-3">
-											<span className="text-sm text-text-sub-600">Valid</span>
-											<div className="flex items-center gap-2">
+									<div className="flex flex-1">
+										{/* Labels Column */}
+										<div className="flex flex-1 flex-col divide-y divide-stroke-soft-200/50">
+											<div className="flex items-center px-6 py-4">
+												<span className="text-sm text-text-sub-600">Valid</span>
+											</div>
+											<div className="flex items-center px-6 py-4">
+												<span className="text-sm text-text-sub-600">Risky</span>
+											</div>
+											<div className="flex items-center px-6 py-4">
+												<span className="text-sm text-text-sub-600">
+													Invalid
+												</span>
+											</div>
+											<div className="flex items-center px-6 py-4">
+												<span className="text-sm text-text-sub-600">
+													Unknown
+												</span>
+											</div>
+										</div>
+										{/* Values Column with left border */}
+										<div className="flex flex-1 flex-col divide-y divide-stroke-soft-200/50 border-stroke-soft-200/50 border-l">
+											<div className="flex items-center gap-2 px-6 py-4">
 												<Icon
 													name="check-circle"
 													className="h-4 w-4"
@@ -312,10 +331,7 @@ export const BulkJobHeader = ({
 													{job?.stats?.deliverable || 0}
 												</span>
 											</div>
-										</div>
-										<div className="flex items-center justify-between px-6 py-3">
-											<span className="text-sm text-text-sub-600">Risky</span>
-											<div className="flex items-center gap-2">
+											<div className="flex items-center gap-2 px-6 py-4">
 												<Icon
 													name="alert-triangle"
 													className="h-4 w-4"
@@ -328,10 +344,7 @@ export const BulkJobHeader = ({
 													{job?.stats?.risky || 0}
 												</span>
 											</div>
-										</div>
-										<div className="flex items-center justify-between px-6 py-3">
-											<span className="text-sm text-text-sub-600">Invalid</span>
-											<div className="flex items-center gap-2">
+											<div className="flex items-center gap-2 px-6 py-4">
 												<Icon
 													name="cross-circle"
 													className="h-4 w-4"
@@ -344,10 +357,7 @@ export const BulkJobHeader = ({
 													{job?.stats?.undeliverable || 0}
 												</span>
 											</div>
-										</div>
-										<div className="flex items-center justify-between px-6 py-3">
-											<span className="text-sm text-text-sub-600">Unknown</span>
-											<div className="flex items-center gap-2">
+											<div className="flex items-center gap-2 px-6 py-3">
 												<Icon
 													name="help-circle"
 													className="h-4 w-4"
@@ -370,7 +380,7 @@ export const BulkJobHeader = ({
 			</div>
 			{/* Results Section */}
 			<div className="border-stroke-soft-200/50 border-b">
-				<div className="px-[300px] 2xl:px-[450px]">
+				<div className="mx-auto max-w-4xl">
 					<div className="border-stroke-soft-200/50 border-r border-l pt-5">
 						<div className="relative flex items-center justify-between px-5 pb-4">
 							{/* Bottom border extending full width */}
@@ -426,7 +436,7 @@ export const BulkJobHeader = ({
 							<>
 								{/* Table Header */}
 								<div className="border-stroke-soft-200/50 border-b bg-bg-weak-50/50 px-5">
-									<div className="grid grid-cols-[1fr_140px_120px_60px] items-stretch text-[11px] text-text-sub-600 uppercase tracking-wide">
+									<div className="grid grid-cols-[1fr_195px_150px_60px] items-stretch text-[11px] text-text-sub-600 uppercase tracking-wide">
 										<div className="flex items-center py-3 font-semibold">
 											Email
 										</div>
@@ -449,7 +459,7 @@ export const BulkJobHeader = ({
 											<div
 												key={result.id || result.email + idx}
 												className={cn(
-													"grid grid-cols-[1fr_140px_120px_60px] items-stretch px-5 transition-colors hover:bg-bg-weak-50/50",
+													"grid grid-cols-[1fr_195px_150px_60px] items-stretch px-5 transition-colors hover:bg-bg-weak-50/50",
 													result.id && "cursor-pointer",
 												)}
 												onClick={() =>
