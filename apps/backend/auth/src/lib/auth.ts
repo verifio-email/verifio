@@ -1,5 +1,3 @@
-import { randomBytes } from "node:crypto";
-import { createId } from "@paralleldrive/cuid2";
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
 import { logger } from "@verifio/logger";
@@ -18,68 +16,8 @@ import {
 	openAPI,
 	organization,
 } from "better-auth/plugins";
-import { eq } from "drizzle-orm";
 import { authConfig } from "../auth.config";
 import { redis } from "./redis";
-
-// API Key generation utilities
-const API_KEY_PREFIX = "rl";
-const API_KEY_LENGTH = 64;
-
-function generateApiKey(): string {
-	const randomPart = randomBytes(API_KEY_LENGTH).toString("base64url");
-	return `${API_KEY_PREFIX}_${randomPart}`;
-}
-
-function getKeyStart(key: string): string {
-	const parts = key.split("_");
-	if (parts.length >= 2) {
-		return `${parts[0]}_${parts[1]?.substring(0, 8) ?? ""}`;
-	}
-	return key.substring(0, 12);
-}
-
-async function createDefaultApiKey(
-	organizationId: string,
-	userId: string,
-): Promise<void> {
-	try {
-		const fullKey = generateApiKey();
-		const keyStart = getKeyStart(fullKey);
-		const keyId = createId();
-		const now = new Date();
-
-		await db.insert(schema.apikey).values({
-			id: keyId,
-			name: "Default",
-			start: keyStart,
-			prefix: API_KEY_PREFIX,
-			key: fullKey,
-			organizationId,
-			userId,
-			refillInterval: null,
-			refillAmount: null,
-			lastRefillAt: null,
-			enabled: true,
-			rateLimitEnabled: true,
-			rateLimitTimeWindow: 86400000, // 24 hours
-			rateLimitMax: 10,
-			requestCount: 0,
-			remaining: 10,
-			lastRequest: null,
-			expiresAt: null,
-			createdAt: now,
-			updatedAt: now,
-			permissions: null,
-			metadata: null,
-		});
-
-		logger.info(`✅ Default API key created for organization ${organizationId}`);
-	} catch (error) {
-		logger.error("❌ Failed to create default API key:", error);
-		// Don't throw - organization is still created, API key just failed
-	}
-}
 
 export const auth = betterAuth({
 	database: drizzleAdapter(db, {
@@ -118,52 +56,6 @@ export const auth = betterAuth({
 			const newSession = ctx.context.newSession;
 			if (newSession) {
 				logger.info("🔐 User registered:", newSession.user);
-
-				// Create organization for email/password signups
-				try {
-					const user = newSession.user;
-					const email = user.email;
-					const username = email.split("@")[0] || "workspace";
-					const orgName = username.charAt(0).toUpperCase() + username.slice(1);
-					const randomSuffix = Math.floor(10000 + Math.random() * 90000); // 5-digit random number
-					const slug = `org-${randomSuffix}`;
-					const orgId = createId();
-					const memberId = createId();
-					const now = new Date();
-
-					// Create organization
-					await db.insert(schema.organization).values({
-						id: orgId,
-						name: orgName,
-						slug: slug,
-						logo: null,
-						metadata: null,
-						createdAt: now,
-					});
-
-					// Create member record
-					await db.insert(schema.member).values({
-						id: memberId,
-						organizationId: orgId,
-						userId: user.id,
-						role: "owner",
-						createdAt: now,
-					});
-
-					// Update user's activeOrganizationId
-					await db
-						.update(schema.user)
-						.set({ activeOrganizationId: orgId })
-						.where(eq(schema.user.id, user.id));
-
-					logger.info(`✅ Organization "${orgName}" (${slug}) created for user ${email}`);
-
-					// Create default API key
-					await createDefaultApiKey(orgId, user.id);
-				} catch (error) {
-					logger.error("❌ Failed to create organization for new user:", error);
-					// Don't throw - user is still created, they can create org manually
-				}
 			}
 		}
 	}),
