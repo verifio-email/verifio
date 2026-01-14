@@ -22,5 +22,5 @@ COPY --from=deps /app/packages ./packages
 
 WORKDIR /app/packages/db
 
-# Run migrations using drizzle-kit (--force to auto-accept)
-CMD ["bun", "run", "db:push", "--", "--force"]
+# Run migrations using drizzle-kit (yes | to auto-accept prompts)
+CMD sh -c "yes | bun run db:push"
