@@ -1,345 +1,233 @@
 /**
- * Type definitions for Verifio SDK
+ * Verifio SDK Types
+ * Type definitions for email verification
  */
 
-// Mail Service Types
-export interface SendEmailRequest {
-	from: string;
-	to: string | string[];
-	subject: string;
-	text?: string;
-	html?: string;
-	replyTo?: string;
-	cc?: string | string[];
-	bcc?: string | string[];
+// ============================================================================
+// VERIFICATION STATE
+// ============================================================================
+
+/**
+ * Primary verdict for an email address
+ */
+export type VerificationState =
+  | "deliverable"
+  | "undeliverable"
+  | "risky"
+  | "unknown";
+
+/**
+ * Risk level assessment
+ */
+export type RiskLevel = "low" | "medium" | "high";
+
+/**
+ * Reason codes for verification results
+ */
+export type VerificationReason =
+  // Deliverable
+  | "valid_mailbox"
+  | "accepted_email"
+  // Undeliverable
+  | "invalid_syntax"
+  | "invalid_domain"
+  | "no_mx_records"
+  | "mailbox_not_found"
+  | "mailbox_full"
+  // Risky
+  | "disposable_email"
+  | "role_based_email"
+  | "catch_all_domain"
+  | "free_email_provider"
+  // Unknown
+  | "timeout"
+  | "connection_error"
+  | "unknown_error";
+
+// ============================================================================
+// CHECK RESULTS
+// ============================================================================
+
+export interface SyntaxCheckResult {
+  valid: boolean;
+  error?: string;
 }
 
-export interface SendEmailResponse {
-	success: boolean;
-	messageId: string;
-	status: string;
-	timestamp: string;
+export interface DnsCheckResult {
+  valid: boolean;
+  domainExists: boolean;
+  hasMx: boolean;
+  mxRecords: string[];
+  preferredMx?: string;
+  error?: string;
 }
 
-// Domain Service Types
-export interface CreateDomainRequest {
-	domain: string;
+export interface DisposableCheckResult {
+  isDisposable: boolean;
+  provider?: string;
 }
 
-export type DomainStatus =
-	| "start-verify"
-	| "verifying"
-	| "active"
-	| "suspended"
-	| "failed";
-
-export type DomainType = "custom" | "subdomain" | "system";
-
-export type DNSRecordType =
-	| "A"
-	| "AAAA"
-	| "CNAME"
-	| "MX"
-	| "TXT"
-	| "NS"
-	| "SRV"
-	| "CAA"
-	| "SPF"
-	| "DKIM"
-	| "DMARC";
-
-export interface DNSRecord {
-	id: string;
-	recordType: DNSRecordType;
-	name: string;
-	value: string;
-	ttl: number;
-	priority: number | null;
-	weight: number | null;
-	port: number | null;
-	description: string | null;
-	isVerified: boolean;
-	verificationError: string | null;
-	isActive: boolean;
-	createdAt: string;
-	status: DomainStatus;
-	updatedAt: string;
+export interface RoleCheckResult {
+  isRole: boolean;
+  role?: string;
 }
 
-export interface DomainResponse {
-	id: string;
-	domain: string;
-	organizationId: string;
-	userId: string;
-	domainType: DomainType;
-	status: DomainStatus;
-	userVerified: boolean;
-	systemVerified: boolean;
-	dnsConfigured: boolean;
-	nameservers: string[] | null;
-	spfRecord: string | null;
-	dkimRecord: string | null;
-	dkimSelector: string;
-	dmarcRecord: string | null;
-	dmarcPolicy: string;
-	trackingDomain: boolean;
-	verificationFailedReason: string | null;
-	dnsRecords: DNSRecord[];
-	deletedAt: string | null;
-	lastVerifiedAt: string | null;
-	createdAt: string;
-	updatedAt: string;
+export interface FreeProviderCheckResult {
+  isFree: boolean;
+  provider?: string;
 }
 
-export interface DomainListResponse {
-	domains: DomainResponse[];
-	total: number;
-	page: number;
-	limit: number;
+export interface TypoCheckResult {
+  hasTypo: boolean;
+  suggestion?: string;
+  originalDomain?: string;
+  suggestedDomain?: string;
 }
 
-export interface DomainQuery extends Record<string, unknown> {
-	page?: number;
-	limit?: number;
-	status?: DomainStatus;
-	organizationId?: string;
-	userId?: string;
+export interface SmtpCheckResult {
+  valid: boolean | null;
+  mailboxExists: boolean | null;
+  isCatchAll: boolean | null;
+  response?: string;
+  error?: string;
 }
 
-export interface DNSRecordsResponse {
-	records: DNSRecord[];
+export interface VerificationChecks {
+  syntax: SyntaxCheckResult;
+  dns: DnsCheckResult;
+  disposable: DisposableCheckResult;
+  role: RoleCheckResult;
+  freeProvider: FreeProviderCheckResult;
+  typo: TypoCheckResult;
+  smtp: SmtpCheckResult;
 }
 
-export interface DKIMKeysResponse {
-	publicKey: string;
-	privateKey: string;
-	selector: string;
+// ============================================================================
+// ANALYTICS
+// ============================================================================
+
+export interface VerificationAnalytics {
+  didYouMean: string | null;
+  domainAge: number | null;
+  smtpProvider: string | null;
+  riskLevel: RiskLevel;
+  qualityIndicators: string[];
+  warnings: string[];
 }
 
-export interface VerifyDNSRecordRequest {
-	recordType: DNSRecordType;
-	name: string;
-	value: string;
+// ============================================================================
+// VERIFICATION RESULT
+// ============================================================================
+
+export interface VerificationResult {
+  id?: string;
+  email: string;
+  user: string;
+  domain: string;
+  tag: string | null;
+  state: VerificationState;
+  reason: VerificationReason;
+  score: number;
+  checks: VerificationChecks;
+  analytics: VerificationAnalytics;
+  duration: number;
+  verifiedAt: string;
 }
 
-export interface VerifyDNSRecordResponse {
-	verified: boolean;
-	message?: string;
+// ============================================================================
+// BULK VERIFICATION
+// ============================================================================
+
+export interface ScoreDistribution {
+  excellent: number;
+  good: number;
+  fair: number;
+  poor: number;
 }
 
-export interface GenerateDNSRecordsResponse {
-	records: DNSRecord[];
+export interface VerificationBreakdown {
+  disposable: number;
+  roleBased: number;
+  freeProvider: number;
+  catchAll: number;
+  syntaxErrors: number;
+  dnsErrors: number;
+  typosDetected: number;
 }
 
-// Webhook Service Types
-export type WebhookStatus = "active" | "paused" | "disabled" | "failed";
-
-export interface CreateWebhookRequest {
-	name: string;
-	url: string;
-	secret?: string;
-	customHeaders?: Record<string, string>;
-	rateLimitEnabled?: boolean;
-	maxRequestsPerMinute?: number;
-	maxRetries?: number;
-	retryBackoffMultiplier?: number;
-	filteringOptions?: Record<string, unknown>;
+export interface BulkVerificationStats {
+  total: number;
+  processed: number;
+  deliverable: number;
+  undeliverable: number;
+  risky: number;
+  unknown: number;
+  breakdown: VerificationBreakdown;
+  averageScore: number;
+  scoreDistribution: ScoreDistribution;
+  startedAt: string;
+  completedAt: string | null;
+  totalDuration: number;
+  averageDuration: number;
 }
 
-export interface UpdateWebhookRequest {
-	name?: string;
-	url?: string;
-	secret?: string;
-	status?: WebhookStatus;
-	customHeaders?: Record<string, string>;
-	rateLimitEnabled?: boolean;
-	maxRequestsPerMinute?: number;
-	maxRetries?: number;
-	retryBackoffMultiplier?: number;
-	filteringOptions?: Record<string, unknown>;
+export type BulkJobStatus =
+  | "pending"
+  | "processing"
+  | "completed"
+  | "failed"
+  | "cancelled";
+
+export interface BulkVerificationJob {
+  id: string;
+  status: BulkJobStatus;
+  totalEmails: number;
+  processedEmails: number;
+  stats: BulkVerificationStats | null;
+  createdAt: string;
+  completedAt: string | null;
 }
 
-export interface WebhookResponse {
-	id: string;
-	name: string;
-	url: string;
-	secret: string | null;
-	organizationId: string;
-	userId: string;
-	status: WebhookStatus;
-	customHeaders: Record<string, string> | null;
-	rateLimitEnabled: boolean;
-	maxRequestsPerMinute: number;
-	maxRetries: number;
-	retryBackoffMultiplier: number;
-	filteringOptions: Record<string, unknown> | null;
-	lastTriggeredAt: string | null;
-	successCount: number;
-	failureCount: number;
-	consecutiveFailures: number;
-	createdAt: string;
-	updatedAt: string;
+// ============================================================================
+// API RESPONSES
+// ============================================================================
+
+export interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  error?: string;
 }
 
-export interface WebhookListResponse {
-	webhooks: WebhookResponse[];
-	total: number;
-	page: number;
-	limit: number;
+export interface PaginatedResponse<T> {
+  success: boolean;
+  data?: {
+    items: T[];
+    pagination: {
+      page: number;
+      limit: number;
+      total: number;
+      totalPages: number;
+    };
+  };
+  error?: string;
 }
 
-export interface WebhookQuery extends Record<string, unknown> {
-	page?: number;
-	limit?: number;
-	status?: WebhookStatus;
-	organizationId?: string;
-	userId?: string;
+// ============================================================================
+// OPTIONS
+// ============================================================================
+
+export interface VerifyOptions {
+  skipDisposable?: boolean;
+  skipRole?: boolean;
+  skipTypo?: boolean;
 }
 
-// Audience Service Types
-export type AudienceStatus = "subscribed" | "unsubscribed";
-
-export interface CreateAudienceRequest {
-	email: string;
-	firstName?: string;
-	lastName?: string;
-	audienceGroupId: string;
-	status?: AudienceStatus;
+export interface VerifioConfig {
+  apiKey: string;
+  baseUrl?: string;
 }
 
-export interface UpdateAudienceRequest {
-	firstName?: string;
-	lastName?: string;
-	audienceGroupId?: string;
-}
-
-export interface AudienceResponse {
-	id: string;
-	email: string;
-	firstName: string | null;
-	lastName: string | null;
-	organizationId: string;
-	status: AudienceStatus;
-	audienceGroupId: string;
-	audienceGroupName: string;
-	addedAt: string;
-	unsubscribedAt: string | null;
-	createdAt: string;
-	updatedAt: string;
-}
-
-export interface AudienceListResponse {
-	audiences: AudienceResponse[];
-	total: number;
-	page: number;
-	limit: number;
-}
-
-export interface AudienceQuery extends Record<string, unknown> {
-	page?: number;
-	limit?: number;
-	search?: string;
-	status?: AudienceStatus;
-	audienceGroupId?: string;
-	organizationId?: string;
-	userId?: string;
-}
-
-export interface BulkImportAudience {
-	email: string;
-	firstName?: string;
-	lastName?: string;
-	status?: AudienceStatus;
-}
-
-export interface BulkImportAudiencesRequest {
-	audienceGroupId: string;
-	audiences: BulkImportAudience[];
-}
-
-export interface BulkImportError {
-	email: string;
-	error: string;
-}
-
-export interface BulkImportResponse {
-	successful: number;
-	failed: number;
-	errors: BulkImportError[];
-}
-
-export interface SubscribeAudienceRequest {
-	reason?: string;
-}
-
-export interface UnsubscribeAudienceRequest {
-	reason?: string;
-}
-
-export interface SearchAudiencesQuery extends Record<string, unknown> {
-	query: string;
-	page?: number;
-	limit?: number;
-	status?: AudienceStatus;
-	audienceGroupId?: string;
-	organizationId?: string;
-}
-
-// Audience Group Types
-export interface CreateAudienceGroupRequest {
-	name: string;
-	description?: string;
-}
-
-export interface UpdateAudienceGroupRequest {
-	name?: string;
-	description?: string;
-}
-
-export interface AudienceGroupResponse {
-	id: string;
-	name: string;
-	description: string | null;
-	organizationId: string;
-	userId: string;
-	audienceCount: number;
-	createdAt: string;
-	updatedAt: string;
-	deletedAt: string | null;
-}
-
-export interface AudienceGroupListResponse {
-	groups: AudienceGroupResponse[];
-	total: number;
-	page: number;
-	limit: number;
-}
-
-export interface AudienceGroupQuery extends Record<string, unknown> {
-	page?: number;
-	limit?: number;
-	search?: string;
-	organizationId?: string;
-	userId?: string;
-}
-
-export interface AudienceGroupListResponse {
-	audienceGroups: AudienceGroupResponse[];
-	total: number;
-	page: number;
-	limit: number;
-}
-
-export interface AudienceGroupResponse {
-	id: string;
-	name: string;
-	description: string | null;
-	organizationId: string;
-	userId: string;
-	audienceCount: number;
-	subscribedCount: number;
-	unsubscribedCount: number;
-	deletedAt: string | null;
-	createdAt: string;
-	updatedAt: string;
+export interface PaginationOptions {
+  page?: number;
+  limit?: number;
 }

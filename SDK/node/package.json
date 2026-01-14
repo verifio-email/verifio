@@ -1,49 +1,45 @@
 {
-	"name": "verifio-email",
-	"version": "1.0.2",
-	"description": "Official Verifio Node.js SDK for integrating with Verifio services",
-	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
-	"type": "module",
-	"files": [
-		"dist",
-		"README.md",
-		"LICENSE"
-	],
-	"scripts": {
-		"build": "tsc",
-		"prepublishOnly": "npm run build",
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"keywords": [
-		"verifio",
-		"sdk",
-		"node",
-		"email",
-		"mail",
-		"domain",
-		"webhook",
-		"audience"
-	],
-	"author": "Verifio",
-	"license": "Apache-2.0",
-	"engines": {
-		"node": ">=18.0.0"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/reloop-labs/verifio.git",
-		"directory": "sdk/node"
-	},
-	"devDependencies": {
-		"@types/node": "^20.0.0",
-		"typescript": "^5.9.2"
-	},
-	"peerDependencies": {},
-	"exports": {
-		".": {
-			"import": "./dist/index.js",
-			"types": "./dist/index.d.ts"
-		}
-	}
+  "name": "@verifio/sdk",
+  "version": "1.0.0",
+  "description": "Official Node.js SDK for Verifio email verification",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "test": "echo \"No tests yet\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "email",
+    "verification",
+    "validation",
+    "verifio",
+    "email-verify"
+  ],
+  "author": "Verifio",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reloop-labs/verifio"
+  },
+  "homepage": "https://verifio.email",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  }
 }

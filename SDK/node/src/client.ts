@@ -1,179 +1,106 @@
+/**
+ * Verifio SDK - Core Client
+ * HTTP client with authentication and error handling
+ */
+
 import {
-	APIError,
-	AuthenticationError,
-	NotFoundError,
-	RateLimitError,
-	ServerError,
-} from "./errors.js";
+  AuthenticationError,
+  InsufficientCreditsError,
+  NotFoundError,
+  RateLimitError,
+  ServerError,
+  ValidationError,
+  VerifioError,
+} from "./errors";
+import type { VerifioConfig } from "./types";
 
-export interface VerifioConfig {
-	url: string;
-	key: string;
-}
+const DEFAULT_BASE_URL = "https://verifio.email";
 
-export class HTTPClient {
-	private baseURL: string;
-	private apiKey: string;
+export class VerifioClient {
+  private apiKey: string;
+  private baseUrl: string;
 
-	constructor(config: VerifioConfig) {
-		// Normalize base URL (remove trailing slash)
-		this.baseURL = config.url.replace(/\/+$/, "");
-		this.apiKey = config.key;
+  constructor(config: VerifioConfig) {
+    if (!config.apiKey) {
+      throw new ValidationError("API key is required");
+    }
 
-		if (!this.baseURL) {
-			throw new Error("Base URL is required");
-		}
-		if (!this.apiKey) {
-			throw new Error("API key is required");
-		}
-	}
+    this.apiKey = config.apiKey;
+    this.baseUrl = (config.baseUrl || DEFAULT_BASE_URL).replace(/\/$/, "");
+  }
 
-	private getHeaders(): Record<string, string> {
-		return {
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${this.apiKey}`,
-			"X-API-Key": this.apiKey, // Fallback header
-		};
-	}
+  /**
+   * Make an authenticated request to the Verifio API
+   */
+  async request<T>(
+    method: "GET" | "POST" | "PUT" | "DELETE",
+    path: string,
+    body?: unknown
+  ): Promise<T> {
+    const url = `${this.baseUrl}/api/verify/v1${path}`;
 
-	private async handleResponse<T>(response: Response): Promise<T> {
-		const contentType = response.headers.get("content-type");
-		const isJSON = contentType?.includes("application/json");
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${this.apiKey}`,
+    };
 
-		let data: unknown;
-		try {
-			data = isJSON ? await response.json() : await response.text();
-		} catch {
-			data = { message: "Failed to parse response" };
-		}
+    const options: RequestInit = {
+      method,
+      headers,
+    };
 
-		if (!response.ok) {
-			const status = response.status;
-			const statusText = response.statusText;
+    if (body && method !== "GET") {
+      options.body = JSON.stringify(body);
+    }
 
-			// Handle specific error cases
-			if (status === 401) {
-				throw new AuthenticationError(
-					typeof data === "object" &&
-						data !== null &&
-						"message" in data &&
-						typeof data.message === "string"
-						? data.message
-						: "Authentication failed",
-				);
-			}
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json() as { success?: boolean; error?: string; data?: unknown };
 
-			if (status === 404) {
-				throw new NotFoundError(
-					typeof data === "object" &&
-						data !== null &&
-						"message" in data &&
-						typeof data.message === "string"
-						? data.message
-						: "Resource not found",
-				);
-			}
+      if (!response.ok) {
+        this.handleError(response.status, data);
+      }
 
-			if (status === 429) {
-				throw new RateLimitError(
-					typeof data === "object" &&
-						data !== null &&
-						"message" in data &&
-						typeof data.message === "string"
-						? data.message
-						: "Rate limit exceeded",
-				);
-			}
+      return data as T;
+    } catch (error) {
+      if (error instanceof VerifioError) {
+        throw error;
+      }
 
-			if (status >= 500) {
-				throw new ServerError(
-					typeof data === "object" &&
-						data !== null &&
-						"message" in data &&
-						typeof data.message === "string"
-						? data.message
-						: "Internal server error",
-				);
-			}
+      throw new VerifioError(
+        error instanceof Error ? error.message : "Unknown error occurred"
+      );
+    }
+  }
 
-			// Generic API error
-			throw new APIError(
-				typeof data === "object" &&
-					data !== null &&
-					"message" in data &&
-					typeof data.message === "string"
-					? data.message
-					: `Request failed with status ${status}`,
-				status,
-				statusText,
-				data,
-			);
-		}
+  /**
+   * Handle API error responses
+   */
+  private handleError(status: number, data: { error?: string; data?: unknown }): never {
+    const message = data.error || "An error occurred";
+    const errorData = data.data as { remaining?: number; required?: number } | undefined;
 
-		return data as T;
-	}
-
-	async get<T>(path: string, params?: Record<string, unknown>): Promise<T> {
-		let url = `${this.baseURL}${path}`;
-
-		// Add query parameters if provided
-		if (params && Object.keys(params).length > 0) {
-			const searchParams = new URLSearchParams();
-			for (const [key, value] of Object.entries(params)) {
-				if (value !== undefined && value !== null) {
-					searchParams.append(key, String(value));
-				}
-			}
-			const queryString = searchParams.toString();
-			if (queryString) {
-				url += `?${queryString}`;
-			}
-		}
-
-		const response = await fetch(url, {
-			method: "GET",
-			headers: this.getHeaders(),
-		});
-
-		return this.handleResponse<T>(response);
-	}
-
-	async post<T>(path: string, body?: unknown): Promise<T> {
-		const response = await fetch(`${this.baseURL}${path}`, {
-			method: "POST",
-			headers: this.getHeaders(),
-			body: body ? JSON.stringify(body) : undefined,
-		});
-
-		return this.handleResponse<T>(response);
-	}
-
-	async put<T>(path: string, body?: unknown): Promise<T> {
-		const response = await fetch(`${this.baseURL}${path}`, {
-			method: "PUT",
-			headers: this.getHeaders(),
-			body: body ? JSON.stringify(body) : undefined,
-		});
-
-		return this.handleResponse<T>(response);
-	}
-
-	async patch<T>(path: string, body?: unknown): Promise<T> {
-		const response = await fetch(`${this.baseURL}${path}`, {
-			method: "PATCH",
-			headers: this.getHeaders(),
-			body: body ? JSON.stringify(body) : undefined,
-		});
-
-		return this.handleResponse<T>(response);
-	}
-
-	async delete<T>(path: string): Promise<T> {
-		const response = await fetch(`${this.baseURL}${path}`, {
-			method: "DELETE",
-			headers: this.getHeaders(),
-		});
-
-		return this.handleResponse<T>(response);
-	}
+    switch (status) {
+      case 401:
+        throw new AuthenticationError(message);
+      case 402:
+        throw new InsufficientCreditsError(
+          message,
+          errorData?.remaining,
+          errorData?.required
+        );
+      case 404:
+        throw new NotFoundError(message);
+      case 429:
+        throw new RateLimitError(message);
+      case 400:
+        throw new ValidationError(message);
+      case 500:
+      case 502:
+      case 503:
+        throw new ServerError(message);
+      default:
+        throw new VerifioError(message, status);
+    }
+  }
 }

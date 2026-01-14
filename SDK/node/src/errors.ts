@@ -1,82 +1,63 @@
 /**
- * Base error class for all Verifio SDK errors
+ * Verifio SDK Error Classes
  */
+
 export class VerifioError extends Error {
-	constructor(
-		message: string,
-		public readonly code?: string,
-	) {
-		super(message);
-		this.name = this.constructor.name;
-		Error.captureStackTrace(this, this.constructor);
-	}
+  constructor(
+    message: string,
+    public statusCode?: number,
+    public code?: string
+  ) {
+    super(message);
+    this.name = "VerifioError";
+  }
 }
 
-/**
- * Error thrown when an API request fails
- */
-export class APIError extends VerifioError {
-	constructor(
-		message: string,
-		public readonly statusCode: number,
-		public readonly statusText?: string,
-		public readonly response?: unknown,
-		public readonly code?: string,
-	) {
-		super(message, code);
-		this.name = "APIError";
-	}
+export class AuthenticationError extends VerifioError {
+  constructor(message = "Invalid API key") {
+    super(message, 401, "AUTHENTICATION_ERROR");
+    this.name = "AuthenticationError";
+  }
 }
 
-/**
- * Error thrown when authentication fails
- */
-export class AuthenticationError extends APIError {
-	constructor(message = "Authentication failed") {
-		super(message, 401, "Unauthorized", undefined, "AUTH_ERROR");
-		this.name = "AuthenticationError";
-	}
+export class InsufficientCreditsError extends VerifioError {
+  constructor(
+    message = "Insufficient credits",
+    public remaining?: number,
+    public required?: number
+  ) {
+    super(message, 402, "INSUFFICIENT_CREDITS");
+    this.name = "InsufficientCreditsError";
+  }
 }
 
-/**
- * Error thrown when a resource is not found
- */
-export class NotFoundError extends APIError {
-	constructor(message = "Resource not found") {
-		super(message, 404, "Not Found", undefined, "NOT_FOUND");
-		this.name = "NotFoundError";
-	}
+export class NotFoundError extends VerifioError {
+  constructor(message = "Resource not found") {
+    super(message, 404, "NOT_FOUND");
+    this.name = "NotFoundError";
+  }
 }
 
-/**
- * Error thrown when validation fails
- */
+export class RateLimitError extends VerifioError {
+  constructor(
+    message = "Rate limit exceeded",
+    public retryAfter?: number
+  ) {
+    super(message, 429, "RATE_LIMIT_EXCEEDED");
+    this.name = "RateLimitError";
+  }
+}
+
 export class ValidationError extends VerifioError {
-	constructor(
-		message: string,
-		public readonly fields?: Record<string, string[]>,
-	) {
-		super(message, "VALIDATION_ERROR");
-		this.name = "ValidationError";
-	}
+  constructor(message: string) {
+    super(message, 400, "VALIDATION_ERROR");
+    this.name = "ValidationError";
+  }
 }
 
-/**
- * Error thrown when a rate limit is exceeded
- */
-export class RateLimitError extends APIError {
-	constructor(message = "Rate limit exceeded") {
-		super(message, 429, "Too Many Requests", undefined, "RATE_LIMIT");
-		this.name = "RateLimitError";
-	}
-}
-
-/**
- * Error thrown when the server returns an error
- */
-export class ServerError extends APIError {
-	constructor(message = "Internal server error") {
-		super(message, 500, "Internal Server Error", undefined, "SERVER_ERROR");
-		this.name = "ServerError";
-	}
+export class ServerError extends VerifioError {
+  constructor(message = "Internal server error") {
+    super(message, 500, "SERVER_ERROR");
+    this.name = "ServerError";
+  }
 }
