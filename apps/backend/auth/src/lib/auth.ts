@@ -1,5 +1,6 @@
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
+import { eq } from "drizzle-orm";
 import { logger } from "@verifio/logger";
 import {
 	sendOrganizationInviteEmail,
@@ -7,7 +8,6 @@ import {
 } from "@verifio/react-email";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { createAuthMiddleware } from "better-auth/api";
 import {
 	admin,
 	apiKey,
@@ -51,33 +51,73 @@ export const auth = betterAuth({
 			await redis.delete(key);
 		},
 	},
-	after: createAuthMiddleware(async (ctx) => {
-		if (ctx.path.startsWith("/sign-up")) {
-			const newSession = ctx.context.newSession;
-			if (newSession) {
-				logger.info("🔐 User registered:", newSession.user);
-			}
-		}
-	}),
+	databaseHooks: {
+		user: {
+			create: {
+				after: async (user) => {
+					logger.info("User registered:", user.email);
+
+					setTimeout(async () => {
+						try {
+							const username = user.email.split("@")[0] || "workspace";
+							const orgName =
+								username.charAt(0).toUpperCase() + username.slice(1);
+							const randomSuffix = Math.floor(10000 + Math.random() * 90000);
+							const orgSlug = `org-${randomSuffix}`;
+
+							console.log("=".repeat(50));
+							console.log("CREATING ORGANIZATION FOR NEW USER");
+							console.log("User:", user.email);
+							console.log("Org Name:", orgName, "Slug:", orgSlug);
+							console.log("=".repeat(50));
+							const org = await auth.api.createOrganization({
+								body: {
+									name: orgName,
+									slug: orgSlug,
+									userId: user.id,
+								},
+							});
+
+							console.log("Organization created:", org);
+
+							if (org) {
+								await db
+									.update(schema.user)
+									.set({ activeOrganizationId: org.id })
+									.where(eq(schema.user.id, user.id));
+
+								logger.info(
+									`Organization created: ${orgName} (${orgSlug}) for user ${user.email}`,
+								);
+							}
+						} catch (error) {
+							logger.error("Failed to create organization for user:", error);
+							console.error("Organization creation error:", error);
+						}
+					}, 100);
+				},
+			},
+		},
+	},
 	basePath: "/api/auth/v1",
 	telemetry: { enabled: false },
 	emailAndPassword: {
 		autoSignIn: true,
 		enabled: true,
-		sendResetPassword: async ({ user, url, token }, request) => {
-			logger.info("🔐 Password reset requested for:", user.email);
+		sendResetPassword: async ({ user, url, token }) => {
+			logger.info("Password reset requested for:", user.email);
 
 			// Log reset URL and token only in development for easy testing
 			if (authConfig.NODE_ENV === "development") {
-				logger.info("🔗 Reset URL (DEV):", url);
-				logger.info("🔑 Token (DEV):", token);
+				logger.info("Reset URL (DEV):", url);
+				logger.info("Token (DEV):", token);
 			}
 
 			try {
 				await sendPasswordResetEmail(user.email, url);
-				logger.info(`✅ Password reset email sent to ${user.email}`);
+				logger.info(`Password reset email sent to ${user.email}`);
 			} catch (error) {
-				logger.error("❌ Failed to send password reset email:", error);
+				logger.error("Failed to send password reset email:", error);
 				throw new Error("Failed to send password reset email");
 			}
 		},
@@ -107,7 +147,7 @@ export const auth = betterAuth({
 			sendInvitationEmail: async (data) => {
 				const inviteLink = `${authConfig.BASE_URL}/dashboard/accept-invitation?id=${data.id}`;
 
-				logger.info("📧 Organization invitation requested:", {
+				logger.info("Organization invitation requested:", {
 					email: data.email,
 					organization: data.organization.name,
 					role: data.role,
@@ -116,7 +156,7 @@ export const auth = betterAuth({
 
 				// Log invite URL in development for easy testing
 				if (authConfig.NODE_ENV === "development") {
-					logger.info("🔗 Invite URL (DEV):", inviteLink);
+					logger.info("Invite URL (DEV):", inviteLink);
 				}
 
 				try {
@@ -129,10 +169,10 @@ export const auth = betterAuth({
 						role: data.role,
 					});
 					logger.info(
-						`✅ Organization invite email sent to ${data.email} using ${inviteLink}`,
+						`Organization invite email sent to ${data.email} using ${inviteLink}`,
 					);
 				} catch (error) {
-					logger.error("❌ Failed to send organization invite email:", error);
+					logger.error("Failed to send organization invite email:", error);
 					// Don't throw - invitation is still created, email just failed
 				}
 			},
@@ -161,6 +201,7 @@ export const OpenAPI = {
 	getPaths: async (prefix = "/api/auth/v1") => {
 		try {
 			const { paths } = await getSchema();
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const reference: Record<string, any> = {};
 
 			for (const path of Object.keys(paths)) {

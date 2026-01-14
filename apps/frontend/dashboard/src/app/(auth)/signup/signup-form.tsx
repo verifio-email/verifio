@@ -8,7 +8,6 @@ import * as Input from "@verifio/ui/input";
 import * as Label from "@verifio/ui/label";
 import Spinner from "@verifio/ui/spinner";
 import { useLoading } from "@verifio/ui/use-loading";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { Resolver } from "react-hook-form";
@@ -73,45 +72,8 @@ export const SignupForm = () => {
 				}
 				return;
 			}
-
-			// Create organization using email username
-			const username = email.split("@")[0] || "workspace";
-			const orgName = username.charAt(0).toUpperCase() + username.slice(1);
-			const randomSuffix = Math.floor(10000 + Math.random() * 90000); // 5-digit random number
-			const slug = `org-${randomSuffix}`;
-
-			try {
-				const org = await authClient.organization.create({
-					name: orgName,
-					slug: slug,
-				});
-
-				if (org.data) {
-					await authClient.organization.setActive({
-						organizationId: org.data.id,
-					});
-					await authClient.updateUser({
-						activeOrganizationId: org.data.id,
-					});
-
-					// Create default API key for the new organization
-					try {
-						await axios.post(
-							"/api/api-key/v1/",
-							{ name: "Default" },
-							{ withCredentials: true },
-						);
-					} catch (apiKeyError) {
-						console.error("Failed to create default API key:", apiKeyError);
-					}
-
-					router.push(`/${org.data.slug}`);
-				} else {
-					router.push("/");
-				}
-			} catch {
-				console.log("hello");
-			}
+			await new Promise((resolve) => setTimeout(resolve, 500));
+			router.push("/");
 		} catch (e) {
 			changeStatus("idle");
 			if (e instanceof Error && e.message) {
