@@ -114,8 +114,8 @@
         "typescript": "catalog:",
       },
     },
-    "apps/backend/logging": {
-      "name": "logging",
+    "apps/backend/logs": {
+      "name": "logs",
       "dependencies": {
         "@elysiajs/cors": "catalog:backend",
         "@elysiajs/openapi": "catalog:backend",
@@ -334,7 +334,7 @@
         "next": "catalog:ui",
         "next-themes": "catalog:ui",
         "postcss": "catalog:ui",
-        "rc-progress": "^4.0.0",
+        "rc-progress": "catalog:ui",
         "react": "catalog:ui",
         "react-dom": "catalog:ui",
         "react-hook-form": "catalog:ui",
@@ -2643,7 +2643,7 @@
 
     "log-update": ["log-update@6.1.0", "", { "dependencies": { "ansi-escapes": "^7.0.0", "cli-cursor": "^5.0.0", "slice-ansi": "^7.1.0", "strip-ansi": "^7.1.0", "wrap-ansi": "^9.0.0" } }, "sha512-9ie8ItPR6tjY5uYJh8K/Zrv/RMZ5VOlOWvtZdEHYSTFKZfIBPQa9tOAEeAWhd+AnIneLJ22w5fjOYtoutpWq5w=="],
 
-    "logging": ["logging@workspace:apps/backend/logging"],
+    "logs": ["logs@workspace:apps/backend/logs"],
 
     "long": ["long@5.3.2", "", {}, "sha512-mNAgZ1GmyNhD7AuqnTG3/VQ26o760+ZYBPKjPvugO8+nLbYfX6TVpJPseBvopbdY+qpZ/lKUnmEc1LeZYS3QAA=="],
 

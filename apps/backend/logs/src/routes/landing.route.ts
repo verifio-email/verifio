@@ -44,7 +44,7 @@ ${dbError ? `║ DB ERROR: ${dbError.substring(0, 45).padEnd(45)} ║` : "║   
 ║   -G -d "organization_id=org_xxx"                      ║
 ╠════════════════════════════════════════════════════════╣
 ║ - SUPPORT                                              ║
-║ - https://verifio.email/dev/setup/backend/logging      ║
+║ - https://verifio.email/dev/setup/backend/logs         ║
 ║ - https://github.com/reloop-labs/verifio               ║
 ╠════════════════════════════════════════════════════════╣
 ║  "Log everything, miss nothing"                        ║
