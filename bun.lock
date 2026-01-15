@@ -120,6 +120,7 @@
         "@elysiajs/cors": "catalog:backend",
         "@elysiajs/openapi": "catalog:backend",
         "@elysiajs/server-timing": "catalog:backend",
+        "@verifio/db": "workspace:*",
         "@verifio/logger": "workspace:*",
         "dotenv": "catalog:backend",
         "drizzle-orm": "catalog:db",
