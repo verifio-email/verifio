@@ -1,0 +1,113 @@
+---
+title: Authentication
+description: Learn how to authenticate with the Verifio API using API keys.
+---
+
+All API requests to Verifio require authentication using an API key.
+
+## Getting Your API Key
+
+1. **Sign in to Dashboard** - Go to [verifio.email](https://verifio.email) and sign in to your account.
+2. **Navigate to API Keys** - Click on **Settings** → **API Keys** in the sidebar.
+3. **Create a New Key** - Click **Create API Key**, give it a name, and copy the key.
+
+> [!WARNING]
+> Your API key is shown only once when created. Store it securely - you won't be able to see it again.
+
+## Using Your API Key
+
+### HTTP Header (Recommended)
+
+Include your API key in the `Authorization` header:
+
+```bash
+curl -X POST https://verifio.email/api/v1/verify \
+  -H "Authorization: Bearer vrf_your_api_key_here" \
+  -H "Content-Type: application/json" \
+  -d '{"email": "test@example.com"}'
+```
+
+### SDK Configuration
+
+#### Node.js
+
+```typescript
+import { Verifio } from '@verifio/email-verification';
+
+const verifio = new Verifio({
+  apiKey: process.env.VERIFIO_API_KEY
+});
+```
+
+#### Python
+
+```python
+import os
+from verifio import Verifio
+
+client = Verifio(api_key=os.environ["VERIFIO_API_KEY"])
+```
+
+## API Key Format
+
+Verifio API keys follow this format:
+
+```
+vrf_[random_string]
+```
+
+Example: `vrf_sk_live_abc123def456...`
+
+## Security Best Practices
+
+> [!CAUTION]
+> Never expose your API key in client-side code, public repositories, or logs.
+
+### Environment Variables
+
+Store your API key in environment variables:
+
+```bash
+# .env.local
+VERIFIO_API_KEY=vrf_sk_live_your_key_here
+```
+
+### Key Rotation
+
+Regularly rotate your API keys:
+
+1. Create a new API key
+2. Update your application to use the new key
+3. Verify the new key works
+4. Delete the old key
+
+## Rate Limits
+
+| Plan | Requests/Minute | Requests/Day |
+|------|-----------------|--------------|
+| Free | 10 | 100 |
+| Starter | 60 | 1,000 |
+| Pro | 300 | 10,000 |
+| Enterprise | Custom | Unlimited |
+
+## Error Responses
+
+| Status | Error | Description |
+|--------|-------|-------------|
+| `401` | `unauthorized` | Invalid or missing API key |
+| `403` | `forbidden` | API key doesn't have required permissions |
+| `429` | `rate_limit_exceeded` | Too many requests |
+
+### Handling Authentication Errors
+
+```typescript
+import { Verifio, AuthenticationError } from '@verifio/email-verification';
+
+try {
+  const result = await verifio.verify('test@example.com');
+} catch (error) {
+  if (error instanceof AuthenticationError) {
+    console.error('Invalid API key');
+  }
+}
+```

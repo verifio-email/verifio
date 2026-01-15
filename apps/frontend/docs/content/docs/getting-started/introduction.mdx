@@ -1,0 +1,73 @@
+---
+title: Introduction
+description: Learn about Verifio's email verification capabilities and how it can help your business.
+---
+
+## Why Email Verification Matters
+
+Invalid email addresses harm your business in multiple ways:
+
+- **Bounce rates** damage your sender reputation
+- **Spam traps** can get your domain blacklisted
+- **Fake signups** waste your marketing budget
+- **Poor deliverability** reduces campaign effectiveness
+
+## How Verifio Works
+
+Verifio performs a comprehensive series of checks on each email address:
+
+**Email Input** → **Syntax Check** → **DNS Lookup** → **Disposable Check** → **Role Check** → **SMTP Verification** → **Result + Score**
+
+### 1. Syntax Validation
+
+Checks if the email follows RFC 5322 standards and has a valid format.
+
+### 2. DNS Validation
+
+Verifies the domain exists and has proper MX records configured.
+
+### 3. Disposable Detection
+
+Identifies temporary email providers like Mailinator, 10MinuteMail, etc.
+
+### 4. Role-based Detection
+
+Detects generic role addresses that typically don't belong to individuals.
+
+### 5. SMTP Verification
+
+Connects to the mail server to verify the mailbox exists without sending an email.
+
+## Verification Result
+
+Each verification returns a comprehensive result:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `email` | string | The email address that was verified |
+| `state` | string | Primary verdict: `deliverable`, `undeliverable`, `risky`, or `unknown` |
+| `score` | number | Quality score from 0-100 |
+| `reason` | string | Human-readable explanation of the result |
+| `checks` | object | Detailed results for each verification check |
+
+## Use Cases
+
+### Marketing Campaigns
+
+Clean your email lists before sending campaigns to improve deliverability and protect sender reputation.
+
+### User Registration
+
+Verify emails during signup to prevent fake accounts and ensure users can receive important communications.
+
+### CRM Data Quality
+
+Maintain high-quality customer data by validating emails before import.
+
+### Lead Generation
+
+Verify leads in real-time to ensure you're following up with valid contacts.
+
+## Getting Started
+
+Ready to verify your first email? Head to the [Quick Start](/getting-started/quick-start) guide.

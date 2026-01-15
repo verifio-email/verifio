@@ -1,0 +1,181 @@
+---
+title: Python SDK
+description: Official Python SDK for Verifio email verification.
+---
+
+> [!NOTE]
+> The Python SDK is currently in development. This page shows the planned API.
+
+## Installation
+
+```bash
+pip install verifio
+```
+
+## Quick Start
+
+```python
+from verifio import Verifio
+
+client = Verifio(api_key="vrf_your_api_key")
+
+# Verify an email
+result = client.verify("test@example.com")
+
+print(result.state)  # 'deliverable' | 'undeliverable' | 'risky' | 'unknown'
+print(result.score)  # 0-100
+```
+
+## Configuration
+
+```python
+client = Verifio(
+    api_key="vrf_your_api_key",      # Required
+    base_url="https://verifio.email"  # Optional, for self-hosted
+)
+```
+
+---
+
+## Single Verification
+
+```python
+result = client.verify("test@example.com")
+
+print(f"State: {result.state}")
+print(f"Score: {result.score}")
+print(f"Reason: {result.reason}")
+```
+
+### With Options
+
+```python
+result = client.verify(
+    "test@example.com",
+    skip_disposable=False,
+    skip_role=False,
+    skip_typo=False
+)
+```
+
+---
+
+## Bulk Verification
+
+### Start a Bulk Job
+
+```python
+job = client.bulk.verify([
+    "email1@example.com",
+    "email2@example.com",
+    "email3@example.com"
+])
+
+print(f"Job ID: {job.id}")
+print(f"Status: {job.status}")
+```
+
+### Check Job Status
+
+```python
+status = client.bulk.get_job(job.id)
+
+print(f"Progress: {status.processed_emails}/{status.total_emails}")
+print(f"Status: {status.status}")
+```
+
+### Get Results
+
+```python
+results = client.bulk.get_results(
+    job.id,
+    page=1,
+    limit=50,
+    state="deliverable"  # optional filter
+)
+
+for result in results.items:
+    print(f"{result.email}: {result.state}")
+```
+
+---
+
+## Verification History
+
+```python
+history = client.history.list(
+    page=1,
+    limit=20,
+    state="deliverable"
+)
+
+print(f"Total: {history.pagination.total}")
+
+for result in history.items:
+    print(f"{result.email}: {result.state}")
+```
+
+---
+
+## Error Handling
+
+```python
+from verifio import (
+    Verifio,
+    AuthenticationError,
+    InsufficientCreditsError,
+    RateLimitError,
+    VerifioError
+)
+
+try:
+    result = client.verify("test@example.com")
+except AuthenticationError:
+    print("Invalid API key")
+except InsufficientCreditsError as e:
+    print(f"Not enough credits. Remaining: {e.remaining}")
+except RateLimitError as e:
+    print(f"Rate limited. Retry after: {e.retry_after}s")
+except VerifioError as e:
+    print(f"API error: {e.code} - {e.message}")
+```
+
+---
+
+## Async Support
+
+```python
+import asyncio
+from verifio import AsyncVerifio
+
+async def main():
+    client = AsyncVerifio(api_key="vrf_your_api_key")
+    
+    result = await client.verify("test@example.com")
+    print(result.state)
+    
+    await client.close()
+
+asyncio.run(main())
+```
+
+### Context Manager
+
+```python
+async with AsyncVerifio(api_key="vrf_your_api_key") as client:
+    result = await client.verify("test@example.com")
+    print(result.state)
+```
+
+---
+
+## Requirements
+
+- Python >= 3.8
+- httpx (for async support)
+
+## Links
+
+- [PyPI Package](https://pypi.org/project/verifio/)
+- [GitHub Repository](https://github.com/reloop-labs/verifio)
+- [API Reference](/api-reference/overview)

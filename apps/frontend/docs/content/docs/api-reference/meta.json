@@ -1,0 +1,4 @@
+{
+	"title": "API Reference",
+	"pages": ["overview", "single-verification", "bulk-verification", "history"]
+}

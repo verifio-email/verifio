@@ -1,0 +1,229 @@
+---
+title: Docker Deployment
+description: Deploy Verifio on your own infrastructure with Docker.
+---
+
+import { Cards, Card } from "fumadocs-ui/components/card"
+
+Self-host Verifio using Docker for complete control over your data.
+
+## Prerequisites
+
+- Docker Engine 20.10+
+- Docker Compose v2
+- 2GB RAM minimum
+- PostgreSQL (can be containerized)
+- Redis (optional, for caching)
+
+## Quick Start
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/reloop-labs/verifio.git
+cd verifio
+```
+
+### 2. Configure Environment
+
+Create a `.env` file:
+
+```bash
+# Database
+DATABASE_URL=postgresql://user:password@localhost:5432/verifio
+
+# Redis (optional)
+REDIS_URL=redis://localhost:6379
+
+# Auth
+BETTER_AUTH_SECRET=your-secret-key-min-32-chars
+BETTER_AUTH_URL=https://your-domain.com
+
+# Services
+VERIFY_SERVICE_URL=http://verify:3001
+CREDITS_SERVICE_URL=http://credits:3002
+```
+
+### 3. Start Services
+
+```bash
+docker compose up -d
+```
+
+This starts:
+- **Frontend Dashboard** (port 3000)
+- **Docs** (port 3003)
+- **Verify Service** (internal)
+- **Credits Service** (internal)
+- **PostgreSQL** (port 5432)
+- **Redis** (port 6379)
+
+### 4. Verify Installation
+
+```bash
+curl http://localhost:3000/api/health
+```
+
+---
+
+## Docker Compose Configuration
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+
+services:
+  dashboard:
+    image: ghcr.io/reloop-labs/verifio-dashboard:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://verifio:password@postgres:5432/verifio
+      - REDIS_URL=redis://redis:6379
+      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+    depends_on:
+      - postgres
+      - redis
+
+  verify:
+    image: ghcr.io/reloop-labs/verifio-verify:latest
+    environment:
+      - DATABASE_URL=postgresql://verifio:password@postgres:5432/verifio
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=verifio
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=verifio
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
+```
+
+---
+
+## Configuration Reference
+
+### Required Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `DATABASE_URL` | PostgreSQL connection string |
+| `BETTER_AUTH_SECRET` | Auth secret (min 32 characters) |
+| `BETTER_AUTH_URL` | Public URL of your installation |
+
+### Optional Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `REDIS_URL` | - | Redis connection for caching |
+| `LOG_LEVEL` | `info` | Logging level |
+| `NODE_ENV` | `production` | Environment mode |
+
+---
+
+## Database Setup
+
+### Run Migrations
+
+```bash
+docker exec -it verifio-dashboard bun run db:push
+```
+
+---
+
+## Updating
+
+### Pull Latest Images
+
+```bash
+docker compose pull
+docker compose up -d
+```
+
+### With Database Migrations
+
+```bash
+docker compose pull
+docker compose up -d
+docker exec -it verifio-dashboard bun run db:push
+```
+
+---
+
+## Production Recommendations
+
+> [!IMPORTANT]
+> For production deployments, consider these additional configurations.
+
+### SSL/TLS
+
+Use a reverse proxy like nginx or Traefik for HTTPS.
+
+### Resource Limits
+
+```yaml
+services:
+  dashboard:
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+```
+
+### Health Checks
+
+```yaml
+services:
+  dashboard:
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+```
+
+---
+
+## Troubleshooting
+
+### Check Logs
+
+```bash
+docker compose logs -f dashboard
+docker compose logs -f verify
+```
+
+### Reset Everything
+
+```bash
+docker compose down -v
+docker compose up -d
+```
+
+<Cards>
+  <Card 
+    title="Kubernetes Deployment" 
+    description="Scale with Kubernetes"
+    href="/self-hosting/kubernetes" 
+  />
+  <Card 
+    title="API Reference" 
+    description="Start using the API"
+    href="/api-reference/overview" 
+  />
+</Cards>

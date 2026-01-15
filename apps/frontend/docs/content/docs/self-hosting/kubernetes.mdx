@@ -1,0 +1,193 @@
+---
+title: Kubernetes Deployment
+description: Deploy Verifio at scale with Kubernetes.
+---
+
+import { Cards, Card } from "fumadocs-ui/components/card"
+
+Deploy Verifio on Kubernetes for high availability and horizontal scaling.
+
+## Prerequisites
+
+- Kubernetes cluster (1.25+)
+- kubectl configured
+- Helm 3.x
+- PostgreSQL (managed or in-cluster)
+- Redis (optional)
+
+## Quick Start with Helm
+
+### Add Helm Repository
+
+```bash
+helm repo add verifio https://charts.verifio.email
+helm repo update
+```
+
+### Install
+
+```bash
+helm install verifio verifio/verifio \
+  --namespace verifio \
+  --create-namespace \
+  --set global.domain=verifio.yourdomain.com \
+  --set postgresql.enabled=true \
+  --set redis.enabled=true
+```
+
+---
+
+## Manual Kubernetes Deployment
+
+### Namespace
+
+```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: verifio
+```
+
+### ConfigMap
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: verifio-config
+  namespace: verifio
+data:
+  BETTER_AUTH_URL: "https://verifio.yourdomain.com"
+  NODE_ENV: "production"
+  LOG_LEVEL: "info"
+```
+
+### Secrets
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: verifio-secrets
+  namespace: verifio
+type: Opaque
+stringData:
+  DATABASE_URL: "postgresql://user:password@postgres:5432/verifio"
+  REDIS_URL: "redis://redis:6379"
+  BETTER_AUTH_SECRET: "your-secret-key-minimum-32-characters"
+```
+
+### Dashboard Deployment
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: verifio-dashboard
+  namespace: verifio
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: verifio-dashboard
+  template:
+    metadata:
+      labels:
+        app: verifio-dashboard
+    spec:
+      containers:
+        - name: dashboard
+          image: ghcr.io/reloop-labs/verifio-dashboard:latest
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: verifio-config
+            - secretRef:
+                name: verifio-secrets
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+```
+
+---
+
+## Scaling
+
+### Horizontal Pod Autoscaler
+
+```yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: verifio-verify-hpa
+  namespace: verifio
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: verifio-verify
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+```
+
+---
+
+## Troubleshooting
+
+### Check Pod Status
+
+```bash
+kubectl get pods -n verifio
+kubectl describe pod <pod-name> -n verifio
+```
+
+### View Logs
+
+```bash
+kubectl logs -f deployment/verifio-dashboard -n verifio
+kubectl logs -f deployment/verifio-verify -n verifio
+```
+
+### Database Migration
+
+```bash
+kubectl exec -it deployment/verifio-dashboard -n verifio -- bun run db:push
+```
+
+---
+
+## Production Checklist
+
+- [ ] Configure TLS with cert-manager
+- [ ] Set up HPA for auto-scaling
+- [ ] Configure PodDisruptionBudget
+- [ ] Set up monitoring (Prometheus/Grafana)
+- [ ] Configure log aggregation (Loki/ELK)
+- [ ] Set up backup for PostgreSQL
+- [ ] Configure network policies
+- [ ] Set resource limits and requests
+
+<Cards>
+  <Card 
+    title="Docker Deployment" 
+    description="Simpler deployment option"
+    href="/self-hosting/docker" 
+  />
+  <Card 
+    title="API Reference" 
+    description="Start using the API"
+    href="/api-reference/overview" 
+  />
+</Cards>

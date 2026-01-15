@@ -1,0 +1,112 @@
+---
+title: Quick Start
+description: Verify your first email in under 5 minutes.
+---
+
+import { Cards, Card } from "fumadocs-ui/components/card"
+
+Get up and running with Verifio in just a few steps.
+
+## Prerequisites
+
+- A Verifio account ([sign up free](https://verifio.email))
+- An API key from your dashboard
+
+## Installation
+
+### Node.js
+
+```bash
+npm install @verifio/email-verification
+# or
+bun add @verifio/email-verification
+```
+
+### Python
+
+```bash
+pip install verifio
+```
+
+## Verify Your First Email
+
+### Node.js
+
+```typescript
+import { Verifio } from '@verifio/email-verification';
+
+const verifio = new Verifio({
+  apiKey: 'your-api-key'
+});
+
+const result = await verifio.verify('test@example.com');
+
+console.log(result.state);  // 'deliverable' | 'undeliverable' | 'risky' | 'unknown'
+console.log(result.score);  // 0-100
+```
+
+### cURL
+
+```bash
+curl -X POST https://verifio.email/api/v1/verify \
+  -H "Authorization: Bearer your-api-key" \
+  -H "Content-Type: application/json" \
+  -d '{"email": "test@example.com"}'
+```
+
+## Understanding the Response
+
+```json
+{
+  "email": "test@example.com",
+  "state": "deliverable",
+  "score": 95,
+  "reason": "valid_mailbox",
+  "checks": {
+    "syntax": { "valid": true },
+    "dns": { "valid": true, "hasMx": true },
+    "disposable": { "isDisposable": false },
+    "role": { "isRole": false },
+    "freeProvider": { "isFree": false },
+    "smtp": { "valid": true, "mailboxExists": true }
+  }
+}
+```
+
+### State Values
+
+| State | Description | Recommendation |
+|-------|-------------|----------------|
+| `deliverable` | Email is valid and safe to send | ✅ Safe to send |
+| `undeliverable` | Email will bounce | ❌ Do not send |
+| `risky` | Email might bounce | ⚠️ Use caution |
+| `unknown` | Could not verify | ⚠️ Retry later |
+
+### Score Ranges
+
+| Score | Quality | Description |
+|-------|---------|-------------|
+| 80-100 | Excellent | High confidence, safe to send |
+| 60-79 | Good | Likely deliverable |
+| 40-59 | Fair | Some risk factors |
+| 0-39 | Poor | High bounce risk |
+
+## Next Steps
+
+<Cards>
+  <Card 
+    title="API Reference" 
+    description="Explore all API endpoints"
+    href="/api-reference/overview" 
+  />
+  <Card 
+    title="Bulk Verification" 
+    description="Verify thousands of emails"
+    href="/api-reference/bulk-verification" 
+  />
+  <Card 
+    title="Authentication" 
+    description="Learn about API key management"
+    href="/getting-started/authentication" 
+  />
+</Cards>

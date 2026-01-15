@@ -1,0 +1,198 @@
+---
+title: Node.js SDK
+description: Official Node.js SDK for Verifio email verification.
+---
+
+The official Node.js SDK provides a convenient way to interact with the Verifio API.
+
+## Installation
+
+```bash
+npm install @verifio/email-verification
+# or
+yarn add @verifio/email-verification
+# or
+bun add @verifio/email-verification
+```
+
+## Quick Start
+
+```typescript
+import { Verifio } from '@verifio/email-verification';
+
+const verifio = new Verifio({
+  apiKey: 'vrf_your_api_key'
+});
+
+// Verify an email
+const result = await verifio.verify('test@example.com');
+
+console.log(result.state);  // 'deliverable' | 'undeliverable' | 'risky' | 'unknown'
+console.log(result.score);  // 0-100
+```
+
+## Configuration
+
+```typescript
+const verifio = new Verifio({
+  apiKey: 'vrf_your_api_key',      // Required
+  baseUrl: 'https://verifio.email' // Optional, for self-hosted instances
+});
+```
+
+### Configuration Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `apiKey` | string | - | Your Verifio API key (required) |
+| `baseUrl` | string | `https://verifio.email` | API base URL |
+
+---
+
+## Single Verification
+
+```typescript
+const result = await verifio.verify('test@example.com');
+```
+
+### With Options
+
+```typescript
+const result = await verifio.verify('test@example.com', {
+  skipDisposable: false,  // Include disposable check
+  skipRole: false,        // Include role-based check
+  skipTypo: false         // Include typo suggestion
+});
+```
+
+---
+
+## Bulk Verification
+
+### Start a Bulk Job
+
+```typescript
+const job = await verifio.bulk.verify([
+  'email1@example.com',
+  'email2@example.com',
+  'email3@example.com'
+]);
+
+console.log(job.id);     // Job ID
+console.log(job.status); // 'pending'
+```
+
+### Check Job Status
+
+```typescript
+const status = await verifio.bulk.getJob(job.id);
+
+console.log(status.status);          // 'processing'
+console.log(status.processedEmails); // 150
+console.log(status.totalEmails);     // 1000
+console.log(status.progress);        // 15 (percentage)
+```
+
+### Get Results
+
+```typescript
+const results = await verifio.bulk.getResults(job.id, {
+  page: 1,
+  limit: 50,
+  state: 'deliverable' // optional filter
+});
+
+results.items.forEach(result => {
+  console.log(result.email, result.state, result.score);
+});
+```
+
+---
+
+## Verification History
+
+```typescript
+const history = await verifio.history.list({
+  page: 1,
+  limit: 20,
+  state: 'deliverable', // optional
+  from: '2024-01-01',   // optional
+  to: '2024-01-31'      // optional
+});
+
+console.log(`Total: ${history.pagination.total}`);
+
+history.items.forEach(result => {
+  console.log(result.email, result.state, result.verifiedAt);
+});
+```
+
+---
+
+## Error Handling
+
+```typescript
+import {
+  Verifio,
+  AuthenticationError,
+  InsufficientCreditsError,
+  RateLimitError,
+  ValidationError,
+  VerifioError
+} from '@verifio/email-verification';
+
+try {
+  const result = await verifio.verify('test@example.com');
+} catch (error) {
+  if (error instanceof AuthenticationError) {
+    console.error('Invalid API key');
+  } else if (error instanceof InsufficientCreditsError) {
+    console.error(`Not enough credits. Remaining: ${error.remaining}`);
+  } else if (error instanceof RateLimitError) {
+    console.error(`Rate limited. Retry after: ${error.retryAfter}s`);
+  } else if (error instanceof ValidationError) {
+    console.error(`Invalid input: ${error.message}`);
+  } else if (error instanceof VerifioError) {
+    console.error(`API error: ${error.code} - ${error.message}`);
+  }
+}
+```
+
+### Error Types
+
+| Error | Description |
+|-------|-------------|
+| `AuthenticationError` | Invalid or missing API key |
+| `InsufficientCreditsError` | Not enough credits |
+| `RateLimitError` | Too many requests |
+| `ValidationError` | Invalid request parameters |
+| `VerifioError` | Base class for all errors |
+
+---
+
+## TypeScript Support
+
+Full TypeScript support with exported types:
+
+```typescript
+import type {
+  VerificationResult,
+  VerificationState,
+  BulkVerificationJob,
+  VerifyOptions,
+  HistoryListOptions
+} from '@verifio/email-verification';
+```
+
+---
+
+## Requirements
+
+- Node.js >= 18.0.0
+- ES Modules or CommonJS
+
+## Links
+
+- [npm Package](https://www.npmjs.com/package/@verifio/email-verification)
+- [GitHub Repository](https://github.com/reloop-labs/verifio)
+- [API Reference](/api-reference/overview)

@@ -1,17 +1,69 @@
 ---
-title: Introduction
-description: Introduction
+title: Welcome to Verifio
+description: Real-time email verification API that helps you maintain clean email lists and improve deliverability.
 ---
 
-## Code Block
+import { Cards, Card } from "fumadocs-ui/components/card"
 
-```js
-console.log('Hello World');
-```
+## What is Verifio?
 
-## Cards
+Verifio is a powerful email verification service that validates email addresses in real-time. It checks syntax, DNS records, disposable email detection, role-based email detection, and SMTP validation to ensure your emails reach real inboxes.
 
 <Cards>
-  <Card title="Learn more about Next.js" href="https://nextjs.org/docs" />
-  <Card title="Learn more about Fumadocs" href="https://fumadocs.vercel.app" />
+  <Card 
+    title="Quick Start" 
+    description="Verify your first email in under 5 minutes"
+    href="/getting-started/quick-start" 
+  />
+  <Card 
+    title="API Reference" 
+    description="Complete API documentation with examples"
+    href="/api-reference/overview" 
+  />
+  <Card 
+    title="Node.js SDK" 
+    description="Install and use the official Node.js SDK"
+    href="/sdks/nodejs" 
+  />
+  <Card 
+    title="Self Hosting" 
+    description="Deploy Verifio on your own infrastructure"
+    href="/self-hosting/docker" 
+  />
 </Cards>
+
+## Key Features
+
+- **Real-time Verification** - Verify emails instantly via API
+- **Bulk Verification** - Process thousands of emails in background jobs
+- **Multiple SDKs** - Official support for Node.js, Python, Go, and more
+- **Self-hostable** - Run on your own infrastructure with Docker or Kubernetes
+- **Credit System** - Pay-as-you-go pricing with transparent credit usage
+
+## Verification Checks
+
+| Check | Description |
+|-------|-------------|
+| **Syntax** | Validates email format and structure |
+| **DNS** | Checks if domain has valid MX records |
+| **Disposable** | Detects temporary/throwaway email providers |
+| **Role-based** | Identifies role addresses like info@, support@ |
+| **Free Provider** | Detects free email providers like Gmail, Yahoo |
+| **Typo Detection** | Suggests corrections for common typos |
+| **SMTP** | Verifies mailbox exists without sending email |
+
+## Verification States
+
+```typescript
+type VerificationState = 
+  | 'deliverable'    // Safe to send
+  | 'undeliverable'  // Will bounce
+  | 'risky'          // Might bounce
+  | 'unknown'        // Could not verify
+```
+
+## Next Steps
+
+1. **Get your API key** - Sign up at [verifio.email](https://verifio.email) and create an API key from your dashboard.
+2. **Install an SDK** - Choose your preferred language and install the official SDK.
+3. **Verify your first email** - Make your first API call and see the verification results.
