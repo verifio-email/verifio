@@ -6,19 +6,23 @@ import { db } from "@verifio/db/client";
 import { Elysia } from "elysia";
 
 export const landing = new Elysia()
-  .get("/", async () => {
-    let dbStatus = "UNKNOWN";
-    let dbError = "";
+  .get(
+    "/",
+    async ({ set }) => {
+      set.headers["Content-Type"] = "text/plain; charset=utf-8";
 
-    try {
-      await db.execute("SELECT 1 as test");
-      dbStatus = "CONNECTED";
-    } catch (dbErr) {
-      dbStatus = "DISCONNECTED";
-      dbError = dbErr instanceof Error ? dbErr.message : String(dbErr);
-    }
+      let dbStatus = "UNKNOWN";
+      let dbError = "";
 
-    return `
+      try {
+        await db.execute("SELECT 1 as test");
+        dbStatus = "CONNECTED";
+      } catch (dbErr) {
+        dbStatus = "DISCONNECTED";
+        dbError = dbErr instanceof Error ? dbErr.message : String(dbErr);
+      }
+
+      return `
 ╔════════════════════════════════════════════════════════╗
 ║                    VERIFY SERVICE                      ║
 ╠════════════════════════════════════════════════════════╣
@@ -58,7 +62,15 @@ ${dbError ? `║ DB ERROR: ${dbError.substring(0, 45).padEnd(45)} ║` : "║   
                 Made with ❤️ for developers
 
 `;
-  })
+    },
+    {
+      detail: {
+        tags: ["Service"],
+        summary: "Health check for Verify Service",
+        description: "Checks the health of the Verify Service",
+      },
+    },
+  )
   .get("/health/postgres", async () => {
     try {
       await db.execute("SELECT 1 as test");
