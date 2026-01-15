@@ -1,15 +1,19 @@
-import { Icon } from "@verifio/ui/icon";
-import { loader } from "fumadocs-core/source";
-import { createElement } from "react";
-import { docs } from "../../.source";
+import { type InferPageType, loader } from "fumadocs-core/source";
+import { lucideIconsPlugin } from "fumadocs-core/source/lucide-icons";
+import { docs } from "../../.source/server";
 
+// See https://fumadocs.dev/docs/headless/source-api for more info
 export const source = loader({
-	icon(icon) {
-		if (!icon) return;
-		if (icon) {
-			return createElement(Icon, { name: icon });
-		}
-	},
 	baseUrl: "/",
 	source: docs.toFumadocsSource(),
+	plugins: [lucideIconsPlugin()],
 });
+
+export function getPageImage(page: InferPageType<typeof source>) {
+	const segments = [...page.slugs, "image.png"];
+
+	return {
+		segments,
+		url: `/og/${segments.join("/")}`,
+	};
+}
