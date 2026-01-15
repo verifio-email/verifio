@@ -2,7 +2,7 @@ import { logger } from "@verifio/logger";
 import { checkConnection, ensureTableExists } from "./database";
 
 export async function loader(): Promise<void> {
-  logger.info("Initializing logging service...");
+  logger.info("Initializing logs service...");
 
   // Check database connection
   const dbConnected = await checkConnection();
@@ -16,5 +16,5 @@ export async function loader(): Promise<void> {
   await ensureTableExists();
   logger.info("activity_logs table ready");
 
-  logger.info("Logging service initialized successfully");
+  logger.info("Logs service initialized successfully");
 }

@@ -1,5 +1,5 @@
 /**
- * Logging Service Entry Point
+ * Logs Service Entry Point
  */
 
 import "dotenv/config";
@@ -8,35 +8,35 @@ import { fromTypes, openapi } from "@elysiajs/openapi";
 import { serverTiming } from "@elysiajs/server-timing";
 import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
-import { loggingConfig } from "./config";
+import { logsConfig } from "./config";
 import { landingRoute } from "./routes/landing.route";
 import { logRoute } from "./routes/log.route";
 import { logsRoute } from "./routes/logs.route";
 import { loader } from "./utils/loader";
 
-const port = loggingConfig.port;
+const port = logsConfig.port;
 
-const loggingService = new Elysia({
-  prefix: "/api/logging",
-  name: "Logging Service",
+const logsService = new Elysia({
+  prefix: "/api/logs",
+  name: "Logs Service",
 })
   .use(
     openapi({
       documentation: {
         info: {
-          title: "Verifio Logging API",
+          title: "Verifio Logs API",
           version: "1.0.0",
-          description: "Centralized activity logging for Verifio services",
+          description: "Centralized activity logs for Verifio services",
         },
         tags: [
           {
-            name: "Logging",
+            name: "Logs",
             description: "Activity log endpoints",
           },
         ],
       },
       references: fromTypes(
-        loggingConfig.NODE_ENV === "production"
+        logsConfig.NODE_ENV === "production"
           ? "dist/index.d.ts"
           : "src/index.ts"
       ),
@@ -50,8 +50,8 @@ const loggingService = new Elysia({
   })
   .listen(port, () => {
     logger.info(
-      `Logging Service running on http://localhost:${port}/api/logging`
+      `Logs Service running on http://localhost:${port}/api/logs`
     );
   });
 
-export type LoggingService = typeof loggingService;
+export type LogsService = typeof logsService;

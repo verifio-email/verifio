@@ -1,4 +1,4 @@
-// Configuration for the logging service
+// Configuration for the logs service
 
 const defaults = {
   PORT: "8020",
@@ -7,7 +7,7 @@ const defaults = {
   PG_URL: "postgresql://verifio:verifio123@localhost:5432/verifio",
 } as const;
 
-export const loggingConfig = {
+export const logsConfig = {
   port: Number(process.env.PORT || defaults.PORT),
   NODE_ENV: process.env.NODE_ENV || defaults.NODE_ENV,
   BASE_URL: process.env.BASE_URL || defaults.BASE_URL,

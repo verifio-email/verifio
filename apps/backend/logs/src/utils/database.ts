@@ -7,7 +7,7 @@ import {
   timestamp,
   uuid,
 } from "drizzle-orm/pg-core";
-import { loggingConfig } from "../config";
+import { logsConfig } from "../config";
 
 // Activity logs table schema
 export const activityLogs = pgTable("activity_logs", {
@@ -56,7 +56,7 @@ export function getDb(): NodePgDatabase {
   if (!dbInstance) {
     dbInstance = drizzle({
       connection: {
-        connectionString: loggingConfig.PG_URL,
+        connectionString: logsConfig.PG_URL,
       },
     });
   }
