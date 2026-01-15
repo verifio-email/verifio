@@ -41,7 +41,7 @@ export const RecentActivity = ({ apiKeyId }: RecentActivityProps) => {
 			params.set("limit", "5");
 			params.set("page", "1");
 
-			const response = await fetch(`/dashboard/api/logs?${params.toString()}`, {
+			const response = await fetch(`/api/logging/v1/logs?${params.toString()}`, {
 				credentials: "include",
 			});
 			const data = await response.json();

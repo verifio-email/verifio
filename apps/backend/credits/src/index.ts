@@ -11,6 +11,7 @@ import { Elysia } from "elysia";
 import { creditsConfig } from "./credits.config";
 import { creditsRoute } from "./routes/credits";
 import { internalRoute } from "./routes/internal";
+import { landing } from "./routes/landing";
 
 const port = creditsConfig.port;
 
@@ -48,11 +49,7 @@ const creditsService = new Elysia({
     }),
   )
   .use(serverTiming())
-  .get("/", () => ({
-    service: "credits",
-    version: "1.0.0",
-    status: "healthy",
-  }))
+  .use(landing)
   .use(creditsRoute)    // GET /v1/credits, GET /v1/credits/history
   .use(internalRoute)   // POST /v1/internal/check, POST /v1/internal/deduct
   .listen(port, () => {

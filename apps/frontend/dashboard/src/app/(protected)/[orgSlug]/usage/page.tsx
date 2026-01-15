@@ -30,12 +30,32 @@ const UsagePage = () => {
 	const fetchCredits = useCallback(async () => {
 		setLoading(true);
 		try {
-			const response = await fetch("/dashboard/api/credits", {
+			const response = await fetch("/api/credits/v1/credits", {
 				credentials: "include",
 			});
 			const data = await response.json();
-			if (data.success) {
-				setCreditData(data.data);
+			if (data.success && data.data) {
+				// Transform backend format to frontend format
+				const backendData = data.data;
+				const periodEnd = new Date(backendData.periodEnd);
+				const now = new Date();
+				const daysUntilReset = Math.ceil(
+					(periodEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24),
+				);
+
+				setCreditData({
+					monthly: {
+						used: backendData.used,
+						limit: backendData.limit,
+						remaining: backendData.remaining,
+						percentage: backendData.percentUsed,
+					},
+					resetInfo: {
+						periodStart: backendData.periodStart,
+						periodEnd: backendData.periodEnd,
+						daysUntilReset: Math.max(0, daysUntilReset),
+					},
+				});
 			}
 		} catch (error) {
 			console.error("Failed to fetch credits:", error);

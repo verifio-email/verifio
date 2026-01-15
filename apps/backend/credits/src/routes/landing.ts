@@ -1,5 +1,5 @@
 /**
- * Verify Service - Landing Route with Health Checks
+ * Credits Service - Landing Route with Health Checks
  */
 
 import { db } from "@verifio/db/client";
@@ -20,15 +20,15 @@ export const landing = new Elysia()
 
     return `
 ╔════════════════════════════════════════════════════════╗
-║                    VERIFY SERVICE                      ║
+║                   CREDITS SERVICE                      ║
 ╠════════════════════════════════════════════════════════╣
 ║                                                        ║
-║ ██╗   ██╗███████╗██████╗ ██╗███████╗██╗   ██╗         ║
-║ ██║   ██║██╔════╝██╔══██╗██║██╔════╝╚██╗ ██╔╝         ║
-║ ██║   ██║█████╗  ██████╔╝██║█████╗   ╚████╔╝          ║
-║ ╚██╗ ██╔╝██╔══╝  ██╔══██╗██║██╔══╝    ╚██╔╝           ║
-║  ╚████╔╝ ███████╗██║  ██║██║██║        ██║            ║
-║   ╚═══╝  ╚══════╝╚═╝  ╚═╝╚═╝╚═╝        ╚═╝            ║
+║  ██████╗██████╗ ███████╗██████╗ ██╗████████╗███████╗  ║
+║ ██╔════╝██╔══██╗██╔════╝██╔══██╗██║╚══██╔══╝██╔════╝  ║
+║ ██║     ██████╔╝█████╗  ██║  ██║██║   ██║   ███████╗  ║
+║ ██║     ██╔══██╗██╔══╝  ██║  ██║██║   ██║   ╚════██║  ║
+║ ╚██████╗██║  ██║███████╗██████╔╝██║   ██║   ███████║  ║
+║  ╚═════╝╚═╝  ╚═╝╚══════╝╚═════╝ ╚═╝   ╚═╝   ╚══════╝  ║
 ║                                                        ║
 ║                  ONLINE & READY                        ║
 ║                 Version: v1.0.0                        ║
@@ -39,16 +39,14 @@ export const landing = new Elysia()
 ${dbError ? `║ DB ERROR: ${dbError.substring(0, 45).padEnd(45)} ║` : "║                                                        ║"}
 ╠════════════════════════════════════════════════════════╣
 ║ QUICK START:                                           ║
-║ curl -X POST /api/verify/v1/email \\                    ║
-║   -H "Content-Type: application/json" \\                ║
-║   -H "X-API-Key: your_api_key" \\                       ║
-║   -d '{"email":"test@example.com"}'                    ║
+║ curl -X GET /api/credits/v1/credits \\                  ║
+║   -H "Cookie: session=your_session_token"              ║
 ╠════════════════════════════════════════════════════════╣
 ║ - SUPPORT                                              ║
-║ - https://verifio.email/dev/setup/backend/verify       ║
+║ - https://verifio.email/dev/setup/backend/credits      ║
 ║ - https://github.com/reloop-labs/verifio               ║
 ╠════════════════════════════════════════════════════════╣
-║  "Verify every email, trust every inbox"               ║
+║  "Track every credit, optimize every verification"    ║
 ║                    - Your Verifio Team                 ║
 ╚════════════════════════════════════════════════════════╝
 

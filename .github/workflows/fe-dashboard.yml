@@ -37,3 +37,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/fe-dashboard:latest
 
+      - name: Trigger Dokploy deployment
+        run: |
+          curl https://dokploy.verifio.email/api/deploy/VKk3uJtaIon52s7SUE9JR
+

@@ -104,7 +104,7 @@ const LogsPage = () => {
 				}
 
 				const response = await fetch(
-					`/dashboard/api/logs?${params.toString()}`,
+					`/api/logging/v1/logs?${params.toString()}`,
 					{ credentials: "include" },
 				);
 				const data: LogsResponse = await response.json();
