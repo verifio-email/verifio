@@ -16,6 +16,7 @@
 		"dotenv": "catalog:backend",
 		"drizzle-orm": "catalog:db",
 		"elysia": "catalog:backend",
+		"@verifio/db": "workspace:*",
 		"pg": "catalog:db",
 		"@verifio/logger": "workspace:*"
 	},
