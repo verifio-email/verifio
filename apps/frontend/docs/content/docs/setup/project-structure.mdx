@@ -1,0 +1,131 @@
+---
+title: Project Structure
+description: Overview of the Verifio monorepo organization.
+---
+
+import { Cards, Card } from "fumadocs-ui/components/card"
+import { Callout } from 'fumadocs-ui/components/callout'
+
+# Project Structure
+
+A modern monorepo with clear separation between apps, shared packages, and development tools.
+
+<Callout type="info">
+  See **[Tech Stack](/docs/setup/tech-stack)** for technology details.
+</Callout>
+
+## Quick Overview
+
+```
+verifio/
+├── apps/
+│   ├── backend/
+│   │   ├── auth/       # Authentication service
+│   │   ├── verify/     # Email verification engine
+│   │   ├── workflow/   # Background job processing
+│   │   ├── api-key/    # API key management
+│   │   ├── credits/    # Credits and billing
+│   │   ├── logs/       # Verification history
+│   │   └── upload/     # File upload handling
+│   └── frontend/
+│       ├── web/        # Marketing website
+│       ├── dashboard/  # User dashboard
+│       └── docs/       # Documentation site
+├── packages/           # Shared libraries
+├── tools/              # Dev configs & utilities
+└── local/              # Docker compose setup
+```
+
+## Apps
+
+### Backend Services
+
+<Cards>
+  <Card 
+    title="Auth" 
+    description="Authentication, sessions, and user management"
+    href="/docs/setup/backend/auth" 
+  />
+  <Card 
+    title="Verify" 
+    description="Core email verification engine"
+    href="/docs/setup/backend/verify" 
+  />
+  <Card 
+    title="Workflow" 
+    description="Bulk verification job processing"
+    href="/docs/setup/backend/workflow" 
+  />
+  <Card 
+    title="API Key" 
+    description="API key generation and validation"
+    href="/docs/setup/backend/api-key" 
+  />
+  <Card 
+    title="Credits" 
+    description="Credit balances and usage tracking"
+    href="/docs/setup/backend/credits" 
+  />
+  <Card 
+    title="Logs" 
+    description="Verification history and logging"
+    href="/docs/setup/backend/logs" 
+  />
+  <Card 
+    title="Upload" 
+    description="File uploads for bulk verification"
+    href="/docs/setup/backend/upload" 
+  />
+</Cards>
+
+### Frontend Applications
+
+<Cards>
+  <Card 
+    title="Web" 
+    description="Public marketing website"
+    href="/docs/setup/frontend/web" 
+  />
+  <Card 
+    title="Dashboard" 
+    description="User dashboard for managing verification"
+    href="/docs/setup/frontend/dashboard" 
+  />
+  <Card 
+    title="Docs" 
+    description="Documentation site (you're reading this!)"
+    href="/docs/setup/frontend/docs" 
+  />
+</Cards>
+
+## Packages
+
+Shared libraries used across multiple apps:
+
+| Package | Description |
+|---------|-------------|
+| `@verifio/db` | Database schema and Drizzle utilities |
+| `@verifio/auth` | Authentication logic and session management |
+| `@verifio/ui` | Design system and UI components |
+| `@verifio/email` | Email templates and sending utilities |
+| `@verifio/email-verify` | Core verification logic |
+| `@verifio/cache` | Redis caching utilities |
+| `@verifio/logger` | Logging utilities |
+| `@verifio/api` | Shared API types and utilities |
+
+## Tools
+
+Configuration packages for consistent tooling:
+
+| Package | Purpose |
+|---------|---------|
+| `@verifio/tailwind` | Shared Tailwind CSS configuration |
+| `@verifio/tsconfig` | TypeScript configuration presets |
+
+## Key Benefits
+
+- **Shared code**: Reusable packages across all apps
+- **Consistent tooling**: Unified configs and build setup
+- **Clear boundaries**: Each service has a specific purpose
+- **Easy scaling**: Add new services without affecting others
+- **Type safety**: End-to-end TypeScript across the monorepo

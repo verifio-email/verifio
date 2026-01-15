@@ -1,0 +1,72 @@
+---
+title: Documentation Site
+description: Verifio documentation site built with Fumadocs.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+
+# Documentation Site
+
+The documentation site you're currently reading!
+
+## Overview
+
+| Property | Value |
+|----------|-------|
+| **Location** | `apps/frontend/docs` |
+| **Framework** | Next.js + Fumadocs |
+| **Port** | 3003 |
+| **URL** | https://local.verifio.email/docs |
+
+## Starting the Service
+
+```sh
+bun run fe:docs:dev
+```
+
+## Content Structure
+
+```
+content/docs/
+├── index.mdx              # Welcome page
+├── meta.json              # Navigation structure
+├── getting-started/       # Quick start guides
+├── api-reference/         # API documentation
+├── sdks/                  # SDK documentation
+├── self-hosting/          # Self-hosting guides
+└── setup/                 # Development setup (this section)
+```
+
+## Writing Documentation
+
+Documentation is written in MDX format with Fumadocs components:
+
+```mdx
+import { Callout } from 'fumadocs-ui/components/callout'
+import { Cards, Card } from 'fumadocs-ui/components/card'
+
+<Callout type="info">
+  This is an info callout.
+</Callout>
+
+<Cards>
+  <Card title="Title" description="Description" href="/path" />
+</Cards>
+```
+
+## Navigation
+
+Navigation is controlled via `meta.json` files in each directory. Use separators for section headers:
+
+```json
+{
+  "pages": [
+    "---Section Title---",
+    "page-name"
+  ]
+}
+```
+
+<Callout type="info">
+  See the [Fumadocs documentation](https://fumadocs.vercel.app/) for more components and options.
+</Callout>

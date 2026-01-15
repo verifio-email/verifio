@@ -1,0 +1,64 @@
+---
+title: Auth Service
+description: Authentication and user management service.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+
+# Auth Service
+
+Handles user authentication, sessions, and organization management.
+
+## Overview
+
+| Property | Value |
+|----------|-------|
+| **Location** | `apps/backend/auth` |
+| **Framework** | ElysiaJS |
+| **Port** | 8000 |
+| **API Route** | `/api/auth/*` |
+
+## Starting the Service
+
+```sh
+bun run be:auth:dev
+```
+
+## Features
+
+- **User authentication** - Sign up, sign in, password reset
+- **OAuth providers** - Google, GitHub integration
+- **Session management** - Secure cookie-based sessions
+- **Organization support** - Multi-tenant organization structure
+- **Member management** - Invite and manage team members
+
+## Technology
+
+Built with [Better Auth](https://www.better-auth.com/), providing:
+- Type-safe authentication
+- Built-in session management
+- Multiple auth providers
+- Organization/team support
+
+## Environment Variables
+
+```sh
+BETTER_AUTH_SECRET=your-secret-key
+BETTER_AUTH_URL=https://local.verifio.email
+PG_URL=postgresql://verifio:verifio123@localhost:5432/verifio
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_PASSWORD=verifio123
+```
+
+## Database Tables
+
+- `user` - User accounts
+- `session` - Active sessions
+- `account` - OAuth connections
+- `organization` - Organizations/teams
+- `member` - Organization memberships
+
+<Callout type="info">
+  The auth service is the foundation for all user-related functionality across Verifio.
+</Callout>

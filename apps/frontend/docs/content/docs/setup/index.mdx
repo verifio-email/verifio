@@ -1,0 +1,222 @@
+---
+title: Development Setup
+description: Setup Verifio locally for development.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+
+# Development Setup
+
+Get Verifio running on your local machine for development.
+
+<Callout>
+  **Prerequisite:** Make sure **Bun** is installed before starting.
+</Callout>
+
+```sh
+curl -fsSL https://bun.sh/install | bash
+```
+
+**More details:** [https://bun.sh/docs/installation](https://bun.sh/docs/installation)
+
+## 1. Clone the Repository
+
+```sh
+git clone git@github.com:verifio-email/verifio.git
+```
+
+## 2. Navigate to Project Directory
+
+```sh
+cd verifio
+```
+
+## 3. Install Dependencies
+
+```sh
+bun install
+```
+
+## 4. Configure Hosts File
+
+<Callout type="warn">
+  **Important:** This step is crucial for running multiple services on the same network.
+</Callout>
+
+Since Verifio consists of several services (backend, frontend) that need to communicate with each other, you must add a local domain entry to your hosts file.
+
+```sh
+echo "127.0.0.1 local.verifio.email" | sudo tee -a /etc/hosts
+```
+
+**What this does:**
+- Maps `local.verifio.email` to your local machine (`127.0.0.1`)
+- Enables services to communicate using the same domain name
+- Allows proper routing between frontend, backend, and API services via Caddy proxy
+
+**Note:** You may need to enter your system password when running this command with `sudo`.
+
+## 5. Start Docker Services
+
+<Callout>
+  **Prerequisite:** Make sure Docker is installed and running on your system.
+</Callout>
+
+Start all required infrastructure services:
+
+```sh
+bun run docker:up
+```
+
+This command will start all the necessary Docker containers for:
+- **PostgreSQL** - Primary database
+- **Redis** - Caching and sessions
+- **Caddy** - Reverse proxy for `local.verifio.email`
+- **Inngest** - Background job processing
+
+## 6. Setup the Database
+
+Push the database schema and seed initial data:
+
+```sh
+bun run db:push
+```
+*Creates the database tables and schema using Drizzle ORM.*
+
+```sh
+bun run db:seed
+```
+*Populates the database with default/initial data.*
+
+**Open database studio (optional):**
+```sh
+bun run db:studio
+```
+*Opens a visual UI for the database using Drizzle Studio.*
+
+## 7. Start Frontend Services
+
+Verifio includes multiple frontend applications. You can start them individually or all together:
+
+**Main Web Application (Public Website):**
+```sh
+bun run fe:web:dev
+```
+*Starts the public-facing website on http://localhost:3000*
+
+**User Dashboard:**
+```sh
+bun run fe:dashboard:dev
+```
+*Starts the main user dashboard for managing API keys, verification, and usage*
+
+**Documentation:**
+```sh
+bun run fe:docs:dev
+```
+*Starts the documentation site on http://localhost:3003*
+
+## 8. Start Backend Services
+
+Verifio's backend consists of several microservices. Start them as needed:
+
+**Authentication Service:**
+```sh
+bun run be:auth:dev
+```
+*Handles user authentication, sessions, and permissions*
+
+**Email Verification Service:**
+```sh
+bun run be:verify:dev
+```
+*Core email verification engine - syntax, DNS, SMTP checks*
+
+**Workflow Service:**
+```sh
+bun run be:workflow:dev
+```
+*Manages bulk verification jobs and background processing*
+
+**API Key Service:**
+```sh
+bun run be:api-key:dev
+```
+*Handles API key generation, validation, and management*
+
+**Credits Service:**
+```sh
+bun run be:credits:dev
+```
+*Manages credit balances, usage tracking, and billing*
+
+**Logging Service:**
+```sh
+bun run be:logs:dev
+```
+*Stores and retrieves verification history and logs*
+
+**Upload Service:**
+```sh
+bun run be:upload:dev
+```
+*Handles file uploads for bulk email verification*
+
+**Start all services at once:**
+```sh
+bun run verifio:dev
+```
+*Starts all frontend and backend services using Turborepo*
+
+## 9. Service Ports and URLs
+
+When running locally, services will be available at:
+
+| Service | URL | Port | Description |
+|---------|-----|------|-------------|
+| Web App | http://localhost:3000 | 3000 | Main public website |
+| Dashboard | http://localhost:3001 | 3001 | User dashboard |
+| Docs | http://localhost:3003 | 3003 | Documentation |
+| Auth API | http://localhost:8000 | 8000 | Authentication service |
+| API Key API | http://localhost:8012 | 8012 | API key management |
+| Logging API | http://localhost:8020 | 8020 | Logging service |
+| Workflow API | http://localhost:8017 | 8017 | Workflow service |
+| Upload API | http://localhost:8018 | 8018 | Upload service |
+| Credits API | http://localhost:8030 | 8030 | Credits service |
+| Verify API | http://localhost:3040 | 3040 | Email verification |
+| Inngest Dev | http://localhost:8288 | 8288 | Inngest dashboard |
+
+**Via Caddy Proxy (HTTPS):**
+
+| Route | Service |
+|-------|---------|
+| https://local.verifio.email | Web App |
+| https://local.verifio.email/dashboard | Dashboard |
+| https://local.verifio.email/docs | Docs |
+| https://local.verifio.email/api/auth/* | Auth API |
+| https://local.verifio.email/api/verify/* | Verify API |
+
+## 10. Development Workflow
+
+1. **Start Docker services** (PostgreSQL, Redis, Caddy, Inngest)
+2. **Setup database** (push schema, seed data)
+3. **Start backend services** (auth, verify, workflow, etc.)
+4. **Start frontend services** (web, dashboard, docs)
+5. **Access applications** at `https://local.verifio.email`
+
+**Quick start commands:**
+```sh
+# Terminal 1: Start Docker
+bun run docker:up
+
+# Terminal 2: Setup database (first time only)
+bun run db:push && bun run db:seed
+
+# Terminal 3: Start all services
+bun run verifio:dev
+```
+
+<Callout type="info">
+  For technology details, see **[Tech Stack](/docs/setup/tech-stack)**.
+  For project organization, see **[Project Structure](/docs/setup/project-structure)**.
+</Callout>

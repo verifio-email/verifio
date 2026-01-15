@@ -1,0 +1,68 @@
+---
+title: Workflow Service
+description: Background job processing with Inngest.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+
+# Workflow Service
+
+Handles bulk verification jobs and background processing using Inngest.
+
+## Overview
+
+| Property | Value |
+|----------|-------|
+| **Location** | `apps/backend/workflow` |
+| **Framework** | ElysiaJS + Inngest |
+| **Port** | 8017 |
+| **API Route** | `/api/workflow/*` |
+
+## Starting the Service
+
+```sh
+bun run be:workflow:dev
+```
+
+<Callout type="info">
+  Make sure Inngest is running via Docker before starting this service.
+</Callout>
+
+## Features
+
+- **Bulk verification** - Process thousands of emails in parallel
+- **Job queuing** - Reliable job scheduling and execution
+- **Progress tracking** - Real-time job status updates
+- **Retry logic** - Automatic retries on failures
+- **Rate limiting** - Controlled verification throughput
+
+## Inngest Functions
+
+| Function | Purpose |
+|----------|---------|
+| `bulk-verify` | Process bulk verification jobs |
+| `verify-email` | Individual email verification step |
+| `job-complete` | Finalize completed jobs |
+
+## Environment Variables
+
+```sh
+PORT=8017
+PG_URL=postgresql://verifio:verifio123@localhost:5432/verifio
+INNGEST_EVENT_KEY=local_dev_event_key_0123456789abcdef
+INNGEST_SIGNING_KEY=signkey-local-0123456789abcdef
+```
+
+## Inngest Dev Server
+
+Access the Inngest dashboard at http://localhost:8288 to:
+- View running jobs
+- Monitor function executions
+- Debug failed steps
+- Replay events
+
+## Related Services
+
+- **Upload** - Receives file uploads and triggers bulk jobs
+- **Verify** - Called for each email verification
+- **Credits** - Validates credit balance before processing

@@ -9,6 +9,8 @@
 		"---SDKs---",
 		"sdks",
 		"---Self Hosting---",
-		"self-hosting"
+		"self-hosting",
+		"---Development---",
+		"setup"
 	]
 }

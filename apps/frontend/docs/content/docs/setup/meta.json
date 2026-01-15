@@ -1,0 +1,23 @@
+{
+	"title": "Development",
+	"description": "Setup Verifio for local development",
+	"root": true,
+	"pages": [
+		"---Introduction---",
+		"index",
+		"tech-stack",
+		"project-structure",
+		"---Frontend---",
+		"frontend/web",
+		"frontend/dashboard",
+		"frontend/docs",
+		"---Backend---",
+		"backend/auth",
+		"backend/verify",
+		"backend/workflow",
+		"backend/api-key",
+		"backend/credits",
+		"backend/logs",
+		"backend/upload"
+	]
+}

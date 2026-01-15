@@ -1,0 +1,48 @@
+---
+title: Web App
+description: Public marketing website for Verifio.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+
+# Web Application
+
+The public-facing marketing website for Verifio.
+
+## Overview
+
+| Property | Value |
+|----------|-------|
+| **Location** | `apps/frontend/web` |
+| **Framework** | Next.js |
+| **Port** | 3000 |
+| **URL** | https://local.verifio.email |
+
+## Starting the Service
+
+```sh
+bun run fe:web:dev
+```
+
+## Features
+
+- **Landing page** - Product overview and value proposition
+- **Pricing page** - Plan comparison and pricing details
+- **Authentication** - Login and signup flows
+- **SEO optimized** - Meta tags, sitemap, and structured data
+
+## Environment Variables
+
+```sh
+NEXT_PUBLIC_WEB_URL=https://local.verifio.email
+NEXT_PUBLIC_API_URL=https://local.verifio.email
+```
+
+## Related Services
+
+- Connects to **Auth API** for user authentication
+- Redirects to **Dashboard** after login
+
+<Callout type="info">
+  The web app is served at the root domain via Caddy reverse proxy.
+</Callout>

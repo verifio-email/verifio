@@ -1,0 +1,58 @@
+---
+title: Dashboard
+description: User dashboard for managing email verification.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+
+# Dashboard
+
+The main user interface for managing email verification, API keys, and usage.
+
+## Overview
+
+| Property | Value |
+|----------|-------|
+| **Location** | `apps/frontend/dashboard` |
+| **Framework** | Next.js |
+| **Port** | 3001 |
+| **URL** | https://local.verifio.email/dashboard |
+
+## Starting the Service
+
+```sh
+bun run fe:dashboard:dev
+```
+
+## Features
+
+- **API Key Management** - Create, revoke, and manage API keys
+- **Single Verification** - Verify individual emails via playground
+- **Bulk Verification** - Upload CSV files for batch processing
+- **Usage Analytics** - Track verification history and credit usage
+- **Organization Settings** - Team management and billing
+
+## Environment Variables
+
+```sh
+NEXT_PUBLIC_WEB_URL=https://local.verifio.email
+NEXT_PUBLIC_API_URL=https://local.verifio.email
+```
+
+## Backend Dependencies
+
+The dashboard requires these backend services:
+
+| Service | Purpose |
+|---------|---------|
+| Auth | User authentication and sessions |
+| API Key | Managing API keys |
+| Verify | Email verification |
+| Credits | Usage tracking and balances |
+| Logs | Verification history |
+| Upload | File uploads for bulk jobs |
+| Workflow | Bulk job processing |
+
+<Callout type="warn">
+  Start the backend services before using dashboard features.
+</Callout>
