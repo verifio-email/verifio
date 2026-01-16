@@ -48,7 +48,7 @@ export default function IntegrationsPage() {
 	return (
 		<div className="min-h-screen">
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[01] INTEGRATIONS</span>
 						<span className="text-sm text-text-sub-600">
@@ -72,7 +72,7 @@ export default function IntegrationsPage() {
 					key={category.category}
 					className="border-stroke-soft-100 border-b"
 				>
-					<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+					<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 						<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 							<span className="text-sm text-text-sub-600">
 								[0{catIndex + 2}] {category.category.toUpperCase()}
@@ -102,7 +102,7 @@ export default function IntegrationsPage() {
 
 			{/* API Section */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="grid gap-0 md:grid-cols-2">
 						<div className="border-stroke-soft-100 p-10 md:border-r md:p-16">
 							<h2 className="font-semibold text-2xl text-text-strong-950">
@@ -140,7 +140,7 @@ export default function IntegrationsPage() {
 
 			{/* CTA */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="p-10 text-center md:p-16">
 						<h2 className="font-semibold text-2xl text-text-strong-950">
 							Need a custom integration?

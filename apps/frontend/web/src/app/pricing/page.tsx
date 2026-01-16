@@ -85,7 +85,7 @@ export default function PricingPage() {
 		<div className="min-h-screen">
 			{/* Hero Section */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[01] PRICING</span>
 						<span className="text-sm text-text-sub-600">
@@ -105,7 +105,7 @@ export default function PricingPage() {
 
 			{/* Pricing Cards */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="grid gap-0 md:grid-cols-3">
 						{plans.map((plan, index) => (
 							<div
@@ -173,7 +173,7 @@ export default function PricingPage() {
 
 			{/* Pay As You Go */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">
 							[02] PAY AS YOU GO
@@ -211,7 +211,7 @@ export default function PricingPage() {
 
 			{/* FAQ */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[03] FAQ</span>
 						<span className="text-sm text-text-sub-600">
@@ -234,7 +234,7 @@ export default function PricingPage() {
 
 			{/* CTA */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="p-10 text-center md:p-16">
 						<h2 className="font-semibold text-2xl text-text-strong-950">
 							Not sure which plan is right for you?

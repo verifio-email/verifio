@@ -11,7 +11,7 @@ const links = [
 export const Footer = () => {
 	return (
 		<div className="border-stroke-soft-200 border-t px-4 py-2">
-			<div className="mx-auto flex max-w-7xl items-center justify-between">
+			<div className="mx-auto flex max-w-5xl items-center justify-between">
 				<div className="flex flex-1 items-center gap-2">
 					<Logo className="h-10 w-10" />
 					{links.map((link) => (

@@ -6,7 +6,7 @@ export default function AboutPage() {
 		<div className="min-h-screen">
 			{/* Hero Section */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[01] ABOUT</span>
 						<span className="text-sm text-text-sub-600">/ OUR STORY</span>
@@ -27,7 +27,7 @@ export default function AboutPage() {
 
 			{/* Mission */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="grid gap-0 md:grid-cols-2">
 						<div className="border-stroke-soft-100 p-10 md:border-r md:p-16">
 							<span className="font-mono text-primary-500 text-sm">
@@ -59,7 +59,7 @@ export default function AboutPage() {
 
 			{/* Stats */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="grid gap-0 md:grid-cols-4">
 						{[
 							{ value: "10M+", label: "Emails Verified" },
@@ -83,7 +83,7 @@ export default function AboutPage() {
 
 			{/* Values */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[02] VALUES</span>
 						<span className="text-sm text-text-sub-600">/ WHAT WE BELIEVE</span>
@@ -119,7 +119,7 @@ export default function AboutPage() {
 
 			{/* CTA */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="p-10 text-center md:p-16">
 						<h2 className="font-semibold text-2xl text-text-strong-950">
 							Ready to get started?

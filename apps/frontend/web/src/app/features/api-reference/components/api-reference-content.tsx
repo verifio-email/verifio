@@ -21,7 +21,7 @@ export const ApiReferenceContent = () => {
 	return (
 		<div className="border-stroke-soft-100">
 			{/* Hero Section with Gradient Background */}
-			<div className="relative mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+			<div className="relative mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 				<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 					<span className="text-sm text-text-sub-600">[01] API REFERENCE</span>
 					<span className="text-sm text-text-sub-600">
@@ -107,7 +107,7 @@ export const ApiReferenceContent = () => {
 			</div>
 
 			{/* Quick Start Section */}
-			<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 				<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 					<span className="text-sm text-text-sub-600">[02] QUICK START</span>
 					<span className="text-sm text-text-sub-600">
@@ -211,7 +211,7 @@ export const ApiReferenceContent = () => {
 			</div>
 
 			{/* API Endpoints Section */}
-			<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 				<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 					<span className="text-sm text-text-sub-600">[03] ENDPOINTS</span>
 					<span className="text-sm text-text-sub-600">/ VERIFICATION API</span>
@@ -334,7 +334,7 @@ export const ApiReferenceContent = () => {
 			</div>
 
 			{/* SDKs Section */}
-			<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 				<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 					<span className="text-sm text-text-sub-600">[04] SDKs</span>
 					<span className="text-sm text-text-sub-600">/ DEVELOPER TOOLS</span>
@@ -409,7 +409,7 @@ export const ApiReferenceContent = () => {
 			</div>
 
 			{/* CTA Section */}
-			<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 				<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 					<span className="text-sm text-text-sub-600">[05] GET STARTED</span>
 					<span className="text-sm text-text-sub-600">

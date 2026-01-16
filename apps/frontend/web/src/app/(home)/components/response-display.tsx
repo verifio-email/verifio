@@ -42,9 +42,9 @@ export function ResponseDisplay() {
 	if (!result && !isLoading) {
 		return (
 			<div className="-mt-[58px] mx-auto max-w-5xl">
-				<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-l">
-					<div className="mx-auto max-w-4xl border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-l pt-24 pb-16">
-						<div className="flex flex-col items-center justify-center gap-4 border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t px-6 py-16 text-center" />
+				<div className="border-stroke-soft-100/60 border-r border-l dark:border-stroke-soft-100/40">
+					<div className="mx-auto max-w-4xl border-stroke-soft-100/60 border-r border-l pt-24 pb-16 dark:border-stroke-soft-100/40">
+						<div className="flex flex-col items-center justify-center gap-4 border-stroke-soft-100/60 border-t px-6 py-16 text-center dark:border-stroke-soft-100/40" />
 					</div>
 				</div>
 			</div>
@@ -54,10 +54,10 @@ export function ResponseDisplay() {
 	// Show loading state when verifying
 	if (isLoading && !result) {
 		return (
-			<div className="-mt-[51px] mx-auto max-w-7xl">
-				<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-l">
-					<div className="mx-auto max-w-4xl border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-l pt-24 pb-16">
-						<div className="flex flex-col items-center justify-center gap-4 border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t px-6 py-16 text-center">
+			<div className="-mt-[51px] mx-auto max-w-5xl">
+				<div className="border-stroke-soft-100/60 border-r border-l dark:border-stroke-soft-100/40">
+					<div className="mx-auto max-w-4xl border-stroke-soft-100/60 border-r border-l pt-24 pb-16 dark:border-stroke-soft-100/40">
+						<div className="flex flex-col items-center justify-center gap-4 border-stroke-soft-100/60 border-t px-6 py-16 text-center dark:border-stroke-soft-100/40">
 							<Icon
 								name="loading"
 								className="h-12 w-12 animate-spin text-text-strong-950"
@@ -81,10 +81,10 @@ export function ResponseDisplay() {
 	const displayData = result!;
 
 	return (
-		<div className="-mt-[51px] mx-auto max-w-7xl">
-			<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-l">
-				<div className="mx-auto max-w-4xl border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-l pt-24">
-					<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t">
+		<div className="-mt-[51px] mx-auto max-w-5xl">
+			<div className="border-stroke-soft-100/60 border-r border-l dark:border-stroke-soft-100/40">
+				<div className="mx-auto max-w-4xl border-stroke-soft-100/60 border-r border-l pt-24 dark:border-stroke-soft-100/40">
+					<div className="border-stroke-soft-100/60 border-t dark:border-stroke-soft-100/40">
 						{/* Show indicator that this is a live result */}
 						<div className="flex items-center gap-2 bg-neutral-200/5 px-4 py-2 text-sm text-text-strong-950">
 							<Icon name="check-circle-filled" className="h-4 w-4" />
@@ -96,11 +96,11 @@ export function ResponseDisplay() {
 							score={displayData.score}
 						/>
 						<ScoreVisualization score={displayData.score} />
-						<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t border-b">
+						<div className="border-stroke-soft-100/60 border-t border-b dark:border-stroke-soft-100/40">
 							<div className="relative flex w-fit gap-2 bg-bg-white-0 px-4 py-3">
 								{/* Animated floating background */}
 								<div
-									className={`absolute inset-y-3 rounded-full border border-stroke-soft-100/60 dark:border-stroke-soft-100/40 bg-bg-white-100 transition-all duration-300 ${
+									className={`absolute inset-y-3 rounded-full border border-stroke-soft-100/60 bg-bg-white-100 transition-all duration-300 dark:border-stroke-soft-100/40 ${
 										mounted ? "opacity-100" : "opacity-0"
 									}`}
 									style={{
@@ -135,7 +135,7 @@ export function ResponseDisplay() {
 						{viewMode === "details" ? (
 							<div className="grid grid-cols-2 border-stroke-soft-100/60 dark:border-stroke-soft-100/40">
 								{/* Left Column: General and Mail Server */}
-								<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r">
+								<div className="border-stroke-soft-100/60 border-r dark:border-stroke-soft-100/40">
 									<GeneralSection
 										state={displayData.state}
 										reason={displayData.reason}

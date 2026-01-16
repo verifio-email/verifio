@@ -7,7 +7,7 @@ export default function BulkEmailVerificationPage() {
 		<div className="min-h-screen">
 			{/* Hero Section */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[01] SOLUTION</span>
 						<span className="text-sm text-text-sub-600">
@@ -68,7 +68,7 @@ export default function BulkEmailVerificationPage() {
 
 			{/* Stats Section */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="grid gap-0 md:grid-cols-4">
 						{[
 							{ value: "99%", label: "Accuracy Rate" },
@@ -92,7 +92,7 @@ export default function BulkEmailVerificationPage() {
 
 			{/* How It Works */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[02] PROCESS</span>
 						<span className="text-sm text-text-sub-600">/ HOW IT WORKS</span>
@@ -134,7 +134,7 @@ export default function BulkEmailVerificationPage() {
 
 			{/* Features */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[03] FEATURES</span>
 						<span className="text-sm text-text-sub-600">/ WHAT WE VERIFY</span>
@@ -190,7 +190,7 @@ export default function BulkEmailVerificationPage() {
 
 			{/* Comparison */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[04] COMPARE</span>
 						<span className="text-sm text-text-sub-600">/ WHY VERIFIO</span>
@@ -252,7 +252,7 @@ export default function BulkEmailVerificationPage() {
 
 			{/* CTA */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="p-10 text-center md:p-16">
 						<h2 className="font-semibold text-2xl text-text-strong-950 md:text-3xl">
 							Ready to clean your email list?

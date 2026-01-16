@@ -11,7 +11,7 @@ import { ResetPasswordForm } from "./reset-password-form";
 const Page = () => {
 	return (
 		<div>
-			<header className="relative mx-auto flex h-16 w-full max-w-7xl flex-1 items-center justify-between gap-4 px-4 lg:p-[18px]">
+			<header className="relative mx-auto flex h-16 w-full max-w-5xl flex-1 items-center justify-between gap-4 px-4 lg:p-[18px]">
 				<div className="flex items-center">
 					<Link href="/">
 						<Logo className="h-8 w-8 rounded-full lg:h-10 lg:w-10" />

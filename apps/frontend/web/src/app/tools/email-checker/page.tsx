@@ -123,7 +123,7 @@ export default function EmailCheckerPage() {
 		<div className="min-h-screen">
 			{/* Hero Section */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[01] FREE TOOL</span>
 						<span className="text-sm text-text-sub-600">
@@ -144,7 +144,7 @@ export default function EmailCheckerPage() {
 
 			{/* Email Checker Tool */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="p-10">
 						<div className="mx-auto max-w-2xl">
 							{/* Input Section */}
@@ -292,7 +292,7 @@ export default function EmailCheckerPage() {
 
 			{/* CTA Section */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[02] BULK</span>
 						<span className="text-sm text-text-sub-600">
@@ -359,7 +359,7 @@ export default function EmailCheckerPage() {
 
 			{/* Features */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[03] FEATURES</span>
 						<span className="text-sm text-text-sub-600">/ WHAT WE CHECK</span>

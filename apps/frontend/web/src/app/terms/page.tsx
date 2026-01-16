@@ -81,7 +81,7 @@ export default function TermsPage() {
 			<main>
 				{/* Header */}
 				<section className="border-stroke-soft-100/60 border-b">
-					<div className="mx-4 max-w-7xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
+					<div className="mx-4 max-w-5xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
 						<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 							<span className="text-text-sub-600 text-xs">[01] TERMS</span>
 							<span className="text-text-sub-600 text-xs">
@@ -110,7 +110,7 @@ export default function TermsPage() {
 
 				{/* Main Content */}
 				<section className="border-stroke-soft-100/60 border-b">
-					<div className="mx-4 max-w-7xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
+					<div className="mx-4 max-w-5xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
 						<div className="flex flex-col lg:flex-row">
 							{/* Content */}
 							<div className="flex-1 lg:border-stroke-soft-100/60 lg:border-r">
@@ -456,7 +456,7 @@ export default function TermsPage() {
 
 				{/* Related Links */}
 				<section className="border-stroke-soft-100/60 border-b">
-					<div className="mx-4 max-w-7xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
+					<div className="mx-4 max-w-5xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
 						<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 							<span className="text-text-sub-600 text-xs">[10] RELATED</span>
 							<span className="text-text-sub-600 text-xs">/ OTHER PAGES</span>

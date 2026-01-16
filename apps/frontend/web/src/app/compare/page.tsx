@@ -39,7 +39,7 @@ export default function ComparePage() {
 	return (
 		<div className="min-h-screen">
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[01] COMPARE</span>
 						<span className="text-sm text-text-sub-600">
@@ -59,7 +59,7 @@ export default function ComparePage() {
 
 			{/* Quick Links */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="grid gap-0 md:grid-cols-4">
 						{competitors.map((comp, index) => (
 							<Link
@@ -79,7 +79,7 @@ export default function ComparePage() {
 
 			{/* Comparison Table */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[02] FEATURES</span>
 						<span className="text-sm text-text-sub-600">/ SIDE BY SIDE</span>
@@ -130,7 +130,7 @@ export default function ComparePage() {
 
 			{/* CTA */}
 			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="p-10 text-center md:p-16">
 						<h2 className="font-semibold text-2xl text-text-strong-950">
 							Ready to switch?

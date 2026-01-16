@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 const IntegrationPage = () => {
 	return (
-		<div className="mx-auto max-w-7xl border-stroke-soft-100 border-r border-l">
+		<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 			{/* Hero Section */}
 			<section className="px-6 py-20 text-center md:px-12 md:py-28">
 				<h1 className="title-h1 mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text font-bold text-transparent dark:from-white dark:to-gray-300">
