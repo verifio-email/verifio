@@ -5,10 +5,10 @@ import { VerificationProvider } from "./verification-context";
 
 export default function Hero() {
 	return (
-		<div className="border-stroke-soft-100 border-r border-b border-l">
-			<div className="mx-auto max-w-7xl">
-				<div className="border-stroke-soft-100 border-r border-b border-l">
-					<div className="mx-auto max-w-3xl border-stroke-soft-100 border-r border-l px-4 pt-12 pb-16 md:px-0 md:pt-20 md:pb-28">
+		<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-b border-l">
+			<div className="mx-auto max-w-5xl">
+				<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-b border-l">
+					<div className="mx-auto max-w-3xl border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-l px-4 pt-12 pb-16 md:px-0 md:pt-20 md:pb-28">
 						<div className="mx-auto mb-4 flex justify-center md:mb-6">
 							<AnimatedAlternative />
 						</div>

@@ -270,16 +270,16 @@ function ResultCard() {
 
 export function HowItWorks() {
 	return (
-		<div className="border-stroke-soft-100 border-t border-b">
-			<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
+		<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t border-b">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-l">
 				{/* Sticky Header */}
-				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100 border-b bg-bg-white-0 px-4 py-4 md:px-10">
+				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b bg-bg-white-0 px-4 py-4 md:px-10">
 					<span className="text-text-sub-600 text-xs">[04] HOW IT WORKS</span>
 					<span className="text-text-sub-600 text-xs">/ OPENLY</span>
 				</div>
 
 				{/* Hero Title Section */}
-				<div className="flex flex-col items-center gap-4 border-stroke-soft-100 border-b px-6 py-10 text-center md:px-10 md:py-12">
+				<div className="flex flex-col items-center gap-4 border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b px-6 py-10 text-center md:px-10 md:py-12">
 					{/* Heading */}
 					<div className="space-y-2">
 						<h2 className="font-semibold text-2xl text-text-sub-600 md:text-3xl">
@@ -365,7 +365,7 @@ export function HowItWorks() {
 				</div>
 
 				{/* Footer */}
-				<div className="flex flex-col items-center gap-3 border-stroke-soft-100 border-t bg-gradient-to-b from-transparent to-bg-soft-200/50 px-6 py-8 text-center md:px-10 md:py-10">
+				<div className="flex flex-col items-center gap-3 border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t bg-gradient-to-b from-transparent to-bg-soft-200/50 px-6 py-8 text-center md:px-10 md:py-10">
 					<div className="flex items-center gap-2">
 						<Icon name="open-source" className="h-5 w-5 text-text-strong-950" />
 						<span className="font-semibold text-text-strong-950">

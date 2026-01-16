@@ -54,7 +54,7 @@ export function ResponseHeader({ email, score }: ResponseHeaderProps) {
 	const scoreData = getScoreData(score);
 
 	return (
-		<div className="flex items-center justify-between border-stroke-soft-100 border-b px-6 py-4">
+		<div className="flex items-center justify-between border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b px-6 py-4">
 			<div className="flex items-center gap-4">
 				{/* Avatar */}
 				<div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-text-strong-950 font-semibold text-2xl text-white shadow-sm">

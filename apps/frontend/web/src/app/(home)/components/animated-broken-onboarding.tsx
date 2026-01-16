@@ -61,7 +61,7 @@ export function AnimatedBrokenOnboarding() {
 						x: { duration: 0.6, ease: elegantEase },
 					}}
 				>
-					<div className="rounded-full border border-stroke-soft-100 px-3 py-1 font-medium text-[10px] text-text-sub-600">
+					<div className="rounded-full border border-stroke-soft-100/60 dark:border-stroke-soft-100/40 px-3 py-1 font-medium text-[10px] text-text-sub-600">
 						New user signup
 					</div>
 				</motion.div>

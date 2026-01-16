@@ -432,10 +432,10 @@ const visualComponents = {
 
 export function OpenSourceDifference() {
 	return (
-		<div className="border-stroke-soft-100 border-t border-b">
-			<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
+		<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t border-b">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-l">
 				{/* Sticky Header */}
-				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100 border-b bg-bg-white-0 px-4 py-4 md:px-10">
+				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b bg-bg-white-0 px-4 py-4 md:px-10">
 					<span className="text-text-sub-600 text-xs">
 						[03] THE OPEN-SOURCE DIFFERENCE
 					</span>
@@ -443,7 +443,7 @@ export function OpenSourceDifference() {
 				</div>
 
 				{/* Hero Title Section */}
-				<div className="flex flex-col items-center gap-6 border-stroke-soft-100 border-b px-6 py-12 text-center md:px-10 md:py-16">
+				<div className="flex flex-col items-center gap-6 border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b px-6 py-12 text-center md:px-10 md:py-16">
 					{/* Heading */}
 					<div className="space-y-3">
 						<h2 className="font-semibold text-2xl text-text-sub-600 md:text-4xl">
@@ -471,11 +471,11 @@ export function OpenSourceDifference() {
 							<motion.div
 								key={feature.id}
 								className={`group relative flex flex-col p-6 transition-all duration-300 md:p-8 ${
-									!isRightColumn ? "md:border-stroke-soft-100 md:border-r" : ""
+									!isRightColumn ? "md:border-stroke-soft-100/60 dark:border-stroke-soft-100/40 md:border-r" : ""
 								} ${
 									!isBottomRow
-										? "border-stroke-soft-100 border-b"
-										: "border-stroke-soft-100 border-b md:border-b-0"
+										? "border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b"
+										: "border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b md:border-b-0"
 								}`}
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}

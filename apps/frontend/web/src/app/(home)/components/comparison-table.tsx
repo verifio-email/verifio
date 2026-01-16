@@ -46,8 +46,8 @@ function StatusCell({ value }: { value: boolean | string }) {
 
 export function ComparisonTable() {
 	return (
-		<div className="border-stroke-soft-100 border-t border-b">
-			<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
+		<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t border-b">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-l">
 				<div className="overflow-x-auto">
 					<table className="w-full">
 						{/* Header */}

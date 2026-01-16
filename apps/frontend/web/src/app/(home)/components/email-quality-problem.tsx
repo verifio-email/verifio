@@ -55,10 +55,10 @@ const problems = [
 
 export function EmailQualityProblem() {
 	return (
-		<div className="border-stroke-soft-100 border-t border-b">
-			<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
+		<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t border-b">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-l">
 				{/* Section Header */}
-				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100 border-b bg-bg-white-0 px-4 py-4 md:px-10">
+				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b bg-bg-white-0 px-4 py-4 md:px-10">
 					<span className="text-text-sub-600 text-xs">[01] THE PROBLEM</span>
 					<span className="text-text-sub-600 text-xs">/ EMAIL QUALITY</span>
 				</div>
@@ -66,7 +66,7 @@ export function EmailQualityProblem() {
 				{/* Main Content */}
 				<div className="flex flex-col">
 					{/* Hero Text */}
-					<div className="flex flex-col items-center justify-center border-stroke-soft-100 border-b px-4 py-8 text-center md:p-10">
+					<div className="flex flex-col items-center justify-center border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b px-4 py-8 text-center md:p-10">
 						<div className="space-y-3">
 							<h2 className="font-semibold text-3xl text-text-sub-600 md:text-4xl">
 								Email quality silently{" "}
@@ -91,12 +91,12 @@ export function EmailQualityProblem() {
 									key={index}
 									className={`group relative flex flex-col p-6 transition-colors duration-300 hover:bg-bg-weak-50/40 ${
 										!isRightColumn
-											? "md:border-stroke-soft-100 md:border-r"
+											? "md:border-stroke-soft-100/60 dark:border-stroke-soft-100/40 md:border-r"
 											: ""
 									} ${
 										!isLastRow
-											? "border-stroke-soft-100 border-b"
-											: "border-stroke-soft-100 border-b md:border-b-0"
+											? "border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b"
+											: "border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b md:border-b-0"
 									}`}
 								>
 									{/* Number indicator */}
@@ -124,7 +124,7 @@ export function EmailQualityProblem() {
 					</div>
 
 					{/* Black Box Callout */}
-					<div className="relative border-stroke-soft-100 border-t py-10">
+					<div className="relative border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t py-10">
 						<DotPattern className="absolute inset-0 top-2 right-1 left-3 z-0" />
 
 						<div className="flex flex-col items-center justify-center px-4 py-8 text-center md:p-10">

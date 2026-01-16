@@ -410,10 +410,10 @@ function IntegrationCards() {
 
 export function UseCases() {
 	return (
-		<div className="border-stroke-soft-100 border-t border-b">
-			<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
+		<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t border-b">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-l">
 				{/* Sticky Header */}
-				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100 border-b bg-bg-white-0 px-4 py-4 md:px-10">
+				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b bg-bg-white-0 px-4 py-4 md:px-10">
 					<span className="text-text-sub-600 text-xs">[05] USE CASES</span>
 					<span className="text-text-sub-600 text-xs">
 						/ BUILT FOR REAL PRODUCTS
@@ -504,7 +504,7 @@ export function UseCases() {
 				</div>
 
 				{/* Footer */}
-				<div className="flex items-center justify-center gap-3 border-stroke-soft-100 border-t bg-gradient-to-r from-transparent via-neutral-50 to-transparent px-6 py-6 text-center">
+				<div className="flex items-center justify-center gap-3 border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t bg-gradient-to-r from-transparent via-neutral-50 to-transparent px-6 py-6 text-center">
 					<motion.p
 						className="text-sm text-text-sub-600"
 						initial={{ opacity: 0 }}

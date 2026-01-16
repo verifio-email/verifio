@@ -202,7 +202,7 @@ export const Footer = () => {
 
 			<div className="border-stroke-soft-100/60 border-t border-b">
 				<div className="mx-4 max-w-5xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
-					<div className="flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+					<div className="flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4 dark:border-stroke-soft-100/40">
 						<span className="text-text-sub-600 text-xs" aria-hidden="true">
 							[FOOTER]
 						</span>

@@ -49,10 +49,10 @@ export function Pricing() {
 		sliderIndex === -1 ? SLIDER_STEPS.length - 1 : sliderIndex;
 
 	return (
-		<div className="border-stroke-soft-100 border-t border-b">
-			<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
+		<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t border-b">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-l">
 				{/* Sticky Header */}
-				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100 border-b bg-bg-white-0 px-4 py-4 md:px-10">
+				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b bg-bg-white-0 px-4 py-4 md:px-10">
 					<span className="text-text-sub-600 text-xs">[07] PRICING</span>
 					<span className="text-text-sub-600 text-xs">/ VALUE PROPOSITION</span>
 				</div>
