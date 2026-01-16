@@ -282,9 +282,9 @@ export function HowItWorks() {
 				<div className="flex flex-col items-center gap-4 border-stroke-soft-100 border-b px-6 py-10 text-center md:px-10 md:py-12">
 					{/* Heading */}
 					<div className="space-y-2">
-						<h2 className="font-semibold text-2xl text-text-strong-950 md:text-3xl">
+						<h2 className="font-semibold text-2xl text-text-sub-600 md:text-3xl">
 							How email verification{" "}
-							<span className="text-primary-base">works</span>
+							<span className="text-text-strong-950">works</span>
 						</h2>
 						<p className="mx-auto max-w-md text-sm text-text-sub-600">
 							Every step is transparent. All logic lives in our open-source

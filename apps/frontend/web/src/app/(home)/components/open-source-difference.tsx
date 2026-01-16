@@ -446,9 +446,11 @@ export function OpenSourceDifference() {
 				<div className="flex flex-col items-center gap-6 border-stroke-soft-100 border-b px-6 py-12 text-center md:px-10 md:py-16">
 					{/* Heading */}
 					<div className="space-y-3">
-						<h2 className="font-semibold text-2xl text-text-strong-950 md:text-4xl">
-							Built <span className="text-primary-base">differently</span> from
-							<br className="hidden md:block" /> traditional email verifiers
+						<h2 className="font-semibold text-2xl text-text-sub-600 md:text-4xl">
+							Built <span className="text-text-strong-950">differently</span>{" "}
+							from
+							<br className="hidden md:block" />{" "}
+							<span>traditional email verifiers</span>
 						</h2>
 						<p className="mx-auto max-w-lg text-sm text-text-sub-600 md:text-base">
 							We believe in transparency, flexibility, and giving you complete

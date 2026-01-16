@@ -40,8 +40,9 @@ export default function Company() {
 
 				<div className="mx-auto max-w-5xl px-4 pt-12 md:px-10 md:pt-20">
 					<div className="mb-12 space-y-4 text-center md:mb-16">
-						<h2 className="font-semibold text-3xl text-text-strong-950">
-							Trusted by Businesses Worldwide
+						<h2 className="font-semibold text-3xl text-text-sub-600">
+							Trusted by{" "}
+							<span className="text-text-strong-950">Businesses Worldwide</span>
 						</h2>
 						<p className="mx-auto max-w-2xl text-lg text-text-sub-600">
 							Companies of all sizes use Verifio to verify email addresses,

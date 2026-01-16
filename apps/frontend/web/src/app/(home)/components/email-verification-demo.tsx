@@ -1,4 +1,5 @@
 "use client";
+import * as Button from "@verifio/ui/button";
 import * as FileFormatIcon from "@verifio/ui/file-format-icon";
 import * as FileUpload from "@verifio/ui/file-upload";
 import { Icon } from "@verifio/ui/icon";
@@ -58,10 +59,11 @@ export function EmailVerificationDemo() {
 												disabled={isLoading}
 											/>
 											{/* Arrow submit button inside input */}
-											<button
+											<Button.Root
 												type="submit"
+												variant="neutral"
 												disabled={isLoading || !email.trim() || isRateLimited}
-												className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-base text-white transition-colors hover:bg-primary-darker disabled:cursor-not-allowed disabled:opacity-50"
+												className="h-8 w-8 shrink-0 rounded-full p-0!"
 											>
 												{isLoading ? (
 													<Icon
@@ -74,7 +76,7 @@ export function EmailVerificationDemo() {
 														className="h-4 w-4 rotate-180"
 													/>
 												)}
-											</button>
+											</Button.Root>
 										</Input.Wrapper>
 									</motion.div>
 								) : (

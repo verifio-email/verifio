@@ -107,6 +107,20 @@ export const inputVariants = tv({
 				input: "h-8",
 			},
 		},
+		variant: {
+			primary: {
+				root: [
+					// focus
+					"has-[input:focus]:shadow-button-sky-focus has-[input:focus]:before:ring-sky-500",
+				],
+			},
+			neutral: {
+				root: [
+					// focus
+					"has-[input:focus]:shadow-button-important-focus has-[input:focus]:before:ring-stroke-strong-950",
+				],
+			},
+		},
 		hasError: {
 			true: {
 				root: [
@@ -120,7 +134,6 @@ export const inputVariants = tv({
 			},
 			false: {
 				root: [
-					"has-[input:focus]:shadow-button-sky-focus has-[input:focus]:before:ring-sky-500",
 					// hover
 					"hover:[&:not(:has(input:focus)):has(>:only-child)]:before:ring-transparent",
 				],
@@ -157,6 +170,7 @@ export const inputVariants = tv({
 	],
 	defaultVariants: {
 		size: "medium",
+		variant: "primary",
 	},
 });
 
@@ -166,6 +180,7 @@ function InputRoot({
 	className,
 	children,
 	size,
+	variant,
 	hasError,
 	hassuccess,
 	asChild,
@@ -179,12 +194,14 @@ function InputRoot({
 
 	const { root } = inputVariants({
 		size,
+		variant,
 		hasError,
 		hassuccess,
 	});
 
 	const sharedProps: InputSharedProps = {
 		size,
+		variant,
 		hasError,
 		hassuccess,
 	};

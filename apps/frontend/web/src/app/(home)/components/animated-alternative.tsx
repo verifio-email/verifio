@@ -59,9 +59,11 @@ export function AnimatedAlternative() {
 	}, [displayedText, phase, currentWord]);
 
 	return (
-		<span className="inline-flex items-center gap-1.5 text-sm text-text-sub-600/80">
-			<span>An open-source alternative to</span>
-			<span className="inline-block text-left font-semibold text-primary-base">
+		<span className="inline-flex items-center gap-1.5 text-sm">
+			<span className="text-text-sub-600/80">
+				An open-source alternative to
+			</span>
+			<span className="inline-block text-left font-semibold">
 				{displayedText}
 				<motion.span
 					animate={{ opacity: [1, 0] }}
@@ -70,7 +72,7 @@ export function AnimatedAlternative() {
 						repeat: Number.POSITIVE_INFINITY,
 						repeatType: "reverse",
 					}}
-					className="ml-[1px] inline-block w-[2px] bg-primary-base"
+					className="ml-[1px] inline-block w-[2px] bg-bg-strong-950"
 					style={{ height: "1em", verticalAlign: "text-bottom" }}
 				/>
 			</span>

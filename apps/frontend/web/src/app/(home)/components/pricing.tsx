@@ -61,8 +61,8 @@ export function Pricing() {
 				<div className="pt-12 md:pt-16">
 					{/* Pricing Header */}
 					<div className="mb-10 text-center">
-						<h2 className="font-semibold text-2xl text-text-strong-950 md:text-3xl">
-							Simple <span className="text-primary-base">credit-based</span>{" "}
+						<h2 className="font-semibold text-2xl text-text-sub-600 md:text-3xl">
+							Simple <span className="text-text-strong-950">credit-based</span>{" "}
 							pricing
 						</h2>
 						<p className="mx-auto mt-2 max-w-md text-sm text-text-sub-600 md:text-base">
@@ -215,10 +215,10 @@ export function Pricing() {
 							</div>
 
 							{/* Pay as you go Plan */}
-							<div className="relative flex flex-col border-stroke-soft-200/50 border-t bg-primary-base/[0.02] md:border-t-0 md:border-l">
+							<div className="relative flex flex-col border-stroke-soft-200/50 border-t bg-neutral-alpha-10/50 md:border-t-0 md:border-l">
 								{/* Popular badge */}
 								<div className="absolute top-4 right-4">
-									<span className="rounded-full border border-primary-base/30 bg-primary-base/10 px-2 py-0.5 font-medium text-[10px] text-primary-base">
+									<span className="rounded-full border bg-neutral-alpha-10 px-2 py-0.5 font-medium text-[10px]">
 										Most popular
 									</span>
 								</div>
@@ -237,10 +237,7 @@ export function Pricing() {
 								{/* Credits */}
 								<div className="border-stroke-soft-200/50 border-b px-5 py-3">
 									<div className="flex items-center gap-2 text-sm text-text-sub-600">
-										<Icon
-											name="coins"
-											className="h-3.5 w-3.5 text-primary-base"
-										/>
+										<Icon name="coins" className="h-3.5 w-3.5" />
 										<span>
 											<span className="font-medium text-text-strong-950">
 												{selectedCredits.toLocaleString()}
@@ -265,7 +262,7 @@ export function Pricing() {
 									<Link href="/signup" className="block">
 										<Button.Root
 											mode="filled"
-											variant="primary"
+											variant="neutral"
 											size="small"
 											className="w-full justify-center rounded-lg"
 										>
@@ -430,12 +427,12 @@ export function Pricing() {
 								</p>
 								<div className="flex flex-col gap-2">
 									<div className="inline-flex items-center gap-2">
-										<Icon name="shield" className="h-4 w-4 text-primary-base" />
+										<Icon name="shield" className="h-4 w-4" />
 										<span className="text-text-sub-600 text-xs">
 											Full data ownership
 										</span>
 									</div>
-									<div className="inline-flex items-center gap-2 text-primary-base">
+									<div className="inline-flex items-center gap-2">
 										<Icon name="infinity" className="h-4 w-4" />
 										<span className="text-text-sub-600 text-xs">
 											Unlimited Credits

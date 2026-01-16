@@ -168,9 +168,9 @@ export const Sdk = () => {
 				<div className="flex flex-col border-stroke-soft-100">
 					{/* Header Section */}
 					<div className="flex flex-col items-center justify-center border-stroke-soft-100 border-b px-4 py-8 text-center md:p-10">
-						<h2 className="max-w-3xl font-semibold text-2xl text-text-strong-950 md:text-3xl">
-							Email Verification{" "}
-							<span className="text-primary-base">for Developers</span>
+						<h2 className="max-w-3xl font-semibold text-2xl text-text-sub-600 md:text-3xl">
+							<span>Email Verification</span>{" "}
+							<span className="text-text-strong-950">for Developers</span>
 						</h2>
 						<p className="mt-2 max-w-lg px-2 text-sm text-text-sub-600 leading-7 md:max-w-xl md:px-0 md:text-base md:leading-8">
 							Integrate email verification into your apps with our simple API

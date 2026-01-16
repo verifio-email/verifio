@@ -59,7 +59,10 @@ export const HeaderAction = () => {
 					href="/dashboard/signup"
 					aria-label="Create a free Verifio account"
 					title="Sign up for Verifio"
-					className={Button.buttonVariants({ size: "xsmall" }).root()}
+					className={Button.buttonVariants({
+						size: "xsmall",
+						variant: "neutral",
+					}).root()}
 				>
 					Sign Up
 				</a>
