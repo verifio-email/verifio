@@ -58,7 +58,7 @@ export function EmailVerificationDemo() {
 												className="h-4 w-4"
 											/>
 											<Input.Input
-												placeholder="Enter email to verify..."
+												placeholder="tim@apple.com"
 												className="h-12!"
 												type="email"
 												value={email}
