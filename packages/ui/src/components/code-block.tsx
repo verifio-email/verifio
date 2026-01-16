@@ -5,7 +5,7 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { codeToHtml, type ThemeRegistration } from "shiki";
 
-// Dark theme with one accent color and light gray tones
+// Dark theme with neutral gray tones (monochromatic)
 const darkTheme: ThemeRegistration = {
 	name: "minimal-dark",
 	type: "dark",
@@ -24,15 +24,15 @@ const darkTheme: ThemeRegistration = {
 		},
 		{
 			scope: ["constant.numeric", "constant.language"],
-			settings: { foreground: "#0ea5e9" }, // sky-500 - accent
+			settings: { foreground: "#f3f4f6" }, // gray-100
 		},
 		{
 			scope: ["keyword", "storage.type", "storage.modifier", "keyword.control"],
-			settings: { foreground: "#0ea5e9" }, // sky-500 - accent
+			settings: { foreground: "#f3f4f6" }, // gray-100
 		},
 		{
 			scope: ["entity.name.function", "support.function"],
-			settings: { foreground: "#f3f4f6" }, // gray-100
+			settings: { foreground: "#ffffff" }, // white
 		},
 		{
 			scope: ["variable", "variable.parameter"],
@@ -48,7 +48,7 @@ const darkTheme: ThemeRegistration = {
 		},
 		{
 			scope: ["entity.name.tag"],
-			settings: { foreground: "#0ea5e9" }, // sky-500 - accent
+			settings: { foreground: "#f3f4f6" }, // gray-100
 		},
 		{
 			scope: ["entity.other.attribute-name"],
@@ -56,12 +56,12 @@ const darkTheme: ThemeRegistration = {
 		},
 		{
 			scope: ["constant.other", "variable.other.constant"],
-			settings: { foreground: "#f3f4f6" }, // gray-100
+			settings: { foreground: "#ffffff" }, // white
 		},
 	],
 };
 
-// Light theme with one accent color and dark gray tones
+// Light theme with neutral dark gray tones (monochromatic)
 const lightTheme: ThemeRegistration = {
 	name: "minimal-light",
 	type: "light",
@@ -80,15 +80,15 @@ const lightTheme: ThemeRegistration = {
 		},
 		{
 			scope: ["constant.numeric", "constant.language"],
-			settings: { foreground: "#0284c7" }, // sky-600 - accent
+			settings: { foreground: "#111827" }, // gray-900
 		},
 		{
 			scope: ["keyword", "storage.type", "storage.modifier", "keyword.control"],
-			settings: { foreground: "#0284c7" }, // sky-600 - accent
+			settings: { foreground: "#111827" }, // gray-900
 		},
 		{
 			scope: ["entity.name.function", "support.function"],
-			settings: { foreground: "#111827" }, // gray-900
+			settings: { foreground: "#030712" }, // gray-950
 		},
 		{
 			scope: ["variable", "variable.parameter"],
@@ -104,7 +104,7 @@ const lightTheme: ThemeRegistration = {
 		},
 		{
 			scope: ["entity.name.tag"],
-			settings: { foreground: "#0284c7" }, // sky-600 - accent
+			settings: { foreground: "#111827" }, // gray-900
 		},
 		{
 			scope: ["entity.other.attribute-name"],
@@ -112,7 +112,7 @@ const lightTheme: ThemeRegistration = {
 		},
 		{
 			scope: ["constant.other", "variable.other.constant"],
-			settings: { foreground: "#111827" }, // gray-900
+			settings: { foreground: "#030712" }, // gray-950
 		},
 	],
 };

@@ -159,15 +159,15 @@ export const Sdk = () => {
 	};
 
 	return (
-		<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t border-b">
-			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-l">
-				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b bg-bg-white-0 px-4 py-4 md:px-10">
+		<div className="border-stroke-soft-100/60 border-t border-b dark:border-stroke-soft-100/40">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l dark:border-stroke-soft-100/40">
+				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-4 md:px-10 dark:border-stroke-soft-100/40">
 					<span className="text-text-sub-600 text-xs">[02] SDK</span>
 					<span className="text-text-sub-600 text-xs">/ DEVELOPER TOOLS</span>
 				</div>
 				<div className="flex flex-col border-stroke-soft-100/60 dark:border-stroke-soft-100/40">
 					{/* Header Section */}
-					<div className="flex flex-col items-center justify-center border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b px-4 py-8 text-center md:p-10">
+					<div className="flex flex-col items-center justify-center border-stroke-soft-100/60 border-b px-4 py-8 text-center md:p-10 dark:border-stroke-soft-100/40">
 						<h2 className="max-w-3xl font-semibold text-2xl text-text-sub-600 md:text-3xl">
 							<span>Email Verification</span>{" "}
 							<span className="text-text-strong-950">for Developers</span>
@@ -182,7 +182,7 @@ export const Sdk = () => {
 					{/* SDK Selection and Code Display */}
 					<div className="flex flex-col border-stroke-soft-100/60 dark:border-stroke-soft-100/40">
 						{/* SDK Section Header */}
-						<div className="flex items-center justify-center border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b bg-bg-soft-200/30 px-4 py-4">
+						<div className="flex items-center justify-center border-stroke-soft-100/60 border-b bg-bg-soft-200/30 px-4 py-4 dark:border-stroke-soft-100/40">
 							<span className="font-medium text-sm text-text-sub-600">
 								Official SDKs — integrate in minutes with just a few lines of
 								code
@@ -190,11 +190,10 @@ export const Sdk = () => {
 						</div>
 
 						{/* Tabs */}
-						<div className="overflow-x-auto border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b">
-							<div className="relative flex w-fit min-w-full items-stretch border-stroke-soft-100/60 dark:border-stroke-soft-100/40 bg-bg-white-0 md:border-r">
-								{/* Animated floating background */}
+						<div className="overflow-x-auto border-stroke-soft-100/60 border-b dark:border-stroke-soft-100/40">
+							<div className="relative flex w-fit min-w-full items-stretch bg-bg-white-0">
 								<div
-									className={`absolute inset-y-3 rounded-full border border-stroke-soft-100/60 dark:border-stroke-soft-100/40 bg-bg-white-100 transition-all duration-300 ${
+									className={`absolute inset-y-3 rounded-full border border-stroke-soft-200/60 bg-bg-white-100 transition-all duration-300 ${
 										mounted ? "opacity-100" : "opacity-0"
 									}`}
 									style={{
@@ -229,8 +228,8 @@ export const Sdk = () => {
 												</span>
 											</button>
 										</div>
-										{index < sdks.length - 1 && (
-											<div className="w-px bg-stroke-soft-100" />
+										{index < sdks.length && (
+											<div className="w-px bg-stroke-soft-100/60 dark:bg-stroke-soft-100/40" />
 										)}
 									</Fragment>
 								))}
@@ -246,8 +245,8 @@ export const Sdk = () => {
 						</div>
 
 						{/* Actions Footer */}
-						<div className="flex items-center justify-end border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t">
-							<div className="flex items-center gap-2 border-stroke-soft-100/60 dark:border-stroke-soft-100/40 px-4 py-3 md:border-l">
+						<div className="flex items-center justify-end border-stroke-soft-100/60 border-t dark:border-stroke-soft-100/40">
+							<div className="flex items-center gap-2 border-stroke-soft-100/60 px-4 py-3 md:border-l dark:border-stroke-soft-100/40">
 								<Button.Root
 									mode="stroke"
 									size="small"
