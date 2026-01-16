@@ -1,5 +1,6 @@
 import "@fe/docs/app/global.css";
 import { baseOptions } from "@fe/docs/app/layout.config";
+import { SidebarTabs } from "@fe/docs/components/sidebar-tabs";
 import { cn } from "@fe/docs/lib/cn";
 import { source } from "@fe/docs/lib/source";
 import { IconsSprite } from "@verifio/ui/icon";
@@ -16,7 +17,14 @@ export default function Layout({ children }: { children: ReactNode }) {
 		>
 			<body className="flex min-h-screen flex-col">
 				<RootProvider>
-					<DocsLayout tree={source.pageTree} {...baseOptions}>
+					<DocsLayout
+						tree={source.pageTree}
+						{...baseOptions}
+						sidebar={{
+							tabs: false,
+							banner: <SidebarTabs />,
+						}}
+					>
 						{children}
 					</DocsLayout>
 				</RootProvider>

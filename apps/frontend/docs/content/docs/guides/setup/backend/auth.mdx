@@ -1,0 +1,243 @@
+---
+title: Auth Service
+description: Central authentication and user management service for Verifio.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+
+# Auth Service Setup
+
+Step-by-step guide to run the Auth Service locally.
+
+| Property | Value |
+|----------|-------|
+| **Path** | `apps/backend/auth` |
+| **Framework** | ElysiaJS |
+| **Port** | `8000` |
+| **Route** | `/api/auth/*` |
+
+---
+
+## Prerequisites
+
+Before starting, make sure you have:
+
+- [x] **Bun** installed ([installation guide](https://bun.sh/docs/installation))
+- [x] **Docker** installed and running
+- [x] Repository cloned and dependencies installed (`bun install`)
+- [x] Hosts file configured with `local.verifio.email`
+
+<Callout>
+  If you haven't done these steps, follow the [Development Setup](/docs/setup) guide first.
+</Callout>
+
+---
+
+## Step 1: Start Docker Services
+
+The Auth Service requires **PostgreSQL** and **Redis** to be running.
+
+```bash
+bun run docker:up
+```
+
+Verify the containers are running:
+
+```bash
+docker ps
+```
+
+You should see containers for `postgres`, `redis`, and `caddy`.
+
+---
+
+## Step 2: Configure Environment Variables
+
+Navigate to the auth service directory:
+
+```bash
+cd apps/backend/auth
+```
+
+Copy the example environment file:
+
+```bash
+cp .env.example .env
+```
+
+Open `.env` and configure the following:
+
+```bash
+# Database (should match your Docker PostgreSQL)
+PG_URL=postgresql://verifio:verifio123@localhost:5432/verifio
+
+# Redis (should match your Docker Redis)
+REDIS_URL=redis://:verifio123@localhost:6379
+
+# Auth Secret - REQUIRED (generate a random 32+ character string)
+BETTER_AUTH_SECRET=your-super-secret-key-make-it-long-and-random
+
+# OAuth Providers - Optional (leave empty if not using)
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+
+# Server Port
+PORT=8000
+```
+
+<Callout type="warn">
+  **Important:** `BETTER_AUTH_SECRET` must be set. Generate a secure random string using:
+  ```bash
+  openssl rand -hex 32
+  ```
+</Callout>
+
+---
+
+## Step 3: Run Database Migrations
+
+Push the database schema:
+
+```bash
+bun run db:push
+```
+
+Seed initial data (optional but recommended):
+
+```bash
+bun run db:seed
+```
+
+<Callout type="info">
+  To view your database visually, run `bun run db:studio` to open Drizzle Studio.
+</Callout>
+
+---
+
+## Step 4: Start the Auth Service
+
+From the project root, run:
+
+```bash
+bun run be:auth:dev
+```
+
+You should see output like:
+
+```
+🦊 Auth service running at http://localhost:8000
+```
+
+---
+
+## Step 5: Verify the Setup
+
+### Check the service is running:
+
+```bash
+curl http://localhost:8000
+```
+
+You should see a welcome response.
+
+### Check database connection:
+
+```bash
+curl http://localhost:8000/health/postgres
+```
+
+Should return: `{"status":"ok"}`
+
+### Check Redis connection:
+
+```bash
+curl http://localhost:8000/health/redis
+```
+
+Should return: `{"status":"ok"}`
+
+---
+
+## Troubleshooting
+
+### "Connection refused" on port 8000
+
+- Make sure the service is running (`bun run be:auth:dev`)
+- Check if another process is using port 8000: `lsof -i :8000`
+
+### Database connection failed
+
+- Verify Docker is running: `docker ps`
+- Check `PG_URL` in `.env` matches your PostgreSQL config
+- Try restarting Docker: `bun run docker:down && bun run docker:up`
+
+### Redis connection failed
+
+- Verify Redis container is running: `docker ps | grep redis`
+- Check `REDIS_URL` in `.env` matches your Redis config
+
+### OAuth not working
+
+- Ensure `GOOGLE_CLIENT_ID` / `GITHUB_CLIENT_ID` are set correctly
+- OAuth callback URLs must point to `https://local.verifio.email`
+
+---
+
+## Database Schema
+
+| Table | Purpose |
+|-------|---------|
+| `user` | User accounts and profiles |
+| `session` | Active user sessions |
+| `account` | OAuth provider connections |
+| `organization` | Organizations and workspaces |
+| `member` | Organization membership and roles |
+
+---
+
+## API Reference
+
+| Route | Method | Description |
+|-------|--------|-------------|
+| `/api/auth/sign-up` | POST | Create new account |
+| `/api/auth/sign-in/email` | POST | Login with email/password |
+| `/api/auth/sign-out` | POST | Logout and destroy session |
+| `/api/auth/session` | GET | Get current user session |
+| `/api/auth/oauth/google` | GET | Initiate Google OAuth |
+| `/api/auth/oauth/github` | GET | Initiate GitHub OAuth |
+
+---
+
+## Running with Docker (Production)
+
+To run the auth service in a Docker container:
+
+### Build the image:
+
+```bash
+docker build -t verifio-auth -f apps/backend/auth/Dockerfile .
+```
+
+### Run the container:
+
+```bash
+docker run -d \
+  --name verifio-auth \
+  -p 8000:8000 \
+  -e PG_URL="postgresql://user:pass@host:5432/db" \
+  -e REDIS_HOST="redis-host" \
+  -e REDIS_PORT="6379" \
+  -e BETTER_AUTH_SECRET="your-secret" \
+  verifio-auth
+```
+
+### Or use docker-compose:
+
+```bash
+cd apps/backend/auth
+docker-compose up -d
+```
+
+This starts auth service with its own PostgreSQL and Redis instances.

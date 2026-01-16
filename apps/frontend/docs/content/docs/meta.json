@@ -2,15 +2,7 @@
 	"title": "Documentation",
 	"pages": [
 		"index",
-		"---Getting Started---",
-		"getting-started",
-		"---SDKs---",
-		"sdks",
-		"---API Reference---",
-		"api-reference",
-		"---Self Hosting---",
-		"self-hosting",
-		"---Development---",
-		"setup"
+		"guides",
+		"api-reference"
 	]
 }

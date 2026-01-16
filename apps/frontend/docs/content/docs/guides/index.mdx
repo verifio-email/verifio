@@ -13,22 +13,22 @@ Verifio is a powerful email verification service that validates email addresses 
   <Card 
     title="Quick Start" 
     description="Verify your first email in under 5 minutes"
-    href="/docs/guides/getting-started/quick-start" 
+    href="/getting-started/quick-start" 
   />
   <Card 
     title="API Reference" 
     description="Complete API documentation with examples"
-    href="/docs/api-reference" 
+    href="/api-reference/overview" 
   />
   <Card 
     title="Node.js SDK" 
     description="Install and use the official Node.js SDK"
-    href="/docs/guides/sdks/nodejs" 
+    href="/sdks/nodejs" 
   />
   <Card 
     title="Self Hosting" 
     description="Deploy Verifio on your own infrastructure"
-    href="/docs/guides/self-hosting/docker" 
+    href="/self-hosting/docker" 
   />
 </Cards>
 
@@ -38,6 +38,29 @@ Verifio is a powerful email verification service that validates email addresses 
 - **Bulk Verification** - Process thousands of emails in background jobs
 - **Multiple SDKs** - Official support for Node.js, Python, Go, and more
 - **Self-hostable** - Run on your own infrastructure with Docker or Kubernetes
+- **Credit System** - Pay-as-you-go pricing with transparent credit usage
+
+## Verification Checks
+
+| Check | Description |
+|-------|-------------|
+| **Syntax** | Validates email format and structure |
+| **DNS** | Checks if domain has valid MX records |
+| **Disposable** | Detects temporary/throwaway email providers |
+| **Role-based** | Identifies role addresses like info@, support@ |
+| **Free Provider** | Detects free email providers like Gmail, Yahoo |
+| **Typo Detection** | Suggests corrections for common typos |
+| **SMTP** | Verifies mailbox exists without sending email |
+
+## Verification States
+
+```typescript
+type VerificationState = 
+  | 'deliverable'    // Safe to send
+  | 'undeliverable'  // Will bounce
+  | 'risky'          // Might bounce
+  | 'unknown'        // Could not verify
+```
 
 ## Next Steps
 
