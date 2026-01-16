@@ -11,8 +11,6 @@
 	"dependencies": {
 		"@hookform/resolvers": "catalog:ui",
 		"@number-flow/react": "catalog:ui",
-		"@react-three/drei": "^10.7.6",
-		"@react-three/fiber": "^9.4.0",
 		"@tailwindcss/postcss": "catalog:ui",
 		"@verifio/auth": "workspace:*",
 		"@verifio/tailwind": "workspace:*",
