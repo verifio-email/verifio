@@ -109,7 +109,7 @@ export default function ContactPage() {
 					className="border-stroke-soft-100/60 border-b"
 					aria-labelledby="contact-heading"
 				>
-					<div className="mx-4 max-w-7xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
+					<div className="mx-4 max-w-5xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
 						<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 							<span className="text-text-sub-600 text-xs" aria-hidden="true">
 								[01] CONTACT
@@ -137,7 +137,7 @@ export default function ContactPage() {
 					className="border-stroke-soft-100/60 border-b"
 					aria-label="Contact form and information"
 				>
-					<div className="mx-4 max-w-7xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
+					<div className="mx-4 max-w-5xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
 						<div className="grid gap-0 md:grid-cols-2">
 							{/* Contact Info - Box Style (shown first on mobile) */}
 							<address
@@ -160,10 +160,7 @@ export default function ContactPage() {
 										className="flex size-10 items-center justify-center rounded-full bg-primary-100"
 										aria-hidden="true"
 									>
-										<Icon
-											name="mail-single"
-											className="size-5 text-primary-base"
-										/>
+										<Icon name="mail-single" className="size-5" />
 									</div>
 									<div>
 										<h3 className="font-medium text-text-sub-600">
@@ -186,10 +183,7 @@ export default function ContactPage() {
 										className="flex size-10 items-center justify-center rounded-full bg-primary-100"
 										aria-hidden="true"
 									>
-										<Icon
-											name="smartphone"
-											className="size-5 text-primary-base"
-										/>
+										<Icon name="smartphone" className="size-5" />
 									</div>
 									<div>
 										<h3 className="font-medium text-text-sub-600">Call us</h3>

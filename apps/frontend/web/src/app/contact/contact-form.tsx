@@ -87,7 +87,7 @@ export function ContactForm() {
 						transition={{ duration: 0.4, ease: "backOut" }}
 					>
 						<motion.svg
-							className="size-8 text-primary-base"
+							className="size-8"
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 24 24"
 							fill="none"
@@ -132,7 +132,11 @@ export function ContactForm() {
 							Email Address
 						</label>
 						<div className="mt-2">
-							<Input.Root size="medium" hasError={!!errors.email}>
+							<Input.Root
+								size="medium"
+								hasError={!!errors.email}
+								variant="neutral"
+							>
 								<Input.Wrapper>
 									<Input.Input
 										id="email"
@@ -180,7 +184,7 @@ export function ContactForm() {
 					<div>
 						<Button.Root
 							type="submit"
-							variant="primary"
+							variant="neutral"
 							size="medium"
 							className="w-full"
 							disabled={isSubmitting}

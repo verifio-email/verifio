@@ -3,6 +3,7 @@
 import * as Button from "@verifio/ui/button";
 import { Icon } from "@verifio/ui/icon";
 import Link from "next/link";
+import { useTheme } from "next-themes";
 import { Line } from "rc-progress";
 import { useMemo, useState } from "react";
 
@@ -34,6 +35,7 @@ function getPricePerCredit(credits: number): number {
 }
 
 export function Pricing() {
+	const { resolvedTheme } = useTheme();
 	const [selectedCredits, setSelectedCredits] = useState(5000);
 	const calculatedPrice = useMemo(
 		() => calculatePrice(selectedCredits),
@@ -49,10 +51,10 @@ export function Pricing() {
 		sliderIndex === -1 ? SLIDER_STEPS.length - 1 : sliderIndex;
 
 	return (
-		<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t border-b">
-			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-l">
+		<div className="border-stroke-soft-100/60 border-t border-b dark:border-stroke-soft-100/40">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l dark:border-stroke-soft-100/40">
 				{/* Sticky Header */}
-				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b bg-bg-white-0 px-4 py-4 md:px-10">
+				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-4 md:px-10 dark:border-stroke-soft-100/40">
 					<span className="text-text-sub-600 text-xs">[07] PRICING</span>
 					<span className="text-text-sub-600 text-xs">/ VALUE PROPOSITION</span>
 				</div>
@@ -79,9 +81,15 @@ export function Pricing() {
 									<Line
 										percent={(currentIndex / (SLIDER_STEPS.length - 1)) * 100}
 										strokeWidth={0.5}
-										strokeColor="#525252"
+										strokeColor={
+											resolvedTheme === "dark" ? "#ffffff" : "#000000"
+										}
 										trailWidth={0.5}
-										trailColor="rgba(229, 231, 235, 0.5)"
+										trailColor={
+											resolvedTheme === "dark"
+												? "rgba(82, 82, 82, 0.5)"
+												: "rgba(229, 231, 235, 0.5)"
+										}
 										strokeLinecap="round"
 									/>
 								</div>
