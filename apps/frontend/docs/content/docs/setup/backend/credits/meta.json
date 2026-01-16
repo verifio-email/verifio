@@ -1,4 +1,12 @@
 {
 	"title": "Credits",
-	"pages": ["index", "api-reference"]
+	"pages": [
+		"index",
+		"getApiCreditsV1Credits",
+		"getApiCreditsV1CreditsHistory",
+		"postApiCreditsV1InternalCheck",
+		"postApiCreditsV1InternalDeduct",
+		"getApiCredits",
+		"getApiCreditsHealthPostgres"
+	]
 }

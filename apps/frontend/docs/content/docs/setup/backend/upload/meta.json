@@ -1,4 +1,12 @@
 {
 	"title": "Upload",
-	"pages": ["index", "api-reference"]
+	"pages": [
+		"index",
+		"postApiUploadV1Upload",
+		"getApiUploadV1FilesByFileId",
+		"deleteApiUploadV1FilesByFileId",
+		"getApiUpload",
+		"getApiUploadHealthPostgres",
+		"getApiUploadHealthRedis"
+	]
 }

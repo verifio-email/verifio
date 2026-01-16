@@ -1,4 +1,10 @@
 {
 	"title": "Logs",
-	"pages": ["index", "api-reference"]
+	"pages": [
+		"index",
+		"postApiLogsV1Log",
+		"getApiLogsV1Logs",
+		"getApiLogs",
+		"getApiLogsHealthPostgres"
+	]
 }

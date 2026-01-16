@@ -1,4 +1,18 @@
 {
 	"title": "API Key",
-	"pages": ["index", "api-reference"]
+	"pages": [
+		"index",
+		"postApiApi-keyV1",
+		"getApiApi-keyV1",
+		"getApiApi-keyV1ById",
+		"patchApiApi-keyV1ById",
+		"deleteApiApi-keyV1ById",
+		"postApiApi-keyV1ByIdRotate",
+		"postApiApi-keyV1ByIdEnable",
+		"postApiApi-keyV1ByIdDisable",
+		"getApiApi-keyV1ByIdUsage",
+		"getApiApi-key",
+		"getApiApi-keyHealthPostgres",
+		"getApiApi-keyHealthRedis"
+	]
 }
