@@ -79,7 +79,7 @@ export function ScoreVisualization({ score }: ScoreVisualizationProps) {
 					{/* Background segments with colors */}
 					<div className="absolute inset-0 flex gap-0.5">
 						{/* Red/Blue zone: 0-10% (ends near "0" label) */}
-						<div className="h-full w-[4%] bg-primary-base" />
+						<div className="h-full w-[4%] bg-neutral-200" />
 						<div className="h-full w-[6%] bg-error-base" />
 						{/* Orange/Yellow zone: 10-80% (from "0" to "80" labels) */}
 						<div className="h-full w-[70%] bg-warning-base" />

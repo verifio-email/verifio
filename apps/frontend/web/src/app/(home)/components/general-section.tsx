@@ -51,7 +51,7 @@ export function GeneralSection({
 	return (
 		<div>
 			<h4 className="flex items-center gap-2 border-stroke-soft-100 border-b px-6 py-4 font-semibold text-sm text-text-strong-950">
-				<Icon name="info" className="h-4 w-4 text-primary-base" />
+				<Icon name="info" className="h-4 w-4 text-text-strong-950" />
 				General
 			</h4>
 			<div
@@ -150,7 +150,7 @@ export function GeneralSection({
 						href={`https://${domain}`}
 						target="_blank"
 						rel="noopener noreferrer"
-						className="text-sm underline transition-colors hover:text-primary-base hover:decoration-primary-base"
+						className="text-sm underline transition-colors hover:text-text-strong-950 hover:decoration-text-strong-950"
 					>
 						{domain}
 					</a>

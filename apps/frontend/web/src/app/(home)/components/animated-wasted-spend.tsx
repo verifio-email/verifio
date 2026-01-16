@@ -32,7 +32,7 @@ export function AnimatedWastedSpend() {
 					>
 						{/* Total budget indicator */}
 						<motion.div
-							className="relative flex h-16 w-16 items-center justify-center rounded-xl border border-primary-base/40 bg-gradient-to-br from-bg-white-0 to-bg-weak-50/50 dark:from-gray-900/50 dark:to-gray-800/50"
+							className="relative flex h-16 w-16 items-center justify-center rounded-xl border border-stroke-soft-200/40 bg-gradient-to-br from-bg-white-0 to-bg-weak-50/50 dark:from-gray-900/50 dark:to-gray-800/50"
 							initial={{ scale: 0.8, opacity: 0 }}
 							animate={{ scale: 1, opacity: 1 }}
 							transition={{ delay: 0.1, duration: 0.4, ease: smoothEase }}
@@ -42,12 +42,12 @@ export function AnimatedWastedSpend() {
 								animate={{ opacity: 1, scale: 1 }}
 								transition={{ delay: 0.3, duration: 0.4, ease: smoothEase }}
 							>
-								<Icon name="wallet" className="h-6 w-6 text-primary-base" />
+								<Icon name="wallet" className="h-6 w-6 text-text-strong-950" />
 							</motion.div>
 
 							{/* Animated money amount */}
 							<motion.div
-								className="-bottom-2 absolute rounded-md border border-primary-base/30 bg-bg-white-0 px-1.5 py-0.5 font-mono font-semibold text-[9px] text-primary-base"
+								className="-bottom-2 absolute rounded-md border border-stroke-soft-200/30 bg-bg-white-0 px-1.5 py-0.5 font-mono font-semibold text-[9px] text-text-strong-950"
 								initial={{ opacity: 0, y: 8 }}
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ delay: 0.5, duration: 0.4, ease: smoothEase }}

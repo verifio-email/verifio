@@ -60,7 +60,7 @@ export function ResponseDisplay() {
 						<div className="flex flex-col items-center justify-center gap-4 border-stroke-soft-100 border-t px-6 py-16 text-center">
 							<Icon
 								name="loading"
-								className="h-12 w-12 animate-spin text-primary-base"
+								className="h-12 w-12 animate-spin text-text-strong-950"
 							/>
 							<div>
 								<h3 className="font-semibold text-lg text-text-strong-950">
@@ -86,7 +86,7 @@ export function ResponseDisplay() {
 				<div className="mx-auto max-w-4xl border-stroke-soft-100 border-r border-l pt-24">
 					<div className="border-stroke-soft-100 border-t">
 						{/* Show indicator that this is a live result */}
-						<div className="flex items-center gap-2 bg-primary-base/5 px-4 py-2 text-primary-base text-sm">
+						<div className="flex items-center gap-2 bg-neutral-200/5 px-4 py-2 text-text-strong-950 text-sm">
 							<Icon name="check-circle-filled" className="h-4 w-4" />
 							<span>Live verification result</span>
 						</div>

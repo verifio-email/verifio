@@ -71,15 +71,15 @@ function AccuracyVisual() {
 		<div className="relative flex h-44 items-center justify-start">
 			{/* Code snippet visual */}
 			<div className="rounded-lg border border-stroke-soft-200/30 bg-bg-white-0 p-3 font-mono text-[10px] shadow-sm dark:border-stroke-soft-200/20 dark:bg-gray-900/50">
-				<div className="text-primary-base">POST</div>
+				<div className="text-text-strong-950">POST</div>
 				<div className="mt-1 text-text-sub-600">
-					/verify/<span className="text-primary-base">{"email"}</span>
+					/verify/<span className="text-text-strong-950">{"email"}</span>
 				</div>
 				<div className="mt-2 space-y-0.5 text-text-sub-600/70">
 					<div>curl --request POST \</div>
 					<div className="pl-2">
 						--url https://api.verifio.email/
-						<span className="text-primary-base">v1</span>
+						<span className="text-text-strong-950">v1</span>
 					</div>
 					<div className="pl-2">--header 'Authorization: ***'</div>
 					<div className="pl-2">
@@ -100,13 +100,13 @@ function SpeedVisual() {
 			{/* Concentric circles with icon */}
 			<div className="relative">
 				{/* Outer rings */}
-				<div className="-inset-10 absolute rounded-full border border-primary-base/20 border-dashed" />
-				<div className="-inset-6 absolute rounded-full border border-primary-base/30" />
-				<div className="-inset-3 absolute rounded-full border border-primary-base/50" />
+				<div className="-inset-10 absolute rounded-full border border-stroke-soft-200/20 border-dashed" />
+				<div className="-inset-6 absolute rounded-full border border-stroke-soft-200/30" />
+				<div className="-inset-3 absolute rounded-full border border-stroke-soft-200/50" />
 
 				{/* Center icon */}
-				<div className="relative flex h-12 w-12 items-center justify-center rounded-full border border-primary-base/60 bg-primary-base/10">
-					<Icon name="rocket" className="h-5 w-5 text-primary-base" />
+				<div className="relative flex h-12 w-12 items-center justify-center rounded-full border border-stroke-soft-200/60 bg-text-strong-950/10">
+					<Icon name="rocket" className="h-5 w-5 text-text-strong-950" />
 				</div>
 
 				{/* Floating label */}
@@ -192,14 +192,14 @@ function PricingVisual() {
 				{/* Price breakdown visual */}
 				<div className="rounded-lg border border-stroke-soft-200/30 bg-bg-white-0 p-3 font-mono text-[10px] dark:border-stroke-soft-200/20 dark:bg-gray-900/50">
 					<div className="flex items-center gap-2 text-text-sub-600">
-						<Icon name="dollar" className="h-3 w-3 text-primary-base" />
+						<Icon name="dollar" className="h-3 w-3 text-text-strong-950" />
 						<span>0.001</span>
 						<span className="text-text-sub-600/50">/email</span>
 					</div>
 					<div className="mt-2 space-y-1">
 						<div className="flex justify-between gap-4">
 							<span className="text-text-sub-600/60">1,000</span>
-							<span className="text-primary-base">$0</span>
+							<span className="text-text-strong-950">$0</span>
 						</div>
 						<div className="flex justify-between gap-4">
 							<span className="text-text-sub-600/60">10,000</span>
@@ -229,7 +229,7 @@ function UpdatesVisual() {
 
 				{/* Center icon with circle */}
 				<div className="flex h-12 w-12 items-center justify-center rounded-full border border-stroke-soft-200/40 bg-bg-white-0 dark:bg-gray-900/50">
-					<Icon name="refresh-cw" className="h-5 w-5 text-primary-base" />
+					<Icon name="refresh-cw" className="h-5 w-5 text-text-strong-950" />
 				</div>
 
 				{/* Update indicators */}
@@ -241,7 +241,7 @@ function UpdatesVisual() {
 				</div>
 
 				{/* Arrow indicators */}
-				<div className="-top-6 -translate-x-1/2 absolute left-1/2 text-primary-base">
+				<div className="-top-6 -translate-x-1/2 absolute left-1/2 text-text-strong-950">
 					<svg
 						width="12"
 						height="12"
@@ -282,8 +282,8 @@ function DeveloperVisual() {
 				</div>
 
 				{/* User icon */}
-				<div className="-right-4 -top-4 absolute flex h-8 w-8 items-center justify-center rounded-full border border-primary-base/40 bg-primary-base/10">
-					<Icon name="users" className="h-4 w-4 text-primary-base" />
+				<div className="-right-4 -top-4 absolute flex h-8 w-8 items-center justify-center rounded-full border border-stroke-soft-200/40 bg-text-strong-950/10">
+					<Icon name="users" className="h-4 w-4 text-text-strong-950" />
 				</div>
 			</div>
 		</div>
@@ -295,13 +295,13 @@ function FreeCreditsVisual() {
 		<div className="relative flex h-44 items-center justify-center">
 			<div className="relative">
 				{/* Gift box visual */}
-				<div className="flex h-16 w-16 items-center justify-center rounded-xl border-2 border-primary-base/40 border-dashed bg-primary-base/10">
-					<Icon name="gift" className="h-7 w-7 text-primary-base" />
+				<div className="flex h-16 w-16 items-center justify-center rounded-xl border-2 border-stroke-soft-200/40 border-dashed bg-text-strong-950/10">
+					<Icon name="gift" className="h-7 w-7 text-text-strong-950" />
 				</div>
 
 				{/* Credit counter */}
 				<div className="-right-6 -top-4 absolute rounded-md border border-stroke-soft-200/30 bg-bg-white-0 px-2 py-1 font-mono text-[10px] dark:bg-gray-900/50">
-					<span className="font-semibold text-primary-base">3,000</span>
+					<span className="font-semibold text-text-strong-950">3,000</span>
 					<span className="text-text-sub-600/60"> /mo</span>
 				</div>
 
@@ -353,7 +353,7 @@ function OpenSourceVisual() {
 					<div className="flex items-center gap-2">
 						<Icon name="open-source" className="h-4 w-4 text-text-sub-600" />
 						<span className="font-mono text-[10px] text-text-sub-600">
-							verifio/<span className="text-primary-base">core</span>
+							verifio/<span className="text-text-strong-950">core</span>
 						</span>
 					</div>
 					<div className="mt-2 flex items-center gap-3 font-mono text-[9px] text-text-sub-600/60">
@@ -369,7 +369,7 @@ function OpenSourceVisual() {
 						</div>
 					</div>
 					<div className="mt-2 flex gap-1">
-						<span className="rounded bg-primary-base/20 px-1.5 py-0.5 font-mono text-[8px] text-primary-base">
+						<span className="rounded bg-text-strong-950/20 px-1.5 py-0.5 font-mono text-[8px] text-text-strong-950">
 							MIT
 						</span>
 						<span className="rounded bg-green-500/20 px-1.5 py-0.5 font-mono text-[8px] text-green-600">
@@ -412,7 +412,7 @@ export function WhatWeStandFor() {
 						<h2 className="font-semibold text-3xl text-text-sub-600 md:text-4xl">
 							Why <span className="text-text-strong-950">teams</span> choose
 							<br />
-							<span className="text-primary-base">Verifio</span>
+							<span className="text-text-strong-950">Verifio</span>
 						</h2>
 						<p className="mx-auto max-w-md text-text-sub-600">
 							Everything you need to verify emails with confidence.

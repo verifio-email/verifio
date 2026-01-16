@@ -79,7 +79,7 @@ export function Pricing() {
 									<Line
 										percent={(currentIndex / (SLIDER_STEPS.length - 1)) * 100}
 										strokeWidth={0.5}
-										strokeColor="var(--color-primary-base)"
+										strokeColor="#525252"
 										trailWidth={0.5}
 										trailColor="rgba(229, 231, 235, 0.5)"
 										strokeLinecap="round"
@@ -87,7 +87,7 @@ export function Pricing() {
 								</div>
 								{/* Visual thumb */}
 								<div
-									className="-translate-x-1/2 -translate-y-1/2 pointer-events-none absolute top-1/2 h-4 w-4 rounded-full border-2 border-bg-white-0 bg-primary-base shadow-lg"
+									className="-translate-x-1/2 -translate-y-1/2 pointer-events-none absolute top-1/2 h-4 w-4 rounded-full border-2 border-bg-white-0 bg-text-strong-950 shadow-lg"
 									style={{
 										left: `${(currentIndex / (SLIDER_STEPS.length - 1)) * 100}%`,
 									}}

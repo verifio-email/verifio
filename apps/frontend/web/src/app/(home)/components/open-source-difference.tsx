@@ -43,7 +43,7 @@ function TransparentVisual() {
 					className="-inset-8 absolute rounded-full"
 					style={{
 						background:
-							"radial-gradient(circle, rgba(var(--primary-base-rgb), 0.15) 0%, transparent 70%)",
+							"radial-gradient(circle, rgba(0, 0, 0, 0.05) 0%, transparent 70%)",
 					}}
 					animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.8, 0.5] }}
 					transition={{
@@ -63,7 +63,7 @@ function TransparentVisual() {
 						stroke="currentColor"
 						strokeWidth="1"
 						strokeDasharray="4 4"
-						className="text-primary-base/40"
+						className="text-text-strong-950/40"
 						animate={{ y1: [30, 50, 30], y2: [30, 50, 30] }}
 						transition={{
 							duration: 2,
@@ -75,25 +75,25 @@ function TransparentVisual() {
 
 				{/* Center eye icon */}
 				<motion.div
-					className="relative flex h-16 w-16 items-center justify-center rounded-2xl border border-primary-base/20 bg-gradient-to-br from-primary-base/10 to-primary-base/5"
+					className="relative flex h-16 w-16 items-center justify-center rounded-2xl border border-stroke-soft-200/20 bg-gradient-to-br from-neutral-100 to-neutral-50"
 					whileHover={{ scale: 1.05 }}
 					animate={{
 						boxShadow: [
-							"0 0 20px rgba(var(--primary-base-rgb), 0.2)",
-							"0 0 30px rgba(var(--primary-base-rgb), 0.3)",
-							"0 0 20px rgba(var(--primary-base-rgb), 0.2)",
+							"0 0 20px rgba(0, 0, 0, 0.08)",
+							"0 0 30px rgba(0, 0, 0, 0.12)",
+							"0 0 20px rgba(0, 0, 0, 0.08)",
 						],
 					}}
 					transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
 				>
-					<Icon name="eye" className="h-7 w-7 text-primary-base" />
+					<Icon name="eye" className="h-7 w-7 text-text-strong-950" />
 				</motion.div>
 
 				{/* Signal rays */}
 				{[0, 60, 120, 180, 240, 300].map((angle, i) => (
 					<motion.div
 						key={i}
-						className="absolute h-0.5 w-4 rounded-full bg-gradient-to-r from-primary-base/60 to-transparent"
+						className="absolute h-0.5 w-4 rounded-full bg-gradient-to-r from-neutral-400 to-transparent"
 						style={{
 							top: "50%",
 							left: "50%",
@@ -150,7 +150,7 @@ function OpenSourceVisual() {
 						<Icon name="open-source" className="h-5 w-5 text-text-sub-600" />
 						<span className="font-mono text-text-sub-600 text-xs">
 							reloop-labs/
-							<span className="font-semibold text-primary-base">verifio</span>
+							<span className="font-semibold text-text-strong-950">verifio</span>
 						</span>
 					</div>
 
@@ -190,7 +190,7 @@ function OpenSourceVisual() {
 
 					{/* License badge */}
 					<div className="mt-3 flex gap-2">
-						<span className="rounded-full bg-primary-base/20 px-2 py-0.5 font-mono font-semibold text-[8px] text-primary-base">
+						<span className="rounded-full bg-text-strong-950/20 px-2 py-0.5 font-mono font-semibold text-[8px] text-text-strong-950">
 							MIT License
 						</span>
 						<span className="rounded-full bg-green-500/20 px-2 py-0.5 font-mono text-[8px] text-green-600">
@@ -223,8 +223,8 @@ function NoLockInVisual() {
 					animate={{ y: [0, -3, 0] }}
 					transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
 				>
-					<div className="flex h-12 w-12 items-center justify-center rounded-xl border border-primary-base/30 bg-gradient-to-br from-primary-base/10 to-primary-base/5">
-						<Icon name="cloud" className="h-6 w-6 text-primary-base" />
+					<div className="flex h-12 w-12 items-center justify-center rounded-xl border border-stroke-soft-200/30 bg-gradient-to-br from-neutral-100 to-neutral-50">
+						<Icon name="cloud" className="h-6 w-6 text-text-strong-950" />
 					</div>
 					<span className="font-mono text-[9px] text-text-sub-600">Hosted</span>
 				</motion.div>
@@ -235,7 +235,7 @@ function NoLockInVisual() {
 						width="32"
 						height="24"
 						viewBox="0 0 32 24"
-						className="text-primary-base/60"
+						className="text-text-strong-950/60"
 						animate={{ x: [0, 2, 0] }}
 						transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
 					>
@@ -255,7 +255,7 @@ function NoLockInVisual() {
 						width="32"
 						height="24"
 						viewBox="0 0 32 24"
-						className="text-primary-base/60"
+						className="text-text-strong-950/60"
 						animate={{ x: [0, -2, 0] }}
 						transition={{
 							duration: 1.5,
@@ -329,7 +329,7 @@ function InfrastructureVisual() {
 						width="40"
 						height="80"
 						viewBox="0 0 40 80"
-						className="text-primary-base/40"
+						className="text-text-strong-950/40"
 					>
 						<motion.path
 							d="M0 12 Q20 12 40 40"
@@ -370,17 +370,17 @@ function InfrastructureVisual() {
 
 					{/* Center processing node */}
 					<motion.div
-						className="relative flex h-14 w-14 items-center justify-center rounded-2xl border-2 border-primary-base/40 bg-gradient-to-br from-primary-base/20 to-primary-base/5"
+						className="relative flex h-14 w-14 items-center justify-center rounded-2xl border-2 border-stroke-soft-200/40 bg-gradient-to-br from-neutral-200 to-neutral-50"
 						animate={{
 							boxShadow: [
-								"0 0 15px rgba(var(--primary-base-rgb), 0.2)",
-								"0 0 25px rgba(var(--primary-base-rgb), 0.4)",
-								"0 0 15px rgba(var(--primary-base-rgb), 0.2)",
+								"0 0 15px rgba(0, 0, 0, 0.08)",
+								"0 0 25px rgba(0, 0, 0, 0.15)",
+								"0 0 15px rgba(0, 0, 0, 0.08)",
 							],
 						}}
 						transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
 					>
-						<Icon name="layers" className="h-6 w-6 text-primary-base" />
+						<Icon name="layers" className="h-6 w-6 text-text-strong-950" />
 						<motion.div
 							className="-bottom-1 -right-1 absolute flex h-5 w-5 items-center justify-center rounded-full bg-green-500 text-white"
 							animate={{ scale: [1, 1.2, 1] }}
@@ -395,7 +395,7 @@ function InfrastructureVisual() {
 						width="40"
 						height="40"
 						viewBox="0 0 40 40"
-						className="text-primary-base"
+						className="text-text-strong-950"
 					>
 						<motion.path
 							d="M0 20 L30 20 L24 14 M30 20 L24 26"
@@ -481,12 +481,12 @@ export function OpenSourceDifference() {
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ duration: 0.5, delay: index * 0.1 }}
 								whileHover={{
-									backgroundColor: "rgba(var(--primary-base-rgb), 0.02)",
+									backgroundColor: "rgba(0, 0, 0, 0.02)",
 								}}
 							>
 								{/* Hover glow effect */}
 								<div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-									<div className="absolute inset-0 bg-gradient-to-br from-primary-base/5 via-transparent to-transparent" />
+									<div className="absolute inset-0 bg-gradient-to-br from-neutral-50 via-transparent to-transparent" />
 								</div>
 
 								{/* Visual element */}
@@ -496,7 +496,7 @@ export function OpenSourceDifference() {
 
 								{/* Content */}
 								<div className="relative mt-auto space-y-2">
-									<h3 className="font-semibold text-lg text-text-strong-950 transition-colors duration-300 group-hover:text-primary-base">
+									<h3 className="font-semibold text-lg text-text-strong-950 transition-colors duration-300 group-hover:text-text-strong-950">
 										{feature.title}
 									</h3>
 									<p className="text-sm text-text-sub-600 leading-relaxed">
@@ -506,7 +506,7 @@ export function OpenSourceDifference() {
 
 								{/* Corner accent on hover */}
 								<div className="absolute right-0 bottom-0 h-16 w-16 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-									<svg viewBox="0 0 64 64" className="text-primary-base/20">
+									<svg viewBox="0 0 64 64" className="text-text-strong-950/20">
 										<circle cx="64" cy="64" r="48" fill="currentColor" />
 									</svg>
 								</div>

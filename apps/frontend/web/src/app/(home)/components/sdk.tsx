@@ -180,7 +180,7 @@ export const Sdk = () => {
 					</div>
 
 					{/* SDK Selection and Code Display */}
-					<div className="flex flex-col border-stroke-soft-100 border-t">
+					<div className="flex flex-col border-stroke-soft-100">
 						{/* SDK Section Header */}
 						<div className="flex items-center justify-center border-stroke-soft-100 border-b bg-bg-soft-200/30 px-4 py-4">
 							<span className="font-medium text-sm text-text-sub-600">

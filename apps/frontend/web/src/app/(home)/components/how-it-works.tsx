@@ -56,14 +56,14 @@ const sidebarItems = [
 ];
 
 const badgeColors = {
-	primary: "bg-primary-base/10 text-primary-base border-primary-base/20",
+	primary: "bg-text-strong-950/10 text-text-strong-950 border-stroke-soft-200/20",
 	blue: "bg-blue-500/10 text-blue-500 border-blue-500/20",
 	emerald: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
 	violet: "bg-violet-500/10 text-violet-500 border-violet-500/20",
 };
 
 const iconBgColors = {
-	primary: "bg-primary-base/10 text-primary-base",
+	primary: "bg-text-strong-950/10 text-text-strong-950",
 	blue: "bg-blue-500/10 text-blue-500",
 	emerald: "bg-emerald-500/10 text-emerald-500",
 	violet: "bg-violet-500/10 text-violet-500",
@@ -92,7 +92,7 @@ function FlowNode({
 
 			{/* Main Card */}
 			<motion.div
-				className="relative w-72 rounded-xl border border-stroke-soft-200 bg-bg-white-0 p-4 shadow-sm transition-all hover:border-primary-base/30 hover:shadow-md dark:border-gray-700 dark:bg-gray-900"
+				className="relative w-72 rounded-xl border border-stroke-soft-200 bg-bg-white-0 p-4 shadow-sm transition-all hover:border-stroke-soft-200/30 hover:shadow-md dark:border-gray-700 dark:bg-gray-900"
 				initial={{ opacity: 0, y: 20 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ delay: index * 0.15 }}
@@ -131,7 +131,7 @@ function FlowNode({
 
 				{/* Connection dot at bottom */}
 				{!isLast && (
-					<div className="-bottom-2 -translate-x-1/2 absolute left-1/2 z-10 h-3 w-3 rounded-full border-2 border-bg-white-0 bg-primary-base dark:border-gray-900" />
+					<div className="-bottom-2 -translate-x-1/2 absolute left-1/2 z-10 h-3 w-3 rounded-full border-2 border-bg-white-0 bg-text-strong-950 dark:border-gray-900" />
 				)}
 			</motion.div>
 
@@ -139,7 +139,7 @@ function FlowNode({
 			{!isLast && (
 				<div className="relative h-12 w-px">
 					<motion.div
-						className="absolute inset-0 bg-gradient-to-b from-primary-base/60 to-primary-base/20"
+						className="absolute inset-0 bg-gradient-to-b from-neutral-400 to-neutral-200"
 						initial={{ scaleY: 0 }}
 						animate={{ scaleY: 1 }}
 						transition={{ delay: index * 0.15 + 0.2, duration: 0.3 }}
@@ -147,7 +147,7 @@ function FlowNode({
 					/>
 					{/* Animated dot */}
 					<motion.div
-						className="-translate-x-1/2 absolute left-1/2 h-2 w-2 rounded-full bg-primary-base"
+						className="-translate-x-1/2 absolute left-1/2 h-2 w-2 rounded-full bg-text-strong-950"
 						animate={{ y: [0, 40, 0] }}
 						transition={{
 							duration: 2,
@@ -180,7 +180,7 @@ function SidebarPanel() {
 						key={item.label}
 						className={`flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-xs transition-colors ${
 							item.active
-								? "border border-primary-base/20 bg-primary-base/5 font-medium text-primary-base"
+								? "border border-stroke-soft-200/20 bg-text-strong-950/5 font-medium text-text-strong-950"
 								: "text-text-sub-600 hover:bg-bg-soft-200/50"
 						}`}
 						initial={{ opacity: 0, x: 10 }}
@@ -198,7 +198,7 @@ function SidebarPanel() {
 
 			{/* 3D Illustration placeholder */}
 			<motion.div
-				className="mt-4 flex h-24 items-center justify-center rounded-lg bg-gradient-to-br from-primary-base/10 to-primary-base/5"
+				className="mt-4 flex h-24 items-center justify-center rounded-lg bg-gradient-to-br from-neutral-100 to-neutral-50"
 				animate={{
 					scale: [1, 1.02, 1],
 				}}
@@ -210,7 +210,7 @@ function SidebarPanel() {
 						width="48"
 						height="48"
 						viewBox="0 0 48 48"
-						className="text-primary-base"
+						className="text-text-strong-950"
 					>
 						<motion.path
 							d="M24 4L4 16v16l20 12 20-12V16L24 4z"
@@ -311,7 +311,7 @@ export function HowItWorks() {
 							</p>
 							<motion.a
 								href="/docs/api"
-								className="mt-4 inline-flex items-center gap-1 font-medium text-primary-base text-xs"
+								className="mt-4 inline-flex items-center gap-1 font-medium text-text-strong-950 text-xs"
 								whileHover={{ x: 4 }}
 							>
 								Explore API docs
@@ -330,7 +330,7 @@ export function HowItWorks() {
 						>
 							<Icon name="flash" className="h-3.5 w-3.5" />
 							<span>Verification Pipeline</span>
-							<div className="rounded-full bg-primary-base/10 px-2 py-0.5 font-medium text-[10px] text-primary-base">
+							<div className="rounded-full bg-text-strong-950/10 px-2 py-0.5 font-medium text-[10px] text-text-strong-950">
 								Automated
 							</div>
 						</motion.div>
@@ -350,7 +350,7 @@ export function HowItWorks() {
 
 						{/* Add more button */}
 						<motion.div
-							className="mt-6 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-stroke-soft-200 border-dashed transition-colors hover:border-primary-base/50 hover:bg-primary-base/5"
+							className="mt-6 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-stroke-soft-200 border-dashed transition-colors hover:border-stroke-soft-200/50 hover:bg-text-strong-950/5"
 							whileHover={{ scale: 1.1 }}
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
@@ -365,9 +365,9 @@ export function HowItWorks() {
 				</div>
 
 				{/* Footer */}
-				<div className="flex flex-col items-center gap-3 border-stroke-soft-100 border-t bg-gradient-to-b from-transparent to-primary-base/5 px-6 py-8 text-center md:px-10 md:py-10">
+				<div className="flex flex-col items-center gap-3 border-stroke-soft-100 border-t bg-gradient-to-b from-transparent to-bg-soft-200/50 px-6 py-8 text-center md:px-10 md:py-10">
 					<div className="flex items-center gap-2">
-						<Icon name="open-source" className="h-5 w-5 text-primary-base" />
+						<Icon name="open-source" className="h-5 w-5 text-text-strong-950" />
 						<span className="font-semibold text-text-strong-950">
 							All logic lives in the open-source core
 						</span>
@@ -376,7 +376,7 @@ export function HowItWorks() {
 						href="https://github.com/reloop-labs/verifio"
 						target="_blank"
 						rel="noopener noreferrer"
-						className="flex items-center gap-2 rounded-full border border-primary-base/30 bg-primary-base/10 px-5 py-2 font-medium text-primary-base text-sm transition-all hover:bg-primary-base/20"
+						className="flex items-center gap-2 rounded-full border border-stroke-soft-200 bg-bg-white-0 px-5 py-2 font-medium text-sm text-text-strong-950 transition-all hover:bg-bg-soft-200"
 						whileHover={{ scale: 1.02 }}
 						whileTap={{ scale: 0.98 }}
 					>

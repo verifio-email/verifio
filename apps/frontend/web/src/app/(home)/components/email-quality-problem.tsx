@@ -139,13 +139,13 @@ export function EmailQualityProblem() {
 
 								<p className="font-medium text-base text-text-strong-950 italic md:text-lg">
 									Most verification tools are black boxes —
-									<span className="text-primary-base"> you never know why</span>{" "}
+									<span className="text-text-strong-950"> you never know why</span>{" "}
 									an email passed or failed.
 								</p>
 							</div>
 
 							<div className="mt-6 flex items-center gap-2">
-								<Icon name="lightbulb" className="h-4 w-4 text-primary-base" />
+								<Icon name="lightbulb" className="h-4 w-4 text-text-strong-950" />
 								<span className="text-sm text-text-sub-600">
 									Verifio shows you every check, every signal, every reason.
 								</span>
