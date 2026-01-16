@@ -1,73 +1,48 @@
 ---
 title: Introduction
-description: Learn about Verifio's email verification capabilities and how it can help your business.
+description: Meet Verifio — your email verification co-pilot that ensures every email you send reaches a real inbox.
 ---
 
-## Why Email Verification Matters
+import { Cards, Card } from "fumadocs-ui/components/card"
 
-Invalid email addresses harm your business in multiple ways:
+## What is Verifio?
 
-- **Bounce rates** damage your sender reputation
-- **Spam traps** can get your domain blacklisted
-- **Fake signups** waste your marketing budget
-- **Poor deliverability** reduces campaign effectiveness
+Verifio is an email verification API that tells you whether an email address is **real** before you hit send. No more bounced emails, no more wasted credits, no more damaged sender reputation.
 
-## How Verifio Works
+## How It Works
 
-Verifio performs a comprehensive series of checks on each email address:
+Every email goes through our verification pipeline:
 
-**Email Input** → **Syntax Check** → **DNS Lookup** → **Disposable Check** → **Role Check** → **SMTP Verification** → **Result + Score**
+```
+📧 Email  →  ✓ Syntax  →  ✓ DNS  →  ✓ Checks  →  ✓ SMTP  →  📊 Result
+```
 
-### 1. Syntax Validation
+In seconds, we check the format, verify the domain, detect disposable addresses, and confirm the mailbox exists — all without sending a single email.
 
-Checks if the email follows RFC 5322 standards and has a valid format.
+## What You Get
 
-### 2. DNS Validation
+Every verification returns a clear verdict:
 
-Verifies the domain exists and has proper MX records configured.
+| State | Meaning |
+|-------|---------|
+| ✅ `deliverable` | Safe to send — this email is real |
+| ❌ `undeliverable` | Don't send — this will bounce |
+| ⚠️ `risky` | Proceed with caution |
+| ❓ `unknown` | Couldn't verify — try again later |
 
-### 3. Disposable Detection
+Plus a **quality score** from 0-100 so you know exactly how confident you can be.
 
-Identifies temporary email providers like Mailinator, 10MinuteMail, etc.
+## Ready to Start?
 
-### 4. Role-based Detection
-
-Detects generic role addresses that typically don't belong to individuals.
-
-### 5. SMTP Verification
-
-Connects to the mail server to verify the mailbox exists without sending an email.
-
-## Verification Result
-
-Each verification returns a comprehensive result:
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `email` | string | The email address that was verified |
-| `state` | string | Primary verdict: `deliverable`, `undeliverable`, `risky`, or `unknown` |
-| `score` | number | Quality score from 0-100 |
-| `reason` | string | Human-readable explanation of the result |
-| `checks` | object | Detailed results for each verification check |
-
-## Use Cases
-
-### Marketing Campaigns
-
-Clean your email lists before sending campaigns to improve deliverability and protect sender reputation.
-
-### User Registration
-
-Verify emails during signup to prevent fake accounts and ensure users can receive important communications.
-
-### CRM Data Quality
-
-Maintain high-quality customer data by validating emails before import.
-
-### Lead Generation
-
-Verify leads in real-time to ensure you're following up with valid contacts.
-
-## Getting Started
-
-Ready to verify your first email? Head to the [Quick Start](/getting-started/quick-start) guide.
+<Cards>
+  <Card 
+    title="Quick Start" 
+    description="Verify your first email in under 5 minutes"
+    href="/docs/getting-started/quick-start" 
+  />
+  <Card 
+    title="How Authentication Works" 
+    description="Set up your API key and start verifying"
+    href="/docs/getting-started/authentication" 
+  />
+</Cards>

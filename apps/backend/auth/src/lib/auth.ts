@@ -57,44 +57,44 @@ export const auth = betterAuth({
 				after: async (user) => {
 					logger.info("User registered:", user.email);
 
-					setTimeout(async () => {
-						try {
-							const username = user.email.split("@")[0] || "workspace";
-							const orgName =
-								username.charAt(0).toUpperCase() + username.slice(1);
-							const randomSuffix = Math.floor(10000 + Math.random() * 90000);
-							const orgSlug = `org-${randomSuffix}`;
+					try {
+						const username = user.email.split("@")[0] || "workspace";
 
-							console.log("=".repeat(50));
-							console.log("CREATING ORGANIZATION FOR NEW USER");
-							console.log("User:", user.email);
-							console.log("Org Name:", orgName, "Slug:", orgSlug);
-							console.log("=".repeat(50));
-							const org = await auth.api.createOrganization({
-								body: {
-									name: orgName,
-									slug: orgSlug,
-									userId: user.id,
-								},
-							});
 
-							console.log("Organization created:", org);
+						const sanitizedName = username
+							.replace(/[^a-zA-Z0-9\s-]/g, "")
+							.trim()
+							.slice(0, 50);
 
-							if (org) {
-								await db
-									.update(schema.user)
-									.set({ activeOrganizationId: org.id })
-									.where(eq(schema.user.id, user.id));
+						const orgName = sanitizedName.length > 0
+							? sanitizedName.charAt(0).toUpperCase() + sanitizedName.slice(1)
+							: "My Workspace";
 
-								logger.info(
-									`Organization created: ${orgName} (${orgSlug}) for user ${user.email}`,
-								);
-							}
-						} catch (error) {
-							logger.error("Failed to create organization for user:", error);
-							console.error("Organization creation error:", error);
+
+						const randomSuffix = Math.floor(10000 + Math.random() * 90000);
+						const orgSlug = `org-${randomSuffix}`;
+
+						const org = await auth.api.createOrganization({
+							body: {
+								name: orgName,
+								slug: orgSlug,
+								userId: user.id,
+							},
+						});
+
+						if (org) {
+							await db
+								.update(schema.user)
+								.set({ activeOrganizationId: org.id })
+								.where(eq(schema.user.id, user.id));
+
+							logger.info(
+								`Organization created: ${orgName} (${orgSlug}) for user ${user.email}`,
+							);
 						}
-					}, 100);
+					} catch (error) {
+						logger.error("Failed to create organization for user:", error);
+					}
 				},
 			},
 		},
@@ -107,7 +107,6 @@ export const auth = betterAuth({
 		sendResetPassword: async ({ user, url, token }) => {
 			logger.info("Password reset requested for:", user.email);
 
-			// Log reset URL and token only in development for easy testing
 			if (authConfig.NODE_ENV === "development") {
 				logger.info("Reset URL (DEV):", url);
 				logger.info("Token (DEV):", token);
@@ -123,21 +122,36 @@ export const auth = betterAuth({
 		},
 	},
 	socialProviders: {
-		google: {
-			clientId: authConfig.GOOGLE_CLIENT_ID as string,
-			clientSecret: authConfig.GOOGLE_CLIENT_SECRET as string,
-		},
-		github: {
-			clientId: authConfig.GITHUB_CLIENT_ID as string,
-			clientSecret: authConfig.GITHUB_CLIENT_SECRET as string,
-		},
+		...(authConfig.GOOGLE_CLIENT_ID && authConfig.GOOGLE_CLIENT_SECRET
+			? {
+				google: {
+					clientId: authConfig.GOOGLE_CLIENT_ID,
+					clientSecret: authConfig.GOOGLE_CLIENT_SECRET,
+				},
+			}
+			: {}),
+		...(authConfig.GITHUB_CLIENT_ID && authConfig.GITHUB_CLIENT_SECRET
+			? {
+				github: {
+					clientId: authConfig.GITHUB_CLIENT_ID,
+					clientSecret: authConfig.GITHUB_CLIENT_SECRET,
+				},
+			}
+			: {}),
 	},
 	secret: authConfig.BETTER_AUTH_SECRET,
 	session: {
 		expiresIn: 60 * 60 * 24 * 7,
 		updateAge: 60 * 60 * 24,
+		freshAge: 60 * 10,
 	},
-	trustedOrigins: ["*"],
+	revokeOtherSessions: true,
+	trustedOrigins: authConfig.isProduction
+		? [
+			"https://verifio.email",
+			"https://www.verifio.email",
+		]
+		: ["*"],
 	plugins: [
 		jwt(),
 		bearer(),
@@ -173,7 +187,7 @@ export const auth = betterAuth({
 					);
 				} catch (error) {
 					logger.error("Failed to send organization invite email:", error);
-					// Don't throw - invitation is still created, email just failed
+					throw new Error(`Failed to send invitation email to ${data.email}`);
 				}
 			},
 		}),

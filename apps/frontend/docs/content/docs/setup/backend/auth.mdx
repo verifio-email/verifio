@@ -1,15 +1,70 @@
 ---
 title: Auth Service
-description: Authentication and user management service.
+description: Central authentication and user management service for Verifio.
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout'
 
-# Auth Service
+The Auth Service handles everything related to user identity — who you are, how you log in, and what you can access.
 
-Handles user authentication, sessions, and organization management.
+## What It Does
 
-## Overview
+| Responsibility | Description |
+|----------------|-------------|
+| **User Authentication** | Handles sign up, sign in, and password management |
+| **Session Management** | Keeps users logged in securely across requests |
+| **OAuth Integration** | Supports Google and GitHub as login providers |
+| **Organizations** | Manages teams and multi-user workspaces |
+| **Access Control** | Defines roles and permissions within organizations |
+
+## How Authentication Works
+
+When a user logs in, the service:
+
+1. **Validates credentials** — checks email/password or verifies OAuth tokens
+2. **Creates a session** — generates a secure session stored in Redis
+3. **Sets a cookie** — the browser stores this to stay logged in
+4. **Authorizes requests** — every API call checks the session for validity
+
+```
+Login Request  →  Validate  →  Create Session  →  Set Cookie  →  Authorized
+```
+
+## Supported Login Methods
+
+### Email & Password
+Traditional authentication where users create an account with their email address and a secure password.
+
+### Google OAuth
+Users can sign in with their existing Google account. The service verifies the OAuth token and creates or links the account automatically.
+
+### GitHub OAuth
+Same as Google — developers can use their GitHub identity to authenticate.
+
+## Sessions
+
+Sessions are the mechanism that keeps users logged in without requiring them to enter credentials on every request.
+
+- Sessions are stored in **Redis** for fast lookup
+- Each session has an **expiration time** for security
+- Sessions can be **revoked** (e.g., when a user logs out or changes password)
+
+## Organizations
+
+Verifio supports multi-tenant workspaces called **Organizations**:
+
+- Each user belongs to at least one organization
+- Organizations have their own **API keys**, **credits**, and **settings**
+- Users can be **invited** to join an organization
+- Roles define what each member can do (Owner, Admin, Member)
+
+<Callout type="info">
+  When a new user signs up, an organization is automatically created for them.
+</Callout>
+
+---
+
+## Technical Reference
 
 | Property | Value |
 |----------|-------|
@@ -18,47 +73,37 @@ Handles user authentication, sessions, and organization management.
 | **Port** | 8000 |
 | **API Route** | `/api/auth/*` |
 
-## Starting the Service
+### Starting the Service
 
-```sh
+```bash
 bun run be:auth:dev
 ```
 
-## Features
+### Core Technology
 
-- **User authentication** - Sign up, sign in, password reset
-- **OAuth providers** - Google, GitHub integration
-- **Session management** - Secure cookie-based sessions
-- **Organization support** - Multi-tenant organization structure
-- **Member management** - Invite and manage team members
+Built with [Better Auth](https://www.better-auth.com/) — a modern, type-safe authentication library that provides:
 
-## Technology
+- Session management with Redis
+- OAuth provider integration
+- Organization and team support
+- Database adapters for PostgreSQL
 
-Built with [Better Auth](https://www.better-auth.com/), providing:
-- Type-safe authentication
-- Built-in session management
-- Multiple auth providers
-- Organization/team support
+### Environment Variables
 
-## Environment Variables
-
-```sh
+```bash
 BETTER_AUTH_SECRET=your-secret-key
 BETTER_AUTH_URL=https://local.verifio.email
 PG_URL=postgresql://verifio:verifio123@localhost:5432/verifio
 REDIS_HOST=localhost
 REDIS_PORT=6379
-REDIS_PASSWORD=verifio123
 ```
 
-## Database Tables
+### Database Schema
 
-- `user` - User accounts
-- `session` - Active sessions
-- `account` - OAuth connections
-- `organization` - Organizations/teams
-- `member` - Organization memberships
-
-<Callout type="info">
-  The auth service is the foundation for all user-related functionality across Verifio.
-</Callout>
+| Table | Purpose |
+|-------|---------|
+| `user` | User accounts and profiles |
+| `session` | Active user sessions |
+| `account` | OAuth provider connections |
+| `organization` | Organizations and workspaces |
+| `member` | Organization membership and roles |

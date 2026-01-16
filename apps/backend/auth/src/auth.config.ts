@@ -1,41 +1,76 @@
-// Default values for auth configuration
+const NODE_ENV = process.env.NODE_ENV || "development";
+const isProduction = NODE_ENV === "production";
 
-if (!process.env.REDIS_URL) {
-	process.env.REDIS_URL = "redis://:verifio123@localhost:6379";
+function getRequiredEnv(key: string, devDefault?: string): string {
+	const value = process.env[key];
+	if (value) return value;
+
+	if (isProduction) {
+		throw new Error(`Missing required environment variable: ${key}`);
+	}
+
+	if (devDefault !== undefined) {
+		console.warn(`⚠️  Using development default for ${key}`);
+		return devDefault;
+	}
+
+	throw new Error(`Missing environment variable: ${key} (no default available)`);
 }
 
-const defaults = {
-	PORT: "8000",
+function getEnv(key: string, defaultValue: string): string {
+	return process.env[key] || defaultValue;
+}
+
+const DEV_DEFAULTS = {
 	PG_URL: "postgresql://verifio:verifio123@localhost:5432/verifio",
 	REDIS_URL: "redis://:verifio123@localhost:6379",
 	BASE_URL: "https://local.verifio.email",
-	NODE_ENV: "development",
-	NODE_TLS_REJECT_UNAUTHORIZED: "0",
-	BETTER_AUTH_SECRET: "tENkVU4GrhckuRw4Bcfh93EWgXOFcszn",
-	EMAIL_DOMAIN: "verifio.email",
-	GOOGLE_CLIENT_ID:
-		"612069473337-9tlq9iqsrq6rc80ue3lebqscilu0ki01.apps.googleusercontent.com",
-	GOOGLE_CLIENT_SECRET: "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",
-	GITHUB_CLIENT_ID: "Ov23lizKTih7szshbKUY",
-	GITHUB_CLIENT_SECRET: "f36df125339c0974f2fa1b9075fbbdb616a44cfa",
+	BETTER_AUTH_SECRET: `dev-secret-change-in-production-${Math.random()}`,
+	GOOGLE_CLIENT_ID: "",
+	GOOGLE_CLIENT_SECRET: "",
+	GITHUB_CLIENT_ID: "",
+	GITHUB_CLIENT_SECRET: "",
 } as const;
 
 export const authConfig = {
-	port: Number(process.env.PORT || defaults.PORT),
-	PG_URL: process.env.PG_URL || defaults.PG_URL,
-	REDIS_URL: process.env.REDIS_URL,
-	BASE_URL: process.env.BASE_URL || defaults.BASE_URL,
-	NODE_ENV: process.env.NODE_ENV || defaults.NODE_ENV,
-	NODE_TLS_REJECT_UNAUTHORIZED:
-		process.env.NODE_TLS_REJECT_UNAUTHORIZED ||
-		defaults.NODE_TLS_REJECT_UNAUTHORIZED,
-	EMAIL_DOMAIN: process.env.EMAIL_DOMAIN || defaults.EMAIL_DOMAIN,
-	BETTER_AUTH_SECRET:
-		process.env.BETTER_AUTH_SECRET || defaults.BETTER_AUTH_SECRET,
-	GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || defaults.GOOGLE_CLIENT_ID,
-	GOOGLE_CLIENT_SECRET:
-		process.env.GOOGLE_CLIENT_SECRET || defaults.GOOGLE_CLIENT_SECRET,
-	GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID || defaults.GITHUB_CLIENT_ID,
-	GITHUB_CLIENT_SECRET:
-		process.env.GITHUB_CLIENT_SECRET || defaults.GITHUB_CLIENT_SECRET,
+	port: Number(getEnv("PORT", "8000")),
+	NODE_ENV,
+	isProduction,
+
+	PG_URL: getRequiredEnv("PG_URL", DEV_DEFAULTS.PG_URL),
+	REDIS_URL: getRequiredEnv("REDIS_URL", DEV_DEFAULTS.REDIS_URL),
+
+	BASE_URL: getEnv("BASE_URL", DEV_DEFAULTS.BASE_URL),
+	EMAIL_DOMAIN: getEnv("EMAIL_DOMAIN", "verifio.email"),
+
+	BETTER_AUTH_SECRET: getRequiredEnv(
+		"BETTER_AUTH_SECRET",
+		isProduction ? undefined : DEV_DEFAULTS.BETTER_AUTH_SECRET
+	),
+
+	GOOGLE_CLIENT_ID: getEnv("GOOGLE_CLIENT_ID", DEV_DEFAULTS.GOOGLE_CLIENT_ID),
+	GOOGLE_CLIENT_SECRET: getEnv("GOOGLE_CLIENT_SECRET", DEV_DEFAULTS.GOOGLE_CLIENT_SECRET),
+	GITHUB_CLIENT_ID: getEnv("GITHUB_CLIENT_ID", DEV_DEFAULTS.GITHUB_CLIENT_ID),
+	GITHUB_CLIENT_SECRET: getEnv("GITHUB_CLIENT_SECRET", DEV_DEFAULTS.GITHUB_CLIENT_SECRET),
+
+	NODE_TLS_REJECT_UNAUTHORIZED: isProduction
+		? "1"
+		: getEnv("NODE_TLS_REJECT_UNAUTHORIZED", "0"),
 };
+
+if (authConfig.GOOGLE_CLIENT_ID && !authConfig.GOOGLE_CLIENT_SECRET) {
+	console.warn("⚠️  GOOGLE_CLIENT_ID is set but GOOGLE_CLIENT_SECRET is missing");
+}
+if (authConfig.GITHUB_CLIENT_ID && !authConfig.GITHUB_CLIENT_SECRET) {
+	console.warn("⚠️  GITHUB_CLIENT_ID is set but GITHUB_CLIENT_SECRET is missing");
+}
+
+if (!isProduction) {
+	console.log("Auth Config loaded:", {
+		NODE_ENV,
+		port: authConfig.port,
+		BASE_URL: authConfig.BASE_URL,
+		hasGoogleOAuth: !!authConfig.GOOGLE_CLIENT_ID,
+		hasGitHubOAuth: !!authConfig.GITHUB_CLIENT_ID,
+	});
+}
