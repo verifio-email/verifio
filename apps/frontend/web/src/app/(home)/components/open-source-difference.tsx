@@ -3,29 +3,26 @@ import { Icon } from "@verifio/ui/icon";
 const features = [
 	{
 		id: "transparent",
-		title: "Transparent by default",
-		description:
-			"See the exact signals behind every decision — not just a pass/fail.",
+		title: "Transparent",
+		description: "See the exact signals behind every decision",
 		icon: "eye-outline" as const,
 	},
 	{
 		id: "open-source",
-		title: "Open-source core",
-		description:
-			"Audit the logic, contribute improvements, or self-host the engine.",
+		title: "Open-source",
+		description: "Audit, contribute, or self-host the engine",
 		icon: "open-source" as const,
 	},
 	{
 		id: "no-lock-in",
-		title: "No lock-in",
-		description:
-			"Use our hosted API or run it yourself — same engine, same results.",
+		title: "No Lock-in",
+		description: "Use our API or run it yourself",
 		icon: "cloud" as const,
 	},
 	{
 		id: "infrastructure",
-		title: "Infrastructure, not a tool",
-		description: "Designed to sit inside your product and data pipelines.",
+		title: "Infrastructure",
+		description: "Built to sit inside your data pipelines",
 		icon: "layers" as const,
 	},
 ];
@@ -34,41 +31,47 @@ export function OpenSourceDifference() {
 	return (
 		<div className="border-stroke-soft-100/60 border-t border-b dark:border-stroke-soft-100/40">
 			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l dark:border-stroke-soft-100/40">
-				<div className="grid grid-cols-1 items-center gap-8 px-6 py-12 md:grid-cols-2 md:px-10 md:py-16">
-					{/* Left side - Text content */}
-					<div className="space-y-3">
+				{/* Header section */}
+				<div className="px-6 py-12 md:px-10 md:py-16">
+					<div className="mx-auto max-w-2xl text-center">
 						<h2 className="font-semibold text-text-sub-600 text-xl md:text-2xl">
 							<span className="text-text-strong-950">Built differently</span>{" "}
 							from traditional email verifiers.
 						</h2>
-						<p className="text-sm text-text-sub-600 md:text-base">
+						<p className="mt-3 text-sm text-text-sub-600 md:text-base">
 							We believe in transparency, flexibility, and giving you complete
 							control over your infrastructure.
 						</p>
 					</div>
+				</div>
 
-					{/* Right side - Feature icons */}
-					<div className="flex items-center justify-start gap-6 md:justify-end md:gap-10">
-						{features.map((feature) => (
-							<div
-								key={feature.id}
-								className="flex flex-col items-center gap-2"
-							>
-								<div className="flex h-10 w-10 items-center justify-center rounded-xl border border-stroke-soft-200/40 bg-bg-white-0 dark:bg-transparent">
-									<Icon
-										name={feature.icon}
-										className="h-5 w-5 text-text-sub-600/70"
-									/>
-								</div>
-								<div className="flex items-center gap-1.5">
-									<span className="h-1.5 w-1.5 rounded-full bg-text-sub-600/50" />
-									<span className="max-w-[60px] text-center text-[10px] text-text-sub-600 leading-tight">
-										{feature.title.split(" ")[0]}
-									</span>
-								</div>
+				{/* Features grid */}
+				<div className="grid grid-cols-2 border-stroke-soft-100/60 border-t md:grid-cols-4 dark:border-stroke-soft-100/40">
+					{features.map((feature, index) => (
+						<div
+							key={feature.id}
+							className={`flex flex-col items-center gap-3 px-4 py-8 text-center md:px-6 md:py-10 ${
+								index !== features.length - 1
+									? "border-stroke-soft-100/60 border-r dark:border-stroke-soft-100/40"
+									: ""
+							} ${index < 2 ? "border-stroke-soft-100/60 border-b md:border-b-0 dark:border-stroke-soft-100/40" : ""}`}
+						>
+							<div className="flex h-10 w-10 items-center justify-center rounded-lg">
+								<Icon
+									name={feature.icon}
+									className="h-5 w-5 text-text-sub-600"
+								/>
 							</div>
-						))}
-					</div>
+							<div className="space-y-1">
+								<h3 className="font-medium text-sm text-text-strong-950">
+									{feature.title}
+								</h3>
+								<p className="text-text-sub-600 text-xs leading-relaxed">
+									{feature.description}
+								</p>
+							</div>
+						</div>
+					))}
 				</div>
 			</div>
 		</div>
