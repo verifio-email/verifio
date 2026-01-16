@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noUnknownAtRules: <explanation> */
 @import "tailwindcss";
 @import "fumadocs-ui/css/black.css";
 @import "fumadocs-ui/css/preset.css";
@@ -69,18 +70,6 @@
 
 [data-theme-toggle] svg {
 	@apply fill-none;
-}
-
-#nd-subnav > div {
-	@apply container border-x;
-}
-
-#nd-docs-layout {
-	@apply container mx-auto p-0 border-x;
-}
-
-#nd-tocnav {
-	@apply translate-y-px;
 }
 
 #nd-sidebar [data-hide-if-empty] {
