@@ -1,0 +1,23 @@
+{
+	"title": "API Reference",
+	"pages": [
+		"index",
+		"---Single Verification---",
+		"postApiVerifyV1Email",
+		"postApiVerifyV1Verify",
+		"---Bulk Verification---",
+		"postApiVerifyV1Bulk",
+		"postApiVerifyV1Bulk-verify",
+		"getApiVerifyV1Bulk-jobsByJobId",
+		"getApiVerifyV1Bulk-jobsByJobIdResults",
+		"---Jobs & Results---",
+		"getApiVerifyV1Jobs",
+		"getApiVerifyV1JobsByJobId",
+		"getApiVerifyV1JobsByJobIdResults",
+		"getApiVerifyV1ResultsByResultId",
+		"getApiVerifyV1History",
+		"---Health---",
+		"getApiVerify",
+		"getApiVerifyHealthPostgres"
+	]
+}
