@@ -159,7 +159,7 @@ export function EmailVerificationDemo() {
 										<a
 											href="/sample-emails.csv"
 											download
-											className="flex items-center gap-1.5 text-paragraph-xs text-text-strong-950 transition-colors hover:text-strong-950"
+											className="flex items-center gap-1.5 text-paragraph-xs text-text-strong-950 transition-colors hover:text-text-strong-950"
 										>
 											<Icon name="file-download" className="h-3.5 w-3.5" />
 											Sample CSV

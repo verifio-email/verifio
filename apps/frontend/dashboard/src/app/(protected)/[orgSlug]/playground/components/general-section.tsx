@@ -140,7 +140,7 @@ export function GeneralSection({
 							href={`https://${domain}`}
 							target="_blank"
 							rel="noopener noreferrer"
-							className="text-sm underline transition-colors hover:text-strong-950 hover:decoration-primary-base"
+							className="text-sm underline transition-colors hover:text-text-strong-950 hover:decoration-primary-base"
 						>
 							{domain}
 						</a>

@@ -223,7 +223,7 @@ export const Footer = () => {
 									aria-label="Verifio - Go to homepage"
 									itemProp="url"
 								>
-									<LogoName className="h-8 md:h-10" />
+									<LogoName className="h-7" />
 								</Link>
 							</div>
 							<p
@@ -250,7 +250,7 @@ export const Footer = () => {
 									target="_blank"
 									rel="noopener noreferrer"
 									aria-label="Follow Verifio on LinkedIn"
-									className="flex items-center gap-2 border-stroke-soft-100/60 border-t border-r border-b p-3 text-text-sub-600 text-xs transition-colors hover:text-strong-950 md:gap-3 md:border-t-0 md:p-4 md:text-sm"
+									className="flex items-center gap-2 border-stroke-soft-100/60 border-t border-r border-b p-3 text-text-sub-600 text-xs transition-colors hover:text-text-strong-950 md:gap-3 md:border-t-0 md:p-4 md:text-sm"
 								>
 									<svg
 										className="size-4 md:size-5"
@@ -273,7 +273,7 @@ export const Footer = () => {
 									target="_blank"
 									rel="noopener noreferrer"
 									aria-label="Follow Verifio on X (formerly Twitter)"
-									className="flex items-center gap-2 border-stroke-soft-100/60 border-t border-b p-3 text-text-sub-600 text-xs transition-colors hover:text-strong-950 md:gap-3 md:border-t-0 md:p-4 md:text-sm"
+									className="flex items-center gap-2 border-stroke-soft-100/60 border-t border-b p-3 text-text-sub-600 text-xs transition-colors hover:text-text-strong-950 md:gap-3 md:border-t-0 md:p-4 md:text-sm"
 								>
 									<svg
 										className="size-4 md:size-5"
@@ -296,7 +296,7 @@ export const Footer = () => {
 									target="_blank"
 									rel="noopener noreferrer"
 									aria-label="View Verifio source code on GitHub"
-									className="flex items-center gap-2 border-stroke-soft-100/60 border-r p-3 text-text-sub-600 text-xs transition-colors hover:text-strong-950 md:gap-3 md:p-4 md:text-sm"
+									className="flex items-center gap-2 border-stroke-soft-100/60 border-r p-3 text-text-sub-600 text-xs transition-colors hover:text-text-strong-950 md:gap-3 md:p-4 md:text-sm"
 								>
 									<svg
 										className="size-4 md:size-5"
@@ -319,7 +319,7 @@ export const Footer = () => {
 									target="_blank"
 									rel="noopener noreferrer"
 									aria-label="Join Verifio Discord community"
-									className="flex items-center gap-2 border-stroke-soft-100/60 p-3 text-text-sub-600 text-xs transition-colors hover:text-strong-950 md:gap-3 md:p-4 md:text-sm"
+									className="flex items-center gap-2 border-stroke-soft-100/60 p-3 text-text-sub-600 text-xs transition-colors hover:text-text-strong-950 md:gap-3 md:p-4 md:text-sm"
 								>
 									<svg
 										className="size-4 md:size-5"
@@ -377,7 +377,7 @@ export const Footer = () => {
 												<Link
 													href={item.href}
 													title={item.description}
-													className="block py-2 text-text-sub-600 text-xs transition-colors duration-150 hover:text-strong-950 md:py-3 md:text-sm"
+													className="block py-2 text-text-sub-600 text-xs transition-colors duration-150 hover:text-text-strong-950 md:py-3 md:text-sm"
 												>
 													{item.title}
 												</Link>
@@ -399,7 +399,7 @@ export const Footer = () => {
 								aria-label="System status"
 							>
 								<div
-									className="size-2 rounded-full bg-primary-base"
+									className="size-2 rounded-full bg-text-strong-950"
 									aria-hidden="true"
 								/>
 								<span className="text-text-sub-600 text-xs md:text-sm">

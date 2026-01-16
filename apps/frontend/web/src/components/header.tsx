@@ -17,7 +17,7 @@ export const Header = () => {
 						title="Verifio - Email Verification Service"
 						itemProp="url"
 					>
-						<LogoName className="w-32" />
+						<LogoName className="h-5" />
 						<meta itemProp="name" content="Verifio" />
 					</Link>
 				</div>
