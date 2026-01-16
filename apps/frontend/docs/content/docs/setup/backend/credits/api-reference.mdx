@@ -4,4 +4,18 @@ description: Credits Service API documentation.
 full: true
 ---
 
-<APIPage document={"https://verifio.email/api/credits/openapi/json"} hasHead={false} />
+## Credit Status
+
+<APIPage document={"https://verifio.email/api/credits/openapi/json"} operations={[{"path":"/api/credits/v1/credits","method":"get"}]} hasHead={false} />
+
+## Credit History
+
+<APIPage document={"https://verifio.email/api/credits/openapi/json"} operations={[{"path":"/api/credits/v1/credits/history","method":"get"}]} hasHead={false} />
+
+## Internal Endpoints
+
+<APIPage document={"https://verifio.email/api/credits/openapi/json"} operations={[{"path":"/api/credits/v1/internal/check","method":"post"}, {"path":"/api/credits/v1/internal/deduct","method":"post"}]} hasHead={false} />
+
+## Health Checks
+
+<APIPage document={"https://verifio.email/api/credits/openapi/json"} operations={[{"path":"/api/credits/","method":"get"}, {"path":"/api/credits/health/postgres","method":"get"}]} hasHead={false} />

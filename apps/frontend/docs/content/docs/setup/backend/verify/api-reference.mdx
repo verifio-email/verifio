@@ -4,4 +4,22 @@ description: Verify Service API documentation.
 full: true
 ---
 
-<APIPage document={"https://verifio.email/api/verify/openapi/json"} hasHead={false} />
+## Single Email Verification
+
+<APIPage document={"https://verifio.email/api/verify/openapi/json"} operations={[{"path":"/api/verify/v1/email","method":"post"}, {"path":"/api/verify/v1/verify","method":"post"}]} hasHead={false} />
+
+## Bulk Verification
+
+<APIPage document={"https://verifio.email/api/verify/openapi/json"} operations={[{"path":"/api/verify/v1/bulk","method":"post"}, {"path":"/api/verify/v1/bulk-verify","method":"post"}]} hasHead={false} />
+
+## Job Status & Results
+
+<APIPage document={"https://verifio.email/api/verify/openapi/json"} operations={[{"path":"/api/verify/v1/jobs/{jobId}","method":"get"}, {"path":"/api/verify/v1/jobs/{jobId}/results","method":"get"}, {"path":"/api/verify/v1/bulk-jobs/{jobId}","method":"get"}, {"path":"/api/verify/v1/bulk-jobs/{jobId}/results","method":"get"}]} hasHead={false} />
+
+## History & Jobs
+
+<APIPage document={"https://verifio.email/api/verify/openapi/json"} operations={[{"path":"/api/verify/v1/history","method":"get"}, {"path":"/api/verify/v1/jobs","method":"get"}, {"path":"/api/verify/v1/results/{resultId}","method":"get"}]} hasHead={false} />
+
+## Health Checks
+
+<APIPage document={"https://verifio.email/api/verify/openapi/json"} operations={[{"path":"/api/verify/","method":"get"}, {"path":"/api/verify/health/postgres","method":"get"}]} hasHead={false} />
