@@ -1,15 +1,15 @@
 "use client";
 
+import { valibotResolver } from "@hookform/resolvers/valibot";
 import * as Button from "@verifio/ui/button";
 import * as Input from "@verifio/ui/input";
-import * as Textarea from "@verifio/ui/textarea";
 import Spinner from "@verifio/ui/spinner";
+import * as Textarea from "@verifio/ui/textarea";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { valibotResolver } from "@hookform/resolvers/valibot";
-import * as v from "valibot";
 import type { Resolver } from "react-hook-form";
-import { motion, AnimatePresence } from "framer-motion";
+import { useForm } from "react-hook-form";
+import * as v from "valibot";
 
 const contactSchema = v.object({
 	email: v.pipe(

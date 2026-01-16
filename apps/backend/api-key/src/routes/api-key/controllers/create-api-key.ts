@@ -140,7 +140,7 @@ export async function createApiKeyHandler(
 			status: "success",
 			result: "created",
 			duration_ms: Date.now() - startTime,
-		}).catch(() => { });
+		}).catch(() => {});
 
 		return apiKey;
 	} catch (error) {
@@ -164,7 +164,7 @@ export async function createApiKeyHandler(
 			status: "error",
 			error_message: error instanceof Error ? error.message : String(error),
 			duration_ms: Date.now() - startTime,
-		}).catch(() => { });
+		}).catch(() => {});
 
 		throw error;
 	}

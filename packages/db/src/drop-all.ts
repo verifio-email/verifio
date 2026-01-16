@@ -2,10 +2,10 @@ import { sql } from "drizzle-orm";
 import { db } from "./client";
 
 async function dropAll() {
-  console.log("Dropping all tables...");
+	console.log("Dropping all tables...");
 
-  // Drop all tables in the public schema
-  await db.execute(sql`
+	// Drop all tables in the public schema
+	await db.execute(sql`
     DO $$ DECLARE
       r RECORD;
     BEGIN
@@ -15,11 +15,11 @@ async function dropAll() {
     END $$;
   `);
 
-  console.log("All tables dropped successfully!");
-  process.exit(0);
+	console.log("All tables dropped successfully!");
+	process.exit(0);
 }
 
 dropAll().catch((err) => {
-  console.error("Error:", err);
-  process.exit(1);
+	console.error("Error:", err);
+	process.exit(1);
 });

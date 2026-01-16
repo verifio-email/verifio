@@ -7,9 +7,9 @@
  */
 
 import {
-  DISPOSABLE_DOMAINS,
-  getDisposableProvider,
-  isDisposableDomain,
+	DISPOSABLE_DOMAINS,
+	getDisposableProvider,
+	isDisposableDomain,
 } from "../data/disposable-domains";
 import type { DisposableCheckResult } from "../types";
 
@@ -17,28 +17,28 @@ import type { DisposableCheckResult } from "../types";
  * Check if email domain is disposable
  */
 export function checkDisposable(domain: string): DisposableCheckResult {
-  const lowerDomain = domain.toLowerCase();
+	const lowerDomain = domain.toLowerCase();
 
-  const isDisposable = isDisposableDomain(lowerDomain);
+	const isDisposable = isDisposableDomain(lowerDomain);
 
-  if (!isDisposable) {
-    return {
-      isDisposable: false,
-    };
-  }
+	if (!isDisposable) {
+		return {
+			isDisposable: false,
+		};
+	}
 
-  // Get provider name if known (uses comprehensive FakeFilter data)
-  const provider = getDisposableProvider(lowerDomain);
+	// Get provider name if known (uses comprehensive FakeFilter data)
+	const provider = getDisposableProvider(lowerDomain);
 
-  return {
-    isDisposable: true,
-    provider: provider || undefined,
-  };
+	return {
+		isDisposable: true,
+		provider: provider || undefined,
+	};
 }
 
 /**
  * Get total number of disposable domains tracked
  */
 export function getDisposableCount(): number {
-  return DISPOSABLE_DOMAINS.size;
+	return DISPOSABLE_DOMAINS.size;
 }

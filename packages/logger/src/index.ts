@@ -26,7 +26,7 @@ export const logger = Object.assign(baseLogger, {
 	request: (
 		method: string,
 		endpoint: string,
-		additionalData?: Record<string, unknown>
+		additionalData?: Record<string, unknown>,
 	) => {
 		const upperMethod = method.toUpperCase();
 		baseLogger.info(
@@ -35,7 +35,7 @@ export const logger = Object.assign(baseLogger, {
 				endpoint,
 				...additionalData,
 			},
-			`${upperMethod} ${endpoint}`
+			`${upperMethod} ${endpoint}`,
 		);
 	},
 
@@ -50,10 +50,11 @@ export const logger = Object.assign(baseLogger, {
 		method: string,
 		endpoint: string,
 		statusCode: number,
-		additionalData?: Record<string, unknown>
+		additionalData?: Record<string, unknown>,
 	) => {
 		const upperMethod = method.toUpperCase();
-		const logLevel = statusCode >= 400 ? "error" : statusCode >= 300 ? "warn" : "info";
+		const logLevel =
+			statusCode >= 400 ? "error" : statusCode >= 300 ? "warn" : "info";
 
 		baseLogger[logLevel](
 			{
@@ -62,7 +63,7 @@ export const logger = Object.assign(baseLogger, {
 				statusCode,
 				...additionalData,
 			},
-			`${upperMethod} ${endpoint} → ${statusCode}`
+			`${upperMethod} ${endpoint} → ${statusCode}`,
 		);
 	},
 });

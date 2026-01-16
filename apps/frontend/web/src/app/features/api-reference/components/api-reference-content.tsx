@@ -37,7 +37,7 @@ export const ApiReferenceContent = () => {
 					<div className="relative z-10">
 						<div className="mb-6 inline-flex items-center gap-2 rounded-full border border-stroke-soft-200 bg-bg-white-0 px-4 py-2 dark:bg-bg-weak-50">
 							<Icon name="sparkles" className="h-4 w-4 text-purple-600" />
-							<span className="text-sm font-medium text-text-sub-600">
+							<span className="font-medium text-sm text-text-sub-600">
 								Real-Time Email Verification
 							</span>
 						</div>
@@ -230,7 +230,7 @@ export const ApiReferenceContent = () => {
 
 				<div className="grid border-stroke-soft-100 md:grid-cols-2">
 					{/* Endpoint 1 */}
-					<div className="group relative border-b border-stroke-soft-100 p-10 transition-colors hover:bg-bg-weak-50 md:border-r">
+					<div className="group relative border-stroke-soft-100 border-b p-10 transition-colors hover:bg-bg-weak-50 md:border-r">
 						<div className="mb-4 flex items-center gap-3">
 							<div className="rounded-lg bg-green-100 px-3 py-1.5 font-mono font-semibold text-green-800 text-xs dark:bg-green-900/30 dark:text-green-400">
 								POST
@@ -239,7 +239,7 @@ export const ApiReferenceContent = () => {
 								/v1/verify
 							</code>
 						</div>
-						<h3 className="mb-3 font-semibold text-xl text-text-strong-950">
+						<h3 className="mb-3 font-semibold text-text-strong-950 text-xl">
 							Verify Single Email
 						</h3>
 						<p className="mb-6 text-text-sub-600 leading-6">
@@ -256,7 +256,7 @@ export const ApiReferenceContent = () => {
 					</div>
 
 					{/* Endpoint 2 */}
-					<div className="group relative border-b border-stroke-soft-100 p-10 transition-colors hover:bg-bg-weak-50">
+					<div className="group relative border-stroke-soft-100 border-b p-10 transition-colors hover:bg-bg-weak-50">
 						<div className="mb-4 flex items-center gap-3">
 							<div className="rounded-lg bg-blue-100 px-3 py-1.5 font-mono font-semibold text-blue-800 text-xs dark:bg-blue-900/30 dark:text-blue-400">
 								POST
@@ -265,7 +265,7 @@ export const ApiReferenceContent = () => {
 								/v1/verify/bulk
 							</code>
 						</div>
-						<h3 className="mb-3 font-semibold text-xl text-text-strong-950">
+						<h3 className="mb-3 font-semibold text-text-strong-950 text-xl">
 							Bulk Email Verification
 						</h3>
 						<p className="mb-6 text-text-sub-600 leading-6">
@@ -281,7 +281,7 @@ export const ApiReferenceContent = () => {
 					</div>
 
 					{/* Endpoint 3 */}
-					<div className="group relative border-b border-stroke-soft-100 p-10 transition-colors hover:bg-bg-weak-50 md:border-r">
+					<div className="group relative border-stroke-soft-100 border-b p-10 transition-colors hover:bg-bg-weak-50 md:border-r">
 						<div className="mb-4 flex items-center gap-3">
 							<div className="rounded-lg bg-purple-100 px-3 py-1.5 font-mono font-semibold text-purple-800 text-xs dark:bg-purple-900/30 dark:text-purple-400">
 								GET
@@ -290,7 +290,7 @@ export const ApiReferenceContent = () => {
 								/v1/verify/status
 							</code>
 						</div>
-						<h3 className="mb-3 font-semibold text-xl text-text-strong-950">
+						<h3 className="mb-3 font-semibold text-text-strong-950 text-xl">
 							Verification Status
 						</h3>
 						<p className="mb-6 text-text-sub-600 leading-6">
@@ -306,7 +306,7 @@ export const ApiReferenceContent = () => {
 					</div>
 
 					{/* Endpoint 4 */}
-					<div className="group relative border-b border-stroke-soft-100 p-10 transition-colors hover:bg-bg-weak-50">
+					<div className="group relative border-stroke-soft-100 border-b p-10 transition-colors hover:bg-bg-weak-50">
 						<div className="mb-4 flex items-center gap-3">
 							<div className="rounded-lg bg-orange-100 px-3 py-1.5 font-mono font-semibold text-orange-800 text-xs dark:bg-orange-900/30 dark:text-orange-400">
 								GET
@@ -315,7 +315,7 @@ export const ApiReferenceContent = () => {
 								/v1/verify/history
 							</code>
 						</div>
-						<h3 className="mb-3 font-semibold text-xl text-text-strong-950">
+						<h3 className="mb-3 font-semibold text-text-strong-950 text-xl">
 							Verification History
 						</h3>
 						<p className="mb-6 text-text-sub-600 leading-6">
@@ -391,7 +391,7 @@ export const ApiReferenceContent = () => {
 					].map((sdk, index) => (
 						<div
 							key={sdk.name}
-							className={`group border-b border-stroke-soft-100 p-10 transition-all hover:bg-bg-weak-50 ${
+							className={`group border-stroke-soft-100 border-b p-10 transition-all hover:bg-bg-weak-50 ${
 								index % 3 !== 2 ? "md:border-r" : ""
 							}`}
 						>
@@ -400,7 +400,7 @@ export const ApiReferenceContent = () => {
 								{sdk.name}
 							</h3>
 							<p className="mb-4 text-sm text-text-sub-600">{sdk.desc}</p>
-							<code className="block rounded-lg bg-bg-weak-50 px-3 py-2 font-mono text-xs text-text-sub-600 dark:bg-bg-weak-100">
+							<code className="block rounded-lg bg-bg-weak-50 px-3 py-2 font-mono text-text-sub-600 text-xs dark:bg-bg-weak-100">
 								{sdk.install}
 							</code>
 						</div>

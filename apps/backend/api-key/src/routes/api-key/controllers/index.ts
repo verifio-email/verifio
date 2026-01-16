@@ -7,6 +7,14 @@ export {
 	deleteApiKeyHandler,
 } from "@verifio/api-key/routes/api-key/controllers/delete-api-key";
 export {
+	disableApiKey,
+	disableApiKeyHandler,
+} from "@verifio/api-key/routes/api-key/controllers/disable-api-key";
+export {
+	enableApiKey,
+	enableApiKeyHandler,
+} from "@verifio/api-key/routes/api-key/controllers/enable-api-key";
+export {
 	formatApiKeyResponse,
 	formatApiKeyWithKeyResponse,
 } from "@verifio/api-key/routes/api-key/controllers/format-api-key-response";
@@ -15,9 +23,17 @@ export {
 	getApiKeyHandler,
 } from "@verifio/api-key/routes/api-key/controllers/get-api-key";
 export {
+	getUsageStats,
+	getUsageStatsHandler,
+} from "@verifio/api-key/routes/api-key/controllers/get-usage";
+export {
 	listApiKeys,
 	listApiKeysHandler,
 } from "@verifio/api-key/routes/api-key/controllers/list-api-keys";
+export {
+	rotateApiKey,
+	rotateApiKeyHandler,
+} from "@verifio/api-key/routes/api-key/controllers/rotate-api-key";
 export {
 	updateApiKey,
 	updateApiKeyHandler,
@@ -26,20 +42,3 @@ export {
 	validateApiKey,
 	validateApiKeyHandler,
 } from "@verifio/api-key/routes/api-key/controllers/validate-api-key";
-export {
-	rotateApiKey,
-	rotateApiKeyHandler,
-} from "@verifio/api-key/routes/api-key/controllers/rotate-api-key";
-export {
-	enableApiKey,
-	enableApiKeyHandler,
-} from "@verifio/api-key/routes/api-key/controllers/enable-api-key";
-export {
-	disableApiKey,
-	disableApiKeyHandler,
-} from "@verifio/api-key/routes/api-key/controllers/disable-api-key";
-export {
-	getUsageStats,
-	getUsageStatsHandler,
-} from "@verifio/api-key/routes/api-key/controllers/get-usage";
-

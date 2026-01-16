@@ -2,7 +2,6 @@
 	"title": "Backend",
 	"pages": [
 		"auth",
-		"workflow",
 		"---Verify Service---",
 		"postApiVerifyV1Email",
 		"postApiVerifyV1Verify",

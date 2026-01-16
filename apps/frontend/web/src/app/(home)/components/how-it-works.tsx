@@ -82,7 +82,7 @@ function FlowNode({
 		<div className="relative flex flex-col items-center">
 			{/* Status badge above card */}
 			<motion.div
-				className="mb-2 flex items-center gap-1.5 rounded-full border border-green-500/20 bg-green-500/5 px-3 py-1 text-xs text-green-600"
+				className="mb-2 flex items-center gap-1.5 rounded-full border border-green-500/20 bg-green-500/5 px-3 py-1 text-green-600 text-xs"
 				initial={{ opacity: 0, y: -10 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ delay: index * 0.15 + 0.1 }}
@@ -117,7 +117,7 @@ function FlowNode({
 
 						{/* Badge */}
 						<span
-							className={`mt-1.5 inline-flex rounded-full border px-2 py-0.5 text-[10px] font-medium ${badgeColors[step.badgeColor as keyof typeof badgeColors]}`}
+							className={`mt-1.5 inline-flex rounded-full border px-2 py-0.5 font-medium text-[10px] ${badgeColors[step.badgeColor as keyof typeof badgeColors]}`}
 						>
 							{step.badge}
 						</span>
@@ -125,13 +125,13 @@ function FlowNode({
 				</div>
 
 				{/* Description */}
-				<p className="mt-3 text-xs text-text-sub-600 leading-relaxed">
+				<p className="mt-3 text-text-sub-600 text-xs leading-relaxed">
 					{step.description}
 				</p>
 
 				{/* Connection dot at bottom */}
 				{!isLast && (
-					<div className="absolute -bottom-2 left-1/2 z-10 h-3 w-3 -translate-x-1/2 rounded-full border-2 border-bg-white-0 bg-primary-base dark:border-gray-900" />
+					<div className="-bottom-2 -translate-x-1/2 absolute left-1/2 z-10 h-3 w-3 rounded-full border-2 border-bg-white-0 bg-primary-base dark:border-gray-900" />
 				)}
 			</motion.div>
 
@@ -147,7 +147,7 @@ function FlowNode({
 					/>
 					{/* Animated dot */}
 					<motion.div
-						className="absolute left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-primary-base"
+						className="-translate-x-1/2 absolute left-1/2 h-2 w-2 rounded-full bg-primary-base"
 						animate={{ y: [0, 40, 0] }}
 						transition={{
 							duration: 2,
@@ -169,7 +169,7 @@ function SidebarPanel() {
 			animate={{ opacity: 1, x: 0 }}
 			transition={{ delay: 0.5 }}
 		>
-			<div className="mb-3 flex items-center gap-2 text-xs text-text-sub-600">
+			<div className="mb-3 flex items-center gap-2 text-text-sub-600 text-xs">
 				<Icon name="layers" className="h-4 w-4" />
 				<span>Verification signals</span>
 			</div>
@@ -254,13 +254,13 @@ function ResultCard() {
 						<div className="font-semibold text-sm text-text-strong-950">
 							Deliverable
 						</div>
-						<div className="text-xs text-text-sub-600">
+						<div className="text-text-sub-600 text-xs">
 							Confidence:{" "}
 							<span className="font-semibold text-green-600">95%</span>
 						</div>
 					</div>
 				</div>
-				<div className="rounded-full bg-green-500/20 px-3 py-1 text-xs font-semibold text-green-600">
+				<div className="rounded-full bg-green-500/20 px-3 py-1 font-semibold text-green-600 text-xs">
 					PASS
 				</div>
 			</div>
@@ -270,8 +270,8 @@ function ResultCard() {
 
 export function HowItWorks() {
 	return (
-		<div className="border-stroke-soft-100 border-b border-t">
-			<div className="mx-auto max-w-5xl border-stroke-soft-100 border-l border-r">
+		<div className="border-stroke-soft-100 border-t border-b">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 				{/* Sticky Header */}
 				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100 border-b bg-bg-white-0 px-4 py-4 md:px-10">
 					<span className="text-text-sub-600 text-xs">[04] HOW IT WORKS</span>
@@ -282,7 +282,7 @@ export function HowItWorks() {
 				<div className="flex flex-col items-center gap-4 border-stroke-soft-100 border-b px-6 py-10 text-center md:px-10 md:py-12">
 					{/* Heading */}
 					<div className="space-y-2">
-						<h2 className="text-2xl font-semibold text-text-strong-950 md:text-3xl">
+						<h2 className="font-semibold text-2xl text-text-strong-950 md:text-3xl">
 							How email verification{" "}
 							<span className="text-primary-base">works</span>
 						</h2>
@@ -324,7 +324,7 @@ export function HowItWorks() {
 					<div className="flex flex-col items-center">
 						{/* Trigger label */}
 						<motion.div
-							className="mb-4 flex items-center gap-2 text-xs text-text-sub-600"
+							className="mb-4 flex items-center gap-2 text-text-sub-600 text-xs"
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
 						>
@@ -350,7 +350,7 @@ export function HowItWorks() {
 
 						{/* Add more button */}
 						<motion.div
-							className="mt-6 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-dashed border-stroke-soft-200 transition-colors hover:border-primary-base/50 hover:bg-primary-base/5"
+							className="mt-6 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-stroke-soft-200 border-dashed transition-colors hover:border-primary-base/50 hover:bg-primary-base/5"
 							whileHover={{ scale: 1.1 }}
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
@@ -376,7 +376,7 @@ export function HowItWorks() {
 						href="https://github.com/reloop-labs/verifio"
 						target="_blank"
 						rel="noopener noreferrer"
-						className="flex items-center gap-2 rounded-full border border-primary-base/30 bg-primary-base/10 px-5 py-2 text-sm font-medium text-primary-base transition-all hover:bg-primary-base/20"
+						className="flex items-center gap-2 rounded-full border border-primary-base/30 bg-primary-base/10 px-5 py-2 font-medium text-primary-base text-sm transition-all hover:bg-primary-base/20"
 						whileHover={{ scale: 1.02 }}
 						whileTap={{ scale: 0.98 }}
 					>

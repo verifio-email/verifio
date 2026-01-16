@@ -1,72 +1,72 @@
 import { drizzle, type NodePgDatabase } from "drizzle-orm/node-postgres";
 import {
-  integer,
-  jsonb,
-  pgTable,
-  text,
-  timestamp,
-  uuid,
+	integer,
+	jsonb,
+	pgTable,
+	text,
+	timestamp,
+	uuid,
 } from "drizzle-orm/pg-core";
 import { logsConfig } from "../config";
 
 // Activity logs table schema
 export const activityLogs = pgTable("activity_logs", {
-  id: uuid("id").primaryKey().defaultRandom(),
+	id: uuid("id").primaryKey().defaultRandom(),
 
-  // Identity
-  userId: text("user_id"),
-  organizationId: text("organization_id").notNull(),
-  apiKeyId: text("api_key_id"),
+	// Identity
+	userId: text("user_id"),
+	organizationId: text("organization_id").notNull(),
+	apiKeyId: text("api_key_id"),
 
-  // Service Context
-  service: text("service").notNull(), // 'verify', 'api-key', 'auth', 'workflow', 'upload'
-  endpoint: text("endpoint").notNull(),
-  method: text("method").notNull(),
+	// Service Context
+	service: text("service").notNull(), // 'verify', 'api-key', 'auth', 'upload'
+	endpoint: text("endpoint").notNull(),
+	method: text("method").notNull(),
 
-  // Request Data
-  resourceType: text("resource_type"),
-  resourceId: text("resource_id"),
+	// Request Data
+	resourceType: text("resource_type"),
+	resourceId: text("resource_id"),
 
-  // Result
-  status: text("status").notNull(), // 'success', 'failed', 'error'
-  result: text("result"),
-  errorMessage: text("error_message"),
+	// Result
+	status: text("status").notNull(), // 'success', 'failed', 'error'
+	result: text("result"),
+	errorMessage: text("error_message"),
 
-  // Metrics
-  creditsUsed: integer("credits_used").default(0),
-  durationMs: integer("duration_ms"),
+	// Metrics
+	creditsUsed: integer("credits_used").default(0),
+	durationMs: integer("duration_ms"),
 
-  // Client Info
-  ipAddress: text("ip_address"),
-  userAgent: text("user_agent"),
+	// Client Info
+	ipAddress: text("ip_address"),
+	userAgent: text("user_agent"),
 
-  // Metadata
-  metadata: jsonb("metadata").$type<Record<string, unknown>>().default({}),
+	// Metadata
+	metadata: jsonb("metadata").$type<Record<string, unknown>>().default({}),
 
-  // Timestamps
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .defaultNow()
-    .notNull(),
+	// Timestamps
+	createdAt: timestamp("created_at", { withTimezone: true })
+		.defaultNow()
+		.notNull(),
 });
 
 // Database instance
 let dbInstance: NodePgDatabase | null = null;
 
 export function getDb(): NodePgDatabase {
-  if (!dbInstance) {
-    dbInstance = drizzle({
-      connection: {
-        connectionString: logsConfig.PG_URL,
-      },
-    });
-  }
-  return dbInstance;
+	if (!dbInstance) {
+		dbInstance = drizzle({
+			connection: {
+				connectionString: logsConfig.PG_URL,
+			},
+		});
+	}
+	return dbInstance;
 }
 
 export async function ensureTableExists(): Promise<void> {
-  const db = getDb();
+	const db = getDb();
 
-  await db.execute(`
+	await db.execute(`
     CREATE TABLE IF NOT EXISTS activity_logs (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
       
@@ -114,11 +114,11 @@ export async function ensureTableExists(): Promise<void> {
 }
 
 export async function checkConnection(): Promise<boolean> {
-  try {
-    const db = getDb();
-    await db.execute("SELECT 1 as test");
-    return true;
-  } catch {
-    return false;
-  }
+	try {
+		const db = getDb();
+		await db.execute("SELECT 1 as test");
+		return true;
+	} catch {
+		return false;
+	}
 }

@@ -16,7 +16,8 @@ export const uploadConfig = {
 	REDIS_URL: process.env.REDIS_URL || defaults.REDIS_URL,
 	BASE_URL: process.env.BASE_URL || defaults.BASE_URL,
 	NODE_ENV: process.env.NODE_ENV || defaults.NODE_ENV,
-	UPLOAD_STORAGE_PATH: process.env.UPLOAD_STORAGE_PATH || defaults.UPLOAD_STORAGE_PATH,
+	UPLOAD_STORAGE_PATH:
+		process.env.UPLOAD_STORAGE_PATH || defaults.UPLOAD_STORAGE_PATH,
 	MAX_FILE_SIZE: Number(process.env.MAX_FILE_SIZE || defaults.MAX_FILE_SIZE),
 
 	constants: {

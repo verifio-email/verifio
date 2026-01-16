@@ -80,14 +80,14 @@ function SignupFlowVisual() {
 		<div className="relative h-full w-full">
 			{/* Form card */}
 			<motion.div
-				className="absolute left-4 top-4 w-32 rounded-lg border border-stroke-soft-200 bg-bg-white-0 p-2 shadow-sm dark:border-gray-700 dark:bg-gray-900"
+				className="absolute top-4 left-4 w-32 rounded-lg border border-stroke-soft-200 bg-bg-white-0 p-2 shadow-sm dark:border-gray-700 dark:bg-gray-900"
 				initial={{ opacity: 0, y: -10 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ delay: 0.2 }}
 			>
 				<div className="mb-2 flex items-center gap-1.5">
 					<Icon name="user-plus" className="h-3 w-3 text-primary-base" />
-					<span className="text-[9px] font-medium text-text-strong-950">
+					<span className="font-medium text-[9px] text-text-strong-950">
 						Signup Form
 					</span>
 				</div>
@@ -103,7 +103,7 @@ function SignupFlowVisual() {
 			</motion.div>
 
 			{/* Connecting line */}
-			<svg className="absolute left-20 top-20 h-16 w-20">
+			<svg className="absolute top-20 left-20 h-16 w-20">
 				<motion.path
 					d="M0 0 Q40 20 20 40"
 					fill="none"
@@ -119,7 +119,7 @@ function SignupFlowVisual() {
 
 			{/* Verify card */}
 			<motion.div
-				className="absolute bottom-4 right-4 rounded-lg border border-green-500/30 bg-green-500/5 p-2"
+				className="absolute right-4 bottom-4 rounded-lg border border-green-500/30 bg-green-500/5 p-2"
 				initial={{ opacity: 0, scale: 0.9 }}
 				animate={{ opacity: 1, scale: 1 }}
 				transition={{ delay: 0.6 }}
@@ -128,7 +128,7 @@ function SignupFlowVisual() {
 					<div className="flex h-4 w-4 items-center justify-center rounded-full bg-green-500">
 						<Icon name="check" className="h-2.5 w-2.5 text-white" />
 					</div>
-					<span className="text-[9px] font-medium text-green-600">
+					<span className="font-medium text-[9px] text-green-600">
 						Verified
 					</span>
 				</div>
@@ -162,7 +162,7 @@ function CrmPipelineVisual() {
 
 			{/* Contact card */}
 			<motion.div
-				className="absolute bottom-4 left-4 right-4 rounded-lg border border-stroke-soft-200 bg-bg-white-0 p-2 dark:border-gray-700 dark:bg-gray-900"
+				className="absolute right-4 bottom-4 left-4 rounded-lg border border-stroke-soft-200 bg-bg-white-0 p-2 dark:border-gray-700 dark:bg-gray-900"
 				initial={{ opacity: 0, y: 10 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ delay: 0.5 }}
@@ -191,14 +191,14 @@ function DataCleaningVisual() {
 		<div className="relative h-full w-full">
 			{/* Batch processing */}
 			<motion.div
-				className="absolute left-4 top-4 rounded-lg border border-stroke-soft-200 bg-bg-white-0 p-2 dark:border-gray-700 dark:bg-gray-900"
+				className="absolute top-4 left-4 rounded-lg border border-stroke-soft-200 bg-bg-white-0 p-2 dark:border-gray-700 dark:bg-gray-900"
 				initial={{ opacity: 0 }}
 				animate={{ opacity: 1 }}
 				transition={{ delay: 0.2 }}
 			>
 				<div className="mb-1.5 flex items-center gap-1.5">
 					<Icon name="database" className="h-3 w-3 text-amber-500" />
-					<span className="text-[8px] font-medium text-text-strong-950">
+					<span className="font-medium text-[8px] text-text-strong-950">
 						10k emails
 					</span>
 				</div>
@@ -221,7 +221,7 @@ function DataCleaningVisual() {
 
 			{/* Result stats */}
 			<motion.div
-				className="absolute bottom-4 right-4 rounded-lg border border-amber-500/30 bg-amber-500/5 p-2"
+				className="absolute right-4 bottom-4 rounded-lg border border-amber-500/30 bg-amber-500/5 p-2"
 				initial={{ opacity: 0, x: 10 }}
 				animate={{ opacity: 1, x: 0 }}
 				transition={{ delay: 0.5 }}
@@ -262,7 +262,7 @@ function UseCaseCard({
 		>
 			{/* Visual area */}
 			{visual && (
-				<div className="relative h-32 border-b border-stroke-soft-200 bg-gradient-to-br from-bg-soft-200/30 to-transparent dark:border-gray-700 dark:from-gray-800/30">
+				<div className="relative h-32 border-stroke-soft-200 border-b bg-gradient-to-br from-bg-soft-200/30 to-transparent dark:border-gray-700 dark:from-gray-800/30">
 					{visual}
 				</div>
 			)}
@@ -276,10 +276,10 @@ function UseCaseCard({
 						<Icon name={useCase.icon} className={`h-4 w-4 ${colors.text}`} />
 					</div>
 					<div>
-						<h4 className="text-sm font-semibold text-text-strong-950">
+						<h4 className="font-semibold text-sm text-text-strong-950">
 							{useCase.title}
 						</h4>
-						<p className="text-xs text-text-sub-600">{useCase.description}</p>
+						<p className="text-text-sub-600 text-xs">{useCase.description}</p>
 					</div>
 				</div>
 			</div>
@@ -314,7 +314,7 @@ function FeaturesList() {
 		>
 			<div className="mb-3 flex items-center gap-2">
 				<Icon name="puzzle" className="h-4 w-4 text-primary-base" />
-				<span className="text-xs font-medium text-text-strong-950">
+				<span className="font-medium text-text-strong-950 text-xs">
 					Works with your stack
 				</span>
 			</div>
@@ -323,7 +323,7 @@ function FeaturesList() {
 				{features.map((feature, i) => (
 					<motion.div
 						key={feature.label}
-						className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-xs text-text-sub-600 transition-colors hover:bg-primary-base/5 hover:text-primary-base"
+						className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-text-sub-600 text-xs transition-colors hover:bg-primary-base/5 hover:text-primary-base"
 						initial={{ opacity: 0, x: 10 }}
 						animate={{ opacity: 1, x: 0 }}
 						transition={{ delay: 0.5 + i * 0.05 }}
@@ -347,7 +347,7 @@ function IntegrationCards() {
 		>
 			<div className="mb-3 flex items-center gap-2">
 				<Icon name="flash" className="h-4 w-4 text-emerald-500" />
-				<span className="text-xs font-medium text-text-strong-950">
+				<span className="font-medium text-text-strong-950 text-xs">
 					Instant integration
 				</span>
 			</div>
@@ -361,10 +361,10 @@ function IntegrationCards() {
 				>
 					<div className="flex items-center gap-2">
 						<Icon name="code-box" className="h-4 w-4 text-primary-base" />
-						<span className="text-[10px] font-medium text-primary-base">
+						<span className="font-medium text-[10px] text-primary-base">
 							verifio.verify()
 						</span>
-						<span className="ml-auto rounded-full bg-green-500/20 px-1.5 py-0.5 text-[8px] font-medium text-green-600">
+						<span className="ml-auto rounded-full bg-green-500/20 px-1.5 py-0.5 font-medium text-[8px] text-green-600">
 							AI
 						</span>
 					</div>
@@ -388,7 +388,7 @@ function IntegrationCards() {
 					<div className="flex items-center gap-2">
 						<div className="h-5 w-5 rounded-full bg-gradient-to-br from-green-400 to-emerald-500" />
 						<div>
-							<div className="text-[10px] font-medium text-text-strong-950">
+							<div className="font-medium text-[10px] text-text-strong-950">
 								Valid Email
 							</div>
 							<div className="flex items-center gap-1 text-[8px] text-text-sub-600">
@@ -410,8 +410,8 @@ function IntegrationCards() {
 
 export function UseCases() {
 	return (
-		<div className="border-stroke-soft-100 border-b border-t">
-			<div className="mx-auto max-w-5xl border-stroke-soft-100 border-l border-r">
+		<div className="border-stroke-soft-100 border-t border-b">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 				{/* Sticky Header */}
 				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100 border-b bg-bg-white-0 px-4 py-4 md:px-10">
 					<span className="text-text-sub-600 text-xs">[05] USE CASES</span>
@@ -431,17 +431,17 @@ export function UseCases() {
 						{/* Left - Description */}
 						<div className="flex items-center p-6 md:p-10">
 							<div>
-								<h3 className="text-xl font-semibold text-text-strong-950">
+								<h3 className="font-semibold text-text-strong-950 text-xl">
 									Verify at every touchpoint
 								</h3>
-								<p className="mt-2 text-sm text-text-sub-600 leading-relaxed max-w-sm">
+								<p className="mt-2 max-w-sm text-sm text-text-sub-600 leading-relaxed">
 									From user signup to data pipelines, Verifio fits seamlessly
 									into your existing workflows.
 								</p>
 							</div>
 						</div>
 						{/* Right - Visual Content */}
-						<div className="border-t md:border-t-0 md:border-l border-stroke-soft-200 p-6 md:p-8 space-y-4 bg-bg-soft-200/30">
+						<div className="space-y-4 border-stroke-soft-200 border-t bg-bg-soft-200/30 p-6 md:border-t-0 md:border-l md:p-8">
 							<SignupFlowVisual />
 							<UseCaseCard useCase={useCases[0]!} index={0} />
 							<UseCaseCard useCase={useCases[1]!} index={1} />
@@ -458,17 +458,17 @@ export function UseCases() {
 						{/* Left - Description */}
 						<div className="flex items-center p-6 md:p-10">
 							<div>
-								<h3 className="text-xl font-semibold text-text-strong-950">
+								<h3 className="font-semibold text-text-strong-950 text-xl">
 									Clean pipelines, better results
 								</h3>
-								<p className="mt-2 text-sm text-text-sub-600 leading-relaxed max-w-sm">
+								<p className="mt-2 max-w-sm text-sm text-text-sub-600 leading-relaxed">
 									Turn ideas into real-life systems with precise, step-by-step
 									email verification.
 								</p>
 							</div>
 						</div>
 						{/* Right - Visual Content */}
-						<div className="border-t md:border-t-0 md:border-l border-stroke-soft-200 p-6 md:p-8 space-y-4 bg-bg-soft-200/30">
+						<div className="space-y-4 border-stroke-soft-200 border-t bg-bg-soft-200/30 p-6 md:border-t-0 md:border-l md:p-8">
 							<CrmPipelineVisual />
 							<UseCaseCard useCase={useCases[2]!} index={2} />
 							<UseCaseCard useCase={useCases[3]!} index={3} />
@@ -486,17 +486,17 @@ export function UseCases() {
 						{/* Left - Description */}
 						<div className="flex items-center p-6 md:p-10">
 							<div>
-								<h3 className="text-xl font-semibold text-text-strong-950">
+								<h3 className="font-semibold text-text-strong-950 text-xl">
 									Extend your functionality
 								</h3>
-								<p className="mt-2 text-sm text-text-sub-600 leading-relaxed max-w-sm">
+								<p className="mt-2 max-w-sm text-sm text-text-sub-600 leading-relaxed">
 									Build new features, automations, and data pipelines with our
 									flexible API.
 								</p>
 							</div>
 						</div>
 						{/* Right - Visual Content */}
-						<div className="border-t md:border-t-0 md:border-l border-stroke-soft-200 p-6 md:p-8 space-y-4 bg-bg-soft-200/30">
+						<div className="space-y-4 border-stroke-soft-200 border-t bg-bg-soft-200/30 p-6 md:border-t-0 md:border-l md:p-8">
 							<FeaturesList />
 							<IntegrationCards />
 						</div>

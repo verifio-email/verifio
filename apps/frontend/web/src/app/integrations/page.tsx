@@ -125,7 +125,7 @@ export default function IntegrationsPage() {
 							</div>
 						</div>
 						<div className="flex items-center justify-center p-10">
-							<pre className="w-full overflow-x-auto rounded-lg bg-gray-900 p-6 text-sm text-green-400">
+							<pre className="w-full overflow-x-auto rounded-lg bg-gray-900 p-6 text-green-400 text-sm">
 								<code>
 									{`curl -X POST \\
   https://api.verifio.email/v1/verify \\

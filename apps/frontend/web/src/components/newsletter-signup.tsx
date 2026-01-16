@@ -97,10 +97,10 @@ export const NewsletterSignup = () => {
 				</motion.div>
 			) : (
 				<form onSubmit={handleSubmit(onSubmit)}>
-					<p className="font-medium text-base text-text-strong-950 z-0">
+					<p className="z-0 font-medium text-base text-text-strong-950">
 						Stay updated
 					</p>
-					<p className="mt-1 text-text-sub-600 text-sm">
+					<p className="mt-1 text-sm text-text-sub-600">
 						Get email deliverability tips & product updates
 					</p>
 					<div className="mt-4 flex gap-2">

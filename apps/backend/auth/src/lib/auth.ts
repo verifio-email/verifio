@@ -1,6 +1,5 @@
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
-import { eq } from "drizzle-orm";
 import { logger } from "@verifio/logger";
 import {
 	sendOrganizationInviteEmail,
@@ -16,6 +15,7 @@ import {
 	openAPI,
 	organization,
 } from "better-auth/plugins";
+import { eq } from "drizzle-orm";
 import { authConfig } from "../auth.config";
 import { redis } from "./redis";
 

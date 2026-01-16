@@ -100,9 +100,9 @@ function SpeedVisual() {
 			{/* Concentric circles with icon */}
 			<div className="relative">
 				{/* Outer rings */}
-				<div className="absolute -inset-10 rounded-full border border-dashed border-primary-base/20" />
-				<div className="absolute -inset-6 rounded-full border border-primary-base/30" />
-				<div className="absolute -inset-3 rounded-full border border-primary-base/50" />
+				<div className="-inset-10 absolute rounded-full border border-primary-base/20 border-dashed" />
+				<div className="-inset-6 absolute rounded-full border border-primary-base/30" />
+				<div className="-inset-3 absolute rounded-full border border-primary-base/50" />
 
 				{/* Center icon */}
 				<div className="relative flex h-12 w-12 items-center justify-center rounded-full border border-primary-base/60 bg-primary-base/10">
@@ -110,7 +110,7 @@ function SpeedVisual() {
 				</div>
 
 				{/* Floating label */}
-				<div className="absolute -right-12 top-1/2 -translate-y-1/2 rounded-md border border-stroke-soft-200/30 bg-bg-white-0 px-2 py-1 font-mono text-[10px] text-text-sub-600 dark:border-stroke-soft-200/20 dark:bg-gray-900/50">
+				<div className="-right-12 -translate-y-1/2 absolute top-1/2 rounded-md border border-stroke-soft-200/30 bg-bg-white-0 px-2 py-1 font-mono text-[10px] text-text-sub-600 dark:border-stroke-soft-200/20 dark:bg-gray-900/50">
 					&lt;200ms
 				</div>
 			</div>
@@ -123,7 +123,7 @@ function PrivacyVisual() {
 		<div className="relative flex h-44 items-center justify-center">
 			<div className="relative">
 				{/* GET endpoint label */}
-				<div className="absolute -top-10 right-0 rounded-md border border-stroke-soft-200/30 bg-bg-white-0 px-2 py-1 font-mono text-[10px] dark:border-stroke-soft-200/20 dark:bg-gray-900/50">
+				<div className="-top-10 absolute right-0 rounded-md border border-stroke-soft-200/30 bg-bg-white-0 px-2 py-1 font-mono text-[10px] dark:border-stroke-soft-200/20 dark:bg-gray-900/50">
 					<span className="text-green-500">GET</span>{" "}
 					<span className="text-text-sub-600">/privacy</span>
 				</div>
@@ -134,7 +134,7 @@ function PrivacyVisual() {
 				</div>
 
 				{/* Connection lines */}
-				<svg className="absolute -inset-12" viewBox="0 0 96 96">
+				<svg className="-inset-12 absolute" viewBox="0 0 96 96">
 					<line
 						x1="0"
 						y1="48"
@@ -178,8 +178,8 @@ function PrivacyVisual() {
 				</svg>
 
 				{/* Corner dots */}
-				<div className="absolute -bottom-6 -left-6 h-1.5 w-1.5 rounded-full border border-stroke-soft-200/40 bg-bg-white-0" />
-				<div className="absolute -right-6 -bottom-6 h-1.5 w-1.5 rounded-full border border-stroke-soft-200/40 bg-bg-white-0" />
+				<div className="-bottom-6 -left-6 absolute h-1.5 w-1.5 rounded-full border border-stroke-soft-200/40 bg-bg-white-0" />
+				<div className="-right-6 -bottom-6 absolute h-1.5 w-1.5 rounded-full border border-stroke-soft-200/40 bg-bg-white-0" />
 			</div>
 		</div>
 	);
@@ -212,7 +212,7 @@ function PricingVisual() {
 					</div>
 				</div>
 				{/* Checkmark indicator */}
-				<div className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-green-500">
+				<div className="-right-2 -top-2 absolute flex h-5 w-5 items-center justify-center rounded-full bg-green-500">
 					<Icon name="check" className="h-3 w-3 text-white" />
 				</div>
 			</div>
@@ -225,7 +225,7 @@ function UpdatesVisual() {
 		<div className="relative flex h-44 items-center justify-center">
 			<div className="relative">
 				{/* Rotating arrows animation concept */}
-				<div className="absolute -inset-8 rounded-full border border-dashed border-stroke-soft-200/30" />
+				<div className="-inset-8 absolute rounded-full border border-stroke-soft-200/30 border-dashed" />
 
 				{/* Center icon with circle */}
 				<div className="flex h-12 w-12 items-center justify-center rounded-full border border-stroke-soft-200/40 bg-bg-white-0 dark:bg-gray-900/50">
@@ -233,15 +233,15 @@ function UpdatesVisual() {
 				</div>
 
 				{/* Update indicators */}
-				<div className="absolute -left-14 top-1/2 -translate-y-1/2 rounded border border-stroke-soft-200/30 bg-bg-white-0 px-1.5 py-0.5 font-mono text-[9px] text-green-500 dark:bg-gray-900/50">
+				<div className="-left-14 -translate-y-1/2 absolute top-1/2 rounded border border-stroke-soft-200/30 bg-bg-white-0 px-1.5 py-0.5 font-mono text-[9px] text-green-500 dark:bg-gray-900/50">
 					v2.4.1
 				</div>
-				<div className="absolute -right-10 top-1/2 -translate-y-1/2 font-mono text-[9px] text-text-sub-600/40">
+				<div className="-right-10 -translate-y-1/2 absolute top-1/2 font-mono text-[9px] text-text-sub-600/40">
 					v2.4.0
 				</div>
 
 				{/* Arrow indicators */}
-				<div className="absolute -top-6 left-1/2 -translate-x-1/2 text-primary-base">
+				<div className="-top-6 -translate-x-1/2 absolute left-1/2 text-primary-base">
 					<svg
 						width="12"
 						height="12"
@@ -282,7 +282,7 @@ function DeveloperVisual() {
 				</div>
 
 				{/* User icon */}
-				<div className="absolute -right-4 -top-4 flex h-8 w-8 items-center justify-center rounded-full border border-primary-base/40 bg-primary-base/10">
+				<div className="-right-4 -top-4 absolute flex h-8 w-8 items-center justify-center rounded-full border border-primary-base/40 bg-primary-base/10">
 					<Icon name="users" className="h-4 w-4 text-primary-base" />
 				</div>
 			</div>
@@ -295,18 +295,18 @@ function FreeCreditsVisual() {
 		<div className="relative flex h-44 items-center justify-center">
 			<div className="relative">
 				{/* Gift box visual */}
-				<div className="flex h-16 w-16 items-center justify-center rounded-xl border-2 border-dashed border-primary-base/40 bg-primary-base/10">
+				<div className="flex h-16 w-16 items-center justify-center rounded-xl border-2 border-primary-base/40 border-dashed bg-primary-base/10">
 					<Icon name="gift" className="h-7 w-7 text-primary-base" />
 				</div>
 
 				{/* Credit counter */}
-				<div className="absolute -right-6 -top-4 rounded-md border border-stroke-soft-200/30 bg-bg-white-0 px-2 py-1 font-mono text-[10px] dark:bg-gray-900/50">
-					<span className="text-primary-base font-semibold">3,000</span>
+				<div className="-right-6 -top-4 absolute rounded-md border border-stroke-soft-200/30 bg-bg-white-0 px-2 py-1 font-mono text-[10px] dark:bg-gray-900/50">
+					<span className="font-semibold text-primary-base">3,000</span>
 					<span className="text-text-sub-600/60"> /mo</span>
 				</div>
 
 				{/* Free badge */}
-				<div className="absolute -bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-green-500 px-3 py-0.5 font-semibold text-[9px] text-white uppercase">
+				<div className="-bottom-3 -translate-x-1/2 absolute left-1/2 rounded-full bg-green-500 px-3 py-0.5 font-semibold text-[9px] text-white uppercase">
 					Free
 				</div>
 			</div>
@@ -331,12 +331,12 @@ function NoChargeVisual() {
 					<div className="mt-1 flex items-center gap-1">
 						<span className="text-text-sub-600/60">Credits:</span>
 						<span className="text-text-sub-600/40 line-through">-1</span>
-						<span className="text-green-500 font-semibold">$0</span>
+						<span className="font-semibold text-green-500">$0</span>
 					</div>
 				</div>
 
 				{/* Check indicator */}
-				<div className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-green-500">
+				<div className="-right-2 -top-2 absolute flex h-5 w-5 items-center justify-center rounded-full bg-green-500">
 					<Icon name="check" className="h-3 w-3 text-white" />
 				</div>
 			</div>
@@ -439,7 +439,7 @@ export function WhatWeStandFor() {
 								}`}
 							>
 								{/* Number indicator */}
-								<div className="mb-4 font-mono text-xs text-text-sub-600/60">
+								<div className="mb-4 font-mono text-text-sub-600/60 text-xs">
 									[ {promise.number} ]
 								</div>
 
@@ -453,7 +453,7 @@ export function WhatWeStandFor() {
 									<h3 className="font-semibold text-sm text-text-strong-950">
 										{promise.title}
 									</h3>
-									<p className="text-xs text-text-sub-600 leading-relaxed">
+									<p className="text-text-sub-600 text-xs leading-relaxed">
 										{promise.description}
 									</p>
 								</div>

@@ -168,9 +168,7 @@
 		"be:upload:dev": "bun run --filter=upload dev",
 		"be:upload:build": "bun run --filter=upload build",
 		"be:upload:start": "bun run --filter=upload start",
-		"be:workflow:dev": "bun run --filter=workflow dev",
-		"be:workflow:build": "bun run --filter=workflow build",
-		"be:workflow:start": "bun run --filter=workflow start",
+
 		"be:verify:dev": "bun run --filter=verify dev",
 		"be:verify:build": "bun run --filter=verify build",
 		"be:verify:start": "bun run --filter=verify start",
@@ -179,8 +177,8 @@
 		"be:credits:start": "bun run --filter=credits start",
 		"check": "biome check --write .",
 		"frontend:dev": "turbo dev --filter='dashboard' --filter='docs' --filter='web'",
-		"backend:dev": "turbo dev --filter='auth' --filter='api-key' --filter='logs' --filter='upload' --filter='workflow' --filter='verify' --filter='credits'",
-		"verifio:dev": "turbo dev --filter='dashboard' --filter='docs' --filter='web' --filter='auth' --filter='api-key' --filter='logs' --filter='upload' --filter='workflow' --filter='verify' --filter='credits'",
+		"backend:dev": "turbo dev --filter='auth' --filter='api-key' --filter='logs' --filter='upload' --filter='verify' --filter='credits'",
+		"verifio:dev": "turbo dev --filter='dashboard' --filter='docs' --filter='web' --filter='auth' --filter='api-key' --filter='logs' --filter='upload' --filter='verify' --filter='credits'",
 		"docker:up": "docker compose -f local/docker-compose.yml up -d",
 		"docker:down": "docker compose -f local/docker-compose.yml down",
 		"docker-prod:up": "docker compose -f prod/docker-compose.yml up -d",
@@ -207,6 +205,5 @@
 		"docs",
 		"protobufjs"
 	],
-	"dependencies": {
-	}
+	"dependencies": {}
 }

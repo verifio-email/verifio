@@ -1,10 +1,10 @@
 /**
  * @verifio/logging - Centralized activity logging for Verifio services
- * 
+ *
  * Usage:
  * ```typescript
  * import { logActivity, createTracker } from "@verifio/logging";
- * 
+ *
  * // Simple usage
  * await logActivity({
  *   service: "verify",
@@ -14,7 +14,7 @@
  *   status: "success",
  *   resource_id: "test@example.com",
  * });
- * 
+ *
  * // Create a tracker instance with service pre-configured
  * const tracker = createTracker("verify", "https://logging-service-url");
  * await tracker.log({
@@ -28,141 +28,147 @@
 
 import { logger } from "@verifio/logger";
 
-export type Service = "verify" | "api-key" | "auth" | "workflow" | "upload";
+export type Service = "verify" | "api-key" | "auth" | "upload";
 export type Status = "success" | "failed" | "error";
 
 export interface LogActivityParams {
-  // Service context
-  service: Service;
-  endpoint: string;
-  method: string;
+	// Service context
+	service: Service;
+	endpoint: string;
+	method: string;
 
-  // Identity
-  organization_id: string;
-  user_id?: string;
-  api_key_id?: string;
+	// Identity
+	organization_id: string;
+	user_id?: string;
+	api_key_id?: string;
 
-  // Request data
-  resource_type?: string;
-  resource_id?: string;
+	// Request data
+	resource_type?: string;
+	resource_id?: string;
 
-  // Result
-  status: Status;
-  result?: string;
-  error_message?: string;
+	// Result
+	status: Status;
+	result?: string;
+	error_message?: string;
 
-  // Metrics
-  credits_used?: number;
-  duration_ms?: number;
+	// Metrics
+	credits_used?: number;
+	duration_ms?: number;
 
-  // Client info
-  ip_address?: string;
-  user_agent?: string;
+	// Client info
+	ip_address?: string;
+	user_agent?: string;
 
-  // Extra data
-  metadata?: Record<string, unknown>;
+	// Extra data
+	metadata?: Record<string, unknown>;
 }
 
 // Default logging service URL - can be overridden
-let loggingServiceUrl = process.env.LOGGING_SERVICE_URL || "http://localhost:8020";
+let loggingServiceUrl =
+	process.env.LOGGING_SERVICE_URL || "http://localhost:8020";
 
 /**
  * Set the logging service URL
  */
 export function setLoggingServiceUrl(url: string): void {
-  loggingServiceUrl = url;
+	loggingServiceUrl = url;
 }
 
 /**
  * Get the current logging service URL
  */
 export function getLoggingServiceUrl(): string {
-  return loggingServiceUrl;
+	return loggingServiceUrl;
 }
 
 /**
  * Log an activity event to the centralized logging service
- * 
+ *
  * This function is fire-and-forget - it won't throw errors or block
  * the calling code if logging fails.
  */
 export async function logActivity(params: LogActivityParams): Promise<void> {
-  try {
-    const url = `${loggingServiceUrl}/api/logging/v1/log`;
+	try {
+		const url = `${loggingServiceUrl}/api/logging/v1/log`;
 
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(params),
-    });
+		const response = await fetch(url, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(params),
+		});
 
-    if (!response.ok) {
-      logger.warn(
-        { status: response.status, url },
-        "Failed to log activity"
-      );
-    }
-  } catch (error) {
-    // Fire and forget - don't throw, just log the warning
-    logger.warn(
-      { error: error instanceof Error ? error.message : "Unknown error" },
-      "Failed to send activity log"
-    );
-  }
+		if (!response.ok) {
+			logger.warn({ status: response.status, url }, "Failed to log activity");
+		}
+	} catch (error) {
+		// Fire and forget - don't throw, just log the warning
+		logger.warn(
+			{ error: error instanceof Error ? error.message : "Unknown error" },
+			"Failed to send activity log",
+		);
+	}
 }
 
 /**
  * Create a tracker instance with a pre-configured service
  */
 export function createTracker(service: Service, customUrl?: string) {
-  const baseUrl = customUrl || loggingServiceUrl;
+	const baseUrl = customUrl || loggingServiceUrl;
 
-  return {
-    /**
-     * Log an activity for this service
-     */
-    async log(params: Omit<LogActivityParams, "service">): Promise<void> {
-      return logActivity({
-        ...params,
-        service,
-      });
-    },
+	return {
+		/**
+		 * Log an activity for this service
+		 */
+		async log(params: Omit<LogActivityParams, "service">): Promise<void> {
+			return logActivity({
+				...params,
+				service,
+			});
+		},
 
-    /**
-     * Helper to track a successful operation
-     */
-    async success(params: Omit<LogActivityParams, "service" | "status">): Promise<void> {
-      return logActivity({
-        ...params,
-        service,
-        status: "success",
-      });
-    },
+		/**
+		 * Helper to track a successful operation
+		 */
+		async success(
+			params: Omit<LogActivityParams, "service" | "status">,
+		): Promise<void> {
+			return logActivity({
+				...params,
+				service,
+				status: "success",
+			});
+		},
 
-    /**
-     * Helper to track a failed operation
-     */
-    async failed(params: Omit<LogActivityParams, "service" | "status">): Promise<void> {
-      return logActivity({
-        ...params,
-        service,
-        status: "failed",
-      });
-    },
+		/**
+		 * Helper to track a failed operation
+		 */
+		async failed(
+			params: Omit<LogActivityParams, "service" | "status">,
+		): Promise<void> {
+			return logActivity({
+				...params,
+				service,
+				status: "failed",
+			});
+		},
 
-    /**
-     * Helper to track an error
-     */
-    async error(params: Omit<LogActivityParams, "service" | "status"> & { error_message: string }): Promise<void> {
-      return logActivity({
-        ...params,
-        service,
-        status: "error",
-      });
-    },
-  };
+		/**
+		 * Helper to track an error
+		 */
+		async error(
+			params: Omit<LogActivityParams, "service" | "status"> & {
+				error_message: string;
+			},
+		): Promise<void> {
+			return logActivity({
+				...params,
+				service,
+				status: "error",
+			});
+		},
+	};
 }
 
 // Re-export types

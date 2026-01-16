@@ -21,5 +21,6 @@ export const createDb = (opts?: DatabaseClientOptions): DatabaseInstance => {
 
 export const db = createDb({
 	databaseUrl:
-		process.env.PG_URL || "postgresql://verifio:verifio123@localhost:5432/verifio",
+		process.env.PG_URL ||
+		"postgresql://verifio:verifio123@localhost:5432/verifio",
 });

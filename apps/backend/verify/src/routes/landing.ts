@@ -6,23 +6,23 @@ import { db } from "@verifio/db/client";
 import { Elysia } from "elysia";
 
 export const landing = new Elysia()
-  .get(
-    "/",
-    async ({ set }) => {
-      set.headers["Content-Type"] = "text/plain; charset=utf-8";
+	.get(
+		"/",
+		async ({ set }) => {
+			set.headers["Content-Type"] = "text/plain; charset=utf-8";
 
-      let dbStatus = "UNKNOWN";
-      let dbError = "";
+			let dbStatus = "UNKNOWN";
+			let dbError = "";
 
-      try {
-        await db.execute("SELECT 1 as test");
-        dbStatus = "CONNECTED";
-      } catch (dbErr) {
-        dbStatus = "DISCONNECTED";
-        dbError = dbErr instanceof Error ? dbErr.message : String(dbErr);
-      }
+			try {
+				await db.execute("SELECT 1 as test");
+				dbStatus = "CONNECTED";
+			} catch (dbErr) {
+				dbStatus = "DISCONNECTED";
+				dbError = dbErr instanceof Error ? dbErr.message : String(dbErr);
+			}
 
-      return `
+			return `
 ╔════════════════════════════════════════════════════════╗
 ║                    VERIFY SERVICE                      ║
 ╠════════════════════════════════════════════════════════╣
@@ -62,27 +62,27 @@ ${dbError ? `║ DB ERROR: ${dbError.substring(0, 45).padEnd(45)} ║` : "║   
                 Made with ❤️ for developers
 
 `;
-    },
-    {
-      detail: {
-        tags: ["Service"],
-        summary: "Health check for Verify Service",
-        description: "Checks the health of the Verify Service",
-      },
-    },
-  )
-  .get("/health/postgres", async () => {
-    try {
-      await db.execute("SELECT 1 as test");
-      return {
-        status: "CONNECTED",
-        timestamp: new Date().toISOString(),
-      };
-    } catch (error) {
-      return {
-        status: "DISCONNECTED",
-        error: error instanceof Error ? error.message : String(error),
-        timestamp: new Date().toISOString(),
-      };
-    }
-  });
+		},
+		{
+			detail: {
+				tags: ["Service"],
+				summary: "Health check for Verify Service",
+				description: "Checks the health of the Verify Service",
+			},
+		},
+	)
+	.get("/health/postgres", async () => {
+		try {
+			await db.execute("SELECT 1 as test");
+			return {
+				status: "CONNECTED",
+				timestamp: new Date().toISOString(),
+			};
+		} catch (error) {
+			return {
+				status: "DISCONNECTED",
+				error: error instanceof Error ? error.message : String(error),
+				timestamp: new Date().toISOString(),
+			};
+		}
+	});

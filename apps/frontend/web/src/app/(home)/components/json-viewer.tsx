@@ -1,6 +1,6 @@
-import { Icon } from "@verifio/ui/icon";
 import * as Button from "@verifio/ui/button";
 import { CodeBlock } from "@verifio/ui/code-block";
+import { Icon } from "@verifio/ui/icon";
 
 interface JsonViewerProps {
 	data: any;

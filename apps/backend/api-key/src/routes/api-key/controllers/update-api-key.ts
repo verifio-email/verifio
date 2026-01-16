@@ -1,5 +1,5 @@
-import type { ApiKeyTypes } from "@verifio/api-key/types/api-key.type";
 import { formatApiKeyResponse } from "@verifio/api-key/routes/api-key/controllers/format-api-key-response";
+import type { ApiKeyTypes } from "@verifio/api-key/types/api-key.type";
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
 import { logger } from "@verifio/logger";

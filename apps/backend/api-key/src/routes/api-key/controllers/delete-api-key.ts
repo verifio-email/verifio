@@ -78,7 +78,7 @@ export async function deleteApiKeyHandler(
 			status: "success",
 			result: "deleted",
 			duration_ms: Date.now() - startTime,
-		}).catch(() => { });
+		}).catch(() => {});
 
 		return { message: "API key deleted successfully" };
 	} catch (error) {
@@ -104,7 +104,7 @@ export async function deleteApiKeyHandler(
 			status: "error",
 			error_message: error instanceof Error ? error.message : String(error),
 			duration_ms: Date.now() - startTime,
-		}).catch(() => { });
+		}).catch(() => {});
 
 		throw error;
 	}

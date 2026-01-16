@@ -3,8 +3,8 @@
 import * as Button from "@verifio/ui/button";
 import { Icon } from "@verifio/ui/icon";
 import Link from "next/link";
-import { useState, useMemo } from "react";
 import { Line } from "rc-progress";
+import { useMemo, useState } from "react";
 
 // Credit pricing tiers for volume discounts
 const CREDIT_TIERS = [

@@ -11,12 +11,7 @@ import { useRef, useState } from "react";
 export type StatusFilterOption = "success" | "failed" | "error";
 // User mode status options (verification state)
 export type VerificationStateOption = "deliverable" | "risky" | "undeliverable";
-export type ServiceFilterOption =
-	| "verify"
-	| "api-key"
-	| "auth"
-	| "workflow"
-	| "upload";
+export type ServiceFilterOption = "verify" | "api-key" | "auth" | "upload";
 export type DateRangeOption = "24h" | "7d" | "30d" | "all";
 
 export interface LogsFilters {
@@ -53,7 +48,6 @@ const serviceOptions: { id: ServiceFilterOption; label: string }[] = [
 	{ id: "verify", label: "Verify" },
 	{ id: "api-key", label: "API Key" },
 	{ id: "auth", label: "Auth" },
-	{ id: "workflow", label: "Workflow" },
 	{ id: "upload", label: "Upload" },
 ];
 

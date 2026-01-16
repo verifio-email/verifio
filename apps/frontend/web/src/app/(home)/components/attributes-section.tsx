@@ -1,7 +1,7 @@
 "use client";
 
 import { Icon } from "@verifio/ui/icon";
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface AttributesSectionProps {
 	isFree: boolean;

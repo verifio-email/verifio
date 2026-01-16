@@ -15,11 +15,15 @@ interface PasswordResetEmailProps {
 
 export const PasswordResetEmail = ({ resetUrl }: PasswordResetEmailProps) => {
 	return (
-		<EmailThemeProvider preview={<Preview>Reset your Verifio password</Preview>}>
+		<EmailThemeProvider
+			preview={<Preview>Reset your Verifio password</Preview>}
+		>
 			<Body className="bg-gray-50 font-sans">
 				<Container className="mx-auto mb-16 bg-white py-5 pb-12">
 					<Section className="mb-5 rounded-lg bg-gray-50 p-5 text-center">
-						<Text className="m-0 font-bold text-2xl text-blue-600">Verifio</Text>
+						<Text className="m-0 font-bold text-2xl text-blue-600">
+							Verifio
+						</Text>
 					</Section>
 
 					<Section className="rounded-lg bg-white p-8 shadow-sm">
@@ -67,8 +71,8 @@ export const PasswordResetEmail = ({ resetUrl }: PasswordResetEmailProps) => {
 
 					<Section className="mt-8 border-gray-200 border-t pt-5">
 						<Text className="mb-2 text-gray-500 text-sm leading-snug">
-							This email was sent from Verifio. If you have any questions, please
-							contact our support team.
+							This email was sent from Verifio. If you have any questions,
+							please contact our support team.
 						</Text>
 						<Text className="mb-2 text-gray-500 text-sm leading-snug">
 							&copy; 2024 Verifio. All rights reserved.

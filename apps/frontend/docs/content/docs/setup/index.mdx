@@ -132,12 +132,6 @@ bun run be:verify:dev
 ```
 *Core email verification engine - syntax, DNS, SMTP checks*
 
-**Workflow Service:**
-```sh
-bun run be:workflow:dev
-```
-*Manages bulk verification jobs and background processing*
-
 **API Key Service:**
 ```sh
 bun run be:api-key:dev
@@ -180,7 +174,6 @@ When running locally, services will be available at:
 | Auth API | http://localhost:8000 | 8000 | Authentication service |
 | API Key API | http://localhost:8012 | 8012 | API key management |
 | Logging API | http://localhost:8020 | 8020 | Logging service |
-| Workflow API | http://localhost:8017 | 8017 | Workflow service |
 | Upload API | http://localhost:8018 | 8018 | Upload service |
 | Credits API | http://localhost:8030 | 8030 | Credits service |
 | Verify API | http://localhost:3040 | 3040 | Email verification |
@@ -200,7 +193,7 @@ When running locally, services will be available at:
 
 1. **Start Docker services** (PostgreSQL, Redis, Caddy, Inngest)
 2. **Setup database** (push schema, seed data)
-3. **Start backend services** (auth, verify, workflow, etc.)
+3. **Start backend services** (auth, verify, etc.)
 4. **Start frontend services** (web, dashboard, docs)
 5. **Access applications** at `https://local.verifio.email`
 

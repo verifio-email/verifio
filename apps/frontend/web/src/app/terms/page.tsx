@@ -1,7 +1,7 @@
+import { TableOfContents } from "@verifio/web/components/table-of-contents";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
-import { TableOfContents } from "@verifio/web/components/table-of-contents";
 
 export const metadata: Metadata = {
 	title: "Terms of Service | Verifio - Email Verification Service",
@@ -84,15 +84,17 @@ export default function TermsPage() {
 					<div className="mx-4 max-w-7xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
 						<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 							<span className="text-text-sub-600 text-xs">[01] TERMS</span>
-							<span className="text-text-sub-600 text-xs">/ TERMS OF SERVICE</span>
+							<span className="text-text-sub-600 text-xs">
+								/ TERMS OF SERVICE
+							</span>
 						</div>
 						<div className="px-4 py-8 md:px-10 md:py-16">
 							<h1 className="max-w-3xl font-semibold text-3xl text-text-strong-950 md:text-5xl">
 								Terms of Service
 							</h1>
 							<p className="mt-4 max-w-2xl text-base text-text-sub-600 md:mt-6 md:text-lg">
-								Simple, fair terms. Use our service responsibly, and we'll do our best
-								to provide a great experience.
+								Simple, fair terms. Use our service responsibly, and we'll do
+								our best to provide a great experience.
 							</p>
 							<p className="mt-4 text-text-soft-400 text-xs">
 								Last updated:{" "}
@@ -113,26 +115,40 @@ export default function TermsPage() {
 							{/* Content */}
 							<div className="flex-1 lg:border-stroke-soft-100/60 lg:border-r">
 								{/* Overview */}
-								<div id="overview" className="border-stroke-soft-100/60 border-b">
+								<div
+									id="overview"
+									className="border-stroke-soft-100/60 border-b"
+								>
 									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
-										<span className="text-text-sub-600 text-xs">[01] OVERVIEW</span>
-										<span className="text-text-sub-600 text-xs">/ INTRODUCTION</span>
+										<span className="text-text-sub-600 text-xs">
+											[01] OVERVIEW
+										</span>
+										<span className="text-text-sub-600 text-xs">
+											/ INTRODUCTION
+										</span>
 									</div>
 									<div className="p-4 md:p-10">
 										<p className="text-sm text-text-sub-600 leading-relaxed md:text-base">
-											These Terms of Service ("Terms") govern your access to and use of
-											Verifio's email verification services, website, and API. By using
-											Verifio, you agree to be bound by these Terms. If you don't agree,
-											please don't use the service.
+											These Terms of Service ("Terms") govern your access to and
+											use of Verifio's email verification services, website, and
+											API. By using Verifio, you agree to be bound by these
+											Terms. If you don't agree, please don't use the service.
 										</p>
 									</div>
 								</div>
 
 								{/* The Service */}
-								<div id="the-service" className="border-stroke-soft-100/60 border-b">
+								<div
+									id="the-service"
+									className="border-stroke-soft-100/60 border-b"
+								>
 									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
-										<span className="text-text-sub-600 text-xs">[02] SERVICE</span>
-										<span className="text-text-sub-600 text-xs">/ WHAT WE OFFER</span>
+										<span className="text-text-sub-600 text-xs">
+											[02] SERVICE
+										</span>
+										<span className="text-text-sub-600 text-xs">
+											/ WHAT WE OFFER
+										</span>
 									</div>
 									<div className="grid gap-0 md:grid-cols-3">
 										{[
@@ -156,7 +172,7 @@ export default function TermsPage() {
 												<h3 className="font-medium text-sm text-text-strong-950 md:text-base">
 													{item.title}
 												</h3>
-												<p className="mt-2 text-xs text-text-sub-600 md:text-sm">
+												<p className="mt-2 text-text-sub-600 text-xs md:text-sm">
 													{item.desc}
 												</p>
 											</div>
@@ -165,16 +181,23 @@ export default function TermsPage() {
 								</div>
 
 								{/* Your Account */}
-								<div id="your-account" className="border-stroke-soft-100/60 border-b">
+								<div
+									id="your-account"
+									className="border-stroke-soft-100/60 border-b"
+								>
 									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
-										<span className="text-text-sub-600 text-xs">[03] ACCOUNT</span>
-										<span className="text-text-sub-600 text-xs">/ YOUR RESPONSIBILITIES</span>
+										<span className="text-text-sub-600 text-xs">
+											[03] ACCOUNT
+										</span>
+										<span className="text-text-sub-600 text-xs">
+											/ YOUR RESPONSIBILITIES
+										</span>
 									</div>
 									<div className="p-4 md:p-10">
-										<p className="mb-4 text-xs text-text-sub-600 md:text-sm">
+										<p className="mb-4 text-text-sub-600 text-xs md:text-sm">
 											When you create an account, you're responsible for:
 										</p>
-										<ul className="space-y-3 text-xs text-text-sub-600 md:text-sm">
+										<ul className="space-y-3 text-text-sub-600 text-xs md:text-sm">
 											<li className="flex items-start gap-3">
 												<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-base" />
 												<span>Keeping your login credentials secure</span>
@@ -189,17 +212,27 @@ export default function TermsPage() {
 											</li>
 											<li className="flex items-start gap-3">
 												<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-base" />
-												<span>Notifying us immediately if you suspect unauthorized access</span>
+												<span>
+													Notifying us immediately if you suspect unauthorized
+													access
+												</span>
 											</li>
 										</ul>
 									</div>
 								</div>
 
 								{/* Acceptable Use */}
-								<div id="acceptable-use" className="border-stroke-soft-100/60 border-b">
+								<div
+									id="acceptable-use"
+									className="border-stroke-soft-100/60 border-b"
+								>
 									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
-										<span className="text-text-sub-600 text-xs">[04] RULES</span>
-										<span className="text-text-sub-600 text-xs">/ ACCEPTABLE USE</span>
+										<span className="text-text-sub-600 text-xs">
+											[04] RULES
+										</span>
+										<span className="text-text-sub-600 text-xs">
+											/ ACCEPTABLE USE
+										</span>
 									</div>
 									<div className="grid gap-0 md:grid-cols-2">
 										<div className="border-stroke-soft-100/60 border-b p-4 md:border-r md:border-b-0 md:p-10">
@@ -207,7 +240,7 @@ export default function TermsPage() {
 												<span className="text-red-500">✕</span>
 												Don't
 											</h3>
-											<ul className="mt-4 space-y-2 text-xs text-text-sub-600 md:text-sm">
+											<ul className="mt-4 space-y-2 text-text-sub-600 text-xs md:text-sm">
 												<li>Use for spamming or unsolicited emails</li>
 												<li>Harvest or scrape email addresses</li>
 												<li>Circumvent rate limits</li>
@@ -220,7 +253,7 @@ export default function TermsPage() {
 												<span className="text-green-500">✓</span>
 												Do
 											</h3>
-											<ul className="mt-4 space-y-2 text-xs text-text-sub-600 md:text-sm">
+											<ul className="mt-4 space-y-2 text-text-sub-600 text-xs md:text-sm">
 												<li>Use for legitimate email list cleaning</li>
 												<li>Integrate into your signup flows</li>
 												<li>Respect rate limits</li>
@@ -232,10 +265,15 @@ export default function TermsPage() {
 								</div>
 
 								{/* API Usage */}
-								<div id="api-usage" className="border-stroke-soft-100/60 border-b">
+								<div
+									id="api-usage"
+									className="border-stroke-soft-100/60 border-b"
+								>
 									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 										<span className="text-text-sub-600 text-xs">[05] API</span>
-										<span className="text-text-sub-600 text-xs">/ RATE LIMITS</span>
+										<span className="text-text-sub-600 text-xs">
+											/ RATE LIMITS
+										</span>
 									</div>
 									<div className="divide-y divide-stroke-soft-100/60">
 										{[
@@ -248,10 +286,10 @@ export default function TermsPage() {
 												key={item.plan}
 												className="flex items-center justify-between px-4 py-3 md:px-10 md:py-4"
 											>
-												<span className="font-medium text-xs text-text-strong-950 md:text-sm">
+												<span className="font-medium text-text-strong-950 text-xs md:text-sm">
 													{item.plan}
 												</span>
-												<span className="text-xs text-text-sub-600 md:text-sm">
+												<span className="text-text-sub-600 text-xs md:text-sm">
 													{item.limit}
 												</span>
 											</div>
@@ -260,9 +298,14 @@ export default function TermsPage() {
 								</div>
 
 								{/* Payment */}
-								<div id="payment" className="border-stroke-soft-100/60 border-b">
+								<div
+									id="payment"
+									className="border-stroke-soft-100/60 border-b"
+								>
 									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
-										<span className="text-text-sub-600 text-xs">[06] PAYMENT</span>
+										<span className="text-text-sub-600 text-xs">
+											[06] PAYMENT
+										</span>
 										<span className="text-text-sub-600 text-xs">/ BILLING</span>
 									</div>
 									<div className="grid gap-0 md:grid-cols-2">
@@ -270,14 +313,18 @@ export default function TermsPage() {
 											<h3 className="font-medium text-sm text-text-strong-950 md:text-base">
 												How it works
 											</h3>
-											<ul className="mt-4 space-y-2 text-xs text-text-sub-600 md:text-sm">
+											<ul className="mt-4 space-y-2 text-text-sub-600 text-xs md:text-sm">
 												<li className="flex items-start gap-3">
 													<span className="mt-0.5 text-text-soft-400">•</span>
-													<span>Pay monthly or annually (annual = 2 months free)</span>
+													<span>
+														Pay monthly or annually (annual = 2 months free)
+													</span>
 												</li>
 												<li className="flex items-start gap-3">
 													<span className="mt-0.5 text-text-soft-400">•</span>
-													<span>Credits don't expire while you're subscribed</span>
+													<span>
+														Credits don't expire while you're subscribed
+													</span>
 												</li>
 												<li className="flex items-start gap-3">
 													<span className="mt-0.5 text-text-soft-400">•</span>
@@ -289,9 +336,9 @@ export default function TermsPage() {
 											<h3 className="font-medium text-sm text-text-strong-950 md:text-base">
 												Refunds
 											</h3>
-											<p className="mt-4 text-xs text-text-sub-600 md:text-sm">
-												We offer refunds within 14 days if you haven't used many credits.
-												After that, it's case-by-case. Just{" "}
+											<p className="mt-4 text-text-sub-600 text-xs md:text-sm">
+												We offer refunds within 14 days if you haven't used many
+												credits. After that, it's case-by-case. Just{" "}
 												<a
 													href="mailto:hello@verifio.email"
 													className="text-primary-base hover:underline"
@@ -305,47 +352,61 @@ export default function TermsPage() {
 								</div>
 
 								{/* Disclaimer */}
-								<div id="disclaimer" className="border-stroke-soft-100/60 border-b">
+								<div
+									id="disclaimer"
+									className="border-stroke-soft-100/60 border-b"
+								>
 									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
-										<span className="text-text-sub-600 text-xs">[07] DISCLAIMER</span>
-										<span className="text-text-sub-600 text-xs">/ BEING HONEST</span>
+										<span className="text-text-sub-600 text-xs">
+											[07] DISCLAIMER
+										</span>
+										<span className="text-text-sub-600 text-xs">
+											/ BEING HONEST
+										</span>
 									</div>
 									<div className="p-4 md:p-10">
-										<p className="text-xs text-text-sub-600 leading-relaxed md:text-sm">
-											Verifio is provided "as is" without warranties of any kind.
-											We do our best to keep things running smoothly, but we can't
-											guarantee 100% uptime or perfect accuracy. Email verification
-											depends on external mail servers which can be unpredictable.
-											We're not responsible for any damages that might result from
-											using the service.
+										<p className="text-text-sub-600 text-xs leading-relaxed md:text-sm">
+											Verifio is provided "as is" without warranties of any
+											kind. We do our best to keep things running smoothly, but
+											we can't guarantee 100% uptime or perfect accuracy. Email
+											verification depends on external mail servers which can be
+											unpredictable. We're not responsible for any damages that
+											might result from using the service.
 										</p>
 									</div>
 								</div>
 
 								{/* Termination */}
-								<div id="termination" className="border-stroke-soft-100/60 border-b">
+								<div
+									id="termination"
+									className="border-stroke-soft-100/60 border-b"
+								>
 									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
-										<span className="text-text-sub-600 text-xs">[08] ENDING</span>
-										<span className="text-text-sub-600 text-xs">/ TERMINATION</span>
+										<span className="text-text-sub-600 text-xs">
+											[08] ENDING
+										</span>
+										<span className="text-text-sub-600 text-xs">
+											/ TERMINATION
+										</span>
 									</div>
 									<div className="grid gap-0 md:grid-cols-2">
 										<div className="border-stroke-soft-100/60 border-b p-4 md:border-r md:border-b-0 md:p-10">
 											<h3 className="font-medium text-sm text-text-strong-950 md:text-base">
 												You can
 											</h3>
-											<p className="mt-4 text-xs text-text-sub-600 md:text-sm">
-												Delete your account anytime from your dashboard. We'll remove
-												your data as described in our privacy policy.
+											<p className="mt-4 text-text-sub-600 text-xs md:text-sm">
+												Delete your account anytime from your dashboard. We'll
+												remove your data as described in our privacy policy.
 											</p>
 										</div>
 										<div className="p-4 md:p-10">
 											<h3 className="font-medium text-sm text-text-strong-950 md:text-base">
 												We can
 											</h3>
-											<p className="mt-4 text-xs text-text-sub-600 md:text-sm">
-												Suspend or terminate accounts that violate these terms, abuse
-												the service, or do anything harmful. We'll try to give notice
-												when possible.
+											<p className="mt-4 text-text-sub-600 text-xs md:text-sm">
+												Suspend or terminate accounts that violate these terms,
+												abuse the service, or do anything harmful. We'll try to
+												give notice when possible.
 											</p>
 										</div>
 									</div>
@@ -354,24 +415,29 @@ export default function TermsPage() {
 								{/* Contact */}
 								<div id="contact">
 									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
-										<span className="text-text-sub-600 text-xs">[09] CONTACT</span>
-										<span className="text-text-sub-600 text-xs">/ GET IN TOUCH</span>
+										<span className="text-text-sub-600 text-xs">
+											[09] CONTACT
+										</span>
+										<span className="text-text-sub-600 text-xs">
+											/ GET IN TOUCH
+										</span>
 									</div>
 									<div className="p-4 md:p-10">
-										<p className="mb-4 text-xs text-text-sub-600 md:text-sm">
+										<p className="mb-4 text-text-sub-600 text-xs md:text-sm">
 											Questions about these terms? We're happy to help.
 										</p>
 										<a
 											href="mailto:hello@verifio.email"
-											className="inline-flex items-center gap-2 text-xs text-primary-base hover:underline md:text-sm"
+											className="inline-flex items-center gap-2 text-primary-base text-xs hover:underline md:text-sm"
 										>
 											<span>hello@verifio.email</span>
 											<span>→</span>
 										</a>
-										<p className="mt-6 text-xs text-text-soft-400">
-											We might update these terms occasionally. If we make significant
-											changes, we'll let you know through the app or via email.
-											Continuing to use Verifio after changes means you accept them.
+										<p className="mt-6 text-text-soft-400 text-xs">
+											We might update these terms occasionally. If we make
+											significant changes, we'll let you know through the app or
+											via email. Continuing to use Verifio after changes means
+											you accept them.
 										</p>
 									</div>
 								</div>
@@ -404,7 +470,7 @@ export default function TermsPage() {
 									<p className="font-medium text-sm text-text-strong-950">
 										Privacy Policy
 									</p>
-									<p className="mt-1 text-xs text-text-sub-600">
+									<p className="mt-1 text-text-sub-600 text-xs">
 										Learn how we handle your data
 									</p>
 								</div>
@@ -420,7 +486,7 @@ export default function TermsPage() {
 									<p className="font-medium text-sm text-text-strong-950">
 										Contact Us
 									</p>
-									<p className="mt-1 text-xs text-text-sub-600">
+									<p className="mt-1 text-text-sub-600 text-xs">
 										Get in touch with our team
 									</p>
 								</div>

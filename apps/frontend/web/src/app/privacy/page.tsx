@@ -1,8 +1,8 @@
 import { Icon } from "@verifio/ui/icon";
+import { TableOfContents } from "@verifio/web/components/table-of-contents";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
-import { TableOfContents } from "@verifio/web/components/table-of-contents";
 
 export const metadata: Metadata = {
 	title: "Privacy Policy | Verifio - Email Verification Service",
@@ -146,7 +146,7 @@ export default function PrivacyPage() {
 										<h3 className="font-medium text-sm text-text-strong-950 md:text-base">
 											{item.title}
 										</h3>
-										<p className="mt-1 text-xs text-text-sub-600 md:text-sm">
+										<p className="mt-1 text-text-sub-600 text-xs md:text-sm">
 											{item.desc}
 										</p>
 									</div>
@@ -202,7 +202,7 @@ export default function PrivacyPage() {
 											<h3 className="font-medium text-sm text-text-strong-950 md:text-base">
 												Information you provide
 											</h3>
-											<ul className="mt-4 space-y-3 text-xs text-text-sub-600 md:text-sm">
+											<ul className="mt-4 space-y-3 text-text-sub-600 text-xs md:text-sm">
 												<li className="flex items-start gap-3">
 													<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-base" />
 													<span>
@@ -245,7 +245,7 @@ export default function PrivacyPage() {
 											<h3 className="font-medium text-sm text-text-strong-950 md:text-base">
 												Collected automatically
 											</h3>
-											<ul className="mt-4 space-y-3 text-xs text-text-sub-600 md:text-sm">
+											<ul className="mt-4 space-y-3 text-text-sub-600 text-xs md:text-sm">
 												<li className="flex items-start gap-3">
 													<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-text-soft-400" />
 													<span>Device and browser information</span>
@@ -302,7 +302,7 @@ export default function PrivacyPage() {
 												<h3 className="font-medium text-sm text-text-strong-950 md:text-base">
 													{item.title}
 												</h3>
-												<p className="mt-2 text-xs text-text-sub-600 md:text-sm">
+												<p className="mt-2 text-text-sub-600 text-xs md:text-sm">
 													{item.desc}
 												</p>
 											</div>
@@ -327,10 +327,10 @@ export default function PrivacyPage() {
 										<p className="mb-4 font-medium text-sm text-text-strong-950 md:mb-6 md:text-base">
 											We never sell your personal data. Ever.
 										</p>
-										<p className="mb-4 text-xs text-text-sub-600 md:text-sm">
+										<p className="mb-4 text-text-sub-600 text-xs md:text-sm">
 											We only share your data in these limited circumstances:
 										</p>
-										<ul className="space-y-3 text-xs text-text-sub-600 md:text-sm">
+										<ul className="space-y-3 text-text-sub-600 text-xs md:text-sm">
 											<li className="flex items-start gap-3">
 												<span className="mt-0.5 text-text-soft-400">1.</span>
 												<span>
@@ -399,10 +399,10 @@ export default function PrivacyPage() {
 												key={item.data}
 												className="flex flex-col justify-between gap-2 px-4 py-3 md:flex-row md:items-center md:px-10 md:py-4"
 											>
-												<span className="font-medium text-xs text-text-strong-950 md:text-sm">
+												<span className="font-medium text-text-strong-950 text-xs md:text-sm">
 													{item.data}
 												</span>
-												<span className="text-xs text-text-sub-600 md:text-sm">
+												<span className="text-text-sub-600 text-xs md:text-sm">
 													{item.period}
 												</span>
 											</div>
@@ -445,7 +445,7 @@ export default function PrivacyPage() {
 												<h3 className="font-medium text-sm text-text-strong-950 md:text-base">
 													{item.title}
 												</h3>
-												<p className="mt-2 text-xs text-text-sub-600 md:text-sm">
+												<p className="mt-2 text-text-sub-600 text-xs md:text-sm">
 													{item.desc}
 												</p>
 											</div>
@@ -492,7 +492,7 @@ export default function PrivacyPage() {
 												<h3 className="font-medium text-sm text-text-strong-950 md:text-base">
 													{item.title}
 												</h3>
-												<p className="mt-2 text-xs text-text-sub-600 md:text-sm">
+												<p className="mt-2 text-text-sub-600 text-xs md:text-sm">
 													{item.desc}
 												</p>
 											</div>
@@ -514,25 +514,25 @@ export default function PrivacyPage() {
 										</span>
 									</div>
 									<div className="p-4 md:p-10">
-										<p className="mb-4 text-xs text-text-sub-600 md:mb-6 md:text-sm">
+										<p className="mb-4 text-text-sub-600 text-xs md:mb-6 md:text-sm">
 											We use cookies to keep you logged in and remember your
 											preferences. We don't use cookies for advertising or
 											cross-site tracking.
 										</p>
 										<div className="divide-y divide-stroke-soft-100/60 rounded-lg border border-stroke-soft-100/60">
 											<div className="flex items-center justify-between px-4 py-3">
-												<span className="font-mono text-xs text-text-strong-950 md:text-sm">
+												<span className="font-mono text-text-strong-950 text-xs md:text-sm">
 													session
 												</span>
-												<span className="text-xs text-text-sub-600 md:text-sm">
+												<span className="text-text-sub-600 text-xs md:text-sm">
 													Keeps you logged in
 												</span>
 											</div>
 											<div className="flex items-center justify-between px-4 py-3">
-												<span className="font-mono text-xs text-text-strong-950 md:text-sm">
+												<span className="font-mono text-text-strong-950 text-xs md:text-sm">
 													preferences
 												</span>
-												<span className="text-xs text-text-sub-600 md:text-sm">
+												<span className="text-text-sub-600 text-xs md:text-sm">
 													Remembers your settings
 												</span>
 											</div>
@@ -551,18 +551,18 @@ export default function PrivacyPage() {
 										</span>
 									</div>
 									<div className="p-4 md:p-10">
-										<p className="mb-4 text-xs text-text-sub-600 md:text-sm">
+										<p className="mb-4 text-text-sub-600 text-xs md:text-sm">
 											If you have any questions about this privacy policy or how
 											we handle your data, we're here to help.
 										</p>
 										<a
 											href="mailto:hello@verifio.email"
-											className="inline-flex items-center gap-2 text-xs text-primary-base hover:underline md:text-sm"
+											className="inline-flex items-center gap-2 text-primary-base text-xs hover:underline md:text-sm"
 										>
 											<span>hello@verifio.email</span>
 											<span>→</span>
 										</a>
-										<p className="mt-6 text-xs text-text-soft-400">
+										<p className="mt-6 text-text-soft-400 text-xs">
 											We may update this policy from time to time. We'll notify
 											you of significant changes via email or through the app.
 										</p>
@@ -597,7 +597,7 @@ export default function PrivacyPage() {
 									<p className="font-medium text-sm text-text-strong-950">
 										Terms of Service
 									</p>
-									<p className="mt-1 text-xs text-text-sub-600">
+									<p className="mt-1 text-text-sub-600 text-xs">
 										Read our terms and conditions
 									</p>
 								</div>
@@ -613,7 +613,7 @@ export default function PrivacyPage() {
 									<p className="font-medium text-sm text-text-strong-950">
 										Contact Us
 									</p>
-									<p className="mt-1 text-xs text-text-sub-600">
+									<p className="mt-1 text-text-sub-600 text-xs">
 										Get in touch with our team
 									</p>
 								</div>
