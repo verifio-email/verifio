@@ -2,8 +2,24 @@
 import * as Button from "@verifio/ui/button";
 import { Icon } from "@verifio/ui/icon";
 import DotPattern from "@verifio/web/components/dot-pattern";
+import {
+	Background,
+	BackgroundVariant,
+	type Edge,
+	type EdgeProps,
+	getBezierPath,
+	Handle,
+	type Node,
+	type NodeProps,
+	Position,
+	ReactFlow,
+	useEdgesState,
+	useNodesState,
+} from "@xyflow/react";
 import { motion } from "framer-motion";
+import "@xyflow/react/dist/style.css";
 
+// Flow step data
 const flowSteps = [
 	{
 		id: "syntax",
@@ -13,7 +29,6 @@ const flowSteps = [
 		badgeColor: "primary",
 		description: "Checks formatting and domain structure",
 		status: "✓ Validated",
-		statusColor: "green",
 	},
 	{
 		id: "mx-dns",
@@ -23,7 +38,6 @@ const flowSteps = [
 		badgeColor: "blue",
 		description: "Confirms mail servers exist and are reachable",
 		status: "✓ Resolved",
-		statusColor: "green",
 	},
 	{
 		id: "smtp",
@@ -33,17 +47,6 @@ const flowSteps = [
 		badgeColor: "emerald",
 		description: "Verifies mailbox availability without sending an email",
 		status: "✓ Verified",
-		statusColor: "green",
-	},
-	{
-		id: "risk",
-		icon: "shield-check" as const,
-		title: "Risk & confidence aggregation",
-		badge: "Analysis",
-		badgeColor: "violet",
-		description: "Combines signals into an explainable result",
-		status: "✓ Scored",
-		statusColor: "green",
 	},
 ];
 
@@ -62,20 +65,11 @@ const iconBgColors = {
 	violet: "bg-violet-500/10 text-violet-500",
 };
 
-function FlowNode({
-	step,
-	isLast,
-}: {
-	step: (typeof flowSteps)[0];
-	isLast: boolean;
-}) {
+// Custom Node Component for React Flow
+function VerificationNode({ data }: NodeProps) {
+	const step = data as (typeof flowSteps)[0];
 	return (
 		<div className="relative flex flex-col items-center">
-			{/* Status badge above card */}
-			<div className="mb-2 flex items-center gap-1.5 rounded-full border border-green-500/20 bg-green-500/5 px-3 py-1 text-green-600 text-xs">
-				<span className="font-medium">{step.status}</span>
-			</div>
-
 			{/* Main Card */}
 			<div className="relative w-72 rounded-xl border border-stroke-soft-200 bg-bg-white-0 p-4 shadow-sm transition-all hover:border-stroke-soft-200/30 hover:shadow-md dark:border-gray-700 dark:bg-gray-900">
 				{/* Card Header */}
@@ -88,12 +82,10 @@ function FlowNode({
 					</div>
 
 					<div className="flex-1">
-						{/* Title and Badge */}
-						<div className="flex items-center gap-2">
-							<h4 className="font-semibold text-sm text-text-strong-950">
-								{step.title}
-							</h4>
-						</div>
+						{/* Title */}
+						<h4 className="font-semibold text-sm text-text-strong-950">
+							{step.title}
+						</h4>
 
 						{/* Badge */}
 						<span
@@ -109,18 +101,143 @@ function FlowNode({
 					{step.description}
 				</p>
 
-				{/* Connection dot at bottom */}
-				{!isLast && (
-					<div className="-bottom-2 -translate-x-1/2 absolute left-1/2 z-10 h-3 w-3 rounded-full border-2 border-bg-white-0 bg-text-strong-950 dark:border-gray-900" />
-				)}
+				{/* Handles for connections */}
+				<Handle
+					type="target"
+					position={Position.Top}
+					className="!bg-transparent !border-0 !w-0 !h-0"
+				/>
+				<Handle
+					type="source"
+					position={Position.Bottom}
+					className="!bg-text-strong-950 !w-3 !h-3 !border-2 !border-bg-white-0 dark:!border-gray-900"
+				/>
 			</div>
+		</div>
+	);
+}
 
-			{/* Connecting line to next card */}
-			{!isLast && (
-				<div className="relative h-12 w-px">
-					<div className="absolute inset-0 bg-gradient-to-b from-neutral-400 to-neutral-200" />
+// Custom Edge Component with Status Badge
+function StatusEdge({
+	id,
+	sourceX,
+	sourceY,
+	targetX,
+	targetY,
+	sourcePosition,
+	targetPosition,
+	data,
+}: EdgeProps) {
+	const [edgePath, labelX, labelY] = getBezierPath({
+		sourceX,
+		sourceY: sourceY + 6, // Offset for the dot
+		targetX,
+		targetY,
+		sourcePosition,
+		targetPosition,
+	});
+
+	const status = data?.status as string;
+
+	return (
+		<>
+			<path
+				id={id}
+				className="stroke-neutral-300 dark:stroke-neutral-600"
+				d={edgePath}
+				fill="none"
+				strokeWidth={1.5}
+			/>
+			{/* Status Badge in the middle of the edge */}
+			<foreignObject
+				x={labelX - 45}
+				y={labelY - 12}
+				width={90}
+				height={24}
+				className="overflow-visible"
+			>
+				<div className="flex items-center justify-center">
+					<div className="flex items-center gap-1 whitespace-nowrap rounded-full border border-green-500/20 bg-green-500/5 px-2.5 py-0.5 font-medium text-[10px] text-green-600">
+						{status}
+					</div>
 				</div>
-			)}
+			</foreignObject>
+		</>
+	);
+}
+
+// Node types registration
+const nodeTypes = {
+	verification: VerificationNode,
+};
+
+// Edge types registration
+const edgeTypes = {
+	status: StatusEdge,
+};
+
+// Verification Pipeline Flow Component
+function VerificationPipelineFlow() {
+	// Initial nodes from flowSteps
+	const initialNodes: Node[] = flowSteps.map((step, index) => ({
+		id: step.id,
+		type: "verification",
+		position: { x: 0, y: index * 180 },
+		data: step,
+		draggable: true,
+	}));
+
+	// Initial edges between nodes with status labels
+	const initialEdges: Edge[] = [
+		{
+			id: "syntax-mx",
+			source: "syntax",
+			target: "mx-dns",
+			type: "status",
+			data: { status: "✓ Resolved" },
+		},
+		{
+			id: "mx-smtp",
+			source: "mx-dns",
+			target: "smtp",
+			type: "status",
+			data: { status: "✓ Verified" },
+		},
+	];
+
+	const [nodes, , onNodesChange] = useNodesState(initialNodes);
+	const [edges, , onEdgesChange] = useEdgesState(initialEdges);
+
+	return (
+		<div className="h-[620px] w-full">
+			<ReactFlow
+				nodes={nodes}
+				edges={edges}
+				onNodesChange={onNodesChange}
+				onEdgesChange={onEdgesChange}
+				nodeTypes={nodeTypes}
+				edgeTypes={edgeTypes}
+				fitView
+				fitViewOptions={{ padding: 0.3, maxZoom: 1, minZoom: 1 }}
+				nodesDraggable={true}
+				nodesConnectable={false}
+				elementsSelectable={true}
+				zoomOnScroll={false}
+				zoomOnPinch={false}
+				panOnScroll={false}
+				panOnDrag={true}
+				preventScrolling={false}
+				proOptions={{ hideAttribution: true }}
+				className="!bg-transparent"
+			>
+				<Background
+					variant={BackgroundVariant.Dots}
+					gap={16}
+					size={1}
+					color="rgba(0, 0, 0, 0.15)"
+					className="dark:!bg-gray-900"
+				/>
+			</ReactFlow>
 		</div>
 	);
 }
@@ -212,32 +329,6 @@ function CascadingList() {
 	);
 }
 
-function ResultCard() {
-	return (
-		<div className="mt-4 w-72 rounded-xl border-2 border-green-500/30 bg-gradient-to-br from-green-500/5 to-green-500/10 p-4">
-			<div className="flex items-center justify-between">
-				<div className="flex items-center gap-3">
-					<div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-500 text-white">
-						<Icon name="check" className="h-5 w-5" />
-					</div>
-					<div>
-						<div className="font-semibold text-sm text-text-strong-950">
-							Deliverable
-						</div>
-						<div className="text-text-sub-600 text-xs">
-							Confidence:{" "}
-							<span className="font-semibold text-green-600">95%</span>
-						</div>
-					</div>
-				</div>
-				<div className="rounded-full bg-green-500/20 px-3 py-1 font-semibold text-green-600 text-xs">
-					PASS
-				</div>
-			</div>
-		</div>
-	);
-}
-
 export function HowItWorks() {
 	return (
 		<div className="border-stroke-soft-100/60 border-t border-b dark:border-stroke-soft-100/40">
@@ -297,7 +388,7 @@ export function HowItWorks() {
 					{/* Column 2: Main Flowchart */}
 					<div className="relative flex flex-1 flex-col items-center border-stroke-soft-100/60 border-r px-6 py-12 md:px-10 md:py-16 dark:border-stroke-soft-100/40">
 						<DotPattern className="absolute inset-0 top-2 right-1 left-3 z-0" />
-						<div className="mb-4 flex items-center gap-2 text-text-sub-600 text-xs">
+						<div className="z-10 mb-2 flex items-center gap-2 text-text-sub-600 text-xs">
 							<Icon name="flash" className="h-3.5 w-3.5" />
 							<span>Verification Pipeline</span>
 							<div className="rounded-full bg-text-strong-950/10 px-2 py-0.5 font-medium text-[10px] text-text-strong-950">
@@ -305,22 +396,13 @@ export function HowItWorks() {
 							</div>
 						</div>
 
-						{/* Flow Steps */}
-						{flowSteps.map((step, index) => (
-							<FlowNode
-								key={step.id}
-								step={step}
-								isLast={index === flowSteps.length - 1}
-							/>
-						))}
-
-						{/* Final Result */}
-						<ResultCard />
-
-						{/* Add more button */}
-						<div className="mt-6 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-stroke-soft-200 border-dashed transition-all hover:scale-110 hover:border-stroke-soft-200/50 hover:bg-text-strong-950/5">
-							<Icon name="plus" className="h-4 w-4 text-text-sub-600" />
+						{/* Initial Validated badge */}
+						<div className="z-10 mb-3 flex items-center gap-1 rounded-full border border-green-500/20 bg-green-500/5 px-2.5 py-0.5 font-medium text-[10px] text-green-600">
+							✓ Validated
 						</div>
+
+						{/* React Flow Pipeline */}
+						<VerificationPipelineFlow />
 					</div>
 
 					{/* Column 3: Cascading List */}

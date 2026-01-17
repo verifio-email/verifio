@@ -20,6 +20,7 @@
 		"framer-motion": "catalog:ui",
 		"motion": "catalog:ui",
 		"next": "catalog:ui",
+		"@xyflow/react": "catalog:ui",
 		"next-themes": "catalog:ui",
 		"postcss": "catalog:ui",
 		"rc-progress": "catalog:ui",

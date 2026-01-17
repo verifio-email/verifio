@@ -71,6 +71,7 @@
 				"swr": "^2.3.6",
 				"fumadocs-openapi": "^10.2.4",
 				"shiki": "^3.21.0",
+				"@xyflow/react": "^12.10.0",
 				"zustand": "^5.0.8",
 				"nuqs": "^2.6.0",
 				"@tanstack/react-table": "^8.21.3",
@@ -168,7 +169,6 @@
 		"be:upload:dev": "bun run --filter=upload dev",
 		"be:upload:build": "bun run --filter=upload build",
 		"be:upload:start": "bun run --filter=upload start",
-
 		"be:verify:dev": "bun run --filter=verify dev",
 		"be:verify:build": "bun run --filter=verify build",
 		"be:verify:start": "bun run --filter=verify start",
@@ -205,5 +205,6 @@
 		"docs",
 		"protobufjs"
 	],
-	"dependencies": {}
+	"dependencies": {
+	}
 }

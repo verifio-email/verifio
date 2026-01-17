@@ -3,7 +3,8 @@
 import * as Button from "@verifio/ui/button";
 import { CodeBlock } from "@verifio/ui/code-block";
 import { Icon } from "@verifio/ui/icon";
-import { Fragment, type ReactNode, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Fragment, type ReactNode, useState } from "react";
 import { Go, Nodejs, Php, Python } from "./language-svg";
 
 type LanguageType = {
@@ -11,32 +12,45 @@ type LanguageType = {
 	name: string;
 	icon: ReactNode;
 	lang: string;
+	// Hardcoded widths to avoid race conditions with animations
+	collapsedWidth: number; // Width when just icon is shown
+	expandedWidth: number; // Width when icon + name is shown
 };
 
+// Tab widths: padding (24px) + icon width + gap (8px) + text width
+// Collapsed = just icon, Expanded = icon + gap + text
 const languages: LanguageType[] = [
 	{
 		id: "python",
 		name: "Python",
 		icon: <Python className="h-5 w-5" />,
 		lang: "python",
+		collapsedWidth: 44, // 24px padding + 20px icon
+		expandedWidth: 95, // 44 + 8px gap + ~43px text
 	},
 	{
 		id: "node",
 		name: "Node.js",
 		icon: <Nodejs className="h-5 w-5" />,
 		lang: "javascript",
+		collapsedWidth: 44,
+		expandedWidth: 105, // 44 + 8px gap + ~53px text
 	},
 	{
 		id: "go",
 		name: "Go",
 		icon: <Go className="h-4 w-11" />,
 		lang: "go",
+		collapsedWidth: 68, // 24px padding + 44px icon (w-11)
+		expandedWidth: 95, // 68 + 8px gap + ~19px text
 	},
 	{
 		id: "php",
 		name: "PHP",
 		icon: <Php className="h-5 w-8" />,
 		lang: "php",
+		collapsedWidth: 56, // 24px padding + 32px icon (w-8)
+		expandedWidth: 95, // 56 + 8px gap + ~31px text
 	},
 ];
 
@@ -594,27 +608,37 @@ function TerminalWindow({
 	selectedLanguage: LanguageType;
 	onLanguageChange: (lang: LanguageType) => void;
 }) {
-	const [indicatorStyle, setIndicatorStyle] = useState({ width: 0, left: 0 });
-	const [mounted, setMounted] = useState(false);
-	const tabsRef = useRef<(HTMLDivElement | null)[]>([]);
-
-	useEffect(() => {
+	// Calculate indicator position based on hardcoded widths
+	const getIndicatorStyle = () => {
 		const activeIndex = languages.findIndex(
 			(lang) => lang.id === selectedLanguage.id,
 		);
-		const activeTab = tabsRef.current[activeIndex];
 
-		if (activeTab) {
-			const { offsetWidth: width, offsetLeft: left } = activeTab;
-			setIndicatorStyle({ width, left });
-			setMounted(true);
+		// Calculate left position: sum of all previous tab widths + margins + dividers
+		// Each tab has mx-2 (8px on each side) = 16px total margin per tab
+		// Each divider is 1px
+		let left = 8; // Initial left margin (mx-2)
+		for (let i = 0; i < activeIndex; i++) {
+			const lang = languages[i];
+			if (lang) {
+				// Use collapsed width for non-active tabs
+				left += lang.collapsedWidth + 16 + 1; // width + margins + divider
+			}
 		}
-	}, [selectedLanguage]);
+
+		// Get the width of the active tab (expanded)
+		const activeTab = languages[activeIndex];
+		const width = activeTab?.expandedWidth || 0;
+
+		return { width, left };
+	};
+
+	const indicatorStyle = getIndicatorStyle();
 
 	return (
 		<div className="overflow-hidden">
 			{/* Terminal Header with macOS controls */}
-			<div className="flex items-center justify-between border-stroke-soft-200 border-b px-4 py-3 dark:border-stroke-soft-200/20">
+			<div className="flex items-center justify-between border-stroke-soft-100/60 border-b px-4 py-3 dark:border-stroke-soft-100/40">
 				{/* macOS-style window controls */}
 				<div className="flex items-center gap-2">
 					<div className="h-3 w-3 rounded-full bg-[#ff5f56]" />
@@ -632,42 +656,47 @@ function TerminalWindow({
 			</div>
 
 			{/* Language Tabs */}
-			<div className="overflow-x-auto border-stroke-soft-200 border-b dark:border-stroke-soft-200/20">
+			<div className="overflow-x-auto border-stroke-soft-100/60 border-b dark:border-stroke-soft-100/40">
 				<div className="relative flex w-fit min-w-full items-stretch bg-bg-white-0 dark:bg-transparent">
-					<div
-						className={`absolute inset-y-2 rounded-full border border-stroke-soft-200 bg-bg-soft-200 transition-all duration-300 dark:border-gray-700 dark:bg-gray-800 ${
-							mounted ? "opacity-100" : "opacity-0"
-						}`}
-						style={{
-							left: `${indicatorStyle.left}px`,
-							width: `${indicatorStyle.width}px`,
-							transitionTimingFunction: "cubic-bezier(0.65, 0, 0.35, 1)",
+					<motion.div
+						className="absolute inset-y-2 rounded-full border border-stroke-soft-200 dark:border-stroke-soft-200"
+						animate={{
+							left: indicatorStyle.left,
+							width: indicatorStyle.width,
+						}}
+						transition={{
+							type: "spring",
+							stiffness: 500,
+							damping: 35,
 						}}
 						aria-hidden="true"
 					/>
 					{languages.map((lang, index) => (
 						<Fragment key={lang.id}>
-							<div
-								ref={(el) => {
-									tabsRef.current[index] = el;
-								}}
-								className="relative z-10 mx-2 flex flex-col justify-center py-2"
-							>
+							<div className="relative z-10 mx-2 flex flex-col justify-center py-2">
 								<button
 									type="button"
 									onClick={() => onLanguageChange(lang)}
 									className="flex cursor-pointer items-center gap-2 rounded-full border border-transparent px-3 py-2 transition-colors"
 								>
 									<span className="text-base">{lang.icon}</span>
-									<span
-										className={`font-medium text-xs ${
-											selectedLanguage.id === lang.id
-												? "text-text-strong-950 dark:text-white"
-												: "text-text-sub-600 dark:text-gray-400"
-										}`}
-									>
-										{lang.name}
-									</span>
+									<AnimatePresence initial={false}>
+										{selectedLanguage.id === lang.id && (
+											<motion.span
+												key={lang.id}
+												initial={{ width: 0, opacity: 0 }}
+												animate={{ width: "auto", opacity: 1 }}
+												exit={{ width: 0, opacity: 0 }}
+												transition={{
+													duration: 0.15,
+													ease: "easeOut",
+												}}
+												className="overflow-hidden whitespace-nowrap font-medium text-text-strong-950 text-xs dark:text-white"
+											>
+												{lang.name}
+											</motion.span>
+										)}
+									</AnimatePresence>
 								</button>
 							</div>
 							{index < languages.length && (
