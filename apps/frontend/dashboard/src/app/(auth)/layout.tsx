@@ -4,7 +4,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<div>
 			{children}
-			<div className="-bottom-11 fixed right-5">
+			<div className="fixed right-5 bottom-5">
 				<ThemeToggle />
 			</div>
 		</div>

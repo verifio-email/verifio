@@ -31,11 +31,15 @@ const loginSchema = v.object({
 
 type LoginFormData = v.InferInput<typeof loginSchema>;
 
+// Shared icon styles
+const EYE_ICON_CLASSES =
+	"size-5 fill-none text-text-soft-400 group-has-[disabled]:text-text-disabled-300";
+
 export const LoginForm = () => {
 	const [showPassword, setShowPassword] = useState(false);
 	const { changeStatus, status } = useLoading();
-
 	const router = useRouter();
+
 	const {
 		register,
 		handleSubmit,
@@ -66,14 +70,11 @@ export const LoginForm = () => {
 				}
 				return;
 			}
+
 			router.push("/");
-		} catch (e) {
+		} catch {
 			changeStatus("idle");
-			if (e instanceof Error && e.message) {
-				toast.error(e.message);
-			} else {
-				toast.error("An unexpected error occurred.");
-			}
+			toast.error("An unexpected error occurred. Please try again.");
 		}
 	};
 
@@ -115,17 +116,10 @@ export const LoginForm = () => {
 							onClick={() => setShowPassword((s) => !s)}
 							className="flex items-center justify-center"
 						>
-							{showPassword ? (
-								<Icon
-									name="eye-outline"
-									className="size-5 fill-none text-text-soft-400 group-has-[disabled]:text-text-disabled-300"
-								/>
-							) : (
-								<Icon
-									name="eye-slash-outline"
-									className="size-5 fill-none text-text-soft-400 group-has-[disabled]:text-text-disabled-300"
-								/>
-							)}
+							<Icon
+								name={showPassword ? "eye-outline" : "eye-slash-outline"}
+								className={EYE_ICON_CLASSES}
+							/>
 						</button>
 					</Input.Wrapper>
 				</Input.Root>
@@ -141,6 +135,7 @@ export const LoginForm = () => {
 					</LinkButton.Root>
 				</Link>
 			</div>
+
 			<Button.Root
 				type="submit"
 				disabled={status === "loading" || !isValid}

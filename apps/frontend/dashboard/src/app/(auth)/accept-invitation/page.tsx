@@ -8,7 +8,7 @@ import Spinner from "@verifio/ui/spinner";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 
 type InviteStatus =
 	| "loading"
@@ -53,13 +53,14 @@ const AcceptInvitationContent = () => {
 
 			try {
 				// Get invitation details
-				const { data, error } = await authClient.organization.getInvitation({
-					query: { id: invitationId },
-				});
+				const { data, error: fetchError } =
+					await authClient.organization.getInvitation({
+						query: { id: invitationId },
+					});
 
-				if (error || !data) {
+				if (fetchError || !data) {
 					setStatus("invalid");
-					setError(error?.message || "Invalid invitation");
+					setError(fetchError?.message || "Invalid invitation");
 					return;
 				}
 
@@ -86,7 +87,7 @@ const AcceptInvitationContent = () => {
 					inviterEmail: invitation.inviterEmail,
 				});
 				setStatus("valid");
-			} catch (err) {
+			} catch {
 				setStatus("error");
 				setError("Failed to load invitation details");
 			}
@@ -97,17 +98,19 @@ const AcceptInvitationContent = () => {
 		}
 	}, [invitationId, sessionLoading]);
 
-	const handleAccept = async () => {
+	// [rerender-memo] Stable callback extracted to avoid recreation on every render
+	const handleAccept = useCallback(async () => {
 		if (!invitationId) return;
 
 		setAccepting(true);
 		try {
-			const { error } = await authClient.organization.acceptInvitation({
-				invitationId,
-			});
+			const { error: acceptError } =
+				await authClient.organization.acceptInvitation({
+					invitationId,
+				});
 
-			if (error) {
-				setError(error.message || "Failed to accept invitation");
+			if (acceptError) {
+				setError(acceptError.message || "Failed to accept invitation");
 				setAccepting(false);
 				return;
 			}
@@ -124,34 +127,36 @@ const AcceptInvitationContent = () => {
 
 			// Redirect to the organization dashboard
 			router.push(`/${inviteDetails?.organizationSlug || "dashboard"}`);
-		} catch (err) {
+		} catch {
 			setError("Failed to accept invitation");
 			setAccepting(false);
 		}
-	};
+	}, [invitationId, inviteDetails, router]);
 
-	const handleDecline = async () => {
+	// [rerender-memo] Stable callback extracted to avoid recreation on every render
+	const handleDecline = useCallback(async () => {
 		if (!invitationId) return;
 
 		setDeclining(true);
 		try {
-			const { error } = await authClient.organization.rejectInvitation({
-				invitationId,
-			});
+			const { error: rejectError } =
+				await authClient.organization.rejectInvitation({
+					invitationId,
+				});
 
-			if (error) {
-				setError(error.message || "Failed to decline invitation");
+			if (rejectError) {
+				setError(rejectError.message || "Failed to decline invitation");
 				setDeclining(false);
 				return;
 			}
 
 			// Redirect to home or login
 			router.push("/login");
-		} catch (err) {
+		} catch {
 			setError("Failed to decline invitation");
 			setDeclining(false);
 		}
-	};
+	}, [invitationId, router]);
 
 	// Loading state
 	if (status === "loading" || sessionLoading) {

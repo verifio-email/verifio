@@ -180,7 +180,7 @@ function InputRoot({
 	className,
 	children,
 	size,
-	variant,
+	variant = "neutral",
 	hasError,
 	hassuccess,
 	asChild,

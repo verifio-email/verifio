@@ -256,7 +256,7 @@ type ButtonRootProps = VariantProps<typeof buttonVariants> &
 
 const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(
 	(
-		{ children, variant, mode, size, asChild, className, ...rest },
+		{ children, variant = "neutral", mode, size, asChild, className, ...rest },
 		forwardedRef,
 	) => {
 		const uniqueId = React.useId();

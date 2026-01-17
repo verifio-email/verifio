@@ -34,11 +34,15 @@ const signupSchema = v.object({
 
 type SignupFormData = v.InferInput<typeof signupSchema>;
 
+// Shared icon styles
+const EYE_ICON_CLASSES =
+	"size-5 fill-none text-text-soft-400 group-has-[disabled]:text-text-disabled-300";
+
 export const SignupForm = () => {
 	const [showPassword, setShowPassword] = useState(false);
 	const { changeStatus, status } = useLoading();
-
 	const router = useRouter();
+
 	const {
 		register,
 		handleSubmit,
@@ -52,14 +56,14 @@ export const SignupForm = () => {
 	const onSubmit = async (data: SignupFormData) => {
 		try {
 			changeStatus("loading");
-			const mode = "dev";
 			const { email, password } = data;
+
 			const auth = await authClient.signUp.email({
 				email,
 				password,
 				name: email.split("@")[0] || "",
-				mode,
 			});
+
 			if (auth.error) {
 				changeStatus("idle");
 				if (auth.error.code === "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL") {
@@ -72,15 +76,11 @@ export const SignupForm = () => {
 				}
 				return;
 			}
-			await new Promise((resolve) => setTimeout(resolve, 500));
+
 			router.push("/");
-		} catch (e) {
+		} catch {
 			changeStatus("idle");
-			if (e instanceof Error && e.message) {
-				toast.error(e.message);
-			} else {
-				toast.error("An unexpected error occurred.");
-			}
+			toast.error("An unexpected error occurred. Please try again.");
 		}
 	};
 
@@ -121,17 +121,10 @@ export const SignupForm = () => {
 							onClick={() => setShowPassword((s) => !s)}
 							className="flex items-center justify-center"
 						>
-							{showPassword ? (
-								<Icon
-									name="eye-outline"
-									className="size-5 fill-none text-text-soft-400 group-has-[disabled]:text-text-disabled-300"
-								/>
-							) : (
-								<Icon
-									name="eye-slash-outline"
-									className="size-5 fill-none text-text-soft-400 group-has-[disabled]:text-text-disabled-300"
-								/>
-							)}
+							<Icon
+								name={showPassword ? "eye-outline" : "eye-slash-outline"}
+								className={EYE_ICON_CLASSES}
+							/>
 						</button>
 					</Input.Wrapper>
 				</Input.Root>
@@ -143,6 +136,7 @@ export const SignupForm = () => {
 					</p>
 				)}
 			</div>
+
 			<Button.Root
 				type="submit"
 				disabled={status === "loading" || !isValid}
