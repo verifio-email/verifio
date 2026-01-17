@@ -50,7 +50,6 @@ export const SignupForm = () => {
 		setError,
 	} = useForm<SignupFormData>({
 		resolver: valibotResolver(signupSchema) as Resolver<SignupFormData>,
-		mode: "onChange",
 	});
 
 	const onSubmit = async (data: SignupFormData) => {

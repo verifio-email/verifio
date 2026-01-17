@@ -47,7 +47,6 @@ export const LoginForm = () => {
 		setError,
 	} = useForm<LoginFormData>({
 		resolver: valibotResolver(loginSchema) as Resolver<LoginFormData>,
-		mode: "onChange",
 	});
 
 	const onSubmit = async (data: LoginFormData) => {
