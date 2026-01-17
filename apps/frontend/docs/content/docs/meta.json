@@ -3,6 +3,8 @@
 	"pages": [
 		"index",
 		"guides",
-		"api-reference"
+		"api-reference",
+		"self-hosted",
+		"local-setup"
 	]
 }

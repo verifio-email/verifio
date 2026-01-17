@@ -6,10 +6,6 @@
 		"---Getting Started---",
 		"getting-started",
 		"---SDKs---",
-		"sdks",
-		"---Self Hosting---",
-		"self-hosting",
-		"---Development---",
-		"setup"
+		"sdks"
 	]
 }

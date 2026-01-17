@@ -1,4 +1,5 @@
 {
-	"title": "Development",
+	"title": "Local Setup",
+	"root": true,
 	"pages": ["index", "tech-stack", "project-structure", "frontend", "backend"]
 }

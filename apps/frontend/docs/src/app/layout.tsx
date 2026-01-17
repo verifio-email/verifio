@@ -1,12 +1,12 @@
 import "@fe/docs/app/global.css";
-import { baseOptions } from "@fe/docs/app/layout.config";
 import { SidebarTabs } from "@fe/docs/components/sidebar-tabs";
 import { cn } from "@fe/docs/lib/cn";
 import { source } from "@fe/docs/lib/source";
 import { IconsSprite } from "@verifio/ui/icon";
-import { DocsLayout } from "fumadocs-ui/layouts/docs";
+import { DocsLayout } from "fumadocs-ui/layouts/notebook";
 import { RootProvider } from "fumadocs-ui/provider/next";
 import type { ReactNode } from "react";
+import { baseOptions } from "./layout.config";
 
 export default function Layout({ children }: { children: ReactNode }) {
 	return (
@@ -19,10 +19,14 @@ export default function Layout({ children }: { children: ReactNode }) {
 				<RootProvider>
 					<DocsLayout
 						tree={source.pageTree}
-						{...baseOptions}
+						nav={{
+							...baseOptions.nav,
+							mode: "top",
+						}}
 						sidebar={{
 							tabs: false,
 							banner: <SidebarTabs />,
+							collapsible: false,
 						}}
 					>
 						{children}

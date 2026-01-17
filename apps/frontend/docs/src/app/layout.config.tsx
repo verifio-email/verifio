@@ -1,4 +1,4 @@
-import { Logo } from "@verifio/ui/logo";
+import { LogoName } from "@verifio/ui/logo";
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 
 /**
@@ -11,7 +11,7 @@ import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 
 export const baseOptions: BaseLayoutProps = {
 	nav: {
-		title: <Logo className="h-10 w-10" />,
+		title: <LogoName className="h-5" />,
 	},
 	// see https://fumadocs.dev/docs/ui/navigation/links
 };

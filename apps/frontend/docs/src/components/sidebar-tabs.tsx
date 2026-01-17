@@ -1,9 +1,9 @@
 "use client";
 
 import { cn } from "@fe/docs/lib/cn";
-import { BookOpen, Terminal } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { BookOpenIcon, Laptop, ServerIcon, TerminalIcon } from "./icons/Tech";
 
 interface TabItem {
 	title: string;
@@ -17,13 +17,25 @@ const tabs: TabItem[] = [
 		title: "Documentation",
 		description: "Guides and tutorials",
 		href: "/guides",
-		icon: <BookOpen className="size-4" />,
+		icon: <BookOpenIcon className="size-5" />,
 	},
 	{
 		title: "API Reference",
 		description: "Endpoint documentation",
 		href: "/api-reference",
-		icon: <Terminal className="size-4" />,
+		icon: <TerminalIcon className="size-5" />,
+	},
+	{
+		title: "Self Hosted",
+		description: "Deploy on your own server",
+		href: "/self-hosted",
+		icon: <ServerIcon className="size-5" />,
+	},
+	{
+		title: "Local Setup",
+		description: "Development environment",
+		href: "/local-setup",
+		icon: <Laptop className="size-5" />,
 	},
 ];
 
@@ -37,29 +49,27 @@ export function SidebarTabs() {
 	};
 
 	return (
-		<div className="mb-4 flex flex-col gap-1 border-fd-border border-b pb-4">
+		<div className="flex flex-col gap-1">
 			{tabs.map((tab) => (
 				<Link
 					key={tab.href}
 					href={tab.href}
 					className={cn(
-						"flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+						"flex items-center gap-1 rounded-xl px-1.5 py-1.5 transition-colors",
 						isActive(tab.href)
-							? "bg-fd-accent font-medium text-fd-accent-foreground"
+							? "font-medium"
 							: "text-fd-muted-foreground hover:bg-fd-accent/50 hover:text-fd-foreground",
 					)}
 				>
 					<span
 						className={cn(
-							"flex size-6 items-center justify-center rounded-md",
-							isActive(tab.href)
-								? "bg-fd-primary text-fd-primary-foreground"
-								: "bg-fd-muted",
+							"flex size-7 items-center justify-center p-1",
+							isActive(tab.href) ? "opacity-100" : "opacity-60",
 						)}
 					>
 						{tab.icon}
 					</span>
-					<span>{tab.title}</span>
+					<span className="text-base">{tab.title}</span>
 				</Link>
 			))}
 		</div>

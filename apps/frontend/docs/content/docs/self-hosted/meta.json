@@ -1,0 +1,5 @@
+{
+	"title": "Self Hosted",
+	"root": true,
+	"pages": ["index", "docker", "kubernetes"]
+}
