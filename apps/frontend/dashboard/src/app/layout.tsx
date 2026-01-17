@@ -22,7 +22,11 @@ const outfit = Outfit({
 	subsets: ["latin"],
 	weight: "600",
 });
+const baseUrl =
+	process.env.NEXT_PUBLIC_APP_URL || "https://verifio.email/dashboard";
+
 export const metadata: Metadata = {
+	metadataBase: new URL(baseUrl),
 	title: "Verifio Dashboard",
 	description: "Verifio Dashboard",
 };
