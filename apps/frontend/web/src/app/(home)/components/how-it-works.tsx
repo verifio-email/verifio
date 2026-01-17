@@ -1,6 +1,8 @@
+"use client";
 import * as Button from "@verifio/ui/button";
 import { Icon } from "@verifio/ui/icon";
 import DotPattern from "@verifio/web/components/dot-pattern";
+import { motion } from "framer-motion";
 
 const flowSteps = [
 	{
@@ -43,15 +45,6 @@ const flowSteps = [
 		status: "✓ Scored",
 		statusColor: "green",
 	},
-];
-
-const sidebarItems = [
-	{ label: "Syntax validation", active: false },
-	{ label: "MX record lookup", active: false },
-	{ label: "SMTP verification", active: true },
-	{ label: "Disposable detection", active: false },
-	{ label: "Catch-all detection", active: false },
-	{ label: "Risk scoring", active: false },
 ];
 
 const badgeColors = {
@@ -132,57 +125,85 @@ function FlowNode({
 	);
 }
 
-function SidebarPanel() {
-	return (
-		<div className="w-56 rounded-xl border border-stroke-soft-200 bg-bg-white-0 p-4 shadow-sm dark:border-gray-700 dark:bg-gray-900">
-			<div className="mb-3 flex items-center gap-2 text-text-sub-600 text-xs">
-				<Icon name="layers" className="h-4 w-4" />
-				<span>Verification signals</span>
-			</div>
+function CascadingList() {
+	const items = [
+		{ label: "Syntax validation", focus: 0.4 },
+		{ label: "MX record lookup", focus: 0.6 },
+		{ label: "SMTP verification", focus: 1, active: true },
+		{ label: "Disposable detection", focus: 0.6 },
+		{ label: "Catch-all detection", focus: 0.4 },
+		{ label: "Risk scoring", focus: 0.3 },
+	];
 
-			<div className="space-y-1">
-				{sidebarItems.map((item) => (
+	return (
+		<div className="space-y-2">
+			{items.map((item) => (
+				<div
+					key={item.label}
+					style={{ opacity: item.focus }}
+					className={`flex items-center gap-3 rounded-xl px-4 py-3 transition-all ${
+						item.active
+							? "border border-stroke-soft-200 bg-bg-white-0 font-semibold text-text-strong-950 shadow-sm dark:border-gray-700 dark:bg-gray-900"
+							: "text-text-sub-600"
+					}`}
+				>
 					<div
-						key={item.label}
-						className={`flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-xs transition-colors ${
+						className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${
 							item.active
-								? "border border-stroke-soft-200/20 bg-text-strong-950/5 font-medium text-text-strong-950"
-								: "text-text-sub-600 hover:bg-bg-soft-200/50"
+								? "bg-text-strong-950/10 text-text-strong-950"
+								: "bg-bg-soft-200/50 text-text-sub-600"
 						}`}
 					>
-						<Icon
-							name={item.active ? "check-circle" : "circle"}
-							className="h-3.5 w-3.5"
-						/>
-						{item.label}
+						<Icon name="workflow" className="h-4 w-4" />
 					</div>
-				))}
-			</div>
+					<span className={item.active ? "text-sm" : "text-sm"}>
+						{item.label}
+					</span>
+				</div>
+			))}
 
-			{/* 3D Illustration placeholder */}
-			<div className="mt-4 flex h-24 items-center justify-center rounded-lg bg-gradient-to-br from-neutral-100 to-neutral-50">
+			{/* 3D Illustration box */}
+			<div className="mt-4 flex h-24 items-center justify-center rounded-lg bg-gradient-to-br from-neutral-100 to-neutral-50 dark:from-gray-800 dark:to-gray-900">
 				<div className="relative">
-					{/* Simple 3D cube illustration */}
 					<svg
 						width="48"
 						height="48"
 						viewBox="0 0 48 48"
 						className="text-text-strong-950"
 					>
-						<path
+						<motion.path
 							d="M24 4L4 16v16l20 12 20-12V16L24 4z"
 							fill="none"
 							stroke="currentColor"
 							strokeWidth="1.5"
 							strokeLinejoin="round"
+							initial={{ pathLength: 0 }}
+							animate={{ pathLength: 1 }}
+							transition={{
+								duration: 2,
+								ease: "easeInOut",
+								repeat: Number.POSITIVE_INFINITY,
+								repeatType: "loop",
+								repeatDelay: 1,
+							}}
 						/>
-						<path
+						<motion.path
 							d="M4 16l20 12M24 28l20-12M24 28v16"
 							fill="none"
 							stroke="currentColor"
 							strokeWidth="1.5"
 							strokeLinejoin="round"
 							opacity={0.5}
+							initial={{ pathLength: 0 }}
+							animate={{ pathLength: 1 }}
+							transition={{
+								duration: 1.5,
+								ease: "easeInOut",
+								delay: 0.5,
+								repeat: Number.POSITIVE_INFINITY,
+								repeatType: "loop",
+								repeatDelay: 1.5,
+							}}
 						/>
 					</svg>
 				</div>
@@ -302,10 +323,10 @@ export function HowItWorks() {
 						</div>
 					</div>
 
-					{/* Column 3: Sidebar */}
+					{/* Column 3: Cascading List */}
 					<div className="hidden flex-1 px-6 py-12 md:block md:px-10 md:py-16">
 						<div className="sticky top-[106px]">
-							<SidebarPanel />
+							<CascadingList />
 						</div>
 					</div>
 				</div>
