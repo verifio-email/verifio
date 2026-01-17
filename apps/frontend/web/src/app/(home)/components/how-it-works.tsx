@@ -245,8 +245,8 @@ export function HowItWorks() {
 				{/* Flowchart Section - 3 columns with borders */}
 				<div className="flex h-full items-stretch border-stroke-soft-100 dark:border-stroke-soft-100/60">
 					{/* Column 1: Left side content label */}
-					<div className="hidden flex-1 border-stroke-soft-100/60 border-r md:block dark:border-stroke-soft-200/40">
-						<div className="sticky top-[106px] px-6 py-8">
+					<div className="hidden flex-1 border-stroke-soft-100/60 border-r px-6 py-12 md:block md:px-10 md:py-16 dark:border-stroke-soft-200/40">
+						<div className="sticky top-[106px]">
 							<h3 className="font-semibold text-lg text-text-strong-950">
 								Verify everything
 							</h3>
@@ -304,7 +304,9 @@ export function HowItWorks() {
 
 					{/* Column 3: Sidebar */}
 					<div className="hidden flex-1 px-6 py-12 md:block md:px-10 md:py-16">
-						<SidebarPanel />
+						<div className="sticky top-[106px]">
+							<SidebarPanel />
+						</div>
 					</div>
 				</div>
 
