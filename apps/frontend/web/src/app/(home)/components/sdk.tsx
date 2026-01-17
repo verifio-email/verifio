@@ -161,7 +161,7 @@ export const Sdk = () => {
 	return (
 		<div className="border-stroke-soft-100/60 border-t border-b dark:border-stroke-soft-100/40">
 			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l dark:border-stroke-soft-100/40">
-				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-4 md:px-10 dark:border-stroke-soft-100/40">
+				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-4 dark:border-stroke-soft-100/40">
 					<span className="text-text-sub-600 text-xs">[02] SDK</span>
 					<span className="text-text-sub-600 text-xs">/ DEVELOPER TOOLS</span>
 				</div>

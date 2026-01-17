@@ -153,7 +153,7 @@ Both options use the **same verification engine** — same logic, same results.
 
 | Feature | Verifio | ZeroBounce | Emailable | Other OSS |
 |---------|---------|------------|-----------|-----------|
-| Open-source core | ✅ | ❌ | ❌ | ⚠️ Limited |
+| open-source code | ✅ | ❌ | ❌ | ⚠️ Limited |
 | Explainable results | ✅ | ❌ | ❌ | ❌ |
 | Self-hosting | ✅ | ❌ | ❌ | ✅ |
 | Free tier | ✅ 1,000/mo | ⚠️ 100 credits | ⚠️ 250 credits | N/A |

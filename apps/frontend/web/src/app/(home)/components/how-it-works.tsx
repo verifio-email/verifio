@@ -1,7 +1,6 @@
-"use client";
-
+import * as Button from "@verifio/ui/button";
 import { Icon } from "@verifio/ui/icon";
-import { motion } from "framer-motion";
+import DotPattern from "@verifio/web/components/dot-pattern";
 
 const flowSteps = [
 	{
@@ -56,7 +55,8 @@ const sidebarItems = [
 ];
 
 const badgeColors = {
-	primary: "bg-text-strong-950/10 text-text-strong-950 border-stroke-soft-200/20",
+	primary:
+		"bg-text-strong-950/10 text-text-strong-950 border-stroke-soft-200/20",
 	blue: "bg-blue-500/10 text-blue-500 border-blue-500/20",
 	emerald: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
 	violet: "bg-violet-500/10 text-violet-500 border-violet-500/20",
@@ -71,33 +71,20 @@ const iconBgColors = {
 
 function FlowNode({
 	step,
-	index,
 	isLast,
 }: {
 	step: (typeof flowSteps)[0];
-	index: number;
 	isLast: boolean;
 }) {
 	return (
 		<div className="relative flex flex-col items-center">
 			{/* Status badge above card */}
-			<motion.div
-				className="mb-2 flex items-center gap-1.5 rounded-full border border-green-500/20 bg-green-500/5 px-3 py-1 text-green-600 text-xs"
-				initial={{ opacity: 0, y: -10 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ delay: index * 0.15 + 0.1 }}
-			>
+			<div className="mb-2 flex items-center gap-1.5 rounded-full border border-green-500/20 bg-green-500/5 px-3 py-1 text-green-600 text-xs">
 				<span className="font-medium">{step.status}</span>
-			</motion.div>
+			</div>
 
 			{/* Main Card */}
-			<motion.div
-				className="relative w-72 rounded-xl border border-stroke-soft-200 bg-bg-white-0 p-4 shadow-sm transition-all hover:border-stroke-soft-200/30 hover:shadow-md dark:border-gray-700 dark:bg-gray-900"
-				initial={{ opacity: 0, y: 20 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ delay: index * 0.15 }}
-				whileHover={{ scale: 1.02 }}
-			>
+			<div className="relative w-72 rounded-xl border border-stroke-soft-200 bg-bg-white-0 p-4 shadow-sm transition-all hover:border-stroke-soft-200/30 hover:shadow-md dark:border-gray-700 dark:bg-gray-900">
 				{/* Card Header */}
 				<div className="flex items-start gap-3">
 					{/* Icon */}
@@ -133,28 +120,12 @@ function FlowNode({
 				{!isLast && (
 					<div className="-bottom-2 -translate-x-1/2 absolute left-1/2 z-10 h-3 w-3 rounded-full border-2 border-bg-white-0 bg-text-strong-950 dark:border-gray-900" />
 				)}
-			</motion.div>
+			</div>
 
 			{/* Connecting line to next card */}
 			{!isLast && (
 				<div className="relative h-12 w-px">
-					<motion.div
-						className="absolute inset-0 bg-gradient-to-b from-neutral-400 to-neutral-200"
-						initial={{ scaleY: 0 }}
-						animate={{ scaleY: 1 }}
-						transition={{ delay: index * 0.15 + 0.2, duration: 0.3 }}
-						style={{ transformOrigin: "top" }}
-					/>
-					{/* Animated dot */}
-					<motion.div
-						className="-translate-x-1/2 absolute left-1/2 h-2 w-2 rounded-full bg-text-strong-950"
-						animate={{ y: [0, 40, 0] }}
-						transition={{
-							duration: 2,
-							repeat: Number.POSITIVE_INFINITY,
-							delay: index * 0.3,
-						}}
-					/>
+					<div className="absolute inset-0 bg-gradient-to-b from-neutral-400 to-neutral-200" />
 				</div>
 			)}
 		</div>
@@ -163,47 +134,33 @@ function FlowNode({
 
 function SidebarPanel() {
 	return (
-		<motion.div
-			className="hidden w-56 rounded-xl border border-stroke-soft-200 bg-bg-white-0 p-4 shadow-sm md:block dark:border-gray-700 dark:bg-gray-900"
-			initial={{ opacity: 0, x: 20 }}
-			animate={{ opacity: 1, x: 0 }}
-			transition={{ delay: 0.5 }}
-		>
+		<div className="w-56 rounded-xl border border-stroke-soft-200 bg-bg-white-0 p-4 shadow-sm dark:border-gray-700 dark:bg-gray-900">
 			<div className="mb-3 flex items-center gap-2 text-text-sub-600 text-xs">
 				<Icon name="layers" className="h-4 w-4" />
 				<span>Verification signals</span>
 			</div>
 
 			<div className="space-y-1">
-				{sidebarItems.map((item, i) => (
-					<motion.div
+				{sidebarItems.map((item) => (
+					<div
 						key={item.label}
 						className={`flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-xs transition-colors ${
 							item.active
 								? "border border-stroke-soft-200/20 bg-text-strong-950/5 font-medium text-text-strong-950"
 								: "text-text-sub-600 hover:bg-bg-soft-200/50"
 						}`}
-						initial={{ opacity: 0, x: 10 }}
-						animate={{ opacity: 1, x: 0 }}
-						transition={{ delay: 0.6 + i * 0.05 }}
 					>
 						<Icon
 							name={item.active ? "check-circle" : "circle"}
 							className="h-3.5 w-3.5"
 						/>
 						{item.label}
-					</motion.div>
+					</div>
 				))}
 			</div>
 
 			{/* 3D Illustration placeholder */}
-			<motion.div
-				className="mt-4 flex h-24 items-center justify-center rounded-lg bg-gradient-to-br from-neutral-100 to-neutral-50"
-				animate={{
-					scale: [1, 1.02, 1],
-				}}
-				transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY }}
-			>
+			<div className="mt-4 flex h-24 items-center justify-center rounded-lg bg-gradient-to-br from-neutral-100 to-neutral-50">
 				<div className="relative">
 					{/* Simple 3D cube illustration */}
 					<svg
@@ -212,17 +169,14 @@ function SidebarPanel() {
 						viewBox="0 0 48 48"
 						className="text-text-strong-950"
 					>
-						<motion.path
+						<path
 							d="M24 4L4 16v16l20 12 20-12V16L24 4z"
 							fill="none"
 							stroke="currentColor"
 							strokeWidth="1.5"
 							strokeLinejoin="round"
-							initial={{ pathLength: 0 }}
-							animate={{ pathLength: 1 }}
-							transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
 						/>
-						<motion.path
+						<path
 							d="M4 16l20 12M24 28l20-12M24 28v16"
 							fill="none"
 							stroke="currentColor"
@@ -232,19 +186,14 @@ function SidebarPanel() {
 						/>
 					</svg>
 				</div>
-			</motion.div>
-		</motion.div>
+			</div>
+		</div>
 	);
 }
 
 function ResultCard() {
 	return (
-		<motion.div
-			className="mt-4 w-72 rounded-xl border-2 border-green-500/30 bg-gradient-to-br from-green-500/5 to-green-500/10 p-4"
-			initial={{ opacity: 0, scale: 0.9 }}
-			animate={{ opacity: 1, scale: 1 }}
-			transition={{ delay: 0.8 }}
-		>
+		<div className="mt-4 w-72 rounded-xl border-2 border-green-500/30 bg-gradient-to-br from-green-500/5 to-green-500/10 p-4">
 			<div className="flex items-center justify-between">
 				<div className="flex items-center gap-3">
 					<div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-500 text-white">
@@ -264,22 +213,22 @@ function ResultCard() {
 					PASS
 				</div>
 			</div>
-		</motion.div>
+		</div>
 	);
 }
 
 export function HowItWorks() {
 	return (
-		<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t border-b">
-			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-l">
+		<div className="border-stroke-soft-100/60 border-t border-b dark:border-stroke-soft-100/40">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l dark:border-stroke-soft-100/40">
 				{/* Sticky Header */}
-				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b bg-bg-white-0 px-4 py-4 md:px-10">
+				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-4 dark:border-stroke-soft-100/40">
 					<span className="text-text-sub-600 text-xs">[04] HOW IT WORKS</span>
 					<span className="text-text-sub-600 text-xs">/ OPENLY</span>
 				</div>
 
 				{/* Hero Title Section */}
-				<div className="flex flex-col items-center gap-4 border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b px-6 py-10 text-center md:px-10 md:py-12">
+				<div className="flex flex-col items-center gap-4 border-stroke-soft-100/60 border-b px-6 py-10 text-center md:py-12 dark:border-stroke-soft-100/40">
 					{/* Heading */}
 					<div className="space-y-2">
 						<h2 className="font-semibold text-2xl text-text-sub-600 md:text-3xl">
@@ -293,54 +242,53 @@ export function HowItWorks() {
 					</div>
 				</div>
 
-				{/* Flowchart Section */}
-				<div className="flex items-start justify-center gap-8 px-6 py-12 md:px-10 md:py-16">
-					{/* Left side content label */}
-					<div className="hidden w-48 pt-20 text-right md:block">
-						<motion.div
-							initial={{ opacity: 0, x: -20 }}
-							animate={{ opacity: 1, x: 0 }}
-							transition={{ delay: 0.3 }}
-						>
+				{/* Flowchart Section - 3 columns with borders */}
+				<div className="flex h-full items-stretch border-stroke-soft-100 dark:border-stroke-soft-100/60">
+					{/* Column 1: Left side content label */}
+					<div className="hidden flex-1 border-stroke-soft-100/60 border-r md:block dark:border-stroke-soft-200/40">
+						<div className="sticky top-[106px] px-6 py-8">
 							<h3 className="font-semibold text-lg text-text-strong-950">
 								Verify everything
 							</h3>
-							<p className="mt-2 text-text-sub-600 text-xs leading-relaxed">
+							<p className="mt-2 font-medium text-text-sub-600 leading-relaxed">
 								No black boxes. See the exact signals behind every decision —
 								not just a pass/fail.
 							</p>
-							<motion.a
-								href="/docs/api"
-								className="mt-4 inline-flex items-center gap-1 font-medium text-text-strong-950 text-xs"
-								whileHover={{ x: 4 }}
+							<Button.Root
+								variant="neutral"
+								mode="stroke"
+								size="xsmall"
+								asChild
+								className="mt-4"
 							>
-								Explore API docs
-								<Icon name="arrow-right" className="h-3 w-3" />
-							</motion.a>
-						</motion.div>
+								<a href="/docs/api">
+									Explore API docs
+									<Button.Icon
+										as={Icon}
+										name="arrow-left"
+										className="h-3 w-3 rotate-180"
+									/>
+								</a>
+							</Button.Root>
+						</div>
 					</div>
 
-					{/* Main Flowchart */}
-					<div className="flex flex-col items-center">
-						{/* Trigger label */}
-						<motion.div
-							className="mb-4 flex items-center gap-2 text-text-sub-600 text-xs"
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-						>
+					{/* Column 2: Main Flowchart */}
+					<div className="relative flex flex-1 flex-col items-center border-stroke-soft-100/60 border-r px-6 py-12 md:px-10 md:py-16 dark:border-stroke-soft-100/40">
+						<DotPattern className="absolute inset-0 top-2 right-1 left-3 z-0" />
+						<div className="mb-4 flex items-center gap-2 text-text-sub-600 text-xs">
 							<Icon name="flash" className="h-3.5 w-3.5" />
 							<span>Verification Pipeline</span>
 							<div className="rounded-full bg-text-strong-950/10 px-2 py-0.5 font-medium text-[10px] text-text-strong-950">
 								Automated
 							</div>
-						</motion.div>
+						</div>
 
 						{/* Flow Steps */}
 						{flowSteps.map((step, index) => (
 							<FlowNode
 								key={step.id}
 								step={step}
-								index={index}
 								isLast={index === flowSteps.length - 1}
 							/>
 						))}
@@ -349,40 +297,34 @@ export function HowItWorks() {
 						<ResultCard />
 
 						{/* Add more button */}
-						<motion.div
-							className="mt-6 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-stroke-soft-200 border-dashed transition-colors hover:border-stroke-soft-200/50 hover:bg-text-strong-950/5"
-							whileHover={{ scale: 1.1 }}
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							transition={{ delay: 1 }}
-						>
+						<div className="mt-6 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-stroke-soft-200 border-dashed transition-all hover:scale-110 hover:border-stroke-soft-200/50 hover:bg-text-strong-950/5">
 							<Icon name="plus" className="h-4 w-4 text-text-sub-600" />
-						</motion.div>
+						</div>
 					</div>
 
-					{/* Sidebar */}
-					<SidebarPanel />
+					{/* Column 3: Sidebar */}
+					<div className="hidden flex-1 px-6 py-12 md:block md:px-10 md:py-16">
+						<SidebarPanel />
+					</div>
 				</div>
 
 				{/* Footer */}
-				<div className="flex flex-col items-center gap-3 border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t bg-gradient-to-b from-transparent to-bg-soft-200/50 px-6 py-8 text-center md:px-10 md:py-10">
+				<div className="flex flex-col items-center gap-3 border-stroke-soft-100/60 border-t px-6 py-8 text-center md:px-10 md:py-10 dark:border-stroke-soft-100/40">
 					<div className="flex items-center gap-2">
 						<Icon name="open-source" className="h-5 w-5 text-text-strong-950" />
 						<span className="font-semibold text-text-strong-950">
-							All logic lives in the open-source core
+							All logic lives in the open-source code
 						</span>
 					</div>
-					<motion.a
+					<a
 						href="https://github.com/reloop-labs/verifio"
 						target="_blank"
 						rel="noopener noreferrer"
-						className="flex items-center gap-2 rounded-full border border-stroke-soft-200 bg-bg-white-0 px-5 py-2 font-medium text-sm text-text-strong-950 transition-all hover:bg-bg-soft-200"
-						whileHover={{ scale: 1.02 }}
-						whileTap={{ scale: 0.98 }}
+						className="flex items-center gap-2 rounded-full border border-stroke-soft-200 bg-bg-white-0 px-5 py-2 font-medium text-sm text-text-strong-950 transition-all hover:scale-[1.02] hover:bg-bg-soft-200 active:scale-[0.98]"
 					>
 						<Icon name="open-source" className="h-4 w-4" />
 						View on GitHub
-					</motion.a>
+					</a>
 				</div>
 			</div>
 		</div>
