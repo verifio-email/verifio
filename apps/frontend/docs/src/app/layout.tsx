@@ -30,13 +30,13 @@ export default function Layout({ children }: { children: ReactNode }) {
 							{
 								type: "button",
 								text: "Sign In",
-								url: "https://verfio.email/dashboard/login",
+								url: "https://verifio.email/dashboard/login",
 								secondary: true,
 							},
 							{
 								type: "button",
 								text: "Get Started",
-								url: "https://verfio.email/dashboard/signup",
+								url: "https://verifio.email/dashboard/signup",
 							},
 						]}
 						sidebar={{
