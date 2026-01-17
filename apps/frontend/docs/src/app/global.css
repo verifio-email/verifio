@@ -79,3 +79,37 @@
 body {
 	font-family: "BasierCircle", Helvetica, sans-serif;
 }
+
+/* Custom navbar button styles - target the link container in the navbar */
+#nd-subnav .flex.items-center.gap-6 {
+	gap: 8px !important;
+}
+
+#nd-subnav .flex.items-center.gap-6 > a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 6px 14px;
+	font-size: 14px;
+	font-weight: 500;
+	border-radius: 10px;
+	transition: all 0.15s ease;
+	border: 1px solid var(--color-fd-border);
+}
+
+#nd-subnav .flex.items-center.gap-6 > a:hover {
+	background-color: var(--color-fd-accent);
+}
+
+/* Primary button style for the last link (Get Started) */
+#nd-subnav .flex.items-center.gap-6 > a:last-child {
+	background-color: var(--color-fd-foreground);
+	color: var(--color-fd-background);
+	border-color: transparent;
+}
+
+#nd-subnav .flex.items-center.gap-6 > a:last-child:hover {
+	opacity: 0.9;
+	background-color: var(--color-fd-foreground);
+}
+

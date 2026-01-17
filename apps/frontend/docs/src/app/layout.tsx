@@ -1,5 +1,6 @@
 import "@fe/docs/app/global.css";
 import { SidebarTabs } from "@fe/docs/components/sidebar-tabs";
+import { ThemeToggle } from "@fe/docs/components/theme-toggle";
 import { cn } from "@fe/docs/lib/cn";
 import { source } from "@fe/docs/lib/source";
 import { IconsSprite } from "@verifio/ui/icon";
@@ -23,10 +24,28 @@ export default function Layout({ children }: { children: ReactNode }) {
 							...baseOptions.nav,
 							mode: "top",
 						}}
+						githubUrl="https://github.com/verifio/verifio"
+						tabMode="navbar"
+						links={[
+							{
+								type: "button",
+								text: "Sign In",
+								url: "https://verfio.email/dashboard/login",
+								secondary: true,
+							},
+							{
+								type: "button",
+								text: "Get Started",
+								url: "https://verfio.email/dashboard/signup",
+							},
+						]}
 						sidebar={{
 							tabs: false,
 							banner: <SidebarTabs />,
 							collapsible: false,
+						}}
+						themeSwitch={{
+							component: <ThemeToggle />,
 						}}
 					>
 						{children}
