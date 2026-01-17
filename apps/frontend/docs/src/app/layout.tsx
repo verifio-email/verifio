@@ -24,7 +24,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 							...baseOptions.nav,
 							mode: "top",
 						}}
-						githubUrl="https://github.com/verifio/verifio"
+						githubUrl="https://github.com/verifio-email/verifio"
 						tabMode="navbar"
 						links={[
 							{

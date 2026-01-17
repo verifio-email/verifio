@@ -12,6 +12,7 @@ import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 export const baseOptions: BaseLayoutProps = {
 	nav: {
 		title: <LogoName className="h-5" />,
+		url: "https://verifio.email",
 	},
 	// see https://fumadocs.dev/docs/ui/navigation/links
 };
