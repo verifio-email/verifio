@@ -16,12 +16,20 @@ const colors = {
 };
 
 async function loadGeistFont() {
-	const geist = await fetch(
-		new URL(
-			"https://fonts.gstatic.com/s/geist/v4/gyBhhwUxId8gMGYQMKR3pzfaWI_RQuQ4nQ.ttf",
-		),
-	).then((res) => res.arrayBuffer());
-	return geist;
+	try {
+		const geist = await fetch(
+			new URL(
+				"https://fonts.gstatic.com/s/geist/v4/gyBhhwUxId8gMGYQMKR3pzfaWI_RQuQ4nQ.ttf",
+			),
+		).then((res) => {
+			if (!res.ok) throw new Error("Font fetch failed");
+			return res.arrayBuffer();
+		});
+		return geist;
+	} catch {
+		// Return null if font loading fails - will use system font
+		return null;
+	}
 }
 
 export default async function Image() {
@@ -35,7 +43,7 @@ export default async function Image() {
 				height: "100%",
 				display: "flex",
 				flexDirection: "column",
-				fontFamily: "Geist",
+				fontFamily: geistFont ? "Geist" : "sans-serif",
 				position: "relative",
 			}}
 		>
@@ -143,14 +151,16 @@ export default async function Image() {
 		</div>,
 		{
 			...size,
-			fonts: [
-				{
-					name: "Geist",
-					data: geistFont,
-					style: "normal",
-					weight: 600,
-				},
-			],
+			fonts: geistFont
+				? [
+						{
+							name: "Geist",
+							data: geistFont,
+							style: "normal",
+							weight: 600,
+						},
+					]
+				: [],
 		},
 	);
 }

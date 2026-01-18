@@ -5,7 +5,10 @@ import { Footer } from "@verifio/web/components/footer";
 import { Header } from "@verifio/web/components/header";
 import { ThemeProvider } from "next-themes";
 
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://verifio.email";
+
 export const metadata: Metadata = {
+	metadataBase: new URL(baseUrl),
 	title: "Verifio - 99.9% Accurate Email Verification Platform | Free API",
 	description:
 		"Validate email addresses in real-time with 99.9% accuracy. Free email verification API that reduces bounce rates and protects sender reputation. Open-source and developer-friendly.",

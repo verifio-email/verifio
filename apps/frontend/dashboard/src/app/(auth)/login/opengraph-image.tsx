@@ -1,8 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
-
-export const alt = "Login to Verifio";
+export const alt = "Sign Up for Verifio";
 export const size = {
 	width: 1200,
 	height: 630,
@@ -18,12 +16,20 @@ const colors = {
 };
 
 async function loadGeistFont() {
-	const geist = await fetch(
-		new URL(
-			"https://fonts.gstatic.com/s/geist/v4/gyBhhwUxId8gMGYQMKR3pzfaWI_RQuQ4nQ.ttf",
-		),
-	).then((res) => res.arrayBuffer());
-	return geist;
+	try {
+		const geist = await fetch(
+			new URL(
+				"https://fonts.gstatic.com/s/geist/v4/gyBhhwUxId8gMGYQMKR3pzfaWI_RQuQ4nQ.ttf",
+			),
+		).then((res) => {
+			if (!res.ok) throw new Error("Font fetch failed");
+			return res.arrayBuffer();
+		});
+		return geist;
+	} catch {
+		// Return null if font loading fails - will use system font
+		return null;
+	}
 }
 
 export default async function Image() {
@@ -37,7 +43,7 @@ export default async function Image() {
 				height: "100%",
 				display: "flex",
 				flexDirection: "column",
-				fontFamily: "Geist",
+				fontFamily: geistFont ? "Geist" : "sans-serif",
 				position: "relative",
 			}}
 		>
@@ -74,7 +80,9 @@ export default async function Image() {
 				<span style={{ fontSize: "14px", color: colors.textSub }}>
 					[01] AUTHENTICATION
 				</span>
-				<span style={{ fontSize: "14px", color: colors.textSub }}>/ LOGIN</span>
+				<span style={{ fontSize: "14px", color: colors.textSub }}>
+					/ SIGN UP
+				</span>
 			</div>
 
 			{/* Logo */}
@@ -128,7 +136,7 @@ export default async function Image() {
 						lineHeight: 1.1,
 					}}
 				>
-					Welcome Back
+					Create Account
 				</span>
 				<span
 					style={{
@@ -137,20 +145,22 @@ export default async function Image() {
 						marginTop: "16px",
 					}}
 				>
-					Sign in to your Verifio account
+					Start verifying emails with Verifio
 				</span>
 			</div>
 		</div>,
 		{
 			...size,
-			fonts: [
-				{
-					name: "Geist",
-					data: geistFont,
-					style: "normal",
-					weight: 600,
-				},
-			],
+			fonts: geistFont
+				? [
+						{
+							name: "Geist",
+							data: geistFont,
+							style: "normal",
+							weight: 600,
+						},
+					]
+				: [],
 		},
 	);
 }
