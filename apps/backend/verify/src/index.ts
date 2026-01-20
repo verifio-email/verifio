@@ -8,13 +8,13 @@ import { fromTypes, openapi } from "@elysiajs/openapi";
 import { serverTiming } from "@elysiajs/server-timing";
 import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
-import { verifyConfig } from "./config";
 import { authenticatedSingleRoute } from "./routes/authenticated";
 import { authenticatedBulkRoute } from "./routes/authenticated-bulk";
 import { bulkVerifyRoute } from "./routes/bulk";
 import { historyRoute } from "./routes/history";
 import { landing } from "./routes/landing";
 import { singleVerifyRoute } from "./routes/single";
+import { verifyConfig } from "./verify.config";
 
 const port = verifyConfig.port;
 

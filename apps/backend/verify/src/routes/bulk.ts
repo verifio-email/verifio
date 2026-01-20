@@ -12,8 +12,8 @@ import {
 } from "@verifio/email-verify";
 import { logger } from "@verifio/logger";
 import { Elysia, t } from "elysia";
-import { verifyConfig } from "../config";
 import { blockRateLimited, createRateLimiter } from "../middleware/rate-limit";
+import { verifyConfig } from "../verify.config";
 
 /**
  * In-memory job storage (for demo - use database in production)

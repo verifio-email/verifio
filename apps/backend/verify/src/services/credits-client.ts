@@ -4,7 +4,7 @@
  */
 
 import { logger } from "@verifio/logger";
-import { verifyConfig } from "../config";
+import { verifyConfig } from "../verify.config";
 
 interface CheckCreditsResponse {
 	success: boolean;

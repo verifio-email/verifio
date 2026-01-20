@@ -10,9 +10,9 @@ import { logger } from "@verifio/logger";
 import { logActivity } from "@verifio/logging";
 import { count, desc, eq } from "drizzle-orm";
 import { Elysia, t } from "elysia";
-import { verifyConfig } from "../config";
 import { authMiddleware } from "../middleware/auth";
 import { checkCredits, deductCredits } from "../services/credits-client";
+import { verifyConfig } from "../verify.config";
 
 /**
  * Request body schema
