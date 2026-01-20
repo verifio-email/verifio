@@ -186,13 +186,26 @@ async function processBulkVerification(
 			"Bulk verification completed",
 		);
 
-		// Deduct credits after successful completion
-		deductCredits(organizationId, results.length).catch((err) => {
+		// Deduct credits after successful completion (awaited to ensure deduction)
+		const deductResult = await deductCredits(organizationId, results.length);
+		if (!deductResult.success) {
 			logger.error(
-				{ error: err, jobId },
+				{ jobId, organizationId, error: deductResult.error },
 				"Failed to deduct credits for bulk job",
 			);
-		});
+
+			// Mark job as failed - credits must be deducted for billing integrity
+			await db
+				.update(schema.verificationJob)
+				.set({
+					status: "failed",
+					errorMessage:
+						"Verification completed but credits deduction failed. Please contact support.",
+				})
+				.where(eq(schema.verificationJob.id, jobId));
+
+			return;
+		}
 
 		// Log activity for completed job
 		logActivity({
@@ -213,7 +226,7 @@ async function processBulkVerification(
 				risky: stats.risky,
 				unknown: stats.unknown,
 			},
-		}).catch(() => {});
+		}).catch(() => { });
 	} catch (error) {
 		const errorMessage =
 			error instanceof Error ? error.message : "Unknown error";
@@ -239,7 +252,7 @@ async function processBulkVerification(
 			resource_id: jobId,
 			status: "error",
 			error_message: errorMessage,
-		}).catch(() => {});
+		}).catch(() => { });
 	}
 }
 

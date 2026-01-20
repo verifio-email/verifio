@@ -18,6 +18,7 @@ const VerificationOptionsSchema = t.Object({
 
 const SingleVerifyBody = t.Object({
 	email: t.String({
+		format: "email",
 		minLength: 1,
 		maxLength: 254,
 		description: "Email address to verify",

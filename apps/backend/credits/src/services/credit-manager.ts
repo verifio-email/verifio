@@ -5,7 +5,7 @@
 
 import { db } from "@verifio/db/client";
 import { creditHistory, orgCredits } from "@verifio/db/schema";
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq, sql } from "drizzle-orm";
 import { creditsConfig } from "../credits.config";
 
 /**
@@ -135,8 +135,9 @@ export async function checkCredits(
 }
 
 /**
- * Deduct credits from an organization
- * Returns true if deduction was successful, false if insufficient credits
+ * Deduct credits from an organization (ATOMIC operation)
+ * Uses SQL WHERE clause to atomically check and deduct, preventing race conditions.
+ * Returns true if deduction was successful, false if insufficient credits.
  */
 export async function deductCredits(
 	organizationId: string,
@@ -146,27 +147,34 @@ export async function deductCredits(
 	creditsUsed: number;
 	remaining: number;
 }> {
+	// First ensure the credit record exists (handles lazy reset)
 	const credits = await getOrCreateOrgCredits(organizationId);
-	const remaining = credits.creditLimit - credits.creditsUsed;
 
-	if (remaining < amount) {
-		return {
-			success: false,
-			creditsUsed: credits.creditsUsed,
-			remaining,
-		};
-	}
-
+	// Atomic update: only succeeds if there are enough credits
+	// The WHERE clause ensures we don't over-deduct
 	const [updated] = await db
 		.update(orgCredits)
 		.set({
-			creditsUsed: credits.creditsUsed + amount,
+			creditsUsed: sql`${orgCredits.creditsUsed} + ${amount}`,
 		})
-		.where(eq(orgCredits.id, credits.id))
+		.where(
+			and(
+				eq(orgCredits.id, credits.id),
+				// Atomic check: credit_limit - credits_used >= amount
+				sql`${orgCredits.creditLimit} - ${orgCredits.creditsUsed} >= ${amount}`,
+			),
+		)
 		.returning();
 
+	// If no rows were updated, it means insufficient credits
 	if (!updated) {
-		throw new Error("Failed to deduct credits");
+		// Re-fetch current state for accurate response
+		const current = await getOrCreateOrgCredits(organizationId);
+		return {
+			success: false,
+			creditsUsed: current.creditsUsed,
+			remaining: current.creditLimit - current.creditsUsed,
+		};
 	}
 
 	return {
