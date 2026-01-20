@@ -4,6 +4,7 @@
 
 import { db } from "@verifio/db/client";
 import { Elysia } from "elysia";
+import { redis } from "../lib/redis";
 
 export const landing = new Elysia()
 	.get(
@@ -13,6 +14,8 @@ export const landing = new Elysia()
 
 			let dbStatus = "UNKNOWN";
 			let dbError = "";
+			let redisStatus = "UNKNOWN";
+			let redisError = "";
 
 			try {
 				await db.execute("SELECT 1 as test");
@@ -20,6 +23,15 @@ export const landing = new Elysia()
 			} catch (dbErr) {
 				dbStatus = "DISCONNECTED";
 				dbError = dbErr instanceof Error ? dbErr.message : String(dbErr);
+			}
+
+			try {
+				await redis.healthCheck();
+				redisStatus = "CONNECTED";
+			} catch (redisErr) {
+				redisStatus = "DISCONNECTED";
+				redisError =
+					redisErr instanceof Error ? redisErr.message : String(redisErr);
 			}
 
 			return `
@@ -39,8 +51,10 @@ export const landing = new Elysia()
 ║                                                        ║
 ╠════════════════════════════════════════════════════════╣
 ║ DATABASE STATUS: ${dbStatus.padEnd(25)}             ║
-║                                                        ║
 ${dbError ? `║ DB ERROR: ${dbError.substring(0, 45).padEnd(45)} ║` : "║                                                        ║"}
+╠════════════════════════════════════════════════════════╣
+║ REDIS STATUS: ${redisStatus.padEnd(28)}             ║
+${redisError ? `║ REDIS ERROR: ${redisError.substring(0, 42).padEnd(42)} ║` : "║                                                        ║"}
 ╠════════════════════════════════════════════════════════╣
 ║ QUICK START:                                           ║
 ║ curl -X POST /api/verify/v1/email \\                    ║
@@ -74,6 +88,21 @@ ${dbError ? `║ DB ERROR: ${dbError.substring(0, 45).padEnd(45)} ║` : "║   
 	.get("/health/postgres", async () => {
 		try {
 			await db.execute("SELECT 1 as test");
+			return {
+				status: "CONNECTED",
+				timestamp: new Date().toISOString(),
+			};
+		} catch (error) {
+			return {
+				status: "DISCONNECTED",
+				error: error instanceof Error ? error.message : String(error),
+				timestamp: new Date().toISOString(),
+			};
+		}
+	})
+	.get("/health/redis", async () => {
+		try {
+			await redis.healthCheck();
 			return {
 				status: "CONNECTED",
 				timestamp: new Date().toISOString(),

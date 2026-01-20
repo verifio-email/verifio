@@ -1,32 +1,16 @@
 /**
  * Rate Limiting Middleware for Public Endpoints
- * Uses sliding window rate limiting based on IP address
+ * Uses Redis for distributed rate limiting (works across multiple server instances)
  */
 
 import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
+import { redis } from "../lib/redis";
 
 interface RateLimitEntry {
 	count: number;
 	windowStart: number;
 }
-
-// In-memory store for rate limiting (use Redis in production for distributed systems)
-const rateLimitStore = new Map<string, RateLimitEntry>();
-
-// Cleanup old entries every 5 minutes
-setInterval(
-	() => {
-		const now = Date.now();
-		for (const [key, entry] of rateLimitStore.entries()) {
-			// Remove entries older than 2 hours
-			if (now - entry.windowStart > 2 * 60 * 60 * 1000) {
-				rateLimitStore.delete(key);
-			}
-		}
-	},
-	5 * 60 * 1000,
-);
 
 /**
  * Get client IP address from request headers
@@ -56,40 +40,61 @@ function getClientIP(headers: Record<string, string | undefined>): string {
 }
 
 /**
- * Check rate limit and return whether request should be allowed
+ * Check rate limit using Redis and return whether request should be allowed
  */
-function checkRateLimit(
+async function checkRateLimit(
 	key: string,
 	maxRequests: number,
 	windowMs: number,
-): { allowed: boolean; remaining: number; resetAt: number } {
+): Promise<{ allowed: boolean; remaining: number; resetAt: number }> {
 	const now = Date.now();
-	const entry = rateLimitStore.get(key);
 
-	if (!entry || now - entry.windowStart > windowMs) {
-		// New window
-		rateLimitStore.set(key, { count: 1, windowStart: now });
+	try {
+		const entry = await redis.get<RateLimitEntry>(key);
+
+		if (!entry || now - entry.windowStart > windowMs) {
+			// New window - set count to 1
+			await redis.set(
+				key,
+				{ count: 1, windowStart: now },
+				Math.ceil(windowMs / 1000) + 10, // TTL slightly longer than window
+			);
+			return {
+				allowed: true,
+				remaining: maxRequests - 1,
+				resetAt: now + windowMs,
+			};
+		}
+
+		if (entry.count >= maxRequests) {
+			return {
+				allowed: false,
+				remaining: 0,
+				resetAt: entry.windowStart + windowMs,
+			};
+		}
+
+		// Increment count
+		await redis.set(
+			key,
+			{ count: entry.count + 1, windowStart: entry.windowStart },
+			Math.ceil((entry.windowStart + windowMs - now) / 1000) + 10,
+		);
+
+		return {
+			allowed: true,
+			remaining: maxRequests - entry.count - 1,
+			resetAt: entry.windowStart + windowMs,
+		};
+	} catch (error) {
+		// If Redis fails, allow the request but log the error
+		logger.error({ error }, "Redis rate limit check failed, allowing request");
 		return {
 			allowed: true,
 			remaining: maxRequests - 1,
 			resetAt: now + windowMs,
 		};
 	}
-
-	if (entry.count >= maxRequests) {
-		return {
-			allowed: false,
-			remaining: 0,
-			resetAt: entry.windowStart + windowMs,
-		};
-	}
-
-	entry.count++;
-	return {
-		allowed: true,
-		remaining: maxRequests - entry.count,
-		resetAt: entry.windowStart + windowMs,
-	};
 }
 
 /**
@@ -118,11 +123,11 @@ export function createRateLimiter(type: keyof typeof RATE_LIMITS) {
 
 	return new Elysia({ name: `rate-limit-${type}` }).derive(
 		{ as: "scoped" },
-		({ headers, set }) => {
+		async ({ headers, set }) => {
 			const ip = getClientIP(headers);
 			const key = `${config.keyPrefix}:${ip}`;
 
-			const result = checkRateLimit(key, config.maxRequests, config.windowMs);
+			const result = await checkRateLimit(key, config.maxRequests, config.windowMs);
 
 			// Set rate limit headers
 			set.headers["X-RateLimit-Limit"] = String(config.maxRequests);

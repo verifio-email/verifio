@@ -10,6 +10,7 @@ const defaults = {
 	DEFAULT_TIMEOUT: "5000",
 	CREDITS_SERVICE_URL: "http://localhost:8030",
 	INTERNAL_SERVICE_SECRET: "internal-secret",
+	REDIS_URL: "redis://:verifio123@localhost:6379",
 } as const;
 
 export const verifyConfig = {
@@ -26,4 +27,5 @@ export const verifyConfig = {
 		process.env.CREDITS_SERVICE_URL || defaults.CREDITS_SERVICE_URL,
 	internalSecret:
 		process.env.INTERNAL_SERVICE_SECRET || defaults.INTERNAL_SERVICE_SECRET,
+	redisUrl: process.env.REDIS_URL || defaults.REDIS_URL,
 };

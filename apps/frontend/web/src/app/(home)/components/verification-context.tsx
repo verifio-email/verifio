@@ -5,8 +5,43 @@ import {
 	type ReactNode,
 	useCallback,
 	useContext,
+	useRef,
 	useState,
 } from "react";
+
+/**
+ * Email validation regex (RFC 5322 simplified)
+ */
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_EMAIL_LENGTH = 254;
+
+/**
+ * Validate email format before API call
+ */
+function isValidEmail(email: string): { valid: boolean; error?: string } {
+	if (!email || email.trim().length === 0) {
+		return { valid: false, error: "Email is required" };
+	}
+	if (email.length > MAX_EMAIL_LENGTH) {
+		return { valid: false, error: "Email is too long (max 254 characters)" };
+	}
+	if (!EMAIL_REGEX.test(email)) {
+		return { valid: false, error: "Please enter a valid email address" };
+	}
+	return { valid: true };
+}
+
+/**
+ * Sanitize error messages to prevent XSS and limit length
+ */
+function sanitizeError(error: unknown): string {
+	if (typeof error !== "string") {
+		return "Verification failed";
+	}
+	// Strip any HTML tags and limit length
+	const sanitized = error.replace(/<[^>]*>/g, "").slice(0, 200);
+	return sanitized || "Verification failed";
+}
 
 /**
  * Verification result type from API
@@ -92,6 +127,9 @@ interface VerificationContextType {
 
 const VerificationContext = createContext<VerificationContextType | null>(null);
 
+/** Debounce delay in milliseconds */
+const DEBOUNCE_MS = 500;
+
 export function VerificationProvider({ children }: { children: ReactNode }) {
 	const [result, setResult] = useState<VerificationResult | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
@@ -99,7 +137,24 @@ export function VerificationProvider({ children }: { children: ReactNode }) {
 	const [rateLimitInfo, setRateLimitInfo] =
 		useState<VerificationContextType["rateLimitInfo"]>(null);
 
+	// Debounce ref to prevent rapid submissions
+	const lastSubmitTime = useRef<number>(0);
+
 	const verifyEmail = useCallback(async (email: string) => {
+		// Issue #6: Client-side validation before API call
+		const validation = isValidEmail(email);
+		if (!validation.valid) {
+			setError(validation.error || "Invalid email");
+			return;
+		}
+
+		// Issue #8: Debounce - prevent rapid submissions
+		const now = Date.now();
+		if (now - lastSubmitTime.current < DEBOUNCE_MS) {
+			return; // Ignore rapid submissions
+		}
+		lastSubmitTime.current = now;
+
 		setIsLoading(true);
 		setError(null);
 		setResult(null);
@@ -147,7 +202,8 @@ export function VerificationProvider({ children }: { children: ReactNode }) {
 			const data = await response.json();
 
 			if (!data.success) {
-				setError(data.error || "Verification failed");
+				// Issue #7: Sanitize error to prevent XSS
+				setError(sanitizeError(data.error));
 				return;
 			}
 
@@ -161,7 +217,12 @@ export function VerificationProvider({ children }: { children: ReactNode }) {
 				createdAt: new Date().toISOString(),
 			});
 		} catch (err) {
-			setError(err instanceof Error ? err.message : "Failed to verify email");
+			// Issue #7: Sanitize error to prevent XSS
+			setError(
+				sanitizeError(
+					err instanceof Error ? err.message : "Failed to verify email",
+				),
+			);
 		} finally {
 			setIsLoading(false);
 		}
