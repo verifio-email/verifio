@@ -11,6 +11,7 @@ import { logger } from "@verifio/logger";
 import { and, eq } from "drizzle-orm";
 import { Elysia } from "elysia";
 import { verifyConfig } from "../config";
+import { getKeyPrefix, verifyApiKey } from "../lib/api-key-hash";
 
 if (verifyConfig.environment !== "production") {
 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
@@ -38,6 +39,7 @@ function extractApiKey(headers: Headers): string | null {
 
 /**
  * Validate API key and return auth context
+ * Uses prefix-based lookup with hash verification for security
  */
 async function validateApiKey(apiKey: string): Promise<{
 	organizationId: string;
@@ -45,23 +47,34 @@ async function validateApiKey(apiKey: string): Promise<{
 	apiKeyId: string;
 } | null> {
 	try {
+		const keyPrefix = getKeyPrefix(apiKey);
 		logger.debug(
-			{ apiKey: apiKey.substring(0, 12) + "..." },
+			{ keyPrefix },
 			"Validating API key",
 		);
 
-		// Find API key by direct comparison
+		// Find API key by prefix (start column), then verify hash
 		const result = await db.query.apikey.findFirst({
 			where: and(
-				eq(schema.apikey.key, apiKey),
+				eq(schema.apikey.start, keyPrefix),
 				eq(schema.apikey.enabled, true),
 			),
 		});
 
 		if (!result) {
 			logger.warn(
-				{ apiKey: apiKey.substring(0, 12) + "..." },
+				{ keyPrefix },
 				"API key not found or disabled",
+			);
+			return null;
+		}
+
+		// Verify the key hash using timing-safe comparison
+		const storedHash = result.key;
+		if (!verifyApiKey(apiKey, storedHash)) {
+			logger.warn(
+				{ keyPrefix },
+				"API key hash verification failed",
 			);
 			return null;
 		}

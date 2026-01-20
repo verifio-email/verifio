@@ -1,5 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { createId } from "@paralleldrive/cuid2";
+import { hashApiKey } from "@verifio/api-key/lib/api-key-hash";
 import { formatApiKeyWithKeyResponse } from "@verifio/api-key/routes/api-key/controllers/format-api-key-response";
 import type { ApiKeyTypes } from "@verifio/api-key/types/api-key.type";
 import { db } from "@verifio/db/client";
@@ -53,7 +54,7 @@ export async function createApiKey(
 				name: request.name || null,
 				start: keyStart,
 				prefix: API_KEY_PREFIX,
-				key: fullKey,
+				key: hashApiKey(fullKey), // Store hash, never plaintext
 				organizationId,
 				userId,
 				refillInterval: request.refillInterval ?? null,
@@ -140,7 +141,7 @@ export async function createApiKeyHandler(
 			status: "success",
 			result: "created",
 			duration_ms: Date.now() - startTime,
-		}).catch(() => {});
+		}).catch(() => { });
 
 		return apiKey;
 	} catch (error) {
@@ -164,7 +165,7 @@ export async function createApiKeyHandler(
 			status: "error",
 			error_message: error instanceof Error ? error.message : String(error),
 			duration_ms: Date.now() - startTime,
-		}).catch(() => {});
+		}).catch(() => { });
 
 		throw error;
 	}

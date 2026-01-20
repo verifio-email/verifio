@@ -1,4 +1,5 @@
 import { randomBytes } from "node:crypto";
+import { hashApiKey } from "@verifio/api-key/lib/api-key-hash";
 import { formatApiKeyWithKeyResponse } from "@verifio/api-key/routes/api-key/controllers/format-api-key-response";
 import type { ApiKeyTypes } from "@verifio/api-key/types/api-key.type";
 import { db } from "@verifio/db/client";
@@ -54,7 +55,7 @@ export async function rotateApiKey(
 		const [updatedKey] = await db
 			.update(schema.apikey)
 			.set({
-				key: fullKey,
+				key: hashApiKey(fullKey), // Store hash, never plaintext
 				start: keyStart,
 				updatedAt: now,
 			})
