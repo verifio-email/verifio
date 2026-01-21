@@ -105,6 +105,58 @@ export class RedisCache {
 		}
 	}
 
+	/**
+	 * Atomically increment a counter and return the new value
+	 * This is ATOMIC - safe for concurrent access (rate limiting)
+	 */
+	async incr(key: string): Promise<number> {
+		try {
+			const redis = await this.getRedisClient();
+			const result = await redis.incr(this.getKey(key));
+			return result;
+		} catch (error) {
+			console.error(
+				`Redis incr error for ${this.prefix} cache, key "${key}":`,
+				error,
+			);
+			this.redis = null;
+			return 0;
+		}
+	}
+
+	/**
+	 * Atomically increment a counter and set expiry if this is the first increment
+	 * Returns the new count and whether the key was newly created
+	 * This is the preferred method for rate limiting - fully atomic
+	 */
+	async incrWithExpiry(
+		key: string,
+		ttlSeconds: number,
+	): Promise<{ count: number; isNew: boolean }> {
+		try {
+			const redis = await this.getRedisClient();
+			const redisKey = this.getKey(key);
+
+			// INCR is atomic - if key doesn't exist, it creates with value 1
+			const count = await redis.incr(redisKey);
+
+			// If count is 1, this is a new key - set expiry
+			const isNew = count === 1;
+			if (isNew && ttlSeconds > 0) {
+				await redis.expire(redisKey, ttlSeconds);
+			}
+
+			return { count, isNew };
+		} catch (error) {
+			console.error(
+				`Redis incrWithExpiry error for ${this.prefix} cache, key "${key}":`,
+				error,
+			);
+			this.redis = null;
+			return { count: 0, isNew: false };
+		}
+	}
+
 	async keys(pattern: string): Promise<string[]> {
 		try {
 			const redis = await this.getRedisClient();

@@ -195,7 +195,11 @@ export const auth = betterAuth({
 			"https://verifio.email",
 			"https://www.verifio.email",
 		]
-		: ["*"],
+		: [
+			"http://localhost:3000",
+			"http://localhost:3001",
+			"https://local.verifio.email",
+		],
 	plugins: [
 		jwt(),
 		bearer(),

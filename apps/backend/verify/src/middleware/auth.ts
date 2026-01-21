@@ -13,10 +13,6 @@ import { Elysia } from "elysia";
 import { getKeyPrefix, verifyApiKey } from "../lib/api-key-hash";
 import { verifyConfig } from "../verify.config";
 
-if (verifyConfig.environment !== "production") {
-	process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-}
-
 /**
  * Extract API key from request headers
  * Checks both Authorization: Bearer and X-API-Key headers

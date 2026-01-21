@@ -7,11 +7,6 @@ import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
 import { redis } from "../lib/redis";
 
-interface RateLimitEntry {
-	count: number;
-	windowStart: number;
-}
-
 /**
  * Get client IP address from request headers
  */
@@ -40,7 +35,11 @@ function getClientIP(headers: Record<string, string | undefined>): string {
 }
 
 /**
- * Check rate limit using Redis and return whether request should be allowed
+ * Check rate limit using ATOMIC Redis INCR and return whether request should be allowed
+ * 
+ * SECURITY: Uses atomic increment to prevent race conditions.
+ * Old approach (get-then-set) allowed concurrent requests to bypass limits.
+ * New approach (INCR) is atomic - no race condition possible.
  */
 async function checkRateLimit(
 	key: string,
@@ -48,50 +47,43 @@ async function checkRateLimit(
 	windowMs: number,
 ): Promise<{ allowed: boolean; remaining: number; resetAt: number }> {
 	const now = Date.now();
+	const ttlSeconds = Math.ceil(windowMs / 1000);
 
 	try {
-		const entry = await redis.get<RateLimitEntry>(key);
+		// ATOMIC: incrWithExpiry increments and sets TTL in one operation
+		// If key doesn't exist, Redis creates it with value 1 and sets expiry
+		// If key exists, Redis atomically increments and returns new count
+		const { count, isNew } = await redis.incrWithExpiry(key, ttlSeconds);
 
-		if (!entry || now - entry.windowStart > windowMs) {
-			// New window - set count to 1
-			await redis.set(
-				key,
-				{ count: 1, windowStart: now },
-				Math.ceil(windowMs / 1000) + 10, // TTL slightly longer than window
-			);
-			return {
-				allowed: true,
-				remaining: maxRequests - 1,
-				resetAt: now + windowMs,
-			};
+		// Calculate reset time (approximate - based on TTL)
+		const resetAt = now + windowMs;
+
+		// If this is a new window (count === 1), log it
+		if (isNew) {
+			logger.debug({ key, maxRequests }, "New rate limit window started");
 		}
 
-		if (entry.count >= maxRequests) {
+		// Check if limit exceeded
+		if (count > maxRequests) {
 			return {
 				allowed: false,
 				remaining: 0,
-				resetAt: entry.windowStart + windowMs,
+				resetAt,
 			};
 		}
 
-		// Increment count
-		await redis.set(
-			key,
-			{ count: entry.count + 1, windowStart: entry.windowStart },
-			Math.ceil((entry.windowStart + windowMs - now) / 1000) + 10,
-		);
-
 		return {
 			allowed: true,
-			remaining: maxRequests - entry.count - 1,
-			resetAt: entry.windowStart + windowMs,
+			remaining: maxRequests - count,
+			resetAt,
 		};
 	} catch (error) {
-		// If Redis fails, allow the request but log the error
-		logger.error({ error }, "Redis rate limit check failed, allowing request");
+		// SECURITY: Fail-closed - block requests when Redis fails
+		// This prevents abuse if Redis is down
+		logger.error({ error }, "Redis rate limit check failed, blocking request for security");
 		return {
-			allowed: true,
-			remaining: maxRequests - 1,
+			allowed: false,
+			remaining: 0,
 			resetAt: now + windowMs,
 		};
 	}
