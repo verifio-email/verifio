@@ -60,11 +60,14 @@ export async function checkCredits(
 			{ error: error instanceof Error ? error.message : "Unknown error" },
 			"Failed to check credits",
 		);
-		// Return success with credits available to avoid blocking if service is down
-		// This is a graceful degradation - we don't want to block verifications if credits service is temporarily unavailable
+		// SECURITY: Fail-closed - block verifications when credits service is unavailable
+		// This prevents abuse if attackers DoS the credits service to get free verifications
+		// The trade-off is that legitimate users are blocked during outages, but this is
+		// safer than allowing unlimited free usage which causes billing losses
 		return {
-			success: true,
-			data: { hasCredits: true, remaining: 9999, required: amount },
+			success: false,
+			error: "Credits service unavailable - verification blocked for security",
+			data: { hasCredits: false, remaining: 0, required: amount },
 		};
 	}
 }

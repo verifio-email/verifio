@@ -12,25 +12,21 @@ import {
 } from "@verifio/email-verify";
 import { logger } from "@verifio/logger";
 import { Elysia, t } from "elysia";
+import { type BulkJob, getJob, saveJob } from "../lib/job-store";
 import { blockRateLimited, createRateLimiter } from "../middleware/rate-limit";
 import { verifyConfig } from "../verify.config";
 
 /**
- * In-memory job storage (for demo - use database in production)
+ * Extract client IP from request headers
  */
-const jobs = new Map<
-	string,
-	{
-		id: string;
-		status: "pending" | "processing" | "completed" | "failed";
-		emails: string[];
-		results: VerificationResult[];
-		stats: BulkVerificationStats | null;
-		createdAt: string;
-		completedAt: string | null;
-		error: string | null;
-	}
->();
+function getClientIp(headers: Headers): string {
+	return (
+		headers.get("cf-connecting-ip") ||
+		headers.get("x-real-ip") ||
+		headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+		"unknown"
+	);
+}
 
 /**
  * Request body schema
@@ -126,7 +122,7 @@ async function processBulkVerification(
 	emails: string[],
 	options: { skipDisposable?: boolean; skipRole?: boolean; skipTypo?: boolean },
 ) {
-	const job = jobs.get(jobId);
+	const job = await getJob(jobId);
 	if (!job) return;
 
 	const startTime = Date.now();
@@ -150,7 +146,10 @@ async function processBulkVerification(
 			);
 			results.push(...batchResults);
 
-			// Log progress
+			// Save progress to Redis after each batch
+			job.results = results;
+			await saveJob(job);
+
 			logger.info(
 				{ jobId, processed: results.length, total: emails.length },
 				"Bulk verification progress",
@@ -161,6 +160,7 @@ async function processBulkVerification(
 		job.stats = calculateStats(results, startTime);
 		job.status = "completed";
 		job.completedAt = new Date().toISOString();
+		await saveJob(job);
 
 		logger.info(
 			{
@@ -176,6 +176,7 @@ async function processBulkVerification(
 			error instanceof Error ? error.message : "Unknown error";
 		job.status = "failed";
 		job.error = errorMessage;
+		await saveJob(job);
 
 		logger.error({ jobId, error: errorMessage }, "Bulk verification failed");
 	}
@@ -189,15 +190,16 @@ export const bulkVerifyRoute = new Elysia({ prefix: "/v1" })
 	 */
 	.post(
 		"/bulk",
-		async ({ body }) => {
+		async ({ body, request: { headers } }) => {
 			const jobId = createId();
+			const creatorIp = getClientIp(headers);
 
 			logger.info(
-				{ jobId, emailCount: body.emails.length },
+				{ jobId, emailCount: body.emails.length, creatorIp },
 				"Starting bulk verification job",
 			);
 
-			// Create job
+			// Create job with creator IP for authorization
 			const job = {
 				id: jobId,
 				status: "pending" as const,
@@ -207,9 +209,11 @@ export const bulkVerifyRoute = new Elysia({ prefix: "/v1" })
 				createdAt: new Date().toISOString(),
 				completedAt: null,
 				error: null,
+				creatorIp,
 			};
 
-			jobs.set(jobId, job);
+			// Save job to Redis before starting background processing
+			await saveJob(job);
 
 			// Start processing in background
 			processBulkVerification(jobId, body.emails, body.options || {});
@@ -240,13 +244,26 @@ export const bulkVerifyRoute = new Elysia({ prefix: "/v1" })
 	 */
 	.get(
 		"/jobs/:jobId",
-		({ params }) => {
-			const job = jobs.get(params.jobId);
+		async ({ params, request: { headers } }) => {
+			const job = await getJob(params.jobId);
+			const requesterIp = getClientIp(headers);
 
 			if (!job) {
 				return {
 					success: false,
 					error: "Job not found",
+				};
+			}
+
+			// SECURITY: Verify requester is the job creator
+			if (job.creatorIp !== requesterIp) {
+				logger.warn(
+					{ jobId: params.jobId, requesterIp, creatorIp: job.creatorIp },
+					"Unauthorized job access attempt",
+				);
+				return {
+					success: false,
+					error: "Job not found", // Don't reveal job exists
 				};
 			}
 
@@ -284,13 +301,26 @@ export const bulkVerifyRoute = new Elysia({ prefix: "/v1" })
 	 */
 	.get(
 		"/jobs/:jobId/results",
-		({ params, query }) => {
-			const job = jobs.get(params.jobId);
+		async ({ params, query, request: { headers } }) => {
+			const job = await getJob(params.jobId);
+			const requesterIp = getClientIp(headers);
 
 			if (!job) {
 				return {
 					success: false,
 					error: "Job not found",
+				};
+			}
+
+			// SECURITY: Verify requester is the job creator
+			if (job.creatorIp !== requesterIp) {
+				logger.warn(
+					{ jobId: params.jobId, requesterIp, creatorIp: job.creatorIp },
+					"Unauthorized job results access attempt",
+				);
+				return {
+					success: false,
+					error: "Job not found", // Don't reveal job exists
 				};
 			}
 

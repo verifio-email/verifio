@@ -24,7 +24,10 @@ const verifyService = new Elysia({
 })
 	.use(
 		cors({
-			origin: true,
+			// SECURITY: Only allow specific origins in production
+			origin: verifyConfig.isProduction
+				? ["https://verifio.email", "https://www.verifio.email"]
+				: ["http://localhost:3000", "http://localhost:3001", "https://local.verifio.email"],
 			methods: ["GET", "POST", "OPTIONS"],
 			allowedHeaders: ["Content-Type", "X-API-Key", "Authorization", "Cookie"],
 			credentials: true,

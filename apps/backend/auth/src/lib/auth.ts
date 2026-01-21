@@ -17,6 +17,7 @@ import {
 } from "better-auth/plugins";
 import { eq } from "drizzle-orm";
 import { authConfig } from "../auth.config";
+import { encryptField } from "./encryption";
 import { redis } from "./redis";
 
 export const auth = betterAuth({
@@ -95,6 +96,49 @@ export const auth = betterAuth({
 					} catch (error) {
 						logger.error("Failed to create organization for user:", error);
 					}
+				},
+			},
+		},
+		// Encrypt OAuth tokens before storing in database
+		account: {
+			create: {
+				before: async (account) => {
+					logger.debug("Encrypting OAuth tokens for account");
+					return {
+						data: {
+							...account,
+							// Encrypt sensitive OAuth tokens
+							accessToken: account.accessToken
+								? encryptField(account.accessToken)
+								: account.accessToken,
+							refreshToken: account.refreshToken
+								? encryptField(account.refreshToken)
+								: account.refreshToken,
+							idToken: account.idToken
+								? encryptField(account.idToken)
+								: account.idToken,
+						},
+					};
+				},
+			},
+			update: {
+				before: async (account) => {
+					logger.debug("Encrypting OAuth tokens for account update");
+					return {
+						data: {
+							...account,
+							// Encrypt sensitive OAuth tokens on update too
+							accessToken: account.accessToken
+								? encryptField(account.accessToken)
+								: account.accessToken,
+							refreshToken: account.refreshToken
+								? encryptField(account.refreshToken)
+								: account.refreshToken,
+							idToken: account.idToken
+								? encryptField(account.idToken)
+								: account.idToken,
+						},
+					};
 				},
 			},
 		},

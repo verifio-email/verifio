@@ -26,6 +26,7 @@ const DEV_DEFAULTS = {
 	REDIS_URL: "redis://:verifio123@localhost:6379",
 	BASE_URL: "https://local.verifio.email",
 	BETTER_AUTH_SECRET: `dev-secret-change-in-production-${Math.random()}`,
+	ENCRYPTION_KEY: "dev-encryption-key-32-chars-min!", // 32+ chars for AES-256
 	GOOGLE_CLIENT_ID: "",
 	GOOGLE_CLIENT_SECRET: "",
 	GITHUB_CLIENT_ID: "",
@@ -56,6 +57,12 @@ export const authConfig = {
 	NODE_TLS_REJECT_UNAUTHORIZED: isProduction
 		? "1"
 		: getEnv("NODE_TLS_REJECT_UNAUTHORIZED", "0"),
+
+	// Encryption key for sensitive fields (JWKS, OAuth tokens) - REQUIRED in production
+	ENCRYPTION_KEY: getRequiredEnv(
+		"ENCRYPTION_KEY",
+		isProduction ? undefined : DEV_DEFAULTS.ENCRYPTION_KEY
+	),
 };
 
 if (authConfig.GOOGLE_CLIENT_ID && !authConfig.GOOGLE_CLIENT_SECRET) {
