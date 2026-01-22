@@ -148,13 +148,11 @@ export const auth = betterAuth({
 	emailAndPassword: {
 		autoSignIn: true,
 		enabled: true,
-		sendResetPassword: async ({ user, url, token }) => {
+		sendResetPassword: async ({ user, url }) => {
 			logger.info("Password reset requested for:", user.email);
 
-			if (authConfig.NODE_ENV === "development") {
-				logger.info("Reset URL (DEV):", url);
-				logger.info("Token (DEV):", token);
-			}
+			// SECURITY: Don't log reset tokens/URLs even in development
+			// Tokens are sensitive and could be exposed if logs are committed
 
 			try {
 				await sendPasswordResetEmail(user.email, url);

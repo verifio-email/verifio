@@ -66,7 +66,12 @@ const verifyService = new Elysia({
 	.use(authenticatedSingleRoute) // Authenticated: POST /v1/verify (stores in DB)
 	.use(authenticatedBulkRoute) // Authenticated: POST /v1/bulk-verify (stores in DB)
 	.use(historyRoute) // Authenticated: GET /v1/history, GET /v1/jobs
-	.listen(port, () => {
+	.listen({
+		port,
+		development: !verifyConfig.isProduction,
+		// SECURITY: Prevent resource exhaustion from slow/hanging requests
+		requestTimeout: 30000, // 30 seconds
+	}, () => {
 		logger.info(
 			`Email Verification Service running on http://localhost:${port}/api/verify`,
 		);

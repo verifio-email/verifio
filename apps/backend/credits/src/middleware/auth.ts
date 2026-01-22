@@ -8,6 +8,10 @@ import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
 import { creditsConfig } from "../credits.config";
 
+if (creditsConfig.environment !== "production") {
+	process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+}
+
 export const authMiddleware = new Elysia({ name: "credits-auth" }).macro({
 	auth: {
 		async resolve({ status, request: { headers } }) {

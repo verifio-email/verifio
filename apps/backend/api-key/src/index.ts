@@ -1,4 +1,5 @@
 import "dotenv/config";
+import { cors } from "@elysiajs/cors";
 import { fromTypes, openapi } from "@elysiajs/openapi";
 import { serverTiming } from "@elysiajs/server-timing";
 import { apiKeyRoutes } from "@verifio/api-key/routes/api-key/api-key.routes";
@@ -13,6 +14,17 @@ const apiKeyService = new Elysia({
 	prefix: "/api/api-key",
 	name: "API Key Service",
 })
+	.use(
+		cors({
+			// SECURITY: Only allow specific origins in production
+			origin: apiKeyConfig.NODE_ENV === "production"
+				? ["https://verifio.email", "https://www.verifio.email"]
+				: ["http://localhost:3000", "http://localhost:3001", "https://local.verifio.email"],
+			methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+			allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
+			credentials: true,
+		}),
+	)
 	.use(
 		openapi({
 			references: fromTypes(

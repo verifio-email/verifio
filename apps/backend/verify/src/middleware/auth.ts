@@ -13,6 +13,10 @@ import { Elysia } from "elysia";
 import { getKeyPrefix, verifyApiKey } from "../lib/api-key-hash";
 import { verifyConfig } from "../verify.config";
 
+if (verifyConfig.environment !== "production") {
+	process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+}
+
 /**
  * Extract API key from request headers
  * Checks both Authorization: Bearer and X-API-Key headers
@@ -41,6 +45,7 @@ async function validateApiKey(apiKey: string): Promise<{
 	organizationId: string;
 	userId: string;
 	apiKeyId: string;
+	permissions: string[];
 } | null> {
 	try {
 		const keyPrefix = getKeyPrefix(apiKey);
@@ -85,10 +90,23 @@ async function validateApiKey(apiKey: string): Promise<{
 
 		logger.info({ id: result.id }, "API key validated successfully");
 
+		// Parse permissions (stored as comma-separated string or JSON array)
+		let permissions: string[] = [];
+		if (result.permissions) {
+			try {
+				// Try parsing as JSON array first
+				permissions = JSON.parse(result.permissions);
+			} catch {
+				// Fall back to comma-separated
+				permissions = result.permissions.split(',').map(p => p.trim()).filter(Boolean);
+			}
+		}
+
 		return {
 			organizationId: result.organizationId,
 			userId: result.userId,
 			apiKeyId: result.id,
+			permissions,
 		};
 	} catch (error) {
 		logger.error(
@@ -175,6 +193,7 @@ export const authMiddleware = new Elysia({ name: "verify-auth" }).macro({
 						organizationId: apiKeyAuth.organizationId,
 						userId: apiKeyAuth.userId,
 						apiKeyId: apiKeyAuth.apiKeyId,
+						permissions: apiKeyAuth.permissions,
 						authMethod: "api-key" as const,
 					};
 				}
@@ -203,3 +222,46 @@ export const authMiddleware = new Elysia({ name: "verify-auth" }).macro({
 		},
 	},
 });
+
+/**
+ * Permission checker middleware
+ * Validates that API keys have required permissions
+ * Session-based auth bypasses permission checks (full access)
+ */
+export const requirePermission = (requiredPermissions: string[]) =>
+	new Elysia().onBeforeHandle((context: any) => {
+		const { authMethod, permissions } = context;
+
+		// Session-based auth has full access - skip permission check
+		if (authMethod === "cookie") {
+			return;
+		}
+
+		// API key auth - check permissions
+		if (authMethod === "api-key") {
+			const userPermissions = permissions || [];
+
+			// Check if user has all required permissions
+			const hasPermission = requiredPermissions.every(required =>
+				userPermissions.includes(required) || userPermissions.includes("*")
+			);
+
+			if (!hasPermission) {
+				logger.warn(
+					{ required: requiredPermissions, has: userPermissions },
+					"API key lacks required permissions"
+				);
+
+				return new Response(
+					JSON.stringify({
+						success: false,
+						error: `Insufficient permissions. Required: ${requiredPermissions.join(", ")}`,
+					}),
+					{
+						status: 403,
+						headers: { "Content-Type": "application/json" },
+					}
+				);
+			}
+		}
+	});
