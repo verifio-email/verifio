@@ -13,12 +13,12 @@ services:
       POSTGRES_PASSWORD: verifio123
     ports:
       - "5432:5432"
-    command: ["postgres", "-c", "log_statement=all"]
+    command: [ "postgres", "-c", "log_statement=all" ]
     healthcheck:
       interval: 30s
       timeout: 10s
       retries: 3
-      test: ["CMD", "pg_isready", "-U", "verifio", "-d", "verifio"]
+      test: [ "CMD", "pg_isready", "-U", "verifio", "-d", "verifio" ]
     restart: unless-stopped
 
   verifio-redis:
@@ -44,29 +44,3 @@ services:
     restart: unless-stopped
     extra_hosts:
       - "host.docker.internal:host-gateway"
-
-  verifio-inngest:
-    image: inngest/inngest:latest
-    container_name: verifio-inngest
-    command: "inngest start"
-    ports:
-      - "8288:8288"  # Inngest Dev Server UI
-    environment:
-      - INNGEST_EVENT_KEY=local_dev_event_key_0123456789abcdef
-      - INNGEST_SIGNING_KEY=signkey-local-0123456789abcdef
-      - INNGEST_POSTGRES_URI=postgres://verifio:verifio123@verifio-postgres:5432/inngest
-      - INNGEST_REDIS_URI=redis://:verifio123@verifio-redis:6379
-    depends_on:
-      verifio-postgres:
-        condition: service_healthy
-      verifio-redis:
-        condition: service_started
-    volumes:
-      - ../docker-data/inngest:/var/lib/inngest
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8288/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-    restart: unless-stopped
