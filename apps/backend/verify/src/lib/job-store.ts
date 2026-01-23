@@ -39,7 +39,7 @@ export interface BulkJob {
   createdAt: string;
   completedAt: string | null;
   error: string | null;
-  creatorIp: string;
+  accessToken: string; // Cryptographically secure token for job authorization
 }
 
 /**

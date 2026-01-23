@@ -4,6 +4,7 @@
  * Rate limited: 1 request per hour per IP
  */
 
+import { randomBytes } from "node:crypto";
 import { createId } from "@paralleldrive/cuid2";
 import {
 	type BulkVerificationStats,
@@ -17,15 +18,10 @@ import { blockRateLimited, createRateLimiter } from "../middleware/rate-limit";
 import { verifyConfig } from "../verify.config";
 
 /**
- * Extract client IP from request headers
+ * Generate a cryptographically secure access token
  */
-function getClientIp(headers: Headers): string {
-	return (
-		headers.get("cf-connecting-ip") ||
-		headers.get("x-real-ip") ||
-		headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-		"unknown"
-	);
+function generateAccessToken(): string {
+	return randomBytes(32).toString("hex");
 }
 
 /**
@@ -190,16 +186,16 @@ export const bulkVerifyRoute = new Elysia({ prefix: "/v1" })
 	 */
 	.post(
 		"/bulk",
-		async ({ body, request: { headers } }) => {
+		async ({ body }) => {
 			const jobId = createId();
-			const creatorIp = getClientIp(headers);
+			const accessToken = generateAccessToken();
 
 			logger.info(
-				{ jobId, emailCount: body.emails.length, creatorIp },
+				{ jobId, emailCount: body.emails.length },
 				"Starting bulk verification job",
 			);
 
-			// Create job with creator IP for authorization
+			// Create job with secure access token for authorization
 			const job = {
 				id: jobId,
 				status: "pending" as const,
@@ -209,7 +205,7 @@ export const bulkVerifyRoute = new Elysia({ prefix: "/v1" })
 				createdAt: new Date().toISOString(),
 				completedAt: null,
 				error: null,
-				creatorIp,
+				accessToken,
 			};
 
 			// Save job to Redis before starting background processing
@@ -222,10 +218,11 @@ export const bulkVerifyRoute = new Elysia({ prefix: "/v1" })
 				success: true,
 				data: {
 					jobId,
+					accessToken, // Return token to client for future requests
 					status: "pending",
 					emailCount: body.emails.length,
 					message:
-						"Verification job started. Poll status endpoint for progress.",
+						"Verification job started. Use accessToken to poll status endpoint.",
 				},
 			};
 		},
@@ -244,9 +241,8 @@ export const bulkVerifyRoute = new Elysia({ prefix: "/v1" })
 	 */
 	.get(
 		"/jobs/:jobId",
-		async ({ params, request: { headers } }) => {
+		async ({ params, query }) => {
 			const job = await getJob(params.jobId);
-			const requesterIp = getClientIp(headers);
 
 			if (!job) {
 				return {
@@ -255,10 +251,10 @@ export const bulkVerifyRoute = new Elysia({ prefix: "/v1" })
 				};
 			}
 
-			// SECURITY: Verify requester is the job creator
-			if (job.creatorIp !== requesterIp) {
+			// SECURITY: Verify access token
+			if (!query.token || job.accessToken !== query.token) {
 				logger.warn(
-					{ jobId: params.jobId, requesterIp, creatorIp: job.creatorIp },
+					{ jobId: params.jobId },
 					"Unauthorized job access attempt",
 				);
 				return {
@@ -289,6 +285,9 @@ export const bulkVerifyRoute = new Elysia({ prefix: "/v1" })
 			params: t.Object({
 				jobId: t.String(),
 			}),
+			query: t.Object({
+				token: t.Optional(t.String()),
+			}),
 			detail: {
 				summary: "Get job status",
 				description: "Get the status and progress of a bulk verification job",
@@ -301,9 +300,8 @@ export const bulkVerifyRoute = new Elysia({ prefix: "/v1" })
 	 */
 	.get(
 		"/jobs/:jobId/results",
-		async ({ params, query, request: { headers } }) => {
+		async ({ params, query }) => {
 			const job = await getJob(params.jobId);
-			const requesterIp = getClientIp(headers);
 
 			if (!job) {
 				return {
@@ -312,10 +310,10 @@ export const bulkVerifyRoute = new Elysia({ prefix: "/v1" })
 				};
 			}
 
-			// SECURITY: Verify requester is the job creator
-			if (job.creatorIp !== requesterIp) {
+			// SECURITY: Verify access token
+			if (!query.token || job.accessToken !== query.token) {
 				logger.warn(
-					{ jobId: params.jobId, requesterIp, creatorIp: job.creatorIp },
+					{ jobId: params.jobId },
 					"Unauthorized job results access attempt",
 				);
 				return {
@@ -358,6 +356,7 @@ export const bulkVerifyRoute = new Elysia({ prefix: "/v1" })
 				jobId: t.String(),
 			}),
 			query: t.Object({
+				token: t.Optional(t.String()),
 				page: t.Optional(t.String()),
 				limit: t.Optional(t.String()),
 			}),
