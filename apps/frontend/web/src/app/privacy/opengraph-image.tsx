@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
+
 
 export const alt = "Verifio Privacy Policy";
 export const size = {
