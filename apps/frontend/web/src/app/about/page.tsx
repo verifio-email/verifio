@@ -1,3 +1,4 @@
+import { Icon } from "@verifio/ui/icon";
 import * as Button from "@verifio/ui/button";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -102,10 +103,10 @@ export default function AboutPage() {
 							<span className="text-xs text-text-sub-600">/ OUR STORY</span>
 						</div>
 						<div className="px-10 py-16 md:py-20">
-							<h1 className="max-w-3xl font-semibold text-4xl text-text-strong-950 md:text-5xl">
+							<h1 className="mx-auto max-w-3xl text-center font-semibold text-4xl text-text-strong-950 md:text-5xl">
 								Building the future of email verification
 							</h1>
-							<p className="mt-6 max-w-2xl text-lg text-text-sub-600 leading-relaxed">
+							<p className="mx-auto mt-6 max-w-2xl text-center text-lg text-text-sub-600 leading-relaxed">
 								We started Verifio because we believed email verification should
 								be accurate, affordable, and accessible to everyone. Today, we
 								are building the modern infrastructure that businesses rely on
@@ -120,10 +121,13 @@ export default function AboutPage() {
 					<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l">
 						<div className="grid gap-0 md:grid-cols-2">
 							<div className="border-stroke-soft-100/60 p-10 md:border-r md:p-16">
-								<span className="font-mono text-primary-500 text-sm">
-									MISSION
-								</span>
-								<h2 className="mt-4 font-semibold text-2xl text-text-strong-950">
+								<div className="mb-4 flex items-center gap-2">
+									<Icon name="activity" className="h-5 w-5 text-primary-600" />
+									<span className="font-mono text-primary-500 text-sm">
+										MISSION
+									</span>
+								</div>
+								<h2 className="font-semibold text-2xl text-text-strong-950">
 									Making email verification simple
 								</h2>
 								<p className="mt-4 text-text-sub-600">
@@ -133,8 +137,11 @@ export default function AboutPage() {
 								</p>
 							</div>
 							<div className="p-10 md:p-16">
-								<span className="font-mono text-primary-500 text-sm">VISION</span>
-								<h2 className="mt-4 font-semibold text-2xl text-text-strong-950">
+								<div className="mb-4 flex items-center gap-2">
+									<Icon name="globe" className="h-5 w-5 text-blue-600" />
+									<span className="font-mono text-primary-500 text-sm">VISION</span>
+								</div>
+								<h2 className="font-semibold text-2xl text-text-strong-950">
 									A world without email bounces
 								</h2>
 								<p className="mt-4 text-text-sub-600">
@@ -183,23 +190,32 @@ export default function AboutPage() {
 								{
 									title: "Accuracy First",
 									desc: "We never sacrifice accuracy for speed. Every verification is thorough and reliable.",
+									icon: "check-circle",
+									color: "text-emerald-600",
 								},
 								{
 									title: "Transparency",
 									desc: "No hidden fees, no surprises. What you see is what you get, always.",
+									icon: "file-text",
+									color: "text-blue-600",
 								},
 								{
 									title: "Developer Focus",
 									desc: "Built by developers, for developers. We prioritize API capabilities and documentation.",
+									icon: "brackets",
+									color: "text-violet-600",
 								},
 							].map((value, index) => (
 								<div
 									key={value.title}
 									className={`border-stroke-soft-100/60 p-10 ${index < 2 ? "border-r" : ""}`}
 								>
-									<h3 className="font-semibold text-text-strong-950 text-xl">
-										{value.title}
-									</h3>
+									<div className="flex items-center gap-3">
+										<Icon name={value.icon} className={`h-6 w-6 ${value.color}`} />
+										<h3 className="font-semibold text-text-strong-950 text-xl">
+											{value.title}
+										</h3>
+									</div>
 									<p className="mt-3 text-text-sub-600">{value.desc}</p>
 								</div>
 							))}
@@ -216,9 +232,12 @@ export default function AboutPage() {
 						</div>
 						<div className="grid gap-0 md:grid-cols-2">
 							<div className="border-stroke-soft-100/60 p-10 md:border-r md:p-16">
-								<h3 className="font-semibold text-text-strong-950 text-xl">
-									Privacy by Design
-								</h3>
+								<div className="flex items-center gap-3">
+									<Icon name="lock" className="h-6 w-6 text-orange-600" />
+									<h3 className="font-semibold text-text-strong-950 text-xl">
+										Privacy by Design
+									</h3>
+								</div>
 								<p className="mt-3 text-text-sub-600">
 									We don't store your data longer than necessary. Our architecture
 									is built to process verifications continuously without persistent storage
@@ -226,9 +245,12 @@ export default function AboutPage() {
 								</p>
 							</div>
 							<div className="p-10 md:p-16">
-								<h3 className="font-semibold text-text-strong-950 text-xl">
-									Modern API Architecture
-								</h3>
+								<div className="flex items-center gap-3">
+									<Icon name="server" className="h-6 w-6 text-sky-600" />
+									<h3 className="font-semibold text-text-strong-950 text-xl">
+										Modern API Architecture
+									</h3>
+								</div>
 								<p className="mt-3 text-text-sub-600">
 									Built on a globally distributed edge network for minimum latency.
 									Our RESTful API is typed, documented, and ready for production
