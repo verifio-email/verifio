@@ -729,28 +729,25 @@ function FeatureItem({
 			<button
 				type="button"
 				onClick={onClick}
-				className={`group w-full cursor-pointer px-6 py-6 text-left transition-all ${
-					isActive
+				className={`group w-full cursor-pointer px-6 py-6 text-left transition-all ${isActive
 						? "bg-bg-weak-50 dark:bg-neutral-800/60"
 						: "hover:bg-bg-soft-200/50 dark:hover:bg-neutral-800/30"
-				}`}
+					}`}
 			>
 				{/* Icon + Title */}
 				<div className="mb-2 flex items-center gap-3">
 					<Icon
 						name={feature.icon}
-						className={`h-4 w-4 ${
-							isActive
+						className={`h-4 w-4 ${isActive
 								? "text-text-strong-950 dark:text-white"
 								: "text-text-sub-600 dark:text-gray-400"
-						}`}
+							}`}
 					/>
 					<h4
-						className={`font-semibold text-base ${
-							isActive
+						className={`font-semibold text-base ${isActive
 								? "text-text-strong-950 dark:text-white"
 								: "text-text-sub-600 dark:text-gray-300"
-						}`}
+							}`}
 					>
 						{feature.title}
 					</h4>
@@ -791,7 +788,7 @@ export function UseCases() {
 		<div className="border-stroke-soft-100/60 border-t border-b dark:border-stroke-soft-100/40">
 			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l dark:border-stroke-soft-100/40">
 				{/* Sticky Header */}
-				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-4 md:px-10 dark:border-stroke-soft-100/40">
+				<div className="sticky top-[65.5px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-4 md:px-10 dark:border-stroke-soft-100/40">
 					<span className="text-text-sub-600 text-xs">[05] USE CASES</span>
 					<span className="text-text-sub-600 text-xs">
 						/ BUILT FOR REAL PRODUCTS

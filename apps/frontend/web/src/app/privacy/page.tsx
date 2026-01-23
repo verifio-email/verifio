@@ -84,7 +84,7 @@ export default function PrivacyPage() {
 				{/* Header */}
 				<section className="border-stroke-soft-100/60 border-b">
 					<div className="mx-4 max-w-5xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
-						<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+						<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 							<span className="text-text-sub-600 text-xs">[01] PRIVACY</span>
 							<span className="text-text-sub-600 text-xs">
 								/ PRIVACY POLICY
@@ -167,7 +167,7 @@ export default function PrivacyPage() {
 									id="overview"
 									className="border-stroke-soft-100/60 border-b"
 								>
-									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+									<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 										<span className="text-text-sub-600 text-xs">
 											[01] OVERVIEW
 										</span>
@@ -191,7 +191,7 @@ export default function PrivacyPage() {
 									id="data-collection"
 									className="border-stroke-soft-100/60 border-b"
 								>
-									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+									<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 										<span className="text-text-sub-600 text-xs">[02] DATA</span>
 										<span className="text-text-sub-600 text-xs">
 											/ WHAT WE COLLECT
@@ -268,7 +268,7 @@ export default function PrivacyPage() {
 									id="data-usage"
 									className="border-stroke-soft-100/60 border-b"
 								>
-									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+									<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 										<span className="text-text-sub-600 text-xs">
 											[03] USAGE
 										</span>
@@ -315,7 +315,7 @@ export default function PrivacyPage() {
 									id="data-sharing"
 									className="border-stroke-soft-100/60 border-b"
 								>
-									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+									<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 										<span className="text-text-sub-600 text-xs">
 											[04] SHARING
 										</span>
@@ -368,7 +368,7 @@ export default function PrivacyPage() {
 									id="data-retention"
 									className="border-stroke-soft-100/60 border-b"
 								>
-									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+									<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 										<span className="text-text-sub-600 text-xs">
 											[05] RETENTION
 										</span>
@@ -415,7 +415,7 @@ export default function PrivacyPage() {
 									id="your-rights"
 									className="border-stroke-soft-100/60 border-b"
 								>
-									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+									<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 										<span className="text-text-sub-600 text-xs">
 											[06] RIGHTS
 										</span>
@@ -458,7 +458,7 @@ export default function PrivacyPage() {
 									id="security"
 									className="border-stroke-soft-100/60 border-b"
 								>
-									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+									<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 										<span className="text-text-sub-600 text-xs">
 											[07] SECURITY
 										</span>
@@ -505,7 +505,7 @@ export default function PrivacyPage() {
 									id="cookies"
 									className="border-stroke-soft-100/60 border-b"
 								>
-									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+									<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 										<span className="text-text-sub-600 text-xs">
 											[08] COOKIES
 										</span>
@@ -542,7 +542,7 @@ export default function PrivacyPage() {
 
 								{/* Contact */}
 								<div id="contact">
-									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+									<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 										<span className="text-text-sub-600 text-xs">
 											[09] CONTACT
 										</span>
@@ -584,7 +584,7 @@ export default function PrivacyPage() {
 				{/* Related Links */}
 				<section className="border-stroke-soft-100/60 border-b">
 					<div className="mx-4 max-w-5xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
-						<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+						<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 							<span className="text-text-sub-600 text-xs">[10] RELATED</span>
 							<span className="text-text-sub-600 text-xs">/ OTHER PAGES</span>
 						</div>

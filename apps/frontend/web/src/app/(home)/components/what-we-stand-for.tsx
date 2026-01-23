@@ -398,7 +398,7 @@ export function WhatWeStandFor() {
 	return (
 		<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t border-b">
 			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-l">
-				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b bg-bg-white-0 px-10 py-4">
+				<div className="sticky top-[65.5px] z-20 flex items-center justify-between border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b bg-bg-white-0 px-10 py-4">
 					<span className="text-text-sub-600 text-xs">
 						[04] WHAT WE STAND FOR
 					</span>
@@ -430,13 +430,11 @@ export function WhatWeStandFor() {
 						return (
 							<div
 								key={index}
-								className={`group relative flex flex-col p-6 ${
-									!isRightEdge ? "md:border-stroke-soft-100/60 dark:border-stroke-soft-100/40 md:border-r" : ""
-								} ${
-									!isLastRow
+								className={`group relative flex flex-col p-6 ${!isRightEdge ? "md:border-stroke-soft-100/60 dark:border-stroke-soft-100/40 md:border-r" : ""
+									} ${!isLastRow
 										? "border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b"
 										: "border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b md:border-b-0"
-								}`}
+									}`}
 							>
 								{/* Number indicator */}
 								<div className="mb-4 font-mono text-text-sub-600/60 text-xs">

@@ -58,7 +58,7 @@ export function EmailQualityProblem() {
 		<div className="border-stroke-soft-100/60 border-t border-b dark:border-stroke-soft-100/40">
 			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l dark:border-stroke-soft-100/40">
 				{/* Section Header */}
-				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-4 dark:border-stroke-soft-100/40">
+				<div className="sticky top-[65.5px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-4 dark:border-stroke-soft-100/40">
 					<span className="text-text-sub-600 text-xs">[01] THE PROBLEM</span>
 					<span className="text-text-sub-600 text-xs">/ EMAIL QUALITY</span>
 				</div>
@@ -89,15 +89,13 @@ export function EmailQualityProblem() {
 							return (
 								<div
 									key={index}
-									className={`group relative flex flex-col p-6 transition-colors duration-300 hover:bg-bg-weak-50/40 ${
-										!isRightColumn
+									className={`group relative flex flex-col p-6 transition-colors duration-300 hover:bg-bg-weak-50/40 ${!isRightColumn
 											? "md:border-stroke-soft-100/60 md:border-r dark:border-stroke-soft-100/40"
 											: ""
-									} ${
-										!isLastRow
+										} ${!isLastRow
 											? "border-stroke-soft-100/60 border-b dark:border-stroke-soft-100/40"
 											: "border-stroke-soft-100/60 border-b md:border-b-0 dark:border-stroke-soft-100/40"
-									}`}
+										}`}
 								>
 									{/* Number indicator */}
 									<div className="mb-4 font-mono text-text-sub-600/60 text-xs">

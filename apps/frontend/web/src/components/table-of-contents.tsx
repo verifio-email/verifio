@@ -50,7 +50,7 @@ export function TableOfContents({
 	}, [sections]);
 
 	return (
-		<nav className="sticky top-[66px] p-6 md:p-10">
+		<nav className="sticky top-[65.5px] p-6 md:p-10">
 			<p className="mb-4 font-medium text-text-strong-950 text-xs uppercase tracking-wider">
 				On this page
 			</p>
@@ -61,11 +61,10 @@ export function TableOfContents({
 						<li key={section.id}>
 							<a
 								href={`#${section.id}`}
-								className={`flex items-center gap-3 rounded-md px-2 py-1.5 text-xs transition-all ${
-									isActive
+								className={`flex items-center gap-3 rounded-md px-2 py-1.5 text-xs transition-all ${isActive
 										? "bg-primary-50 font-medium text-primary-base"
 										: "text-text-sub-600 hover:bg-bg-weak-50 hover:text-text-strong-950"
-								}`}
+									}`}
 							>
 								<span
 									className={

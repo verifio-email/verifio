@@ -110,7 +110,7 @@ export default function ContactPage() {
 					aria-labelledby="contact-heading"
 				>
 					<div className="mx-4 max-w-5xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
-						<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+						<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 							<span className="text-text-sub-600 text-xs" aria-hidden="true">
 								[01] CONTACT
 							</span>

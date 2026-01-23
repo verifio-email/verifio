@@ -54,7 +54,7 @@ export function Pricing() {
 		<div className="border-stroke-soft-100/60 border-t border-b dark:border-stroke-soft-100/40">
 			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l dark:border-stroke-soft-100/40">
 				{/* Sticky Header */}
-				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-4 dark:border-stroke-soft-100/40">
+				<div className="sticky top-[65.5px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-4 dark:border-stroke-soft-100/40">
 					<span className="text-text-sub-600 text-xs">[07] PRICING</span>
 					<span className="text-text-sub-600 text-xs">/ VALUE PROPOSITION</span>
 				</div>
@@ -122,11 +122,10 @@ export function Pricing() {
 										key={step}
 										type="button"
 										onClick={() => setSelectedCredits(step)}
-										className={`text-xs transition-colors hover:text-text-strong-950 ${index !== 0 && index !== SLIDER_STEPS.length - 1 ? "pl-5" : ""} ${
-											index === currentIndex
+										className={`text-xs transition-colors hover:text-text-strong-950 ${index !== 0 && index !== SLIDER_STEPS.length - 1 ? "pl-5" : ""} ${index === currentIndex
 												? "font-medium text-text-strong-950"
 												: "text-text-sub-600"
-										}`}
+											}`}
 									>
 										${step.toLocaleString()}
 									</button>

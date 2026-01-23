@@ -161,7 +161,7 @@ export const Sdk = () => {
 	return (
 		<div className="border-stroke-soft-100/60 border-t border-b dark:border-stroke-soft-100/40">
 			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l dark:border-stroke-soft-100/40">
-				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-4 dark:border-stroke-soft-100/40">
+				<div className="sticky top-[65.5px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-4 dark:border-stroke-soft-100/40">
 					<span className="text-text-sub-600 text-xs">[02] SDK</span>
 					<span className="text-text-sub-600 text-xs">/ DEVELOPER TOOLS</span>
 				</div>
@@ -193,9 +193,8 @@ export const Sdk = () => {
 						<div className="overflow-x-auto border-stroke-soft-100/60 border-b dark:border-stroke-soft-100/40">
 							<div className="relative flex w-fit min-w-full items-stretch bg-bg-white-0">
 								<div
-									className={`absolute inset-y-3 rounded-full border border-stroke-soft-200/60 bg-bg-white-100 transition-all duration-300 ${
-										mounted ? "opacity-100" : "opacity-0"
-									}`}
+									className={`absolute inset-y-3 rounded-full border border-stroke-soft-200/60 bg-bg-white-100 transition-all duration-300 ${mounted ? "opacity-100" : "opacity-0"
+										}`}
 									style={{
 										left: `${indicatorStyle.left}px`,
 										width: `${indicatorStyle.width}px`,
@@ -218,11 +217,10 @@ export const Sdk = () => {
 											>
 												<span className="text-lg">{sdk.icon}</span>
 												<span
-													className={`font-semibold text-sm ${
-														selectedSdk.id === sdk.id
+													className={`font-semibold text-sm ${selectedSdk.id === sdk.id
 															? "text-text-strong-950"
 															: "text-text-sub-600"
-													}`}
+														}`}
 												>
 													{sdk.name}
 												</span>

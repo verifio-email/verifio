@@ -258,18 +258,16 @@ function CascadingList() {
 				<div
 					key={item.label}
 					style={{ opacity: item.focus }}
-					className={`flex items-center gap-3 rounded-xl px-4 py-3 transition-all ${
-						item.active
+					className={`flex items-center gap-3 rounded-xl px-4 py-3 transition-all ${item.active
 							? "border border-stroke-soft-200 bg-bg-white-0 font-semibold text-text-strong-950 shadow-sm dark:border-gray-700 dark:bg-gray-900"
 							: "text-text-sub-600"
-					}`}
+						}`}
 				>
 					<div
-						className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${
-							item.active
+						className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${item.active
 								? "bg-text-strong-950/10 text-text-strong-950"
 								: "bg-bg-soft-200/50 text-text-sub-600"
-						}`}
+							}`}
 					>
 						<Icon name="workflow" className="h-4 w-4" />
 					</div>
@@ -334,7 +332,7 @@ export function HowItWorks() {
 		<div className="border-stroke-soft-100/60 border-t border-b dark:border-stroke-soft-100/40">
 			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l dark:border-stroke-soft-100/40">
 				{/* Sticky Header */}
-				<div className="sticky top-[66px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-4 dark:border-stroke-soft-100/40">
+				<div className="sticky top-[65.5px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-4 dark:border-stroke-soft-100/40">
 					<span className="text-text-sub-600 text-xs">[04] HOW IT WORKS</span>
 					<span className="text-text-sub-600 text-xs">/ OPENLY</span>
 				</div>

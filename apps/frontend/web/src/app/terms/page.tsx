@@ -82,7 +82,7 @@ export default function TermsPage() {
 				{/* Header */}
 				<section className="border-stroke-soft-100/60 border-b">
 					<div className="mx-4 max-w-5xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
-						<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+						<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 							<span className="text-text-sub-600 text-xs">[01] TERMS</span>
 							<span className="text-text-sub-600 text-xs">
 								/ TERMS OF SERVICE
@@ -119,7 +119,7 @@ export default function TermsPage() {
 									id="overview"
 									className="border-stroke-soft-100/60 border-b"
 								>
-									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+									<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 										<span className="text-text-sub-600 text-xs">
 											[01] OVERVIEW
 										</span>
@@ -142,7 +142,7 @@ export default function TermsPage() {
 									id="the-service"
 									className="border-stroke-soft-100/60 border-b"
 								>
-									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+									<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 										<span className="text-text-sub-600 text-xs">
 											[02] SERVICE
 										</span>
@@ -185,7 +185,7 @@ export default function TermsPage() {
 									id="your-account"
 									className="border-stroke-soft-100/60 border-b"
 								>
-									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+									<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 										<span className="text-text-sub-600 text-xs">
 											[03] ACCOUNT
 										</span>
@@ -226,7 +226,7 @@ export default function TermsPage() {
 									id="acceptable-use"
 									className="border-stroke-soft-100/60 border-b"
 								>
-									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+									<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 										<span className="text-text-sub-600 text-xs">
 											[04] RULES
 										</span>
@@ -269,7 +269,7 @@ export default function TermsPage() {
 									id="api-usage"
 									className="border-stroke-soft-100/60 border-b"
 								>
-									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+									<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 										<span className="text-text-sub-600 text-xs">[05] API</span>
 										<span className="text-text-sub-600 text-xs">
 											/ RATE LIMITS
@@ -302,7 +302,7 @@ export default function TermsPage() {
 									id="payment"
 									className="border-stroke-soft-100/60 border-b"
 								>
-									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+									<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 										<span className="text-text-sub-600 text-xs">
 											[06] PAYMENT
 										</span>
@@ -356,7 +356,7 @@ export default function TermsPage() {
 									id="disclaimer"
 									className="border-stroke-soft-100/60 border-b"
 								>
-									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+									<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 										<span className="text-text-sub-600 text-xs">
 											[07] DISCLAIMER
 										</span>
@@ -381,7 +381,7 @@ export default function TermsPage() {
 									id="termination"
 									className="border-stroke-soft-100/60 border-b"
 								>
-									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+									<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 										<span className="text-text-sub-600 text-xs">
 											[08] ENDING
 										</span>
@@ -414,7 +414,7 @@ export default function TermsPage() {
 
 								{/* Contact */}
 								<div id="contact">
-									<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+									<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 										<span className="text-text-sub-600 text-xs">
 											[09] CONTACT
 										</span>
@@ -457,7 +457,7 @@ export default function TermsPage() {
 				{/* Related Links */}
 				<section className="border-stroke-soft-100/60 border-b">
 					<div className="mx-4 max-w-5xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
-						<div className="sticky top-[66px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+						<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 							<span className="text-text-sub-600 text-xs">[10] RELATED</span>
 							<span className="text-text-sub-600 text-xs">/ OTHER PAGES</span>
 						</div>
