@@ -5,7 +5,7 @@ import { FinalCTA } from "./components/final-cta";
 import Hero from "./components/hero";
 import { HowItWorks } from "./components/how-it-works";
 import { OpenSourceDifference } from "./components/open-source-difference";
-import { Pricing } from "./components/pricing";
+import { PricingSection } from "@verifio/web/components/pricing-section";
 import Sdk from "./components/sdk";
 import { UseCases } from "./components/use-cases";
 
@@ -26,7 +26,7 @@ export default function Home() {
 			<div className="h-10" />
 			<ComparisonTable />
 			<div className="h-10" />
-			<Pricing />
+			<PricingSection />
 			<div className="h-10" />
 			<FinalCTA />
 			<div className="h-10" />
