@@ -206,6 +206,7 @@
 		"@tailwindcss/oxide",
 		"dev",
 		"docs",
+		"blog",
 		"protobufjs"
 	],
 	"dependencies": {}
