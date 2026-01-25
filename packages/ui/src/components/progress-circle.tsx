@@ -119,7 +119,7 @@ const ProgressCircleRoot = React.forwardRef<
 							strokeDasharray={`${circumference} ${circumference}`}
 							strokeDashoffset={offset}
 							fill="none"
-							className="stroke-primary-base transition-all duration-300 ease-out"
+							className="stroke-bg-strong-950 transition-all duration-300 ease-out"
 						/>
 					)}
 				</svg>

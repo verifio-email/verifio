@@ -51,9 +51,9 @@ const Switch = React.forwardRef<
 						"group-focus/switch:outline-none",
 						// Default primary color when no custom color provided
 						!checkedColor && [
-							"group-data-[state=checked]/switch:bg-primary-base",
-							"group-hover:data-[state=checked]/switch:bg-primary-darker",
-							"group-active:data-[state=checked]/switch:bg-primary-base",
+							"group-data-[state=checked]/switch:bg-bg-strong-950",
+							"group-hover:data-[state=checked]/switch:bg-bg-surface-800",
+							"group-active:data-[state=checked]/switch:bg-bg-strong-950",
 						],
 					],
 					// disabled

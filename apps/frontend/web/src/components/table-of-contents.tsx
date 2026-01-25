@@ -62,13 +62,13 @@ export function TableOfContents({
 							<a
 								href={`#${section.id}`}
 								className={`flex items-center gap-3 rounded-md px-2 py-1.5 text-xs transition-all ${isActive
-										? "bg-primary-50 font-medium text-primary-base"
-										: "text-text-sub-600 hover:bg-bg-weak-50 hover:text-text-strong-950"
+									? "bg-bg-weak-50 font-medium text-text-strong-950"
+									: "text-text-sub-600 hover:bg-bg-weak-50 hover:text-text-strong-950"
 									}`}
 							>
 								<span
 									className={
-										isActive ? "text-primary-base" : "text-text-soft-400"
+										isActive ? "text-text-strong-950" : "text-text-soft-400"
 									}
 								>
 									[{section.num}]

@@ -42,7 +42,7 @@ function Calendar({
 					// base
 					"group/cell relative size-10 shrink-0 select-none p-0",
 					// range
-					"[&:has(.day-range-middle)]:bg-primary-alpha-10",
+					"[&:has(.day-range-middle)]:bg-bg-weak-50",
 					"first:[&:has([aria-selected])]:rounded-l-lg last:[&:has([aria-selected])]:rounded-r-lg",
 					// first range el
 					"[&:not(:has(button))+:has(.day-range-middle)]:rounded-l-lg",
@@ -51,7 +51,7 @@ function Calendar({
 					// hide before if next sibling not selected
 					"[&:not(:has(+_*_[type=button]))]:before:hidden",
 					// merged bg
-					"before:-right-2 before:absolute before:inset-y-0 before:hidden before:w-2 before:bg-primary-alpha-10",
+					"before:-right-2 before:absolute before:inset-y-0 before:hidden before:w-2 before:bg-bg-weak-50",
 					"last:[&:has(.day-range-middle)]:before:hidden",
 					// middle
 					"[&:has(.day-range-middle)]:before:block",
@@ -67,14 +67,14 @@ function Calendar({
 					// hover
 					"hover:bg-bg-weak-50 hover:text-text-strong-950",
 					// selected
-					"aria-[selected]:bg-primary-base aria-[selected]:text-static-white",
+					"aria-[selected]:bg-bg-strong-950 aria-[selected]:text-text-white-0",
 					// focus visible
 					"focus:outline-none focus-visible:bg-bg-weak-50 focus-visible:text-text-strong-950",
 				),
 				day_range_start: "day-range-start",
 				day_range_end: "day-range-end",
 				day_selected: "day-selected",
-				day_range_middle: "day-range-middle !text-primary-base !bg-transparent",
+				day_range_middle: "day-range-middle !text-text-strong-950 !bg-transparent",
 				day_today: "day-today",
 				day_outside:
 					"day-outside !text-text-disabled-300 aria-[selected]:!text-static-white",

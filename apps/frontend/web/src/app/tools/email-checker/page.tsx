@@ -155,7 +155,7 @@ export default function EmailCheckerPage() {
 									onChange={(e) => setEmail(e.target.value)}
 									onKeyDown={(e) => e.key === "Enter" && handleVerify()}
 									placeholder="Enter an email address to verify..."
-									className="flex-1 rounded-lg border border-stroke-soft-100 bg-white px-4 py-3 text-text-strong-950 outline-none transition-all focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
+									className="flex-1 rounded-lg border border-stroke-soft-100 bg-white px-4 py-3 text-text-strong-950 outline-none transition-all focus:border-stroke-strong-950 focus:ring-2 focus:ring-stroke-strong-950/20"
 								/>
 								<button
 									type="button"
@@ -334,21 +334,21 @@ export default function EmailCheckerPage() {
 						<div className="flex items-center justify-center">
 							<div className="grid grid-cols-2 gap-4 text-center">
 								<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
-									<p className="font-bold text-3xl text-primary-500">99%</p>
+									<p className="font-bold text-3xl text-text-strong-950">99%</p>
 									<p className="mt-1 text-sm text-text-sub-600">Accuracy</p>
 								</div>
 								<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
-									<p className="font-bold text-3xl text-primary-500">{"<"}1s</p>
+									<p className="font-bold text-3xl text-text-strong-950">{"<"}1s</p>
 									<p className="mt-1 text-sm text-text-sub-600">Per Email</p>
 								</div>
 								<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
-									<p className="font-bold text-3xl text-primary-500">10M+</p>
+									<p className="font-bold text-3xl text-text-strong-950">10M+</p>
 									<p className="mt-1 text-sm text-text-sub-600">
 										Emails Verified
 									</p>
 								</div>
 								<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
-									<p className="font-bold text-3xl text-primary-500">50+</p>
+									<p className="font-bold text-3xl text-text-strong-950">50+</p>
 									<p className="mt-1 text-sm text-text-sub-600">Integrations</p>
 								</div>
 							</div>

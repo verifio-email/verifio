@@ -36,7 +36,7 @@ const plans = [
 			"Email support",
 		],
 		cta: "Start Pro Trial",
-		ctaVariant: "primary" as const,
+		ctaVariant: "neutral" as const,
 		popular: true,
 	},
 	{
@@ -110,13 +110,13 @@ export default function PricingPage() {
 						{plans.map((plan, index) => (
 							<div
 								key={plan.name}
-								className={`relative flex flex-col border-stroke-soft-100 p-8 ${index < 2 ? "border-r" : ""} ${plan.popular ? "bg-primary-50/30" : ""}`}
+								className={`relative flex flex-col border-stroke-soft-100 p-8 ${index < 2 ? "border-r" : ""} ${plan.popular ? "bg-bg-weak-50" : ""}`}
 							>
 								{plan.popular && (
-									<div className="-top-px absolute right-0 left-0 h-1 bg-primary-500" />
+									<div className="-top-px absolute right-0 left-0 h-1 bg-bg-strong-950" />
 								)}
 								{plan.popular && (
-									<span className="mb-4 w-fit rounded-full bg-primary-500 px-3 py-1 font-medium text-white text-xs">
+									<span className="mb-4 w-fit rounded-full bg-bg-strong-950 px-3 py-1 font-medium text-white text-xs">
 										Most Popular
 									</span>
 								)}
@@ -191,7 +191,7 @@ export default function PricingPage() {
 						].map((tier) => (
 							<div
 								key={tier.credits}
-								className="rounded-xl border border-stroke-soft-100 bg-white p-6 text-center transition-all hover:border-primary-500/50"
+								className="rounded-xl border border-stroke-soft-100 bg-white p-6 text-center transition-all hover:border-stroke-strong-950"
 							>
 								<p className="font-bold text-2xl text-text-strong-950">
 									{tier.credits}

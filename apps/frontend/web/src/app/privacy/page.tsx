@@ -136,10 +136,10 @@ export default function PrivacyPage() {
 									key={item.title}
 									className={`flex items-start gap-4 border-stroke-soft-100/60 p-4 md:p-8 ${index < 2 ? "border-b md:border-r md:border-b-0" : ""}`}
 								>
-									<div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary-100">
+									<div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-bg-weak-50">
 										<Icon
 											name={item.icon}
-											className="size-5 text-primary-base"
+											className="size-5 text-text-strong-950"
 										/>
 									</div>
 									<div>
@@ -204,7 +204,7 @@ export default function PrivacyPage() {
 											</h3>
 											<ul className="mt-4 space-y-3 text-text-sub-600 text-xs md:text-sm">
 												<li className="flex items-start gap-3">
-													<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-base" />
+													<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-bg-strong-950" />
 													<span>
 														<strong className="text-text-strong-950">
 															Account info
@@ -213,7 +213,7 @@ export default function PrivacyPage() {
 													</span>
 												</li>
 												<li className="flex items-start gap-3">
-													<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-base" />
+													<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-bg-strong-950" />
 													<span>
 														<strong className="text-text-strong-950">
 															Payment details
@@ -222,7 +222,7 @@ export default function PrivacyPage() {
 													</span>
 												</li>
 												<li className="flex items-start gap-3">
-													<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-base" />
+													<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-bg-strong-950" />
 													<span>
 														<strong className="text-text-strong-950">
 															Email lists
@@ -231,7 +231,7 @@ export default function PrivacyPage() {
 													</span>
 												</li>
 												<li className="flex items-start gap-3">
-													<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-base" />
+													<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-bg-strong-950" />
 													<span>
 														<strong className="text-text-strong-950">
 															Support messages
@@ -557,7 +557,7 @@ export default function PrivacyPage() {
 										</p>
 										<a
 											href="mailto:hello@verifio.email"
-											className="inline-flex items-center gap-2 text-primary-base text-xs hover:underline md:text-sm"
+											className="inline-flex items-center gap-2 text-text-strong-950 text-xs hover:underline md:text-sm"
 										>
 											<span>hello@verifio.email</span>
 											<span>→</span>

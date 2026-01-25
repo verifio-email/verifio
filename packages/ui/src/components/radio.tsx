@@ -41,7 +41,7 @@ const RadioGroupItem = React.forwardRef<
 						// hover
 						"group-hover/radio:fill-bg-sub-300",
 						// focus
-						"group-focus/radio:fill-primary-base",
+						"group-focus/radio:fill-bg-strong-950",
 						// disabled
 						"group-disabled/radio:fill-bg-soft-200",
 						// disabled chcked
@@ -113,11 +113,11 @@ const RadioGroupItem = React.forwardRef<
 						r="6"
 						strokeWidth="4"
 						className={cn(
-							"stroke-primary-base transition duration-200 ease-out",
+							"stroke-bg-strong-950 transition duration-200 ease-out",
 							// hover
-							"group-hover/radio:stroke-primary-darker",
+							"group-hover/radio:stroke-bg-surface-800",
 							// focus
-							"group-focus/radio:stroke-primary-dark",
+							"group-focus/radio:stroke-bg-strong-950",
 							// disabled
 							"group-disabled/radio:stroke-bg-soft-200",
 						)}

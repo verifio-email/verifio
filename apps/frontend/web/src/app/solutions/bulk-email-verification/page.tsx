@@ -48,8 +48,8 @@ export default function BulkEmailVerificationPage() {
 						</div>
 						<div className="flex items-center justify-center">
 							<div className="w-full max-w-md rounded-2xl border-2 border-stroke-soft-100 border-dashed bg-bg-weak-50 p-10 text-center">
-								<div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary-100">
-									<Icon name="upload" className="h-8 w-8 text-primary-500" />
+								<div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-bg-weak-50">
+									<Icon name="upload" className="h-8 w-8 text-text-strong-950" />
 								</div>
 								<p className="font-medium text-text-strong-950">
 									Drag & drop your CSV file
@@ -80,7 +80,7 @@ export default function BulkEmailVerificationPage() {
 								key={stat.label}
 								className={`border-stroke-soft-100 p-8 text-center ${index < 3 ? "border-r" : ""}`}
 							>
-								<p className="font-bold text-3xl text-primary-500">
+								<p className="font-bold text-3xl text-text-strong-950">
 									{stat.value}
 								</p>
 								<p className="mt-1 text-sm text-text-sub-600">{stat.label}</p>
@@ -119,7 +119,7 @@ export default function BulkEmailVerificationPage() {
 								key={item.step}
 								className={`border-stroke-soft-100 p-10 ${index < 2 ? "border-r" : ""}`}
 							>
-								<span className="font-mono text-5xl text-primary-200">
+								<span className="font-mono text-5xl text-text-sub-600">
 									{item.step}
 								</span>
 								<h3 className="mt-4 font-semibold text-text-strong-950 text-xl">
@@ -232,7 +232,7 @@ export default function BulkEmailVerificationPage() {
 											<td className="px-4 py-4 font-medium text-text-strong-950">
 												{feature}
 											</td>
-											<td className="bg-primary-50/50 px-4 py-4 text-center font-medium text-primary-600">
+											<td className="bg-bg-weak-50 px-4 py-4 text-center font-medium text-text-strong-950">
 												{verifio}
 											</td>
 											<td className="px-4 py-4 text-center text-text-sub-600">

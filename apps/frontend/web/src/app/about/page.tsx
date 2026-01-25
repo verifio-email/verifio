@@ -122,8 +122,8 @@ export default function AboutPage() {
 						<div className="grid gap-0 md:grid-cols-2">
 							<div className="border-stroke-soft-100/60 p-10 md:border-r md:p-16">
 								<div className="mb-4 flex items-center gap-2">
-									<Icon name="activity" className="h-5 w-5 text-primary-600" />
-									<span className="font-mono text-primary-500 text-sm">
+									<Icon name="activity" className="h-5 w-5 text-text-strong-950" />
+									<span className="font-mono text-text-strong-950 text-sm">
 										MISSION
 									</span>
 								</div>
@@ -138,8 +138,8 @@ export default function AboutPage() {
 							</div>
 							<div className="p-10 md:p-16">
 								<div className="mb-4 flex items-center gap-2">
-									<Icon name="globe" className="h-5 w-5 text-blue-600" />
-									<span className="font-mono text-primary-500 text-sm">VISION</span>
+									<Icon name="globe" className="h-5 w-5 text-text-strong-950" />
+									<span className="font-mono text-text-strong-950 text-sm">VISION</span>
 								</div>
 								<h2 className="font-semibold text-2xl text-text-strong-950">
 									A world without email bounces
@@ -168,7 +168,7 @@ export default function AboutPage() {
 									key={stat.label}
 									className={`border-stroke-soft-100/60 p-8 text-center ${index < 3 ? "border-r" : ""}`}
 								>
-									<p className="font-bold text-3xl text-primary-500">
+									<p className="font-bold text-3xl text-text-strong-950">
 										{stat.value}
 									</p>
 									<p className="mt-1 text-sm text-text-sub-600">{stat.label}</p>

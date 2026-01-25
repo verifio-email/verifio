@@ -90,7 +90,7 @@ const DotStepperItem = React.forwardRef<HTMLButtonElement, DotStepperItemProps>(
 			<Component
 				ref={forwardedRef}
 				className={cn(item({ class: className }), {
-					"bg-primary-base": active,
+					"bg-bg-strong-950": active,
 				})}
 				{...rest}
 			/>

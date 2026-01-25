@@ -37,7 +37,7 @@ function LabelAsterisk({
 	return (
 		<span
 			className={cn(
-				"text-primary-base",
+				"text-text-strong-950",
 				// disabled
 				"group-aria-disabled:text-text-disabled-300",
 				className,

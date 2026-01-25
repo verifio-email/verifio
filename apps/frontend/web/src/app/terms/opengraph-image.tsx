@@ -10,7 +10,7 @@ export const size = {
 export const contentType = "image/png";
 
 const colors = {
-	primaryBase: "#1D9BF1",
+	primaryBase: "#171717",
 	textStrong: "#171717",
 	textSub: "#5c5c5c",
 	gridLine: "#f0f0f0",

@@ -111,7 +111,7 @@ export const inputVariants = tv({
 			primary: {
 				root: [
 					// focus
-					"has-[input:focus]:shadow-button-sky-focus has-[input:focus]:before:ring-sky-500",
+					"has-[input:focus]:shadow-button-important-focus has-[input:focus]:before:ring-stroke-strong-950",
 				],
 			},
 			neutral: {
@@ -257,10 +257,10 @@ InputWrapper.displayName = INPUT_WRAPPER_NAME;
 const Input = React.forwardRef<
 	HTMLInputElement,
 	React.InputHTMLAttributes<HTMLInputElement> &
-		InputSharedProps & {
-			asChild?: boolean;
-			size?: "medium" | "small" | "xsmall";
-		}
+	InputSharedProps & {
+		asChild?: boolean;
+		size?: "medium" | "small" | "xsmall";
+	}
 >(
 	(
 		{ className, type = "text", size, hasError, asChild, ...rest },

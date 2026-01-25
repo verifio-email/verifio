@@ -199,19 +199,19 @@ export default function TermsPage() {
 										</p>
 										<ul className="space-y-3 text-text-sub-600 text-xs md:text-sm">
 											<li className="flex items-start gap-3">
-												<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-base" />
+												<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-bg-strong-950" />
 												<span>Keeping your login credentials secure</span>
 											</li>
 											<li className="flex items-start gap-3">
-												<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-base" />
+												<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-bg-strong-950" />
 												<span>Keeping your API keys confidential</span>
 											</li>
 											<li className="flex items-start gap-3">
-												<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-base" />
+												<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-bg-strong-950" />
 												<span>Everything that happens under your account</span>
 											</li>
 											<li className="flex items-start gap-3">
-												<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-base" />
+												<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-bg-strong-950" />
 												<span>
 													Notifying us immediately if you suspect unauthorized
 													access
@@ -341,7 +341,7 @@ export default function TermsPage() {
 												credits. After that, it's case-by-case. Just{" "}
 												<a
 													href="mailto:hello@verifio.email"
-													className="text-primary-base hover:underline"
+													className="text-text-strong-950 hover:underline"
 												>
 													reach out
 												</a>{" "}
@@ -428,7 +428,7 @@ export default function TermsPage() {
 										</p>
 										<a
 											href="mailto:hello@verifio.email"
-											className="inline-flex items-center gap-2 text-primary-base text-xs hover:underline md:text-sm"
+											className="inline-flex items-center gap-2 text-text-strong-950 text-xs hover:underline md:text-sm"
 										>
 											<span>hello@verifio.email</span>
 											<span>→</span>

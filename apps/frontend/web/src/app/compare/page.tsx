@@ -92,7 +92,7 @@ export default function ComparePage() {
 										<th className="px-4 py-4 text-left font-medium text-text-sub-600">
 											Feature
 										</th>
-										<th className="bg-primary-50/50 px-4 py-4 text-center font-semibold text-primary-600">
+										<th className="bg-bg-weak-50 px-4 py-4 text-center font-semibold text-text-strong-950">
 											Verifio
 										</th>
 										<th className="px-4 py-4 text-center font-medium text-text-sub-600">
@@ -113,7 +113,7 @@ export default function ComparePage() {
 											<td className="px-4 py-4 font-medium text-text-strong-950">
 												{row.feature}
 											</td>
-											<td className="bg-primary-50/50 px-4 py-4 text-center font-medium text-primary-600">
+											<td className="bg-bg-weak-50 px-4 py-4 text-center font-medium text-primary-600">
 												{row.verifio}
 											</td>
 											<td className="px-4 py-4 text-center text-text-sub-600">

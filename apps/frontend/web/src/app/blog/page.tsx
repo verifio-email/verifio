@@ -67,7 +67,7 @@ export default function BlogPage() {
 								href={`/blog/${post.slug}`}
 								className={`block border-stroke-soft-100 p-10 transition-colors hover:bg-bg-weak-50 ${index % 2 === 0 ? "border-r" : ""} ${index < 2 ? "border-b" : ""}`}
 							>
-								<span className="rounded-full bg-primary-100 px-3 py-1 font-medium text-primary-600 text-xs">
+								<span className="rounded-full bg-bg-weak-50 px-3 py-1 font-medium text-text-strong-950 text-xs">
 									{post.category}
 								</span>
 								<h2 className="mt-4 font-semibold text-text-strong-950 text-xl">
@@ -94,12 +94,12 @@ export default function BlogPage() {
 							<input
 								type="email"
 								placeholder="Enter your email"
-								className="flex-1 rounded-lg border border-stroke-soft-100 bg-white px-4 py-3 outline-none focus:border-primary-500"
+								className="flex-1 rounded-lg border border-stroke-soft-100 bg-white px-4 py-3 outline-none focus:border-text-strong-950"
 							/>
 							<button
 								type="button"
 								className={Button.buttonVariants({
-									variant: "primary",
+									variant: "neutral",
 									size: "medium",
 								}).root({})}
 							>

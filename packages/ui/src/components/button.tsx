@@ -70,11 +70,11 @@ export const buttonVariants = tv({
 			class: {
 				root: [
 					// base
-					"bg-primary-base text-static-white",
+					"bg-bg-strong-950 text-text-white-0",
 					// hover
-					"hover:bg-primary-darker",
+					"hover:bg-bg-surface-800",
 					// focus
-					"focus-visible:shadow-button-primary-focus",
+					"focus-visible:shadow-button-important-focus",
 				],
 			},
 		},
@@ -84,11 +84,11 @@ export const buttonVariants = tv({
 			class: {
 				root: [
 					// base
-					"bg-bg-white-0 text-primary-base ring-primary-base",
+					"bg-bg-white-0 shadow-regular-xs ring-stroke-soft-200 text-text-strong-950",
 					// hover
-					"hover:bg-primary-alpha-10 hover:ring-transparent",
+					"hover:bg-bg-weak-50 hover:text-text-strong-950 hover:shadow-none hover:ring-transparent",
 					// focus
-					"focus-visible:shadow-button-primary-focus",
+					"focus-visible:text-text-strong-950 focus-visible:shadow-button-important-focus focus-visible:ring-stroke-strong-950",
 				],
 			},
 		},
@@ -98,11 +98,11 @@ export const buttonVariants = tv({
 			class: {
 				root: [
 					// base
-					"bg-primary-alpha-10 text-primary-base ring-transparent",
+					"bg-bg-weak-50 text-text-strong-950 ring-transparent",
 					// hover
-					"hover:bg-bg-white-0 hover:ring-primary-base",
+					"hover:bg-bg-white-0 hover:text-text-strong-950 hover:shadow-regular-xs hover:ring-stroke-soft-200",
 					// focus
-					"focus-visible:bg-bg-white-0 focus-visible:shadow-button-primary-focus focus-visible:ring-primary-base",
+					"focus-visible:bg-bg-white-0 focus-visible:text-text-strong-950 focus-visible:shadow-button-important-focus focus-visible:ring-stroke-strong-950",
 				],
 			},
 		},
@@ -112,11 +112,11 @@ export const buttonVariants = tv({
 			class: {
 				root: [
 					// base
-					"bg-transparent text-primary-base ring-transparent",
+					"bg-transparent text-text-sub-600 ring-transparent",
 					// hover
-					"hover:bg-primary-alpha-10",
+					"hover:bg-bg-weak-50 hover:text-text-strong-950",
 					// focus
-					"focus-visible:bg-bg-white-0 focus-visible:shadow-button-primary-focus focus-visible:ring-primary-base",
+					"focus-visible:bg-bg-white-0 focus-visible:text-text-strong-950 focus-visible:shadow-button-important-focus focus-visible:ring-stroke-strong-950",
 				],
 			},
 		},

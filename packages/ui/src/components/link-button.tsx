@@ -41,9 +41,9 @@ export const linkButtonVariants = tv({
 			primary: {
 				root: [
 					// base
-					"text-primary-base",
+					"text-text-strong-950",
 					// hover
-					"hover:text-primary-darker",
+					"hover:text-text-sub-600",
 				],
 			},
 			error: {

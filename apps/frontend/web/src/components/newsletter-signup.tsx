@@ -50,7 +50,7 @@ export const NewsletterSignup = () => {
 					transition={{ duration: 0.3, ease: "easeOut" }}
 				>
 					<motion.div
-						className="flex items-center justify-center rounded-full bg-primary-100"
+						className="flex items-center justify-center rounded-full bg-bg-weak-50"
 						initial={{ scale: 0 }}
 						animate={{ scale: 1 }}
 						transition={{
@@ -61,7 +61,7 @@ export const NewsletterSignup = () => {
 						}}
 					>
 						<svg
-							className="size-6 text-primary-base"
+							className="size-6 text-text-strong-950"
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 24 24"
 							fill="none"

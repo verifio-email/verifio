@@ -81,7 +81,7 @@ export function ContactForm() {
 					className="flex h-full min-h-[300px] flex-col items-center justify-center text-center"
 				>
 					<motion.div
-						className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary-100"
+						className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-bg-weak-50"
 						initial={{ scale: 0 }}
 						animate={{ scale: 1 }}
 						transition={{ duration: 0.4, ease: "backOut" }}

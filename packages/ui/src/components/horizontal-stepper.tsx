@@ -68,7 +68,7 @@ const horizontalStepperItemVariants = tv({
 			},
 			active: {
 				root: "text-text-strong-950",
-				indicator: "bg-primary-base text-static-white",
+				indicator: "bg-bg-strong-950 text-text-white-0",
 			},
 			default: {
 				root: "text-text-sub-600",
@@ -88,9 +88,9 @@ type HorizontalStepperItemSharedProps = VariantProps<
 
 type HorizontalStepperItemProps =
 	React.ButtonHTMLAttributes<HTMLButtonElement> &
-		VariantProps<typeof horizontalStepperItemVariants> & {
-			asChild?: boolean;
-		};
+	VariantProps<typeof horizontalStepperItemVariants> & {
+		asChild?: boolean;
+	};
 
 const HorizontalStepperItem = React.forwardRef<
 	HTMLButtonElement,
