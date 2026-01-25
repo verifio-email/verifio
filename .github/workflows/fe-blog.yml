@@ -39,6 +39,4 @@ jobs:
 
       - name: Trigger Dokploy deployment
         run: |
-          # Replace with actual webhook URL
-          echo "Please configure the Dokploy webhook for blog service"
-          # curl https://dokploy.verifio.email/api/deploy/naV7NVjgabKdQ_IF_m0Uk
+          curl https://dokploy.verifio.email/api/deploy/4rj4-6XgKFA1uZn15Q-it
