@@ -27,6 +27,7 @@ const VerificationOptionsSchema = t.Object({
 
 const SingleVerifyBody = t.Object({
 	email: t.String({
+		format: "email",
 		minLength: 1,
 		maxLength: 254,
 		description: "Email address to verify",
@@ -185,11 +186,21 @@ export const authenticatedSingleRoute = new Elysia({
 					"Verifying single email (authenticated)",
 				);
 
-				const result = await verifyEmail(body.email, {
-					skipDisposable: body.options?.skipDisposable,
-					skipRole: body.options?.skipRole,
-					skipTypo: body.options?.skipTypo,
-				});
+				// Add timeout to prevent hanging on slow SMTP servers
+				const VERIFICATION_TIMEOUT = 30000; // 30 seconds
+				const result = await Promise.race([
+					verifyEmail(body.email, {
+						skipDisposable: body.options?.skipDisposable === true,
+						skipRole: body.options?.skipRole === true,
+						skipTypo: body.options?.skipTypo === true,
+					}),
+					new Promise<never>((_, reject) =>
+						setTimeout(
+							() => reject(new Error("Verification timeout - request took too long")),
+							VERIFICATION_TIMEOUT,
+						),
+					),
+				]);
 
 				const duration = Date.now() - startTime;
 

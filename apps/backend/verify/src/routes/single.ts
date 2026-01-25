@@ -169,13 +169,15 @@ export const singleVerifyRoute = new Elysia({ prefix: "/v1" })
 					error instanceof Error ? error.message : "Unknown error";
 
 				logger.error(
-					{ email: body.email, error: errorMessage },
+					{ email: body.email, error: errorMessage, requestId },
 					"Email verification failed",
 				);
 
+				// Return generic error to prevent information disclosure
+				// Detailed error is logged for debugging with requestId
 				return {
 					success: false as const,
-					error: errorMessage,
+					error: "Verification failed. Please try again later or contact support with request ID.",
 					requestId,
 				};
 			}
