@@ -202,7 +202,7 @@ export const Footer = () => {
 
 			<div className="border-stroke-soft-100/60 border-t border-b">
 				<div className="mx-4 max-w-5xl border-stroke-soft-100/60 border-r border-l md:mx-auto">
-					<div className="flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4 dark:border-stroke-soft-100/40">
+					<div className="sticky top-[65.5px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4 dark:border-stroke-soft-100/40">
 						<span className="text-text-sub-600 text-xs" aria-hidden="true">
 							[FOOTER]
 						</span>
@@ -365,14 +365,13 @@ export const Footer = () => {
 										{link.items.map((item, itemIndex) => (
 											<li
 												key={item.title}
-												className={`border-stroke-soft-100/60 px-4 md:px-6 ${
-													!(
+												className={`border-stroke-soft-100/60 px-4 md:px-6 ${!(
 														itemIndex === link.items.length - 1 &&
-															link.items.length === maxItems
+														link.items.length === maxItems
 													)
 														? "border-b"
 														: ""
-												}`}
+													}`}
 											>
 												<Link
 													href={item.href}

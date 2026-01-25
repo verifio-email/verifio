@@ -53,6 +53,7 @@ export default function RootLayout({
 				>
 					<Header />
 					{children}
+					<div className="h-10" />
 					<Footer />
 					<IconsSprite />
 				</ThemeProvider>

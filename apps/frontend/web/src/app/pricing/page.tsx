@@ -25,7 +25,7 @@ export default function PricingPage() {
 	return (
 		<div className="min-h-screen">
 			{/* Hero Section */}
-			<section className="border-stroke-soft-100/60 border-b">
+			<section>
 				<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l">
 					<div className="sticky top-[65.5px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
 						<span className="text-text-sub-600 text-xs">[01] PRICING</span>
