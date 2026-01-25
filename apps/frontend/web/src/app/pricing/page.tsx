@@ -48,11 +48,11 @@ export default function PricingPage() {
 			<PricingSection showHeader={false} showHeadline={false} />
 
 			{/* FAQ */}
-			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
-					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
-						<span className="text-sm text-text-sub-600">[03] FAQ</span>
-						<span className="text-sm text-text-sub-600">
+			<section className="border-stroke-soft-100/60 border-b">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l">
+					<div className="sticky top-[65.5px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+						<span className="text-text-sub-600 text-xs">[03] FAQ</span>
+						<span className="text-text-sub-600 text-xs">
 							/ COMMON QUESTIONS
 						</span>
 					</div>
@@ -60,7 +60,7 @@ export default function PricingPage() {
 						{faqs.map((faq, index) => (
 							<div
 								key={faq.q}
-								className={`border-stroke-soft-100 p-8 ${index % 2 === 0 ? "border-r" : ""} ${index < 2 ? "border-b" : ""}`}
+								className={`border-stroke-soft-100/60 p-8 ${index % 2 === 0 ? "border-r" : ""} ${index < 2 ? "border-b" : ""}`}
 							>
 								<h3 className="font-medium text-text-strong-950">{faq.q}</h3>
 								<p className="mt-2 text-sm text-text-sub-600">{faq.a}</p>
@@ -71,24 +71,24 @@ export default function PricingPage() {
 			</section>
 
 			{/* CTA */}
-			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
+			<section className="border-stroke-soft-100/60 border-b">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l">
 					<div className="p-10 text-center md:p-16">
 						<h2 className="font-semibold text-2xl text-text-strong-950">
 							Not sure which plan is right for you?
 						</h2>
 						<p className="mt-2 text-text-sub-600">
-							Try our free email checker or talk to our team for a custom quote.
+							Create a free account or talk to our team for a custom quote.
 						</p>
 						<div className="mt-6 flex justify-center gap-4">
 							<Link
-								href="/tools/email-checker"
+								href="/signup"
 								className={Button.buttonVariants({
 									variant: "primary",
 									size: "medium",
 								}).root({})}
 							>
-								Try Free Tool
+								Get Started
 							</Link>
 							<Link
 								href="/contact"
@@ -98,7 +98,7 @@ export default function PricingPage() {
 									size: "medium",
 								}).root({})}
 							>
-								Contact Sales
+								Contact Us
 							</Link>
 						</div>
 					</div>
