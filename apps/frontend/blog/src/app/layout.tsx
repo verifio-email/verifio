@@ -1,4 +1,4 @@
-import "@fe/blog/app/global.css";
+import "./global.css";
 import { cn } from "@fe/blog/lib/cn";
 import { source } from "@fe/blog/lib/source";
 import { IconsSprite } from "@verifio/ui/icon";
