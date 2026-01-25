@@ -27,7 +27,7 @@ export const inputVariants = tv({
 			// hover
 			"hover:shadow-none",
 			// focus
-			"has-[input:focus]:shadow-button-important-focus has-[input:focus]:before:ring-sky-500",
+			"has-[input:focus]:shadow-button-important-focus has-[input:focus]:before:ring-stroke-strong-950",
 			// disabled
 			"has-[input:disabled]:shadow-none has-[input:disabled]:before:ring-transparent",
 		],
@@ -257,10 +257,10 @@ InputWrapper.displayName = INPUT_WRAPPER_NAME;
 const Input = React.forwardRef<
 	HTMLInputElement,
 	React.InputHTMLAttributes<HTMLInputElement> &
-	InputSharedProps & {
-		asChild?: boolean;
-		size?: "medium" | "small" | "xsmall";
-	}
+		InputSharedProps & {
+			asChild?: boolean;
+			size?: "medium" | "small" | "xsmall";
+		}
 >(
 	(
 		{ className, type = "text", size, hasError, asChild, ...rest },

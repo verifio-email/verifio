@@ -113,7 +113,7 @@ export const MainNavigation: React.FC<MainNavigationProps> = ({
 										"active:scale-[0.98]",
 										isCollapsed ? "justify-center" : "justify-start",
 										active
-											? "text-primary-darker"
+											? "text-primary-base"
 											: "text-text-sub-600 hover:text-text-strong-950",
 									)}
 									title={isCollapsed ? label : undefined}
@@ -125,7 +125,7 @@ export const MainNavigation: React.FC<MainNavigationProps> = ({
 											className={cn(
 												"h-4 w-4 transition-colors",
 												active
-													? "text-primary-darker"
+													? "text-primary-base"
 													: "text-text-soft-400 group-hover:text-text-sub-600",
 											)}
 										/>
@@ -135,7 +135,7 @@ export const MainNavigation: React.FC<MainNavigationProps> = ({
 											<motion.span
 												className={cn(
 													"truncate text-sm transition-colors",
-													active && "text-primary-darker",
+													active && "text-primary-base",
 												)}
 												initial={{ opacity: 0 }}
 												animate={{ opacity: 1 }}
