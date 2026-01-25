@@ -7,15 +7,6 @@ const config = {
 	reactStrictMode: true,
 	basePath: "/docs",
 	output: "standalone",
-	async redirects() {
-		return [
-			{
-				source: "/",
-				destination: "/docs",
-				permanent: true,
-			},
-		];
-	},
 };
 
 export default withMDX(config);
