@@ -1,6 +1,6 @@
 ---
 title: Verify Single Email
-description: Complete guide to verifying a single email address using the Verifio API. Learn how to make your first API call, understand the response, and handle all edge cases.
+description: Developer guide for verifying single email addresses using the Verifio API
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout'
@@ -10,567 +10,229 @@ import { Steps, Step } from 'fumadocs-ui/components/steps'
 
 # Verify Single Email API
 
-The **Verify Single Email** endpoint allows you to verify one email address at a time and receive comprehensive verification results. This is the most commonly used endpoint for real-time email verification during user signups, form submissions, or any scenario where you need immediate validation.
+Real-time email verification for user signups, form submissions, and validation workflows.
 
-## Quick Overview
+## Quick Reference
 
 | Property | Value |
 |----------|-------|
 | **Endpoint** | `POST /api/verify/v1/email` |
-| **Rate Limit** | 2 requests/minute (unauthenticated) |
-| **Authentication** | Optional (API Key recommended) |
-| **Credits Cost** | 1 credit per verification |
+| **Rate Limit** | 2 req/min (unauthenticated), plan-based (authenticated) |
+| **Authentication** | API Key (Bearer token) |
+| **Cost** | 1 credit per verification |
 
 ---
 
-## Before You Start
-
-<Callout type="info">
-  This guide assumes you have **no prior setup**. If you already have an API key, skip to [Step 3: Make Your First API Call](#step-3-make-your-first-api-call).
-</Callout>
-
-### What You'll Need
-
-- A computer with internet access
-- A terminal/command line (Terminal on Mac, Command Prompt/PowerShell on Windows, or any Linux terminal)
-- cURL installed (comes pre-installed on most systems)
-- Optionally: Node.js, Python, or any HTTP client
-
----
-
-## Step-by-Step Guide
+## Getting Started
 
 <Steps>
 
 <Step>
-### Step 1: Create a Verifio Account
+### Create Account & Get API Key
 
-1. Open your web browser and go to **[verifio.email](https://verifio.email)**
-2. Click the **"Sign Up"** or **"Get Started"** button
-3. Enter your email address and create a password (or sign up with Google/GitHub)
-4. Check your email inbox for a verification email and click the confirmation link
-5. You're now logged into your Verifio dashboard!
-
-<Callout type="info">
-  New accounts receive **100 free credits** to test the API. One credit = one email verification.
-</Callout>
-</Step>
-
-<Step>
-### Step 2: Get Your API Key
-
-Your API key is like a password that proves your requests are authorized. Here's how to get one:
-
-1. In your Verifio dashboard, click **"Settings"** in the left sidebar
-2. Click on **"API Keys"** 
-3. Click the **"Create API Key"** button
-4. Give your key a descriptive name (e.g., "My First Integration")
-5. **IMPORTANT:** Copy the API key immediately and save it somewhere safe!
+1. Sign up at [verifio.email](https://verifio.email) (100 free credits included)
+2. Navigate to **Settings → API Keys**
+3. Click **Create API Key** and copy it immediately
 
 <Callout type="warn">
-  **Your API key is only shown once!** After you close the modal, you won't be able to see the full key again. Store it securely (e.g., in a password manager or `.env` file).
+  API keys are shown only once. Store securely in environment variables, never hardcode.
 </Callout>
 
-Your API key will look something like this:
-
-```
-vrf_sk_live_abc123xyz789...
-```
-
-The format is: `vrf_` prefix + type (`sk_live_` for production) + random characters.
+Your API key format: `vrf_sk_live_abc123xyz789...`
 </Step>
 
 <Step>
-### Step 3: Make Your First API Call
-
-Now let's verify your first email! Choose your preferred method below:
+### Make Your First Request
 
 <Tabs items={['cURL', 'Node.js', 'Python', 'Go', 'PHP']}>
 
 <Tab value="cURL">
-Open your terminal and run this command (replace `YOUR_API_KEY` with your actual key):
-
 ```bash
 curl -X POST "https://verifio.email/api/verify/v1/email" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"email": "test@gmail.com"}'
 ```
-
-**Breaking this down:**
-- `-X POST` — We're making a POST request
-- `"https://verifio.email/api/verify/v1/email"` — The API endpoint URL
-- `-H "Authorization: Bearer YOUR_API_KEY"` — Your authentication header
-- `-H "Content-Type: application/json"` — Tells the server we're sending JSON
-- `-d '{"email": "test@gmail.com"}'` — The JSON body with the email to verify
 </Tab>
 
 <Tab value="Node.js">
-First, install the Verifio SDK:
-
 ```bash
 npm install @verifio/email-verification
 ```
 
-Then create a file called `verify-email.js`:
-
 ```javascript
 import { Verifio } from '@verifio/email-verification';
 
-// Initialize the client with your API key
-const verifio = new Verifio({
-  apiKey: 'YOUR_API_KEY'  // Replace with your actual key
-});
+const verifio = new Verifio({ apiKey: process.env.VERIFIO_API_KEY });
 
-// Verify an email
-async function verifyEmail() {
-  try {
-    const result = await verifio.verify('test@gmail.com');
-    
-    console.log('Email:', result.email);
-    console.log('State:', result.state);        // 'deliverable', 'undeliverable', 'risky', 'unknown'
-    console.log('Score:', result.score);        // 0-100
-    console.log('Reason:', result.reason);      // Why this verdict was given
-    console.log('Full Result:', JSON.stringify(result, null, 2));
-  } catch (error) {
-    console.error('Verification failed:', error.message);
-  }
-}
-
-verifyEmail();
-```
-
-Run it:
-
-```bash
-node verify-email.js
+const result = await verifio.verify('test@gmail.com');
+console.log(result.state, result.score, result.reason);
 ```
 </Tab>
 
 <Tab value="Python">
-First, install the Verifio SDK:
-
 ```bash
 pip install verifio
 ```
 
-Then create a file called `verify_email.py`:
-
 ```python
 from verifio import Verifio
 
-# Initialize the client with your API key
-client = Verifio(api_key='YOUR_API_KEY')  # Replace with your actual key
-
-# Verify an email
-try:
-    result = client.verify('test@gmail.com')
-    
-    print(f"Email: {result.email}")
-    print(f"State: {result.state}")      # 'deliverable', 'undeliverable', 'risky', 'unknown'
-    print(f"Score: {result.score}")      # 0-100
-    print(f"Reason: {result.reason}")    # Why this verdict was given
-    print(f"Full Result: {result}")
-except Exception as e:
-    print(f"Verification failed: {e}")
-```
-
-Run it:
-
-```bash
-python verify_email.py
+client = Verifio(api_key=os.environ['VERIFIO_API_KEY'])
+result = client.verify('test@gmail.com')
+print(result.state, result.score, result.reason)
 ```
 </Tab>
 
 <Tab value="Go">
-Create a file called `main.go`:
-
 ```go
 package main
 
 import (
     "bytes"
     "encoding/json"
-    "fmt"
-    "io"
     "net/http"
 )
 
 func main() {
-    // Prepare the request body
-    requestBody, _ := json.Marshal(map[string]string{
-        "email": "test@gmail.com",
-    })
-
-    // Create the request
-    req, err := http.NewRequest("POST", "https://verifio.email/api/verify/v1/email", bytes.NewBuffer(requestBody))
-    if err != nil {
-        fmt.Println("Error creating request:", err)
-        return
-    }
-
-    // Set headers
-    req.Header.Set("Authorization", "Bearer YOUR_API_KEY")  // Replace with your actual key
+    body, _ := json.Marshal(map[string]string{"email": "test@gmail.com"})
+    req, _ := http.NewRequest("POST", "https://verifio.email/api/verify/v1/email", bytes.NewBuffer(body))
+    req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
     req.Header.Set("Content-Type", "application/json")
-
-    // Send the request
+    
     client := &http.Client{}
-    resp, err := client.Do(req)
-    if err != nil {
-        fmt.Println("Error sending request:", err)
-        return
-    }
+    resp, _ := client.Do(req)
     defer resp.Body.Close()
-
-    // Read the response
-    body, _ := io.ReadAll(resp.Body)
-    fmt.Println("Response:", string(body))
 }
-```
-
-Run it:
-
-```bash
-go run main.go
 ```
 </Tab>
 
 <Tab value="PHP">
-Create a file called `verify_email.php`:
-
 ```php
 <?php
-
-$apiKey = 'YOUR_API_KEY';  // Replace with your actual key
-$email = 'test@gmail.com';
-
 $ch = curl_init();
-
 curl_setopt($ch, CURLOPT_URL, 'https://verifio.email/api/verify/v1/email');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    'Authorization: Bearer ' . $apiKey,
+    'Authorization: Bearer ' . getenv('VERIFIO_API_KEY'),
     'Content-Type: application/json'
 ]);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-    'email' => $email
-]));
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(['email' => 'test@gmail.com']));
 
 $response = curl_exec($ch);
-$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-if (curl_errno($ch)) {
-    echo 'Error: ' . curl_error($ch);
-} else {
-    echo "HTTP Code: $httpCode\n";
-    echo "Response: $response\n";
-    
-    // Parse and display the result
-    $result = json_decode($response, true);
-    if ($result['success']) {
-        echo "Email: " . $result['data']['email'] . "\n";
-        echo "State: " . $result['data']['state'] . "\n";
-        echo "Score: " . $result['data']['score'] . "\n";
-    }
-}
-
 curl_close($ch);
-```
-
-Run it:
-
-```bash
-php verify_email.php
+echo $response;
 ```
 </Tab>
 
 </Tabs>
 </Step>
 
-<Step>
-### Step 4: Understanding the Response
+</Steps>
 
-A successful verification returns a JSON response like this:
+---
+
+## Response Structure
+
+### Success Response
 
 ```json
 {
   "success": true,
   "data": {
     "email": "test@gmail.com",
-    "user": "test",
-    "domain": "gmail.com",
-    "tag": null,
     "state": "deliverable",
     "reason": "valid_mailbox",
     "score": 95,
-    "checks": {
-      "syntax": { "valid": true },
-      "dns": { 
-        "valid": true, 
-        "domainExists": true,
-        "hasMx": true, 
-        "mxRecords": ["alt1.gmail-smtp-in.l.google.com", "..."],
-        "preferredMx": "alt1.gmail-smtp-in.l.google.com"
-      },
-      "disposable": { "isDisposable": false },
-      "role": { "isRole": false },
-      "freeProvider": { "isFree": true, "provider": "gmail" },
-      "typo": { "hasTypo": false },
-      "smtp": { "valid": true, "mailboxExists": true, "isCatchAll": false }
-    },
-    "analytics": {
-      "didYouMean": null,
-      "domainAge": 8500,
-      "smtpProvider": "Google",
-      "riskLevel": "low",
-      "qualityIndicators": ["established_domain", "major_provider"],
-      "warnings": []
-    },
-    "duration": 1234,
-    "verifiedAt": "2026-01-17T10:30:00.000Z"
+    "checks": { /* detailed checks */ },
+    "analytics": { /* insights */ }
   }
 }
 ```
 
-Let's break down what each field means:
-</Step>
+### Core Fields
 
-</Steps>
+| Field | Type | Description |
+|-------|------|-------------|
+| `email` | string | Verified email address |
+| `state` | string | `deliverable`, `undeliverable`, `risky`, `unknown` |
+| `reason` | string | Specific reason code |
+| `score` | number | Quality score (0-100) |
+
+### State Interpretation
+
+| State | Meaning | Action |
+|-------|---------|--------|
+| `deliverable` | ✅ Valid, will receive mail | Safe to send |
+| `undeliverable` | ❌ Invalid or doesn't exist | Block email |
+| `risky` | ⚠️ Valid but has concerns | Use caution |
+| `unknown` | ❓ Cannot determine | Retry or manual review |
+
+### Score Guide
+
+| Range | Quality | Recommendation |
+|-------|---------|----------------|
+| 90-100 | Excellent | ✅ High deliverability |
+| 70-89 | Good | ✅ Generally safe |
+| 50-69 | Fair | ⚠️ Monitor bounce rates |
+| 30-49 | Poor | ⚠️ High risk |
+| 0-29 | Very Poor | ❌ Do not send |
 
 ---
 
-## Complete Response Reference
+## Detailed Checks
 
-### Top-Level Fields
+### Available Checks
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `success` | `boolean` | `true` if the API call was successful, `false` if there was an error |
-| `data` | `object` | The verification result (only present when `success` is `true`) |
-| `error` | `string` | Error message (only present when `success` is `false`) |
+```json
+{
+  "checks": {
+    "syntax": { "valid": true },
+    "dns": { "valid": true, "hasMx": true, "mxRecords": [...] },
+    "disposable": { "isDisposable": false },
+    "role": { "isRole": false },
+    "freeProvider": { "isFree": true, "provider": "gmail" },
+    "typo": { "hasTypo": false, "suggestion": null },
+    "smtp": { "valid": true, "mailboxExists": true, "isCatchAll": false }
+  }
+}
+```
 
-### Core Identification Fields (`data.*`)
+| Check | Purpose |
+|-------|---------|
+| `syntax` | Email format validation |
+| `dns` | Domain existence and MX records |
+| `disposable` | Temporary email detection |
+| `role` | Generic addresses (info@, support@) |
+| `freeProvider` | Free email services (Gmail, Yahoo) |
+| `typo` | Common typo detection with suggestions |
+| `smtp` | Mailbox verification via SMTP |
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `email` | `string` | The email address that was verified |
-| `user` | `string` | The local part (everything before `@`) |
-| `domain` | `string` | The domain part (everything after `@`) |
-| `tag` | `string \| null` | Plus-addressing tag if present (e.g., `test+newsletter@gmail.com` → `newsletter`) |
+### Analytics Object
 
-### Verdict Fields (`data.*`)
+Advanced insights about email quality, risk assessment, and domain reputation.
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `state` | `string` | Primary verdict: `deliverable`, `undeliverable`, `risky`, or `unknown` |
-| `reason` | `string` | Specific reason code explaining the verdict |
-| `score` | `number` | Quality score from 0-100 (higher = better) |
-
-#### State Values Explained
-
-| State | Meaning | What to Do |
-|-------|---------|------------|
-| `deliverable` | ✅ Email is valid and will receive messages | Safe to send emails |
-| `undeliverable` | ❌ Email is invalid or doesn't exist | Do NOT send - will bounce |
-| `risky` | ⚠️ Email exists but has quality concerns | Use caution - may bounce or be low engagement |
-| `unknown` | ❓ Could not determine validity | Retry later or use with caution |
-
-#### Reason Codes Explained
-
-**For Deliverable Emails:**
-| Reason | Meaning |
-|--------|---------|
-| `valid_mailbox` | Mailbox exists and accepts messages |
-| `accepted_email` | SMTP server accepted the email |
-
-**For Undeliverable Emails:**
-| Reason | Meaning |
-|--------|---------|
-| `invalid_syntax` | Email format is wrong (e.g., missing `@`) |
-| `invalid_domain` | Domain doesn't exist |
-| `no_mx_records` | Domain has no email servers configured |
-| `mailbox_not_found` | The specific mailbox doesn't exist |
-| `mailbox_full` | Mailbox is full (temporary) |
-
-**For Risky Emails:**
-| Reason | Meaning |
-|--------|---------|
-| `disposable_email` | Temporary/throwaway email provider |
-| `role_based_email` | Generic address like `info@`, `support@` |
-| `catch_all_domain` | Domain accepts all addresses |
-| `free_email_provider` | Free provider (Gmail, Yahoo, etc.) |
-
-**For Unknown Results:**
-| Reason | Meaning |
-|--------|---------|
-| `timeout` | Server took too long to respond |
-| `connection_error` | Network connectivity issue |
-| `unknown_error` | Unexpected error occurred |
+```json
+{
+  "analytics": {
+    "didYouMean": null,
+    "domainAge": 8500,
+    "smtpProvider": "Google",
+    "riskLevel": "low",
+    "qualityIndicators": ["established_domain", "major_provider"],
+    "warnings": []
+  }
+}
+```
 
 ---
 
-## Understanding the Checks Object
+## Request Options
 
-The `checks` object contains detailed results from each verification step:
+Optionally skip specific checks to speed up verification or customize behavior based on your requirements.
 
-### Syntax Check (`checks.syntax`)
-
-Validates that the email address is properly formatted.
-
-```json
-{
-  "valid": true,
-  "error": "Optional error message if invalid"
-}
-```
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `valid` | `boolean` | `true` if email syntax is correct |
-| `error` | `string` | Specific syntax error if invalid |
-
-### DNS Check (`checks.dns`)
-
-Checks if the domain exists and has mail servers.
-
-```json
-{
-  "valid": true,
-  "domainExists": true,
-  "hasMx": true,
-  "mxRecords": ["mail.example.com", "mail2.example.com"],
-  "preferredMx": "mail.example.com"
-}
-```
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `valid` | `boolean` | Overall DNS check passed |
-| `domainExists` | `boolean` | Domain has DNS records |
-| `hasMx` | `boolean` | Domain has MX (mail exchange) records |
-| `mxRecords` | `string[]` | List of mail server hostnames |
-| `preferredMx` | `string` | Highest priority mail server |
-
-### Disposable Check (`checks.disposable`)
-
-Detects temporary/throwaway email services.
-
-```json
-{
-  "isDisposable": false,
-  "provider": "tempmail"
-}
-```
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `isDisposable` | `boolean` | `true` if email is from a disposable provider |
-| `provider` | `string` | Name of the disposable service (if detected) |
-
-### Role Check (`checks.role`)
-
-Detects generic/role-based addresses.
-
-```json
-{
-  "isRole": true,
-  "role": "support"
-}
-```
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `isRole` | `boolean` | `true` if email is role-based (info@, admin@, etc.) |
-| `role` | `string` | The detected role (support, admin, sales, etc.) |
-
-### Free Provider Check (`checks.freeProvider`)
-
-Detects free email providers.
-
-```json
-{
-  "isFree": true,
-  "provider": "gmail"
-}
-```
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `isFree` | `boolean` | `true` if from a free provider |
-| `provider` | `string` | Name of the provider (gmail, yahoo, outlook, etc.) |
-
-### Typo Check (`checks.typo`)
-
-Detects common typos and suggests corrections.
-
-```json
-{
-  "hasTypo": true,
-  "suggestion": "user@gmail.com",
-  "originalDomain": "gmial.com",
-  "suggestedDomain": "gmail.com"
-}
-```
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `hasTypo` | `boolean` | `true` if a typo was detected |
-| `suggestion` | `string` | Corrected email address |
-| `originalDomain` | `string` | The domain with the typo |
-| `suggestedDomain` | `string` | The suggested correct domain |
-
-### SMTP Check (`checks.smtp`)
-
-Verifies with the actual mail server.
-
-```json
-{
-  "valid": true,
-  "mailboxExists": true,
-  "isCatchAll": false,
-  "response": "250 OK"
-}
-```
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `valid` | `boolean \| null` | SMTP check passed (`null` if skipped) |
-| `mailboxExists` | `boolean \| null` | Mailbox definitely exists |
-| `isCatchAll` | `boolean \| null` | Domain accepts all addresses |
-| `response` | `string` | Raw SMTP server response |
-
----
-
-## Understanding the Analytics Object
-
-The `analytics` object provides advanced insights:
-
-```json
-{
-  "didYouMean": null,
-  "domainAge": 8500,
-  "smtpProvider": "Google",
-  "riskLevel": "low",
-  "qualityIndicators": ["established_domain", "major_provider"],
-  "warnings": []
-}
-```
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `didYouMean` | `string \| null` | Suggested correction for typos |
-| `domainAge` | `number \| null` | Domain age in days |
-| `smtpProvider` | `string \| null` | Detected email provider |
-| `riskLevel` | `string` | Risk assessment: `low`, `medium`, or `high` |
-| `qualityIndicators` | `string[]` | Positive signals about the email |
-| `warnings` | `string[]` | Potential issues to be aware of |
-
----
-
-## Request Body Options
-
-You can customize the verification by passing options:
+Customize verification behavior:
 
 ```json
 {
@@ -583,14 +245,8 @@ You can customize the verification by passing options:
 }
 ```
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `skipDisposable` | `boolean` | `false` | Skip the disposable email check |
-| `skipRole` | `boolean` | `false` | Skip the role-based email check |
-| `skipTypo` | `boolean` | `false` | Skip the typo detection check |
-
 <Callout>
-  Skipping checks can speed up verification but provides less comprehensive results. Only skip if you have specific reasons (e.g., you explicitly allow disposable emails).
+  Skipping checks speeds up verification but reduces comprehensiveness. Only skip if you have specific requirements.
 </Callout>
 
 ---
@@ -601,52 +257,54 @@ You can customize the verification by passing options:
 
 | Code | Meaning | Action |
 |------|---------|--------|
-| `200` | Success | Parse the response |
-| `400` | Bad Request | Check your request body format |
-| `401` | Unauthorized | Check your API key |
-| `402` | Payment Required | Insufficient credits |
-| `429` | Rate Limited | Wait and retry |
-| `500` | Server Error | Retry after a moment |
+| 200 | Success | Parse response |
+| 400 | Bad Request | Check request format |
+| 401 | Unauthorized | Verify API key |
+| 402 | Payment Required | Add credits |
+| 429 | Rate Limited | Implement retry with backoff |
+| 500 | Server Error | Retry after delay |
 
-### Error Response Format
+### Error Response
 
 ```json
 {
   "success": false,
-  "error": "Description of what went wrong",
+  "error": "Description of error",
   "retryAfter": 60
 }
 ```
 
-### Handling Errors in Code
+### Implementation Example
 
-<Tabs items={['Node.js', 'Python', 'cURL']}>
+<Tabs items={['Node.js', 'Python']}>
 
 <Tab value="Node.js">
 ```javascript
 try {
   const result = await verifio.verify('test@example.com');
   
-  if (result.state === 'deliverable') {
-    console.log('✅ Safe to send');
-  } else if (result.state === 'undeliverable') {
-    console.log('❌ Do not send');
-  } else if (result.state === 'risky') {
-    console.log('⚠️ Proceed with caution');
-    console.log('Warnings:', result.analytics.warnings);
-  } else {
-    console.log('❓ Unknown - retry later');
+  switch (result.state) {
+    case 'deliverable':
+      console.log('✅ Safe to send');
+      break;
+    case 'undeliverable':
+      console.log('❌ Do not send');
+      break;
+    case 'risky':
+      console.log('⚠️ Caution:', result.analytics.warnings);
+      break;
+    case 'unknown':
+      console.log('❓ Retry later');
+      break;
   }
 } catch (error) {
-  if (error.status === 401) {
-    console.error('Invalid API key');
+  if (error.status === 429) {
+    const wait = error.retryAfter || 60;
+    console.error(`Rate limited. Retry in ${wait}s`);
   } else if (error.status === 402) {
-    console.error('No credits remaining');
-  } else if (error.status === 429) {
-    const retryAfter = error.retryAfter || 60;
-    console.error(`Rate limited. Retry in ${retryAfter} seconds`);
+    console.error('Insufficient credits');
   } else {
-    console.error('Unexpected error:', error.message);
+    console.error('Error:', error.message);
   }
 }
 ```
@@ -655,9 +313,9 @@ try {
 <Tab value="Python">
 ```python
 from verifio import Verifio
-from verifio.exceptions import AuthenticationError, RateLimitError, InsufficientCreditsError
+from verifio.exceptions import RateLimitError, InsufficientCreditsError
 
-client = Verifio(api_key='YOUR_API_KEY')
+client = Verifio(api_key=os.environ['VERIFIO_API_KEY'])
 
 try:
     result = client.verify('test@example.com')
@@ -667,124 +325,38 @@ try:
     elif result.state == 'undeliverable':
         print('❌ Do not send')
     elif result.state == 'risky':
-        print('⚠️ Proceed with caution')
-        print('Warnings:', result.analytics.warnings)
+        print('⚠️ Caution:', result.analytics.warnings)
     else:
-        print('❓ Unknown - retry later')
+        print('❓ Retry later')
         
-except AuthenticationError:
-    print('Invalid API key')
-except InsufficientCreditsError:
-    print('No credits remaining')
 except RateLimitError as e:
-    print(f'Rate limited. Retry in {e.retry_after} seconds')
+    print(f'Rate limited. Retry in {e.retry_after}s')
+except InsufficientCreditsError:
+    print('Insufficient credits')
 except Exception as e:
-    print(f'Unexpected error: {e}')
-```
-</Tab>
-
-<Tab value="cURL">
-```bash
-# Check the HTTP status code
-response=$(curl -s -w "\n%{http_code}" -X POST "https://verifio.email/api/verify/v1/email" \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"email": "test@example.com"}')
-
-# Extract body and status code
-body=$(echo "$response" | head -n -1)
-status_code=$(echo "$response" | tail -n 1)
-
-echo "Status Code: $status_code"
-echo "Response: $body"
-
-# Handle different status codes
-case $status_code in
-  200)
-    echo "Success!"
-    ;;
-  401)
-    echo "Error: Invalid API key"
-    ;;
-  402)
-    echo "Error: Insufficient credits"
-    ;;
-  429)
-    echo "Error: Rate limited. Wait and retry."
-    ;;
-  *)
-    echo "Error: Unexpected status code $status_code"
-    ;;
-esac
+    print(f'Error: {e}')
 ```
 </Tab>
 
 </Tabs>
-
----
-
-## Score Interpretation Guide
-
-The `score` field (0-100) gives you a quick quality assessment:
-
-| Score Range | Quality | Recommendation |
-|-------------|---------|----------------|
-| **90-100** | Excellent | ✅ Safe to send, high deliverability |
-| **70-89** | Good | ✅ Generally safe, minor concerns possible |
-| **50-69** | Fair | ⚠️ Some risk factors, monitor bounce rates |
-| **30-49** | Poor | ⚠️ High risk, consider not sending |
-| **0-29** | Very Poor | ❌ Very high bounce risk, do not send |
 
 ---
 
 ## Best Practices
 
-### 1. Store Your API Key Securely
+### 1. Secure API Key Storage
 
-**Never hardcode API keys in your source code.** Use environment variables:
+Use environment variables, never hardcode:
 
-<Tabs items={['Node.js', 'Python', 'Bash']}>
-
-<Tab value="Node.js">
 ```javascript
-// Create a .env file
-// VERIFIO_API_KEY=vrf_sk_live_xxx
+// .env file
+VERIFIO_API_KEY=vrf_sk_live_xxx
 
-import { Verifio } from '@verifio/email-verification';
-
-const verifio = new Verifio({
-  apiKey: process.env.VERIFIO_API_KEY
-});
+// Code
+const verifio = new Verifio({ apiKey: process.env.VERIFIO_API_KEY });
 ```
-</Tab>
-
-<Tab value="Python">
-```python
-# Create a .env file
-# VERIFIO_API_KEY=vrf_sk_live_xxx
-
-import os
-from verifio import Verifio
-
-client = Verifio(api_key=os.environ['VERIFIO_API_KEY'])
-```
-</Tab>
-
-<Tab value="Bash">
-```bash
-# Add to your ~/.bashrc or ~/.zshrc
-export VERIFIO_API_KEY="vrf_sk_live_xxx"
-
-# Then use in scripts
-curl -H "Authorization: Bearer $VERIFIO_API_KEY" ...
-```
-</Tab>
-
-</Tabs>
 
 ### 2. Implement Retry Logic
-
-For `429 Rate Limited` and `5xx` errors, implement exponential backoff:
 
 ```javascript
 async function verifyWithRetry(email, maxRetries = 3) {
@@ -793,11 +365,10 @@ async function verifyWithRetry(email, maxRetries = 3) {
       return await verifio.verify(email);
     } catch (error) {
       if (error.status === 429 || error.status >= 500) {
-        const waitTime = Math.pow(2, attempt) * 1000; // 2s, 4s, 8s
-        console.log(`Attempt ${attempt} failed. Retrying in ${waitTime}ms...`);
+        const waitTime = Math.pow(2, attempt) * 1000; // Exponential backoff
         await new Promise(resolve => setTimeout(resolve, waitTime));
       } else {
-        throw error; // Don't retry client errors (4xx)
+        throw error;
       }
     }
   }
@@ -805,35 +376,31 @@ async function verifyWithRetry(email, maxRetries = 3) {
 }
 ```
 
-### 3. Handle All States
-
-Always handle all four possible states in your code:
-
-```javascript
-switch (result.state) {
-  case 'deliverable':
-    // Proceed with email sending
-    break;
-  case 'undeliverable':
-    // Block the email, show error to user
-    break;
-  case 'risky':
-    // Warn user, or collect anyway with a flag
-    break;
-  case 'unknown':
-    // Retry later or collect with manual review
-    break;
-}
-```
-
-### 4. Use Typo Suggestions
-
-If `checks.typo.hasTypo` is `true`, offer the user a suggestion:
+### 3. Use Typo Suggestions
 
 ```javascript
 if (result.checks.typo.hasTypo) {
   const suggestion = result.checks.typo.suggestion;
-  // Show to user: "Did you mean user@gmail.com instead of user@gmial.com?"
+  // Prompt user: "Did you mean {suggestion}?"
+}
+```
+
+### 4. Handle All States
+
+```javascript
+switch (result.state) {
+  case 'deliverable':
+    // Proceed with email
+    break;
+  case 'undeliverable':
+    // Show error to user
+    break;
+  case 'risky':
+    // Warn user or flag for review
+    break;
+  case 'unknown':
+    // Retry later or manual review
+    break;
 }
 ```
 
@@ -844,56 +411,66 @@ if (result.checks.typo.hasTypo) {
 ### Form Validation
 
 ```javascript
-// Validate email on signup form
 app.post('/signup', async (req, res) => {
-  const { email, password } = req.body;
-  
+  const { email } = req.body;
   const verification = await verifio.verify(email);
   
   if (verification.state === 'undeliverable') {
     return res.status(400).json({
-      error: 'Please enter a valid email address',
+      error: 'Invalid email address',
       suggestion: verification.checks.typo.suggestion
     });
   }
   
   if (verification.checks.disposable.isDisposable) {
     return res.status(400).json({
-      error: 'Please use a permanent email address, not a temporary one'
+      error: 'Please use a permanent email address'
     });
   }
   
-  // Proceed with signup...
+  // Proceed with signup
 });
 ```
 
 ### CRM Data Cleaning
 
 ```javascript
-// Verify existing contacts
 for (const contact of contacts) {
   const result = await verifio.verify(contact.email);
   
   await updateContact(contact.id, {
     emailVerified: result.state === 'deliverable',
     emailScore: result.score,
-    emailRiskLevel: result.analytics.riskLevel
+    riskLevel: result.analytics.riskLevel
   });
 }
 ```
 
 ---
 
-## Rate Limits
+## Common Reason Codes
 
-| Authentication | Rate Limit |
-|----------------|------------|
-| Without API Key | 2 requests/minute per IP |
-| With API Key | Based on your plan |
+### Deliverable
+- `valid_mailbox` — Mailbox exists and accepts mail
+- `accepted_email` — SMTP server accepted
 
-<Callout type="warn">
-  **Exceeding rate limits returns HTTP 429.** The response includes a `retryAfter` field (in seconds) telling you when you can retry.
-</Callout>
+### Undeliverable
+- `invalid_syntax` — Malformed email
+- `invalid_domain` — Domain doesn't exist
+- `no_mx_records` — No mail servers configured
+- `mailbox_not_found` — Mailbox doesn't exist
+- `mailbox_full` — Mailbox is full
+
+### Risky
+- `disposable_email` — Temporary email service
+- `role_based_email` — Generic address (info@, support@)
+- `catch_all_domain` — Accepts all addresses
+- `free_email_provider` — Free service (Gmail, Yahoo)
+
+### Unknown
+- `timeout` — Server timeout
+- `connection_error` — Network issue
+- `unknown_error` — Unexpected error
 
 ---
 
@@ -907,20 +484,20 @@ for (const contact of contacts) {
   />
   <Card 
     title="Authentication Guide" 
-    description="Learn about API key management and security"
+    description="API key management and security"
     href="/docs/guides/getting-started/authentication" 
   />
   <Card 
     title="SDKs & Libraries" 
-    description="Official SDKs for Node.js, Python, Go, and more"
+    description="Official SDKs for all major languages"
     href="/docs/guides/sdks/overview" 
   />
 </Cards>
 
 ---
 
-## Need Help?
+## Support
 
-- 📧 **Email Support:** support@verifio.email
-- 💬 **Discord Community:** [Join our Discord](https://discord.gg/verifio)
-- 📚 **GitHub Issues:** [Report bugs or suggest features](https://github.com/reloop-labs/verifio)
+- 📧 **Email:** support@verifio.email
+- 💬 **Discord:** [Join our community](https://discord.gg/verifio)
+- 📚 **GitHub:** [Report issues](https://github.com/reloop-labs/verifio)
