@@ -38,9 +38,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                                 secondary: true,
                             },
                         ]}
-                        sidebar={{
-                            enabled: false,
-                        }}
+
                     >
                         {children}
                     </DocsLayout>
