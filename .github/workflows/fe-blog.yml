@@ -41,4 +41,4 @@ jobs:
         run: |
           # Replace with actual webhook URL
           echo "Please configure the Dokploy webhook for blog service"
-          # curl https://dokploy.verifio.email/api/deploy/YOUR_WEBHOOK_ID
+          # curl https://dokploy.verifio.email/api/deploy/naV7NVjgabKdQ_IF_m0Uk
