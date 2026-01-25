@@ -176,9 +176,9 @@
 		"be:credits:build": "bun run --filter=credits build",
 		"be:credits:start": "bun run --filter=credits start",
 		"check": "biome check --write .",
-		"frontend:dev": "turbo dev --filter='dashboard' --filter='docs' --filter='web'",
+		"frontend:dev": "turbo dev --filter='dashboard' --filter='docs' --filter='web' --filter='blog'",
 		"backend:dev": "turbo dev --filter='auth' --filter='api-key' --filter='logs' --filter='upload' --filter='verify' --filter='credits'",
-		"verifio:dev": "turbo dev --filter='dashboard' --filter='docs' --filter='web' --filter='auth' --filter='api-key' --filter='logs' --filter='upload' --filter='verify' --filter='credits'",
+		"verifio:dev": "turbo dev --filter='dashboard' --filter='docs' --filter='web' --filter='blog' --filter='auth' --filter='api-key' --filter='logs' --filter='upload' --filter='verify' --filter='credits'",
 		"docker:up": "docker compose -f local/docker-compose.yml up -d",
 		"docker:down": "docker compose -f local/docker-compose.yml down",
 		"docker-prod:up": "docker compose -f prod/docker-compose.yml up -d",
@@ -205,6 +205,5 @@
 		"docs",
 		"protobufjs"
 	],
-	"dependencies": {
-	}
+	"dependencies": {}
 }

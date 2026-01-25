@@ -16,6 +16,13 @@ local.verifio.email {
             header_up X-Forwarded-For {remote}
         }
     }
+    handle /blog* {
+        reverse_proxy host.docker.internal:3004 {
+            header_up Host {host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-For {remote}
+        }
+    }
 
     # API routes
     handle /api/auth* {

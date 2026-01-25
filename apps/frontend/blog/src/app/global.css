@@ -1,0 +1,114 @@
+/** biome-ignore-all lint/suspicious/noUnknownAtRules: <explanation> */
+@import "tailwindcss";
+@import "fumadocs-ui/css/black.css";
+@import "fumadocs-ui/css/preset.css";
+@import "fumadocs-openapi/css/preset.css";
+
+@font-face {
+	font-family: "BasierCircle";
+	src: url("/blog/font/BasierCircle/basiercircle-bold-webfont.woff2") format("woff2");
+	font-weight: 700;
+	font-style: normal;
+}
+@font-face {
+	font-family: "BasierCircle";
+	src: url("/blog/font/BasierCircle/basiercircle-bolditalic-webfont") format("woff2");
+	font-weight: 700;
+	font-style: italic;
+}
+@font-face {
+	font-family: "BasierCircle";
+	src: url("/blog/font/BasierCircle/basiercircle-medium-webfont.woff2")
+		format("woff2");
+	font-weight: 500;
+	font-style: normal;
+}
+@font-face {
+	font-family: "BasierCircle";
+	src: url("/blog/font/BasierCircle/basiercircle-mediumitalic-webfont.woff2")
+		format("woff2");
+	font-weight: 500;
+	font-style: italic;
+}
+@font-face {
+	font-family: "BasierCircle";
+	src: url("/blog/font/BasierCircle/basiercircle-regular-webfont.woff2")
+		format("woff2");
+	font-weight: 400;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "BasierCircle";
+	src: url("/blog/font/BasierCircle/basiercircle-regularitalic-webfont.woff2")
+		format("woff2");
+	font-weight: 400;
+	font-style: italic;
+}
+@font-face {
+	font-family: "BasierCircle";
+	src: url("/blog/font/BasierCircle/basiercircle-semibold-webfont.woff2")
+		format("woff2");
+	font-weight: 600;
+	font-style: normal;
+}
+@font-face {
+	font-family: "BasierCircle";
+	src: url("/blog/font/BasierCircle/basiercircle-semibolditalic-webfont.woff2")
+		format("woff2");
+	font-weight: 600;
+	font-style: italic;
+}
+
+:root {
+	--color-fd-background: hsl(0, 0%, 100%);
+}
+
+.dark {
+	--color-fd-background: hsl(0, 0%, 0%);
+}
+
+[data-theme-toggle] svg {
+	@apply fill-none;
+}
+
+#nd-sidebar [data-hide-if-empty] {
+	@apply hidden;
+}
+
+body {
+	font-family: "BasierCircle", Helvetica, sans-serif;
+}
+
+/* Custom navbar button styles - target the link container in the navbar */
+#nd-subnav .flex.items-center.gap-6 {
+	gap: 8px !important;
+}
+
+#nd-subnav .flex.items-center.gap-6 > a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 6px 14px;
+	font-size: 14px;
+	font-weight: 500;
+	border-radius: 10px;
+	transition: all 0.15s ease;
+	border: 1px solid var(--color-fd-border);
+}
+
+#nd-subnav .flex.items-center.gap-6 > a:hover {
+	background-color: var(--color-fd-accent);
+}
+
+/* Primary button style for the last link (Get Started) */
+#nd-subnav .flex.items-center.gap-6 > a:last-child {
+	background-color: var(--color-fd-foreground);
+	color: var(--color-fd-background);
+	border-color: transparent;
+}
+
+#nd-subnav .flex.items-center.gap-6 > a:last-child:hover {
+	opacity: 0.9;
+	background-color: var(--color-fd-foreground);
+}
