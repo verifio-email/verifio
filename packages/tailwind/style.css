@@ -853,12 +853,12 @@
 	--social-amazon: #353e47;
 	--social-zendesk: #16140d;
 
-	--primary-dark: var(--sky-800);
-	--primary-darker: var(--sky-700);
-	--primary-base: var(--sky-500);
-	--primary-alpha-24: var(--sky-alpha-24);
-	--primary-alpha-16: var(--sky-alpha-16);
-	--primary-alpha-10: var(--sky-alpha-10);
+	--primary-dark: var(--neutral-900);
+	--primary-darker: var(--neutral-950);
+	--primary-base: #000000;
+	--primary-alpha-24: var(--black-alpha-24);
+	--primary-alpha-16: var(--black-alpha-16);
+	--primary-alpha-10: var(--black-alpha-10);
 
 	--static-black: var(--neutral-950);
 	--static-white: var(--neutral-0);
@@ -952,6 +952,13 @@
 	--stroke-soft-200: var(--neutral-700);
 	--stroke-soft-100: var(--neutral-800);
 	--stroke-white-0: var(--neutral-950);
+	
+	--primary-dark: var(--neutral-100);
+	--primary-darker: var(--neutral-50);
+	--primary-base: #ffffff;
+	--primary-alpha-24: var(--white-alpha-24);
+	--primary-alpha-16: var(--white-alpha-16);
+	--primary-alpha-10: var(--white-alpha-10);
 
 	--faded-dark: var(--neutral-300);
 	--faded-base: var(--neutral-500);

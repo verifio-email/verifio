@@ -253,7 +253,7 @@ const OrgDropdownContent: React.FC<OrgDropdownContentProps> = ({
 							className={cn(
 								"flex min-h-[36px] w-full cursor-pointer select-none items-center gap-2 rounded-xl px-2 py-1.5 text-sm outline-none transition-all active:scale-[0.98]",
 								isActive
-									? "bg-primary-alpha-10 text-primary-darker"
+									? "bg-primary-alpha-10 text-primary-base"
 									: "text-text-sub-600 hover:bg-neutral-alpha-10 hover:text-text-strong-950",
 							)}
 							onClick={() => onSelect(organization)}
@@ -266,7 +266,7 @@ const OrgDropdownContent: React.FC<OrgDropdownContentProps> = ({
 							/>
 							<span className="flex-1 text-left">{organization.name}</span>
 							{isActive && (
-								<div className="h-2 w-2 rounded-full bg-primary-base" />
+								<div className="-translate-y-1/2 absolute top-1/2 left-0 h-4 w-1 rounded-r-md bg-primary-base" />
 							)}
 						</button>
 					);
