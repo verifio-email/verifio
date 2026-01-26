@@ -36,6 +36,9 @@ export const metadata: Metadata = {
 			"Free email verification API with real-time validation and 99.9% accuracy. Open-source and developer-friendly.",
 		images: ["/twitter-card.png"],
 	},
+	other: {
+		"ahrefs-site-verification": "b7c3e5b12601a4c0718faa39cd851493cf35110caf5f0a8c6f9724b4968be38f",
+	},
 };
 
 export default function RootLayout({

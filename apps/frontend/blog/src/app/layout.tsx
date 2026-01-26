@@ -1,4 +1,5 @@
 import "./global.css";
+import type { Metadata } from "next";
 import Script from "next/script";
 import { cn } from "@fe/blog/lib/cn";
 import { source } from "@fe/blog/lib/source";
@@ -7,6 +8,12 @@ import { DocsLayout } from "fumadocs-ui/layouts/notebook";
 import { RootProvider } from "fumadocs-ui/provider/next";
 import type { ReactNode } from "react";
 import { baseOptions } from "./layout.config";
+
+export const metadata: Metadata = {
+    other: {
+        "ahrefs-site-verification": "b7c3e5b12601a4c0718faa39cd851493cf35110caf5f0a8c6f9724b4968be38f",
+    },
+};
 
 export default function Layout({ children }: { children: ReactNode }) {
     return (
