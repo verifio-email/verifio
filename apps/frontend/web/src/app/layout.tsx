@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Script from "next/script";
 import { IconsSprite } from "@verifio/ui/icon";
 import { Footer } from "@verifio/web/components/footer";
 import { Header } from "@verifio/web/components/header";
@@ -57,6 +58,11 @@ export default function RootLayout({
 					<Footer />
 					<IconsSprite />
 				</ThemeProvider>
+				<Script
+					src="https://analytics.ahrefs.com/analytics.js"
+					data-key="ti5gDNA17haJjb3IBUHy2g"
+					strategy="afterInteractive"
+				/>
 			</body>
 		</html>
 	);

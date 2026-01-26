@@ -1,4 +1,5 @@
 import "@fe/docs/app/global.css";
+import Script from "next/script";
 import { SidebarTabs } from "@fe/docs/components/sidebar-tabs";
 import { ThemeToggle } from "@fe/docs/components/theme-toggle";
 import { cn } from "@fe/docs/lib/cn";
@@ -52,6 +53,11 @@ export default function Layout({ children }: { children: ReactNode }) {
 					</DocsLayout>
 				</RootProvider>
 				<IconsSprite />
+				<Script
+					src="https://analytics.ahrefs.com/analytics.js"
+					data-key="ti5gDNA17haJjb3IBUHy2g"
+					strategy="afterInteractive"
+				/>
 			</body>
 		</html>
 	);

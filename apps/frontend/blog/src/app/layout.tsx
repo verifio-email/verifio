@@ -1,4 +1,5 @@
 import "./global.css";
+import Script from "next/script";
 import { cn } from "@fe/blog/lib/cn";
 import { source } from "@fe/blog/lib/source";
 import { IconsSprite } from "@verifio/ui/icon";
@@ -44,6 +45,11 @@ export default function Layout({ children }: { children: ReactNode }) {
                     </DocsLayout>
                 </RootProvider>
                 <IconsSprite />
+                <Script
+                    src="https://analytics.ahrefs.com/analytics.js"
+                    data-key="ti5gDNA17haJjb3IBUHy2g"
+                    strategy="afterInteractive"
+                />
             </body>
         </html>
     );

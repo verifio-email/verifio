@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Script from "next/script";
 import SWRProvider from "@fe/dashboard/providers/swr.config";
 import { IconsSprite } from "@verifio/ui/icon";
 import * as Tooltip from "@verifio/ui/tooltip";
@@ -51,6 +52,11 @@ export default function RootLayout({
 						<SWRProvider>
 							<Tooltip.Provider>{children}</Tooltip.Provider>
 							<IconsSprite />
+							<Script
+								src="https://analytics.ahrefs.com/analytics.js"
+								data-key="ti5gDNA17haJjb3IBUHy2g"
+								strategy="afterInteractive"
+							/>
 						</SWRProvider>
 					</ThemeProvider>
 				</NuqsAdapter>
