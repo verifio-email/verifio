@@ -3,7 +3,6 @@ import { EmailQualityProblem } from "./components/email-quality-problem";
 import Faq from "./components/faq";
 import { FinalCTA } from "./components/final-cta";
 import Hero from "./components/hero";
-import { HowItWorks } from "./components/how-it-works";
 import { OpenSourceDifference } from "./components/open-source-difference";
 import { PricingSection } from "@verifio/web/components/pricing-section";
 import Sdk from "./components/sdk";
@@ -19,8 +18,6 @@ export default function Home() {
 			<Sdk />
 			<div className="h-10" />
 			<OpenSourceDifference />
-			<div className="h-10" />
-			<HowItWorks />
 			<div className="h-10" />
 			<UseCases />
 			<div className="h-10" />
