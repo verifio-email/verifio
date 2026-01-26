@@ -12,7 +12,7 @@ docker-data
 node_modules
 .pnp
 .pnp.js
-
+.claude
 # testing
 coverage
 
