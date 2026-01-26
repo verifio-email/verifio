@@ -305,7 +305,7 @@ export default function VerifyGmailEmailPage() {
 							<article>
 								<h2 className="mb-4 font-semibold text-3xl text-text-strong-950">
 									Why Verify Gmail Email Addresses
-								3>
+								</h2>
 								<p className="text-text-sub-600 leading-relaxed">
 									Gmail addresses represent a significant portion of most email
 									lists, often accounting for 40-60% of all addresses. Verifying

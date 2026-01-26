@@ -74,6 +74,11 @@ const links = [
 				description: "Learn email verification best practices",
 			},
 			{
+				title: "Glossary",
+				href: "/glossary",
+				description: "Email verification terminology and definitions",
+			},
+			{
 				title: "Blog",
 				href: "/blog",
 				description: "Insights and tips on email deliverability",

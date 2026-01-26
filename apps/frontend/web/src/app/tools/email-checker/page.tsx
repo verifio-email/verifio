@@ -759,6 +759,30 @@ export default function EmailCheckerPage() {
 					</div>
 				</div>
 			</section>
+
+			{/* Glossary Link Section */}
+			<section className="border-stroke-soft-100 border-t">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
+					<div className="flex flex-col items-center justify-center gap-4 px-10 py-16 text-center md:flex-row md:justify-between md:text-left">
+						<div>
+							<h2 className="font-semibold text-2xl text-text-strong-950">
+								Learn Email Verification Terminology
+							</h2>
+							<p className="mt-2 text-text-sub-600">
+								Master the language of email marketing with our comprehensive
+								glossary of terms and definitions.
+							</p>
+						</div>
+						<Link
+							href="/glossary"
+							className="inline-flex items-center gap-2 rounded-lg border border-stroke-soft-200 bg-bg-white-0 px-6 py-3 font-semibold text-text-strong-950 transition-all hover:border-purple-500 hover:bg-purple-50 hover:text-purple-600"
+						>
+							View Glossary
+							<Icon name="arrow-right" className="h-4 w-4" />
+						</Link>
+					</div>
+				</div>
+			</section>
 		</div>
 		</>
 	);
