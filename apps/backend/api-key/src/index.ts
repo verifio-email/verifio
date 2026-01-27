@@ -17,9 +17,14 @@ const apiKeyService = new Elysia({
 	.use(
 		cors({
 			// SECURITY: Only allow specific origins in production
-			origin: apiKeyConfig.NODE_ENV === "production"
-				? ["https://verifio.email", "https://www.verifio.email"]
-				: ["http://localhost:3000", "http://localhost:3001", "https://local.verifio.email"],
+			origin:
+				apiKeyConfig.NODE_ENV === "production"
+					? ["https://verifio.email", "https://www.verifio.email"]
+					: [
+							"http://localhost:3000",
+							"http://localhost:3001",
+							"https://local.verifio.email",
+						],
 			methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 			allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
 			credentials: true,

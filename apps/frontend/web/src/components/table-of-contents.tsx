@@ -61,10 +61,11 @@ export function TableOfContents({
 						<li key={section.id}>
 							<a
 								href={`#${section.id}`}
-								className={`flex items-center gap-3 rounded-md px-2 py-1.5 text-xs transition-all ${isActive
-									? "bg-bg-weak-50 font-medium text-text-strong-950"
-									: "text-text-sub-600 hover:bg-bg-weak-50 hover:text-text-strong-950"
-									}`}
+								className={`flex items-center gap-3 rounded-md px-2 py-1.5 text-xs transition-all ${
+									isActive
+										? "bg-bg-weak-50 font-medium text-text-strong-950"
+										: "text-text-sub-600 hover:bg-bg-weak-50 hover:text-text-strong-950"
+								}`}
 							>
 								<span
 									className={

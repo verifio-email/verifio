@@ -4,14 +4,14 @@ import { createElement } from "react";
 import { docs } from "../../.source/server";
 
 export const source = loader({
-    baseUrl: "/",
-    source: docs.toFumadocsSource(),
-    icon(icon) {
-        if (icon === "book") {
-            return createElement(BookOpen);
-        }
-        if (icon === "terminal") {
-            return createElement(Terminal);
-        }
-    },
+	baseUrl: "/",
+	source: docs.toFumadocsSource(),
+	icon(icon) {
+		if (icon === "book") {
+			return createElement(BookOpen);
+		}
+		if (icon === "terminal") {
+			return createElement(Terminal);
+		}
+	},
 });

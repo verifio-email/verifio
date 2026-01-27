@@ -36,7 +36,7 @@ function getClientIP(headers: Record<string, string | undefined>): string {
 
 /**
  * Check rate limit using ATOMIC Redis INCR and return whether request should be allowed
- * 
+ *
  * SECURITY: Uses atomic increment to prevent race conditions.
  * Old approach (get-then-set) allowed concurrent requests to bypass limits.
  * New approach (INCR) is atomic - no race condition possible.
@@ -80,7 +80,10 @@ async function checkRateLimit(
 	} catch (error) {
 		// SECURITY: Fail-closed - block requests when Redis fails
 		// This prevents abuse if Redis is down
-		logger.error({ error }, "Redis rate limit check failed, blocking request for security");
+		logger.error(
+			{ error },
+			"Redis rate limit check failed, blocking request for security",
+		);
 		return {
 			allowed: false,
 			remaining: 0,
@@ -119,7 +122,11 @@ export function createRateLimiter(type: keyof typeof RATE_LIMITS) {
 			const ip = getClientIP(headers);
 			const key = `${config.keyPrefix}:${ip}`;
 
-			const result = await checkRateLimit(key, config.maxRequests, config.windowMs);
+			const result = await checkRateLimit(
+				key,
+				config.maxRequests,
+				config.windowMs,
+			);
 
 			// Set rate limit headers
 			set.headers["X-RateLimit-Limit"] = String(config.maxRequests);

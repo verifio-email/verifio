@@ -16,13 +16,13 @@ function getRequiredSecret(key: string, devDefault: string): string {
 	if (isProduction) {
 		throw new Error(
 			`SECURITY ERROR: Missing required secret ${key} in production. ` +
-			"This secret is required for secure service-to-service communication.",
+				"This secret is required for secure service-to-service communication.",
 		);
 	}
 
 	console.warn(
 		`⚠️  SECURITY WARNING: Using default ${key} for development. ` +
-		"Set this env var explicitly in production.",
+			"Set this env var explicitly in production.",
 	);
 	return devDefault;
 }

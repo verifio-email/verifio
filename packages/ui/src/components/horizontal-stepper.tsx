@@ -88,9 +88,9 @@ type HorizontalStepperItemSharedProps = VariantProps<
 
 type HorizontalStepperItemProps =
 	React.ButtonHTMLAttributes<HTMLButtonElement> &
-	VariantProps<typeof horizontalStepperItemVariants> & {
-		asChild?: boolean;
-	};
+		VariantProps<typeof horizontalStepperItemVariants> & {
+			asChild?: boolean;
+		};
 
 const HorizontalStepperItem = React.forwardRef<
 	HTMLButtonElement,

@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { Icon } from "@verifio/ui/icon";
+import Link from "next/link";
 
 // Schema for glossary page
 const GlossarySchema = {
@@ -16,12 +16,14 @@ const glossaryTerms = [
 		terms: [
 			{
 				term: "Accept-All Domain",
-				definition: "A domain configured to accept all email addresses regardless of whether the mailbox exists. These domains return a positive response for any email verification attempt, making it difficult to determine if the email is truly valid.",
+				definition:
+					"A domain configured to accept all email addresses regardless of whether the mailbox exists. These domains return a positive response for any email verification attempt, making it difficult to determine if the email is truly valid.",
 				related: "/tools/domain-lookup",
 			},
 			{
 				term: "API (Application Programming Interface)",
-				definition: "A set of protocols and tools for building software applications. In email verification, APIs allow developers to integrate email verification directly into their applications and websites.",
+				definition:
+					"A set of protocols and tools for building software applications. In email verification, APIs allow developers to integrate email verification directly into their applications and websites.",
 				related: "/features/api-reference",
 			},
 		],
@@ -31,12 +33,14 @@ const glossaryTerms = [
 		terms: [
 			{
 				term: "Bounce Rate",
-				definition: "The percentage of email addresses in a list that fail to deliver. High bounce rates can damage sender reputation and lead to emails being marked as spam. Industry standard is below 2%.",
+				definition:
+					"The percentage of email addresses in a list that fail to deliver. High bounce rates can damage sender reputation and lead to emails being marked as spam. Industry standard is below 2%.",
 				related: "/tools/email-checker",
 			},
 			{
 				term: "Bulk Email Verification",
-				definition: "The process of verifying multiple email addresses simultaneously, typically by uploading a CSV or text file. Essential for cleaning large email lists before marketing campaigns.",
+				definition:
+					"The process of verifying multiple email addresses simultaneously, typically by uploading a CSV or text file. Essential for cleaning large email lists before marketing campaigns.",
 				related: "/tools/bulk-tester",
 			},
 		],
@@ -46,12 +50,14 @@ const glossaryTerms = [
 		terms: [
 			{
 				term: "Catch-All Detection",
-				definition: "The process of identifying domains that accept all emails regardless of the mailbox. These domains make accurate verification challenging and require special handling.",
+				definition:
+					"The process of identifying domains that accept all emails regardless of the mailbox. These domains make accurate verification challenging and require special handling.",
 				related: "/tools/domain-lookup",
 			},
 			{
 				term: "Compliance",
-				definition: "Adherence to email marketing regulations such as GDPR, CAN-SPAM, and CASL. Email verification helps maintain compliance by ensuring consented, valid email addresses.",
+				definition:
+					"Adherence to email marketing regulations such as GDPR, CAN-SPAM, and CASL. Email verification helps maintain compliance by ensuring consented, valid email addresses.",
 				related: null,
 			},
 		],
@@ -61,22 +67,26 @@ const glossaryTerms = [
 		terms: [
 			{
 				term: "Deliverability",
-				definition: "The ability of an email to successfully reach the recipient's inbox. High deliverability rates depend on sender reputation, list quality, and email authentication.",
+				definition:
+					"The ability of an email to successfully reach the recipient's inbox. High deliverability rates depend on sender reputation, list quality, and email authentication.",
 				related: "/tools/email-checker",
 			},
 			{
 				term: "Disposable Email",
-				definition: "Temporary email addresses created for short-term use, often to avoid spam or sign up for services without providing a real email. These should be filtered from marketing lists.",
+				definition:
+					"Temporary email addresses created for short-term use, often to avoid spam or sign up for services without providing a real email. These should be filtered from marketing lists.",
 				related: "/tools/disposable-detector",
 			},
 			{
 				term: "DNS (Domain Name System)",
-				definition: "The system that translates domain names into IP addresses. Email verification checks DNS records to verify domain configuration and mail server settings.",
+				definition:
+					"The system that translates domain names into IP addresses. Email verification checks DNS records to verify domain configuration and mail server settings.",
 				related: "/tools/domain-lookup",
 			},
 			{
 				term: "DMARC (Domain-based Message Authentication, Reporting, and Conformance)",
-				definition: "An email authentication protocol that helps prevent email spoofing. DMARC records tell receiving servers how to handle emails that fail SPF or DKIM checks.",
+				definition:
+					"An email authentication protocol that helps prevent email spoofing. DMARC records tell receiving servers how to handle emails that fail SPF or DKIM checks.",
 				related: "/tools/domain-lookup",
 			},
 		],
@@ -86,27 +96,32 @@ const glossaryTerms = [
 		terms: [
 			{
 				term: "Email Authentication",
-				definition: "Technical standards that verify an email's legitimacy, including SPF, DKIM, and DMARC. Proper authentication improves deliverability and prevents phishing.",
+				definition:
+					"Technical standards that verify an email's legitimacy, including SPF, DKIM, and DMARC. Proper authentication improves deliverability and prevents phishing.",
 				related: "/tools/domain-lookup",
 			},
 			{
 				term: "Email Hygiene",
-				definition: "The practice of maintaining a clean email list by regularly removing invalid, inactive, and unengaged subscribers. Good hygiene improves deliverability and sender reputation.",
+				definition:
+					"The practice of maintaining a clean email list by regularly removing invalid, inactive, and unengaged subscribers. Good hygiene improves deliverability and sender reputation.",
 				related: "/tools/bulk-tester",
 			},
 			{
 				term: "Email List Cleaning",
-				definition: "The process of removing invalid, duplicate, and risky email addresses from a mailing list. Also known as list scrubbing or list validation.",
+				definition:
+					"The process of removing invalid, duplicate, and risky email addresses from a mailing list. Also known as list scrubbing or list validation.",
 				related: "/tools/bulk-tester",
 			},
 			{
 				term: "Email Validation",
-				definition: "The process of checking if an email address is valid, properly formatted, and capable of receiving emails. Includes syntax, domain, and mailbox verification.",
+				definition:
+					"The process of checking if an email address is valid, properly formatted, and capable of receiving emails. Includes syntax, domain, and mailbox verification.",
 				related: "/tools/email-checker",
 			},
 			{
 				term: "Email Verifier",
-				definition: "A tool or service that checks the validity and deliverability of email addresses. Can verify single emails or bulk lists.",
+				definition:
+					"A tool or service that checks the validity and deliverability of email addresses. Can verify single emails or bulk lists.",
 				related: "/tools/email-checker",
 			},
 		],
@@ -116,12 +131,14 @@ const glossaryTerms = [
 		terms: [
 			{
 				term: "Free Email Provider",
-				definition: "Services that offer free email accounts such as Gmail, Yahoo, Outlook, and AOL. While legitimate, these addresses are often used for personal rather than business communications.",
+				definition:
+					"Services that offer free email accounts such as Gmail, Yahoo, Outlook, and AOL. While legitimate, these addresses are often used for personal rather than business communications.",
 				related: "/tools/verify-company-domain-email",
 			},
 			{
 				term: "From Address",
-				definition: "The email address that appears in the 'From' field of an email. Using a verified, authenticated from address improves deliverability.",
+				definition:
+					"The email address that appears in the 'From' field of an email. Using a verified, authenticated from address improves deliverability.",
 				related: null,
 			},
 		],
@@ -131,12 +148,14 @@ const glossaryTerms = [
 		terms: [
 			{
 				term: "Hard Bounce",
-				definition: "A permanent email delivery failure caused by invalid addresses, non-existent domains, or blocked senders. Hard bounces should be removed from email lists immediately.",
+				definition:
+					"A permanent email delivery failure caused by invalid addresses, non-existent domains, or blocked senders. Hard bounces should be removed from email lists immediately.",
 				related: "/tools/email-checker",
 			},
 			{
 				term: "Honeypot",
-				definition: "A fake email address planted by spam traps to catch senders who don't verify their lists. Emails to honeypots can severely damage sender reputation.",
+				definition:
+					"A fake email address planted by spam traps to catch senders who don't verify their lists. Emails to honeypots can severely damage sender reputation.",
 				related: "/tools/disposable-detector",
 			},
 		],
@@ -146,12 +165,14 @@ const glossaryTerms = [
 		terms: [
 			{
 				term: "IP Address",
-				definition: "A unique numerical label assigned to each device connected to a computer network. Email servers use IP addresses to identify sender reputation.",
+				definition:
+					"A unique numerical label assigned to each device connected to a computer network. Email servers use IP addresses to identify sender reputation.",
 				related: null,
 			},
 			{
 				term: "Inbox Placement",
-				definition: "The percentage of emails that successfully reach the recipient's inbox (rather than spam or promotions folders). High inbox placement is the goal of email marketing.",
+				definition:
+					"The percentage of emails that successfully reach the recipient's inbox (rather than spam or promotions folders). High inbox placement is the goal of email marketing.",
 				related: "/tools/email-checker",
 			},
 		],
@@ -161,12 +182,14 @@ const glossaryTerms = [
 		terms: [
 			{
 				term: "MX Record (Mail Exchange Record)",
-				definition: "A DNS record that specifies which mail server is responsible for accepting email messages for a domain. Essential for email delivery.",
+				definition:
+					"A DNS record that specifies which mail server is responsible for accepting email messages for a domain. Essential for email delivery.",
 				related: "/tools/mx-checker",
 			},
 			{
 				term: "Mailbox",
-				definition: "The storage location where email messages are received and stored for a user. SMTP verification checks if a mailbox exists without sending an email.",
+				definition:
+					"The storage location where email messages are received and stored for a user. SMTP verification checks if a mailbox exists without sending an email.",
 				related: "/tools/email-checker",
 			},
 		],
@@ -176,12 +199,14 @@ const glossaryTerms = [
 		terms: [
 			{
 				term: "Opt-In",
-				definition: "When a user explicitly consents to receive emails, typically through a checkbox or signup form. Double opt-in requires email confirmation.",
+				definition:
+					"When a user explicitly consents to receive emails, typically through a checkbox or signup form. Double opt-in requires email confirmation.",
 				related: null,
 			},
 			{
 				term: "Open Rate",
-				definition: "The percentage of email recipients who open an email. Verified email lists typically have higher open rates because emails reach valid inboxes.",
+				definition:
+					"The percentage of email recipients who open an email. Verified email lists typically have higher open rates because emails reach valid inboxes.",
 				related: "/tools/email-checker",
 			},
 		],
@@ -191,7 +216,8 @@ const glossaryTerms = [
 		terms: [
 			{
 				term: "Quality Score",
-				definition: "A numerical rating (0-100) indicating the likelihood that an email address is valid and deliverable. Higher scores indicate better email quality.",
+				definition:
+					"A numerical rating (0-100) indicating the likelihood that an email address is valid and deliverable. Higher scores indicate better email quality.",
 				related: "/tools/email-checker",
 			},
 		],
@@ -201,17 +227,20 @@ const glossaryTerms = [
 		terms: [
 			{
 				term: "RFC 5322",
-				definition: "The internet standard that defines the format of email messages. Email syntax validation checks compliance with RFC 5322.",
+				definition:
+					"The internet standard that defines the format of email messages. Email syntax validation checks compliance with RFC 5322.",
 				related: "/tools/syntax-validator",
 			},
 			{
 				term: "Role-Based Email",
-				definition: "Email addresses that represent a function or department rather than an individual (e.g., info@, support@, sales@). These often have lower engagement rates.",
+				definition:
+					"Email addresses that represent a function or department rather than an individual (e.g., info@, support@, sales@). These often have lower engagement rates.",
 				related: null,
 			},
 			{
 				term: "Real-Time Verification",
-				definition: "Email verification that happens instantly when an address is entered, typically through API integration. Prevents invalid emails from entering databases.",
+				definition:
+					"Email verification that happens instantly when an address is entered, typically through API integration. Prevents invalid emails from entering databases.",
 				related: "/features/api-reference",
 			},
 		],
@@ -221,37 +250,44 @@ const glossaryTerms = [
 		terms: [
 			{
 				term: "SMTP (Simple Mail Transfer Protocol)",
-				definition: "The standard protocol for sending email. SMTP verification connects to mail servers to confirm mailbox existence without sending an email.",
+				definition:
+					"The standard protocol for sending email. SMTP verification connects to mail servers to confirm mailbox existence without sending an email.",
 				related: "/tools/email-checker",
 			},
 			{
 				term: "SMTP Verification",
-				definition: "The process of connecting to a mail server via SMTP to check if a mailbox exists. The most accurate method of email verification.",
+				definition:
+					"The process of connecting to a mail server via SMTP to check if a mailbox exists. The most accurate method of email verification.",
 				related: "/tools/email-checker",
 			},
 			{
 				term: "Sender Reputation",
-				definition: "A score assigned to sending IP addresses and domains based on email practices. Good reputation improves deliverability; bad reputation leads to spam filtering.",
+				definition:
+					"A score assigned to sending IP addresses and domains based on email practices. Good reputation improves deliverability; bad reputation leads to spam filtering.",
 				related: "/tools/email-checker",
 			},
 			{
 				term: "Soft Bounce",
-				definition: "A temporary email delivery failure caused by issues like full mailboxes or server problems. Soft bounces may resolve themselves but should be monitored.",
+				definition:
+					"A temporary email delivery failure caused by issues like full mailboxes or server problems. Soft bounces may resolve themselves but should be monitored.",
 				related: "/tools/email-checker",
 			},
 			{
 				term: "Spam Trap",
-				definition: "Email addresses used to identify senders who don't verify their lists or follow email best practices. Hitting spam traps can severely damage sender reputation.",
+				definition:
+					"Email addresses used to identify senders who don't verify their lists or follow email best practices. Hitting spam traps can severely damage sender reputation.",
 				related: "/tools/disposable-detector",
 			},
 			{
 				term: "SPF (Sender Policy Framework)",
-				definition: "An email authentication protocol that specifies which mail servers are authorized to send emails for a domain. SPF records are published in DNS.",
+				definition:
+					"An email authentication protocol that specifies which mail servers are authorized to send emails for a domain. SPF records are published in DNS.",
 				related: "/tools/domain-lookup",
 			},
 			{
 				term: "Syntax Validation",
-				definition: "Checking if an email address is properly formatted according to internet standards (RFC 5322). The first step in email verification.",
+				definition:
+					"Checking if an email address is properly formatted according to internet standards (RFC 5322). The first step in email verification.",
 				related: "/tools/syntax-validator",
 			},
 		],
@@ -261,12 +297,14 @@ const glossaryTerms = [
 		terms: [
 			{
 				term: "Temporary Email",
-				definition: "Also known as disposable email, these are short-lived email addresses often used to avoid giving out real email addresses. Should be filtered from marketing lists.",
+				definition:
+					"Also known as disposable email, these are short-lived email addresses often used to avoid giving out real email addresses. Should be filtered from marketing lists.",
 				related: "/tools/disposable-detector",
 			},
 			{
 				term: "Typo Detection",
-				definition: "Identifying common email address typos such as 'gmial.com' instead of 'gmail.com'. Some verification tools suggest corrections for typos.",
+				definition:
+					"Identifying common email address typos such as 'gmial.com' instead of 'gmail.com'. Some verification tools suggest corrections for typos.",
 				related: "/tools/syntax-validator",
 			},
 		],
@@ -276,12 +314,14 @@ const glossaryTerms = [
 		terms: [
 			{
 				term: "Validation",
-				definition: "The process of checking if an email address meets formatting standards and can receive emails. Often used interchangeably with verification.",
+				definition:
+					"The process of checking if an email address meets formatting standards and can receive emails. Often used interchangeably with verification.",
 				related: "/tools/email-checker",
 			},
 			{
 				term: "Verification",
-				definition: "The comprehensive process of confirming an email address is valid, the domain exists, and the mailbox is active. Includes multiple checks.",
+				definition:
+					"The comprehensive process of confirming an email address is valid, the domain exists, and the mailbox is active. Includes multiple checks.",
 				related: "/tools/email-checker",
 			},
 		],
@@ -351,7 +391,7 @@ export default function GlossaryPage() {
 								className="border-stroke-soft-100 border-b last:border-b-0"
 							>
 								<div className="border-stroke-soft-100 border-b px-10 py-4">
-									<h2 className="text-2xl font-bold text-text-strong-950">
+									<h2 className="font-bold text-2xl text-text-strong-950">
 										{section.letter}
 									</h2>
 								</div>
@@ -365,7 +405,7 @@ export default function GlossaryPage() {
 										>
 											<div className="flex items-start justify-between gap-4">
 												<div className="flex-1">
-													<h3 className="mb-3 text-xl font-semibold text-text-strong-950">
+													<h3 className="mb-3 font-semibold text-text-strong-950 text-xl">
 														{item.term}
 													</h3>
 													<p className="text-text-sub-600 leading-relaxed">
@@ -454,9 +494,7 @@ export default function GlossaryPage() {
 									<h3 className="mt-4 font-semibold text-lg text-text-strong-950 group-hover:text-purple-600">
 										{tool.title}
 									</h3>
-									<p className="mt-2 text-sm text-text-sub-600">
-										{tool.desc}
-									</p>
+									<p className="mt-2 text-sm text-text-sub-600">{tool.desc}</p>
 								</Link>
 							))}
 						</div>
@@ -473,9 +511,9 @@ export default function GlossaryPage() {
 								</h2>
 								<p className="mt-4 text-text-sub-600">
 									Our tools help you maintain clean email lists, improve
-									deliverability, and protect your sender reputation. Get started
-									with our free tools or upgrade for bulk verification and API
-									access.
+									deliverability, and protect your sender reputation. Get
+									started with our free tools or upgrade for bulk verification
+									and API access.
 								</p>
 								<div className="mt-6 flex flex-col gap-3 sm:flex-row">
 									<Link
@@ -503,12 +541,8 @@ export default function GlossaryPage() {
 										</p>
 									</div>
 									<div className="rounded-xl border border-stroke-soft-100 bg-bg-white-0 p-6">
-										<p className="font-bold text-3xl text-text-strong-950">
-											6
-										</p>
-										<p className="mt-1 text-sm text-text-sub-600">
-											Free Tools
-										</p>
+										<p className="font-bold text-3xl text-text-strong-950">6</p>
+										<p className="mt-1 text-sm text-text-sub-600">Free Tools</p>
 									</div>
 								</div>
 							</div>

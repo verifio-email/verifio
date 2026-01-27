@@ -2,8 +2,8 @@
 
 import * as Button from "@verifio/ui/button";
 import { Icon } from "@verifio/ui/icon";
-import Link from "next/link";
 import { toolsApi } from "@verifio/web/lib/tools-client";
+import Link from "next/link";
 import { useState } from "react";
 
 type EmailResult = {
@@ -102,7 +102,9 @@ export default function ListHealthCalculatorPage() {
 				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[01] FREE TOOL</span>
-						<span className="text-sm text-text-sub-600">/ LIST HEALTH CALCULATOR</span>
+						<span className="text-sm text-text-sub-600">
+							/ LIST HEALTH CALCULATOR
+						</span>
 					</div>
 					<div className="px-10 py-16 text-center">
 						<h1 className="mx-auto max-w-3xl font-semibold text-4xl text-text-strong-950 md:text-5xl">
@@ -125,14 +127,14 @@ export default function ListHealthCalculatorPage() {
 								value={emails}
 								onChange={(e) => setEmails(e.target.value)}
 								placeholder="Enter email addresses (one per line)&#10;example1@gmail.com&#10;example2@yahoo.com&#10;...&#10;Minimum 10, maximum 50 emails"
-								className="w-full rounded-lg border border-stroke-soft-100 bg-white px-4 py-3 text-text-strong-950 outline-none transition-all focus:border-stroke-strong-950 focus:ring-2 focus:ring-stroke-strong-950/20 min-h-[200px] font-mono text-sm"
+								className="min-h-[200px] w-full rounded-lg border border-stroke-soft-100 bg-white px-4 py-3 font-mono text-sm text-text-strong-950 outline-none transition-all focus:border-stroke-strong-950 focus:ring-2 focus:ring-stroke-strong-950/20"
 								disabled={isLoading}
 							/>
 
 							<div className="mt-4 flex items-center justify-between">
 								<p className="text-sm text-text-sub-600">
-									{emails.split("\n").filter((e) => e.trim()).length} emails entered
-									(10-50 required)
+									{emails.split("\n").filter((e) => e.trim()).length} emails
+									entered (10-50 required)
 								</p>
 								<button
 									type="button"
@@ -148,7 +150,7 @@ export default function ListHealthCalculatorPage() {
 							</div>
 
 							{error && (
-								<div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+								<div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-800 text-sm">
 									{error}
 								</div>
 							)}
@@ -164,12 +166,15 @@ export default function ListHealthCalculatorPage() {
 											</p>
 										</div>
 										<div className="rounded-xl border border-green-200 bg-green-50 p-6">
-											<p className="text-sm text-green-800">Deliverable</p>
+											<p className="text-green-800 text-sm">Deliverable</p>
 											<p className="mt-2 font-bold text-3xl text-green-600">
 												{result.stats.deliverable}
 											</p>
-											<p className="mt-1 text-xs text-green-700">
-												{Math.round((result.stats.deliverable / result.stats.total) * 100)}%
+											<p className="mt-1 text-green-700 text-xs">
+												{Math.round(
+													(result.stats.deliverable / result.stats.total) * 100,
+												)}
+												%
 											</p>
 										</div>
 										<div className="rounded-xl border border-yellow-200 bg-yellow-50 p-6">
@@ -178,16 +183,23 @@ export default function ListHealthCalculatorPage() {
 												{result.stats.risky}
 											</p>
 											<p className="mt-1 text-xs text-yellow-700">
-												{Math.round((result.stats.risky / result.stats.total) * 100)}%
+												{Math.round(
+													(result.stats.risky / result.stats.total) * 100,
+												)}
+												%
 											</p>
 										</div>
 										<div className="rounded-xl border border-red-200 bg-red-50 p-6">
-											<p className="text-sm text-red-800">Undeliverable</p>
+											<p className="text-red-800 text-sm">Undeliverable</p>
 											<p className="mt-2 font-bold text-3xl text-red-600">
 												{result.stats.undeliverable}
 											</p>
-											<p className="mt-1 text-xs text-red-700">
-												{Math.round((result.stats.undeliverable / result.stats.total) * 100)}%
+											<p className="mt-1 text-red-700 text-xs">
+												{Math.round(
+													(result.stats.undeliverable / result.stats.total) *
+														100,
+												)}
+												%
 											</p>
 										</div>
 									</div>
@@ -223,14 +235,37 @@ export default function ListHealthCalculatorPage() {
 										</h3>
 										<div className="grid gap-4 md:grid-cols-4">
 											{[
-												{ label: "Excellent (90+)", count: result.stats.scoreDistribution.excellent, color: "bg-green-500" },
-												{ label: "Good (70-89)", count: result.stats.scoreDistribution.good, color: "bg-blue-500" },
-												{ label: "Fair (50-69)", count: result.stats.scoreDistribution.fair, color: "bg-yellow-500" },
-												{ label: "Poor (&lt;50)", count: result.stats.scoreDistribution.poor, color: "bg-red-500" },
+												{
+													label: "Excellent (90+)",
+													count: result.stats.scoreDistribution.excellent,
+													color: "bg-green-500",
+												},
+												{
+													label: "Good (70-89)",
+													count: result.stats.scoreDistribution.good,
+													color: "bg-blue-500",
+												},
+												{
+													label: "Fair (50-69)",
+													count: result.stats.scoreDistribution.fair,
+													color: "bg-yellow-500",
+												},
+												{
+													label: "Poor (&lt;50)",
+													count: result.stats.scoreDistribution.poor,
+													color: "bg-red-500",
+												},
 											].map((item) => (
-												<div key={item.label} className="rounded-lg bg-bg-weak-50 p-4">
-													<p className="text-xs text-text-sub-600">{item.label}</p>
-													<p className="mt-1 font-bold text-2xl text-text-strong-950">{item.count}</p>
+												<div
+													key={item.label}
+													className="rounded-lg bg-bg-weak-50 p-4"
+												>
+													<p className="text-text-sub-600 text-xs">
+														{item.label}
+													</p>
+													<p className="mt-1 font-bold text-2xl text-text-strong-950">
+														{item.count}
+													</p>
 												</div>
 											))}
 										</div>
@@ -247,11 +282,17 @@ export default function ListHealthCalculatorPage() {
 												{result.topIssues.map((issue, i) => (
 													<div key={i} className="flex items-center gap-3">
 														<div className="flex-1 rounded-lg bg-white px-4 py-2">
-															<p className="text-sm text-text-strong-950">{issue.issue}</p>
+															<p className="text-sm text-text-strong-950">
+																{issue.issue}
+															</p>
 														</div>
 														<div className="text-right">
-															<p className="font-bold text-text-strong-950">{issue.count}</p>
-															<p className="text-xs text-text-sub-600">{issue.percentage}%</p>
+															<p className="font-bold text-text-strong-950">
+																{issue.count}
+															</p>
+															<p className="text-text-sub-600 text-xs">
+																{issue.percentage}%
+															</p>
 														</div>
 													</div>
 												))}
@@ -267,7 +308,7 @@ export default function ListHealthCalculatorPage() {
 										<div className="overflow-x-auto">
 											<table className="w-full text-sm">
 												<thead>
-													<tr className="border-b border-stroke-soft-100">
+													<tr className="border-stroke-soft-100 border-b">
 														<th className="px-4 py-2 text-left font-medium text-text-sub-600">
 															Email
 														</th>
@@ -284,7 +325,10 @@ export default function ListHealthCalculatorPage() {
 												</thead>
 												<tbody>
 													{result.results.slice(0, 10).map((email, i) => (
-														<tr key={i} className="border-b border-stroke-soft-100">
+														<tr
+															key={i}
+															className="border-stroke-soft-100 border-b"
+														>
 															<td className="px-4 py-3 font-mono text-text-strong-950">
 																{email.email}
 															</td>
@@ -293,10 +337,14 @@ export default function ListHealthCalculatorPage() {
 																	{email.state}
 																</span>
 															</td>
-															<td className={`px-4 py-3 font-medium ${getScoreColor(email.score)}`}>
+															<td
+																className={`px-4 py-3 font-medium ${getScoreColor(email.score)}`}
+															>
 																{email.score}
 															</td>
-															<td className="px-4 py-3 text-text-sub-600">{email.reason}</td>
+															<td className="px-4 py-3 text-text-sub-600">
+																{email.reason}
+															</td>
 														</tr>
 													))}
 												</tbody>
@@ -305,7 +353,8 @@ export default function ListHealthCalculatorPage() {
 									</div>
 
 									{/* Warnings */}
-									{(result.stats.disposable > 0 || result.stats.roleBased > 0) && (
+									{(result.stats.disposable > 0 ||
+										result.stats.roleBased > 0) && (
 										<div className="rounded-xl border border-yellow-200 bg-yellow-50 p-6">
 											<h3 className="mb-4 flex items-center gap-2 font-medium text-yellow-900 dark:text-yellow-100">
 												<Icon name="alert-triangle" className="h-5 w-5" />
@@ -313,10 +362,15 @@ export default function ListHealthCalculatorPage() {
 											</h3>
 											<p className="text-sm text-yellow-800 dark:text-yellow-200">
 												{result.stats.disposable > 0 && (
-													<span>{result.stats.disposable} disposable email(s) found. </span>
+													<span>
+														{result.stats.disposable} disposable email(s) found.{" "}
+													</span>
 												)}
 												{result.stats.roleBased > 0 && (
-													<span>{result.stats.roleBased} role-based address(es) found.</span>
+													<span>
+														{result.stats.roleBased} role-based address(es)
+														found.
+													</span>
 												)}
 											</p>
 										</div>

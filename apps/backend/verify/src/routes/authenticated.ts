@@ -6,7 +6,7 @@
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
 import { verifyEmail } from "@verifio/email-verify";
-import { logger, logActivity } from "@verifio/logger";
+import { logActivity, logger } from "@verifio/logger";
 import { Elysia, t } from "elysia";
 import { authMiddleware } from "../middleware/auth";
 import { checkCredits, deductCredits } from "../services/credits-client";
@@ -95,7 +95,11 @@ const VerificationAnalyticsSchema = t.Object({
 	didYouMean: t.Union([t.String(), t.Null()]),
 	domainAge: t.Union([t.Number(), t.Null()]),
 	smtpProvider: t.Union([t.String(), t.Null()]),
-	riskLevel: t.Union([t.Literal("low"), t.Literal("medium"), t.Literal("high")]),
+	riskLevel: t.Union([
+		t.Literal("low"),
+		t.Literal("medium"),
+		t.Literal("high"),
+	]),
 	qualityIndicators: t.Array(t.String()),
 	warnings: t.Array(t.String()),
 });
@@ -130,10 +134,12 @@ const ErrorResponseSchema = t.Object({
 	success: t.Literal(false),
 	error: t.String(),
 	requestId: t.String(),
-	data: t.Optional(t.Object({
-		remaining: t.Optional(t.Number()),
-		required: t.Optional(t.Number()),
-	})),
+	data: t.Optional(
+		t.Object({
+			remaining: t.Optional(t.Number()),
+			required: t.Optional(t.Number()),
+		}),
+	),
 });
 
 const VerificationResponseSchema = t.Union([
@@ -195,7 +201,10 @@ export const authenticatedSingleRoute = new Elysia({
 					}),
 					new Promise<never>((_, reject) =>
 						setTimeout(
-							() => reject(new Error("Verification timeout - request took too long")),
+							() =>
+								reject(
+									new Error("Verification timeout - request took too long"),
+								),
 							VERIFICATION_TIMEOUT,
 						),
 					),
@@ -245,7 +254,8 @@ export const authenticatedSingleRoute = new Elysia({
 						set.status = 500;
 						return {
 							success: false as const,
-							error: "Verification completed but credits deduction failed. Please contact support.",
+							error:
+								"Verification completed but credits deduction failed. Please contact support.",
 							requestId,
 						};
 					}

@@ -6,7 +6,7 @@
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
 import { type VerificationResult, verifyEmail } from "@verifio/email-verify";
-import { logger, logActivity } from "@verifio/logger";
+import { logActivity, logger } from "@verifio/logger";
 import { count, desc, eq } from "drizzle-orm";
 import { Elysia, t } from "elysia";
 import { authMiddleware } from "../middleware/auth";
@@ -225,7 +225,7 @@ async function processBulkVerification(
 				risky: stats.risky,
 				unknown: stats.unknown,
 			},
-		}).catch(() => { });
+		}).catch(() => {});
 	} catch (error) {
 		const errorMessage =
 			error instanceof Error ? error.message : "Unknown error";
@@ -251,7 +251,7 @@ async function processBulkVerification(
 			resource_id: jobId,
 			status: "error",
 			error_message: errorMessage,
-		}).catch(() => { });
+		}).catch(() => {});
 	}
 }
 

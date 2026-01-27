@@ -14,7 +14,9 @@ function getRequiredEnv(key: string, devDefault?: string): string {
 		return devDefault;
 	}
 
-	throw new Error(`Missing environment variable: ${key} (no default available)`);
+	throw new Error(
+		`Missing environment variable: ${key} (no default available)`,
+	);
 }
 
 function getEnv(key: string, defaultValue: string): string {
@@ -46,13 +48,19 @@ export const authConfig = {
 
 	BETTER_AUTH_SECRET: getRequiredEnv(
 		"BETTER_AUTH_SECRET",
-		isProduction ? undefined : DEV_DEFAULTS.BETTER_AUTH_SECRET
+		isProduction ? undefined : DEV_DEFAULTS.BETTER_AUTH_SECRET,
 	),
 
 	GOOGLE_CLIENT_ID: getEnv("GOOGLE_CLIENT_ID", DEV_DEFAULTS.GOOGLE_CLIENT_ID),
-	GOOGLE_CLIENT_SECRET: getEnv("GOOGLE_CLIENT_SECRET", DEV_DEFAULTS.GOOGLE_CLIENT_SECRET),
+	GOOGLE_CLIENT_SECRET: getEnv(
+		"GOOGLE_CLIENT_SECRET",
+		DEV_DEFAULTS.GOOGLE_CLIENT_SECRET,
+	),
 	GITHUB_CLIENT_ID: getEnv("GITHUB_CLIENT_ID", DEV_DEFAULTS.GITHUB_CLIENT_ID),
-	GITHUB_CLIENT_SECRET: getEnv("GITHUB_CLIENT_SECRET", DEV_DEFAULTS.GITHUB_CLIENT_SECRET),
+	GITHUB_CLIENT_SECRET: getEnv(
+		"GITHUB_CLIENT_SECRET",
+		DEV_DEFAULTS.GITHUB_CLIENT_SECRET,
+	),
 
 	NODE_TLS_REJECT_UNAUTHORIZED: isProduction
 		? "1"
@@ -61,15 +69,19 @@ export const authConfig = {
 	// Encryption key for sensitive fields (JWKS, OAuth tokens) - REQUIRED in production
 	ENCRYPTION_KEY: getRequiredEnv(
 		"ENCRYPTION_KEY",
-		isProduction ? undefined : DEV_DEFAULTS.ENCRYPTION_KEY
+		isProduction ? undefined : DEV_DEFAULTS.ENCRYPTION_KEY,
 	),
 };
 
 if (authConfig.GOOGLE_CLIENT_ID && !authConfig.GOOGLE_CLIENT_SECRET) {
-	console.warn("⚠️  GOOGLE_CLIENT_ID is set but GOOGLE_CLIENT_SECRET is missing");
+	console.warn(
+		"⚠️  GOOGLE_CLIENT_ID is set but GOOGLE_CLIENT_SECRET is missing",
+	);
 }
 if (authConfig.GITHUB_CLIENT_ID && !authConfig.GITHUB_CLIENT_SECRET) {
-	console.warn("⚠️  GITHUB_CLIENT_ID is set but GITHUB_CLIENT_SECRET is missing");
+	console.warn(
+		"⚠️  GITHUB_CLIENT_ID is set but GITHUB_CLIENT_SECRET is missing",
+	);
 }
 
 if (!isProduction) {

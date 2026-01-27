@@ -30,7 +30,8 @@ function getRequiredSecret(key: string, devDefault: string): string {
 const defaults = {
 	PORT: "8006",
 	BASE_URL: "http://localhost:8006",
-	ALLOWED_ORIGINS: "http://localhost:3000,http://localhost:3001,http://localhost:3002,http://localhost:3004",
+	ALLOWED_ORIGINS:
+		"http://localhost:3000,http://localhost:3001,http://localhost:3002,http://localhost:3004",
 	RATE_LIMIT_WINDOW_MS: "60000",
 	RATE_LIMIT_SYNTAX_MAX: "100",
 	RATE_LIMIT_DISPOSABLE_MAX: "100",
@@ -45,9 +46,9 @@ export const toolsConfig = {
 	environment: NODE_ENV,
 	isProduction,
 	baseUrl: process.env.BASE_URL || defaults.BASE_URL,
-	allowedOrigins: (process.env.ALLOWED_ORIGINS || defaults.ALLOWED_ORIGINS).split(
-		",",
-	),
+	allowedOrigins: (
+		process.env.ALLOWED_ORIGINS || defaults.ALLOWED_ORIGINS
+	).split(","),
 	rateLimit: {
 		windowMs: Number(
 			process.env.RATE_LIMIT_WINDOW_MS || defaults.RATE_LIMIT_WINDOW_MS,
@@ -68,8 +69,7 @@ export const toolsConfig = {
 				defaults.RATE_LIMIT_LIST_HEALTH_MAX,
 		),
 		catchallMax: Number(
-			process.env.RATE_LIMIT_CATCHALL_MAX ||
-				defaults.RATE_LIMIT_CATCHALL_MAX,
+			process.env.RATE_LIMIT_CATCHALL_MAX || defaults.RATE_LIMIT_CATCHALL_MAX,
 		),
 	},
 	redisUrl: process.env.REDIS_URL || defaults.REDIS_URL,

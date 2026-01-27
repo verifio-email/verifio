@@ -74,7 +74,8 @@ function Calendar({
 				day_range_start: "day-range-start",
 				day_range_end: "day-range-end",
 				day_selected: "day-selected",
-				day_range_middle: "day-range-middle !text-text-strong-950 !bg-transparent",
+				day_range_middle:
+					"day-range-middle !text-text-strong-950 !bg-transparent",
 				day_today: "day-today",
 				day_outside:
 					"day-outside !text-text-disabled-300 aria-[selected]:!text-static-white",

@@ -3,11 +3,11 @@
  * Detects if a domain is configured as catch-all (accept-all)
  */
 
-import { logger } from "@verifio/logger";
 import { checkDns } from "@verifio/email-verify";
+import { logger } from "@verifio/logger";
 import { Elysia, t } from "elysia";
-import { createRateLimiter } from "../lib/rate-limiter";
 import { Socket } from "net";
+import { createRateLimiter } from "../lib/rate-limiter";
 
 // Request schema
 const CatchallDetectBody = t.Object({
@@ -44,9 +44,7 @@ const CatchallDetectResponse = t.Object({
  * Test if domain is catch-all using SMTP handshake
  * Sends a test email with a random local part to see if the server accepts it
  */
-async function testCatchAllSMTP(
-	domain: string,
-): Promise<{
+async function testCatchAllSMTP(domain: string): Promise<{
 	isCatchAll: boolean;
 	confidence: "high" | "medium" | "low";
 	smtpResponse: string | null;
@@ -59,7 +57,11 @@ async function testCatchAllSMTP(
 		// First, get MX records
 		checkDns(domain)
 			.then((dnsCheck) => {
-				if (!dnsCheck.hasMx || !dnsCheck.mxRecords || dnsCheck.mxRecords.length === 0) {
+				if (
+					!dnsCheck.hasMx ||
+					!dnsCheck.mxRecords ||
+					dnsCheck.mxRecords.length === 0
+				) {
 					return resolve({
 						isCatchAll: false,
 						confidence: "low" as const,
@@ -128,10 +130,16 @@ async function testCatchAllSMTP(
 						if (smtpResponse.includes("250")) {
 							isCatchAll = true;
 							confidence = "high";
-						} else if (smtpResponse.includes("550") || smtpResponse.includes("550")) {
+						} else if (
+							smtpResponse.includes("550") ||
+							smtpResponse.includes("550")
+						) {
 							isCatchAll = false;
 							confidence = "high";
-						} else if (smtpResponse.includes("552") || smtpResponse.includes("554")) {
+						} else if (
+							smtpResponse.includes("552") ||
+							smtpResponse.includes("554")
+						) {
 							// Mailbox full or service unavailable - can't determine
 							confidence = "low";
 						}
@@ -152,12 +160,12 @@ async function testCatchAllSMTP(
 					setTimeout(() => {
 						try {
 							// Send EHLO
-							socket.write(`EHLO verifio.email\r\n`);
+							socket.write("EHLO verifio.email\r\n");
 
 							// Send MAIL FROM
 							setTimeout(() => {
 								try {
-									socket.write(`MAIL FROM:<tools@verifio.email>\r\n`);
+									socket.write("MAIL FROM:<tools@verifio.email>\r\n");
 
 									// Send RCPT TO with the test email
 									setTimeout(() => {
@@ -180,7 +188,8 @@ async function testCatchAllSMTP(
 					resolve({
 						isCatchAll: false,
 						confidence: "low",
-						smtpResponse: error instanceof Error ? error.message : "Connection failed",
+						smtpResponse:
+							error instanceof Error ? error.message : "Connection failed",
 					});
 				}
 
@@ -200,7 +209,8 @@ async function testCatchAllSMTP(
 				resolve({
 					isCatchAll: false,
 					confidence: "low",
-					smtpResponse: error instanceof Error ? error.message : "DNS lookup failed",
+					smtpResponse:
+						error instanceof Error ? error.message : "DNS lookup failed",
 				});
 			});
 	});
@@ -226,8 +236,8 @@ export const catchallRoute = new Elysia({ prefix: "/v1" })
 
 				// Build explanation
 				const explanation = smtpTest.isCatchAll
-					? `This domain appears to be configured as a catch-all (accept-all). This means it accepts emails sent to any address, even non-existent ones.`
-					: `This domain does not appear to be a catch-all. It likely only accepts emails for specific, configured mailboxes.`;
+					? "This domain appears to be configured as a catch-all (accept-all). This means it accepts emails sent to any address, even non-existent ones."
+					: "This domain does not appear to be a catch-all. It likely only accepts emails for specific, configured mailboxes.";
 
 				// Build implications
 				const implications = smtpTest.isCatchAll
@@ -281,7 +291,10 @@ export const catchallRoute = new Elysia({ prefix: "/v1" })
 					},
 				};
 			} catch (error) {
-				logger.error({ error, domain: (body as { domain: string }).domain }, "Catch-all detection failed");
+				logger.error(
+					{ error, domain: (body as { domain: string }).domain },
+					"Catch-all detection failed",
+				);
 
 				return {
 					success: false,

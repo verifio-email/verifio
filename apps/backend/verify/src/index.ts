@@ -27,7 +27,11 @@ const verifyService = new Elysia({
 			// SECURITY: Only allow specific origins in production
 			origin: verifyConfig.isProduction
 				? ["https://verifio.email", "https://www.verifio.email"]
-				: ["http://localhost:3000", "http://localhost:3001", "https://local.verifio.email"],
+				: [
+						"http://localhost:3000",
+						"http://localhost:3001",
+						"https://local.verifio.email",
+					],
 			methods: ["GET", "POST", "OPTIONS"],
 			allowedHeaders: ["Content-Type", "X-API-Key", "Authorization", "Cookie"],
 			credentials: true,
@@ -66,15 +70,18 @@ const verifyService = new Elysia({
 	.use(authenticatedSingleRoute) // Authenticated: POST /v1/verify (stores in DB)
 	.use(authenticatedBulkRoute) // Authenticated: POST /v1/bulk-verify (stores in DB)
 	.use(historyRoute) // Authenticated: GET /v1/history, GET /v1/jobs
-	.listen({
-		port,
-		development: !verifyConfig.isProduction,
-		// SECURITY: Prevent resource exhaustion from slow/hanging requests
-		requestTimeout: 30000, // 30 seconds
-	}, () => {
-		logger.info(
-			`Email Verification Service running on http://localhost:${port}/api/verify`,
-		);
-	});
+	.listen(
+		{
+			port,
+			development: !verifyConfig.isProduction,
+			// SECURITY: Prevent resource exhaustion from slow/hanging requests
+			requestTimeout: 30000, // 30 seconds
+		},
+		() => {
+			logger.info(
+				`Email Verification Service running on http://localhost:${port}/api/verify`,
+			);
+		},
+	);
 
 export type VerifyService = typeof verifyService;

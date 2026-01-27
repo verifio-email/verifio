@@ -1,7 +1,5 @@
 import { ImageResponse } from "next/og";
 
-
-
 export const alt = "Contact Verifio";
 export const size = {
 	width: 1200,

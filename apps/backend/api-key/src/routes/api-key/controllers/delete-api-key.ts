@@ -1,6 +1,6 @@
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
-import { logger, logActivity } from "@verifio/logger";
+import { logActivity, logger } from "@verifio/logger";
 import { and, eq } from "drizzle-orm";
 import { status } from "elysia";
 

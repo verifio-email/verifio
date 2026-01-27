@@ -3,7 +3,6 @@
  * Analyzes small email lists (10-50 emails) and provides health scoring
  */
 
-import { logger } from "@verifio/logger";
 import {
 	checkDisposable,
 	checkRole,
@@ -11,6 +10,7 @@ import {
 	parseEmail,
 	verifyEmails,
 } from "@verifio/email-verify";
+import { logger } from "@verifio/logger";
 import { Elysia, t } from "elysia";
 import { createRateLimiter } from "../lib/rate-limiter";
 
@@ -78,7 +78,9 @@ const ListHealthResponse = t.Object({
 /**
  * Categorize score
  */
-function getScoreCategory(score: number): "excellent" | "good" | "fair" | "poor" {
+function getScoreCategory(
+	score: number,
+): "excellent" | "good" | "fair" | "poor" {
 	if (score >= 90) return "excellent";
 	if (score >= 70) return "good";
 	if (score >= 50) return "fair";

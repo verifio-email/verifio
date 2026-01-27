@@ -253,10 +253,7 @@ export const bulkVerifyRoute = new Elysia({ prefix: "/v1" })
 
 			// SECURITY: Verify access token
 			if (!query.token || job.accessToken !== query.token) {
-				logger.warn(
-					{ jobId: params.jobId },
-					"Unauthorized job access attempt",
-				);
+				logger.warn({ jobId: params.jobId }, "Unauthorized job access attempt");
 				return {
 					success: false,
 					error: "Job not found", // Don't reveal job exists

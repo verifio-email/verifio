@@ -27,11 +27,11 @@ export default function Company() {
 	];
 
 	return (
-		<section className="relative border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t border-b">
+		<section className="relative border-stroke-soft-100/60 border-t border-b dark:border-stroke-soft-100/40">
 			{/* Top border extending to viewport edges */}
 
-			<div className="relative mx-auto max-w-5xl flex-1 border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-l">
-				<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+			<div className="relative mx-auto max-w-5xl flex-1 border-stroke-soft-100/60 border-r border-l dark:border-stroke-soft-100/40">
+				<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4 dark:border-stroke-soft-100/40">
 					<span className="text-text-sub-600 text-xs">[02] COMPANY</span>
 					<span className="text-text-sub-600 text-xs">
 						/ TRUSTED BY INDUSTRY LEADERS
@@ -51,13 +51,13 @@ export default function Company() {
 					</div>
 				</div>
 				<div className="pb-12 md:pb-20">
-					<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t border-b px-4 md:px-10">
-						<div className="mx-auto grid max-w-lg grid-cols-2 gap-0 border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-l">
+					<div className="border-stroke-soft-100/60 border-t border-b px-4 md:px-10 dark:border-stroke-soft-100/40">
+						<div className="mx-auto grid max-w-lg grid-cols-2 gap-0 border-stroke-soft-100/60 border-r border-l dark:border-stroke-soft-100/40">
 							{companies.map((company, index) => (
 								<div
 									key={index}
 									className={cn(
-										"flex min-h-[120px] flex-col items-center justify-center border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r p-8",
+										"flex min-h-[120px] flex-col items-center justify-center border-stroke-soft-100/60 border-r p-8 dark:border-stroke-soft-100/40",
 										{
 											"border-r-0": index === companies.length - 1,
 										},

@@ -193,8 +193,9 @@ export const Sdk = () => {
 						<div className="overflow-x-auto border-stroke-soft-100/60 border-b dark:border-stroke-soft-100/40">
 							<div className="relative flex w-fit min-w-full items-stretch bg-bg-white-0">
 								<div
-									className={`absolute inset-y-3 rounded-full border border-stroke-soft-200/60 bg-bg-white-100 transition-all duration-300 ${mounted ? "opacity-100" : "opacity-0"
-										}`}
+									className={`absolute inset-y-3 rounded-full border border-stroke-soft-200/60 bg-bg-white-100 transition-all duration-300 ${
+										mounted ? "opacity-100" : "opacity-0"
+									}`}
 									style={{
 										left: `${indicatorStyle.left}px`,
 										width: `${indicatorStyle.width}px`,
@@ -217,10 +218,11 @@ export const Sdk = () => {
 											>
 												<span className="text-lg">{sdk.icon}</span>
 												<span
-													className={`font-semibold text-sm ${selectedSdk.id === sdk.id
+													className={`font-semibold text-sm ${
+														selectedSdk.id === sdk.id
 															? "text-text-strong-950"
 															: "text-text-sub-600"
-														}`}
+													}`}
 												>
 													{sdk.name}
 												</span>

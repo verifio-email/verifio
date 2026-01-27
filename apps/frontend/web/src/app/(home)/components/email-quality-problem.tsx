@@ -89,13 +89,15 @@ export function EmailQualityProblem() {
 							return (
 								<div
 									key={index}
-									className={`group relative flex flex-col p-6 transition-colors duration-300 hover:bg-bg-weak-50/40 ${!isRightColumn
+									className={`group relative flex flex-col p-6 transition-colors duration-300 hover:bg-bg-weak-50/40 ${
+										!isRightColumn
 											? "md:border-stroke-soft-100/60 md:border-r dark:border-stroke-soft-100/40"
 											: ""
-										} ${!isLastRow
+									} ${
+										!isLastRow
 											? "border-stroke-soft-100/60 border-b dark:border-stroke-soft-100/40"
 											: "border-stroke-soft-100/60 border-b md:border-b-0 dark:border-stroke-soft-100/40"
-										}`}
+									}`}
 								>
 									{/* Number indicator */}
 									<div className="mb-4 font-mono text-text-sub-600/60 text-xs">

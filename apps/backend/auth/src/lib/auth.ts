@@ -61,16 +61,15 @@ export const auth = betterAuth({
 					try {
 						const username = user.email.split("@")[0] || "workspace";
 
-
 						const sanitizedName = username
 							.replace(/[^a-zA-Z0-9\s-]/g, "")
 							.trim()
 							.slice(0, 50);
 
-						const orgName = sanitizedName.length > 0
-							? sanitizedName.charAt(0).toUpperCase() + sanitizedName.slice(1)
-							: "My Workspace";
-
+						const orgName =
+							sanitizedName.length > 0
+								? sanitizedName.charAt(0).toUpperCase() + sanitizedName.slice(1)
+								: "My Workspace";
 
 						const randomSuffix = Math.floor(10000 + Math.random() * 90000);
 						const orgSlug = `org-${randomSuffix}`;
@@ -166,19 +165,19 @@ export const auth = betterAuth({
 	socialProviders: {
 		...(authConfig.GOOGLE_CLIENT_ID && authConfig.GOOGLE_CLIENT_SECRET
 			? {
-				google: {
-					clientId: authConfig.GOOGLE_CLIENT_ID,
-					clientSecret: authConfig.GOOGLE_CLIENT_SECRET,
-				},
-			}
+					google: {
+						clientId: authConfig.GOOGLE_CLIENT_ID,
+						clientSecret: authConfig.GOOGLE_CLIENT_SECRET,
+					},
+				}
 			: {}),
 		...(authConfig.GITHUB_CLIENT_ID && authConfig.GITHUB_CLIENT_SECRET
 			? {
-				github: {
-					clientId: authConfig.GITHUB_CLIENT_ID,
-					clientSecret: authConfig.GITHUB_CLIENT_SECRET,
-				},
-			}
+					github: {
+						clientId: authConfig.GITHUB_CLIENT_ID,
+						clientSecret: authConfig.GITHUB_CLIENT_SECRET,
+					},
+				}
 			: {}),
 	},
 	secret: authConfig.BETTER_AUTH_SECRET,
@@ -189,15 +188,12 @@ export const auth = betterAuth({
 	},
 	revokeOtherSessions: true,
 	trustedOrigins: authConfig.isProduction
-		? [
-			"https://verifio.email",
-			"https://www.verifio.email",
-		]
+		? ["https://verifio.email", "https://www.verifio.email"]
 		: [
-			"http://localhost:3000",
-			"http://localhost:3001",
-			"https://local.verifio.email",
-		],
+				"http://localhost:3000",
+				"http://localhost:3001",
+				"https://local.verifio.email",
+			],
 	plugins: [
 		jwt(),
 		bearer(),

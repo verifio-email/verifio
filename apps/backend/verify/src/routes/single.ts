@@ -87,7 +87,11 @@ const VerificationAnalyticsSchema = t.Object({
 	didYouMean: t.Union([t.String(), t.Null()]),
 	domainAge: t.Union([t.Number(), t.Null()]),
 	smtpProvider: t.Union([t.String(), t.Null()]),
-	riskLevel: t.Union([t.Literal("low"), t.Literal("medium"), t.Literal("high")]),
+	riskLevel: t.Union([
+		t.Literal("low"),
+		t.Literal("medium"),
+		t.Literal("high"),
+	]),
 	qualityIndicators: t.Array(t.String()),
 	warnings: t.Array(t.String()),
 });
@@ -177,7 +181,8 @@ export const singleVerifyRoute = new Elysia({ prefix: "/v1" })
 				// Detailed error is logged for debugging with requestId
 				return {
 					success: false as const,
-					error: "Verification failed. Please try again later or contact support with request ID.",
+					error:
+						"Verification failed. Please try again later or contact support with request ID.",
 					requestId,
 				};
 			}

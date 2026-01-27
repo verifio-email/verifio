@@ -3,13 +3,13 @@
  * Validates email syntax using @verifio/email-verify package
  */
 
-import { logger } from "@verifio/logger";
 import {
 	checkFreeProvider,
 	checkTypo,
 	isValidEmailSyntax,
 	parseEmail,
 } from "@verifio/email-verify";
+import { logger } from "@verifio/logger";
 import { Elysia, t } from "elysia";
 import { createRateLimiter } from "../lib/rate-limiter";
 
@@ -160,7 +160,10 @@ export const syntaxRoute = new Elysia({ prefix: "/v1" })
 					},
 				};
 			} catch (error) {
-				logger.error({ error, email: (body as { email: string }).email }, "Syntax validation failed");
+				logger.error(
+					{ error, email: (body as { email: string }).email },
+					"Syntax validation failed",
+				);
 
 				return {
 					success: false,

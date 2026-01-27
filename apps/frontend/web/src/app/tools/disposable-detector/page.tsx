@@ -2,8 +2,8 @@
 
 import * as Button from "@verifio/ui/button";
 import { Icon } from "@verifio/ui/icon";
-import Link from "next/link";
 import { toolsApi } from "@verifio/web/lib/tools-client";
+import Link from "next/link";
 import { useState } from "react";
 
 type DisposableResult = {
@@ -52,15 +52,17 @@ export default function DisposableDetectorPage() {
 				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[01] FREE TOOL</span>
-						<span className="text-sm text-text-sub-600">/ DISPOSABLE EMAIL DETECTOR</span>
+						<span className="text-sm text-text-sub-600">
+							/ DISPOSABLE EMAIL DETECTOR
+						</span>
 					</div>
 					<div className="px-10 py-16 text-center">
 						<h1 className="mx-auto max-w-3xl font-semibold text-4xl text-text-strong-950 md:text-5xl">
 							Disposable Email Detector
 						</h1>
 						<p className="mx-auto mt-6 max-w-xl text-lg text-text-sub-600">
-							Identify temporary and throwaway email addresses. Protect your forms
-							from fake signups and spam.
+							Identify temporary and throwaway email addresses. Protect your
+							forms from fake signups and spam.
 						</p>
 					</div>
 				</div>
@@ -96,7 +98,7 @@ export default function DisposableDetectorPage() {
 							</div>
 
 							{error && (
-								<div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+								<div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-800 text-sm">
 									{error}
 								</div>
 							)}
@@ -108,8 +110,8 @@ export default function DisposableDetectorPage() {
 									<div
 										className={`rounded-xl border p-6 ${
 											result.isDisposable
-												? "bg-red-500/10 border-red-500/20"
-												: "bg-green-500/10 border-green-500/20"
+												? "border-red-500/20 bg-red-500/10"
+												: "border-green-500/20 bg-green-500/10"
 										}`}
 									>
 										<div className="flex items-center justify-between">
@@ -117,17 +119,23 @@ export default function DisposableDetectorPage() {
 												<p className="text-sm text-text-sub-600">Type</p>
 												<p
 													className={`mt-1 font-semibold text-2xl ${
-														result.isDisposable ? "text-red-600" : "text-green-600"
+														result.isDisposable
+															? "text-red-600"
+															: "text-green-600"
 													}`}
 												>
-													{result.isDisposable ? "Disposable Email" : "Legitimate Email"}
+													{result.isDisposable
+														? "Disposable Email"
+														: "Legitimate Email"}
 												</p>
 											</div>
 											<div className="flex h-16 w-16 items-center justify-center">
 												<Icon
 													name={result.isDisposable ? "shield" : "check-circle"}
 													className={`h-12 w-12 ${
-														result.isDisposable ? "text-red-600" : "text-green-600"
+														result.isDisposable
+															? "text-red-600"
+															: "text-green-600"
 													}`}
 												/>
 											</div>
@@ -141,10 +149,15 @@ export default function DisposableDetectorPage() {
 												Provider Detected
 											</h3>
 											<div className="flex items-center gap-3 rounded-lg bg-bg-weak-50 px-4 py-3">
-												<Icon name="alert-triangle" className="h-5 w-5 text-yellow-600" />
+												<Icon
+													name="alert-triangle"
+													className="h-5 w-5 text-yellow-600"
+												/>
 												<div>
-													<p className="font-medium text-text-strong-950">{result.provider}</p>
-													<p className="text-xs text-text-sub-600">
+													<p className="font-medium text-text-strong-950">
+														{result.provider}
+													</p>
+													<p className="text-text-sub-600 text-xs">
 														Disposable email provider
 													</p>
 												</div>
@@ -154,9 +167,13 @@ export default function DisposableDetectorPage() {
 
 									{/* Domain Info */}
 									<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
-										<h3 className="mb-4 font-medium text-text-strong-950">Domain</h3>
+										<h3 className="mb-4 font-medium text-text-strong-950">
+											Domain
+										</h3>
 										<div className="rounded-lg bg-bg-weak-50 px-4 py-3">
-											<p className="font-mono text-sm text-text-strong-950">{result.domain}</p>
+											<p className="font-mono text-sm text-text-strong-950">
+												{result.domain}
+											</p>
 										</div>
 									</div>
 
@@ -166,7 +183,9 @@ export default function DisposableDetectorPage() {
 											Database Coverage
 										</h3>
 										<div className="flex items-center justify-between rounded-lg bg-bg-weak-50 px-4 py-3">
-											<span className="text-sm text-text-sub-600">Known disposable domains</span>
+											<span className="text-sm text-text-sub-600">
+												Known disposable domains
+											</span>
 											<span className="font-bold text-text-strong-950">
 												{result.databaseSize.toLocaleString()}
 											</span>
@@ -189,8 +208,8 @@ export default function DisposableDetectorPage() {
 							</h2>
 							<p className="mt-4 text-text-sub-600">
 								Disposable emails are temporary addresses used to bypass signup
-								requirements. Our detector checks against a database of 72,000+ known
-								disposable email providers.
+								requirements. Our detector checks against a database of 72,000+
+								known disposable email providers.
 							</p>
 							<div className="mt-6 flex flex-col gap-3 sm:flex-row">
 								<Link
@@ -217,12 +236,20 @@ export default function DisposableDetectorPage() {
 						<div className="flex items-center justify-center">
 							<div className="grid grid-cols-2 gap-4 text-center">
 								<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
-									<p className="font-bold text-3xl text-text-strong-950">72K+</p>
-									<p className="mt-1 text-sm text-text-sub-600">Domains tracked</p>
+									<p className="font-bold text-3xl text-text-strong-950">
+										72K+
+									</p>
+									<p className="mt-1 text-sm text-text-sub-600">
+										Domains tracked
+									</p>
 								</div>
 								<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
-									<p className="font-bold text-3xl text-text-strong-950">100%</p>
-									<p className="mt-1 text-sm text-text-sub-600">Detection accuracy</p>
+									<p className="font-bold text-3xl text-text-strong-950">
+										100%
+									</p>
+									<p className="mt-1 text-sm text-text-sub-600">
+										Detection accuracy
+									</p>
 								</div>
 							</div>
 						</div>

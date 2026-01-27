@@ -138,11 +138,11 @@ const Faq = () => {
 			</Script>
 
 			<section
-				className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t border-b"
+				className="border-stroke-soft-100/60 border-t border-b dark:border-stroke-soft-100/40"
 				aria-labelledby="faq-heading"
 			>
-				<div className="mx-auto max-w-5xl border-stroke-soft-100/60 dark:border-stroke-soft-100/40 md:border-r md:border-l">
-					<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4">
+				<div className="mx-auto max-w-5xl border-stroke-soft-100/60 md:border-r md:border-l dark:border-stroke-soft-100/40">
+					<div className="sticky top-[65.5px] flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-2 md:px-10 md:py-4 dark:border-stroke-soft-100/40">
 						<span className="text-text-sub-600 text-xs">[06] FAQ</span>
 						<span className="text-text-sub-600 text-xs">
 							/ EMAIL VERIFICATION QUESTIONS
@@ -152,7 +152,7 @@ const Faq = () => {
 						{faqCategories.map((category, categoryIndex) => (
 							<div key={categoryIndex} className="flex flex-col lg:flex-row">
 								<div
-									className={`w-full border-stroke-soft-100/60 dark:border-stroke-soft-100/40 lg:w-3xl lg:border-r ${categoryIndex !== faqCategories.length - 1 ? "border-b" : ""}`}
+									className={`w-full border-stroke-soft-100/60 lg:w-3xl lg:border-r dark:border-stroke-soft-100/40 ${categoryIndex !== faqCategories.length - 1 ? "border-b" : ""}`}
 								>
 									<h2
 										className="border-b border-b-stroke-soft-100/60 px-4 py-[18px] font-semibold text-lg text-text-strong-950 sm:px-6 sm:text-xl md:px-10"

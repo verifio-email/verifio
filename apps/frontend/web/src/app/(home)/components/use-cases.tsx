@@ -729,25 +729,28 @@ function FeatureItem({
 			<button
 				type="button"
 				onClick={onClick}
-				className={`group w-full cursor-pointer px-6 py-6 text-left transition-all ${isActive
+				className={`group w-full cursor-pointer px-6 py-6 text-left transition-all ${
+					isActive
 						? "bg-bg-weak-50 dark:bg-neutral-800/60"
 						: "hover:bg-bg-soft-200/50 dark:hover:bg-neutral-800/30"
-					}`}
+				}`}
 			>
 				{/* Icon + Title */}
 				<div className="mb-2 flex items-center gap-3">
 					<Icon
 						name={feature.icon}
-						className={`h-4 w-4 ${isActive
+						className={`h-4 w-4 ${
+							isActive
 								? "text-text-strong-950 dark:text-white"
 								: "text-text-sub-600 dark:text-gray-400"
-							}`}
+						}`}
 					/>
 					<h4
-						className={`font-semibold text-base ${isActive
+						className={`font-semibold text-base ${
+							isActive
 								? "text-text-strong-950 dark:text-white"
 								: "text-text-sub-600 dark:text-gray-300"
-							}`}
+						}`}
 					>
 						{feature.title}
 					</h4>

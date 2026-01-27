@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Script from "next/script";
 import { IconsSprite } from "@verifio/ui/icon";
 import { Footer } from "@verifio/web/components/footer";
 import { Header } from "@verifio/web/components/header";
+import Script from "next/script";
 import { ThemeProvider } from "next-themes";
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://verifio.email";
@@ -37,7 +37,8 @@ export const metadata: Metadata = {
 		images: ["/twitter-card.png"],
 	},
 	other: {
-		"ahrefs-site-verification": "b7c3e5b12601a4c0718faa39cd851493cf35110caf5f0a8c6f9724b4968be38f",
+		"ahrefs-site-verification":
+			"b7c3e5b12601a4c0718faa39cd851493cf35110caf5f0a8c6f9724b4968be38f",
 	},
 };
 

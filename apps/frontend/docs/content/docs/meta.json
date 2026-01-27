@@ -1,10 +1,4 @@
 {
 	"title": "Documentation",
-	"pages": [
-		"index",
-		"guides",
-		"api-reference",
-		"self-hosted",
-		"local-setup"
-	]
+	"pages": ["index", "guides", "api-reference", "self-hosted", "local-setup"]
 }

@@ -2,8 +2,8 @@
 
 import * as Button from "@verifio/ui/button";
 import { Icon } from "@verifio/ui/icon";
-import Link from "next/link";
 import { toolsApi } from "@verifio/web/lib/tools-client";
+import Link from "next/link";
 import { useState } from "react";
 
 type DeliverabilityResult = {
@@ -11,10 +11,17 @@ type DeliverabilityResult = {
 	overallScore: number;
 	checks: {
 		domainExists: { pass: boolean; value: string[] };
-		mxRecords: { pass: boolean; records: Array<{ priority: number; exchange: string }> };
+		mxRecords: {
+			pass: boolean;
+			records: Array<{ priority: number; exchange: string }>;
+		};
 		spfRecord: { pass: boolean; record: string | null };
 		dkimRecord: { pass: boolean; record: string | null; message: string };
-		dmarcRecord: { pass: boolean; record: string | null; policy: string | null };
+		dmarcRecord: {
+			pass: boolean;
+			record: string | null;
+			policy: string | null;
+		};
 		provider: string | null;
 	};
 	risks: string[];
@@ -71,15 +78,17 @@ export default function DeliverabilityTesterPage() {
 				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[01] FREE TOOL</span>
-						<span className="text-sm text-text-sub-600">/ DELIVERABILITY TESTER</span>
+						<span className="text-sm text-text-sub-600">
+							/ DELIVERABILITY TESTER
+						</span>
 					</div>
 					<div className="px-10 py-16 text-center">
 						<h1 className="mx-auto max-w-3xl font-semibold text-4xl text-text-strong-950 md:text-5xl">
 							Email Deliverability Tester
 						</h1>
 						<p className="mx-auto mt-6 max-w-xl text-lg text-text-sub-600">
-							Test if your domain is properly configured for email deliverability.
-							Check DNS, MX records, SPF, DKIM, and DMARC.
+							Test if your domain is properly configured for email
+							deliverability. Check DNS, MX records, SPF, DKIM, and DMARC.
 						</p>
 					</div>
 				</div>
@@ -114,7 +123,7 @@ export default function DeliverabilityTesterPage() {
 							</div>
 
 							{error && (
-								<div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+								<div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-800 text-sm">
 									{error}
 								</div>
 							)}
@@ -143,7 +152,12 @@ export default function DeliverabilityTesterPage() {
 												<div
 													className="h-full rounded-full border-8 border-transparent"
 													style={{
-														borderTopColor: result.overallScore >= 80 ? "#16a34a" : result.overallScore >= 60 ? "#ca8a04" : "#dc2626",
+														borderTopColor:
+															result.overallScore >= 80
+																? "#16a34a"
+																: result.overallScore >= 60
+																	? "#ca8a04"
+																	: "#dc2626",
 														transform: `rotate(${(result.overallScore / 100) * 360}deg)`,
 													}}
 												/>
@@ -160,12 +174,18 @@ export default function DeliverabilityTesterPage() {
 													DNS Records
 												</h3>
 												<Icon
-													name={result.checks.domainExists.pass ? "check-circle" : "x-circle"}
+													name={
+														result.checks.domainExists.pass
+															? "check-circle"
+															: "x-circle"
+													}
 													className={`h-5 w-5 ${result.checks.domainExists.pass ? "text-green-600" : "text-red-600"}`}
 												/>
 											</div>
 											<p className="mt-2 text-sm text-text-sub-600">
-												{result.checks.domainExists.pass ? "Domain exists" : "Domain not found"}
+												{result.checks.domainExists.pass
+													? "Domain exists"
+													: "Domain not found"}
 											</p>
 										</div>
 
@@ -176,7 +196,11 @@ export default function DeliverabilityTesterPage() {
 													MX Records
 												</h3>
 												<Icon
-													name={result.checks.mxRecords.pass ? "check-circle" : "x-circle"}
+													name={
+														result.checks.mxRecords.pass
+															? "check-circle"
+															: "x-circle"
+													}
 													className={`h-5 w-5 ${result.checks.mxRecords.pass ? "text-green-600" : "text-red-600"}`}
 												/>
 											</div>
@@ -194,12 +218,18 @@ export default function DeliverabilityTesterPage() {
 													SPF Record
 												</h3>
 												<Icon
-													name={result.checks.spfRecord.pass ? "check-circle" : "x-circle"}
+													name={
+														result.checks.spfRecord.pass
+															? "check-circle"
+															: "x-circle"
+													}
 													className={`h-5 w-5 ${result.checks.spfRecord.pass ? "text-green-600" : "text-red-600"}`}
 												/>
 											</div>
 											<p className="mt-2 text-sm text-text-sub-600">
-												{result.checks.spfRecord.pass ? "SPF configured" : "SPF missing"}
+												{result.checks.spfRecord.pass
+													? "SPF configured"
+													: "SPF missing"}
 											</p>
 										</div>
 
@@ -210,7 +240,11 @@ export default function DeliverabilityTesterPage() {
 													DMARC Record
 												</h3>
 												<Icon
-													name={result.checks.dmarcRecord.pass ? "check-circle" : "x-circle"}
+													name={
+														result.checks.dmarcRecord.pass
+															? "check-circle"
+															: "x-circle"
+													}
 													className={`h-5 w-5 ${result.checks.dmarcRecord.pass ? "text-green-600" : "text-red-600"}`}
 												/>
 											</div>
@@ -225,9 +259,15 @@ export default function DeliverabilityTesterPage() {
 									{/* DKIM Record */}
 									<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
 										<div className="flex items-center justify-between">
-											<h3 className="font-medium text-text-strong-950">DKIM Record</h3>
+											<h3 className="font-medium text-text-strong-950">
+												DKIM Record
+											</h3>
 											<Icon
-												name={result.checks.dkimRecord.pass ? "check-circle" : "alert-circle"}
+												name={
+													result.checks.dkimRecord.pass
+														? "check-circle"
+														: "alert-circle"
+												}
 												className={`h-5 w-5 ${result.checks.dkimRecord.pass ? "text-green-600" : "text-yellow-600"}`}
 											/>
 										</div>
@@ -242,7 +282,9 @@ export default function DeliverabilityTesterPage() {
 											<h3 className="mb-2 font-medium text-text-strong-950">
 												Email Provider
 											</h3>
-											<p className="text-sm text-text-sub-600">{result.checks.provider}</p>
+											<p className="text-sm text-text-sub-600">
+												{result.checks.provider}
+											</p>
 										</div>
 									)}
 
@@ -255,7 +297,10 @@ export default function DeliverabilityTesterPage() {
 											</h3>
 											<ul className="space-y-2">
 												{result.risks.map((risk, i) => (
-													<li key={i} className="flex items-start gap-2 text-sm text-red-800 dark:text-red-200">
+													<li
+														key={i}
+														className="flex items-start gap-2 text-red-800 text-sm dark:text-red-200"
+													>
 														<span className="mt-0.5">•</span>
 														<span>{risk}</span>
 													</li>
@@ -273,7 +318,10 @@ export default function DeliverabilityTesterPage() {
 											</h3>
 											<ul className="space-y-2">
 												{result.recommendations.map((rec, i) => (
-													<li key={i} className="flex items-start gap-2 text-sm text-blue-800 dark:text-blue-200">
+													<li
+														key={i}
+														className="flex items-start gap-2 text-blue-800 text-sm dark:text-blue-200"
+													>
 														<span className="mt-0.5">•</span>
 														<span>{rec}</span>
 													</li>
@@ -298,7 +346,8 @@ export default function DeliverabilityTesterPage() {
 							</h2>
 							<p className="mt-4 text-text-sub-600">
 								Proper email configuration is essential for reaching the inbox.
-								Get comprehensive email verification and deliverability monitoring.
+								Get comprehensive email verification and deliverability
+								monitoring.
 							</p>
 							<div className="mt-6 flex flex-col gap-3 sm:flex-row">
 								<Link

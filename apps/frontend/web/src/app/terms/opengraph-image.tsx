@@ -1,7 +1,5 @@
 import { ImageResponse } from "next/og";
 
-
-
 export const alt = "Verifio Terms of Service";
 export const size = {
 	width: 1200,

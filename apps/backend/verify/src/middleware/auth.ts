@@ -98,7 +98,10 @@ async function validateApiKey(apiKey: string): Promise<{
 				permissions = JSON.parse(result.permissions);
 			} catch {
 				// Fall back to comma-separated
-				permissions = result.permissions.split(',').map(p => p.trim()).filter(Boolean);
+				permissions = result.permissions
+					.split(",")
+					.map((p) => p.trim())
+					.filter(Boolean);
 			}
 		}
 
@@ -242,14 +245,15 @@ export const requirePermission = (requiredPermissions: string[]) =>
 			const userPermissions = permissions || [];
 
 			// Check if user has all required permissions
-			const hasPermission = requiredPermissions.every(required =>
-				userPermissions.includes(required) || userPermissions.includes("*")
+			const hasPermission = requiredPermissions.every(
+				(required) =>
+					userPermissions.includes(required) || userPermissions.includes("*"),
 			);
 
 			if (!hasPermission) {
 				logger.warn(
 					{ required: requiredPermissions, has: userPermissions },
-					"API key lacks required permissions"
+					"API key lacks required permissions",
 				);
 
 				return new Response(
@@ -260,7 +264,7 @@ export const requirePermission = (requiredPermissions: string[]) =>
 					{
 						status: 403,
 						headers: { "Content-Type": "application/json" },
-					}
+					},
 				);
 			}
 		}

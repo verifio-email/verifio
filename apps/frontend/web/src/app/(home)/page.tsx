@@ -1,10 +1,10 @@
+import { PricingSection } from "@verifio/web/components/pricing-section";
 import { ComparisonTable } from "./components/comparison-table";
 import { EmailQualityProblem } from "./components/email-quality-problem";
 import Faq from "./components/faq";
 import { FinalCTA } from "./components/final-cta";
 import Hero from "./components/hero";
 import { OpenSourceDifference } from "./components/open-source-difference";
-import { PricingSection } from "@verifio/web/components/pricing-section";
 import Sdk from "./components/sdk";
 import { UseCases } from "./components/use-cases";
 

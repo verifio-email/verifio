@@ -396,9 +396,9 @@ const visualComponents = {
 
 export function WhatWeStandFor() {
 	return (
-		<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t border-b">
-			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-l">
-				<div className="sticky top-[65.5px] z-20 flex items-center justify-between border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b bg-bg-white-0 px-10 py-4">
+		<div className="border-stroke-soft-100/60 border-t border-b dark:border-stroke-soft-100/40">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l dark:border-stroke-soft-100/40">
+				<div className="sticky top-[65.5px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-10 py-4 dark:border-stroke-soft-100/40">
 					<span className="text-text-sub-600 text-xs">
 						[04] WHAT WE STAND FOR
 					</span>
@@ -406,7 +406,7 @@ export function WhatWeStandFor() {
 				</div>
 
 				{/* Title Section */}
-				<div className="flex flex-col items-center gap-6 border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b px-10 py-16 text-center">
+				<div className="flex flex-col items-center gap-6 border-stroke-soft-100/60 border-b px-10 py-16 text-center dark:border-stroke-soft-100/40">
 					{/* Heading */}
 					<div className="space-y-3">
 						<h2 className="font-semibold text-3xl text-text-sub-600 md:text-4xl">
@@ -430,11 +430,15 @@ export function WhatWeStandFor() {
 						return (
 							<div
 								key={index}
-								className={`group relative flex flex-col p-6 ${!isRightEdge ? "md:border-stroke-soft-100/60 dark:border-stroke-soft-100/40 md:border-r" : ""
-									} ${!isLastRow
-										? "border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b"
-										: "border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b md:border-b-0"
-									}`}
+								className={`group relative flex flex-col p-6 ${
+									!isRightEdge
+										? "md:border-stroke-soft-100/60 md:border-r dark:border-stroke-soft-100/40"
+										: ""
+								} ${
+									!isLastRow
+										? "border-stroke-soft-100/60 border-b dark:border-stroke-soft-100/40"
+										: "border-stroke-soft-100/60 border-b md:border-b-0 dark:border-stroke-soft-100/40"
+								}`}
 							>
 								{/* Number indicator */}
 								<div className="mb-4 font-mono text-text-sub-600/60 text-xs">

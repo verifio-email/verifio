@@ -3,8 +3,8 @@
  * Detects disposable email addresses using @verifio/email-verify package
  */
 
-import { logger } from "@verifio/logger";
 import { checkDisposable, getDisposableCount } from "@verifio/email-verify";
+import { logger } from "@verifio/logger";
 import { Elysia, t } from "elysia";
 import { createRateLimiter } from "../lib/rate-limiter";
 
@@ -83,7 +83,10 @@ export const disposableRoute = new Elysia({ prefix: "/v1" })
 					},
 				};
 			} catch (error) {
-				logger.error({ error, email: (body as { email: string }).email }, "Disposable check failed");
+				logger.error(
+					{ error, email: (body as { email: string }).email },
+					"Disposable check failed",
+				);
 
 				return {
 					success: false,

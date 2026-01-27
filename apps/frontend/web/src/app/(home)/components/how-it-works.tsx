@@ -258,16 +258,18 @@ function CascadingList() {
 				<div
 					key={item.label}
 					style={{ opacity: item.focus }}
-					className={`flex items-center gap-3 rounded-xl px-4 py-3 transition-all ${item.active
+					className={`flex items-center gap-3 rounded-xl px-4 py-3 transition-all ${
+						item.active
 							? "border border-stroke-soft-200 bg-bg-white-0 font-semibold text-text-strong-950 shadow-sm dark:border-gray-700 dark:bg-gray-900"
 							: "text-text-sub-600"
-						}`}
+					}`}
 				>
 					<div
-						className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${item.active
+						className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${
+							item.active
 								? "bg-text-strong-950/10 text-text-strong-950"
 								: "bg-bg-soft-200/50 text-text-sub-600"
-							}`}
+						}`}
 					>
 						<Icon name="workflow" className="h-4 w-4" />
 					</div>

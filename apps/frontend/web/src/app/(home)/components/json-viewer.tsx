@@ -23,7 +23,7 @@ export function JsonViewer({
 
 	return (
 		<div>
-			<div className="flex items-center justify-between border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-b px-4 py-4">
+			<div className="flex items-center justify-between border-stroke-soft-100/60 border-b px-4 py-4 dark:border-stroke-soft-100/40">
 				<div className="flex items-center gap-2">
 					<div className="h-3.5 w-3.5 rounded-full border border-stroke-soft-100/60 dark:border-stroke-soft-100/40" />
 					<div className="h-3.5 w-3.5 rounded-full border border-stroke-soft-100/60 dark:border-stroke-soft-100/40" />
@@ -34,8 +34,8 @@ export function JsonViewer({
 			<div className="max-h-96 overflow-auto">
 				<CodeBlock code={jsonString} lang="json" />
 			</div>
-			<div className="flex items-center justify-end border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t">
-				<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-l px-4 py-3">
+			<div className="flex items-center justify-end border-stroke-soft-100/60 border-t dark:border-stroke-soft-100/40">
+				<div className="border-stroke-soft-100/60 border-l px-4 py-3 dark:border-stroke-soft-100/40">
 					<Button.Root
 						mode="stroke"
 						size="small"

@@ -5,8 +5,8 @@ import { EmailCounter } from "./email-counter";
 
 export function FinalCTA() {
 	return (
-		<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t border-b">
-			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-r border-l">
+		<div className="border-stroke-soft-100/60 border-t border-b dark:border-stroke-soft-100/40">
+			<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l dark:border-stroke-soft-100/40">
 				<div className="grid min-h-[280px] grid-cols-1 items-center gap-8 px-6 py-12 md:grid-cols-4 md:px-10 md:py-16">
 					{/* Left Content */}
 					<div className="col-span-3 flex flex-col items-center text-center md:items-start md:pr-20 md:text-left">
@@ -38,7 +38,7 @@ export function FinalCTA() {
 							</Link>
 						</div>
 					</div>
-					<div className="border-stroke-soft-100/60 dark:border-stroke-soft-100/40 border-t pt-8 md:border-t-0 md:pt-0">
+					<div className="border-stroke-soft-100/60 border-t pt-8 md:border-t-0 md:pt-0 dark:border-stroke-soft-100/40">
 						<EmailCounter />
 					</div>
 				</div>

@@ -6,56 +6,64 @@
 
 @font-face {
 	font-family: "BasierCircle";
-	src: url("/docs/font/BasierCircle/basiercircle-bold-webfont.woff2") format("woff2");
+	src: url("/docs/font/BasierCircle/basiercircle-bold-webfont.woff2")
+		format("woff2");
 	font-weight: 700;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: "BasierCircle";
-	src: url("/docs/font/BasierCircle/basiercircle-bolditalic-webfont.woff2") format("woff2");
+	src: url("/docs/font/BasierCircle/basiercircle-bolditalic-webfont.woff2")
+		format("woff2");
 	font-weight: 700;
 	font-style: italic;
 }
 
 @font-face {
 	font-family: "BasierCircle";
-	src: url("/docs/font/BasierCircle/basiercircle-medium-webfont.woff2") format("woff2");
+	src: url("/docs/font/BasierCircle/basiercircle-medium-webfont.woff2")
+		format("woff2");
 	font-weight: 500;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: "BasierCircle";
-	src: url("/docs/font/BasierCircle/basiercircle-mediumitalic-webfont.woff2") format("woff2");
+	src: url("/docs/font/BasierCircle/basiercircle-mediumitalic-webfont.woff2")
+		format("woff2");
 	font-weight: 500;
 	font-style: italic;
 }
 
 @font-face {
 	font-family: "BasierCircle";
-	src: url("/docs/font/BasierCircle/basiercircle-regular-webfont.woff2") format("woff2");
+	src: url("/docs/font/BasierCircle/basiercircle-regular-webfont.woff2")
+		format("woff2");
 	font-weight: 400;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: "BasierCircle";
-	src: url("/docs/font/BasierCircle/basiercircle-regularitalic-webfont.woff2") format("woff2");
+	src: url("/docs/font/BasierCircle/basiercircle-regularitalic-webfont.woff2")
+		format("woff2");
 	font-weight: 400;
 	font-style: italic;
 }
 
 @font-face {
 	font-family: "BasierCircle";
-	src: url("/docs/font/BasierCircle/basiercircle-semibold-webfont.woff2") format("woff2");
+	src: url("/docs/font/BasierCircle/basiercircle-semibold-webfont.woff2")
+		format("woff2");
 	font-weight: 600;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: "BasierCircle";
-	src: url("/docs/font/BasierCircle/basiercircle-semibolditalic-webfont.woff2") format("woff2");
+	src: url("/docs/font/BasierCircle/basiercircle-semibolditalic-webfont.woff2")
+		format("woff2");
 	font-weight: 600;
 	font-style: italic;
 }
@@ -85,7 +93,7 @@ body {
 	gap: 8px !important;
 }
 
-#nd-subnav .flex.items-center.gap-6>a {
+#nd-subnav .flex.items-center.gap-6 > a {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -97,18 +105,18 @@ body {
 	border: 1px solid var(--color-fd-border);
 }
 
-#nd-subnav .flex.items-center.gap-6>a:hover {
+#nd-subnav .flex.items-center.gap-6 > a:hover {
 	background-color: var(--color-fd-accent);
 }
 
 /* Primary button style for the last link (Get Started) */
-#nd-subnav .flex.items-center.gap-6>a:last-child {
+#nd-subnav .flex.items-center.gap-6 > a:last-child {
 	background-color: var(--color-fd-foreground);
 	color: var(--color-fd-background);
 	border-color: transparent;
 }
 
-#nd-subnav .flex.items-center.gap-6>a:last-child:hover {
+#nd-subnav .flex.items-center.gap-6 > a:last-child:hover {
 	opacity: 0.9;
 	background-color: var(--color-fd-foreground);
 }

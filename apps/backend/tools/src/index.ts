@@ -9,13 +9,13 @@ import { openapi } from "@elysiajs/openapi";
 import { serverTiming } from "@elysiajs/server-timing";
 import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
-import { toolsConfig } from "./tools.config";
 import { catchallRoute } from "./routes/catchall";
 import { deliverabilityRoute } from "./routes/deliverability";
 import { disposableRoute } from "./routes/disposable";
 import { landing } from "./routes/landing";
 import { listHealthRoute } from "./routes/list-health";
 import { syntaxRoute } from "./routes/syntax";
+import { toolsConfig } from "./tools.config";
 
 const port = toolsConfig.port;
 
@@ -75,15 +75,18 @@ const toolsService = new Elysia({
 	.use(deliverabilityRoute) // POST /v1/deliverability/test
 	.use(listHealthRoute) // POST /v1/list-health/calculate
 	.use(catchallRoute) // POST /v1/catchall/detect
-	.listen({
-		port,
-		development: !toolsConfig.isProduction,
-		// SECURITY: Prevent resource exhaustion from slow/hanging requests
-		requestTimeout: 30000, // 30 seconds
-	}, () => {
-		logger.info(
-			`Tools Service running on http://localhost:${port}/api/tools`,
-		);
-	});
+	.listen(
+		{
+			port,
+			development: !toolsConfig.isProduction,
+			// SECURITY: Prevent resource exhaustion from slow/hanging requests
+			requestTimeout: 30000, // 30 seconds
+		},
+		() => {
+			logger.info(
+				`Tools Service running on http://localhost:${port}/api/tools`,
+			);
+		},
+	);
 
 export type ToolsService = typeof toolsService;

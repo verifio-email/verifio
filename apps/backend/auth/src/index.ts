@@ -34,13 +34,18 @@ const app = new Elysia({ prefix: "/api/auth", name: "Auth Service" })
 	.onStart(async () => {
 		await loader();
 	})
-	.listen({
-		port,
-		development: !authConfig.isProduction,
-		// SECURITY: Prevent resource exhaustion from slow/hanging requests
-		requestTimeout: 30000, // 30 seconds
-	}, () => {
-		logger.info(`Auth Server is running on http://localhost:${port}/api/auth`);
-	});
+	.listen(
+		{
+			port,
+			development: !authConfig.isProduction,
+			// SECURITY: Prevent resource exhaustion from slow/hanging requests
+			requestTimeout: 30000, // 30 seconds
+		},
+		() => {
+			logger.info(
+				`Auth Server is running on http://localhost:${port}/api/auth`,
+			);
+		},
+	);
 
 export type App = typeof app;

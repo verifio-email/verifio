@@ -49,7 +49,10 @@ export default function BulkEmailVerificationPage() {
 						<div className="flex items-center justify-center">
 							<div className="w-full max-w-md rounded-2xl border-2 border-stroke-soft-100 border-dashed bg-bg-weak-50 p-10 text-center">
 								<div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-bg-weak-50">
-									<Icon name="upload" className="h-8 w-8 text-text-strong-950" />
+									<Icon
+										name="upload"
+										className="h-8 w-8 text-text-strong-950"
+									/>
 								</div>
 								<p className="font-medium text-text-strong-950">
 									Drag & drop your CSV file

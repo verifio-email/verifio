@@ -370,13 +370,14 @@ export const Footer = () => {
 										{link.items.map((item, itemIndex) => (
 											<li
 												key={item.title}
-												className={`border-stroke-soft-100/60 px-4 md:px-6 ${!(
+												className={`border-stroke-soft-100/60 px-4 md:px-6 ${
+													!(
 														itemIndex === link.items.length - 1 &&
-														link.items.length === maxItems
+															link.items.length === maxItems
 													)
 														? "border-b"
 														: ""
-													}`}
+												}`}
 											>
 												<Link
 													href={item.href}

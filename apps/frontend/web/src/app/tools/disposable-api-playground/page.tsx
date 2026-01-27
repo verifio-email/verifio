@@ -2,8 +2,8 @@
 
 import * as Button from "@verifio/ui/button";
 import { Icon } from "@verifio/ui/icon";
-import Link from "next/link";
 import { toolsApi } from "@verifio/web/lib/tools-client";
+import Link from "next/link";
 import { useState } from "react";
 
 type DisposableResult = {
@@ -69,7 +69,9 @@ export default function DisposableAPIPlaygroundPage() {
 				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[01] FREE TOOL</span>
-						<span className="text-sm text-text-sub-600">/ DISPOSABLE API PLAYGROUND</span>
+						<span className="text-sm text-text-sub-600">
+							/ DISPOSABLE API PLAYGROUND
+						</span>
 					</div>
 					<div className="px-10 py-16 text-center">
 						<div className="mb-6 inline-flex items-center gap-2 rounded-full border border-stroke-soft-200 bg-bg-white-0 px-4 py-2">
@@ -119,7 +121,7 @@ export default function DisposableAPIPlaygroundPage() {
 							</div>
 
 							{error && (
-								<div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+								<div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-800 text-sm">
 									{error}
 								</div>
 							)}
@@ -130,8 +132,8 @@ export default function DisposableAPIPlaygroundPage() {
 									<div
 										className={`rounded-xl border p-6 ${
 											result.isDisposable
-												? "bg-red-500/10 border-red-500/20"
-												: "bg-green-500/10 border-green-500/20"
+												? "border-red-500/20 bg-red-500/10"
+												: "border-green-500/20 bg-green-500/10"
 										}`}
 									>
 										<div className="flex items-center justify-between">
@@ -139,10 +141,14 @@ export default function DisposableAPIPlaygroundPage() {
 												<p className="text-sm text-text-sub-600">Result</p>
 												<p
 													className={`mt-1 font-semibold text-2xl ${
-														result.isDisposable ? "text-red-600" : "text-green-600"
+														result.isDisposable
+															? "text-red-600"
+															: "text-green-600"
 													}`}
 												>
-													{result.isDisposable ? "Disposable Email" : "Legitimate Email"}
+													{result.isDisposable
+														? "Disposable Email"
+														: "Legitimate Email"}
 												</p>
 												{result.provider && (
 													<p className="mt-1 text-sm text-text-sub-600">
@@ -154,17 +160,21 @@ export default function DisposableAPIPlaygroundPage() {
 												<Icon
 													name={result.isDisposable ? "shield" : "check-circle"}
 													className={`h-12 w-12 ${
-														result.isDisposable ? "text-red-600" : "text-green-600"
+														result.isDisposable
+															? "text-red-600"
+															: "text-green-600"
 													}`}
 												/>
 											</div>
 										</div>
-										<div className="mt-4 pt-4 border-t border-stroke-soft-200">
-											<p className="text-xs text-text-sub-600">
-												Domain: <span className="font-mono">{result.domain}</span>
+										<div className="mt-4 border-stroke-soft-200 border-t pt-4">
+											<p className="text-text-sub-600 text-xs">
+												Domain:{" "}
+												<span className="font-mono">{result.domain}</span>
 											</p>
-											<p className="mt-1 text-xs text-text-sub-600">
-												Database: {result.databaseSize.toLocaleString()} disposable domains
+											<p className="mt-1 text-text-sub-600 text-xs">
+												Database: {result.databaseSize.toLocaleString()}{" "}
+												disposable domains
 											</p>
 										</div>
 									</div>
@@ -173,13 +183,13 @@ export default function DisposableAPIPlaygroundPage() {
 
 							{/* Example Emails */}
 							<div className="mt-12">
-								<h3 className="mb-6 font-semibold text-xl text-text-strong-950">
+								<h3 className="mb-6 font-semibold text-text-strong-950 text-xl">
 									Try These Examples
 								</h3>
 
 								{/* Disposable Examples */}
 								<div className="mb-8">
-									<h4 className="mb-4 flex items-center gap-2 text-sm font-medium text-red-600">
+									<h4 className="mb-4 flex items-center gap-2 font-medium text-red-600 text-sm">
 										<Icon name="shield" className="h-4 w-4" />
 										Disposable Email Providers
 									</h4>
@@ -195,14 +205,22 @@ export default function DisposableAPIPlaygroundPage() {
 												disabled={isLoading}
 												className="flex items-center gap-3 rounded-lg border border-stroke-soft-100 bg-white px-4 py-3 text-left transition-all hover:border-red-300 hover:bg-red-50 disabled:opacity-50"
 											>
-												<Icon name="alert-triangle" className="h-4 w-4 text-red-500" />
+												<Icon
+													name="alert-triangle"
+													className="h-4 w-4 text-red-500"
+												/>
 												<div className="flex-1">
 													<p className="font-mono text-sm text-text-strong-950">
 														{example.email}
 													</p>
-													<p className="text-xs text-text-sub-600">{example.provider}</p>
+													<p className="text-text-sub-600 text-xs">
+														{example.provider}
+													</p>
 												</div>
-												<Icon name="arrow-right" className="h-4 w-4 text-text-sub-600" />
+												<Icon
+													name="arrow-right"
+													className="h-4 w-4 text-text-sub-600"
+												/>
 											</button>
 										))}
 									</div>
@@ -210,7 +228,7 @@ export default function DisposableAPIPlaygroundPage() {
 
 								{/* Legitimate Examples */}
 								<div>
-									<h4 className="mb-4 flex items-center gap-2 text-sm font-medium text-green-600">
+									<h4 className="mb-4 flex items-center gap-2 font-medium text-green-600 text-sm">
 										<Icon name="check-circle" className="h-4 w-4" />
 										Legitimate Email Providers
 									</h4>
@@ -226,14 +244,22 @@ export default function DisposableAPIPlaygroundPage() {
 												disabled={isLoading}
 												className="flex items-center gap-3 rounded-lg border border-stroke-soft-100 bg-white px-4 py-3 text-left transition-all hover:border-green-300 hover:bg-green-50 disabled:opacity-50"
 											>
-												<Icon name="check-circle" className="h-4 w-4 text-green-500" />
+												<Icon
+													name="check-circle"
+													className="h-4 w-4 text-green-500"
+												/>
 												<div className="flex-1">
 													<p className="font-mono text-sm text-text-strong-950">
 														{example.email}
 													</p>
-													<p className="text-xs text-text-sub-600">{example.provider}</p>
+													<p className="text-text-sub-600 text-xs">
+														{example.provider}
+													</p>
 												</div>
-												<Icon name="arrow-right" className="h-4 w-4 text-text-sub-600" />
+												<Icon
+													name="arrow-right"
+													className="h-4 w-4 text-text-sub-600"
+												/>
 											</button>
 										))}
 									</div>
@@ -248,7 +274,9 @@ export default function DisposableAPIPlaygroundPage() {
 			<section className="border-stroke-soft-100 border-b">
 				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
-						<span className="text-sm text-text-sub-600">[02] API INTEGRATION</span>
+						<span className="text-sm text-text-sub-600">
+							[02] API INTEGRATION
+						</span>
 						<span className="text-sm text-text-sub-600">/ REAL DETECTION</span>
 					</div>
 					<div className="p-10 md:p-16">
@@ -256,8 +284,9 @@ export default function DisposableAPIPlaygroundPage() {
 							Powerful disposable email detection
 						</h2>
 						<p className="mt-4 text-text-sub-600">
-							Our API checks against a database of 72,000+ known disposable email
-							domains. Get real-time detection with comprehensive coverage.
+							Our API checks against a database of 72,000+ known disposable
+							email domains. Get real-time detection with comprehensive
+							coverage.
 						</p>
 
 						{/* Stats */}
@@ -266,22 +295,32 @@ export default function DisposableAPIPlaygroundPage() {
 								<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-500/10 text-purple-600">
 									<Icon name="database" className="h-6 w-6" />
 								</div>
-								<p className="mt-4 font-bold text-3xl text-text-strong-950">72K+</p>
-								<p className="mt-1 text-sm text-text-sub-600">Disposable domains</p>
+								<p className="mt-4 font-bold text-3xl text-text-strong-950">
+									72K+
+								</p>
+								<p className="mt-1 text-sm text-text-sub-600">
+									Disposable domains
+								</p>
 							</div>
 							<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
 								<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-500/10 text-green-600">
 									<Icon name="zap" className="h-6 w-6" />
 								</div>
-								<p className="mt-4 font-bold text-3xl text-text-strong-950">&lt;50ms</p>
+								<p className="mt-4 font-bold text-3xl text-text-strong-950">
+									&lt;50ms
+								</p>
 								<p className="mt-1 text-sm text-text-sub-600">Response time</p>
 							</div>
 							<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
 								<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-500/10 text-blue-600">
 									<Icon name="refresh" className="h-6 w-6" />
 								</div>
-								<p className="mt-4 font-bold text-3xl text-text-strong-950">Daily</p>
-								<p className="mt-1 text-sm text-text-sub-600">Database updates</p>
+								<p className="mt-4 font-bold text-3xl text-text-strong-950">
+									Daily
+								</p>
+								<p className="mt-1 text-sm text-text-sub-600">
+									Database updates
+								</p>
 							</div>
 						</div>
 
@@ -323,8 +362,8 @@ export default function DisposableAPIPlaygroundPage() {
 							How disposable email detection works
 						</h2>
 						<p className="mt-4 text-text-sub-600">
-							We maintain a comprehensive database of disposable email providers,
-							updated daily from multiple sources.
+							We maintain a comprehensive database of disposable email
+							providers, updated daily from multiple sources.
 						</p>
 
 						<div className="mt-8 space-y-6">
@@ -351,14 +390,16 @@ export default function DisposableAPIPlaygroundPage() {
 								},
 							].map((item) => (
 								<div key={item.step} className="flex gap-4">
-									<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-purple-500/10 text-purple-600 font-semibold text-sm">
+									<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-purple-500/10 font-semibold text-purple-600 text-sm">
 										{item.step}
 									</div>
 									<div>
 										<h3 className="font-semibold text-lg text-text-strong-950">
 											{item.title}
 										</h3>
-										<p className="mt-1 text-sm text-text-sub-600">{item.desc}</p>
+										<p className="mt-1 text-sm text-text-sub-600">
+											{item.desc}
+										</p>
 									</div>
 								</div>
 							))}

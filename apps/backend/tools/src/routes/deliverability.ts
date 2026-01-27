@@ -3,14 +3,11 @@
  * Tests domain deliverability configuration (DNS, MX, SPF, DKIM, DMARC)
  */
 
+import { checkDns, detectSmtpProvider } from "@verifio/email-verify";
 import { logger } from "@verifio/logger";
-import {
-	checkDns,
-	detectSmtpProvider,
-} from "@verifio/email-verify";
+import { resolveTxt } from "dns/promises";
 import { Elysia, t } from "elysia";
 import { createRateLimiter } from "../lib/rate-limiter";
-import { resolveTxt } from "dns/promises";
 
 // Request schema
 const DeliverabilityTestBody = t.Object({
@@ -155,10 +152,7 @@ async function checkDKIMRecord(domain: string): Promise<{
 						message: `Found DKIM record with selector '${selector}'`,
 					};
 				}
-			} catch {
-				// Continue to next selector
-				continue;
-			}
+			} catch {}
 		}
 
 		return {
@@ -254,10 +248,10 @@ export const deliverabilityRoute = new Elysia({ prefix: "/v1" })
 						);
 					}
 				} else {
-					risks.push("No DMARC record found - missing important security layer");
-					recommendations.push(
-						"Add a DMARC record to prevent email spoofing",
+					risks.push(
+						"No DMARC record found - missing important security layer",
 					);
+					recommendations.push("Add a DMARC record to prevent email spoofing");
 				}
 
 				// 5. Check DKIM record
@@ -279,7 +273,10 @@ export const deliverabilityRoute = new Elysia({ prefix: "/v1" })
 						provider = detectSmtpProvider(dnsCheck.mxRecords);
 					}
 				} catch (error) {
-					logger.debug({ error, domain: normalizedDomain }, "Provider detection failed");
+					logger.debug(
+						{ error, domain: normalizedDomain },
+						"Provider detection failed",
+					);
 				}
 
 				logger.info(
@@ -310,7 +307,10 @@ export const deliverabilityRoute = new Elysia({ prefix: "/v1" })
 					},
 				};
 			} catch (error) {
-				logger.error({ error, domain: (body as { domain: string }).domain }, "Deliverability test failed");
+				logger.error(
+					{ error, domain: (body as { domain: string }).domain },
+					"Deliverability test failed",
+				);
 
 				return {
 					success: false,

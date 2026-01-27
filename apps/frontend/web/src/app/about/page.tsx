@@ -1,5 +1,5 @@
-import { Icon } from "@verifio/ui/icon";
 import * as Button from "@verifio/ui/button";
+import { Icon } from "@verifio/ui/icon";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
@@ -99,8 +99,8 @@ export default function AboutPage() {
 				<section className="border-stroke-soft-100/60 border-b">
 					<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l">
 						<div className="sticky top-[65.5px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-4 md:px-10">
-							<span className="text-xs text-text-sub-600">[01] ABOUT</span>
-							<span className="text-xs text-text-sub-600">/ OUR STORY</span>
+							<span className="text-text-sub-600 text-xs">[01] ABOUT</span>
+							<span className="text-text-sub-600 text-xs">/ OUR STORY</span>
 						</div>
 						<div className="px-10 py-16 md:py-20">
 							<h1 className="mx-auto max-w-3xl text-center font-semibold text-4xl text-text-strong-950 md:text-5xl">
@@ -122,8 +122,11 @@ export default function AboutPage() {
 						<div className="grid gap-0 md:grid-cols-2">
 							<div className="border-stroke-soft-100/60 p-10 md:border-r md:p-16">
 								<div className="mb-4 flex items-center gap-2">
-									<Icon name="activity" className="h-5 w-5 text-text-strong-950" />
-									<span className="font-mono text-text-strong-950 text-sm">
+									<Icon
+										name="activity"
+										className="h-5 w-5 text-text-strong-950"
+									/>
+									<span className="font-mono text-sm text-text-strong-950">
 										MISSION
 									</span>
 								</div>
@@ -131,23 +134,25 @@ export default function AboutPage() {
 									Making email verification simple
 								</h2>
 								<p className="mt-4 text-text-sub-600">
-									Email deliverability shouldn't be complicated. Our mission is to
-									provide the most accurate, fastest, and most affordable email
-									verification service in the market.
+									Email deliverability shouldn't be complicated. Our mission is
+									to provide the most accurate, fastest, and most affordable
+									email verification service in the market.
 								</p>
 							</div>
 							<div className="p-10 md:p-16">
 								<div className="mb-4 flex items-center gap-2">
 									<Icon name="globe" className="h-5 w-5 text-text-strong-950" />
-									<span className="font-mono text-text-strong-950 text-sm">VISION</span>
+									<span className="font-mono text-sm text-text-strong-950">
+										VISION
+									</span>
 								</div>
 								<h2 className="font-semibold text-2xl text-text-strong-950">
 									A world without email bounces
 								</h2>
 								<p className="mt-4 text-text-sub-600">
-									We envision a future where every email sent reaches its intended
-									recipient. No more wasted resources, damaged sender reputations,
-									or missed opportunities.
+									We envision a future where every email sent reaches its
+									intended recipient. No more wasted resources, damaged sender
+									reputations, or missed opportunities.
 								</p>
 							</div>
 						</div>
@@ -182,8 +187,10 @@ export default function AboutPage() {
 				<section className="border-stroke-soft-100/60 border-b">
 					<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l">
 						<div className="sticky top-[65.5px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-4 md:px-10">
-							<span className="text-xs text-text-sub-600">[02] VALUES</span>
-							<span className="text-xs text-text-sub-600">/ WHAT WE BELIEVE</span>
+							<span className="text-text-sub-600 text-xs">[02] VALUES</span>
+							<span className="text-text-sub-600 text-xs">
+								/ WHAT WE BELIEVE
+							</span>
 						</div>
 						<div className="grid gap-0 md:grid-cols-3">
 							{[
@@ -211,7 +218,10 @@ export default function AboutPage() {
 									className={`border-stroke-soft-100/60 p-10 ${index < 2 ? "border-r" : ""}`}
 								>
 									<div className="flex items-center gap-3">
-										<Icon name={value.icon} className={`h-6 w-6 ${value.color}`} />
+										<Icon
+											name={value.icon}
+											className={`h-6 w-6 ${value.color}`}
+										/>
 										<h3 className="font-semibold text-text-strong-950 text-xl">
 											{value.title}
 										</h3>
@@ -227,8 +237,8 @@ export default function AboutPage() {
 				<section className="border-stroke-soft-100/60 border-b">
 					<div className="mx-auto max-w-5xl border-stroke-soft-100/60 border-r border-l">
 						<div className="sticky top-[65.5px] z-20 flex items-center justify-between border-stroke-soft-100/60 border-b bg-bg-white-0 px-4 py-4 md:px-10">
-							<span className="text-xs text-text-sub-600">[03] TECHNOLOGY</span>
-							<span className="text-xs text-text-sub-600">/ HOW IT WORKS</span>
+							<span className="text-text-sub-600 text-xs">[03] TECHNOLOGY</span>
+							<span className="text-text-sub-600 text-xs">/ HOW IT WORKS</span>
 						</div>
 						<div className="grid gap-0 md:grid-cols-2">
 							<div className="border-stroke-soft-100/60 p-10 md:border-r md:p-16">
@@ -239,9 +249,9 @@ export default function AboutPage() {
 									</h3>
 								</div>
 								<p className="mt-3 text-text-sub-600">
-									We don't store your data longer than necessary. Our architecture
-									is built to process verifications continuously without persistent storage
-									of sensitive customer information.
+									We don't store your data longer than necessary. Our
+									architecture is built to process verifications continuously
+									without persistent storage of sensitive customer information.
 								</p>
 							</div>
 							<div className="p-10 md:p-16">
@@ -252,9 +262,9 @@ export default function AboutPage() {
 									</h3>
 								</div>
 								<p className="mt-3 text-text-sub-600">
-									Built on a globally distributed edge network for minimum latency.
-									Our RESTful API is typed, documented, and ready for production
-									workloads from day one.
+									Built on a globally distributed edge network for minimum
+									latency. Our RESTful API is typed, documented, and ready for
+									production workloads from day one.
 								</p>
 							</div>
 						</div>

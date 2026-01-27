@@ -5,8 +5,8 @@
 
 import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
-import { redis } from "./redis";
 import { toolsConfig } from "../tools.config";
+import { redis } from "./redis";
 
 /**
  * Get client IP address from request headers
@@ -150,9 +150,7 @@ export function createRateLimiter(type: keyof typeof RATE_LIMITS) {
 			);
 
 			if (!result.allowed) {
-				const retryAfter = Math.ceil(
-					(result.resetAt - Date.now()) / 1000,
-				);
+				const retryAfter = Math.ceil((result.resetAt - Date.now()) / 1000);
 				set.headers["Retry-After"] = String(retryAfter);
 
 				logger.warn(

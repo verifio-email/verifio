@@ -202,7 +202,7 @@ export default function BulkTesterPage() {
 											</p>
 										</div>
 										<div className="rounded-xl border border-green-200 bg-green-50 p-6 text-center dark:border-green-900/30 dark:bg-green-950/10">
-											<p className="text-sm text-green-800 dark:text-green-200">
+											<p className="text-green-800 text-sm dark:text-green-200">
 												Valid
 											</p>
 											<p className="mt-2 font-bold text-3xl text-green-600">
@@ -210,7 +210,7 @@ export default function BulkTesterPage() {
 											</p>
 										</div>
 										<div className="rounded-xl border border-red-200 bg-red-50 p-6 text-center dark:border-red-900/30 dark:bg-red-950/10">
-											<p className="text-sm text-red-800 dark:text-red-200">
+											<p className="text-red-800 text-sm dark:text-red-200">
 												Invalid
 											</p>
 											<p className="mt-2 font-bold text-3xl text-red-600">
@@ -248,7 +248,7 @@ export default function BulkTesterPage() {
 															{item.score}%
 														</span>
 														<span
-															className={`rounded-full px-2 py-1 text-xs font-medium capitalize ${getStatusBg(item.status)}`}
+															className={`rounded-full px-2 py-1 font-medium text-xs capitalize ${getStatusBg(item.status)}`}
 														>
 															{item.status}
 														</span>
@@ -365,7 +365,9 @@ export default function BulkTesterPage() {
 									</p>
 								</div>
 								<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
-									<p className="font-bold text-3xl text-text-strong-950">Unlimited</p>
+									<p className="font-bold text-3xl text-text-strong-950">
+										Unlimited
+									</p>
 									<p className="mt-1 text-sm text-text-sub-600">
 										With paid plan
 									</p>

@@ -2,8 +2,8 @@
 
 import * as Button from "@verifio/ui/button";
 import { Icon } from "@verifio/ui/icon";
-import Link from "next/link";
 import { toolsApi } from "@verifio/web/lib/tools-client";
+import Link from "next/link";
 import { useState } from "react";
 
 type ValidationResult = {
@@ -65,7 +65,9 @@ export default function SyntaxValidatorPage() {
 				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[01] FREE TOOL</span>
-						<span className="text-sm text-text-sub-600">/ SYNTAX VALIDATOR</span>
+						<span className="text-sm text-text-sub-600">
+							/ SYNTAX VALIDATOR
+						</span>
 					</div>
 					<div className="px-10 py-16 text-center">
 						<h1 className="mx-auto max-w-3xl font-semibold text-4xl text-text-strong-950 md:text-5xl">
@@ -110,7 +112,7 @@ export default function SyntaxValidatorPage() {
 
 							{/* Error Message */}
 							{error && (
-								<div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+								<div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-800 text-sm">
 									{error}
 								</div>
 							)}
@@ -122,8 +124,8 @@ export default function SyntaxValidatorPage() {
 									<div
 										className={`rounded-xl border p-6 ${
 											result.valid
-												? "bg-green-500/10 border-green-500/20"
-												: "bg-red-500/10 border-red-500/20"
+												? "border-green-500/20 bg-green-500/10"
+												: "border-red-500/20 bg-red-500/10"
 										}`}
 									>
 										<div className="flex items-center justify-between">
@@ -155,10 +157,11 @@ export default function SyntaxValidatorPage() {
 												<Icon name="lightbulb" className="h-5 w-5" />
 												Typo Detected
 											</h3>
-											<p className="mb-3 text-sm text-blue-800 dark:text-blue-200">
-												Did you mean <strong>{result.typo.correctedEmail}</strong>?
+											<p className="mb-3 text-blue-800 text-sm dark:text-blue-200">
+												Did you mean{" "}
+												<strong>{result.typo.correctedEmail}</strong>?
 											</p>
-											<p className="text-xs text-blue-600 dark:text-blue-300">
+											<p className="text-blue-600 text-xs dark:text-blue-300">
 												{result.typo.originalDomain} →{" "}
 												{result.typo.suggestedDomain}
 											</p>
@@ -172,7 +175,10 @@ export default function SyntaxValidatorPage() {
 												Email Provider
 											</h3>
 											<div className="flex items-center gap-3 rounded-lg bg-bg-weak-50 px-4 py-3">
-												<Icon name="mail-single" className="h-5 w-5 text-purple-600" />
+												<Icon
+													name="mail-single"
+													className="h-5 w-5 text-purple-600"
+												/>
 												<p className="font-medium text-text-strong-950">
 													{result.provider}
 												</p>
@@ -191,7 +197,7 @@ export default function SyntaxValidatorPage() {
 												{result.errors.map((err, index) => (
 													<li
 														key={index}
-														className="flex items-start gap-2 text-sm text-red-800 dark:text-red-200"
+														className="flex items-start gap-2 text-red-800 text-sm dark:text-red-200"
 													>
 														<span className="mt-0.5">•</span>
 														<span>{err}</span>
@@ -231,7 +237,9 @@ export default function SyntaxValidatorPage() {
 											<div className="space-y-3">
 												{result.parsed.user && (
 													<div className="flex items-center justify-between rounded-lg bg-bg-weak-50 px-4 py-3">
-														<span className="text-sm text-text-sub-600">User</span>
+														<span className="text-sm text-text-sub-600">
+															User
+														</span>
 														<span className="font-mono text-sm text-text-strong-950">
 															{result.parsed.user}
 														</span>
@@ -239,7 +247,9 @@ export default function SyntaxValidatorPage() {
 												)}
 												{result.parsed.domain && (
 													<div className="flex items-center justify-between rounded-lg bg-bg-weak-50 px-4 py-3">
-														<span className="text-sm text-text-sub-600">Domain</span>
+														<span className="text-sm text-text-sub-600">
+															Domain
+														</span>
 														<span className="font-mono text-sm text-text-strong-950">
 															{result.parsed.domain}
 														</span>
@@ -247,7 +257,9 @@ export default function SyntaxValidatorPage() {
 												)}
 												{result.parsed.tag && (
 													<div className="flex items-center justify-between rounded-lg bg-bg-weak-50 px-4 py-3">
-														<span className="text-sm text-text-sub-600">Tag</span>
+														<span className="text-sm text-text-sub-600">
+															Tag
+														</span>
 														<span className="font-mono text-sm text-text-strong-950">
 															{result.parsed.tag}
 														</span>
@@ -268,7 +280,7 @@ export default function SyntaxValidatorPage() {
 													{result.normalized}
 												</p>
 											</div>
-											<p className="mt-2 text-xs text-text-sub-600">
+											<p className="mt-2 text-text-sub-600 text-xs">
 												Email normalized to lowercase format
 											</p>
 										</div>
@@ -285,15 +297,18 @@ export default function SyntaxValidatorPage() {
 				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[02] STANDARDS</span>
-						<span className="text-sm text-text-sub-600">/ RFC 5322 COMPLIANT</span>
+						<span className="text-sm text-text-sub-600">
+							/ RFC 5322 COMPLIANT
+						</span>
 					</div>
 					<div className="p-10 md:p-16">
 						<h2 className="font-semibold text-2xl text-text-strong-950 md:text-3xl">
 							Built on email standards
 						</h2>
 						<p className="mt-4 text-text-sub-600">
-							Our validator follows RFC 5322 standards for email format validation.
-							This ensures maximum compatibility with email systems worldwide.
+							Our validator follows RFC 5322 standards for email format
+							validation. This ensures maximum compatibility with email systems
+							worldwide.
 						</p>
 						<div className="mt-8 grid gap-4 md:grid-cols-2">
 							{[
@@ -322,9 +337,7 @@ export default function SyntaxValidatorPage() {
 									key={item.title}
 									className="rounded-xl border border-stroke-soft-100 bg-white p-6"
 								>
-									<div
-										className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-500/10 text-purple-600"
-									>
+									<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-500/10 text-purple-600">
 										<Icon name={item.icon} className="h-6 w-6" />
 									</div>
 									<h3 className="mt-4 font-semibold text-lg text-text-strong-950">
@@ -375,12 +388,20 @@ export default function SyntaxValidatorPage() {
 						<div className="flex items-center justify-center">
 							<div className="grid grid-cols-2 gap-4 text-center">
 								<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
-									<p className="font-bold text-3xl text-text-strong-950">&lt;100ms</p>
-									<p className="mt-1 text-sm text-text-sub-600">Validation time</p>
+									<p className="font-bold text-3xl text-text-strong-950">
+										&lt;100ms
+									</p>
+									<p className="mt-1 text-sm text-text-sub-600">
+										Validation time
+									</p>
 								</div>
 								<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
-									<p className="font-bold text-3xl text-text-strong-950">100%</p>
-									<p className="mt-1 text-sm text-text-sub-600">RFC compliant</p>
+									<p className="font-bold text-3xl text-text-strong-950">
+										100%
+									</p>
+									<p className="mt-1 text-sm text-text-sub-600">
+										RFC compliant
+									</p>
 								</div>
 							</div>
 						</div>

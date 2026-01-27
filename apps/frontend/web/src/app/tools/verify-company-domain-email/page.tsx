@@ -112,8 +112,8 @@ export default function VerifyCompanyDomainEmailPage() {
 							Company Email Verification
 						</h1>
 						<p className="mx-auto mt-6 max-w-xl text-lg text-text-sub-600">
-							Verify business and corporate email addresses instantly. Filter out
-							free email providers and focus on B2B leads.
+							Verify business and corporate email addresses instantly. Filter
+							out free email providers and focus on B2B leads.
 						</p>
 					</div>
 				</div>
@@ -152,15 +152,13 @@ export default function VerifyCompanyDomainEmailPage() {
 									<div
 										className={`rounded-xl border p-6 ${
 											result.isCorporate
-												? "bg-blue-500/10 border-blue-500/20"
-												: "bg-yellow-500/10 border-yellow-500/20"
+												? "border-blue-500/20 bg-blue-500/10"
+												: "border-yellow-500/20 bg-yellow-500/10"
 										}`}
 									>
 										<div className="flex items-center justify-between">
 											<div>
-												<p className="text-sm text-text-sub-600">
-													Domain Type
-												</p>
+												<p className="text-sm text-text-sub-600">Domain Type</p>
 												<p
 													className={`mt-1 font-semibold text-2xl ${
 														result.isCorporate
@@ -273,8 +271,8 @@ export default function VerifyCompanyDomainEmailPage() {
 							<p className="text-text-sub-600 leading-relaxed">
 								Company email verification is the process of validating business
 								and corporate email addresses to ensure they are legitimate and
-								associated with a company domain. Unlike free email providers like
-								Gmail or Yahoo, company emails use custom domains (e.g.,
+								associated with a company domain. Unlike free email providers
+								like Gmail or Yahoo, company emails use custom domains (e.g.,
 								john@acmecorp.com) and indicate a professional business
 								relationship.
 							</p>
@@ -282,8 +280,8 @@ export default function VerifyCompanyDomainEmailPage() {
 								Our free company email verification tool helps B2B businesses
 								identify and verify corporate email addresses. This is essential
 								for lead generation, account-based marketing, and sales outreach
-								where you want to target decision-makers at specific companies rather
-								than consumers using free email services.
+								where you want to target decision-makers at specific companies
+								rather than consumers using free email services.
 							</p>
 						</article>
 
@@ -292,18 +290,18 @@ export default function VerifyCompanyDomainEmailPage() {
 								Why Verify Company Email Addresses?
 							</h2>
 							<p className="text-text-sub-600 leading-relaxed">
-								Company email addresses typically have higher engagement rates for
-								B2B outreach compared to free email addresses. Decision-makers and
-								business professionals usually use their corporate email for work
-								communications, making these addresses more valuable for sales and
-								marketing campaigns.
+								Company email addresses typically have higher engagement rates
+								for B2B outreach compared to free email addresses.
+								Decision-makers and business professionals usually use their
+								corporate email for work communications, making these addresses
+								more valuable for sales and marketing campaigns.
 							</p>
 							<p className="mt-4 text-text-sub-600 leading-relaxed">
-								Verifying company emails helps you maintain a clean B2B email list,
-								improves deliverability to business domains, and ensures your
-								messages reach the right people at your target companies. It also
-								helps prevent fraud by identifying fake corporate emails and
-								protecting your brand reputation.
+								Verifying company emails helps you maintain a clean B2B email
+								list, improves deliverability to business domains, and ensures
+								your messages reach the right people at your target companies.
+								It also helps prevent fraud by identifying fake corporate emails
+								and protecting your brand reputation.
 							</p>
 						</article>
 
@@ -320,7 +318,7 @@ export default function VerifyCompanyDomainEmailPage() {
 									<h3 className="font-semibold text-blue-900 dark:text-blue-100">
 										Corporate Domains
 									</h3>
-									<p className="mt-2 text-sm text-blue-800 dark:text-blue-200">
+									<p className="mt-2 text-blue-800 text-sm dark:text-blue-200">
 										Custom domains owned by businesses (e.g., @acmecorp.com,
 										@startup.io). These indicate professional email addresses
 										used for business communications.
@@ -330,10 +328,10 @@ export default function VerifyCompanyDomainEmailPage() {
 									<h3 className="font-semibold text-gray-900 dark:text-gray-100">
 										Free Email Providers
 									</h3>
-									<p className="mt-2 text-sm text-gray-800 dark:text-gray-200">
-										Gmail, Yahoo, Outlook, Hotmail, iCloud, and similar services.
-										While valid, these are personal emails rather than business
-										addresses.
+									<p className="mt-2 text-gray-800 text-sm dark:text-gray-200">
+										Gmail, Yahoo, Outlook, Hotmail, iCloud, and similar
+										services. While valid, these are personal emails rather than
+										business addresses.
 									</p>
 								</div>
 							</div>

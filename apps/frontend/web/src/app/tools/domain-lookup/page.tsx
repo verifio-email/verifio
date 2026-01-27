@@ -32,16 +32,16 @@ async function mockDomainLookup(domain: string): Promise<DomainResult> {
 						{ priority: 10, server: `mail1.${domain}` },
 						{ priority: 20, server: `mail2.${domain}` },
 						{ priority: 30, server: `mail3.${domain}` },
-				  ]
+					]
 				: [],
 		hasSPF: Math.random() > 0.3,
-		spfRecord: Math.random() > 0.3
-			? `v=spf1 include:_spf.google.com ~all`
-			: undefined,
+		spfRecord:
+			Math.random() > 0.3 ? "v=spf1 include:_spf.google.com ~all" : undefined,
 		hasDMARC: Math.random() > 0.5,
-		dmarcRecord: Math.random() > 0.5
-			? `v=DMARC1; p=none; rua=mailto:dmarc@${domain}`
-			: undefined,
+		dmarcRecord:
+			Math.random() > 0.5
+				? `v=DMARC1; p=none; rua=mailto:dmarc@${domain}`
+				: undefined,
 	};
 
 	return mockResults;
@@ -77,8 +77,8 @@ export default function DomainLookupPage() {
 							Free Domain Lookup Tool
 						</h1>
 						<p className="mx-auto mt-6 max-w-xl text-lg text-text-sub-600">
-							Check MX records, SPF, DMARC, and DNS configuration for any domain.
-							Ensure your emails can reach the destination.
+							Check MX records, SPF, DMARC, and DNS configuration for any
+							domain. Ensure your emails can reach the destination.
 						</p>
 					</div>
 				</div>
@@ -119,8 +119,8 @@ export default function DomainLookupPage() {
 									<div
 										className={`rounded-xl border p-6 ${
 											result.hasMX
-												? "bg-green-500/10 border-green-500/20"
-												: "bg-red-500/10 border-red-500/20"
+												? "border-green-500/20 bg-green-500/10"
+												: "border-red-500/20 bg-red-500/10"
 										}`}
 									>
 										<div className="flex items-center justify-between">
@@ -130,9 +130,7 @@ export default function DomainLookupPage() {
 												</p>
 												<p
 													className={`mt-1 font-semibold text-2xl ${
-														result.hasMX
-															? "text-green-600"
-															: "text-red-600"
+														result.hasMX ? "text-green-600" : "text-red-600"
 													}`}
 												>
 													{result.hasMX
@@ -141,14 +139,10 @@ export default function DomainLookupPage() {
 												</p>
 											</div>
 											<div className="text-right">
-												<p className="text-sm text-text-sub-600">
-													MX Records
-												</p>
+												<p className="text-sm text-text-sub-600">MX Records</p>
 												<p
 													className={`mt-1 font-bold text-3xl ${
-														result.hasMX
-															? "text-green-600"
-															: "text-red-600"
+														result.hasMX ? "text-green-600" : "text-red-600"
 													}`}
 												>
 													{result.mxRecords.length}
@@ -193,16 +187,14 @@ export default function DomainLookupPage() {
 														SPF Record
 													</p>
 													{result.spfRecord && (
-														<p className="mt-1 text-xs text-text-sub-600">
+														<p className="mt-1 text-text-sub-600 text-xs">
 															{result.spfRecord}
 														</p>
 													)}
 												</div>
 												<span
 													className={
-														result.hasSPF
-															? "text-green-500"
-															: "text-red-500"
+														result.hasSPF ? "text-green-500" : "text-red-500"
 													}
 												>
 													{result.hasSPF ? "✓" : "✗"}
@@ -214,16 +206,14 @@ export default function DomainLookupPage() {
 														DMARC Record
 													</p>
 													{result.dmarcRecord && (
-														<p className="mt-1 text-xs text-text-sub-600">
+														<p className="mt-1 text-text-sub-600 text-xs">
 															{result.dmarcRecord}
 														</p>
 													)}
 												</div>
 												<span
 													className={
-														result.hasDMARC
-															? "text-green-500"
-															: "text-red-500"
+														result.hasDMARC ? "text-green-500" : "text-red-500"
 													}
 												>
 													{result.hasDMARC ? "✓" : "✗"}
@@ -253,8 +243,8 @@ export default function DomainLookupPage() {
 								Need to check domains at scale?
 							</h2>
 							<p className="mt-4 text-text-sub-600">
-								Use our API to automate domain lookups. Check thousands of domains
-								for MX records, SPF, DMARC, and more in real-time.
+								Use our API to automate domain lookups. Check thousands of
+								domains for MX records, SPF, DMARC, and more in real-time.
 							</p>
 							<div className="mt-6 flex flex-col gap-3 sm:flex-row">
 								<Link
@@ -284,17 +274,13 @@ export default function DomainLookupPage() {
 									<p className="font-bold text-3xl text-text-strong-950">
 										{"<"}1s
 									</p>
-									<p className="mt-1 text-sm text-text-sub-600">
-										Per lookup
-									</p>
+									<p className="mt-1 text-sm text-text-sub-600">Per lookup</p>
 								</div>
 								<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
 									<p className="font-bold text-3xl text-text-strong-950">
 										100+
 									</p>
-									<p className="mt-1 text-sm text-text-sub-600">
-										DNS checks
-									</p>
+									<p className="mt-1 text-sm text-text-sub-600">DNS checks</p>
 								</div>
 							</div>
 						</div>

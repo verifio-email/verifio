@@ -4,9 +4,9 @@ const withMDX = createMDX();
 
 /** @type {import('next').NextConfig} */
 const config = {
-    reactStrictMode: true,
-    basePath: "/blog",
-    output: "standalone",
+	reactStrictMode: true,
+	basePath: "/blog",
+	output: "standalone",
 };
 
 export default withMDX(config);

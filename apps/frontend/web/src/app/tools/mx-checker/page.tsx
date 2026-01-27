@@ -150,8 +150,8 @@ export default function MXCheckerPage() {
 									<div
 										className={`rounded-xl border p-6 ${
 											result.hasMX
-												? "bg-green-500/10 border-green-500/20"
-												: "bg-red-500/10 border-red-500/20"
+												? "border-green-500/20 bg-green-500/10"
+												: "border-red-500/20 bg-red-500/10"
 										}`}
 									>
 										<div className="flex items-center justify-between">
@@ -161,41 +161,28 @@ export default function MXCheckerPage() {
 												</p>
 												<p
 													className={`mt-1 font-semibold text-2xl ${
-														result.hasMX
-															? "text-green-600"
-															: "text-red-600"
+														result.hasMX ? "text-green-600" : "text-red-600"
 													}`}
 												>
-													{result.hasMX
-														? "Records Found"
-														: "No Records Found"}
+													{result.hasMX ? "Records Found" : "No Records Found"}
 												</p>
 											</div>
 											<div className="flex gap-4">
 												<div className="text-center">
-													<p className="text-xs text-text-sub-600">
-														Primary
-													</p>
+													<p className="text-text-sub-600 text-xs">Primary</p>
 													<p
 														className={`font-bold text-2xl ${
-															result.hasMX
-																? "text-green-600"
-																: "text-red-600"
+															result.hasMX ? "text-green-600" : "text-red-600"
 														}`}
 													>
-														{result.totalServers -
-															result.backupServers}
+														{result.totalServers - result.backupServers}
 													</p>
 												</div>
 												<div className="text-center">
-													<p className="text-xs text-text-sub-600">
-														Backup
-													</p>
+													<p className="text-text-sub-600 text-xs">Backup</p>
 													<p
 														className={`font-bold text-2xl ${
-															result.hasMX
-																? "text-green-600"
-																: "text-red-600"
+															result.hasMX ? "text-green-600" : "text-red-600"
 														}`}
 													>
 														{result.backupServers}
@@ -214,17 +201,17 @@ export default function MXCheckerPage() {
 											<div className="overflow-x-auto">
 												<table className="w-full">
 													<thead>
-														<tr className="border-b border-stroke-soft-100">
-															<th className="pb-3 text-left text-xs font-medium text-text-sub-600">
+														<tr className="border-stroke-soft-100 border-b">
+															<th className="pb-3 text-left font-medium text-text-sub-600 text-xs">
 																Priority
 															</th>
-															<th className="pb-3 text-left text-xs font-medium text-text-sub-600">
+															<th className="pb-3 text-left font-medium text-text-sub-600 text-xs">
 																Mail Server
 															</th>
-															<th className="pb-3 text-left text-xs font-medium text-text-sub-600">
+															<th className="pb-3 text-left font-medium text-text-sub-600 text-xs">
 																IP Address
 															</th>
-															<th className="pb-3 text-left text-xs font-medium text-text-sub-600">
+															<th className="pb-3 text-left font-medium text-text-sub-600 text-xs">
 																Status
 															</th>
 														</tr>
@@ -233,10 +220,10 @@ export default function MXCheckerPage() {
 														{result.records.map((record, index) => (
 															<tr
 																key={index}
-																className="border-b border-stroke-soft-100 last:border-0"
+																className="border-stroke-soft-100 border-b last:border-0"
 															>
 																<td className="py-3">
-																	<span className="rounded-full bg-purple-500/10 px-2 py-1 font-mono text-xs font-medium text-purple-600">
+																	<span className="rounded-full bg-purple-500/10 px-2 py-1 font-medium font-mono text-purple-600 text-xs">
 																		{record.priority}
 																	</span>
 																</td>
@@ -248,9 +235,8 @@ export default function MXCheckerPage() {
 																</td>
 																<td className="py-3">
 																	<span
-																		className={`rounded-full px-2 py-1 text-xs font-medium ${
-																			record.status ===
-																			"active"
+																		className={`rounded-full px-2 py-1 font-medium text-xs ${
+																			record.status === "active"
 																				? "bg-green-500/10 text-green-600"
 																				: "bg-gray-500/10 text-gray-600"
 																		}`}
@@ -271,18 +257,15 @@ export default function MXCheckerPage() {
 										<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
 											<div className="flex items-center gap-3">
 												<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10 text-blue-600">
-													<Icon
-														name="info"
-														className="h-5 w-5"
-													/>
+													<Icon name="info" className="h-5 w-5" />
 												</div>
 												<div>
 													<h4 className="font-medium text-text-strong-950">
 														Priority Explained
 													</h4>
-													<p className="mt-1 text-xs text-text-sub-600">
-														Lower numbers = higher priority.
-														Mail servers try priority 10 first.
+													<p className="mt-1 text-text-sub-600 text-xs">
+														Lower numbers = higher priority. Mail servers try
+														priority 10 first.
 													</p>
 												</div>
 											</div>
@@ -290,18 +273,15 @@ export default function MXCheckerPage() {
 										<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
 											<div className="flex items-center gap-3">
 												<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-500/10 text-green-600">
-													<Icon
-														name="shield"
-														className="h-5 w-5"
-													/>
+													<Icon name="shield" className="h-5 w-5" />
 												</div>
 												<div>
 													<h4 className="font-medium text-text-strong-950">
 														Backup Servers
 													</h4>
-													<p className="mt-1 text-xs text-text-sub-600">
-														Higher priority servers are used
-														if primary servers fail.
+													<p className="mt-1 text-text-sub-600 text-xs">
+														Higher priority servers are used if primary servers
+														fail.
 													</p>
 												</div>
 											</div>
@@ -329,7 +309,8 @@ export default function MXCheckerPage() {
 						</h2>
 						<p className="mt-4 text-text-sub-600">
 							MX (Mail Exchange) records tell sending servers which mail servers
-							accept emails for your domain. They're essential for email delivery.
+							accept emails for your domain. They're essential for email
+							delivery.
 						</p>
 						<div className="mt-8 space-y-4">
 							{[
@@ -358,7 +339,7 @@ export default function MXCheckerPage() {
 									key={item.step}
 									className="flex gap-4 rounded-xl border border-stroke-soft-100 bg-white p-6"
 								>
-									<span className="flex shrink-0 items-center justify-center rounded-lg bg-purple-500/10 font-mono text-sm font-bold text-purple-600">
+									<span className="flex shrink-0 items-center justify-center rounded-lg bg-purple-500/10 font-bold font-mono text-purple-600 text-sm">
 										{item.step}
 									</span>
 									<div>
@@ -385,8 +366,8 @@ export default function MXCheckerPage() {
 								Need automated MX checks?
 							</h2>
 							<p className="mt-4 text-text-sub-600">
-								Use our API to programmatically check MX records for thousands of
-								domains. Perfect for email validation workflows.
+								Use our API to programmatically check MX records for thousands
+								of domains. Perfect for email validation workflows.
 							</p>
 							<div className="mt-6 flex flex-col gap-3 sm:flex-row">
 								<Link
@@ -424,9 +405,7 @@ export default function MXCheckerPage() {
 									<p className="font-bold text-3xl text-text-strong-950">
 										100%
 									</p>
-									<p className="mt-1 text-sm text-text-sub-600">
-										Accuracy
-									</p>
+									<p className="mt-1 text-sm text-text-sub-600">Accuracy</p>
 								</div>
 							</div>
 						</div>

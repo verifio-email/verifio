@@ -5,7 +5,8 @@ import Link from "next/link";
 const tools = [
 	{
 		title: "Email Checker",
-		description: "Verify any email address instantly. Check syntax, MX records, disposable domains, and more — completely free.",
+		description:
+			"Verify any email address instantly. Check syntax, MX records, disposable domains, and more — completely free.",
 		href: "/tools/email-checker",
 		icon: "mail-single",
 		status: "Live",
@@ -15,7 +16,8 @@ const tools = [
 	},
 	{
 		title: "Domain Lookup",
-		description: "Check MX records, DNS configuration, and domain health. Ensure your emails can reach the destination.",
+		description:
+			"Check MX records, DNS configuration, and domain health. Ensure your emails can reach the destination.",
 		href: "/tools/domain-lookup",
 		icon: "search",
 		status: "Live",
@@ -25,7 +27,8 @@ const tools = [
 	},
 	{
 		title: "Disposable Email Detector",
-		description: "Identify temporary and throwaway email addresses. Protect your forms from fake signups.",
+		description:
+			"Identify temporary and throwaway email addresses. Protect your forms from fake signups.",
 		href: "/tools/disposable-detector",
 		icon: "shield",
 		status: "Live",
@@ -35,7 +38,8 @@ const tools = [
 	},
 	{
 		title: "Syntax Validator",
-		description: "Validate email format according to RFC 5322 standards. Catch typos and invalid formats before sending.",
+		description:
+			"Validate email format according to RFC 5322 standards. Catch typos and invalid formats before sending.",
 		href: "/tools/syntax-validator",
 		icon: "text-input",
 		status: "Live",
@@ -45,7 +49,8 @@ const tools = [
 	},
 	{
 		title: "Email Deliverability Tester",
-		description: "Test if your domain is properly configured for email deliverability. Check DNS, MX, SPF, DKIM, and DMARC.",
+		description:
+			"Test if your domain is properly configured for email deliverability. Check DNS, MX, SPF, DKIM, and DMARC.",
 		href: "/tools/deliverability-tester",
 		icon: "workflow",
 		status: "Live",
@@ -55,7 +60,8 @@ const tools = [
 	},
 	{
 		title: "List Health Calculator",
-		description: "Analyze your email list health for free. Check up to 50 emails for deliverability and quality score.",
+		description:
+			"Analyze your email list health for free. Check up to 50 emails for deliverability and quality score.",
 		href: "/tools/list-health-calculator",
 		icon: "layers",
 		status: "Live",
@@ -65,7 +71,8 @@ const tools = [
 	},
 	{
 		title: "Catch-All Domain Checker",
-		description: "Check if a domain is configured as catch-all (accept-all). SMTP-based detection with detailed analysis.",
+		description:
+			"Check if a domain is configured as catch-all (accept-all). SMTP-based detection with detailed analysis.",
 		href: "/tools/catchall-checker",
 		icon: "search",
 		status: "Live",
@@ -75,7 +82,8 @@ const tools = [
 	},
 	{
 		title: "Disposable API Playground",
-		description: "Interactive demo demonstrating disposable email detection. Test emails and see real-time detection in action.",
+		description:
+			"Interactive demo demonstrating disposable email detection. Test emails and see real-time detection in action.",
 		href: "/tools/disposable-api-playground",
 		icon: "zap",
 		status: "Live",
@@ -85,7 +93,8 @@ const tools = [
 	},
 	{
 		title: "MX Record Checker",
-		description: "Verify mail server configuration for any domain. Troubleshoot email delivery issues.",
+		description:
+			"Verify mail server configuration for any domain. Troubleshoot email delivery issues.",
 		href: "/tools/mx-checker",
 		icon: "workflow",
 		status: "Live",
@@ -95,7 +104,8 @@ const tools = [
 	},
 	{
 		title: "Bulk Email Tester",
-		description: "Test up to 100 emails at once. Perfect for small list cleaning before committing to a paid plan.",
+		description:
+			"Test up to 100 emails at once. Perfect for small list cleaning before committing to a paid plan.",
 		href: "/tools/bulk-tester",
 		icon: "layers",
 		status: "Live",
@@ -139,8 +149,8 @@ export default function ToolsPage() {
 						</h1>
 						<p className="mx-auto mt-6 max-w-2xl text-lg text-text-sub-600">
 							Verify emails, check domains, and clean your lists with our free
-							tools. No signup required for most tools. Start improving your email
-							deliverability today.
+							tools. No signup required for most tools. Start improving your
+							email deliverability today.
 						</p>
 					</div>
 				</div>
@@ -150,7 +160,9 @@ export default function ToolsPage() {
 			<section className="border-stroke-soft-100 border-b">
 				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
-						<span className="text-sm text-text-sub-600">[02] AVAILABLE TOOLS</span>
+						<span className="text-sm text-text-sub-600">
+							[02] AVAILABLE TOOLS
+						</span>
 						<span className="text-sm text-text-sub-600">
 							/ START USING RIGHT NOW
 						</span>
@@ -177,7 +189,7 @@ export default function ToolsPage() {
 												<Icon name={tool.icon} className="h-6 w-6" />
 											</div>
 											<div>
-												<h3 className="font-semibold text-xl text-text-strong-950">
+												<h3 className="font-semibold text-text-strong-950 text-xl">
 													{tool.title}
 												</h3>
 												<span
@@ -203,7 +215,7 @@ export default function ToolsPage() {
 												name="check-circle"
 												className="h-4 w-4 text-green-600"
 											/>
-											<span className="text-sm font-medium text-text-sub-600">
+											<span className="font-medium text-sm text-text-sub-600">
 												{tool.feature}
 											</span>
 										</div>
@@ -256,7 +268,9 @@ export default function ToolsPage() {
 			<section className="border-stroke-soft-100 border-b">
 				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
-						<span className="text-sm text-text-sub-600">[03] DOMAIN-SPECIFIC</span>
+						<span className="text-sm text-text-sub-600">
+							[03] DOMAIN-SPECIFIC
+						</span>
 						<span className="text-sm text-text-sub-600">
 							/ VERIFY BY EMAIL PROVIDER
 						</span>
@@ -412,8 +426,8 @@ export default function ToolsPage() {
 							</h2>
 							<p className="mt-4 text-text-sub-600">
 								Upgrade to our paid plans for bulk email verification, API
-								access, and advanced features. Clean thousands of emails in minutes
-								with our powerful infrastructure.
+								access, and advanced features. Clean thousands of emails in
+								minutes with our powerful infrastructure.
 							</p>
 							<div className="mt-6 flex flex-col gap-3 sm:flex-row">
 								<Link
@@ -448,17 +462,23 @@ export default function ToolsPage() {
 									</p>
 								</div>
 								<div className="rounded-xl border border-stroke-soft-100 bg-bg-white-0 p-6">
-									<p className="font-bold text-3xl text-text-strong-950">99.9%</p>
+									<p className="font-bold text-3xl text-text-strong-950">
+										99.9%
+									</p>
 									<p className="mt-1 text-sm text-text-sub-600">Uptime SLA</p>
 								</div>
 								<div className="rounded-xl border border-stroke-soft-100 bg-bg-white-0 p-6">
 									<p className="font-bold text-3xl text-text-strong-950">
 										{"<"}100ms
 									</p>
-									<p className="mt-1 text-sm text-text-sub-600">Response time</p>
+									<p className="mt-1 text-sm text-text-sub-600">
+										Response time
+									</p>
 								</div>
 								<div className="rounded-xl border border-stroke-soft-100 bg-bg-white-0 p-6">
-									<p className="font-bold text-3xl text-text-strong-950">24/7</p>
+									<p className="font-bold text-3xl text-text-strong-950">
+										24/7
+									</p>
 									<p className="mt-1 text-sm text-text-sub-600">Support</p>
 								</div>
 							</div>

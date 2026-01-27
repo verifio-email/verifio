@@ -1,7 +1,8 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Email Deliverability Tester | Free Email Deliverability Test | Verifio",
+	title:
+		"Email Deliverability Tester | Free Email Deliverability Test | Verifio",
 	description:
 		"Test if your domain is properly configured for email deliverability. Check DNS, MX records, SPF, DKIM, and DMARC configuration for free.",
 	keywords:

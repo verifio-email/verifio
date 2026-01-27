@@ -22,7 +22,9 @@ function validateGmailSyntax(email: string): boolean {
 	return gmailRegex.test(email);
 }
 
-async function mockVerifyGmailEmail(email: string): Promise<VerificationResult> {
+async function mockVerifyGmailEmail(
+	email: string,
+): Promise<VerificationResult> {
 	await new Promise((resolve) => setTimeout(resolve, 1500));
 
 	const isValidSyntax = validateGmailSyntax(email);
@@ -183,8 +185,8 @@ export default function VerifyGmailEmailPage() {
 										<div
 											className={`rounded-xl border p-6 ${
 												result.status === "valid"
-													? "bg-green-500/10 border-green-500/20"
-													: "bg-red-500/10 border-red-500/20"
+													? "border-green-500/20 bg-green-500/10"
+													: "border-red-500/20 bg-red-500/10"
 											}`}
 										>
 											<div className="flex items-center justify-between">
@@ -256,9 +258,7 @@ export default function VerifyGmailEmailPage() {
 														</div>
 														<span
 															className={
-																check.passed
-																	? "text-green-500"
-																	: "text-red-500"
+																check.passed ? "text-green-500" : "text-red-500"
 															}
 														>
 															{check.passed ? "✓" : "✗"}
@@ -284,20 +284,21 @@ export default function VerifyGmailEmailPage() {
 									About Gmail Email Verification
 								</h2>
 								<p className="text-text-sub-600 leading-relaxed">
-									Verifying Gmail email addresses is essential for businesses that
-									collect user emails, as Gmail is the most popular email provider
-									worldwide with over 1.8 billion active users. Our free Gmail
-									email checker allows you to instantly verify if any
+									Verifying Gmail email addresses is essential for businesses
+									that collect user emails, as Gmail is the most popular email
+									provider worldwide with over 1.8 billion active users. Our
+									free Gmail email checker allows you to instantly verify if any
 									@gmail.com address is valid, active, and capable of receiving
 									messages without sending an actual email.
 								</p>
 								<p className="mt-4 text-text-sub-600 leading-relaxed">
 									Gmail addresses have specific formatting rules that must be
-									followed. The username can contain letters (a-z), numbers (0-9),
-									and periods (.), and is not case-sensitive. One unique feature
-									of Gmail is that periods in the username are ignored - john.doe
-									and johndoe are the same address. Our verification tool accounts
-									for all these Gmail-specific rules to ensure accurate results.
+									followed. The username can contain letters (a-z), numbers
+									(0-9), and periods (.), and is not case-sensitive. One unique
+									feature of Gmail is that periods in the username are ignored -
+									john.doe and johndoe are the same address. Our verification
+									tool accounts for all these Gmail-specific rules to ensure
+									accurate results.
 								</p>
 							</article>
 
@@ -310,17 +311,18 @@ export default function VerifyGmailEmailPage() {
 									Gmail addresses represent a significant portion of most email
 									lists, often accounting for 40-60% of all addresses. Verifying
 									Gmail addresses before adding them to your database helps
-									maintain list hygiene and reduces bounce rates. Since Gmail has
-									strict spam policies, high bounce rates from your emails to Gmail
-									addresses can hurt your sender reputation and cause your emails
-									to be marked as spam.
+									maintain list hygiene and reduces bounce rates. Since Gmail
+									has strict spam policies, high bounce rates from your emails
+									to Gmail addresses can hurt your sender reputation and cause
+									your emails to be marked as spam.
 								</p>
 								<p className="mt-4 text-text-sub-600 leading-relaxed">
 									Gmail also offers email aliases through the plus sign feature
-									(user+tag@gmail.com), which allows users to create variations of
-									their address. Our tool can verify these aliases as valid Gmail
-									addresses. This is useful for identifying users who might be
-									using aliases to sign up multiple times for your service.
+									(user+tag@gmail.com), which allows users to create variations
+									of their address. Our tool can verify these aliases as valid
+									Gmail addresses. This is useful for identifying users who
+									might be using aliases to sign up multiple times for your
+									service.
 								</p>
 							</article>
 
@@ -335,38 +337,53 @@ export default function VerifyGmailEmailPage() {
 								</p>
 								<ul className="mt-4 space-y-2 text-text-sub-600">
 									<li className="flex items-start gap-2">
-										<Icon name="check" className="mt-1 h-4 w-4 text-green-600" />
+										<Icon
+											name="check"
+											className="mt-1 h-4 w-4 text-green-600"
+										/>
 										<span>
 											<strong>Username length:</strong> 6-30 characters before
 											@gmail.com
 										</span>
 									</li>
 									<li className="flex items-start gap-2">
-										<Icon name="check" className="mt-1 h-4 w-4 text-green-600" />
+										<Icon
+											name="check"
+											className="mt-1 h-4 w-4 text-green-600"
+										/>
 										<span>
-											<strong>Allowed characters:</strong> Letters (a-z), numbers
-											(0-9), and periods (.)
+											<strong>Allowed characters:</strong> Letters (a-z),
+											numbers (0-9), and periods (.)
 										</span>
 									</li>
 									<li className="flex items-start gap-2">
-										<Icon name="check" className="mt-1 h-4 w-4 text-green-600" />
+										<Icon
+											name="check"
+											className="mt-1 h-4 w-4 text-green-600"
+										/>
 										<span>
 											<strong>Not case-sensitive:</strong> JohnDoe and johndoe
 											are the same
 										</span>
 									</li>
 									<li className="flex items-start gap-2">
-										<Icon name="check" className="mt-1 h-4 w-4 text-green-600" />
+										<Icon
+											name="check"
+											className="mt-1 h-4 w-4 text-green-600"
+										/>
 										<span>
-											<strong>Periods ignored:</strong> john.doe and johndoe
-											are identical
+											<strong>Periods ignored:</strong> john.doe and johndoe are
+											identical
 										</span>
 									</li>
 									<li className="flex items-start gap-2">
-										<Icon name="check" className="mt-1 h-4 w-4 text-green-600" />
+										<Icon
+											name="check"
+											className="mt-1 h-4 w-4 text-green-600"
+										/>
 										<span>
-											<strong>Plus aliases:</strong> user+tag@gmail.com is
-											valid and delivers to user@gmail.com
+											<strong>Plus aliases:</strong> user+tag@gmail.com is valid
+											and delivers to user@gmail.com
 										</span>
 									</li>
 								</ul>
@@ -444,7 +461,9 @@ export default function VerifyGmailEmailPage() {
 							].map((faq, index) => (
 								<div
 									key={index}
-									className={`border-stroke-soft-100 border-b pb-8 pt-8 last:border-0 last:pb-0 first:pt-0`}
+									className={
+										"border-stroke-soft-100 border-b pt-8 pb-8 first:pt-0 last:border-0 last:pb-0"
+									}
 								>
 									<h3 className="font-semibold text-lg text-text-strong-950">
 										{faq.q}
