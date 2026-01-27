@@ -7,10 +7,7 @@ import { rotateApiKeyRoute } from "@verifio/api-key/routes/api-key/routes/rotate
 import { updateApiKeyRoute } from "@verifio/api-key/routes/api-key/routes/update-api-key.route";
 import { Elysia } from "elysia";
 
-export const apiKeyRoutes = new Elysia({
-	prefix: "/v1",
-	name: "ApiKeyRoutes",
-})
+export const apiKeyRoutes = new Elysia({ prefix: "/v1", name: "ApiKeyRoutes", })
 	.use(authMiddleware)
 	.use(createApiKeyRoute)
 	.use(getApiKeyRoute)

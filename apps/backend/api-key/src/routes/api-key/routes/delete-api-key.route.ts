@@ -15,13 +15,9 @@ export const deleteApiKeyRoute = new Elysia().use(authMiddleware).delete(
 	},
 	{
 		auth: true,
-		params: t.Object({
-			id: ApiKeyModel.apiKeyIdParam,
-		}),
+		params: t.Object({ id: ApiKeyModel.apiKeyIdParam, }),
 		response: {
-			200: t.Object({
-				message: t.String(),
-			}),
+			200: t.Object({ message: t.String(), }),
 			404: ApiKeyModel.apiKeyNotFound,
 			403: ApiKeyModel.unauthorized,
 		},

@@ -1,4 +1,4 @@
-import { errorCodes } from "@verifio/api-key/api-key.error-code";
+import { errorCodes } from "@verifio/api-key/error/api-key.error-code";
 import { status } from "elysia";
 
 export const apiKeyErrorResponse = (errorMessage: string) => {

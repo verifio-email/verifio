@@ -2,7 +2,7 @@ import { redis } from "@verifio/api-key/lib/redis";
 import { db } from "@verifio/db/client";
 import { Elysia } from "elysia";
 
-export const landing = new Elysia()
+export const apiKeyHealthRoute = new Elysia()
 	.get(
 		"/",
 		async () => {
@@ -30,15 +30,16 @@ export const landing = new Elysia()
 
 			return `
 ╔════════════════════════════════════════════════════════╗
-║                  API KEY SERVICE                       ║
+║                     API KEY                            ║
 ╠════════════════════════════════════════════════════════╣
 ║                                                        ║
-║   █████╗ ██████╗ ██╗    ██╗  ██╗███████╗██╗   ██╗     ║
-║  ██╔══██╗██╔══██╗██║    ██║ ██╔╝██╔════╝╚██╗ ██╔╝     ║
-║  ███████║██████╔╝██║ █╗ █████╔╝ █████╗   ╚████╔╝      ║
-║  ██╔══██║██╔═══╝ ██║███╗██╔═██╗ ██╔══╝    ╚██╔╝       ║
-║  ██║  ██║██║     ╚███╔███╔╝██║  ███████╗   ██║        ║
-║  ╚═╝  ╚═╝╚═╝      ╚══╝╚══╝ ╚═╝  ╚══════╝   ╚═╝        ║
+║                                                        ║
+║      █████╗ ██████╗ ██╗    ██╗  ██╗███████╗██╗   ██╗   ║
+║     ██╔══██╗██╔══██╗██║    ██║ ██╔╝██╔════╝╚██╗ ██╔╝   ║
+║     ███████║██████╔╝██║    █████╔╝ █████╗   ╚████╔╝    ║
+║     ██╔══██║██╔═══╝ ██║    ██╔═██╗ ██╔══╝    ╚██╔╝     ║
+║     ██║  ██║██║     ██║    ██║  ██╗███████╗   ██║      ║
+║     ╚═╝  ╚═╝╚═╝     ╚═╝    ╚═╝  ╚═╝╚══════╝   ╚═╝      ║
 ║                                                        ║
 ║                  ONLINE & READY                        ║
 ║                 Version: v1.0.0                        ║
@@ -50,16 +51,14 @@ export const landing = new Elysia()
 ${dbError ? `║ DB ERROR: ${dbError.substring(0, 50).padEnd(50)} ║` : "║                                                        ║"}
 ${redisError ? `║ REDIS ERROR: ${redisError.substring(0, 50).padEnd(50)} ║` : "║                                                        ║"}
 ╠════════════════════════════════════════════════════════╣
-║ QUICK START:                                           ║
-║ curl -X GET /api/api-key/v1/keys \\                     ║
-║   -H "Content-Type: application/json" \\                ║
 ╠════════════════════════════════════════════════════════╣
-║ - SUPPORT                                              ║
-║ - https://verifio.email/dev/setup/backend/api-key          ║
-║ - https://github.com/reloop-labs/verifio                ║
+║ RESOURCES:                                             ║
+║ - GitHub: https://github.com/verifio-email/verifio     ║
+║ - Docs: https://verifio.email/dev/setup/backend/api-key║
+║ - Contact: https://verifio.email/contact               ║
 ╠════════════════════════════════════════════════════════╣
 ║  "Secure keys, unlimited access"                       ║
-║                    - Your Verifio Team                  ║
+║                    - Your Verifio Team                 ║
 ╚════════════════════════════════════════════════════════╝
 
 
@@ -77,57 +76,3 @@ ${redisError ? `║ REDIS ERROR: ${redisError.substring(0, 50).padEnd(50)} ║` 
 			},
 		},
 	)
-	.get(
-		"/health/redis",
-		async () => {
-			try {
-				const startTime = Date.now();
-				await redis.healthCheck();
-				const responseTime = Date.now() - startTime;
-
-				return {
-					status: "CONNECTED",
-					responseTime: `${responseTime}ms`,
-					timestamp: new Date().toISOString(),
-				};
-			} catch (error) {
-				return {
-					status: "DISCONNECTED",
-					error: error instanceof Error ? error.message : String(error),
-					timestamp: new Date().toISOString(),
-				};
-			}
-		},
-		{
-			detail: {
-				tags: ["Service"],
-				summary: "Health check for Redis",
-				description: "Checks the health of the Redis database",
-			},
-		},
-	)
-	.get(
-		"/health/postgres",
-		async () => {
-			try {
-				await db.execute("SELECT 1 as test");
-				return {
-					status: "CONNECTED",
-					timestamp: new Date().toISOString(),
-				};
-			} catch (error) {
-				return {
-					status: "DISCONNECTED",
-					error: error instanceof Error ? error.message : String(error),
-					timestamp: new Date().toISOString(),
-				};
-			}
-		},
-		{
-			detail: {
-				tags: ["Service"],
-				summary: "Health check for Postgres",
-				description: "Checks the health of the Postgres database",
-			},
-		},
-	);
