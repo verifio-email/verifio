@@ -9,7 +9,7 @@ import { logActivity, logger } from "@verifio/logger";
 import { eq } from "drizzle-orm";
 import { status } from "elysia";
 
-const API_KEY_PREFIX = "rl";
+const API_KEY_PREFIX = "ve";
 const API_KEY_LENGTH = 64;
 
 function generateApiKey(): string {
@@ -140,7 +140,7 @@ export async function createApiKeyHandler(
 			status: "success",
 			result: "created",
 			duration_ms: Date.now() - startTime,
-		}).catch(() => {});
+		}).catch(() => { });
 
 		return apiKey;
 	} catch (error) {
@@ -164,7 +164,7 @@ export async function createApiKeyHandler(
 			status: "error",
 			error_message: error instanceof Error ? error.message : String(error),
 			duration_ms: Date.now() - startTime,
-		}).catch(() => {});
+		}).catch(() => { });
 
 		throw error;
 	}

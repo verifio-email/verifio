@@ -1,0 +1,54 @@
+# Dependencies
+node_modules
+*.log
+*.lockb
+
+# Build outputs
+dist
+build
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.*
+.env.local
+.env.*.local
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Testing
+coverage
+.nyc_output
+*.test.ts
+*.spec.ts
+__tests__
+__mocks__
+
+# CI/CD
+.github
+.gitlab-ci.yml
+.travis.yml
+
+# Docs
+README.md
+CHANGELOG.md
+CONTRIBUTING.md
+*.md
+
+# Misc
+.turbo
+.cache

@@ -31,6 +31,7 @@
 		"pg": "catalog:db",
 		"redis": "catalog:db",
 		"zod": "catalog:ui",
+		"@verifio/logger": "workspace:*",
 		"@verifio/db": "workspace:*",
 		"@verifio/cache": "workspace:*",
 		"@verifio/auth": "workspace:*",
