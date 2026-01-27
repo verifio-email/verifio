@@ -21,7 +21,6 @@ export const listApiKeysRoute = new Elysia().use(authMiddleware).get(
 			403: ApiKeyModel.unauthorized,
 		},
 		detail: {
-			tags: ["API Keys"],
 			summary: "List API keys",
 			description: "Lists all API keys for the user's organization",
 		},

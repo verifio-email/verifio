@@ -24,7 +24,6 @@ export const rotateApiKeyRoute = new Elysia().use(authMiddleware).post(
 			403: ApiKeyModel.unauthorized,
 		},
 		detail: {
-			tags: ["API Keys"],
 			summary: "Rotate API key",
 			description:
 				"Generates a new secret for the API key while keeping the same ID",

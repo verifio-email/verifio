@@ -30,7 +30,6 @@ export const updateApiKeyRoute = new Elysia().use(authMiddleware).patch(
 			403: ApiKeyModel.unauthorized,
 		},
 		detail: {
-			tags: ["API Keys"],
 			summary: "Update API key",
 			description: "Updates an existing API key",
 		},

@@ -16,7 +16,6 @@ export const createApiKeyRoute = new Elysia().use(authMiddleware).post(
 			403: ApiKeyModel.unauthorized,
 		},
 		detail: {
-			tags: ["API Keys"],
 			summary: "Create a new API key",
 			description: "Creates a new API key for the user's organization",
 		},
