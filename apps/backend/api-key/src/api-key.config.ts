@@ -1,7 +1,7 @@
 // Default values for api-key configuration
 
 const defaults = {
-	PORT: "8012",
+	PORT: "8002",
 	PG_URL: "postgresql://verifio:verifio123@localhost:5432/verifio",
 	BASE_URL: "https://local.verifio.email",
 	NODE_ENV: "development",

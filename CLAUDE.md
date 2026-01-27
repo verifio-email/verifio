@@ -51,13 +51,14 @@ bun run fe:dashboard:dev  # Port 3001 - Admin dashboard
 bun run fe:docs:dev       # Port 3002 - Documentation
 bun run fe:blog:dev       # Port 3004 - Blog
 
-# Backend (ports 8000-8020)
+# Backend (ports 8000-8006)
 bun run be:auth:dev       # Port 8000 - Authentication service
 bun run be:verify:dev     # Port 8001 - Email verification core
 bun run be:api-key:dev    # Port 8002 - API key management
-bun run be:logs:dev       # Port 8020 - Logging service
-bun run be:upload:dev     # Port 8010 - File upload service
-bun run be:credits:dev    # Port 8016 - Credit management
+bun run be:logs:dev       # Port 8003 - Logging service
+bun run be:upload:dev     # Port 8004 - File upload service
+bun run be:credits:dev    # Port 8005 - Credit management
+bun run be:tools:dev      # Port 8006 - Free tools service
 ```
 
 Stop Docker services:
@@ -98,9 +99,10 @@ apps/
     auth/         # Authentication service (Elysia, port 8000)
     verify/       # Email verification core (Elysia, port 8001)
     api-key/      # API key management (Elysia, port 8002)
-    logs/         # Logging service (Elysia, port 8020)
-    upload/       # File upload service (Elysia, port 8010)
-    credits/      # Credit management (Elysia, port 8016)
+    logs/         # Logging service (Elysia, port 8003)
+    upload/       # File upload service (Elysia, port 8004)
+    credits/      # Credit management (Elysia, port 8005)
+    tools/        # Free tools service (Elysia, port 8006)
 
 packages/
   db/             # Shared database schema and client (Drizzle ORM)

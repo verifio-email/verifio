@@ -1,7 +1,7 @@
 // Configuration for the logs service
 
 const defaults = {
-	PORT: "8020",
+	PORT: "8003",
 	NODE_ENV: "development",
 	BASE_URL: "https://local.verifio.email",
 	PG_URL: "postgresql://verifio:verifio123@localhost:5432/verifio",

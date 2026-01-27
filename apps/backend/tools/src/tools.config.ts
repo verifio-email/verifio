@@ -28,8 +28,8 @@ function getRequiredSecret(key: string, devDefault: string): string {
 }
 
 const defaults = {
-	PORT: "8005",
-	BASE_URL: "http://localhost:8005",
+	PORT: "8006",
+	BASE_URL: "http://localhost:8006",
 	ALLOWED_ORIGINS: "http://localhost:3000,http://localhost:3001,http://localhost:3002,http://localhost:3004",
 	RATE_LIMIT_WINDOW_MS: "60000",
 	RATE_LIMIT_SYNTAX_MAX: "100",

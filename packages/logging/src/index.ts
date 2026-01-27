@@ -65,7 +65,7 @@ export interface LogActivityParams {
 
 // Default logging service URL - can be overridden
 let loggingServiceUrl =
-	process.env.LOGGING_SERVICE_URL || "http://localhost:8020";
+	process.env.LOGGING_SERVICE_URL || "http://localhost:8003";
 
 /**
  * Set the logging service URL

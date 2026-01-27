@@ -28,7 +28,7 @@ function getRequiredSecret(key: string, devDefault: string): string {
 }
 
 const defaults = {
-	PORT: "8030",
+	PORT: "8005",
 	BASE_URL: "https://local.verifio.email",
 	DEFAULT_CREDIT_LIMIT: "3000",
 } as const;

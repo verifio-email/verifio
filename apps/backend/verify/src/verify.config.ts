@@ -28,11 +28,11 @@ function getRequiredSecret(key: string, devDefault: string): string {
 }
 
 const defaults = {
-	PORT: "3040",
+	PORT: "8001",
 	BASE_URL: "https://local.verifio.email",
 	MAX_BULK_EMAILS: "10000",
 	DEFAULT_TIMEOUT: "5000",
-	CREDITS_SERVICE_URL: "http://localhost:8030",
+	CREDITS_SERVICE_URL: "http://localhost:8005",
 	REDIS_URL: "redis://:verifio123@localhost:6379",
 } as const;
 

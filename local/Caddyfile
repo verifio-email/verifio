@@ -24,7 +24,7 @@ local.verifio.email {
         }
     }
 
-    # API routes
+    # API routes (backend services on ports 8000-8006)
     handle /api/auth* {
         reverse_proxy host.docker.internal:8000 {
             header_up Host {host}
@@ -32,58 +32,43 @@ local.verifio.email {
             header_up X-Forwarded-For {remote}
         }
     }
+    handle /api/verify* {
+        reverse_proxy host.docker.internal:8001 {
+            header_up Host {host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-For {remote}
+        }
+    }
     handle /api/api-key* {
-        reverse_proxy host.docker.internal:8012 {
+        reverse_proxy host.docker.internal:8002 {
             header_up Host {host}
             header_up X-Forwarded-Proto {scheme}
             header_up X-Forwarded-For {remote}
         }
     }
-
-    handle /api/analytics* {
-        reverse_proxy host.docker.internal:8016 {
-            header_up Host {host}
-            header_up X-Forwarded-Proto {scheme}
-            header_up X-Forwarded-For {remote}
-        }
-    }
-    handle /api/workflow* {
-        reverse_proxy host.docker.internal:8017 {
+    handle /api/logs* {
+        reverse_proxy host.docker.internal:8003 {
             header_up Host {host}
             header_up X-Forwarded-Proto {scheme}
             header_up X-Forwarded-For {remote}
         }
     }
     handle /api/upload* {
-        reverse_proxy host.docker.internal:8018 {
+        reverse_proxy host.docker.internal:8004 {
             header_up Host {host}
             header_up X-Forwarded-Proto {scheme}
             header_up X-Forwarded-For {remote}
         }
     }
     handle /api/credits* {
-        reverse_proxy host.docker.internal:8030 {
-            header_up Host {host}
-            header_up X-Forwarded-Proto {scheme}
-            header_up X-Forwarded-For {remote}
-        }
-    }
-    handle /api/logging* {
-        reverse_proxy host.docker.internal:8020 {
-            header_up Host {host}
-            header_up X-Forwarded-Proto {scheme}
-            header_up X-Forwarded-For {remote}
-        }
-    }
-    handle /api/verify* {
-        reverse_proxy host.docker.internal:3040 {
+        reverse_proxy host.docker.internal:8005 {
             header_up Host {host}
             header_up X-Forwarded-Proto {scheme}
             header_up X-Forwarded-For {remote}
         }
     }
     handle /api/tools* {
-        reverse_proxy host.docker.internal:8005 {
+        reverse_proxy host.docker.internal:8006 {
             header_up Host {host}
             header_up X-Forwarded-Proto {scheme}
             header_up X-Forwarded-For {remote}

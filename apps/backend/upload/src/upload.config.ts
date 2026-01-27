@@ -1,7 +1,7 @@
 // Default values for upload configuration
 
 const defaults = {
-	PORT: "8018",
+	PORT: "8004",
 	PG_URL: "postgresql://verifio:verifio123@localhost:5432/verifio",
 	REDIS_URL: "redis://:verifio123@localhost:6379",
 	BASE_URL: "https://local.verifio.email",
