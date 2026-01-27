@@ -6,86 +6,68 @@ import Link from "next/link";
 import { useState } from "react";
 
 type ValidationResult = {
-	email: string;
-	isValid: boolean;
+	valid: boolean;
+	normalized?: string;
+	parsed?: {
+		email: string;
+		user?: string;
+		domain?: string;
+		tag?: string;
+	};
+	typo?: {
+		hasTypo: boolean;
+		suggestion?: string;
+		originalDomain?: string;
+		suggestedDomain?: string;
+		correctedEmail?: string;
+	};
+	provider?: string | null;
+	rfcCompliant: boolean;
 	errors: string[];
 	warnings: string[];
-	normalizedEmail?: string;
 };
 
-function validateEmailSyntax(email: string): ValidationResult {
-	const errors: string[] = [];
-	const warnings: string[] = [];
-	let normalizedEmail = email;
-
-	// Basic format check
-	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-	if (!emailRegex.test(email)) {
-		errors.push("Invalid email format");
-	}
-
-	// Check for @
-	if (!email.includes("@")) {
-		errors.push("Missing @ symbol");
-	} else {
-		const [localPart, domain] = email.split("@");
-
-		// Check local part
-		if (!localPart) {
-			errors.push("Missing local part before @");
-		} else if (localPart.length > 64) {
-			errors.push("Local part exceeds 64 characters");
-		}
-
-		// Check domain
-		if (!domain) {
-			errors.push("Missing domain after @");
-		} else if (domain.length > 255) {
-			errors.push("Domain exceeds 255 characters");
-		} else if (!domain.includes(".")) {
-			errors.push("Domain must contain at least one dot");
-		} else {
-			const tld = domain.split(".").pop();
-			if (tld && tld.length < 2) {
-				errors.push("TLD must be at least 2 characters");
-			}
-		}
-	}
-
-	// Warnings
-	if (email.includes("..")) {
-		warnings.push("Contains consecutive dots");
-	}
-	if (email.startsWith(".") || email.endsWith(".")) {
-		warnings.push("Starts or ends with a dot");
-	}
-	if (email.includes("+")) {
-		warnings.push("Contains plus sign (sub-addressing)");
-	}
-
-	// Normalize
-	const isValid = errors.length === 0;
-	if (isValid) {
-		normalizedEmail = email.toLowerCase().trim();
-	}
-
-	return {
-		email,
-		isValid,
-		errors,
-		warnings,
-		normalizedEmail: isValid ? normalizedEmail : undefined,
-	};
-}
+type ApiResponse = {
+	success: boolean;
+	data?: ValidationResult;
+	error?: string;
+};
 
 export default function SyntaxValidatorPage() {
 	const [email, setEmail] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
 	const [result, setResult] = useState<ValidationResult | null>(null);
+	const [error, setError] = useState<string | null>(null);
 
-	const handleValidate = () => {
+	const handleValidate = async () => {
 		if (!email.trim()) return;
-		const validationResult = validateEmailSyntax(email);
-		setResult(validationResult);
+
+		setIsLoading(true);
+		setError(null);
+		setResult(null);
+
+		try {
+			const response = await fetch("http://localhost:8005/api/tools/v1/syntax/validate", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ email: email.trim() }),
+			});
+
+			const data: ApiResponse = await response.json();
+
+			if (data.success && data.data) {
+				setResult(data.data);
+			} else {
+				setError(data.error || "Validation failed");
+			}
+		} catch (err) {
+			setError("Failed to connect to validation service");
+			console.error(err);
+		} finally {
+			setIsLoading(false);
+		}
 	};
 
 	return (
@@ -95,9 +77,7 @@ export default function SyntaxValidatorPage() {
 				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[01] FREE TOOL</span>
-						<span className="text-sm text-text-sub-600">
-							/ SYNTAX VALIDATOR
-						</span>
+						<span className="text-sm text-text-sub-600">/ SYNTAX VALIDATOR</span>
 					</div>
 					<div className="px-10 py-16 text-center">
 						<h1 className="mx-auto max-w-3xl font-semibold text-4xl text-text-strong-950 md:text-5xl">
@@ -125,19 +105,27 @@ export default function SyntaxValidatorPage() {
 									onKeyDown={(e) => e.key === "Enter" && handleValidate()}
 									placeholder="Enter an email address to validate..."
 									className="flex-1 rounded-lg border border-stroke-soft-100 bg-white px-4 py-3 text-text-strong-950 outline-none transition-all focus:border-stroke-strong-950 focus:ring-2 focus:ring-stroke-strong-950/20"
+									disabled={isLoading}
 								/>
 								<button
 									type="button"
 									onClick={handleValidate}
-									disabled={!email.trim()}
+									disabled={!email.trim() || isLoading}
 									className={Button.buttonVariants({
 										variant: "primary",
 										size: "medium",
 									}).root({})}
 								>
-									Validate
+									{isLoading ? "Validating..." : "Validate"}
 								</button>
 							</div>
+
+							{/* Error Message */}
+							{error && (
+								<div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+									{error}
+								</div>
+							)}
 
 							{/* Results Section */}
 							{result && (
@@ -145,7 +133,7 @@ export default function SyntaxValidatorPage() {
 									{/* Status Card */}
 									<div
 										className={`rounded-xl border p-6 ${
-											result.isValid
+											result.valid
 												? "bg-green-500/10 border-green-500/20"
 												: "bg-red-500/10 border-red-500/20"
 										}`}
@@ -155,24 +143,54 @@ export default function SyntaxValidatorPage() {
 												<p className="text-sm text-text-sub-600">Status</p>
 												<p
 													className={`mt-1 font-semibold text-2xl ${
-														result.isValid
-															? "text-green-600"
-															: "text-red-600"
+														result.valid ? "text-green-600" : "text-red-600"
 													}`}
 												>
-													{result.isValid ? "Valid Format" : "Invalid Format"}
+													{result.valid ? "Valid Format" : "Invalid Format"}
 												</p>
 											</div>
 											<div className="flex h-16 w-16 items-center justify-center">
 												<Icon
-													name={result.isValid ? "check-circle" : "x-circle"}
+													name={result.valid ? "check-circle" : "x-circle"}
 													className={`h-12 w-12 ${
-														result.isValid ? "text-green-600" : "text-red-600"
+														result.valid ? "text-green-600" : "text-red-600"
 													}`}
 												/>
 											</div>
 										</div>
 									</div>
+
+									{/* Typo Detection */}
+									{result.typo?.hasTypo && (
+										<div className="rounded-xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-900/30 dark:bg-blue-950/10">
+											<h3 className="mb-4 flex items-center gap-2 font-medium text-blue-900 dark:text-blue-100">
+												<Icon name="lightbulb" className="h-5 w-5" />
+												Typo Detected
+											</h3>
+											<p className="mb-3 text-sm text-blue-800 dark:text-blue-200">
+												Did you mean <strong>{result.typo.correctedEmail}</strong>?
+											</p>
+											<p className="text-xs text-blue-600 dark:text-blue-300">
+												{result.typo.originalDomain} →{" "}
+												{result.typo.suggestedDomain}
+											</p>
+										</div>
+									)}
+
+									{/* Provider Detection */}
+									{result.provider && (
+										<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
+											<h3 className="mb-4 font-medium text-text-strong-950">
+												Email Provider
+											</h3>
+											<div className="flex items-center gap-3 rounded-lg bg-bg-weak-50 px-4 py-3">
+												<Icon name="mail-single" className="h-5 w-5 text-purple-600" />
+												<p className="font-medium text-text-strong-950">
+													{result.provider}
+												</p>
+											</div>
+										</div>
+									)}
 
 									{/* Errors */}
 									{result.errors.length > 0 && (
@@ -182,13 +200,13 @@ export default function SyntaxValidatorPage() {
 												Errors Found
 											</h3>
 											<ul className="space-y-2">
-												{result.errors.map((error, index) => (
+												{result.errors.map((err, index) => (
 													<li
 														key={index}
 														className="flex items-start gap-2 text-sm text-red-800 dark:text-red-200"
 													>
 														<span className="mt-0.5">•</span>
-														<span>{error}</span>
+														<span>{err}</span>
 													</li>
 												))}
 											</ul>
@@ -216,66 +234,57 @@ export default function SyntaxValidatorPage() {
 										</div>
 									)}
 
+									{/* Parsed Email Components */}
+									{result.parsed && (
+										<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
+											<h3 className="mb-4 font-medium text-text-strong-950">
+												Email Components
+											</h3>
+											<div className="space-y-3">
+												{result.parsed.user && (
+													<div className="flex items-center justify-between rounded-lg bg-bg-weak-50 px-4 py-3">
+														<span className="text-sm text-text-sub-600">User</span>
+														<span className="font-mono text-sm text-text-strong-950">
+															{result.parsed.user}
+														</span>
+													</div>
+												)}
+												{result.parsed.domain && (
+													<div className="flex items-center justify-between rounded-lg bg-bg-weak-50 px-4 py-3">
+														<span className="text-sm text-text-sub-600">Domain</span>
+														<span className="font-mono text-sm text-text-strong-950">
+															{result.parsed.domain}
+														</span>
+													</div>
+												)}
+												{result.parsed.tag && (
+													<div className="flex items-center justify-between rounded-lg bg-bg-weak-50 px-4 py-3">
+														<span className="text-sm text-text-sub-600">Tag</span>
+														<span className="font-mono text-sm text-text-strong-950">
+															{result.parsed.tag}
+														</span>
+													</div>
+												)}
+											</div>
+										</div>
+									)}
+
 									{/* Normalized Email */}
-									{result.normalizedEmail && (
+									{result.normalized && (
 										<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
 											<h3 className="mb-4 font-medium text-text-strong-950">
 												Normalized Email
 											</h3>
 											<div className="rounded-lg bg-bg-weak-50 px-4 py-3">
 												<p className="font-mono text-sm text-text-strong-950">
-													{result.normalizedEmail}
+													{result.normalized}
 												</p>
 											</div>
 											<p className="mt-2 text-xs text-text-sub-600">
-												Email converted to lowercase and trimmed
+												Email normalized to lowercase format
 											</p>
 										</div>
 									)}
-
-									{/* Checks */}
-									<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
-										<h3 className="mb-4 font-medium text-text-strong-950">
-											RFC 5322 Compliance Checks
-										</h3>
-										<div className="space-y-3">
-											{[
-												{ label: "Valid email format", passed: result.isValid },
-												{
-													label: "Local part present",
-													passed: email.includes("@") &&
-														!!email.split("@")[0],
-												},
-												{
-													label: "Domain present",
-													passed: email.includes("@") &&
-														!!email.split("@")[1],
-												},
-												{
-													label: "TLD valid length",
-													passed: !!email.split("@")[1]?.split(".").pop() &&
-														email.split("@")[1]!.split(".").pop()!.length >=
-															2,
-												},
-											].map((check) => (
-												<div
-													key={check.label}
-													className="flex items-center justify-between rounded-lg bg-bg-weak-50 px-4 py-3"
-												>
-													<span className="text-sm text-text-strong-950">
-														{check.label}
-													</span>
-													<span
-														className={
-															check.passed ? "text-green-500" : "text-red-500"
-														}
-													>
-														{check.passed ? "✓" : "✗"}
-													</span>
-												</div>
-											))}
-										</div>
-									</div>
 								</div>
 							)}
 						</div>
@@ -288,18 +297,15 @@ export default function SyntaxValidatorPage() {
 				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[02] STANDARDS</span>
-						<span className="text-sm text-text-sub-600">
-							/ RFC 5322 COMPLIANT
-						</span>
+						<span className="text-sm text-text-sub-600">/ RFC 5322 COMPLIANT</span>
 					</div>
 					<div className="p-10 md:p-16">
 						<h2 className="font-semibold text-2xl text-text-strong-950 md:text-3xl">
 							Built on email standards
 						</h2>
 						<p className="mt-4 text-text-sub-600">
-							Our validator follows RFC 5322 standards for email format
-							validation. This ensures maximum compatibility with email systems
-							worldwide.
+							Our validator follows RFC 5322 standards for email format validation.
+							This ensures maximum compatibility with email systems worldwide.
 						</p>
 						<div className="mt-8 grid gap-4 md:grid-cols-2">
 							{[
@@ -320,8 +326,8 @@ export default function SyntaxValidatorPage() {
 								},
 								{
 									icon: "zap",
-									title: "Instant Results",
-									desc: "Client-side validation for immediate feedback",
+									title: "Typo Detection",
+									desc: "Suggests corrections for common typos",
 								},
 							].map((item) => (
 								<div
@@ -336,9 +342,7 @@ export default function SyntaxValidatorPage() {
 									<h3 className="mt-4 font-semibold text-lg text-text-strong-950">
 										{item.title}
 									</h3>
-									<p className="mt-2 text-sm text-text-sub-600">
-										{item.desc}
-									</p>
+									<p className="mt-2 text-sm text-text-sub-600">{item.desc}</p>
 								</div>
 							))}
 						</div>
@@ -383,20 +387,12 @@ export default function SyntaxValidatorPage() {
 						<div className="flex items-center justify-center">
 							<div className="grid grid-cols-2 gap-4 text-center">
 								<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
-									<p className="font-bold text-3xl text-text-strong-950">
-										0ms
-									</p>
-									<p className="mt-1 text-sm text-text-sub-600">
-										Validation time
-									</p>
+									<p className="font-bold text-3xl text-text-strong-950">&lt;100ms</p>
+									<p className="mt-1 text-sm text-text-sub-600">Validation time</p>
 								</div>
 								<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
-									<p className="font-bold text-3xl text-text-strong-950">
-										100%
-									</p>
-									<p className="mt-1 text-sm text-text-sub-600">
-										RFC compliant
-									</p>
+									<p className="font-bold text-3xl text-text-strong-950">100%</p>
+									<p className="mt-1 text-sm text-text-sub-600">RFC compliant</p>
 								</div>
 							</div>
 						</div>

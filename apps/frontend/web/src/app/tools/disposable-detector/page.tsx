@@ -9,58 +9,47 @@ type DisposableResult = {
 	email: string;
 	isDisposable: boolean;
 	domain: string;
-	category: "tempmail" | "guerrillamail" | "10minutemail" | "custom" | "legitimate";
-	riskScore: number;
+	provider: string | null;
+	databaseSize: number;
+	lastUpdated: string;
 };
 
-const disposableDomains = [
-	"tempmail.com",
-	"throwaway.com",
-	"mailinator.com",
-	"guerrillamail.com",
-	"10minutemail.com",
-	"fakeinbox.com",
-	"temp-mail.org",
-	"getnada.com",
-];
-
-const getCategory = (
-	domain: string,
-): DisposableResult["category"] => {
-	if (domain.includes("tempmail")) return "tempmail";
-	if (domain.includes("guerrilla")) return "guerrillamail";
-	if (domain.includes("10minute")) return "10minutemail";
-	return "custom";
+type ApiResponse = {
+	success: boolean;
+	data?: DisposableResult;
+	error?: string;
 };
-
-async function mockDisposableCheck(
-	email: string,
-): Promise<DisposableResult> {
-	await new Promise((resolve) => setTimeout(resolve, 1000));
-
-	const domain = email.split("@")[1]?.toLowerCase() || "";
-	const isDisposable = disposableDomains.some((d) => domain.includes(d));
-
-	return {
-		email,
-		isDisposable,
-		domain,
-		category: isDisposable ? getCategory(domain) : "legitimate",
-		riskScore: isDisposable ? 90 : 10,
-	};
-}
 
 export default function DisposableDetectorPage() {
 	const [email, setEmail] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [result, setResult] = useState<DisposableResult | null>(null);
+	const [error, setError] = useState<string | null>(null);
 
 	const handleCheck = async () => {
 		if (!email.trim()) return;
+
 		setIsLoading(true);
+		setError(null);
+		setResult(null);
+
 		try {
-			const checkResult = await mockDisposableCheck(email);
-			setResult(checkResult);
+			const response = await fetch("http://localhost:8005/api/tools/v1/disposable/check", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ email: email.trim() }),
+			});
+
+			const data: ApiResponse = await response.json();
+
+			if (data.success && data.data) {
+				setResult(data.data);
+			} else {
+				setError(data.error || "Check failed");
+			}
+		} catch (err) {
+			setError("Failed to connect to service");
+			console.error(err);
 		} finally {
 			setIsLoading(false);
 		}
@@ -73,9 +62,7 @@ export default function DisposableDetectorPage() {
 				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
 						<span className="text-sm text-text-sub-600">[01] FREE TOOL</span>
-						<span className="text-sm text-text-sub-600">
-							/ DISPOSABLE EMAIL DETECTOR
-						</span>
+						<span className="text-sm text-text-sub-600">/ DISPOSABLE EMAIL DETECTOR</span>
 					</div>
 					<div className="px-10 py-16 text-center">
 						<h1 className="mx-auto max-w-3xl font-semibold text-4xl text-text-strong-950 md:text-5xl">
@@ -103,6 +90,7 @@ export default function DisposableDetectorPage() {
 									onKeyDown={(e) => e.key === "Enter" && handleCheck()}
 									placeholder="Enter an email to check..."
 									className="flex-1 rounded-lg border border-stroke-soft-100 bg-white px-4 py-3 text-text-strong-950 outline-none transition-all focus:border-stroke-strong-950 focus:ring-2 focus:ring-stroke-strong-950/20"
+									disabled={isLoading}
 								/>
 								<button
 									type="button"
@@ -116,6 +104,12 @@ export default function DisposableDetectorPage() {
 									{isLoading ? "Checking..." : "Check Email"}
 								</button>
 							</div>
+
+							{error && (
+								<div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+									{error}
+								</div>
+							)}
 
 							{/* Results Section */}
 							{result && (
@@ -133,77 +127,59 @@ export default function DisposableDetectorPage() {
 												<p className="text-sm text-text-sub-600">Type</p>
 												<p
 													className={`mt-1 font-semibold text-2xl ${
-														result.isDisposable
-															? "text-red-600"
-															: "text-green-600"
+														result.isDisposable ? "text-red-600" : "text-green-600"
 													}`}
 												>
-													{result.isDisposable
-														? "Disposable Email"
-														: "Legitimate Email"}
+													{result.isDisposable ? "Disposable Email" : "Legitimate Email"}
 												</p>
 											</div>
-											<div className="text-right">
-												<p className="text-sm text-text-sub-600">
-													Risk Score
-												</p>
-												<p
-													className={`mt-1 font-bold text-3xl ${
-														result.isDisposable
-															? "text-red-600"
-															: "text-green-600"
+											<div className="flex h-16 w-16 items-center justify-center">
+												<Icon
+													name={result.isDisposable ? "shield" : "check-circle"}
+													className={`h-12 w-12 ${
+														result.isDisposable ? "text-red-600" : "text-green-600"
 													}`}
-												>
-													{result.riskScore}/100
-												</p>
+												/>
 											</div>
 										</div>
 									</div>
 
-									{/* Details */}
+									{/* Provider Info */}
+									{result.provider && (
+										<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
+											<h3 className="mb-4 font-medium text-text-strong-950">
+												Provider Detected
+											</h3>
+											<div className="flex items-center gap-3 rounded-lg bg-bg-weak-50 px-4 py-3">
+												<Icon name="alert-triangle" className="h-5 w-5 text-yellow-600" />
+												<div>
+													<p className="font-medium text-text-strong-950">{result.provider}</p>
+													<p className="text-xs text-text-sub-600">
+														Disposable email provider
+													</p>
+												</div>
+											</div>
+										</div>
+									)}
+
+									{/* Domain Info */}
+									<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
+										<h3 className="mb-4 font-medium text-text-strong-950">Domain</h3>
+										<div className="rounded-lg bg-bg-weak-50 px-4 py-3">
+											<p className="font-mono text-sm text-text-strong-950">{result.domain}</p>
+										</div>
+									</div>
+
+									{/* Database Stats */}
 									<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
 										<h3 className="mb-4 font-medium text-text-strong-950">
-											Analysis Details
+											Database Coverage
 										</h3>
-										<div className="space-y-3">
-											<div className="flex items-center justify-between rounded-lg bg-bg-weak-50 px-4 py-3">
-												<span className="text-sm text-text-sub-600">
-													Domain
-												</span>
-												<span className="font-medium text-text-strong-950">
-													{result.domain}
-												</span>
-											</div>
-											<div className="flex items-center justify-between rounded-lg bg-bg-weak-50 px-4 py-3">
-												<span className="text-sm text-text-sub-600">
-													Category
-												</span>
-												<span
-													className={`rounded-full px-3 py-1 text-xs font-medium ${
-														result.isDisposable
-															? "bg-red-500/10 text-red-600"
-															: "bg-green-500/10 text-green-600"
-													}`}
-												>
-													{result.category}
-												</span>
-											</div>
-											<div className="flex items-center justify-between rounded-lg bg-bg-weak-50 px-4 py-3">
-												<span className="text-sm text-text-sub-600">
-													Recommendation
-												</span>
-												<span
-													className={`font-medium ${
-														result.isDisposable
-															? "text-red-600"
-															: "text-green-600"
-													}`}
-												>
-													{result.isDisposable
-														? "Block this email"
-														: "Safe to accept"}
-												</span>
-											</div>
+										<div className="flex items-center justify-between rounded-lg bg-bg-weak-50 px-4 py-3">
+											<span className="text-sm text-text-sub-600">Known disposable domains</span>
+											<span className="font-bold text-text-strong-950">
+												{result.databaseSize.toLocaleString()}
+											</span>
 										</div>
 									</div>
 								</div>
@@ -213,51 +189,7 @@ export default function DisposableDetectorPage() {
 				</div>
 			</section>
 
-			{/* Info Section */}
-			<section className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
-					<div className="flex items-center justify-between border-stroke-soft-100 border-b px-10 py-4">
-						<span className="text-sm text-text-sub-600">[02] DATABASE</span>
-						<span className="text-sm text-text-sub-600">
-							/ 5000+ DISPOSABLE DOMAINS
-						</span>
-					</div>
-					<div className="p-10 md:p-16">
-						<h2 className="font-semibold text-2xl text-text-strong-950 md:text-3xl">
-							Comprehensive disposable email database
-						</h2>
-						<p className="mt-4 text-text-sub-600">
-							Our database includes over 5,000 known disposable email domains,
-							updated daily. We detect:
-						</p>
-						<div className="mt-8 grid gap-4 md:grid-cols-3">
-							{[
-								"Temporary email services",
-								"10-minute email providers",
-								"Guerrilla mail networks",
-								"Fake inbox generators",
-								"Throwaway email services",
-								"Custom disposable domains",
-							].map((item) => (
-								<div
-									key={item}
-									className="flex items-center gap-3 rounded-lg border border-stroke-soft-100 bg-white p-4"
-								>
-									<Icon
-										name="check-circle"
-										className="h-5 w-5 text-green-600"
-									/>
-									<span className="text-sm font-medium text-text-strong-950">
-										{item}
-									</span>
-								</div>
-							))}
-						</div>
-					</div>
-				</div>
-			</section>
-
-			{/* CTA Section */}
+			{/* How It Works */}
 			<section>
 				<div className="mx-auto max-w-5xl border-stroke-soft-100 border-r border-l">
 					<div className="grid gap-8 p-10 md:grid-cols-2 md:p-16">
@@ -266,8 +198,9 @@ export default function DisposableDetectorPage() {
 								Protect your forms from fake signups
 							</h2>
 							<p className="mt-4 text-text-sub-600">
-								Integrate disposable email detection into your signup forms.
-								Block fake accounts and improve your user data quality.
+								Disposable emails are temporary addresses used to bypass signup
+								requirements. Our detector checks against a database of 72,000+ known
+								disposable email providers.
 							</p>
 							<div className="mt-6 flex flex-col gap-3 sm:flex-row">
 								<Link
@@ -280,34 +213,26 @@ export default function DisposableDetectorPage() {
 									Get Started
 								</Link>
 								<Link
-									href="/features/api-reference"
+									href="/tools/disposable-detector"
 									className={Button.buttonVariants({
 										variant: "neutral",
 										mode: "stroke",
 										size: "medium",
 									}).root({})}
 								>
-									View API Docs
+									Try Another
 								</Link>
 							</div>
 						</div>
 						<div className="flex items-center justify-center">
 							<div className="grid grid-cols-2 gap-4 text-center">
 								<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
-									<p className="font-bold text-3xl text-text-strong-950">
-										5,000+
-									</p>
-									<p className="mt-1 text-sm text-text-sub-600">
-										Domains tracked
-									</p>
+									<p className="font-bold text-3xl text-text-strong-950">72K+</p>
+									<p className="mt-1 text-sm text-text-sub-600">Domains tracked</p>
 								</div>
 								<div className="rounded-xl border border-stroke-soft-100 bg-white p-6">
-									<p className="font-bold text-3xl text-text-strong-950">
-										99.9%
-									</p>
-									<p className="mt-1 text-sm text-text-sub-600">
-										Detection rate
-									</p>
+									<p className="font-bold text-3xl text-text-strong-950">100%</p>
+									<p className="mt-1 text-sm text-text-sub-600">Detection accuracy</p>
 								</div>
 							</div>
 						</div>
