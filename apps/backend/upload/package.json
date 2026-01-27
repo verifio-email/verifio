@@ -34,9 +34,7 @@
 		"zod": "catalog:ui",
 		"@verifio/db": "workspace:*",
 		"@verifio/cache": "workspace:*",
-		"@verifio/logger": "workspace:*",
 		"@verifio/auth": "workspace:*",
-		"@verifio/logging": "workspace:*",
 		"@elysiajs/eden": "catalog:backend",
 		"@elysiajs/openapi": "catalog:backend",
 		"inngest": "catalog:backend"

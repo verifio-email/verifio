@@ -1,71 +1,46 @@
-const pino = require("pino");
+/**
+ * @verifio/logger - Logging utilities for Verifio services
+ *
+ * Provides both console logging (via Pino) and centralized activity logging.
+ *
+ * Usage:
+ * ```typescript
+ * import { logger, logActivity, createTracker } from "@verifio/logger";
+ *
+ * // Console logging
+ * logger.info({ userId: "123" }, "User logged in");
+ * logger.request("POST", "/api/users");
+ * logger.response("POST", "/api/users", 201);
+ *
+ * // Activity logging
+ * await logActivity({
+ *   service: "verify",
+ *   endpoint: "/v1/verify",
+ *   method: "POST",
+ *   organization_id: "org_123",
+ *   status: "success",
+ * });
+ *
+ * // Create a tracker
+ * const tracker = createTracker("verify");
+ * await tracker.success({ ... });
+ * ```
+ */
 
-const baseLogger = pino({
-	level: process.env.LOG_LEVEL || "info",
-	...(process.env.NODE_ENV === "development" && {
-		transport: {
-			target: "pino-pretty",
-			options: {
-				colorize: true,
-				translateTime: "hh:mm:ss",
-				ignore: "pid,hostname",
-				messageFormat: true,
-				hideObject: false,
-			},
-		},
-	}),
-});
+// Activity logging
+export {
+	createTracker,
+	getLoggingServiceUrl,
+	logActivity,
+	setLoggingServiceUrl,
+} from "./activity.js";
+// Core logger
+export { default, logger } from "./logger.js";
 
-export const logger = Object.assign(baseLogger, {
-	/**
-	 * Log an HTTP request with method and endpoint
-	 * @param method - HTTP method (GET, POST, PUT, DELETE, PATCH, etc.)
-	 * @param endpoint - The URL endpoint being accessed
-	 * @param additionalData - Optional additional data to log
-	 */
-	request: (
-		method: string,
-		endpoint: string,
-		additionalData?: Record<string, unknown>,
-	) => {
-		const upperMethod = method.toUpperCase();
-		baseLogger.info(
-			{
-				method: upperMethod,
-				endpoint,
-				...additionalData,
-			},
-			`${upperMethod} ${endpoint}`,
-		);
-	},
-
-	/**
-	 * Log an HTTP response with method, endpoint, and status code
-	 * @param method - HTTP method (GET, POST, PUT, DELETE, PATCH, etc.)
-	 * @param endpoint - The URL endpoint that was accessed
-	 * @param statusCode - HTTP status code of the response
-	 * @param additionalData - Optional additional data to log
-	 */
-	response: (
-		method: string,
-		endpoint: string,
-		statusCode: number,
-		additionalData?: Record<string, unknown>,
-	) => {
-		const upperMethod = method.toUpperCase();
-		const logLevel =
-			statusCode >= 400 ? "error" : statusCode >= 300 ? "warn" : "info";
-
-		baseLogger[logLevel](
-			{
-				method: upperMethod,
-				endpoint,
-				statusCode,
-				...additionalData,
-			},
-			`${upperMethod} ${endpoint} → ${statusCode}`,
-		);
-	},
-});
-
-export default logger;
+// Types
+export type {
+	ActivityLogParams,
+	LogActivityParams,
+	Service,
+	Status,
+} from "./types.js";

@@ -6,8 +6,7 @@
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
 import { type VerificationResult, verifyEmail } from "@verifio/email-verify";
-import { logger } from "@verifio/logger";
-import { logActivity } from "@verifio/logging";
+import { logger, logActivity } from "@verifio/logger";
 import { count, desc, eq } from "drizzle-orm";
 import { Elysia, t } from "elysia";
 import { authMiddleware } from "../middleware/auth";

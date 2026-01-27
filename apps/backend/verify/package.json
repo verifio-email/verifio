@@ -21,8 +21,7 @@
 		"@verifio/cache": "workspace:*",
 		"@verifio/logger": "workspace:*",
 		"@verifio/auth": "workspace:*",
-		"@verifio/email-verify": "workspace:*",
-		"@verifio/logging": "workspace:*"
+		"@verifio/email-verify": "workspace:*"
 	},
 	"devDependencies": {
 		"@verifio/tsconfig": "workspace:*",

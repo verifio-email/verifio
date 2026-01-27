@@ -31,8 +31,6 @@
         "@verifio/auth": "workspace:*",
         "@verifio/cache": "workspace:*",
         "@verifio/db": "workspace:*",
-        "@verifio/logger": "workspace:*",
-        "@verifio/logging": "workspace:*",
         "better-auth": "catalog:",
         "dotenv": "catalog:backend",
         "drizzle-orm": "catalog:db",
@@ -72,7 +70,6 @@
         "@verifio/cache": "workspace:*",
         "@verifio/db": "workspace:*",
         "@verifio/logger": "workspace:*",
-        "@verifio/logging": "workspace:*",
         "@verifio/react-email": "workspace:*",
         "better-auth": "catalog:",
         "dotenv": "catalog:backend",
@@ -147,7 +144,6 @@
         "@verifio/db": "workspace:*",
         "@verifio/email-verify": "workspace:*",
         "@verifio/logger": "workspace:*",
-        "@verifio/logging": "workspace:*",
         "dotenv": "catalog:backend",
         "drizzle-orm": "catalog:db",
         "elysia": "catalog:backend",
@@ -181,8 +177,6 @@
         "@verifio/auth": "workspace:*",
         "@verifio/cache": "workspace:*",
         "@verifio/db": "workspace:*",
-        "@verifio/logger": "workspace:*",
-        "@verifio/logging": "workspace:*",
         "better-auth": "catalog:",
         "dotenv": "catalog:backend",
         "drizzle-orm": "catalog:db",
@@ -215,7 +209,6 @@
         "@verifio/db": "workspace:*",
         "@verifio/email-verify": "workspace:*",
         "@verifio/logger": "workspace:*",
-        "@verifio/logging": "workspace:*",
         "dotenv": "catalog:backend",
         "drizzle-orm": "catalog:db",
         "elysia": "catalog:backend",
@@ -274,7 +267,6 @@
         "@react-three/fiber": "catalog:ui",
         "@tanstack/react-table": "catalog:ui",
         "@types/three": "catalog:ui",
-        "@verifio/api": "workspace:*",
         "@verifio/auth": "workspace:*",
         "@verifio/tailwind": "workspace:*",
         "@verifio/ui": "workspace:*",
@@ -401,18 +393,6 @@
         "typescript": "catalog:",
       },
     },
-    "packages/api": {
-      "name": "@verifio/api",
-      "version": "0.1.0",
-      "dependencies": {
-        "@elysiajs/eden": "catalog:backend",
-      },
-      "devDependencies": {
-        "@types/node": "catalog:",
-        "@verifio/tsconfig": "workspace:*",
-        "typescript": "catalog:",
-      },
-    },
     "packages/auth": {
       "name": "@verifio/auth",
       "version": "0.1.0",
@@ -491,17 +471,6 @@
       },
       "devDependencies": {
         "@types/node": "catalog:",
-        "@verifio/tsconfig": "workspace:*",
-        "typescript": "catalog:",
-      },
-    },
-    "packages/logging": {
-      "name": "@verifio/logging",
-      "version": "1.0.0",
-      "dependencies": {
-        "@verifio/logger": "workspace:*",
-      },
-      "devDependencies": {
         "@verifio/tsconfig": "workspace:*",
         "typescript": "catalog:",
       },
@@ -1889,8 +1858,6 @@
 
     "@verifio/analytics": ["@verifio/analytics@workspace:packages/analytics"],
 
-    "@verifio/api": ["@verifio/api@workspace:packages/api"],
-
     "@verifio/auth": ["@verifio/auth@workspace:packages/auth"],
 
     "@verifio/cache": ["@verifio/cache@workspace:packages/cache"],
@@ -1900,8 +1867,6 @@
     "@verifio/email-verify": ["@verifio/email-verify@workspace:packages/email-verify"],
 
     "@verifio/logger": ["@verifio/logger@workspace:packages/logger"],
-
-    "@verifio/logging": ["@verifio/logging@workspace:packages/logging"],
 
     "@verifio/react-email": ["@verifio/react-email@workspace:packages/email"],
 

@@ -1,67 +1,12 @@
 /**
- * @verifio/logging - Centralized activity logging for Verifio services
+ * Centralized activity logging for Verifio services
  *
- * Usage:
- * ```typescript
- * import { logActivity, createTracker } from "@verifio/logging";
- *
- * // Simple usage
- * await logActivity({
- *   service: "verify",
- *   endpoint: "/v1/verify",
- *   method: "POST",
- *   organization_id: "org_123",
- *   status: "success",
- *   resource_id: "test@example.com",
- * });
- *
- * // Create a tracker instance with service pre-configured
- * const tracker = createTracker("verify", "https://logging-service-url");
- * await tracker.log({
- *   endpoint: "/v1/verify",
- *   method: "POST",
- *   organization_id: "org_123",
- *   status: "success",
- * });
- * ```
+ * Sends activity logs to the centralized logging service for tracking
+ * API usage, user actions, and system events.
  */
 
-import { logger } from "@verifio/logger";
-
-export type Service = "verify" | "api-key" | "auth" | "upload";
-export type Status = "success" | "failed" | "error";
-
-export interface LogActivityParams {
-	// Service context
-	service: Service;
-	endpoint: string;
-	method: string;
-
-	// Identity
-	organization_id: string;
-	user_id?: string;
-	api_key_id?: string;
-
-	// Request data
-	resource_type?: string;
-	resource_id?: string;
-
-	// Result
-	status: Status;
-	result?: string;
-	error_message?: string;
-
-	// Metrics
-	credits_used?: number;
-	duration_ms?: number;
-
-	// Client info
-	ip_address?: string;
-	user_agent?: string;
-
-	// Extra data
-	metadata?: Record<string, unknown>;
-}
+import { logger } from "./logger.js";
+import type { LogActivityParams, Service } from "./types.js";
 
 // Default logging service URL - can be overridden
 let loggingServiceUrl =
@@ -113,6 +58,17 @@ export async function logActivity(params: LogActivityParams): Promise<void> {
 
 /**
  * Create a tracker instance with a pre-configured service
+ *
+ * Usage:
+ * ```typescript
+ * const tracker = createTracker("verify");
+ * await tracker.success({
+ *   endpoint: "/v1/verify",
+ *   method: "POST",
+ *   organization_id: "org_123",
+ *   resource_id: "test@example.com",
+ * });
+ * ```
  */
 export function createTracker(service: Service, customUrl?: string) {
 	const baseUrl = customUrl || loggingServiceUrl;
@@ -170,6 +126,3 @@ export function createTracker(service: Service, customUrl?: string) {
 		},
 	};
 }
-
-// Re-export types
-export type { LogActivityParams as ActivityLogParams };

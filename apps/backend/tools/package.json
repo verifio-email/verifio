@@ -21,7 +21,6 @@
 		"@verifio/cache": "workspace:*",
 		"@verifio/logger": "workspace:*",
 		"@verifio/email-verify": "workspace:*",
-		"@verifio/logging": "workspace:*",
 		"@verifio/analytics": "workspace:*"
 	},
 	"devDependencies": {

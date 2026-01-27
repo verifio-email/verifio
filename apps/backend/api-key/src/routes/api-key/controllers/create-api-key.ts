@@ -5,8 +5,7 @@ import { formatApiKeyWithKeyResponse } from "@verifio/api-key/routes/api-key/con
 import type { ApiKeyTypes } from "@verifio/api-key/types/api-key.type";
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
-import { logger } from "@verifio/logger";
-import { logActivity } from "@verifio/logging";
+import { logger, logActivity } from "@verifio/logger";
 import { eq } from "drizzle-orm";
 import { status } from "elysia";
 

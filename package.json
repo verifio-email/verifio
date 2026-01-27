@@ -145,6 +145,7 @@
 		}
 	},
 	"scripts": {
+		"dev": "bun run docker:up && bun run verifio:dev",
 		"fe:dev:dev": "bun run --filter=dev dev",
 		"fe:dev:build": "bun run --filter=dev build",
 		"fe:dev:start": "bun run --filter=dev start",

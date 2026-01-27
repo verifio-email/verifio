@@ -1,7 +1,4 @@
-import type { AudienceStatus } from "@verifio/api/types";
-
-// Re-export for backward compatibility
-export type { AudienceStatus };
+export type AudienceStatus = "subscribed" | "unsubscribed";
 
 /**
  * Get human-readable label for audience status

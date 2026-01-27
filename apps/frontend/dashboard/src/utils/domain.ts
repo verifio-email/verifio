@@ -1,7 +1,9 @@
-import type { DomainStatus } from "@verifio/api/types";
-
-// Re-export for backward compatibility
-export type { DomainStatus };
+export type DomainStatus =
+	| "start-verify"
+	| "verifying"
+	| "active"
+	| "suspended"
+	| "failed";
 
 /**
  * Get human-readable label for domain status
