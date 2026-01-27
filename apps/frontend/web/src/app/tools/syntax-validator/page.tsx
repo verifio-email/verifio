@@ -3,6 +3,7 @@
 import * as Button from "@verifio/ui/button";
 import { Icon } from "@verifio/ui/icon";
 import Link from "next/link";
+import { toolsApi } from "@verifio/web/lib/tools-client";
 import { useState } from "react";
 
 type ValidationResult = {
@@ -46,28 +47,15 @@ export default function SyntaxValidatorPage() {
 		setError(null);
 		setResult(null);
 
-		try {
-			const response = await fetch("http://localhost:8005/api/tools/v1/syntax/validate", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ email: email.trim() }),
-			});
+		const result = await toolsApi.validateSyntax(email.trim());
 
-			const data: ApiResponse = await response.json();
-
-			if (data.success && data.data) {
-				setResult(data.data);
-			} else {
-				setError(data.error || "Validation failed");
-			}
-		} catch (err) {
-			setError("Failed to connect to validation service");
-			console.error(err);
-		} finally {
-			setIsLoading(false);
+		if (result.success && result.data) {
+			setResult(result.data);
+		} else {
+			setError(result.error || "Validation failed");
 		}
+
+		setIsLoading(false);
 	};
 
 	return (

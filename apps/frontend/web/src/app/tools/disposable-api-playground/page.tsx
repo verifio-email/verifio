@@ -3,6 +3,7 @@
 import * as Button from "@verifio/ui/button";
 import { Icon } from "@verifio/ui/icon";
 import Link from "next/link";
+import { toolsApi } from "@verifio/web/lib/tools-client";
 import { useState } from "react";
 
 type DisposableResult = {
@@ -50,26 +51,15 @@ export default function DisposableAPIPlaygroundPage() {
 		setError(null);
 		setResult(null);
 
-		try {
-			const response = await fetch("http://localhost:8005/api/tools/v1/disposable/check", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ email: emailToCheck.trim() }),
-			});
+		const result = await toolsApi.checkDisposable(emailToCheck.trim());
 
-			const data: ApiResponse = await response.json();
-
-			if (data.success && data.data) {
-				setResult(data.data);
-			} else {
-				setError(data.error || "Check failed");
-			}
-		} catch (err) {
-			setError("Failed to connect to service");
-			console.error(err);
-		} finally {
-			setIsLoading(false);
+		if (result.success && result.data) {
+			setResult(result.data);
+		} else {
+			setError(result.error || "Check failed");
 		}
+
+		setIsLoading(false);
 	};
 
 	return (

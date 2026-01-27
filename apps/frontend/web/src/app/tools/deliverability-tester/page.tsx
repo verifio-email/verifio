@@ -3,6 +3,7 @@
 import * as Button from "@verifio/ui/button";
 import { Icon } from "@verifio/ui/icon";
 import Link from "next/link";
+import { toolsApi } from "@verifio/web/lib/tools-client";
 import { useState } from "react";
 
 type DeliverabilityResult = {
@@ -39,29 +40,15 @@ export default function DeliverabilityTesterPage() {
 		setError(null);
 		setResult(null);
 
-		try {
-			const response = await fetch(
-				"http://localhost:8005/api/tools/v1/deliverability/test",
-				{
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ domain: domain.trim() }),
-				},
-			);
+		const result = await toolsApi.testDeliverability(domain.trim());
 
-			const data: ApiResponse = await response.json();
-
-			if (data.success && data.data) {
-				setResult(data.data);
-			} else {
-				setError(data.error || "Test failed");
-			}
-		} catch (err) {
-			setError("Failed to connect to service");
-			console.error(err);
-		} finally {
-			setIsLoading(false);
+		if (result.success && result.data) {
+			setResult(result.data);
+		} else {
+			setError(result.error || "Test failed");
 		}
+
+		setIsLoading(false);
 	};
 
 	const getScoreColor = (score: number) => {
