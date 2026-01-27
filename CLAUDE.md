@@ -45,11 +45,11 @@ bun run backend:dev
 
 Start individual services:
 ```bash
-# Frontend (ports 3000-3004)
+# Frontend (ports 3000-3003)
 bun run fe:web:dev        # Port 3000 - Main website
 bun run fe:dashboard:dev  # Port 3001 - Admin dashboard
 bun run fe:docs:dev       # Port 3002 - Documentation
-bun run fe:blog:dev       # Port 3004 - Blog
+bun run fe:blog:dev       # Port 3003 - Blog
 
 # Backend (ports 8000-8006)
 bun run be:auth:dev       # Port 8000 - Authentication service
@@ -94,7 +94,7 @@ apps/
     web/          # Main marketing website (Next.js, port 3000)
     dashboard/    # Admin dashboard (Next.js, port 3001)
     docs/         # Documentation site (Next.js, port 3002)
-    blog/         # Blog platform (Next.js, port 3004)
+    blog/         # Blog platform (Next.js, port 3003)
   backend/
     auth/         # Authentication service (Elysia, port 8000)
     verify/       # Email verification core (Elysia, port 8001)

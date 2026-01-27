@@ -10,14 +10,14 @@ local.verifio.email {
         }
     }
     handle /docs* {
-        reverse_proxy host.docker.internal:3003 {
+        reverse_proxy host.docker.internal:3002 {
             header_up Host {host}
             header_up X-Forwarded-Proto {scheme}
             header_up X-Forwarded-For {remote}
         }
     }
     handle /blog* {
-        reverse_proxy host.docker.internal:3004 {
+        reverse_proxy host.docker.internal:3003 {
             header_up Host {host}
             header_up X-Forwarded-Proto {scheme}
             header_up X-Forwarded-For {remote}
