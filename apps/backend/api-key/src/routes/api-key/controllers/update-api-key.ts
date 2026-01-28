@@ -22,7 +22,6 @@ export async function updateApiKey(
 	);
 
 	try {
-		// Check if API key exists and belongs to user/organization
 		const existing = await db.query.apikey.findFirst({
 			where: and(
 				eq(schema.apikey.id, apiKeyId),
@@ -39,7 +38,6 @@ export async function updateApiKey(
 			throw status(404, { message: "API key not found" });
 		}
 
-		// Build update object
 		const updateData: Partial<typeof schema.apikey.$inferInsert> = {
 			updatedAt: new Date(),
 		};

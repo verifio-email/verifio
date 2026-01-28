@@ -1,17 +1,20 @@
-import { authMiddleware } from "@verifio/api-key/middleware/auth";
+import {
+	type AuthenticatedUser,
+	authMiddleware,
+} from "@verifio/api-key/middleware/auth";
 import { ApiKeyModel } from "@verifio/api-key/model/api-key.model";
 import { listApiKeysHandler } from "@verifio/api-key/routes/api-key/controllers/list-api-keys";
-import { Elysia, status } from "elysia";
+import { Elysia } from "elysia";
 
 export const listApiKeysRoute = new Elysia().use(authMiddleware).get(
 	"/",
 	async ({ query, user }) => {
-		if (!user.activeOrganizationId) {
-			throw status(403, {
-				message: "User is not a member of an organization",
-			});
-		}
-		return await listApiKeysHandler(query, user.activeOrganizationId, user.id);
+		const typedUser = user as AuthenticatedUser;
+		return await listApiKeysHandler(
+			query,
+			typedUser.activeOrganizationId,
+			typedUser.id,
+		);
 	},
 	{
 		auth: true,

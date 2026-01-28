@@ -30,19 +30,20 @@ export async function createApiKey(
 	request: ApiKeyTypes.CreateApiKeyRequest,
 ): Promise<ApiKeyTypes.ApiKeyWithKeyResponse> {
 	try {
-		// Generate API key
 		const fullKey = generateApiKey();
 		const keyStart = getKeyStart(fullKey);
 		const keyId = createId();
 
-		logger.info("Creating API key", organizationId, userId, keyStart, keyId);
+		logger.info(
+			{ organizationId, userId, keyStart, keyId },
+			"Creating API key",
+		);
 		const now = new Date();
 		const expiresAt = request.expiresAt ? new Date(request.expiresAt) : null;
 
-		// Set defaults
 		const enabled = request.enabled ?? true;
 		const rateLimitEnabled = request.rateLimitEnabled ?? true;
-		const rateLimitTimeWindow = request.rateLimitTimeWindow ?? 86400000; // 24 hours
+		const rateLimitTimeWindow = request.rateLimitTimeWindow ?? 86400000;
 		const rateLimitMax = request.rateLimitMax ?? 10;
 		const remaining = request.refillAmount ?? rateLimitMax;
 
@@ -53,7 +54,7 @@ export async function createApiKey(
 				name: request.name || null,
 				start: keyStart,
 				prefix: API_KEY_PREFIX,
-				key: hashApiKey(fullKey), // Store hash, never plaintext
+				key: hashApiKey(fullKey),
 				organizationId,
 				userId,
 				refillInterval: request.refillInterval ?? null,
@@ -79,7 +80,6 @@ export async function createApiKey(
 			throw status(500, { message: "Failed to create API key" });
 		}
 
-		// Fetch the user info to include in the response
 		const user = await db.query.user.findFirst({
 			where: eq(schema.user.id, userId),
 		});
@@ -92,7 +92,7 @@ export async function createApiKey(
 			throw status(500, { message: "User not found" });
 		}
 
-		logger.info("newApiKey", newApiKey);
+		logger.info({ apiKeyId: newApiKey[0]?.id }, "Created API key");
 
 		return formatApiKeyWithKeyResponse(
 			{
@@ -128,7 +128,6 @@ export async function createApiKeyHandler(
 	try {
 		const apiKey = await createApiKey(organizationId, userId, body);
 
-		// Log successful API key creation
 		logActivity({
 			service: "api-key",
 			endpoint: "/v1/",
@@ -140,7 +139,7 @@ export async function createApiKeyHandler(
 			status: "success",
 			result: "created",
 			duration_ms: Date.now() - startTime,
-		}).catch(() => { });
+		}).catch(() => {});
 
 		return apiKey;
 	} catch (error) {
@@ -153,7 +152,6 @@ export async function createApiKeyHandler(
 			"Error creating API key",
 		);
 
-		// Log failed API key creation
 		logActivity({
 			service: "api-key",
 			endpoint: "/v1/",
@@ -164,7 +162,7 @@ export async function createApiKeyHandler(
 			status: "error",
 			error_message: error instanceof Error ? error.message : String(error),
 			duration_ms: Date.now() - startTime,
-		}).catch(() => { });
+		}).catch(() => {});
 
 		throw error;
 	}

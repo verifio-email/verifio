@@ -3,6 +3,10 @@ import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
 import { apiKeyConfig } from "../api-key.config";
 
+export type AuthenticatedUser = Session["user"] & {
+	activeOrganizationId: string;
+};
+
 if (apiKeyConfig.NODE_ENV !== "production") {
 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 }
@@ -51,8 +55,18 @@ export const authMiddleware = new Elysia({ name: "better-auth" }).macro({
 				const session: Session | null = await response.json();
 
 				if (session?.user) {
+					if (!session.user.activeOrganizationId) {
+						logger.warn(
+							{ userId: session.user.id },
+							"User is not a member of an organization",
+						);
+						return status(403, {
+							message: "User is not a member of an organization",
+						});
+					}
+
 					return {
-						user: session.user,
+						user: session.user as AuthenticatedUser,
 						session: session.session,
 						authMethod: "cookie" as const,
 					};

@@ -8,7 +8,7 @@ import { and, count, desc, eq } from "drizzle-orm";
 export async function listApiKeys(
 	query: ApiKeyTypes.ApiKeyListQuery,
 	organizationId: string,
-	userId: string,
+	_userId: string,
 ): Promise<ApiKeyTypes.ApiKeyListResponse> {
 	const { page = 1, limit = 10, enabled } = query;
 	const offset = (page - 1) * limit;

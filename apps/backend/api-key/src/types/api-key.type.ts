@@ -78,6 +78,7 @@ export namespace ApiKeyTypes {
 		enabled?: boolean;
 	}
 
-	export type UsageStatsResponse = typeof ApiKeyModel.usageStatsResponse.static;
 	export type SuccessResponse = typeof ApiKeyModel.successResponse.static;
+	export type VerifyApiKeyResponse =
+		typeof ApiKeyModel.verifyApiKeyResponse.static;
 }

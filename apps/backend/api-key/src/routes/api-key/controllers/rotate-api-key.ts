@@ -30,7 +30,6 @@ export async function rotateApiKey(
 	userId: string,
 ): Promise<ApiKeyTypes.ApiKeyWithKeyResponse> {
 	try {
-		// Verify the API key exists and belongs to the organization
 		const existingKey = await db.query.apikey.findFirst({
 			where: and(
 				eq(schema.apikey.id, id),
@@ -46,16 +45,14 @@ export async function rotateApiKey(
 			throw status(404, { message: "API key not found" });
 		}
 
-		// Generate new key
 		const fullKey = generateApiKey();
 		const keyStart = getKeyStart(fullKey);
 		const now = new Date();
 
-		// Update with new key
 		const [updatedKey] = await db
 			.update(schema.apikey)
 			.set({
-				key: hashApiKey(fullKey), // Store hash, never plaintext
+				key: hashApiKey(fullKey),
 				start: keyStart,
 				updatedAt: now,
 			})

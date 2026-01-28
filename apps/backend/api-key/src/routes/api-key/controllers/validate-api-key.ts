@@ -9,12 +9,11 @@ export async function validateApiKey(
 	apiKey: string,
 ): Promise<ApiKeyTypes.ApiKeyData | null> {
 	logger.info(
-		{ apiKey: apiKey.substring(0, 12) + "..." },
+		{ apiKey: `${apiKey.substring(0, 12)}...` },
 		"Validating API key",
 	);
 
 	try {
-		// Find API key by direct comparison (stored as full key)
 		const result = await db.query.apikey.findFirst({
 			where: and(
 				eq(schema.apikey.key, apiKey),
@@ -27,19 +26,17 @@ export async function validateApiKey(
 
 		if (!result) {
 			logger.warn(
-				{ apiKey: apiKey.substring(0, 12) + "..." },
+				{ apiKey: `${apiKey.substring(0, 12)}...` },
 				"API key not found",
 			);
 			return null;
 		}
 
-		// Check expiration
 		if (result.expiresAt && new Date(result.expiresAt) < new Date()) {
 			logger.warn({ id: result.id }, "API key has expired");
 			return null;
 		}
 
-		// Update last request
 		const now = new Date();
 		await db
 			.update(schema.apikey)
@@ -75,7 +72,7 @@ export async function validateApiKeyHandler(
 	apiKey: string,
 ): Promise<{ valid: boolean; apiKey?: ApiKeyTypes.ApiKeyResponse }> {
 	logger.info(
-		{ apiKey: apiKey.substring(0, 12) + "..." },
+		{ apiKey: `${apiKey.substring(0, 12)}...` },
 		"Validating API key",
 	);
 

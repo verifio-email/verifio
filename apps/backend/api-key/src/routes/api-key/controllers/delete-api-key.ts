@@ -12,7 +12,6 @@ export async function deleteApiKey(
 	logger.info({ apiKeyId, organizationId, userId }, "Deleting API key");
 
 	try {
-		// Check if API key exists and belongs to user/organization
 		const existing = await db.query.apikey.findFirst({
 			where: and(
 				eq(schema.apikey.id, apiKeyId),
@@ -26,7 +25,6 @@ export async function deleteApiKey(
 			throw status(404, { message: "API key not found" });
 		}
 
-		// Hard delete the API key
 		await db
 			.delete(schema.apikey)
 			.where(
@@ -65,7 +63,6 @@ export async function deleteApiKeyHandler(
 			"API key deleted successfully",
 		);
 
-		// Log successful deletion
 		logActivity({
 			service: "api-key",
 			endpoint: `/v1/${apiKeyId}`,
@@ -91,7 +88,6 @@ export async function deleteApiKeyHandler(
 			"Error deleting API key",
 		);
 
-		// Log failed deletion
 		logActivity({
 			service: "api-key",
 			endpoint: `/v1/${apiKeyId}`,

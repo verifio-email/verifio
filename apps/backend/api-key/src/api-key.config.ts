@@ -1,5 +1,3 @@
-// Default values for api-key configuration
-
 const defaults = {
 	PORT: "8002",
 	PG_URL: "postgresql://verifio:verifio123@localhost:5432/verifio",

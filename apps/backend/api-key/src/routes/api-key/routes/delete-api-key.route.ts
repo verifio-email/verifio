@@ -1,17 +1,20 @@
-import { authMiddleware } from "@verifio/api-key/middleware/auth";
+import {
+	type AuthenticatedUser,
+	authMiddleware,
+} from "@verifio/api-key/middleware/auth";
 import { ApiKeyModel } from "@verifio/api-key/model/api-key.model";
 import { deleteApiKeyHandler } from "@verifio/api-key/routes/api-key/controllers/delete-api-key";
-import { Elysia, status, t } from "elysia";
+import { Elysia, t } from "elysia";
 
 export const deleteApiKeyRoute = new Elysia().use(authMiddleware).delete(
 	"/:id",
 	async ({ params: { id }, user }) => {
-		if (!user.activeOrganizationId) {
-			throw status(403, {
-				message: "User is not a member of an organization",
-			});
-		}
-		return await deleteApiKeyHandler(id, user.activeOrganizationId, user.id);
+		const typedUser = user as AuthenticatedUser;
+		return await deleteApiKeyHandler(
+			id,
+			typedUser.activeOrganizationId,
+			typedUser.id,
+		);
 	},
 	{
 		auth: true,
