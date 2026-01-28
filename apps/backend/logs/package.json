@@ -18,12 +18,10 @@
 		"@verifio/logger": "workspace:*",
 		"dotenv": "catalog:backend",
 		"drizzle-orm": "catalog:db",
-		"elysia": "catalog:backend",
-		"pg": "catalog:db"
+		"elysia": "catalog:backend"
 	},
 	"devDependencies": {
 		"@types/bun": "catalog:backend",
-		"@types/pg": "catalog:db",
 		"@verifio/tsconfig": "workspace:*",
 		"tsdown": "catalog:backend",
 		"typescript": "catalog:"

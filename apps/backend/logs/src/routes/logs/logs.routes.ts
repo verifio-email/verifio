@@ -3,5 +3,5 @@ import { listLogsRoute } from "@verifio/logs/routes/logs/routes/list-logs.route"
 import { Elysia } from "elysia";
 
 export const logsRoutes = new Elysia({ prefix: "/v1", name: "LogsRoutes" })
-  .use(createLogRoute)
-  .use(listLogsRoute);
+	.use(createLogRoute)
+	.use(listLogsRoute);

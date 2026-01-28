@@ -1,20 +1,21 @@
 import { db } from "@verifio/db/client";
 import { Elysia } from "elysia";
 
-export const healthRoute = new Elysia()
-  .get("/", async () => {
-    let dbStatus = "UNKNOWN";
-    let dbError = "";
+export const healthRoute = new Elysia().get(
+	"/",
+	async () => {
+		let dbStatus = "UNKNOWN";
+		let dbError = "";
 
-    try {
-      await db.execute("SELECT 1 as test");
-      dbStatus = "CONNECTED";
-    } catch (dbErr) {
-      dbStatus = "DISCONNECTED";
-      dbError = dbErr instanceof Error ? dbErr.message : String(dbErr);
-    }
+		try {
+			await db.execute("SELECT 1 as test");
+			dbStatus = "CONNECTED";
+		} catch (dbErr) {
+			dbStatus = "DISCONNECTED";
+			dbError = dbErr instanceof Error ? dbErr.message : String(dbErr);
+		}
 
-    return `
+		return `
 ╔════════════════════════════════════════════════════════╗
 ║                      LOGS SERVICE                      ║
 ╠════════════════════════════════════════════════════════╣
@@ -53,29 +54,11 @@ ${dbError ? `║ DB ERROR: ${dbError.substring(0, 45).padEnd(45)} ║` : "║   
                 Made with ❤️ for developers
 
 `;
-  })
-  .get(
-    "/health/postgres",
-    async () => {
-      try {
-        await db.execute("SELECT 1 as test");
-        return {
-          status: "CONNECTED",
-          timestamp: new Date().toISOString(),
-        };
-      } catch (error) {
-        return {
-          status: "DISCONNECTED",
-          error: error instanceof Error ? error.message : String(error),
-          timestamp: new Date().toISOString(),
-        };
-      }
-    },
-    {
-      detail: {
-        tags: ["Health"],
-        summary: "PostgreSQL Health Check",
-        description: "Check PostgreSQL database connection status",
-      },
-    },
-  );
+	},
+	{
+		detail: {
+			summary: "Logs Service",
+			description: "Checks the health of the Logs Service",
+		},
+	},
+);

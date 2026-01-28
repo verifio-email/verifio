@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { cors } from "@elysiajs/cors";
-import { fromTypes, openapi } from "@elysiajs/openapi";
+import { openapi } from "@elysiajs/openapi";
 import { serverTiming } from "@elysiajs/server-timing";
 import { apiKeyRoutes } from "@verifio/api-key/routes/api-key/api-key.routes";
 import { apiKeyHealthRoute } from "@verifio/api-key/routes/api-key/routes/api-key-health-route";
@@ -20,24 +20,16 @@ const apiKeyService = new Elysia({
 				apiKeyConfig.NODE_ENV === "production"
 					? ["https://verifio.email", "https://www.verifio.email"]
 					: [
-							"http://localhost:3000",
-							"http://localhost:3001",
-							"https://local.verifio.email",
-						],
+						"http://localhost:3000",
+						"http://localhost:3001",
+						"https://local.verifio.email",
+					],
 			methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 			allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
 			credentials: true,
 		}),
 	)
-	.use(
-		openapi({
-			references: fromTypes(
-				apiKeyConfig.NODE_ENV === "production"
-					? "dist/index.d.ts"
-					: "src/index.ts",
-			),
-		}),
-	)
+	.use(openapi())
 	.use(serverTiming())
 	.use(apiKeyHealthRoute)
 	.use(apiKeyRoutes)
