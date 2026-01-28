@@ -8,8 +8,11 @@ import { getStatusRoute } from "@verifio/credits/routes/credits/routes/get-credi
 import { getHistoryRoute } from "@verifio/credits/routes/credits/routes/get-history.route";
 import { Elysia } from "elysia";
 
-export const creditsRoutes = new Elysia({ prefix: "/v1", name: "CreditsRoutes" })
-  .use(getStatusRoute)
-  .use(getHistoryRoute)
-  .use(checkCreditsRoute)
-  .use(deductCreditsRoute);
+export const creditsRoutes = new Elysia({
+	prefix: "/v1",
+	name: "CreditsRoutes",
+})
+	.use(getStatusRoute)
+	.use(getHistoryRoute)
+	.use(checkCreditsRoute)
+	.use(deductCreditsRoute);

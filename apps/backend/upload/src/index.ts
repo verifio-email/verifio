@@ -21,10 +21,10 @@ const uploadService = new Elysia({
 				uploadConfig.NODE_ENV === "production"
 					? ["https://verifio.email", "https://www.verifio.email"]
 					: [
-						"http://localhost:3000",
-						"http://localhost:3001",
-						"https://local.verifio.email",
-					],
+							"http://localhost:3000",
+							"http://localhost:3001",
+							"https://local.verifio.email",
+						],
 			methods: ["GET", "POST", "DELETE", "OPTIONS"],
 			allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
 			credentials: true,

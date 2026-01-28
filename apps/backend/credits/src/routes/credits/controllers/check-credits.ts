@@ -5,15 +5,16 @@ export async function checkCreditsHandler(
 	organizationId: string,
 	amount: number,
 ) {
-	logger.info(
-		{ organizationId, amount },
-		"Checking credits",
-	);
+	logger.info({ organizationId, amount }, "Checking credits");
 
 	const result = await checkCredits(organizationId, amount);
 
 	logger.info(
-		{ organizationId, hasCredits: result.hasCredits, remaining: result.remaining },
+		{
+			organizationId,
+			hasCredits: result.hasCredits,
+			remaining: result.remaining,
+		},
 		"Credits checked",
 	);
 

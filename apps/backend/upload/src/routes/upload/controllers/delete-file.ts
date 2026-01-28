@@ -31,7 +31,9 @@ export async function deleteFile(params: {
 				{ fileId, userId, organizationId, fileOrgId: upload.organizationId },
 				"User attempted to delete file from different organization",
 			);
-			throw status(403, { message: "You don't have permission to delete this file" });
+			throw status(403, {
+				message: "You don't have permission to delete this file",
+			});
 		}
 
 		// Soft delete in database

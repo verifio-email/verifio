@@ -13,15 +13,11 @@
 		"@elysiajs/cors": "catalog:backend",
 		"@elysiajs/openapi": "catalog:backend",
 		"@elysiajs/server-timing": "catalog:backend",
-		"@paralleldrive/cuid2": "catalog:backend",
 		"dotenv": "catalog:backend",
-		"drizzle-orm": "catalog:db",
 		"elysia": "catalog:backend",
-		"@verifio/db": "workspace:*",
 		"@verifio/cache": "workspace:*",
 		"@verifio/logger": "workspace:*",
-		"@verifio/email-verify": "workspace:*",
-		"@verifio/analytics": "workspace:*"
+		"@verifio/email-verify": "workspace:*"
 	},
 	"devDependencies": {
 		"@verifio/tsconfig": "workspace:*",

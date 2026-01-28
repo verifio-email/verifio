@@ -1,5 +1,5 @@
-import type { AuthenticatedUser } from "@verifio/upload/middleware/auth";
 import { uploadErrorResponse } from "@verifio/upload/error/upload.error-response";
+import type { AuthenticatedUser } from "@verifio/upload/middleware/auth";
 import { authMiddleware } from "@verifio/upload/middleware/auth";
 import { UploadModel } from "@verifio/upload/model/upload.model";
 import { uploadFileHandler } from "@verifio/upload/routes/upload/controllers/upload-file";

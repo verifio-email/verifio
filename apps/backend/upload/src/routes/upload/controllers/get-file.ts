@@ -31,7 +31,9 @@ export async function getFile(params: {
 				{ fileId, organizationId, fileOrgId: upload.organizationId },
 				"User attempted to access file from different organization",
 			);
-			throw status(403, { message: "You don't have permission to access this file" });
+			throw status(403, {
+				message: "You don't have permission to access this file",
+			});
 		}
 
 		const fullPath = `${uploadConfig.UPLOAD_STORAGE_PATH}/${upload.path}`;

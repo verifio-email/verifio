@@ -3,31 +3,31 @@ import { redis } from "@verifio/upload/lib/redis";
 import { Elysia } from "elysia";
 
 export const healthRoute = new Elysia().get(
-  "/",
-  async () => {
-    let dbStatus = "UNKNOWN";
-    let dbError = "";
-    let redisStatus = "UNKNOWN";
-    let redisError = "";
+	"/",
+	async () => {
+		let dbStatus = "UNKNOWN";
+		let dbError = "";
+		let redisStatus = "UNKNOWN";
+		let redisError = "";
 
-    try {
-      await db.execute("SELECT 1 as test");
-      dbStatus = "CONNECTED";
-    } catch (dbErr) {
-      dbStatus = "DISCONNECTED";
-      dbError = dbErr instanceof Error ? dbErr.message : String(dbErr);
-    }
+		try {
+			await db.execute("SELECT 1 as test");
+			dbStatus = "CONNECTED";
+		} catch (dbErr) {
+			dbStatus = "DISCONNECTED";
+			dbError = dbErr instanceof Error ? dbErr.message : String(dbErr);
+		}
 
-    try {
-      await redis.healthCheck();
-      redisStatus = "CONNECTED";
-    } catch (redisErr) {
-      redisStatus = "DISCONNECTED";
-      redisError =
-        redisErr instanceof Error ? redisErr.message : String(redisErr);
-    }
+		try {
+			await redis.healthCheck();
+			redisStatus = "CONNECTED";
+		} catch (redisErr) {
+			redisStatus = "DISCONNECTED";
+			redisError =
+				redisErr instanceof Error ? redisErr.message : String(redisErr);
+		}
 
-    return `
+		return `
 ╔════════════════════════════════════════════════════════════════╗
 ║                        UPLOAD SERVICE                          ║
 ╠════════════════════════════════════════════════════════════════╣
@@ -64,11 +64,11 @@ ${redisError ? `║ REDIS ERROR: ${redisError.substring(0, 50).padEnd(50)} ║` 
                 Made with ❤️ for developers
 
 `;
-  },
-  {
-    detail: {
-      summary: "Upload Service",
-      description: "Checks the health of the Upload Service",
-    },
-  },
+	},
+	{
+		detail: {
+			summary: "Upload Service",
+			description: "Checks the health of the Upload Service",
+		},
+	},
 );

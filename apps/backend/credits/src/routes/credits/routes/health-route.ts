@@ -6,20 +6,20 @@ import { db } from "@verifio/db/client";
 import { Elysia } from "elysia";
 
 export const healthRoute = new Elysia().get(
-  "/",
-  async () => {
-    let dbStatus = "UNKNOWN";
-    let dbError = "";
+	"/",
+	async () => {
+		let dbStatus = "UNKNOWN";
+		let dbError = "";
 
-    try {
-      await db.execute("SELECT 1 as test");
-      dbStatus = "CONNECTED";
-    } catch (dbErr) {
-      dbStatus = "DISCONNECTED";
-      dbError = dbErr instanceof Error ? dbErr.message : String(dbErr);
-    }
+		try {
+			await db.execute("SELECT 1 as test");
+			dbStatus = "CONNECTED";
+		} catch (dbErr) {
+			dbStatus = "DISCONNECTED";
+			dbError = dbErr instanceof Error ? dbErr.message : String(dbErr);
+		}
 
-    return `
+		return `
 ╔════════════════════════════════════════════════════════╗
 ║                   CREDITS SERVICE                      ║
 ╠════════════════════════════════════════════════════════╣
@@ -54,11 +54,11 @@ ${dbError ? `║ DB ERROR: ${dbError.substring(0, 45).padEnd(45)} ║` : "║   
                 Made with ❤️ for developers
 
 `;
-  },
-  {
-    detail: {
-      summary: "Credits Service",
-      description: "Checks the health of the Credits Service",
-    },
-  },
+	},
+	{
+		detail: {
+			summary: "Credits Service",
+			description: "Checks the health of the Credits Service",
+		},
+	},
 );
