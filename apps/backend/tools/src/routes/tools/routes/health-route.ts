@@ -38,15 +38,15 @@ ${redisError ? `║ REDIS ERROR: ${redisError.substring(0, 50).padEnd(50)} ║` 
 ╠════════════════════════════════════════════════════════╣
 ╠════════════════════════════════════════════════════════╣
 ║ AVAILABLE TOOLS:                                       ║
-║ - Syntax Validation                                    ║
-║ - Disposable Detection                                 ║
-║ - Deliverability Test                                  ║
-║ - List Health Calculator                               ║
-║ - Catch-All Detector                                   ║
+║ - https://verifio.email/email-syntax-validator         ║
+║ - https://verifio.email/disposable-email-checker       ║
+║ - https://verifio.email/email-deliverability-test      ║
+║ - https://verifio.email/email-list-health-checker      ║
+║ - https://verifio.email/catch-all-detector             ║
 ╠════════════════════════════════════════════════════════╣
 ║ RESOURCES:                                             ║
 ║ - GitHub: https://github.com/verifio-email/verifio     ║
-║ - Docs: https://verifio.email/dev/tools                ║
+║ - Docs: https://verifio.email/dev/tools               ║
 ║ - Contact: https://verifio.email/contact               ║
 ╠════════════════════════════════════════════════════════╣
 ║  "Free tools for email verification"                   ║

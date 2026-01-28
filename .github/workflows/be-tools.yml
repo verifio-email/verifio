@@ -63,8 +63,7 @@ jobs:
       - name: Image digest
         run: echo ${{ steps.build.outputs.digest }}
 
-      # TODO: Add Dokploy deployment URL when available
-      # - name: Trigger Dokploy deployment
-      #   if: github.event_name != 'pull_request'
-      #   run: |
-      #     curl https://dokploy.verifio.email/api/deploy/<TOOLS_DEPLOYMENT_ID>
+      - name: Trigger Dokploy deployment
+        if: github.event_name != 'pull_request'
+        run: |
+          curl https://dokploy.verifio.email/api/deploy/n1OFKv1EnnBHvTQ8sBXDS
