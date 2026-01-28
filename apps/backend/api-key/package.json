@@ -11,40 +11,21 @@
 	},
 	"dependencies": {
 		"@elysiajs/cors": "catalog:backend",
-		"@elysiajs/cron": "catalog:backend",
-		"@elysiajs/opentelemetry": "catalog:backend",
+		"@elysiajs/openapi": "catalog:backend",
 		"@elysiajs/server-timing": "catalog:backend",
-		"@elysiajs/swagger": "catalog:backend",
-		"@opentelemetry/exporter-trace-otlp-http": "catalog:backend",
-		"@opentelemetry/exporter-trace-otlp-proto": "catalog:backend",
-		"@opentelemetry/instrumentation-express": "catalog:backend",
-		"@opentelemetry/instrumentation-http": "catalog:backend",
-		"@opentelemetry/resources": "catalog:backend",
-		"@opentelemetry/sdk-trace-node": "catalog:backend",
-		"@opentelemetry/semantic-conventions": "catalog:backend",
 		"@paralleldrive/cuid2": "catalog:backend",
-		"better-auth": "catalog:",
+		"@verifio/auth": "workspace:*",
+		"@verifio/cache": "workspace:*",
+		"@verifio/db": "workspace:*",
+		"@verifio/logger": "workspace:*",
 		"dotenv": "catalog:backend",
 		"drizzle-orm": "catalog:db",
-		"drizzle-typebox": "catalog:db",
-		"elysia": "catalog:backend",
-		"pg": "catalog:db",
-		"redis": "catalog:db",
-		"zod": "catalog:ui",
-		"@verifio/logger": "workspace:*",
-		"@verifio/db": "workspace:*",
-		"@verifio/cache": "workspace:*",
-		"@verifio/auth": "workspace:*",
-		"@elysiajs/eden": "catalog:backend",
-		"@elysiajs/openapi": "catalog:backend"
+		"elysia": "catalog:backend"
 	},
 	"devDependencies": {
+		"@types/bun": "catalog:backend",
 		"@verifio/tsconfig": "workspace:*",
 		"tsdown": "catalog:backend",
-		"typescript": "catalog:",
-		"@types/bun": "catalog:backend",
-		"drizzle-kit": "catalog:db",
-		"@types/pg": "catalog:db",
-		"@better-auth/cli": "catalog:backend"
+		"typescript": "catalog:"
 	}
 }

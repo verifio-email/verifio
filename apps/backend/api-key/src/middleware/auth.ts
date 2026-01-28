@@ -1,4 +1,4 @@
-import type { Session } from "@verifio/auth/server";
+import type { Session } from "@verifio/auth/types";
 import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
 import { apiKeyConfig } from "../api-key.config";

@@ -7,13 +7,12 @@ WORKDIR /app
 # Install Python and build dependencies for native modules
 RUN apk add --no-cache python3 make g++
 
-# Install only production dependencies first (to skip better-sqlite3 build)
 # Copy all package files
 COPY package.json bun.lock* ./
 COPY apps packages
-# Install all workspace dependencies needed for api-key
-# Using --ignore-scripts to skip better-sqlite3 build (we use PostgreSQL, not SQLite)
-RUN bun install --ignore-scripts
+# Install all workspace dependencies (retry on network errors)
+# better-sqlite3 build may fail but we use PostgreSQL
+RUN for i in 1 2 3; do bun install && break || sleep 5; done
 
 # Stage 2: Build the application
 FROM base AS builder
@@ -23,7 +22,9 @@ ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN bun run --filter=api-key build
+# Build using tsdown directly or through bun
+WORKDIR /app/apps/backend/api-key
+RUN bun run build
 
 # Stage 3: Production server
 FROM base AS runner
@@ -38,6 +39,7 @@ COPY --from=builder /app/apps/backend/api-key/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 # Copy workspace packages that are used as external dependencies
 COPY --from=builder /app/packages ./packages
+COPY --from=builder /app/apps ./apps
 
 EXPOSE 8002
 
