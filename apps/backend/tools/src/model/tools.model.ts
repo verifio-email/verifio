@@ -68,13 +68,4 @@ export namespace ToolsModel {
 	});
 
 	export type ErrorResponse = typeof errorResponse.static;
-
-	export const healthResponse = t.Object({
-		status: t.String({ description: "Service status" }),
-		service: t.String({ description: "Service name" }),
-		version: t.String({ description: "Service version" }),
-		timestamp: t.String({ description: "Current timestamp" }),
-	});
-
-	export type HealthResponse = typeof healthResponse.static;
 }

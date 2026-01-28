@@ -1,18 +1,66 @@
-import { ToolsModel } from "@verifio/tools/model/tools.model";
+import { redis } from "@verifio/tools/lib/redis";
 import { Elysia } from "elysia";
 
 export const healthRoute = new Elysia().get(
 	"/",
-	() => ({
-		status: "ok",
-		service: "Verifio Tools Service",
-		version: "1.0.0",
-		timestamp: new Date().toISOString(),
-	}),
+	async () => {
+		let redisStatus = "UNKNOWN";
+		let redisError = "";
+
+		try {
+			await redis.healthCheck();
+			redisStatus = "CONNECTED";
+		} catch (redisErr) {
+			redisStatus = "DISCONNECTED";
+			redisError =
+				redisErr instanceof Error ? redisErr.message : String(redisErr);
+		}
+
+		return `
+╔════════════════════════════════════════════════════════╗
+║                      TOOLS                             ║
+╠════════════════════════════════════════════════════════╣
+║                                                        ║
+║    ████████╗ ██████╗  ██████╗ ██╗     ███████╗         ║
+║    ╚══██╔══╝██╔═══██╗██╔═══██╗██║     ██╔════╝         ║
+║       ██║   ██║   ██║██║   ██║██║     ███████╗         ║
+║       ██║   ██║   ██║██║   ██║██║     ╚════██║         ║
+║       ██║   ╚██████╔╝╚██████╔╝███████╗███████║         ║
+║       ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚══════╝         ║
+║                                                        ║
+║                  ONLINE & READY                        ║
+║                 Version: v1.0.0                        ║
+║                                                        ║
+╠════════════════════════════════════════════════════════╣
+║ REDIS STATUS: ${redisStatus.padEnd(27)}              ║
+║                                                        ║
+${redisError ? `║ REDIS ERROR: ${redisError.substring(0, 50).padEnd(50)} ║` : "║                                                        ║"}
+╠════════════════════════════════════════════════════════╣
+╠════════════════════════════════════════════════════════╣
+║ AVAILABLE TOOLS:                                       ║
+║ - Syntax Validation                                    ║
+║ - Disposable Detection                                 ║
+║ - Deliverability Test                                  ║
+║ - List Health Calculator                               ║
+║ - Catch-All Detector                                   ║
+╠════════════════════════════════════════════════════════╣
+║ RESOURCES:                                             ║
+║ - GitHub: https://github.com/verifio-email/verifio     ║
+║ - Docs: https://verifio.email/dev/tools                ║
+║ - Contact: https://verifio.email/contact               ║
+╠════════════════════════════════════════════════════════╣
+║  "Free tools for email verification"                   ║
+║                    - Your Verifio Team                 ║
+╚════════════════════════════════════════════════════════╝
+
+
+    Powered by ☕ Coffee, 🍕 Pizza & 💻 Late Night Coding
+
+                Made with ❤️ for developers
+
+`;
+	},
 	{
-		response: {
-			200: ToolsModel.healthResponse,
-		},
 		detail: {
 			summary: "Tools Service",
 			description: "Health check endpoint for Tools Service",
