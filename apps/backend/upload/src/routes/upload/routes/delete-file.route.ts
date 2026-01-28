@@ -1,7 +1,7 @@
-import { uploadErrorResponse } from "@be/upload/error/upload.error-code";
-import { authMiddleware } from "@be/upload/middleware/auth";
-import { UploadModel } from "@be/upload/model/upload.model";
-import { deleteFileHandler } from "@be/upload/routes/upload/controllers/delete-file";
+import { uploadErrorResponse } from "@verifio/upload/error/upload.error-response";
+import { authMiddleware } from "@verifio/upload/middleware/auth";
+import { UploadModel } from "@verifio/upload/model/upload.model";
+import { deleteFileHandler } from "@verifio/upload/routes/upload/controllers/delete-file";
 import { Elysia, t } from "elysia";
 
 export const deleteFileRoute = new Elysia().use(authMiddleware).delete(
@@ -15,8 +15,7 @@ export const deleteFileRoute = new Elysia().use(authMiddleware).delete(
 		} catch (error) {
 			const errorMessage =
 				error instanceof Error ? error.message : String(error);
-			uploadErrorResponse(errorMessage);
-			throw error; // This will never execute but satisfies TypeScript
+			return uploadErrorResponse(errorMessage);
 		}
 	},
 	{
@@ -26,12 +25,15 @@ export const deleteFileRoute = new Elysia().use(authMiddleware).delete(
 		}),
 		response: {
 			200: t.Object({ message: t.String() }),
-			404: UploadModel.fileNotFound,
+			400: UploadModel.errorResponse,
+			401: UploadModel.errorResponse,
+			404: UploadModel.errorResponse,
 			403: UploadModel.unauthorized,
+			500: UploadModel.errorResponse,
+			503: UploadModel.errorResponse,
 		},
 		detail: {
-			tags: ["Upload"],
-			summary: "Delete an uploaded file",
+			summary: "Delete file",
 			description: "Deletes an uploaded file (soft delete)",
 		},
 	},

@@ -1,9 +1,9 @@
-import type { UploadTypes } from "@be/upload/types/upload.type";
-import { uploadConfig } from "@be/upload/upload.config";
 import { createId } from "@paralleldrive/cuid2";
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
 import logger from "@verifio/logger";
+import type { UploadTypes } from "@verifio/upload/types/upload.type";
+import { uploadConfig } from "@verifio/upload/upload.config";
 import { status } from "elysia";
 
 function sanitizeFilename(filename: string): string {

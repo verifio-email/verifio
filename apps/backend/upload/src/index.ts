@@ -1,29 +1,38 @@
 import "dotenv/config";
-import { landing } from "@be/upload/routes/landing/landing.index";
-import { uploadRoutes } from "@be/upload/routes/upload/upload.routes";
-import { uploadConfig } from "@be/upload/upload.config";
-import { loader } from "@be/upload/utils/loader";
-import { fromTypes, openapi } from "@elysiajs/openapi";
+import { cors } from "@elysiajs/cors";
+import { openapi } from "@elysiajs/openapi";
 import { serverTiming } from "@elysiajs/server-timing";
 import { logger } from "@verifio/logger";
+import { healthRoute } from "@verifio/upload/routes/upload/routes/health-route";
+import { uploadRoutes } from "@verifio/upload/routes/upload/upload.routes";
+import { uploadConfig } from "@verifio/upload/upload.config";
+import { loader } from "@verifio/upload/utils/loader";
 import { Elysia } from "elysia";
 
 const port = uploadConfig.port;
+
 const uploadService = new Elysia({
 	prefix: "/api/upload",
 	name: "Upload Service",
 })
 	.use(
-		openapi({
-			references: fromTypes(
+		cors({
+			origin:
 				uploadConfig.NODE_ENV === "production"
-					? "dist/index.d.ts"
-					: "src/index.ts",
-			),
+					? ["https://verifio.email", "https://www.verifio.email"]
+					: [
+						"http://localhost:3000",
+						"http://localhost:3001",
+						"https://local.verifio.email",
+					],
+			methods: ["GET", "POST", "DELETE", "OPTIONS"],
+			allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
+			credentials: true,
 		}),
 	)
+	.use(openapi())
 	.use(serverTiming())
-	.use(landing)
+	.use(healthRoute)
 	.use(uploadRoutes)
 	.onStart(async () => {
 		await loader();

@@ -1,7 +1,7 @@
-import { uploadConfig } from "@be/upload/upload.config";
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
 import logger from "@verifio/logger";
+import { uploadConfig } from "@verifio/upload/upload.config";
 import { and, eq, isNull } from "drizzle-orm";
 import { status } from "elysia";
 

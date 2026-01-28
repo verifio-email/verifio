@@ -64,4 +64,10 @@ export namespace UploadModel {
 		message: t.Literal("Invalid file type. Only images are allowed"),
 	});
 	export type InvalidFileType = typeof invalidFileType.static;
+
+	export const errorResponse = t.Object({
+		message: t.String({ description: "Error message" }),
+		errorCode: t.Optional(t.String({ description: "Error code" })),
+	});
+	export type ErrorResponse = typeof errorResponse.static;
 }

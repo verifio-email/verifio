@@ -15,7 +15,7 @@
 		"declarationMap": false,
 		"baseUrl": ".",
 		"paths": {
-			"@be/upload/*": ["./src/*"]
+			"@verifio/upload/*": ["./src/*"]
 		}
 	}
 }

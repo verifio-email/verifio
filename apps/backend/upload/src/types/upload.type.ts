@@ -1,4 +1,4 @@
-import type { UploadModel } from "@be/upload/model/upload.model";
+import type { UploadModel } from "@verifio/upload/model/upload.model";
 
 export namespace UploadTypes {
 	export type UploadResponse = typeof UploadModel.uploadResponse.static;

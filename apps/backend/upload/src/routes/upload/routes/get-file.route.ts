@@ -1,7 +1,7 @@
-import { uploadErrorResponse } from "@be/upload/error/upload.error-code";
-import { authMiddleware } from "@be/upload/middleware/auth";
-import { UploadModel } from "@be/upload/model/upload.model";
-import { getFileHandler } from "@be/upload/routes/upload/controllers/get-file";
+import { uploadErrorResponse } from "@verifio/upload/error/upload.error-response";
+import { authMiddleware } from "@verifio/upload/middleware/auth";
+import { UploadModel } from "@verifio/upload/model/upload.model";
+import { getFileHandler } from "@verifio/upload/routes/upload/controllers/get-file";
 import { Elysia, t } from "elysia";
 
 export const getFileRoute = new Elysia().use(authMiddleware).get(
@@ -21,7 +21,7 @@ export const getFileRoute = new Elysia().use(authMiddleware).get(
 		} catch (error) {
 			const errorMessage =
 				error instanceof Error ? error.message : String(error);
-			uploadErrorResponse(errorMessage);
+			return uploadErrorResponse(errorMessage);
 		}
 	},
 	{
@@ -31,12 +31,15 @@ export const getFileRoute = new Elysia().use(authMiddleware).get(
 		}),
 		response: {
 			200: t.Any(),
-			404: UploadModel.fileNotFound,
+			400: UploadModel.errorResponse,
+			401: UploadModel.errorResponse,
+			404: UploadModel.errorResponse,
 			403: UploadModel.unauthorized,
+			500: UploadModel.errorResponse,
+			503: UploadModel.errorResponse,
 		},
 		detail: {
-			tags: ["Upload"],
-			summary: "Get an uploaded file",
+			summary: "File Details",
 			description: "Retrieves and serves an uploaded image file",
 		},
 	},
