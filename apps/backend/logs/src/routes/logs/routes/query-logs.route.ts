@@ -1,11 +1,11 @@
 import { LogsModel } from "@verifio/logs/model/logs.model";
-import { listLogsHandler } from "@verifio/logs/routes/logs/controllers";
+import { queryLogsHandler } from "@verifio/logs/routes/logs/controllers";
 import { Elysia } from "elysia";
 
-export const listLogsRoute = new Elysia().get(
+export const queryLogsRoute = new Elysia().get(
 	"/query",
 	async ({ query }) => {
-		return await listLogsHandler(query);
+		return await queryLogsHandler(query);
 	},
 	{
 		query: LogsModel.logsQuery,

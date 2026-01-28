@@ -6,7 +6,7 @@ import type { LogsTypes } from "@verifio/logs/types/logs.type";
 import { and, desc, eq, gte, ilike, lte, sql } from "drizzle-orm";
 import { status } from "elysia";
 
-export async function listLogs(
+export async function queryLogs(
 	query: LogsTypes.ListLogsRequest,
 ): Promise<LogsTypes.LogsResponse> {
 	const page = query.page || 1;
@@ -73,11 +73,11 @@ export async function listLogs(
 	};
 }
 
-export async function listLogsHandler(
+export async function queryLogsHandler(
 	query: LogsTypes.ListLogsRequest,
 ): Promise<LogsTypes.LogsResponse> {
 	try {
-		return await listLogs(query);
+		return await queryLogs(query);
 	} catch (error) {
 		logger.error(
 			{ error: error instanceof Error ? error.message : "Unknown error" },

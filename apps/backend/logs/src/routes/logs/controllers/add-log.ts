@@ -4,7 +4,7 @@ import { logger } from "@verifio/logger";
 import type { LogsTypes } from "@verifio/logs/types/logs.type";
 import { status } from "elysia";
 
-export async function createLog(
+export async function addLog(
 	body: LogsTypes.CreateLogRequest,
 ): Promise<LogsTypes.LogResponse> {
 	const result = await db
@@ -45,11 +45,11 @@ export async function createLog(
 	};
 }
 
-export async function createLogHandler(
+export async function addLogHandler(
 	body: LogsTypes.CreateLogRequest,
 ): Promise<LogsTypes.LogResponse> {
 	try {
-		return await createLog(body);
+		return await addLog(body);
 	} catch (error) {
 		logger.error(
 			{ error: error instanceof Error ? error.message : "Unknown error" },

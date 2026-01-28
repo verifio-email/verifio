@@ -1,11 +1,11 @@
 import { LogsModel } from "@verifio/logs/model/logs.model";
-import { createLogHandler } from "@verifio/logs/routes/logs/controllers";
+import { addLogHandler } from "@verifio/logs/routes/logs/controllers";
 import { Elysia } from "elysia";
 
-export const createLogRoute = new Elysia().post(
+export const addLogRoute = new Elysia().post(
 	"/add",
 	async ({ body }) => {
-		return await createLogHandler(body);
+		return await addLogHandler(body);
 	},
 	{
 		body: LogsModel.logBody,

@@ -1,3 +1,3 @@
-export { createLog, createLogHandler } from "./create-log";
+export { addLog, addLogHandler } from "./add-log";
 export { formatLogResponse } from "./format-log-response";
-export { listLogs, listLogsHandler } from "./list-logs";
+export { queryLogs, queryLogsHandler } from "./query-logs";
