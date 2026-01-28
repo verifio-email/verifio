@@ -35,6 +35,7 @@
 		"@verifio/db": "workspace:*",
 		"@verifio/cache": "workspace:*",
 		"@verifio/auth": "workspace:*",
+		"@verifio/logger": "workspace:*",
 		"@elysiajs/eden": "catalog:backend",
 		"@elysiajs/openapi": "catalog:backend",
 		"inngest": "catalog:backend"
