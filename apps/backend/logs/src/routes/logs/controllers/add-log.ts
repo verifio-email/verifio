@@ -5,13 +5,15 @@ import type { LogsTypes } from "@verifio/logs/types/logs.type";
 import { status } from "elysia";
 
 export async function addLog(
-	body: LogsTypes.CreateLogRequest,
+	userId: string,
+	organizationId: string,
+	body: LogsTypes.AddLogRequest,
 ): Promise<LogsTypes.LogResponse> {
 	const result = await db
 		.insert(schema.activityLogs)
 		.values({
-			userId: body.user_id || null,
-			organizationId: body.organization_id,
+			userId,
+			organizationId,
 			apiKeyId: body.api_key_id || null,
 			service: body.service,
 			endpoint: body.endpoint,
@@ -31,7 +33,7 @@ export async function addLog(
 
 	const inserted = result[0];
 	if (!inserted) {
-		throw new Error("Failed to insert activity log");
+		throw new Error("Failed to add activity log");
 	}
 
 	logger.debug(
@@ -46,19 +48,21 @@ export async function addLog(
 }
 
 export async function addLogHandler(
-	body: LogsTypes.CreateLogRequest,
+	userId: string,
+	organizationId: string,
+	body: LogsTypes.AddLogRequest,
 ): Promise<LogsTypes.LogResponse> {
 	try {
-		return await addLog(body);
+		return await addLog(userId, organizationId, body);
 	} catch (error) {
 		logger.error(
 			{ error: error instanceof Error ? error.message : "Unknown error" },
-			"Failed to insert activity log",
+			"Failed to add activity log",
 		);
 
 		throw status(500, {
 			success: false,
-			message: error instanceof Error ? error.message : "Failed to create log",
+			message: error instanceof Error ? error.message : "Failed to add log",
 		});
 	}
 }

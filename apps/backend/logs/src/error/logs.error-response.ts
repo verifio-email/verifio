@@ -10,8 +10,8 @@ export const logsErrorResponse = (errorMessage: string) => {
 	}
 	if (errorMessage.includes("Failed to insert")) {
 		return status(500, {
-			message: "Failed to create log entry",
-			errorCode: errorCodes.LOG_CREATION_FAILED,
+			message: "Failed to add log entry",
+			errorCode: errorCodes.LOG_ADD_FAILED,
 		});
 	}
 	if (errorMessage.includes("Invalid query")) {

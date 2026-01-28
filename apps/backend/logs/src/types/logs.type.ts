@@ -31,9 +31,7 @@ export namespace LogsTypes {
 		createdAt: Date;
 	}
 
-	export interface CreateLogRequest {
-		user_id?: string;
-		organization_id: string;
+	export interface AddLogRequest {
 		api_key_id?: string;
 		service: string;
 		endpoint: string;
@@ -51,7 +49,6 @@ export namespace LogsTypes {
 	}
 
 	export interface ListLogsRequest {
-		organization_id: string;
 		api_key_id?: string;
 		service?: string;
 		endpoint?: string;

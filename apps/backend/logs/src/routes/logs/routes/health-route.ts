@@ -20,12 +20,12 @@ export const healthRoute = new Elysia().get(
 ║                      LOGS SERVICE                      ║
 ╠════════════════════════════════════════════════════════╣
 ║                                                        ║
-║ ██╗      ██████╗  ██████╗ ███████╗                     ║
-║ ██║     ██╔═══██╗██╔════╝ ██╔════╝                     ║
-║ ██║     ██║   ██║██║  ███╗███████╗                     ║
-║ ██║     ██║   ██║██║   ██║╚════██║                     ║
-║ ███████╗╚██████╔╝╚██████╔╝███████║                     ║
-║ ╚══════╝ ╚═════╝  ╚═════╝ ╚══════╝                     ║
+║           ██╗      ██████╗  ██████╗ ███████╗           ║
+║           ██║     ██╔═══██╗██╔════╝ ██╔════╝           ║
+║           ██║     ██║   ██║██║  ███╗███████╗           ║
+║           ██║     ██║   ██║██║   ██║╚════██║           ║
+║           ███████╗╚██████╔╝╚██████╔╝███████║           ║
+║           ╚══════╝ ╚═════╝  ╚═════╝ ╚══════╝           ║
 ║                                                        ║
 ║                  ONLINE & READY                        ║
 ║                 Version: v1.0.0                        ║
@@ -35,14 +35,11 @@ export const healthRoute = new Elysia().get(
 ║                                                        ║
 ${dbError ? `║ DB ERROR: ${dbError.substring(0, 45).padEnd(45)} ║` : "║                                                        ║"}
 ╠════════════════════════════════════════════════════════╣
-║ QUICK START:                                           ║
-║ curl -X GET /api/logs/v1/logs \\                        ║
-║   -H "Cookie: session=your_session_token" \\            ║
-║   -G -d "organization_id=org_xxx"                      ║
 ╠════════════════════════════════════════════════════════╣
-║ - SUPPORT                                              ║
-║ - https://verifio.email/dev/setup/backend/logs         ║
-║ - https://github.com/reloop-labs/verifio               ║
+║ RESOURCES:                                             ║
+║ - GitHub: https://github.com/verifio-email/verifio     ║
+║ - Docs: https://verifio.email/dev/setup/backend/logs   ║
+║ - Contact: https://verifio.email/contact               ║
 ╠════════════════════════════════════════════════════════╣
 ║  "Log everything, miss nothing"                        ║
 ║                    - Your Verifio Team                 ║

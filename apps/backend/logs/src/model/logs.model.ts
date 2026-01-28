@@ -2,8 +2,6 @@ import { t } from "elysia";
 
 export namespace LogsModel {
 	export const logBody = t.Object({
-		user_id: t.Optional(t.String({ description: "User identifier" })),
-		organization_id: t.String({ description: "Organization identifier" }),
 		api_key_id: t.Optional(t.String({ description: "API key identifier" })),
 		service: t.String({
 			description: "Service name: 'verify', 'api-key', 'auth', 'upload'",
@@ -42,7 +40,6 @@ export namespace LogsModel {
 	export type LogResponse = typeof logResponse.static;
 
 	export const logsQuery = t.Object({
-		organization_id: t.String({ description: "Organization ID (required)" }),
 		api_key_id: t.Optional(t.String({ description: "Filter by API key ID" })),
 		service: t.Optional(t.String({ description: "Filter by service" })),
 		endpoint: t.Optional(t.String({ description: "Filter by endpoint" })),

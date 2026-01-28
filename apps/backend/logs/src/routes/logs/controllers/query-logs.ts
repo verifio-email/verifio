@@ -7,15 +7,14 @@ import { and, desc, eq, gte, ilike, lte, sql } from "drizzle-orm";
 import { status } from "elysia";
 
 export async function queryLogs(
+	organizationId: string,
 	query: LogsTypes.ListLogsRequest,
 ): Promise<LogsTypes.LogsResponse> {
 	const page = query.page || 1;
 	const limit = query.limit || 20;
 	const offset = (page - 1) * limit;
 
-	const conditions = [
-		eq(schema.activityLogs.organizationId, query.organization_id),
-	];
+	const conditions = [eq(schema.activityLogs.organizationId, organizationId)];
 
 	if (query.api_key_id) {
 		conditions.push(eq(schema.activityLogs.apiKeyId, query.api_key_id));
@@ -56,10 +55,7 @@ export async function queryLogs(
 		.limit(limit)
 		.offset(offset);
 
-	logger.debug(
-		{ organizationId: query.organization_id, page, limit, total },
-		"Activity logs queried",
-	);
+	logger.debug({ organizationId, page, limit, total }, "Activity logs queried");
 
 	return {
 		success: true,
@@ -74,10 +70,11 @@ export async function queryLogs(
 }
 
 export async function queryLogsHandler(
+	organizationId: string,
 	query: LogsTypes.ListLogsRequest,
 ): Promise<LogsTypes.LogsResponse> {
 	try {
-		return await queryLogs(query);
+		return await queryLogs(organizationId, query);
 	} catch (error) {
 		logger.error(
 			{ error: error instanceof Error ? error.message : "Unknown error" },
