@@ -1,66 +1,62 @@
-/**
- * GET /v1/logs - Query activity logs with filtering and pagination
- */
-
+import { db } from "@verifio/db/client";
+import * as schema from "@verifio/db/schema";
 import { logger } from "@verifio/logger";
 import { and, desc, eq, gte, ilike, lte, sql } from "drizzle-orm";
 import { Elysia } from "elysia";
-import { activityLogs, getDb } from "../utils/database";
 import { LoggingModel } from "./logging.model";
 
 export const logsRoute = new Elysia().get(
 	"/logs",
 	async ({ query }) => {
 		try {
-			const db = getDb();
-
 			const page = query.page || 1;
 			const limit = query.limit || 20;
 			const offset = (page - 1) * limit;
 
-			// Build where conditions
 			const conditions = [
-				eq(activityLogs.organizationId, query.organization_id),
+				eq(schema.activityLogs.organizationId, query.organization_id),
 			];
 
 			if (query.api_key_id) {
-				conditions.push(eq(activityLogs.apiKeyId, query.api_key_id));
+				conditions.push(eq(schema.activityLogs.apiKeyId, query.api_key_id));
 			}
 			if (query.service) {
-				conditions.push(eq(activityLogs.service, query.service));
+				conditions.push(eq(schema.activityLogs.service, query.service));
 			}
 			if (query.endpoint) {
-				conditions.push(eq(activityLogs.endpoint, query.endpoint));
+				conditions.push(eq(schema.activityLogs.endpoint, query.endpoint));
 			}
 			if (query.status) {
-				conditions.push(eq(activityLogs.status, query.status));
+				conditions.push(eq(schema.activityLogs.status, query.status));
 			}
 			if (query.from) {
-				conditions.push(gte(activityLogs.createdAt, new Date(query.from)));
+				conditions.push(
+					gte(schema.activityLogs.createdAt, new Date(query.from)),
+				);
 			}
 			if (query.to) {
-				conditions.push(lte(activityLogs.createdAt, new Date(query.to)));
+				conditions.push(lte(schema.activityLogs.createdAt, new Date(query.to)));
 			}
 			if (query.search) {
-				conditions.push(ilike(activityLogs.resourceId, `%${query.search}%`));
+				conditions.push(
+					ilike(schema.activityLogs.resourceId, `%${query.search}%`),
+				);
 			}
 
 			const whereClause = and(...conditions);
 
-			// Get total count
 			const [countResult] = await db
 				.select({ count: sql<number>`count(*)::int` })
-				.from(activityLogs)
+				.from(schema.activityLogs)
 				.where(whereClause);
 
 			const total = countResult?.count || 0;
 
-			// Get paginated results
 			const results = await db
 				.select()
-				.from(activityLogs)
+				.from(schema.activityLogs)
 				.where(whereClause)
-				.orderBy(desc(activityLogs.createdAt))
+				.orderBy(desc(schema.activityLogs.createdAt))
 				.limit(limit)
 				.offset(offset);
 

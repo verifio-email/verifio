@@ -1,20 +1,15 @@
-/**
- * POST /v1/log - Insert a single activity log
- */
-
+import { db } from "@verifio/db/client";
+import * as schema from "@verifio/db/schema";
 import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
-import { activityLogs, getDb } from "../utils/database";
 import { LoggingModel } from "./logging.model";
 
 export const logRoute = new Elysia().post(
 	"/log",
 	async ({ body }) => {
 		try {
-			const db = getDb();
-
 			const result = await db
-				.insert(activityLogs)
+				.insert(schema.activityLogs)
 				.values({
 					userId: body.user_id || null,
 					organizationId: body.organization_id,
@@ -33,7 +28,7 @@ export const logRoute = new Elysia().post(
 					userAgent: body.user_agent || null,
 					metadata: body.metadata || {},
 				})
-				.returning({ id: activityLogs.id });
+				.returning({ id: schema.activityLogs.id });
 
 			const inserted = result[0];
 			if (!inserted) {

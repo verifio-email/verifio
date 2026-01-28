@@ -1,5 +1,3 @@
-// Configuration for the logs service
-
 const defaults = {
 	PORT: "8003",
 	NODE_ENV: "development",

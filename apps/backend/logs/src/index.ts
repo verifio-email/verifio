@@ -1,14 +1,9 @@
-/**
- * Logs Service Entry Point
- */
-
 import "dotenv/config";
-import { cors } from "@elysiajs/cors";
 import { fromTypes, openapi } from "@elysiajs/openapi";
 import { serverTiming } from "@elysiajs/server-timing";
 import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
-import { logsConfig } from "./config";
+import { logsConfig } from "./logs.config";
 import { landingRoute } from "./routes/landing.route";
 import { logRoute } from "./routes/log.route";
 import { logsRoute } from "./routes/logs.route";

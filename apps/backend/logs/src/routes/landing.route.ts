@@ -1,7 +1,3 @@
-/**
- * Logs Service - Landing Route with Health Checks
- */
-
 import { db } from "@verifio/db/client";
 import { Elysia } from "elysia";
 

@@ -1,3 +1,4 @@
+export * from "./activity-logs";
 export * from "./api-key";
 export * from "./auth";
 export * from "./credits";
