@@ -1,3 +1,4 @@
+import type { AuthenticatedUser } from "@verifio/upload/middleware/auth";
 import { uploadErrorResponse } from "@verifio/upload/error/upload.error-response";
 import { authMiddleware } from "@verifio/upload/middleware/auth";
 import { UploadModel } from "@verifio/upload/model/upload.model";
@@ -7,7 +8,8 @@ import { Elysia } from "elysia";
 export const uploadFileRoute = new Elysia().use(authMiddleware).post(
 	"/upload",
 	async ({ request, user }) => {
-		const { id: userId } = user;
+		const typedUser = user as AuthenticatedUser;
+		const { id: userId, activeOrganizationId } = typedUser;
 		const formData = await request.formData();
 		const file = formData.get("file") as File | null;
 
@@ -18,6 +20,7 @@ export const uploadFileRoute = new Elysia().use(authMiddleware).post(
 		try {
 			return await uploadFileHandler({
 				userId,
+				organizationId: activeOrganizationId,
 				file: file as File,
 			});
 		} catch (error) {

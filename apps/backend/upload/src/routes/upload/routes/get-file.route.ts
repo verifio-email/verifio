@@ -1,3 +1,4 @@
+import type { AuthenticatedUser } from "@verifio/upload/middleware/auth";
 import { uploadErrorResponse } from "@verifio/upload/error/upload.error-response";
 import { authMiddleware } from "@verifio/upload/middleware/auth";
 import { UploadModel } from "@verifio/upload/model/upload.model";
@@ -6,11 +7,14 @@ import { Elysia, t } from "elysia";
 
 export const getFileRoute = new Elysia().use(authMiddleware).get(
 	"/files/:fileId",
-	async ({ params, set }) => {
+	async ({ params, user, set }) => {
 		const { fileId } = params;
+		const typedUser = user as AuthenticatedUser;
+		const { activeOrganizationId } = typedUser;
 		try {
 			const { file, mimeType } = await getFileHandler({
 				fileId,
+				organizationId: activeOrganizationId,
 			});
 
 			// Set proper headers for file serving

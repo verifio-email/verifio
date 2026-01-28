@@ -6,8 +6,10 @@ import { status } from "elysia";
 
 export async function deleteFile(params: {
 	fileId: string;
+	userId: string;
+	organizationId: string;
 }): Promise<{ message: string }> {
-	const { fileId } = params;
+	const { fileId, userId, organizationId } = params;
 	try {
 		// Get file metadata from database
 		const fileRecord = await db
@@ -23,6 +25,15 @@ export async function deleteFile(params: {
 
 		const upload = fileRecord[0];
 
+		// Check if the file belongs to the user's organization
+		if (upload.organizationId !== organizationId) {
+			logger.warn(
+				{ fileId, userId, organizationId, fileOrgId: upload.organizationId },
+				"User attempted to delete file from different organization",
+			);
+			throw status(403, { message: "You don't have permission to delete this file" });
+		}
+
 		// Soft delete in database
 		await db
 			.update(schema.upload)
@@ -35,6 +46,8 @@ export async function deleteFile(params: {
 		logger.info(
 			{
 				fileId,
+				userId,
+				organizationId,
 				path: upload.path,
 			},
 			"File deleted successfully",
@@ -45,6 +58,8 @@ export async function deleteFile(params: {
 		logger.error(
 			{
 				fileId,
+				userId,
+				organizationId,
 				error: error instanceof Error ? error.message : String(error),
 			},
 			"Error deleting file",
@@ -58,10 +73,14 @@ export async function deleteFile(params: {
 
 export async function deleteFileHandler(params: {
 	fileId: string;
+	userId: string;
+	organizationId: string;
 }): Promise<{ message: string }> {
-	const { fileId } = params;
+	const { fileId, userId, organizationId } = params;
 	const result = await deleteFile({
 		fileId,
+		userId,
+		organizationId,
 	});
 	return result;
 }

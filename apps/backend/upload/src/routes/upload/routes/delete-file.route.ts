@@ -1,3 +1,4 @@
+import type { AuthenticatedUser } from "@verifio/upload/middleware/auth";
 import { uploadErrorResponse } from "@verifio/upload/error/upload.error-response";
 import { authMiddleware } from "@verifio/upload/middleware/auth";
 import { UploadModel } from "@verifio/upload/model/upload.model";
@@ -6,11 +7,15 @@ import { Elysia, t } from "elysia";
 
 export const deleteFileRoute = new Elysia().use(authMiddleware).delete(
 	"/files/:fileId",
-	async ({ params }) => {
+	async ({ params, user }) => {
 		const { fileId } = params;
+		const typedUser = user as AuthenticatedUser;
+		const { id: userId, activeOrganizationId } = typedUser;
 		try {
 			return await deleteFileHandler({
 				fileId,
+				userId,
+				organizationId: activeOrganizationId,
 			});
 		} catch (error) {
 			const errorMessage =

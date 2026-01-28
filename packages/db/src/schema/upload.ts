@@ -26,6 +26,7 @@ export const upload = pgTable(
 		userId: text("user_id")
 			.notNull()
 			.references(() => user.id, { onDelete: "cascade" }),
+		organizationId: text("organization_id").notNull(),
 		deletedAt: timestamp("deleted_at"),
 		createdAt: timestamp("created_at").notNull().defaultNow(),
 		updatedAt: timestamp("updated_at")
@@ -35,6 +36,7 @@ export const upload = pgTable(
 	},
 	(table) => [
 		index("upload_idx_user_id").on(table.userId),
+		index("upload_idx_organization_id").on(table.organizationId),
 		index("upload_idx_deleted_at").on(table.deletedAt),
 		index("upload_idx_filename").on(table.filename),
 	],

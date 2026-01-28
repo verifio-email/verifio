@@ -7,8 +7,9 @@ import { status } from "elysia";
 
 export async function getFile(params: {
 	fileId: string;
+	organizationId: string;
 }): Promise<{ file: ReturnType<typeof Bun.file>; mimeType: string }> {
-	const { fileId } = params;
+	const { fileId, organizationId } = params;
 	try {
 		// Get file metadata from database
 		const fileRecord = await db
@@ -23,6 +24,16 @@ export async function getFile(params: {
 		}
 
 		const upload = fileRecord[0];
+
+		// Check if the file belongs to the user's organization
+		if (upload.organizationId !== organizationId) {
+			logger.warn(
+				{ fileId, organizationId, fileOrgId: upload.organizationId },
+				"User attempted to access file from different organization",
+			);
+			throw status(403, { message: "You don't have permission to access this file" });
+		}
+
 		const fullPath = `${uploadConfig.UPLOAD_STORAGE_PATH}/${upload.path}`;
 
 		// Check if file exists
@@ -35,6 +46,7 @@ export async function getFile(params: {
 		logger.info(
 			{
 				fileId,
+				organizationId,
 				path: upload.path,
 			},
 			"File retrieved successfully",
@@ -48,6 +60,7 @@ export async function getFile(params: {
 		logger.error(
 			{
 				fileId,
+				organizationId,
 				error: error instanceof Error ? error.message : String(error),
 			},
 			"Error getting file",
@@ -61,10 +74,12 @@ export async function getFile(params: {
 
 export async function getFileHandler(params: {
 	fileId: string;
+	organizationId: string;
 }): Promise<{ file: ReturnType<typeof Bun.file>; mimeType: string }> {
-	const { fileId } = params;
+	const { fileId, organizationId } = params;
 	const fileDetails = await getFile({
 		fileId,
+		organizationId,
 	});
 	return fileDetails;
 }

@@ -28,9 +28,10 @@ function getFileExtension(mimeType: string): string {
 
 export async function uploadFile(params: {
 	userId: string;
+	organizationId: string;
 	file: File;
 }): Promise<UploadTypes.UploadResponse> {
-	const { userId, file } = params;
+	const { userId, organizationId, file } = params;
 	try {
 		// Validate file type
 		if (!uploadConfig.constants.allowedMimeTypes.includes(file.type)) {
@@ -84,6 +85,7 @@ export async function uploadFile(params: {
 				size: file.size,
 				path: filePath,
 				userId: userId,
+				organizationId: organizationId,
 				createdAt: new Date(),
 				updatedAt: new Date(),
 			})
@@ -143,11 +145,13 @@ export async function uploadFile(params: {
 
 export async function uploadFileHandler(params: {
 	userId: string;
+	organizationId: string;
 	file: File;
 }): Promise<UploadTypes.UploadResponse> {
-	const { userId, file } = params;
+	const { userId, organizationId, file } = params;
 	const uploadDetails = await uploadFile({
 		userId,
+		organizationId,
 		file,
 	});
 	return uploadDetails;
