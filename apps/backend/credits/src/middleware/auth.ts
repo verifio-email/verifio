@@ -3,10 +3,14 @@
  * Validates user session by calling auth service
  */
 
-import type { Session } from "@verifio/auth/server";
+import type { Session } from "@verifio/auth/types";
+import { creditsConfig } from "@verifio/credits/credits.config";
 import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
-import { creditsConfig } from "../credits.config";
+
+export type AuthenticatedUser = Session["user"] & {
+	activeOrganizationId: string;
+};
 
 if (creditsConfig.environment !== "production") {
 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
@@ -47,14 +51,19 @@ export const authMiddleware = new Elysia({ name: "credits-auth" }).macro({
 				const session: Session | null = await response.json();
 
 				if (session?.user) {
-					// Get active organization from session
-					const organizationId = session.session?.activeOrganizationId || null;
+					if (!session.user.activeOrganizationId) {
+						logger.warn(
+							{ userId: session.user.id },
+							"User is not a member of an organization",
+						);
+						return status(403, {
+							message: "User is not a member of an organization",
+						});
+					}
 
 					return {
-						user: session.user,
+						user: session.user as AuthenticatedUser,
 						session: session.session,
-						organizationId,
-						userId: session.user.id,
 						authMethod: "cookie" as const,
 					};
 				}

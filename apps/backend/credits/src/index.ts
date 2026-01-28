@@ -6,12 +6,12 @@ import "dotenv/config";
 import { cors } from "@elysiajs/cors";
 import { openapi } from "@elysiajs/openapi";
 import { serverTiming } from "@elysiajs/server-timing";
+import { creditsRoutes } from "@verifio/credits/routes/credits/credits.routes";
+import { healthRoute } from "@verifio/credits/routes/credits/routes/health-route";
+import { loader } from "@verifio/credits/utils/loader";
 import { logger } from "@verifio/logger";
 import { Elysia } from "elysia";
 import { creditsConfig } from "./credits.config";
-import { creditsRoute } from "./routes/credits";
-import { internalRoute } from "./routes/internal";
-import { landing } from "./routes/landing";
 
 const port = creditsConfig.port;
 
@@ -21,7 +21,14 @@ const creditsService = new Elysia({
 })
 	.use(
 		cors({
-			origin: true,
+			origin:
+				creditsConfig.isProduction
+					? ["https://verifio.email", "https://www.verifio.email"]
+					: [
+						"http://localhost:3000",
+						"http://localhost:3001",
+						"https://local.verifio.email",
+					],
 			methods: ["GET", "POST", "OPTIONS"],
 			allowedHeaders: [
 				"Content-Type",
@@ -33,31 +40,13 @@ const creditsService = new Elysia({
 			credentials: true,
 		}),
 	)
-	.use(
-		openapi({
-			documentation: {
-				info: {
-					title: "Verifio Credits API",
-					version: "1.0.0",
-					description: "API for managing organization credits",
-				},
-				tags: [
-					{
-						name: "Credits",
-						description: "Credit status and history endpoints",
-					},
-					{
-						name: "Internal",
-						description: "Internal service-to-service endpoints",
-					},
-				],
-			},
-		}),
-	)
+	.use(openapi())
 	.use(serverTiming())
-	.use(landing)
-	.use(creditsRoute) // GET /v1/credits, GET /v1/credits/history
-	.use(internalRoute) // POST /v1/internal/check, POST /v1/internal/deduct
+	.use(healthRoute)
+	.use(creditsRoutes)
+	.onStart(async () => {
+		await loader();
+	})
 	.listen(port, () => {
 		logger.info(
 			`Credits Service running on http://localhost:${port}/api/credits`,

@@ -3,10 +3,11 @@
  * Core business logic for credit operations
  */
 
+import { creditsConfig } from "@verifio/credits/credits.config";
+import type { CreditsTypes } from "@verifio/credits/types/credits.type";
 import { db } from "@verifio/db/client";
 import { creditHistory, orgCredits } from "@verifio/db/schema";
 import { and, desc, eq, sql } from "drizzle-orm";
-import { creditsConfig } from "../credits.config";
 
 /**
  * Add 1 month to a date, handling edge cases
@@ -18,24 +19,12 @@ function addOneMonth(date: Date): Date {
 }
 
 /**
- * Credit record type
- */
-type OrgCreditsRecord = {
-	id: string;
-	organizationId: string;
-	creditsUsed: number;
-	creditLimit: number;
-	periodStart: Date;
-	periodEnd: Date;
-};
-
-/**
  * Get or create credit record for an organization
  * Implements lazy reset: checks if period has expired and resets if needed
  */
 export async function getOrCreateOrgCredits(
 	organizationId: string,
-): Promise<OrgCreditsRecord> {
+): Promise<CreditsTypes.OrgCreditsRecord> {
 	const now = new Date();
 
 	// Try to find existing credit record
@@ -104,7 +93,9 @@ export async function getOrCreateOrgCredits(
 /**
  * Get current credit status for an organization
  */
-export async function getCreditStatus(organizationId: string) {
+export async function getCreditStatus(
+	organizationId: string,
+): Promise<CreditsTypes.CreditStatus> {
 	const credits = await getOrCreateOrgCredits(organizationId);
 
 	return {
@@ -123,7 +114,7 @@ export async function getCreditStatus(organizationId: string) {
 export async function checkCredits(
 	organizationId: string,
 	amount = 1,
-): Promise<{ hasCredits: boolean; remaining: number; required: number }> {
+): Promise<CreditsTypes.CheckCreditsResult> {
 	const credits = await getOrCreateOrgCredits(organizationId);
 	const remaining = credits.creditLimit - credits.creditsUsed;
 
@@ -142,11 +133,7 @@ export async function checkCredits(
 export async function deductCredits(
 	organizationId: string,
 	amount = 1,
-): Promise<{
-	success: boolean;
-	creditsUsed: number;
-	remaining: number;
-}> {
+): Promise<CreditsTypes.DeductCreditsResult> {
 	// First ensure the credit record exists (handles lazy reset)
 	const credits = await getOrCreateOrgCredits(organizationId);
 
@@ -187,7 +174,10 @@ export async function deductCredits(
 /**
  * Get credit history for an organization
  */
-export async function getCreditHistory(organizationId: string, limit = 12) {
+export async function getCreditHistory(
+	organizationId: string,
+	limit = 12,
+): Promise<CreditsTypes.CreditHistoryEntry[]> {
 	const history = await db.query.creditHistory.findMany({
 		where: eq(creditHistory.organizationId, organizationId),
 		orderBy: [desc(creditHistory.periodEnd)],

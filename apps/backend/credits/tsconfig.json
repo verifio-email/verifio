@@ -15,9 +15,7 @@
 		"declarationMap": false,
 		"baseUrl": ".",
 		"paths": {
-			"@be/credits/*": ["./src/*"]
+			"@verifio/credits/*": ["./src/*"]
 		}
-	},
-	"include": ["src/**/*"],
-	"exclude": ["node_modules", "dist"]
+	}
 }
