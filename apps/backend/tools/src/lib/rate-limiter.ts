@@ -4,9 +4,9 @@
  */
 
 import { logger } from "@verifio/logger";
+import { redis } from "@verifio/tools/lib/redis";
+import { toolsConfig } from "@verifio/tools/tools.config";
 import { Elysia } from "elysia";
-import { toolsConfig } from "../tools.config";
-import { redis } from "./redis";
 
 /**
  * Get client IP address from request headers
@@ -37,10 +37,6 @@ function getClientIP(headers: Record<string, string | undefined>): string {
 
 /**
  * Check rate limit using ATOMIC Redis INCR and return whether request should be allowed
- *
- * SECURITY: Uses atomic increment to prevent race conditions.
- * Old approach (get-then-set) allowed concurrent requests to bypass limits.
- * New approach (INCR) is atomic - no race condition possible.
  */
 async function checkRateLimit(
 	key: string,
@@ -51,20 +47,13 @@ async function checkRateLimit(
 	const ttlSeconds = Math.ceil(windowMs / 1000);
 
 	try {
-		// ATOMIC: incrWithExpiry increments and sets TTL in one operation
-		// If key doesn't exist, Redis creates it with value 1 and sets expiry
-		// If key exists, Redis atomically increments and returns new count
 		const { count, isNew } = await redis.incrWithExpiry(key, ttlSeconds);
-
-		// Calculate reset time (approximate - based on TTL)
 		const resetAt = now + windowMs;
 
-		// If this is a new window (count === 1), log it
 		if (isNew) {
 			logger.debug({ key, maxRequests }, "New rate limit window started");
 		}
 
-		// Check if limit exceeded
 		if (count > maxRequests) {
 			return {
 				allowed: false,
@@ -79,8 +68,6 @@ async function checkRateLimit(
 			resetAt,
 		};
 	} catch (error) {
-		// SECURITY: Fail-closed - block requests when Redis fails
-		// This prevents abuse if Redis is down
 		logger.error(
 			{ error },
 			"Redis rate limit check failed, blocking request for security",

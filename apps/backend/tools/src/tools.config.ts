@@ -2,34 +2,10 @@
  * Tools Service Configuration
  */
 
-const NODE_ENV = process.env.NODE_ENV || "development";
-const isProduction = NODE_ENV === "production";
-
-/**
- * Get a required secret value.
- * Throws in production if missing, warns in development.
- */
-function getRequiredSecret(key: string, devDefault: string): string {
-	const value = process.env[key];
-	if (value) return value;
-
-	if (isProduction) {
-		throw new Error(
-			`SECURITY ERROR: Missing required secret ${key} in production. ` +
-				"This secret is required for secure service-to-service communication.",
-		);
-	}
-
-	console.warn(
-		`⚠️  SECURITY WARNING: Using default ${key} for development. ` +
-			"Set this env var explicitly in production.",
-	);
-	return devDefault;
-}
-
 const defaults = {
 	PORT: "8006",
 	BASE_URL: "http://localhost:8006",
+	NODE_ENV: "development",
 	ALLOWED_ORIGINS:
 		"http://localhost:3000,http://localhost:3001,http://localhost:3002,http://localhost:3004",
 	RATE_LIMIT_WINDOW_MS: "60000",
@@ -43,9 +19,9 @@ const defaults = {
 
 export const toolsConfig = {
 	port: Number(process.env.PORT || defaults.PORT),
-	environment: NODE_ENV,
-	isProduction,
-	baseUrl: process.env.BASE_URL || defaults.BASE_URL,
+	NODE_ENV: process.env.NODE_ENV || defaults.NODE_ENV,
+	isProduction: process.env.NODE_ENV === "production",
+	BASE_URL: process.env.BASE_URL || defaults.BASE_URL,
 	allowedOrigins: (
 		process.env.ALLOWED_ORIGINS || defaults.ALLOWED_ORIGINS
 	).split(","),
@@ -58,19 +34,19 @@ export const toolsConfig = {
 		),
 		disposableMax: Number(
 			process.env.RATE_LIMIT_DISPOSABLE_MAX ||
-				defaults.RATE_LIMIT_DISPOSABLE_MAX,
+			defaults.RATE_LIMIT_DISPOSABLE_MAX,
 		),
 		deliverabilityMax: Number(
 			process.env.RATE_LIMIT_DELIVERABILITY_MAX ||
-				defaults.RATE_LIMIT_DELIVERABILITY_MAX,
+			defaults.RATE_LIMIT_DELIVERABILITY_MAX,
 		),
 		listHealthMax: Number(
 			process.env.RATE_LIMIT_LIST_HEALTH_MAX ||
-				defaults.RATE_LIMIT_LIST_HEALTH_MAX,
+			defaults.RATE_LIMIT_LIST_HEALTH_MAX,
 		),
 		catchallMax: Number(
 			process.env.RATE_LIMIT_CATCHALL_MAX || defaults.RATE_LIMIT_CATCHALL_MAX,
 		),
 	},
-	redisUrl: process.env.REDIS_URL || defaults.REDIS_URL,
+	REDIS_URL: process.env.REDIS_URL || defaults.REDIS_URL,
 };
