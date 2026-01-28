@@ -1,7 +1,3 @@
-/**
- * Tools Service Entry Point
- */
-
 import "dotenv/config";
 import { cors } from "@elysiajs/cors";
 import { openapi } from "@elysiajs/openapi";
@@ -21,9 +17,15 @@ const toolsService = new Elysia({
 })
 	.use(
 		cors({
-			origin: toolsConfig.isProduction
-				? ["https://verifio.email", "https://www.verifio.email"]
-				: toolsConfig.allowedOrigins,
+			origin:
+				toolsConfig.NODE_ENV === "production"
+					? ["https://verifio.email", "https://www.verifio.email"]
+					: [
+							"http://localhost:3000",
+							"http://localhost:3001",
+							"http://localhost:3002",
+							"http://localhost:3004",
+						],
 			methods: ["GET", "POST", "OPTIONS"],
 			allowedHeaders: ["Content-Type", "Authorization"],
 			credentials: true,
@@ -39,7 +41,7 @@ const toolsService = new Elysia({
 	.listen(
 		{
 			port,
-			development: !toolsConfig.isProduction,
+			development: toolsConfig.NODE_ENV !== "production",
 			requestTimeout: 30000,
 		},
 		() => {

@@ -1,18 +1,9 @@
-/**
- * Rate Limiting Middleware for Tools Service
- * Uses Redis for distributed rate limiting (works across multiple server instances)
- */
-
 import { logger } from "@verifio/logger";
 import { redis } from "@verifio/tools/lib/redis";
 import { toolsConfig } from "@verifio/tools/tools.config";
 import { Elysia } from "elysia";
 
-/**
- * Get client IP address from request headers
- */
 function getClientIP(headers: Record<string, string | undefined>): string {
-	// Check common proxy headers
 	const forwardedFor = headers["x-forwarded-for"];
 	if (forwardedFor) {
 		const firstIP = forwardedFor.split(",")[0];
@@ -31,13 +22,9 @@ function getClientIP(headers: Record<string, string | undefined>): string {
 		return cfConnectingIP;
 	}
 
-	// Fallback to a default for local development
 	return "127.0.0.1";
 }
 
-/**
- * Check rate limit using ATOMIC Redis INCR and return whether request should be allowed
- */
 async function checkRateLimit(
 	key: string,
 	maxRequests: number,
@@ -80,9 +67,6 @@ async function checkRateLimit(
 	}
 }
 
-/**
- * Rate limiting configuration
- */
 export const RATE_LIMITS = {
 	syntax: {
 		maxRequests: toolsConfig.rateLimit.syntaxMax,
@@ -101,7 +85,7 @@ export const RATE_LIMITS = {
 	},
 	listHealth: {
 		maxRequests: toolsConfig.rateLimit.listHealthMax,
-		windowMs: toolsConfig.rateLimit.windowMs * 60, // 1 hour window
+		windowMs: toolsConfig.rateLimit.windowMs * 60,
 		keyPrefix: "tools:list-health",
 	},
 	catchall: {
@@ -111,9 +95,6 @@ export const RATE_LIMITS = {
 	},
 } as const;
 
-/**
- * Create rate limiting middleware for a specific endpoint type
- */
 export function createRateLimiter(type: keyof typeof RATE_LIMITS) {
 	const config = RATE_LIMITS[type];
 
@@ -129,7 +110,6 @@ export function createRateLimiter(type: keyof typeof RATE_LIMITS) {
 				config.windowMs,
 			);
 
-			// Set rate limit headers
 			set.headers["X-RateLimit-Limit"] = String(config.maxRequests);
 			set.headers["X-RateLimit-Remaining"] = String(result.remaining);
 			set.headers["X-RateLimit-Reset"] = String(
@@ -161,9 +141,6 @@ export function createRateLimiter(type: keyof typeof RATE_LIMITS) {
 	);
 }
 
-/**
- * Middleware to block requests that exceeded rate limit
- */
 export const blockRateLimited = new Elysia({
 	name: "block-rate-limited",
 }).onBeforeHandle((context) => {
