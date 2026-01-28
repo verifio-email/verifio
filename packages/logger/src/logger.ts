@@ -2,7 +2,7 @@
  * Core Pino logger with HTTP request/response helpers
  */
 
-const pino = require("pino");
+import pino from "pino";
 
 const baseLogger = pino({
 	level: process.env.LOG_LEVEL || "info",

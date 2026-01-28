@@ -7,8 +7,13 @@ WORKDIR /app
 # Install Python and build dependencies for native modules
 RUN apk add --no-cache python3 make g++
 
-COPY . .
-RUN bun --filter=api-key install
+# Install only production dependencies first (to skip better-sqlite3 build)
+# Copy all package files
+COPY package.json bun.lock* ./
+COPY apps packages
+# Install all workspace dependencies needed for api-key
+# Using --ignore-scripts to skip better-sqlite3 build (we use PostgreSQL, not SQLite)
+RUN bun install --ignore-scripts
 
 # Stage 2: Build the application
 FROM base AS builder
