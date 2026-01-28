@@ -1,40 +1,33 @@
-/**
- * Verify Service - Landing Route with Health Checks
- */
-
 import { db } from "@verifio/db/client";
 import { Elysia } from "elysia";
-import { redis } from "../lib/redis";
+import { redis } from "../../../lib/redis";
 
-export const landing = new Elysia()
-	.get(
-		"/",
-		async ({ set }) => {
-			set.headers["Content-Type"] = "text/plain; charset=utf-8";
+export const healthRoute = new Elysia().get("/", async ({ set }) => {
+	set.headers["Content-Type"] = "text/plain; charset=utf-8";
 
-			let dbStatus = "UNKNOWN";
-			let dbError = "";
-			let redisStatus = "UNKNOWN";
-			let redisError = "";
+	let dbStatus = "UNKNOWN";
+	let dbError = "";
+	let redisStatus = "UNKNOWN";
+	let redisError = "";
 
-			try {
-				await db.execute("SELECT 1 as test");
-				dbStatus = "CONNECTED";
-			} catch (dbErr) {
-				dbStatus = "DISCONNECTED";
-				dbError = dbErr instanceof Error ? dbErr.message : String(dbErr);
-			}
+	try {
+		await db.execute("SELECT 1 as test");
+		dbStatus = "CONNECTED";
+	} catch (dbErr) {
+		dbStatus = "DISCONNECTED";
+		dbError = dbErr instanceof Error ? dbErr.message : String(dbErr);
+	}
 
-			try {
-				await redis.healthCheck();
-				redisStatus = "CONNECTED";
-			} catch (redisErr) {
-				redisStatus = "DISCONNECTED";
-				redisError =
-					redisErr instanceof Error ? redisErr.message : String(redisErr);
-			}
+	try {
+		await redis.healthCheck();
+		redisStatus = "CONNECTED";
+	} catch (redisErr) {
+		redisStatus = "DISCONNECTED";
+		redisError =
+			redisErr instanceof Error ? redisErr.message : String(redisErr);
+	}
 
-			return `
+	return `
 ╔════════════════════════════════════════════════════════╗
 ║                    VERIFY SERVICE                      ║
 ╠════════════════════════════════════════════════════════╣
@@ -57,10 +50,10 @@ ${dbError ? `║ DB ERROR: ${dbError.substring(0, 45).padEnd(45)} ║` : "║   
 ${redisError ? `║ REDIS ERROR: ${redisError.substring(0, 42).padEnd(42)} ║` : "║                                                        ║"}
 ╠════════════════════════════════════════════════════════╣
 ║ QUICK START:                                           ║
-║ curl -X POST /api/verify/v1/email \\                    ║
-║   -H "Content-Type: application/json" \\                ║
-║   -H "X-API-Key: your_api_key" \\                       ║
-║   -d '{"email":"test@example.com"}'                    ║
+║ curl -X POST /api/verify/v1/verify \\                  ║
+║   -H "Content-Type: application/json" \\               ║
+║   -H "Authorization: Bearer YOUR_TOKEN" \\             ║
+║   -d '{"email":"test@example.com"}'                   ║
 ╠════════════════════════════════════════════════════════╣
 ║ - SUPPORT                                              ║
 ║ - https://verifio.email/dev/setup/backend/verify       ║
@@ -76,42 +69,4 @@ ${redisError ? `║ REDIS ERROR: ${redisError.substring(0, 42).padEnd(42)} ║` 
                 Made with ❤️ for developers
 
 `;
-		},
-		{
-			detail: {
-				tags: ["Service"],
-				summary: "Health check for Verify Service",
-				description: "Checks the health of the Verify Service",
-			},
-		},
-	)
-	.get("/health/postgres", async () => {
-		try {
-			await db.execute("SELECT 1 as test");
-			return {
-				status: "CONNECTED",
-				timestamp: new Date().toISOString(),
-			};
-		} catch (error) {
-			return {
-				status: "DISCONNECTED",
-				error: error instanceof Error ? error.message : String(error),
-				timestamp: new Date().toISOString(),
-			};
-		}
-	})
-	.get("/health/redis", async () => {
-		try {
-			await redis.healthCheck();
-			return {
-				status: "CONNECTED",
-				timestamp: new Date().toISOString(),
-			};
-		} catch (error) {
-			return {
-				status: "DISCONNECTED",
-				error: error instanceof Error ? error.message : String(error),
-				timestamp: new Date().toISOString(),
-			};
-		}
-	});
+});
