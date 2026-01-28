@@ -4,7 +4,6 @@ const defaults = {
 	BASE_URL: "https://local.verifio.email",
 	NODE_ENV: "development",
 	DEFAULT_CREDIT_LIMIT: "3000",
-	INTERNAL_SERVICE_SECRET: "dev-internal-secret-do-not-use-in-prod",
 } as const;
 
 export const creditsConfig = {
@@ -15,4 +14,5 @@ export const creditsConfig = {
 	DEFAULT_CREDIT_LIMIT: Number(
 		process.env.DEFAULT_CREDIT_LIMIT || defaults.DEFAULT_CREDIT_LIMIT,
 	),
+	isProduction: process.env.NODE_ENV === "production",
 };

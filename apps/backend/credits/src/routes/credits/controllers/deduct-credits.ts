@@ -1,26 +1,24 @@
-/**
- * Deduct Credits Controller
- */
-
 import { deductCredits } from "@verifio/credits/services/credit-manager";
-import type { CreditsTypes } from "@verifio/credits/types/credits.type";
+import { logger } from "@verifio/logger";
 
 export async function deductCreditsHandler(
-  organizationId: string,
-  amount: number,
-): Promise<CreditsTypes.DeductCreditsResponse> {
-  const result = await deductCredits(organizationId, amount);
+	organizationId: string,
+	amount: number,
+) {
+	logger.info(
+		{ organizationId, amount },
+		"Deducting credits",
+	);
 
-  if (!result.success) {
-    return {
-      success: false,
-      error: "Insufficient credits",
-      data: result,
-    };
-  }
+	const result = await deductCredits(organizationId, amount);
 
-  return {
-    success: true,
-    data: result,
-  };
+	logger.info(
+		{ organizationId, success: result.success, creditsUsed: result.creditsUsed, remaining: result.remaining },
+		"Credits deducted",
+	);
+
+	return {
+		success: result.success,
+		data: result,
+	};
 }

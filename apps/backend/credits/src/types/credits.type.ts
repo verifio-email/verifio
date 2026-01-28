@@ -14,7 +14,6 @@ export namespace CreditsTypes {
   export type DeductCreditsResponse =
     typeof CreditsModel.deductCreditsResponse.static;
   export type ErrorResponse = typeof CreditsModel.errorResponse.static;
-  export type Unauthorized = typeof CreditsModel.unauthorized.static;
   export type HealthResponse = typeof CreditsModel.healthResponse.static;
 
   export interface OrgCreditsRecord {

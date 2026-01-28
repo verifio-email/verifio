@@ -1,18 +1,24 @@
-/**
- * Check Credits Controller
- */
-
 import { checkCredits } from "@verifio/credits/services/credit-manager";
-import type { CreditsTypes } from "@verifio/credits/types/credits.type";
+import { logger } from "@verifio/logger";
 
 export async function checkCreditsHandler(
-  organizationId: string,
-  amount: number,
-): Promise<CreditsTypes.CheckCreditsResponse> {
-  const result = await checkCredits(organizationId, amount);
+	organizationId: string,
+	amount: number,
+) {
+	logger.info(
+		{ organizationId, amount },
+		"Checking credits",
+	);
 
-  return {
-    success: true,
-    data: result,
-  };
+	const result = await checkCredits(organizationId, amount);
+
+	logger.info(
+		{ organizationId, hasCredits: result.hasCredits, remaining: result.remaining },
+		"Credits checked",
+	);
+
+	return {
+		success: true,
+		data: result,
+	};
 }

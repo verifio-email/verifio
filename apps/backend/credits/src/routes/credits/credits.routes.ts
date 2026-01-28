@@ -2,12 +2,14 @@
  * Credits Routes Aggregator
  */
 
-import { getCreditsRoute } from "@verifio/credits/routes/credits/routes/get-credits.route";
+import { checkCreditsRoute } from "@verifio/credits/routes/credits/routes/check-credits.route";
+import { deductCreditsRoute } from "@verifio/credits/routes/credits/routes/deduct-credits.route";
+import { getStatusRoute } from "@verifio/credits/routes/credits/routes/get-credits.route";
 import { getHistoryRoute } from "@verifio/credits/routes/credits/routes/get-history.route";
-import { internalRoute } from "@verifio/credits/routes/credits/routes/internal.route";
 import { Elysia } from "elysia";
 
 export const creditsRoutes = new Elysia({ prefix: "/v1", name: "CreditsRoutes" })
-  .use(getCreditsRoute)
+  .use(getStatusRoute)
   .use(getHistoryRoute)
-  .use(internalRoute);
+  .use(checkCreditsRoute)
+  .use(deductCreditsRoute);

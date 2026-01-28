@@ -11,7 +11,6 @@ export namespace CreditsModel {
   export type HistoryQuery = typeof historyQuery.static;
 
   export const checkCreditsBody = t.Object({
-    organizationId: t.String({ description: "Organization ID" }),
     amount: t.Optional(
       t.Number({ description: "Number of credits to check", default: 1 }),
     ),
@@ -20,7 +19,6 @@ export namespace CreditsModel {
   export type CheckCreditsBody = typeof checkCreditsBody.static;
 
   export const deductCreditsBody = t.Object({
-    organizationId: t.String({ description: "Organization ID" }),
     amount: t.Optional(
       t.Number({ description: "Number of credits to deduct", default: 1 }),
     ),
@@ -77,7 +75,6 @@ export namespace CreditsModel {
 
   export const deductCreditsResponse = t.Object({
     success: t.Boolean(),
-    error: t.Optional(t.String()),
     data: t.Object({
       success: t.Boolean(),
       creditsUsed: t.Number(),
@@ -93,12 +90,6 @@ export namespace CreditsModel {
   });
 
   export type ErrorResponse = typeof errorResponse.static;
-
-  export const unauthorized = t.Object({
-    message: t.Literal("Unauthorized access"),
-  });
-
-  export type Unauthorized = typeof unauthorized.static;
 
   export const healthResponse = t.Object({
     status: t.String({ description: "Service status" }),
