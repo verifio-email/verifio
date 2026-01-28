@@ -74,10 +74,10 @@ export async function getOrCreateOrgCredits(
 
 	const [created] = await db
 		.insert(orgCredits)
-		.values({
+	.values({
 			organizationId,
 			creditsUsed: 0,
-			creditLimit: creditsConfig.defaultCreditLimit,
+			creditLimit: creditsConfig.DEFAULT_CREDIT_LIMIT,
 			periodStart,
 			periodEnd,
 		})

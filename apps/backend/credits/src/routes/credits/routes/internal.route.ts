@@ -16,9 +16,8 @@ export const internalRoute = new Elysia({
   name: "InternalRoutes",
 })
   .onBeforeHandle(({ request, set }) => {
-    // Validate internal service secret
     const secret = request.headers.get("x-internal-secret");
-    if (secret !== creditsConfig.internalSecret) {
+    if (secret !== creditsConfig.INTERNAL_SERVICE_SECRET) {
       set.status = 401;
       return { success: false, error: "Unauthorized" };
     }

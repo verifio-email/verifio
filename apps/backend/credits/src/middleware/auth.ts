@@ -12,19 +12,19 @@ export type AuthenticatedUser = Session["user"] & {
 	activeOrganizationId: string;
 };
 
-if (creditsConfig.environment !== "production") {
+if (creditsConfig.NODE_ENV !== "production") {
 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 }
 
 export const authMiddleware = new Elysia({ name: "credits-auth" }).macro({
 	auth: {
 		async resolve({ status, request: { headers } }) {
-			const authUrl = `${creditsConfig.baseUrl}/api/auth/v1/get-session`;
+			const authUrl = `${creditsConfig.BASE_URL}/api/auth/v1/get-session`;
 			const cookie = headers.get("cookie") || "";
 
 			logger.debug(
 				{
-					baseUrl: creditsConfig.baseUrl,
+					baseUrl: creditsConfig.BASE_URL,
 					authUrl,
 					hasCookie: !!cookie,
 				},
