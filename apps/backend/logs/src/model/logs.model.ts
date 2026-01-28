@@ -1,0 +1,115 @@
+import { t } from "elysia";
+
+export namespace LogsModel {
+  export const logBody = t.Object({
+    user_id: t.Optional(t.String({ description: "User identifier" })),
+    organization_id: t.String({ description: "Organization identifier" }),
+    api_key_id: t.Optional(t.String({ description: "API key identifier" })),
+    service: t.String({
+      description: "Service name: 'verify', 'api-key', 'auth', 'upload'",
+    }),
+    endpoint: t.String({ description: "API endpoint path" }),
+    method: t.String({ description: "HTTP method" }),
+    resource_type: t.Optional(t.String({ description: "Type of resource" })),
+    resource_id: t.Optional(
+      t.String({ description: "ID or value of the resource" }),
+    ),
+    status: t.String({ description: "'success', 'failed', or 'error'" }),
+    result: t.Optional(t.String({ description: "Detailed result" })),
+    error_message: t.Optional(
+      t.String({ description: "Error message if failed" }),
+    ),
+    credits_used: t.Optional(t.Number({ description: "Credits consumed" })),
+    duration_ms: t.Optional(
+      t.Number({ description: "Request duration in ms" }),
+    ),
+    ip_address: t.Optional(t.String({ description: "Client IP address" })),
+    user_agent: t.Optional(t.String({ description: "Client user agent" })),
+    metadata: t.Optional(
+      t.Record(t.String(), t.Unknown(), {
+        description: "Additional metadata",
+      }),
+    ),
+  });
+
+  export type LogBody = typeof logBody.static;
+
+  export const logResponse = t.Object({
+    success: t.Boolean(),
+    id: t.String({ description: "Created log entry ID" }),
+  });
+
+  export type LogResponse = typeof logResponse.static;
+
+  export const logsQuery = t.Object({
+    organization_id: t.String({ description: "Organization ID (required)" }),
+    api_key_id: t.Optional(t.String({ description: "Filter by API key ID" })),
+    service: t.Optional(t.String({ description: "Filter by service" })),
+    endpoint: t.Optional(t.String({ description: "Filter by endpoint" })),
+    status: t.Optional(t.String({ description: "Filter by status" })),
+    from: t.Optional(t.String({ description: "Start date (ISO 8601)" })),
+    to: t.Optional(t.String({ description: "End date (ISO 8601)" })),
+    search: t.Optional(t.String({ description: "Search in resource_id" })),
+    page: t.Optional(t.Numeric({ minimum: 1, default: 1 })),
+    limit: t.Optional(t.Numeric({ minimum: 1, maximum: 100, default: 20 })),
+  });
+
+  export type LogsQuery = typeof logsQuery.static;
+
+  export const logEntry = t.Object({
+    id: t.String(),
+    user_id: t.Nullable(t.String()),
+    organization_id: t.String(),
+    api_key_id: t.Nullable(t.String()),
+    service: t.String(),
+    endpoint: t.String(),
+    method: t.String(),
+    resource_type: t.Nullable(t.String()),
+    resource_id: t.Nullable(t.String()),
+    status: t.String(),
+    result: t.Nullable(t.String()),
+    error_message: t.Nullable(t.String()),
+    credits_used: t.Nullable(t.Number()),
+    duration_ms: t.Nullable(t.Number()),
+    ip_address: t.Nullable(t.String()),
+    user_agent: t.Nullable(t.String()),
+    metadata: t.Unknown(),
+    created_at: t.String(),
+  });
+
+  export type LogEntry = typeof logEntry.static;
+
+  export const logsResponse = t.Object({
+    success: t.Boolean(),
+    data: t.Array(logEntry),
+    pagination: t.Object({
+      page: t.Number(),
+      limit: t.Number(),
+      total: t.Number(),
+      total_pages: t.Number(),
+    }),
+  });
+
+  export type LogsResponse = typeof logsResponse.static;
+
+  export const errorResponse = t.Object({
+    success: t.Literal(false),
+    message: t.String({ description: "Error message" }),
+  });
+
+  export type ErrorResponse = typeof errorResponse.static;
+
+  export const unauthorized = t.Object({
+    message: t.Literal("Unauthorized access"),
+  });
+
+  export type Unauthorized = typeof unauthorized.static;
+
+  export const healthResponse = t.Object({
+    status: t.String({ description: "Service status" }),
+    timestamp: t.String({ description: "Current timestamp" }),
+    error: t.Optional(t.String({ description: "Error message if any" })),
+  });
+
+  export type HealthResponse = typeof healthResponse.static;
+}

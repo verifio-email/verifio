@@ -1,13 +1,13 @@
 import "dotenv/config";
+import { cors } from "@elysiajs/cors";
 import { fromTypes, openapi } from "@elysiajs/openapi";
 import { serverTiming } from "@elysiajs/server-timing";
 import { logger } from "@verifio/logger";
+import { logsRoutes } from "@verifio/logs/routes/logs/logs.routes";
+import { healthRoute } from "@verifio/logs/routes/logs/routes/health-route";
+import { loader } from "@verifio/logs/utils/loader";
 import { Elysia } from "elysia";
 import { logsConfig } from "./logs.config";
-import { landingRoute } from "./routes/landing.route";
-import { logRoute } from "./routes/log.route";
-import { logsRoute } from "./routes/logs.route";
-import { loader } from "./utils/loader";
 
 const port = logsConfig.port;
 
@@ -15,6 +15,21 @@ const logsService = new Elysia({
 	prefix: "/api/logs",
 	name: "Logs Service",
 })
+	.use(
+		cors({
+			origin:
+				logsConfig.NODE_ENV === "production"
+					? ["https://verifio.email", "https://www.verifio.email"]
+					: [
+						"http://localhost:3000",
+						"http://localhost:3001",
+						"https://local.verifio.email",
+					],
+			methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+			allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
+			credentials: true,
+		}),
+	)
 	.use(
 		openapi({
 			documentation: {
@@ -28,6 +43,10 @@ const logsService = new Elysia({
 						name: "Logs",
 						description: "Activity log endpoints",
 					},
+					{
+						name: "Health",
+						description: "Health check endpoints",
+					},
 				],
 			},
 			references: fromTypes(
@@ -38,8 +57,8 @@ const logsService = new Elysia({
 		}),
 	)
 	.use(serverTiming())
-	.use(landingRoute)
-	.group("/v1", (app) => app.use(logRoute).use(logsRoute))
+	.use(healthRoute)
+	.use(logsRoutes)
 	.onStart(async () => {
 		await loader();
 	})

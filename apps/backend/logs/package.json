@@ -13,18 +13,19 @@
 		"@elysiajs/cors": "catalog:backend",
 		"@elysiajs/openapi": "catalog:backend",
 		"@elysiajs/server-timing": "catalog:backend",
+		"@verifio/auth": "workspace:*",
+		"@verifio/db": "workspace:*",
+		"@verifio/logger": "workspace:*",
 		"dotenv": "catalog:backend",
 		"drizzle-orm": "catalog:db",
 		"elysia": "catalog:backend",
-		"@verifio/db": "workspace:*",
-		"pg": "catalog:db",
-		"@verifio/logger": "workspace:*"
+		"pg": "catalog:db"
 	},
 	"devDependencies": {
-		"@verifio/tsconfig": "workspace:*",
+		"@types/bun": "catalog:backend",
 		"@types/pg": "catalog:db",
+		"@verifio/tsconfig": "workspace:*",
 		"tsdown": "catalog:backend",
-		"typescript": "catalog:",
-		"@types/bun": "catalog:backend"
+		"typescript": "catalog:"
 	}
 }
