@@ -1,7 +1,6 @@
 import { createOpenAPI } from "fumadocs-openapi/server";
 
 export const openapi = createOpenAPI({
-	// the OpenAPI schemas for all services
 	input: [
 		"https://verifio.email/api/verify/openapi/json",
 		"https://verifio.email/api/credits/openapi/json",
