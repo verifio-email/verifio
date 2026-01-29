@@ -1,0 +1,357 @@
+---
+title: Logs Service
+description: Centralized activity logging for audit trails and debugging.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+
+# Logs Service
+
+Centralized activity logging service that records all verification and user activity for audit trails, debugging, and analytics.
+
+## Overview
+
+| Property | Value |
+|----------|-------|
+| **Location** | `apps/backend/logs` |
+| **Framework** | ElysiaJS |
+| **Port** | 8003 |
+| **Route Prefix** | `/api/logs` |
+
+## What It Does
+
+The Logs service handles:
+
+- **Activity Logging** - Records all user and API actions
+- **Query Interface** - Search and filter logs
+- **Audit Trail** - Maintains complete history of operations
+- **Debug Support** - Detailed error tracking and context
+- **Analytics Data** - Provides metrics and usage statistics
+
+## Starting the Service
+
+```bash
+bun run be:logs:dev
+```
+
+## Environment Variables
+
+Create a `.env` file in `apps/backend/logs/`:
+
+```bash
+# Server Configuration
+PORT=8003
+BASE_URL=https://local.verifio.email
+
+# Database
+PG_URL=postgresql://verifio:verifio123@localhost:5432/verifio
+
+# Cache (Redis)
+REDIS_URL=redis://:verifio123@localhost:6379
+```
+
+### Environment Variables Details
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PORT` | No | 8003 | Port to run the service on |
+| `BASE_URL` | Yes | - | Base URL for service-to-service calls |
+| `PG_URL` | Yes | - | PostgreSQL connection string |
+| `REDIS_URL` | Yes | - | Redis connection string for caching |
+
+## API Endpoints
+
+<Callout type="info">
+  API reference is auto-generated from OpenAPI specs. See the **[Logs API Reference](/docs/api-reference)** for detailed endpoint documentation.
+</Callout>
+
+### Main Endpoints
+
+| Route | Method | Description | Auth Required |
+|-------|--------|-------------|---------------|
+| `/api/logs/v1/add` | POST | Add activity log entry | Session |
+| `/api/logs/v1/query` | GET | Query logs with filters | Session |
+| `/api/logs/health` | GET | Health check | No |
+
+## Log Entry Schema
+
+Each log entry contains comprehensive context:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `userId` | string | User who performed the action |
+| `organizationId` | string | Organization context |
+| `apiKeyId` | string | API key used (if applicable) |
+| `service` | string | Service name (e.g., "verify") |
+| `endpoint` | string | API endpoint called |
+| `method` | string | HTTP method (GET, POST, etc.) |
+| `resourceType` | string | Type of resource affected |
+| `resourceId` | string | ID of the resource |
+| `status` | string | Result status ("success", "error") |
+| `result` | string | Summary of the result |
+| `errorMessage` | string | Error details if failed |
+| `creditsUsed` | number | Credits consumed |
+| `durationMs` | number | Request duration in milliseconds |
+| `ipAddress` | string | Client IP address |
+| `userAgent` | string | Client user agent |
+| `metadata` | object | Additional JSON data |
+
+## Code Patterns
+
+### Adding a Log Entry
+
+```typescript
+// From another service (e.g., verify service)
+await fetch(`${BASE_URL}/api/logs/v1/add`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Cookie': headers.cookie,  // Forward session for auth
+  },
+  body: JSON.stringify({
+    service: 'verify',
+    endpoint: '/api/verify/v1/verify',
+    method: 'POST',
+    resourceType: 'verification',
+    resourceId: resultId,
+    status: 'success',
+    result: 'Email verified successfully',
+    creditsUsed: 1,
+    durationMs: 2340,
+    ipAddress: headers['x-forwarded-for'] || headers['x-real-ip'],
+    userAgent: headers['user-agent'],
+    metadata: {
+      email: 'user@example.com',
+      domain: 'example.com',
+    },
+  }),
+});
+```
+
+### Querying Logs
+
+```typescript
+const response = await fetch('https://local.verifio.email/api/logs/v1/query?' + new URLSearchParams({
+  service: 'verify',
+  status: 'error',
+  limit: '50',
+  offset: '0',
+}), {
+  credentials: 'include',
+});
+
+const { logs } = await response.json();
+```
+
+### Query Parameters
+
+| Parameter | Type | Description | Example |
+|-----------|------|-------------|---------|
+| `service` | string | Filter by service name | `verify` |
+| `status` | string | Filter by status | `error` |
+| `userId` | string | Filter by user | `user_123` |
+| `organizationId` | string | Filter by organization | `org_456` |
+| `startDate` | string | Filter by start date | `2024-01-01` |
+| `endDate` | string | Filter by end date | `2024-01-31` |
+| `limit` | number | Results per page (max 100) | `50` |
+| `offset` | number | Pagination offset | `0` |
+
+## Authentication
+
+The Logs service requires **session-based authentication**:
+
+- All endpoints require an active user session
+- Users can only view logs from their organization
+- API keys are not supported (logs are for dashboard users)
+
+## Database Tables Used
+
+| Table | Purpose |
+|-------|---------|
+| `activityLogs` | All activity log entries with full context |
+
+## Inter-Service Communication
+
+All backend services send log entries to the Logs service:
+
+```typescript
+// Pattern used across all services
+async function logActivity(data) {
+  try {
+    await fetch(`${BASE_URL}/api/logs/v1/add`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Cookie': headers.cookie,
+      },
+      body: JSON.stringify(data),
+    });
+  } catch (error) {
+    // Log failures shouldn't break the main operation
+    console.error('Failed to log activity:', error);
+  }
+}
+```
+
+<Callout type="warn">
+  Logging failures are **non-blocking**. If the Logs service is down, the main operation continues successfully.
+</Callout>
+
+## Use Cases
+
+### 1. Debugging
+
+When a user reports an issue, query logs by email or userId:
+
+```typescript
+const response = await fetch(`/api/logs/v1/query?userId=${userId}&limit=20`, {
+  credentials: 'include',
+});
+```
+
+### 2. Audit Trail
+
+View all actions performed by a user or organization:
+
+```typescript
+const response = await fetch(`/api/logs/v1/query?organizationId=${orgId}&limit=100`, {
+  credentials: 'include',
+});
+```
+
+### 3. Error Tracking
+
+Find all failed operations:
+
+```typescript
+const response = await fetch('/api/logs/v1/query?status=error&limit=50', {
+  credentials: 'include',
+});
+```
+
+### 4. Usage Analytics
+
+Track credit consumption over time:
+
+```typescript
+const response = await fetch(`/api/logs/v1/query?startDate=2024-01-01&endDate=2024-01-31`, {
+  credentials: 'include',
+});
+```
+
+## Troubleshooting
+
+### Service won't start
+
+- Check port 8003 is available: `lsof -i :8003`
+- Verify PostgreSQL is running: `docker ps | grep postgres`
+- Verify Redis is running: `docker ps | grep redis`
+- Check `.env` file exists and is correct
+
+### Database connection errors
+
+```bash
+# Test PostgreSQL connection
+psql postgresql://verifio:verifio123@localhost:5432/verifio
+```
+
+- Verify `PG_URL` in `.env` matches Docker configuration
+- Check PostgreSQL container is running
+
+### Can't query logs
+
+- Verify you're logged in (session cookie required)
+- Check that you're a member of an organization
+- Verify query parameters are valid
+- Try reducing the `limit` parameter
+
+### Logs not appearing
+
+- Verify the Logs service is running: `curl http://localhost:8003/api/logs/health`
+- Check other services are configured with correct `BASE_URL`
+- Look for errors in service console logs
+- Verify Redis is running (logs may be cached)
+
+### Slow query performance
+
+- Reduce the `limit` parameter
+- Use date range filters (`startDate`, `endDate`)
+- Add specific filters (`service`, `status`)
+- Consider adding database indexes on frequently queried fields
+
+## Health Checks
+
+```bash
+# Overall service health
+curl http://localhost:8003/api/logs/health
+
+# Database connectivity
+curl http://localhost:8003/api/logs/health/postgres
+
+# Cache connectivity
+curl http://localhost:8003/api/logs/health/redis
+```
+
+Expected response: `{"status":"ok"}`
+
+## Performance Considerations
+
+- **Log Retention**: Consider implementing log archival for old entries
+- **Query Limits**: Max 100 results per query to prevent overload
+- **Indexing**: Database is indexed on `organizationId`, `userId`, `service`
+- **Async Logging**: Log entries are added asynchronously to prevent blocking
+
+## Data Privacy
+
+<Callout type="warn">
+  Logs may contain sensitive information. Handle with care:
+</Callout>
+
+- **IP addresses** are logged for security but should be treated as PII
+- **User agents** may contain identifying information
+- **Metadata** fields should not contain sensitive data
+- **Access control** ensures users only see their organization's logs
+
+## Cleanup and Maintenance
+
+### Manual Log Cleanup
+
+```sql
+-- Delete logs older than 90 days
+DELETE FROM activity_logs
+WHERE created_at < NOW() - INTERVAL '90 days';
+```
+
+### Automated Cleanup
+
+Consider setting up a scheduled job to archive or delete old logs:
+
+```typescript
+// Example: Run daily via cron or Inngest
+async function cleanupOldLogs() {
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - 90);
+
+  await db
+    .delete(activityLogs)
+    .where(lt(activityLogs.createdAt, cutoffDate));
+}
+```
+
+## Related Services
+
+- **All Backend Services** - Send log entries to this service
+- **Auth Service** - Provides user context for logs
+- **Dashboard** - Displays logs to users
+
+## OpenAPI Documentation
+
+Interactive API documentation is available when the service is running:
+
+```
+http://localhost:8003/docs
+```
+
+<Callout type="info">
+  For auto-generated API reference docs, see the **[API Reference](/docs/api-reference)** section.
+</Callout>

@@ -1,0 +1,507 @@
+---
+title: Tools Service
+description: Free verification tools without authentication or credit requirements.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+
+# Tools Service
+
+Provides free email verification tools that don't require authentication or credits. Perfect for testing and basic validation.
+
+## Overview
+
+| Property | Value |
+|----------|-------|
+| **Location** | `apps/backend/tools` |
+| **Framework** | ElysiaJS |
+| **Port** | 8006 |
+| **Route Prefix** | `/api/tools` |
+| **Request Timeout** | 30 seconds |
+
+## What It Does
+
+The Tools service provides:
+
+- **Syntax Validation** - RFC 5322 email format checking
+- **Disposable Detection** - Identify temporary email services
+- **Deliverability Check** - Basic domain and MX verification
+- **No Authentication** - Public endpoints for easy testing
+- **Rate Limiting** - Per-IP limits to prevent abuse
+- **Free to Use** - No credits required
+
+## Starting the Service
+
+```bash
+bun run be:tools:dev
+```
+
+## Environment Variables
+
+Create a `.env` file in `apps/backend/tools/`:
+
+```bash
+# Server Configuration
+PORT=8006
+BASE_URL=https://local.verifio.email
+
+# Cache (Redis) - Required for rate limiting
+REDIS_URL=redis://:verifio123@localhost:6379
+
+# Rate Limiting
+RATE_LIMIT_MAX_REQUESTS=100
+RATE_LIMIT_WINDOW_MS=60000
+```
+
+### Environment Variables Details
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PORT` | No | 8006 | Port to run the service on |
+| `BASE_URL` | Yes | - | Base URL for service-to-service calls |
+| `REDIS_URL` | Yes | - | Redis connection string (required for rate limiting) |
+| `RATE_LIMIT_MAX_REQUESTS` | No | 100 | Max requests per time window |
+| `RATE_LIMIT_WINDOW_MS` | No | 60000 | Time window in milliseconds (60 seconds) |
+
+## API Endpoints
+
+<Callout type="info">
+  API reference is auto-generated from OpenAPI specs. See the **[Tools API Reference](/docs/api-reference)** for detailed endpoint documentation.
+</Callout>
+
+### Main Endpoints
+
+| Route | Method | Description | Auth Required |
+|-------|--------|-------------|---------------|
+| `/api/tools/v1/syntax/validate` | POST | Validate email syntax | No |
+| `/api/tools/v1/disposable/check` | POST | Check if email is disposable | No |
+| `/api/tools/v1/deliverability/check` | POST | Basic deliverability check | No |
+| `/api/tools/v1/list-health` | GET | Health of all services | No |
+| `/api/tools/health` | GET | Health check | No |
+
+<Callout type="info">
+  All endpoints are **public** and require **no authentication**. Rate limiting is enforced per IP address.
+</Callout>
+
+## Available Tools
+
+### 1. Syntax Validation
+
+Validates email format according to RFC 5322 standards.
+
+**Request:**
+```bash
+curl -X POST https://local.verifio.email/api/tools/v1/syntax/validate \
+  -H "Content-Type: application/json" \
+  -d '{"email": "user@example.com"}'
+```
+
+**Response:**
+```json
+{
+  "valid": true,
+  "email": "user@example.com",
+  "normalized": "user@example.com",
+  "issues": []
+}
+```
+
+**What it checks:**
+- Valid email format
+- Correct syntax structure
+- Common typos (e.g., `@gmial.com` → `@gmail.com`)
+- Provider detection (Gmail, Outlook, etc.)
+
+### 2. Disposable Detection
+
+Checks if the email domain is from a disposable email service.
+
+**Request:**
+```bash
+curl -X POST https://local.verifio.email/api/tools/v1/disposable/check \
+  -H "Content-Type: application/json" \
+  -d '{"email": "user@tempmail.com"}'
+```
+
+**Response:**
+```json
+{
+  "disposable": true,
+  "domain": "tempmail.com",
+  "provider": "TempMail",
+  "trustScore": 0.1
+}
+```
+
+**What it checks:**
+- Known disposable email domains
+- Temporary email services
+- 10-minute email services
+- Trust score based on domain reputation
+
+### 3. Deliverability Check
+
+Basic check for email deliverability without full SMTP verification.
+
+**Request:**
+```bash
+curl -X POST https://local.verifio.email/api/tools/v1/deliverability/check \
+  -H "Content-Type: application/json" \
+  -d '{"email": "user@example.com"}'
+```
+
+**Response:**
+```json
+{
+  "deliverable": true,
+  "domain": "example.com",
+  "hasMXRecords": true,
+  "mxRecords": ["mail.example.com"],
+  "canDeliver": true
+}
+```
+
+**What it checks:**
+- Domain exists
+- MX records are present
+- Mail servers are configured
+- Basic DNS configuration
+
+<Callout type="warn">
+  The deliverability check does **not** perform SMTP handshakes. For full verification, use the **Verify Service**.
+</Callout>
+
+### 4. Service Health List
+
+Check the health status of all backend services.
+
+**Request:**
+```bash
+curl https://local.verifio.email/api/tools/v1/list-health
+```
+
+**Response:**
+```json
+{
+  "services": {
+    "auth": { "status": "ok", "port": 8000 },
+    "verify": { "status": "ok", "port": 8001 },
+    "api-key": { "status": "ok", "port": 8002 },
+    "logs": { "status": "ok", "port": 8003 },
+    "upload": { "status": "ok", "port": 8004 },
+    "credits": { "status": "ok", "port": 8005 },
+    "tools": { "status": "ok", "port": 8006 }
+  }
+}
+```
+
+## Rate Limiting
+
+All public endpoints are rate limited to prevent abuse:
+
+### How It Works
+
+- **Per-IP Limits**: Each IP address has independent limits
+- **Redis-Backed**: Distributed rate limiting across multiple instances
+- **Sliding Window**: Accurate rate limiting using Redis
+- **Automatic Cleanup**: Old entries are automatically removed
+
+### Rate Limit Response
+
+When limit is exceeded:
+
+```json
+{
+  "success": false,
+  "error": "Rate limit exceeded",
+  "data": {
+    "limit": 100,
+    "remaining": 0,
+    "resetAt": "2024-01-30T12:00:00Z"
+  }
+}
+```
+
+### Customizing Rate Limits
+
+You can adjust rate limits per endpoint in the service configuration:
+
+```typescript
+// In tools service configuration
+.rateLimit({
+  maxRequests: 100,
+  windowMs: 60000,  // 60 seconds
+})
+```
+
+## Code Patterns
+
+### Using Syntax Validation
+
+```typescript
+const response = await fetch('https://local.verifio.email/api/tools/v1/syntax/validate', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    email: 'user@example.com',
+  }),
+});
+
+const { valid, normalized, issues } = await response.json();
+
+if (valid) {
+  console.log('Email is valid:', normalized);
+} else {
+  console.log('Issues:', issues);
+}
+```
+
+### Checking for Disposable Emails
+
+```typescript
+const response = await fetch('https://local.verifio.email/api/tools/v1/disposable/check', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    email: 'user@tempmail.com',
+  }),
+});
+
+const { disposable, provider } = await response.json();
+
+if (disposable) {
+  console.log('Warning: Disposable email from', provider);
+}
+```
+
+### Basic Deliverability Check
+
+```typescript
+const response = await fetch('https://local.verifio.email/api/tools/v1/deliverability/check', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    email: 'user@example.com',
+  }),
+});
+
+const { deliverable, canDeliver } = await response.json();
+
+if (canDeliver) {
+  console.log('Email appears deliverable');
+}
+```
+
+## Authentication
+
+<Callout type="info">
+  **No authentication required** for any endpoint. These tools are designed for public use and testing.
+</Callout>
+
+- **Public Access**: All endpoints are open
+- **Rate Limiting**: Per-IP limits prevent abuse
+- **No Credits**: Free to use without any account
+- **No Tracking**: No user tracking or authentication
+
+## Shared Packages Used
+
+- **@verifio/email-verify** - Core verification logic
+- **@verifio/cache** - Redis-backed rate limiting
+- **@verifio/logger** - Structured logging
+
+## Inter-Service Communication
+
+The Tools service can check the health of other services:
+
+```typescript
+// Check health of all services
+const services = ['auth', 'verify', 'api-key', 'logs', 'upload', 'credits'];
+
+for (const service of services) {
+  const response = await fetch(`http://localhost:${ports[service]}/health`);
+  const status = await response.json();
+
+  health[service] = {
+    status: status.status,
+    port: ports[service],
+  };
+}
+```
+
+## Use Cases
+
+### 1. Email Input Validation
+
+Validate emails in real-time as users type:
+
+```typescript
+// Frontend example
+async function validateEmailInput(email: string) {
+  const response = await fetch('/api/tools/v1/syntax/validate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  });
+
+  return await response.json();
+}
+```
+
+### 2. Form Pre-submission Checks
+
+Check for disposable emails before form submission:
+
+```typescript
+async function checkDisposable(email: string) {
+  const response = await fetch('/api/tools/v1/disposable/check', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  });
+
+  const { disposable } = await response.json();
+
+  if (disposable) {
+    alert('Please use a permanent email address');
+  }
+}
+```
+
+### 3. Quick Domain Verification
+
+Verify a domain has MX records without full verification:
+
+```typescript
+async function quickDomainCheck(email: string) {
+  const response = await fetch('/api/tools/v1/deliverability/check', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  });
+
+  const { canDeliver } = await response.json();
+
+  return canDeliver;
+}
+```
+
+## Troubleshooting
+
+### Service won't start
+
+- Check port 8006 is available: `lsof -i :8006`
+- Verify Redis is running: `docker ps | grep redis`
+- Check `.env` file exists and is correct
+
+### "Rate limit exceeded" error
+
+- Wait for the time window to reset (default 60 seconds)
+- Reduce request frequency
+- Consider implementing client-side caching
+
+### Redis connection errors
+
+```bash
+# Test Redis connection
+redis-cli -h localhost -p 6379 -a verifio123 ping
+```
+
+- Verify `REDIS_URL` in `.env` matches Docker configuration
+- Check Redis container is running: `docker ps | grep redis`
+
+### Tools returning incorrect results
+
+- Verify the **@verifio/email-verify** package is up to date
+- Check for typos in the email address
+- Some disposable domains may not be detected (new services)
+
+### Health check showing services as down
+
+- Verify all services are running: `bun run verifio:dev`
+- Check service ports are correct
+- Verify network connectivity between services
+
+## Health Checks
+
+```bash
+# Overall service health
+curl http://localhost:8006/api/tools/health
+
+# Cache connectivity
+curl http://localhost:8006/api/tools/health/redis
+
+# Health of all services
+curl http://localhost:8006/api/tools/v1/list-health
+```
+
+Expected response: `{"status":"ok"}`
+
+## Performance Considerations
+
+- **No Authentication**: Faster response times (no auth overhead)
+- **Redis Caching**: Rate limits checked in Redis (fast)
+- **Lightweight Checks**: No SMTP connections (faster than full verification)
+- **Rate Limited**: Prevents abuse while maintaining availability
+
+## Security Considerations
+
+### Rate Limiting
+
+- **Per-IP Limits**: Prevents single-source abuse
+- **Redis-Backed**: Distributed rate limiting
+- **Configurable**: Adjust limits based on load
+
+### Input Validation
+
+- **Email Validation**: All inputs are validated
+- **Length Limits**: Email addresses limited to 254 characters
+- **Domain Validation**: Domains are validated before processing
+
+### No Sensitive Data
+
+- **No PII Storage**: No emails are stored
+- **No User Tracking**: No user accounts or sessions
+- **No Logs**: Minimal logging for privacy
+
+## Comparison with Verify Service
+
+| Feature | Tools Service | Verify Service |
+|---------|---------------|----------------|
+| **Authentication** | Not required | API key or session |
+| **Credits** | Free | Requires credits |
+| **Syntax Check** | ✅ Yes | ✅ Yes |
+| **Disposable Check** | ✅ Yes | ✅ Yes |
+| **DNS/MX Check** | ✅ Basic | ✅ Full |
+| **SMTP Handshake** | ❌ No | ✅ Yes |
+| **Catch-all Detection** | ❌ No | ✅ Yes |
+| **Role Detection** | ❌ No | ✅ Yes |
+| **Raw Signals** | ❌ No | ✅ Yes |
+| **Rate Limiting** | Per-IP | Per-API key |
+| **Use Case** | Quick checks | Full verification |
+
+<Callout type="info">
+  Use the **Tools Service** for quick validation and testing. Use the **Verify Service** for production verification with full signals.
+</Callout>
+
+## Related Services
+
+- **Verify Service** - Full email verification with all signals
+- **All Services** - Health check endpoint monitors all services
+
+## OpenAPI Documentation
+
+Interactive API documentation is available when the service is running:
+
+```
+http://localhost:8006/docs
+```
+
+<Callout type="info">
+  For auto-generated API reference docs, see the **[API Reference](/docs/api-reference)** section.
+</Callout>

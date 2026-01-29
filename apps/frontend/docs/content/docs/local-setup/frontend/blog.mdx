@@ -1,0 +1,37 @@
+---
+title: Blog
+description: Verifio blog platform.
+---
+
+# Blog
+
+The Verifio blog for announcements, tutorials, and updates.
+
+## Overview
+
+| Property | Value |
+|----------|-------|
+| **Location** | `apps/frontend/blog` |
+| **Framework** | Next.js |
+| **Port** | 3003 |
+| **URL** | https://local.verifio.email/blog |
+
+## Starting the Service
+
+```bash
+bun run fe:blog:dev
+```
+
+## Environment Variables
+
+```bash
+NEXT_PUBLIC_WEB_URL=https://local.verifio.email
+NEXT_PUBLIC_API_URL=https://local.verifio.email
+```
+
+## Features
+
+- Blog posts with MDX support
+- Categories and tags
+- RSS feed
+- SEO optimized

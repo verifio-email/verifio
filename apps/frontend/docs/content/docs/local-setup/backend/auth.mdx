@@ -1,243 +1,404 @@
 ---
 title: Auth Service
-description: Central authentication and user management service for Verifio.
+description: Central authentication and user management with Better Auth, OAuth, and organization support.
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout'
 
-# Auth Service Setup
+# Auth Service
 
-Step-by-step guide to run the Auth Service locally.
+Central authentication and authorization service handling user accounts, sessions, OAuth, and organization management.
+
+## Overview
 
 | Property | Value |
 |----------|-------|
-| **Path** | `apps/backend/auth` |
+| **Location** | `apps/backend/auth` |
 | **Framework** | ElysiaJS |
-| **Port** | `8000` |
-| **Route** | `/api/auth/*` |
+| **Port** | 8000 |
+| **Route Prefix** | `/api/auth` |
+| **Base Path** | `/api/auth/v1` |
 
----
+## What It Does
 
-## Prerequisites
+The Auth service handles:
 
-Before starting, make sure you have:
+- **User Authentication** - Email/password and OAuth (Google, GitHub)
+- **Session Management** - Secure session creation and validation
+- **Organization Management** - Multi-tenant workspace support
+- **API Key Support** - Validates API keys across services
+- **Rate Limiting** - Multi-layered protection (IP, fingerprint, email)
+- **OAuth Token Encryption** - Secure storage of provider tokens
 
-- [x] **Bun** installed ([installation guide](https://bun.sh/docs/installation))
-- [x] **Docker** installed and running
-- [x] Repository cloned and dependencies installed (`bun install`)
-- [x] Hosts file configured with `local.verifio.email`
-
-<Callout>
-  If you haven't done these steps, follow the [Development Setup](/docs/setup) guide first.
-</Callout>
-
----
-
-## Step 1: Start Docker Services
-
-The Auth Service requires **PostgreSQL** and **Redis** to be running.
-
-```bash
-bun run docker:up
-```
-
-Verify the containers are running:
-
-```bash
-docker ps
-```
-
-You should see containers for `postgres`, `redis`, and `caddy`.
-
----
-
-## Step 2: Configure Environment Variables
-
-Navigate to the auth service directory:
-
-```bash
-cd apps/backend/auth
-```
-
-Copy the example environment file:
-
-```bash
-cp .env.example .env
-```
-
-Open `.env` and configure the following:
-
-```bash
-# Database (should match your Docker PostgreSQL)
-PG_URL=postgresql://verifio:verifio123@localhost:5432/verifio
-
-# Redis (should match your Docker Redis)
-REDIS_URL=redis://:verifio123@localhost:6379
-
-# Auth Secret - REQUIRED (generate a random 32+ character string)
-BETTER_AUTH_SECRET=your-super-secret-key-make-it-long-and-random
-
-# OAuth Providers - Optional (leave empty if not using)
-GOOGLE_CLIENT_ID=
-GOOGLE_CLIENT_SECRET=
-GITHUB_CLIENT_ID=
-GITHUB_CLIENT_SECRET=
-
-# Server Port
-PORT=8000
-```
-
-<Callout type="warn">
-  **Important:** `BETTER_AUTH_SECRET` must be set. Generate a secure random string using:
-  ```bash
-  openssl rand -hex 32
-  ```
-</Callout>
-
----
-
-## Step 3: Run Database Migrations
-
-Push the database schema:
-
-```bash
-bun run db:push
-```
-
-Seed initial data (optional but recommended):
-
-```bash
-bun run db:seed
-```
-
-<Callout type="info">
-  To view your database visually, run `bun run db:studio` to open Drizzle Studio.
-</Callout>
-
----
-
-## Step 4: Start the Auth Service
-
-From the project root, run:
+## Starting the Service
 
 ```bash
 bun run be:auth:dev
 ```
 
-You should see output like:
+## Environment Variables
 
-```
-🦊 Auth service running at http://localhost:8000
-```
-
----
-
-## Step 5: Verify the Setup
-
-### Check the service is running:
+Create a `.env` file in `apps/backend/auth/`:
 
 ```bash
-curl http://localhost:8000
+# Server Configuration
+PORT=8000
+BASE_URL=https://local.verifio.email
+
+# Database
+PG_URL=postgresql://verifio:verifio123@localhost:5432/verifio
+
+# Cache (Redis)
+REDIS_URL=redis://:verifio123@localhost:6379
+
+# Authentication
+BETTER_AUTH_SECRET=your-super-secret-key-make-it-long-and-random
+BETTER_AUTH_URL=https://local.verifio.email
+
+# Encryption (for OAuth tokens)
+ENCRYPTION_KEY=your-32-character-encryption-key-here
+
+# OAuth Providers - Optional
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
 ```
 
-You should see a welcome response.
+### Environment Variables Details
 
-### Check database connection:
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PORT` | No | 8000 | Port to run the service on |
+| `BASE_URL` | Yes | - | Base URL for the service |
+| `PG_URL` | Yes | - | PostgreSQL connection string |
+| `REDIS_URL` | Yes | - | Redis connection string for sessions |
+| `BETTER_AUTH_SECRET` | **Yes** | - | Session signing key (32+ characters) |
+| `BETTER_AUTH_URL` | Yes | - | The URL of your auth service |
+| `ENCRYPTION_KEY` | **Yes** | - | For OAuth token encryption (32+ characters) |
+| `GOOGLE_CLIENT_ID` | No | - | Google OAuth client ID |
+| `GOOGLE_CLIENT_SECRET` | No | - | Google OAuth client secret |
+| `GITHUB_CLIENT_ID` | No | - | GitHub OAuth client ID |
+| `GITHUB_CLIENT_SECRET` | No | - | GitHub OAuth client secret |
 
-```bash
-curl http://localhost:8000/health/postgres
+<Callout type="warn">
+  **Important:** Generate secure secrets using:
+  ```bash
+  openssl rand -hex 32  # For BETTER_AUTH_SECRET and ENCRYPTION_KEY
+  ```
+</Callout>
+
+## API Endpoints
+
+<Callout type="info">
+  API reference is auto-generated from OpenAPI specs. See the **[Auth API Reference](/docs/api-reference)** for detailed endpoint documentation.
+</Callout>
+
+### Main Endpoints
+
+| Route | Method | Description | Auth Required |
+|-------|--------|-------------|---------------|
+| `/api/auth/v1/sign-up` | POST | Create new account | No |
+| `/api/auth/v1/sign-in/email` | POST | Login with email/password | No |
+| `/api/auth/v1/sign-out` | POST | Logout and destroy session | Session |
+| `/api/auth/v1/session` | GET | Get current user session | Session |
+| `/api/auth/v1/get-session` | GET | Validate session (internal use) | Session |
+| `/api/auth/oauth/google` | GET | Initiate Google OAuth | No |
+| `/api/auth/oauth/github` | GET | Initiate GitHub OAuth | No |
+| `/api/auth/health` | GET | Health check | No |
+
+## Authentication Methods
+
+### 1. Email/Password Authentication
+
+**Sign Up:**
+```typescript
+const response = await fetch('https://local.verifio.email/api/auth/v1/sign-up', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    email: 'user@example.com',
+    password: 'secure_password',
+    name: 'John Doe',
+  }),
+});
 ```
 
-Should return: `{"status":"ok"}`
-
-### Check Redis connection:
-
-```bash
-curl http://localhost:8000/health/redis
+**Sign In:**
+```typescript
+const response = await fetch('https://local.verifio.email/api/auth/v1/sign-in/email', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  credentials: 'include',  // Important: include cookies
+  body: JSON.stringify({
+    email: 'user@example.com',
+    password: 'secure_password',
+  }),
+});
 ```
 
-Should return: `{"status":"ok"}`
+### 2. OAuth Authentication (Google, GitHub)
 
----
+**Initiate OAuth:**
+```typescript
+// Redirect user to OAuth provider
+window.location.href = 'https://local.verifio.email/api/auth/oauth/google';
+```
 
-## Troubleshooting
+**OAuth Flow:**
+1. User clicks "Sign in with Google/GitHub"
+2. Redirected to OAuth provider
+3. Provider redirects back with authorization code
+4. Service creates session and redirects to dashboard
 
-### "Connection refused" on port 8000
+### 3. Session Validation
 
-- Make sure the service is running (`bun run be:auth:dev`)
-- Check if another process is using port 8000: `lsof -i :8000`
+**Get Current Session:**
+```typescript
+const response = await fetch('https://local.verifio.email/api/auth/v1/session', {
+  credentials: 'include',
+});
 
-### Database connection failed
+const { user, session } = await response.json();
+```
 
-- Verify Docker is running: `docker ps`
-- Check `PG_URL` in `.env` matches your PostgreSQL config
-- Try restarting Docker: `bun run docker:down && bun run docker:up`
+## Security Features
 
-### Redis connection failed
+### Rate Limiting
 
-- Verify Redis container is running: `docker ps | grep redis`
-- Check `REDIS_URL` in `.env` matches your Redis config
+Multi-layered rate limiting prevents abuse:
 
-### OAuth not working
+| Type | Limit | Window |
+|------|-------|--------|
+| IP-based | 10 requests | 1 minute |
+| Fingerprint-based | 15 requests | 1 minute |
+| Email-based | 5 requests | 15 minutes |
+| Signup | 3 requests | 1 minute |
+| Password Reset | 3 requests | 5 minutes |
 
-- Ensure `GOOGLE_CLIENT_ID` / `GITHUB_CLIENT_ID` are set correctly
-- OAuth callback URLs must point to `https://local.verifio.email`
+### OAuth Token Encryption
 
----
+OAuth tokens are encrypted before storage:
 
-## Database Schema
+```typescript
+import { encrypt } from './lib/encryption';
+
+const encryptedToken = encrypt(oauthAccessToken);
+// Store encryptedToken in database
+```
+
+### JWKS (JSON Web Key Set)
+
+Cryptographic keys for JWT signing:
+
+- **Rotatable**: Keys can be rotated without downtime
+- **Secure**: Stored securely in database
+- **Automatic**: Automatic key rotation support
+
+## Organization Management
+
+### Automatic Organization Creation
+
+When a user signs up, an organization is automatically created:
+
+1. **Organization Name**: Derived from email username (e.g., `john` → `John's Workspace`)
+2. **Unique Slug**: Username + random suffix (e.g., `john-abc123`)
+3. **Owner Assignment**: User is assigned as organization owner
+
+### Organization Members
+
+| Role | Permissions |
+|------|-------------|
+| `owner` | Full access, can delete organization |
+| `admin` | Manage members, API keys, credits |
+| `member` | Use services, view logs |
+
+## Code Patterns
+
+### Service Setup
+
+```typescript
+import { Elysia } from 'elysia';
+import { cors } from '@elysiajs/cors';
+import { openapi } from '@elysiajs/openapi';
+import { authServer } from '@verifio/auth/server';
+
+const authService = new Elysia({ prefix: '/api/auth' })
+  .use(cors({
+    origin: ['http://localhost:3000', 'http://localhost:3001'],
+    credentials: true,
+  }))
+  .use(openapi({
+    documentation: {
+      info: {
+        title: 'Auth API',
+        version: '1.0.0',
+      },
+    },
+  }))
+  .use(authServer)  // Better Auth integration
+  .use(authRoutes)
+  .listen({ port: 8000 });
+```
+
+### Protecting Routes with Auth
+
+```typescript
+import { authMiddleware } from '@verifio/auth/server';
+
+// Apply authentication middleware
+const app = new Elysia()
+  .use(authMiddleware)
+  .get('/protected', handler, { auth: true });
+```
+
+### Session Validation (Internal)
+
+Other services validate sessions by calling the auth service:
+
+```typescript
+// From verify service
+const sessionResponse = await fetch(`${BASE_URL}/api/auth/v1/get-session`, {
+  headers: {
+    'Cookie': headers.cookie,  // Forward session cookie
+  },
+});
+
+if (!sessionResponse.ok) {
+  return { error: 'Unauthorized' };
+}
+
+const { user, organization } = await sessionResponse.json();
+```
+
+## Database Tables Used
 
 | Table | Purpose |
 |-------|---------|
-| `user` | User accounts and profiles |
-| `session` | Active user sessions |
+| `user` | User accounts with profile info |
 | `account` | OAuth provider connections |
-| `organization` | Organizations and workspaces |
-| `member` | Organization membership and roles |
+| `verification` | Email verification tokens |
+| `jwks` | Cryptographic keys for JWT signing |
+| `organization` | Organization/workspace data |
+| `member` | User-organization relationships |
+| `invitation` | Organization invitations |
 
----
+## Inter-Service Communication
 
-## API Reference
+The Auth service provides authentication for all other services:
 
-| Route | Method | Description |
-|-------|--------|-------------|
-| `/api/auth/sign-up` | POST | Create new account |
-| `/api/auth/sign-in/email` | POST | Login with email/password |
-| `/api/auth/sign-out` | POST | Logout and destroy session |
-| `/api/auth/session` | GET | Get current user session |
-| `/api/auth/oauth/google` | GET | Initiate Google OAuth |
-| `/api/auth/oauth/github` | GET | Initiate GitHub OAuth |
+- **Verify Service** - Validates sessions for verification requests
+- **Credits Service** - Provides organization context for credit operations
+- **Logs Service** - Provides user context for logging
+- **API Key Service** - Validates API keys
 
----
+## Troubleshooting
 
-## Running with Docker (Production)
+### Service won't start
 
-To run the auth service in a Docker container:
+- Check port 8000 is available: `lsof -i :8000`
+- Verify PostgreSQL is running: `docker ps | grep postgres`
+- Verify Redis is running: `docker ps | grep redis`
+- Check `.env` file exists and `BETTER_AUTH_SECRET` is set
 
-### Build the image:
+### "Invalid BETTER_AUTH_SECRET" error
+
+- Generate a new secret: `openssl rand -hex 32`
+- Update `.env` with the new secret
+- Restart the service
+
+### OAuth not working
+
+- Verify OAuth client ID and secret are set correctly
+- Check OAuth callback URL: `https://local.verifio.email/api/auth/callback/*`
+- Ensure OAuth provider is configured in developer console
+
+### Session not persisting
+
+- Verify Redis is running: `docker ps | grep redis`
+- Check `REDIS_URL` in `.env` is correct
+- Verify cookies are being sent (check browser DevTools)
+
+### "Organization not found" error
+
+- Check that organization was created during signup
+- Verify `organizationId` in session matches database
+- Check database for orphaned users (no organization)
+
+### Rate limiting blocking legitimate requests
+
+- Check rate limit configuration in service
+- Verify Redis is storing rate limit data correctly
+- Adjust rate limits in environment variables if needed
+
+### Database connection errors
 
 ```bash
-docker build -t verifio-auth -f apps/backend/auth/Dockerfile .
+# Test PostgreSQL connection
+psql postgresql://verifio:verifio123@localhost:5432/verifio
 ```
 
-### Run the container:
+- Verify `PG_URL` in `.env` matches Docker configuration
+- Check PostgreSQL container is running
+
+## Health Checks
 
 ```bash
-docker run -d \
-  --name verifio-auth \
-  -p 8000:8000 \
-  -e PG_URL="postgresql://user:pass@host:5432/db" \
-  -e REDIS_HOST="redis-host" \
-  -e REDIS_PORT="6379" \
-  -e BETTER_AUTH_SECRET="your-secret" \
-  verifio-auth
+# Overall service health
+curl http://localhost:8000/api/auth/health
+
+# Database connectivity
+curl http://localhost:8000/api/auth/health/postgres
+
+# Cache connectivity
+curl http://localhost:8000/api/auth/health/redis
 ```
 
-### Or use docker-compose:
+Expected response: `{"status":"ok"}`
 
-```bash
-cd apps/backend/auth
-docker-compose up -d
+## Security Best Practices
+
+### 1. Secret Management
+
+- **Never commit** `BETTER_AUTH_SECRET` or `ENCRYPTION_KEY` to git
+- Use environment variables in production
+- Rotate secrets periodically (every 90 days)
+- Use different secrets for dev/staging/prod
+
+### 2. OAuth Configuration
+
+- Use **environment-specific** OAuth apps
+- Set correct callback URLs in OAuth provider
+- Enable PKCE (Proof Key for Code Exchange) if supported
+- Limit OAuth scopes to minimum required
+
+### 3. Session Security
+
+- Sessions expire after 7 days (configurable)
+- HttpOnly cookies prevent XSS attacks
+- Secure flag ensures HTTPS-only transmission
+- SameSite flag prevents CSRF attacks
+
+### 4. Rate Limiting
+
+- Adjust limits based on your needs
+- Monitor rate limit hits for abuse detection
+- Use Redis-backed rate limiting for distributed systems
+
+## Related Services
+
+- **All Backend Services** - Depend on auth for session validation
+- **API Key Service** - Integrates with organization management
+- **Credits Service** - Uses organization context for credit operations
+
+## OpenAPI Documentation
+
+Interactive API documentation is available when the service is running:
+
+```
+http://localhost:8000/docs
 ```
 
-This starts auth service with its own PostgreSQL and Redis instances.
+<Callout type="info">
+  For auto-generated API reference docs, see the **[API Reference](/docs/api-reference)** section.
+</Callout>

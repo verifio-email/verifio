@@ -1,0 +1,340 @@
+---
+title: API Key Service
+description: API key management with generation, validation, rotation, and rate limiting.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+
+# API Key Service
+
+Manages API key CRUD operations including generation, validation, rotation, and rate limiting configuration.
+
+## Overview
+
+| Property | Value |
+|----------|-------|
+| **Location** | `apps/backend/api-key` |
+| **Framework** | ElysiaJS |
+| **Port** | 8002 |
+| **Route Prefix** | `/api/api-key` |
+
+## What It Does
+
+The API Key service handles:
+
+- **API Key Generation** - Creates secure keys with unique prefixes
+- **Validation** - Verifies API key authenticity
+- **CRUD Operations** - Create, read, update, delete keys
+- **Rotation** - Generate new keys without changing the key ID
+- **Rate Limiting** - Configure per-key rate limits (optional)
+- **Enable/Disable** - Temporarily disable keys without deletion
+
+## Starting the Service
+
+```bash
+bun run be:api-key:dev
+```
+
+## Environment Variables
+
+Create a `.env` file in `apps/backend/api-key/`:
+
+```bash
+# Server Configuration
+PORT=8002
+BASE_URL=https://local.verifio.email
+
+# Database
+PG_URL=postgresql://verifio:verifio123@localhost:5432/verifio
+
+# Cache (Redis)
+REDIS_URL=redis://:verifio123@localhost:6379
+```
+
+### Environment Variables Details
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PORT` | No | 8002 | Port to run the service on |
+| `BASE_URL` | Yes | - | Base URL for service-to-service calls |
+| `PG_URL` | Yes | - | PostgreSQL connection string |
+| `REDIS_URL` | Yes | - | Redis connection string for caching |
+
+## API Endpoints
+
+<Callout type="info">
+  API reference is auto-generated from OpenAPI specs. See the **[API Key API Reference](/docs/api-reference)** for detailed endpoint documentation.
+</Callout>
+
+### Main Endpoints
+
+| Route | Method | Description | Auth Required |
+|-------|--------|-------------|---------------|
+| `/api/api-key/v1/verify` | POST | Validate API key (public endpoint) | No |
+| `/api/api-key/v1` | POST | Create new API key | Session |
+| `/api/api-key/v1` | GET | List all API keys for organization | Session |
+| `/api/api-key/v1/:id` | GET | Get specific API key details | Session |
+| `/api/api-key/v1/:id` | PUT | Update API key | Session |
+| `/api/api-key/v1/:id` | DELETE | Delete API key | Session |
+| `/api/api-key/v1/:id/rotate` | POST | Rotate API key | Session |
+| `/api/api-key/health` | GET | Health check | No |
+
+## API Key Features
+
+### Key Format
+
+API keys use a secure format with a prefix:
+
+```
+rl_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p
+```
+
+- **Prefix**: `rl_` (identifies Verifio keys)
+- **Entropy**: Cryptographically random
+- **Storage**: Hashed using bcrypt-like algorithm
+
+### Rate Limiting (Optional)
+
+API keys can have rate limiting configured:
+
+```typescript
+{
+  rateLimit: {
+    window: 86400000,  // 24 hours in milliseconds
+    max: 1000          // Max requests per window
+  }
+}
+```
+
+<Callout type="warn">
+  Rate limiting is optional. If not configured, the key has no rate limits.
+</Callout>
+
+### Metadata Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `name` | string | Human-readable name for the key |
+| `permissions` | string[] | Array of permissions (optional) |
+| `rateLimit` | object | Rate limit configuration (optional) |
+| `enabled` | boolean | Whether the key is active |
+| `expiresAt` | Date | Optional expiration date |
+| `lastRequestAt` | Date | Timestamp of last API request |
+| `requestCount` | number | Total number of requests made |
+
+## Code Patterns
+
+### Creating an API Key
+
+```typescript
+const response = await fetch('https://local.verifio.email/api/api-key/v1', {
+  method: 'POST',
+  credentials: 'include',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    name: 'Production Key',
+    permissions: ['verify:read', 'verify:write'],
+    rateLimit: {
+      window: 86400000,  // 24 hours
+      max: 1000,
+    },
+  }),
+});
+
+const { key } = await response.json();
+// Store this key securely - you won't see it again!
+console.log(key);
+```
+
+### Validating an API Key (Public Endpoint)
+
+```typescript
+const response = await fetch('https://local.verifio.email/api/api-key/v1/verify', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    key: 'rl_your_api_key_here',
+  }),
+});
+
+if (response.ok) {
+  const { data } = await response.json();
+  console.log('Key is valid:', data);
+} else {
+  console.log('Key is invalid');
+}
+```
+
+### Using an API Key
+
+```typescript
+const response = await fetch('https://local.verifio.email/api/verify/v1/verify', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer rl_your_api_key_here',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    email: 'user@example.com',
+  }),
+});
+```
+
+### Rotating an API Key
+
+```typescript
+const response = await fetch(`https://local.verifio.email/api/api-key/v1/${keyId}/rotate`, {
+  method: 'POST',
+  credentials: 'include',
+});
+
+const { key } = await response.json();
+// New key is returned - old key is immediately revoked
+console.log('New key:', key);
+```
+
+## Authentication
+
+<Callout type="info">
+  Unlike other services, the API Key service uses **session-based authentication only** for CRUD operations. The `/verify` endpoint is public and requires no authentication.
+</Callout>
+
+- **CRUD Operations**: Requires active user session (cookie-based auth)
+- **Verify Endpoint**: Public, no authentication required
+
+## Database Tables Used
+
+| Table | Purpose |
+|-------|---------|
+| `apikey` | API key storage with rate limiting config |
+
+## Inter-Service Communication
+
+Other services validate API keys by querying the API Key service:
+
+```typescript
+// From verify service
+const keyResponse = await fetch('http://localhost:8002/api/api-key/v1/verify', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${apiKey}`,
+  },
+});
+```
+
+## Troubleshooting
+
+### "Invalid API Key" error
+
+- Verify the key is copied correctly (no extra spaces)
+- Check the key is enabled: `enabled: true`
+- Verify the key hasn't expired
+- Check the key belongs to the correct organization
+
+### Rate limiting not working
+
+- Verify `rateLimit` is configured on the key
+- Check `REDIS_URL` is set (rate limiting requires Redis)
+- Ensure Redis container is running: `docker ps | grep redis`
+
+### Can't create API keys
+
+- Verify you're logged in (session cookie required)
+- Check that you're a member of an organization
+- Verify the auth service is running on port 8000
+
+### Rotation not working
+
+- Verify you have permission to modify the key
+- Check the key ID is correct
+- Ensure the API Key service is running
+
+### Service won't start
+
+- Check port 8002 is available: `lsof -i :8002`
+- Verify PostgreSQL is running
+- Verify Redis is running
+- Check `.env` file exists and is correct
+
+## Health Checks
+
+```bash
+# Overall service health
+curl http://localhost:8002/api/api-key/health
+
+# Database connectivity
+curl http://localhost:8002/api/api-key/health/postgres
+
+# Cache connectivity
+curl http://localhost:8002/api/api-key/health/redis
+```
+
+Expected response: `{"status":"ok"}`
+
+## Security Best Practices
+
+### Key Storage
+
+- **Never** store API keys in code
+- **Never** commit API keys to version control
+- Use environment variables or secret managers
+- Display keys **only once** at creation time
+
+### Key Rotation
+
+- Rotate keys regularly (e.g., every 90 days)
+- Rotate immediately if a key is compromised
+- Use the `/rotate` endpoint to generate new keys without changing permissions
+
+### Key Permissions
+
+- Grant minimum required permissions
+- Use separate keys for different environments (dev, staging, prod)
+- Disable keys instead of deleting them (preserves history)
+
+### Rate Limiting
+
+- Always configure rate limits for production keys
+- Set reasonable limits based on expected usage
+- Monitor usage patterns to detect abuse
+
+## Rate Limiting Behavior
+
+When a rate limit is exceeded:
+
+```json
+{
+  "success": false,
+  "error": "Rate limit exceeded",
+  "data": {
+    "resetAt": "2024-01-30T12:00:00Z",
+    "limit": 1000,
+    "remaining": 0
+  }
+}
+```
+
+Rate limiting uses a **sliding window** algorithm backed by Redis for accuracy across multiple service instances.
+
+## Related Services
+
+- **Auth Service** - Handles user authentication for key management
+- **Verify Service** - Uses API keys for verification requests
+- **All Services** - Validate API keys via the verify endpoint
+
+## OpenAPI Documentation
+
+Interactive API documentation is available when the service is running:
+
+```
+http://localhost:8002/docs
+```
+
+<Callout type="info">
+  For auto-generated API reference docs, see the **[API Reference](/docs/api-reference)** section.
+</Callout>

@@ -1,0 +1,626 @@
+---
+title: Troubleshooting
+description: Common issues and solutions for backend and frontend services.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+
+# Troubleshooting
+
+Common issues and solutions for developing and running Verifio locally.
+
+## Quick Diagnostics
+
+```bash
+# Check all Docker services
+docker ps
+
+# Check all backend service health
+curl http://localhost:8000/api/auth/health
+curl http://localhost:8001/api/verify/health
+curl http://localhost:8002/api/api-key/health
+curl http://localhost:8003/api/logs/health
+curl http://localhost:8004/api/upload/health
+curl http://localhost:8005/api/credits/health
+curl http://localhost:8006/api/tools/health
+
+# Check frontend services
+curl http://localhost:3000
+curl http://localhost:3001
+curl http://localhost:3002
+```
+
+## Infrastructure Issues
+
+### Docker Services Won't Start
+
+**Symptoms:**
+```bash
+bun run docker:up
+# Error: port is already allocated
+```
+
+**Solutions:**
+
+1. **Check what's using the ports:**
+   ```bash
+   lsof -i :5432  # PostgreSQL
+   lsof -i :6379  # Redis
+   lsof -i :8080  # Caddy
+   ```
+
+2. **Stop conflicting services:**
+   ```bash
+   # Stop local PostgreSQL
+   brew services stop postgresql
+
+   # Stop local Redis
+   brew services stop redis
+   ```
+
+3. **Restart Docker:**
+   ```bash
+   bun run docker:down
+   bun run docker:up
+   ```
+
+### PostgreSQL Connection Issues
+
+**Symptoms:**
+```
+Error: connect ECONNREFUSED 127.0.0.1:5432
+```
+
+**Solutions:**
+
+1. **Verify PostgreSQL is running:**
+   ```bash
+   docker ps | grep postgres
+   ```
+
+2. **Test connection:**
+   ```bash
+   psql postgresql://verifio:verifio123@localhost:5432/verifio
+   ```
+
+3. **Check PG_URL in .env files:**
+   ```bash
+   # Should match Docker Compose configuration
+   PG_URL=postgresql://verifio:verifio123@localhost:5432/verifio
+   ```
+
+4. **Restart PostgreSQL container:**
+   ```bash
+   docker-compose restart postgres
+   ```
+
+### Redis Connection Issues
+
+**Symptoms:**
+```
+Error: Redis connection failed
+```
+
+**Solutions:**
+
+1. **Verify Redis is running:**
+   ```bash
+   docker ps | grep redis
+   ```
+
+2. **Test connection:**
+   ```bash
+   redis-cli -h localhost -p 6379 -a verifio123 ping
+   # Should return: PONG
+   ```
+
+3. **Check REDIS_URL in .env files:**
+   ```bash
+   REDIS_URL=redis://:verifio123@localhost:6379
+   ```
+
+4. **Restart Redis container:**
+   ```bash
+   docker-compose restart redis
+   ```
+
+## Backend Service Issues
+
+### Service Won't Start
+
+**Symptoms:**
+```
+Error: listen EADDRINUSE: address already in use :::8000
+```
+
+**Solutions:**
+
+1. **Find process using the port:**
+   ```bash
+   lsof -i :8000  # Replace with actual port
+   ```
+
+2. **Kill the process:**
+   ```bash
+   kill -9 <PID>
+   ```
+
+3. **Or use a different port:**
+   ```bash
+   # In .env file
+   PORT=8001  # Change to available port
+   ```
+
+### "Module Not Found" Errors
+
+**Symptoms:**
+```
+Error: Cannot find module '@verifio/db'
+```
+
+**Solutions:**
+
+1. **Install dependencies:**
+   ```bash
+   bun install
+   ```
+
+2. **Rebuild workspace:**
+   ```bash
+   rm -rf node_modules
+   bun install
+   ```
+
+3. **Check package.json workspace configuration:**
+   ```json
+   "workspaces": [
+     "apps/*",
+     "packages/*"
+   ]
+   ```
+
+### Database Schema Out of Sync
+
+**Symptoms:**
+```
+Error: column "xyz" does not exist
+```
+
+**Solutions:**
+
+1. **Push latest schema:**
+   ```bash
+   bun run db:push
+   ```
+
+2. **Or run migrations:**
+   ```bash
+   bun run db:migrate
+   ```
+
+3. **Reset database (development only):**
+   ```bash
+   bun run db:drop  # If available
+   bun run db:push
+   bun run db:seed
+   ```
+
+### Environment Variables Not Loading
+
+**Symptoms:**
+```
+Error: BETTER_AUTH_SECRET is required
+```
+
+**Solutions:**
+
+1. **Check .env file exists:**
+   ```bash
+   ls -la apps/backend/auth/.env
+   ```
+
+2. **Verify variables are set:**
+   ```bash
+   cat apps/backend/auth/.env
+   ```
+
+3. **Restart the service:**
+   ```bash
+   # Stop and restart
+   bun run be:auth:dev
+   ```
+
+### Auth Service Issues
+
+**"Invalid session" errors:**
+
+```bash
+# 1. Clear browser cookies for local.verifio.email
+# 2. Verify Auth service is running
+curl http://localhost:8000/api/auth/health
+
+# 3. Check Redis (sessions stored in Redis)
+redis-cli -h localhost -p 6379 -a verifio123
+> KEYS session:*
+
+# 4. Restart Auth service
+bun run be:auth:dev
+```
+
+**OAuth not working:**
+
+```bash
+# 1. Check OAuth credentials in .env
+cat apps/backend/auth/.env | grep OAUTH
+
+# 2. Verify callback URL in OAuth provider:
+# https://local.verifio.email/api/auth/callback/google
+
+# 3. Check Auth service logs for errors
+```
+
+### Verify Service Issues
+
+**"Insufficient credits" error:**
+
+```bash
+# 1. Check Credits service is running
+curl http://localhost:8005/api/credits/health
+
+# 2. Verify organization has credits
+# (Check in dashboard or database)
+
+# 3. Reset credits (development)
+UPDATE org_credits SET credits_used = 0 WHERE organization_id = 'org_id';
+```
+
+**Verification stuck at "processing":**
+
+```bash
+# 1. Check service health
+curl http://localhost:8001/api/verify/health
+
+# 2. Check credits service
+curl http://localhost:8005/api/credits/health
+
+# 3. Verify Inngest is running
+curl http://localhost:8288
+
+# 4. Check service logs for errors
+```
+
+### API Key Issues
+
+**"Invalid API Key" error:**
+
+```bash
+# 1. Verify API key format
+# Should start with "rl_"
+
+# 2. Check API key is enabled
+# (In dashboard or database)
+
+# 3. Verify API Key service is running
+curl http://localhost:8002/api/api-key/health
+
+# 4. Test API key validation
+curl -X POST http://localhost:8002/api/api-key/v1/verify \
+  -H "Content-Type: application/json" \
+  -d '{"key": "rl_your_api_key"}'
+```
+
+### Rate Limiting Issues
+
+**"Rate limit exceeded" error:**
+
+```bash
+# 1. Wait for the time window to reset
+# Default: 60 seconds
+
+# 2. Clear rate limit (development)
+redis-cli -h localhost -p 6379 -a verifio123
+> DEL ratelimit:your_ip_here
+
+# 3. Check rate limit configuration in service .env
+```
+
+## Frontend Issues
+
+### Frontend Won't Start
+
+**Symptoms:**
+```
+Error: Port 3000 is already in use
+```
+
+**Solutions:**
+
+1. **Kill process on port:**
+   ```bash
+   lsof -i :3000
+   kill -9 <PID>
+   ```
+
+2. **Or use different port:**
+   ```bash
+   bun run fe:web:dev --port 3001
+   ```
+
+### "Failed to Fetch" Errors
+
+**Symptoms:**
+```
+Error: Failed to fetch
+TypeError: Network request failed
+```
+
+**Solutions:**
+
+1. **Verify backend services are running**
+2. **Check CORS configuration:**
+   ```bash
+   # In backend service
+   .use(cors({
+     origin: ['http://localhost:3000', 'http://localhost:3001'],
+     credentials: true,
+   }))
+   ```
+
+3. **Verify BASE_URL in .env:**
+   ```bash
+   NEXT_PUBLIC_API_URL=https://local.verifio.email
+   ```
+
+### Cookies Not Being Sent
+
+**Symptoms:**
+```
+Error: Unauthorized (even though logged in)
+```
+
+**Solutions:**
+
+1. **Verify `credentials: 'include'` in fetch:**
+   ```typescript
+   fetch('https://local.verifio.email/api/endpoint', {
+     credentials: 'include',  // Important!
+   });
+   ```
+
+2. **Check cookie settings in backend:**
+   ```typescript
+   cookie: {
+     httpOnly: true,
+     secure: false,  // Use false for local development
+     sameSite: 'lax',
+     domain: 'local.verifio.email',
+   }
+   ```
+
+3. **Clear browser cookies and login again**
+
+### Build Errors
+
+**Symptoms:**
+```
+Error: Module not found: Can't resolve '@verifio/ui'
+```
+
+**Solutions:**
+
+1. **Install dependencies:**
+   ```bash
+   bun install
+   ```
+
+2. **Rebuild packages:**
+   ```bash
+   cd packages/ui
+   bun run build
+   ```
+
+3. **Clear Next.js cache:**
+   ```bash
+   rm -rf .next
+   bun run dev
+   ```
+
+## Caddy Proxy Issues
+
+### "Connection Refused" on local.verifio.email
+
+**Symptoms:**
+```
+Error: connect ECONNREFUSED local.verifio.email
+```
+
+**Solutions:**
+
+1. **Verify hosts file entry:**
+   ```bash
+   cat /etc/hosts | grep local.verifio.email
+   # Should have: 127.0.0.1 local.verifio.email
+   ```
+
+2. **Add hosts entry if missing:**
+   ```bash
+   echo "127.0.0.1 local.verifio.email" | sudo tee -a /etc/hosts
+   ```
+
+3. **Check Caddy is running:**
+   ```bash
+   docker ps | grep caddy
+   ```
+
+4. **Check Caddy logs:**
+   ```bash
+   docker logs caddy
+   ```
+
+### HTTPS Warnings in Browser
+
+**Symptoms:**
+```
+Warning: Your connection is not private
+```
+
+**Solutions:**
+
+1. **Accept the self-signed certificate**
+   - Click "Advanced" → "Proceed to local.verifio.email"
+
+2. **Or use HTTP instead:**
+   ```
+   http://localhost:3000
+   ```
+
+3. **For development, this is normal**
+
+## Performance Issues
+
+### Slow Database Queries
+
+**Diagnose:**
+
+```bash
+# Check query performance
+psql postgresql://verifio:verifio123@localhost:5432/verifio
+EXPLAIN ANALYZE SELECT * FROM verification_result WHERE job_id = '...';
+```
+
+**Solutions:**
+
+1. **Add indexes:**
+   ```sql
+   CREATE INDEX idx_verification_result_job_id ON verification_result(job_id);
+   ```
+
+2. **Use query limits:**
+   ```typescript
+   .limit(50)
+   .offset(0)
+   ```
+
+3. **Use Redis caching:**
+   ```typescript
+   const cached = await redis.get(`key:${id}`);
+   if (cached) return JSON.parse(cached);
+   ```
+
+### High Memory Usage
+
+**Diagnose:**
+
+```bash
+# Check service memory usage
+ps aux | grep node
+```
+
+**Solutions:**
+
+1. **Restart services**
+2. **Check for memory leaks**
+3. **Adjust connection pool sizes**
+4. **Increase Docker memory limits**
+
+## Debugging Tips
+
+### Enable Debug Logging
+
+```bash
+# Set environment variable
+export DEBUG=*
+
+# Or in .env file
+DEBUG=*
+```
+
+### View Service Logs
+
+```bash
+# All services
+bun run verifio:dev
+
+# Individual service
+bun run be:auth:dev
+
+# Docker logs
+docker logs -f postgres
+docker logs -f redis
+```
+
+### Database Queries
+
+```bash
+# Enable query logging
+LOG_LEVEL=debug
+
+# Or use Drizzle Studio
+bun run db:studio
+```
+
+### Network Requests
+
+```bash
+# Use curl for testing
+curl -v http://localhost:8000/api/auth/health
+
+# Or use HTTPie
+http GET http://localhost:8000/api/auth/health
+```
+
+## Getting Help
+
+If none of these solutions work:
+
+1. **Check the logs:**
+   ```bash
+   # Service logs
+   bun run be:service:dev
+
+   # Docker logs
+   docker logs -f postgres
+   ```
+
+2. **Verify all prerequisites:**
+   - Bun installed (`bun --version`)
+   - Docker installed and running (`docker ps`)
+   - Hosts file configured (`cat /etc/hosts`)
+   - Dependencies installed (`bun install`)
+
+3. **Try a clean start:**
+   ```bash
+   bun run docker:down
+   docker system prune -a  # Careful!
+   bun run docker:up
+   bun run db:push
+   bun run db:seed
+   bun run verifio:dev
+   ```
+
+4. **Check GitHub issues:**
+   - https://github.com/verifio-email/verifio/issues
+
+5. **Ask for help:**
+   - GitHub Discussions
+   - Discord community (if available)
+
+## Common Error Messages
+
+| Error | Cause | Solution |
+|-------|-------|----------|
+| `EADDRINUSE` | Port already in use | Kill process or change port |
+| `ECONNREFUSED` | Service not running | Start the service |
+| `Invalid session` | Session expired or invalid | Clear cookies and login |
+| `Insufficient credits` | No credits left | Reset credits or wait for reset |
+| `Rate limit exceeded` | Too many requests | Wait for window to reset |
+| `Module not found` | Missing dependency | Run `bun install` |
+| `Column does not exist` | Schema out of sync | Run `bun run db:push` |
+| `Connection refused` | Database/Redis down | Start Docker services |
+| `Unauthorized` | Missing/invalid auth | Check API key or login |
+
+## Related Documentation
+
+- **Local Development Setup** - Initial setup guide
+- **Backend Services** - Individual service documentation
+- **Backend Architecture** - System architecture details

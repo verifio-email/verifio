@@ -1,0 +1,328 @@
+---
+title: Verify Service
+description: Core email verification engine with syntax, DNS, MX, and SMTP checks.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+
+# Verify Service
+
+The core email verification engine that performs comprehensive email validation.
+
+## Overview
+
+| Property | Value |
+|----------|-------|
+| **Location** | `apps/backend/verify` |
+| **Framework** | ElysiaJS |
+| **Port** | 8001 |
+| **Route Prefix** | `/api/verify` |
+| **Request Timeout** | 30 seconds |
+
+## What It Does
+
+The verify service performs multi-layered email verification:
+
+1. **Syntax Validation** - RFC 5322 compliance checks
+2. **DNS Resolution** - Domain existence verification
+3. **MX Records** - Mail server configuration checks
+4. **SMTP Handshake** - Server acceptance testing (no email sent)
+5. **Catch-all Detection** - Identifies accept-all domains
+6. **Disposable Detection** - Flags temporary email services
+7. **Role Account Detection** - Identifies generic addresses (info@, support@)
+
+All verification results include **raw signals**, making the system transparent and auditable.
+
+## Starting the Service
+
+```bash
+bun run be:verify:dev
+```
+
+## Environment Variables
+
+Create a `.env` file in `apps/backend/verify/`:
+
+```bash
+# Server Configuration
+PORT=8001
+BASE_URL=https://local.verifio.email
+
+# Database
+PG_URL=postgresql://verifio:verifio123@localhost:5432/verifio
+
+# Cache (Redis)
+REDIS_URL=redis://:verifio123@localhost:6379
+
+# Verification Settings
+MAX_BULK_EMAILS=10000
+DEFAULT_TIMEOUT=5000
+```
+
+### Environment Variables Details
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PORT` | No | 8001 | Port to run the service on |
+| `BASE_URL` | Yes | - | Base URL for service-to-service calls |
+| `PG_URL` | Yes | - | PostgreSQL connection string |
+| `REDIS_URL` | Yes | - | Redis connection string for caching |
+| `MAX_BULK_EMAILS` | No | 10000 | Maximum emails allowed in bulk verification |
+| `DEFAULT_TIMEOUT` | No | 5000 | Default timeout for SMTP checks (milliseconds) |
+
+## API Endpoints
+
+<Callout type="info">
+  API reference is auto-generated from OpenAPI specs. See the **[Verify API Reference](/docs/api-reference)** for detailed endpoint documentation.
+</Callout>
+
+### Main Endpoints
+
+| Route | Method | Description | Auth Required |
+|-------|--------|-------------|---------------|
+| `/api/verify/v1/verify` | POST | Verify single email address | API Key or Session |
+| `/api/verify/v1/bulk-verify` | POST | Start bulk verification job | API Key or Session |
+| `/api/verify/v1/bulk-jobs/:jobId` | GET | Get bulk job status | API Key or Session |
+| `/api/verify/v1/bulk-jobs/:jobId/results` | GET | Get bulk job results | API Key or Session |
+| `/api/verify/v1/history` | GET | Get verification history | API Key or Session |
+| `/api/verify/health` | GET | Health check | No |
+
+## Authentication Methods
+
+The verify service supports two authentication methods:
+
+### 1. API Key Authentication
+
+Include your API key in the request:
+
+```bash
+curl -X POST https://local.verifio.email/api/verify/v1/verify \
+  -H "Authorization: Bearer rl_your_api_key_here" \
+  -H "Content-Type: application/json" \
+  -d '{"email": "user@example.com"}'
+```
+
+Or use the `X-API-Key` header:
+
+```bash
+curl -X POST https://local.verifio.email/api/verify/v1/verify \
+  -H "X-API-Key: rl_your_api_key_here" \
+  -H "Content-Type: application/json" \
+  -d '{"email": "user@example.com"}'
+```
+
+### 2. Session Cookie Authentication
+
+For dashboard users, authentication is handled via session cookies:
+
+```typescript
+// Frontend example (using fetch)
+const response = await fetch('https://local.verifio.email/api/verify/v1/verify', {
+  method: 'POST',
+  credentials: 'include', // Include session cookie
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ email: 'user@example.com' }),
+});
+```
+
+## Bulk Verification Process
+
+Bulk verification jobs run asynchronously in the background:
+
+1. **Credit Check** - Verifies sufficient credits before starting
+2. **Job Creation** - Creates job record with `pending` status
+3. **Batch Processing** - Processes emails in batches of 10 concurrently
+4. **Progress Updates** - Updates progress after each batch
+5. **Credit Deduction** - Atomically deducts credits after completion
+6. **Result Storage** - Stores individual results for retrieval
+
+### Bulk Job States
+
+| Status | Description |
+|--------|-------------|
+| `pending` | Job is queued |
+| `processing` | Job is actively processing |
+| `completed` | Job finished successfully |
+| `failed` | Job encountered an error |
+
+## Code Patterns
+
+### Service Setup
+
+```typescript
+import { Elysia } from 'elysia';
+import { cors } from '@elysiajs/cors';
+import { openapi } from '@elysiajs/openapi';
+
+const verifyService = new Elysia({ prefix: '/api/verify' })
+  .use(cors({
+    origin: ['http://localhost:3000', 'http://localhost:3001'],
+    credentials: true,
+  }))
+  .use(openapi({
+    documentation: {
+      info: {
+        title: 'Verify API',
+        version: '1.0.0',
+      },
+    },
+  }))
+  .use(verifyRoutes)
+  .listen({ port: 8001 });
+```
+
+### Auth Middleware Pattern
+
+```typescript
+import { authMiddleware } from '@verifio/auth/server';
+
+// Apply authentication to routes
+.post('/v1/verify', handler, { auth: true })
+```
+
+### Credit Check Before Operation
+
+```typescript
+// Check available credits
+const creditsResponse = await fetch(`${BASE_URL}/api/credits/v1/available-credits`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Cookie': headers.cookie,
+  },
+  body: JSON.stringify({ amount: emailCount }),
+});
+
+if (!creditsResponse.ok) {
+  return { error: 'Insufficient credits' };
+}
+```
+
+### Atomic Credit Deduction
+
+```typescript
+// After verification completes, deduct credits
+await fetch(`${BASE_URL}/api/credits/v1/deduct`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Cookie': headers.cookie,
+  },
+  body: JSON.stringify({ amount: actualCreditsUsed }),
+});
+```
+
+## Database Tables Used
+
+| Table | Purpose |
+|-------|---------|
+| `verificationJob` | Bulk job tracking (status, progress, stats) |
+| `verificationResult` | Individual verification results with raw signals |
+| `apikey` | For API key authentication |
+
+## Inter-Service Communication
+
+The verify service communicates with:
+
+- **Credits Service** (`/api/credits/v1/*`) - Check and deduct credits
+- **Auth Service** (`/api/auth/v1/get-session`) - Validate session cookies
+
+All inter-service calls use cookie forwarding to maintain authentication context.
+
+## Troubleshooting
+
+### Service won't start
+
+- **Check port 8001 is available**: `lsof -i :8001`
+- **Verify PostgreSQL is running**: `docker ps | grep postgres`
+- **Verify Redis is running**: `docker ps | grep redis`
+- **Check `.env` file exists and has correct values**
+
+### Database connection errors
+
+```bash
+# Test PostgreSQL connection
+psql postgresql://verifio:verifio123@localhost:5432/verifio
+```
+
+- Verify `PG_URL` in `.env` matches Docker configuration
+- Check PostgreSQL container is running: `docker ps`
+
+### Redis connection errors
+
+```bash
+# Test Redis connection
+redis-cli -h localhost -p 6379 -a verifio123 ping
+```
+
+- Verify `REDIS_URL` in `.env` matches Docker configuration
+- Check Redis container is running: `docker ps | grep redis`
+
+### Bulk verification stuck at "processing"
+
+- Check credits service is running on port 8005
+- Verify sufficient credits available
+- Check service logs for errors
+
+### "Insufficient credits" error
+
+- Verify credits service is running
+- Check organization credit limit
+- View credit usage in dashboard
+
+### Verification timeout
+
+- Increase `DEFAULT_TIMEOUT` in `.env`
+- Check network connectivity to remote mail servers
+- Some mail servers may block SMTP checks from residential IPs
+
+## Health Checks
+
+```bash
+# Overall service health
+curl http://localhost:8001/api/verify/health
+
+# Database connectivity
+curl http://localhost:8001/api/verify/health/postgres
+
+# Cache connectivity
+curl http://localhost:8001/api/verify/health/redis
+```
+
+Expected response: `{"status":"ok"}`
+
+## Performance Considerations
+
+- **Single verification**: Completes in 2-5 seconds
+- **Bulk verification**: Processes 10 emails concurrently
+- **Rate limiting**: Enforced per API key
+- **Credit deduction**: Atomic to prevent double-spending
+
+## Security Notes
+
+- API keys are validated against the database
+- Session cookies are validated against the auth service
+- All operations require valid authentication
+- Credit checks prevent abuse
+- Rate limiting applies per API key
+
+## Related Services
+
+- **Credits Service** - Manages credit balances
+- **Auth Service** - Handles authentication
+- **Logs Service** - Records verification activity
+- **API Key Service** - Manages API keys
+
+## OpenAPI Documentation
+
+Interactive API documentation is available when the service is running:
+
+```
+http://localhost:8001/docs
+```
+
+<Callout type="info">
+  For auto-generated API reference docs, see the **[API Reference](/docs/api-reference)** section.
+</Callout>

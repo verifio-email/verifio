@@ -1,0 +1,593 @@
+---
+title: Architecture Diagrams
+description: Visual diagrams of Verifio's system architecture and data flows.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+
+# Architecture Diagrams
+
+Visual representations of Verifio's architecture, service communication, and data flows.
+
+## System Architecture Overview
+
+```mermaid
+graph TB
+    subgraph "Users"
+        Users[End Users<br/>Dashboard Users<br/>API Consumers]
+    end
+
+    subgraph "Frontend Layer"
+        Web[Web App<br/>:3000]
+        Dashboard[Dashboard<br/>:3001]
+        Docs[Docs<br/>:3002]
+        Blog[Blog<br/>:3003]
+    end
+
+    subgraph "API Gateway"
+        Caddy[Caddy Reverse Proxy<br/>local.verifio.email<br/>HTTPS Termination]
+    end
+
+    subgraph "Backend Services"
+        Auth[Auth Service<br/>:8000<br/>Authentication & Sessions]
+        Verify[Verify Service<br/>:8001<br/>Email Verification]
+        APIKey[API Key Service<br/>:8002<br/>API Key Management]
+        Logs[Logs Service<br/>:8003<br/>Activity Logging]
+        Upload[Upload Service<br/>:8004<br/>File Upload]
+        Credits[Credits Service<br/>:8005<br/>Credit Management]
+        Tools[Tools Service<br/>:8006<br/>Free Tools]
+    end
+
+    subgraph "Data Layer"
+        PostgreSQL[(PostgreSQL<br/>Primary Database)]
+        Redis[(Redis<br/>Cache & Sessions)]
+    end
+
+    subgraph "Infrastructure"
+        Inngest[Inngest<br/>Background Jobs]
+    end
+
+    Users --> Web
+    Users --> Dashboard
+    Users --> Docs
+    APIConsumers[API Consumers] --> Caddy
+
+    Web --> Caddy
+    Dashboard --> Caddy
+    Docs --> Caddy
+    Blog --> Caddy
+
+    Caddy --> Auth
+    Caddy --> Verify
+    Caddy --> APIKey
+    Caddy --> Logs
+    Caddy --> Upload
+    Caddy --> Credits
+    Caddy --> Tools
+
+    Verify -.->|Validate Session| Auth
+    Verify -.->|Check Credits| Credits
+    Verify -.->|Log Activity| Logs
+
+    APIKey -.->|Log Activity| Logs
+
+    Upload -.->|Log Activity| Logs
+    Upload -.->|Background Processing| Inngest
+
+    Credits -.->|Log Activity| Logs
+
+    Auth --> PostgreSQL
+    Auth --> Redis
+
+    Verify --> PostgreSQL
+    Verify --> Redis
+
+    APIKey --> PostgreSQL
+    APIKey --> Redis
+
+    Logs --> PostgreSQL
+    Logs --> Redis
+
+    Upload --> PostgreSQL
+    Upload --> Redis
+
+    Credits --> PostgreSQL
+    Credits --> Redis
+
+    Tools --> Redis
+```
+
+## Authentication Flow
+
+### Email/Password Authentication
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant Caddy
+    participant Auth
+    participant PostgreSQL
+    participant Redis
+
+    User->>Frontend: Enter email/password
+    Frontend->>Caddy: POST /api/auth/v1/sign-in/email
+    Caddy->>Auth: Forward request
+
+    Auth->>PostgreSQL: Query user by email
+    PostgreSQL-->>Auth: User record
+
+    Auth->>Auth: Verify password hash
+
+    alt Valid Credentials
+        Auth->>Redis: Create session
+        Auth-->>Caddy: Set session cookie
+        Caddy-->>Frontend: Response with session cookie
+        Frontend->>User: Redirect to dashboard
+    else Invalid Credentials
+        Auth-->>Frontend: 401 Unauthorized
+        Frontend->>User: Show error
+    end
+```
+
+### OAuth Authentication (Google/GitHub)
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant Auth
+    participant OAuthProvider
+    participant Database
+
+    User->>Frontend: Click "Sign in with Google"
+    Frontend->>Auth: GET /api/auth/oauth/google
+    Auth-->>Frontend: Redirect to Google
+    Frontend->>OAuthProvider: Authorization request
+    OAuthProvider-->>User: Show consent screen
+    User->>OAuthProvider: Grant permission
+    OAuthProvider-->>Auth: Callback with authorization code
+    Auth->>OAuthProvider: Exchange code for tokens
+    OAuthProvider-->>Auth: Access token
+    Auth->>Database: Get or create user account
+    Auth->>Database: Create session
+    Auth-->>Frontend: Redirect to dashboard with session
+```
+
+### API Key Authentication
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Service
+    participant APIKeyService
+    participant Database
+
+    Client->>Service: Request with API key
+    Service->>APIKeyService: Validate API key
+    APIKeyService->>Database: Query by key hash
+    Database-->>APIKeyService: API key record
+
+    alt Key Valid & Enabled
+        APIKeyService->>Database: Update request count
+        APIKeyService-->>Service: Key valid (org, user)
+        Service-->>Client: Process request
+    else Key Invalid/Disabled
+        APIKeyService-->>Service: Invalid key
+        Service-->>Client: 401 Unauthorized
+    end
+```
+
+## Email Verification Flow
+
+### Single Email Verification
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant VerifyService
+    participant CreditsService
+    participant EmailVerify
+    participant Database
+    participant LogsService
+
+    Client->>VerifyService: POST /api/verify/v1/verify<br/>{email: "user@example.com"}
+
+    VerifyService->>CreditsService: Check available credits
+    CreditsService-->>VerifyService: Credits available
+
+    VerifyService->>EmailVerify: Verify email
+    EmailVerify->>EmailVerify: Syntax check
+    EmailVerify->>EmailVerify: DNS resolution
+    EmailVerify->>EmailVerify: MX record check
+    EmailVerify->>EmailVerify: SMTP handshake
+    EmailVerify-->>VerifyService: Verification result
+
+    VerifyService->>Database: Store result
+    VerifyService->>CreditsService: Deduct 1 credit
+    VerifyService->>LogsService: Log activity
+
+    VerifyService-->>Client: Return result
+```
+
+### Bulk Email Verification
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant VerifyService
+    participant CreditsService
+    participant Inngest
+    participant Database
+    participant LogsService
+
+    Client->>VerifyService: POST /api/verify/v1/bulk-verify<br/>{emails: [...], count: 1000}
+
+    VerifyService->>CreditsService: Check available credits
+    CreditsService-->>VerifyService: 1000 credits available
+
+    VerifyService->>Database: Create job (status: pending)
+    VerifyService-->>Client: Return job ID
+
+    VerifyService->>Inngest: Start background job
+
+    loop Process in batches of 10
+        Inngest->>VerifyService: Process batch
+        VerifyService->>VerifyService: Verify emails
+        VerifyService->>Database: Update progress
+        VerifyService->>Database: Store results
+    end
+
+    Inngest->>CreditsService: Deduct actual credits used
+    Inngest->>Database: Update job (status: completed)
+    Inngest->>LogsService: Log completion
+
+    Client->>VerifyService: GET /api/verify/v1/bulk-jobs/:id
+    VerifyService-->>Client: Job status and results
+```
+
+## Credit Management Flow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant VerifyService
+    participant CreditsService
+    participant Database
+
+    Note over CreditsService: Lazy Reset Pattern
+
+    VerifyService->>CreditsService: Check available credits
+    CreditsService->>Database: Get current period
+
+    alt Period Expired
+        CreditsService->>Database: Archive old period
+        CreditsService->>Database: Reset counters
+        CreditsService->>Database: Set new period dates
+    end
+
+    CreditsService->>Database: Check credits available
+    Database-->>CreditsService: Credits available
+    CreditsService-->>VerifyService: Sufficient credits
+
+    VerifyService->>VerifyService: Process verification
+    VerifyService->>CreditsService: Deduct credits
+
+    CreditsService->>Database: Atomic credit deduction
+    Database-->>CreditsService: Deduction successful
+    CreditsService-->>VerifyService: Credits deducted
+```
+
+## Data Flow: API Request with Session Auth
+
+```mermaid
+flowchart TD
+    A[Client Request] --> B{Has Cookie?}
+    B -->|No| C[Return 401 Unauthorized]
+    B -->|Yes| D[Extract Session Cookie]
+    D --> E[Call Auth Service]
+    E --> F{Session Valid?}
+    F -->|No| C
+    F -->|Yes| G[Get User & Organization]
+    G --> H{Has Permission?}
+    H -->|No| I[Return 403 Forbidden]
+    H -->|Yes| J{Need Credits?}
+    J -->|Yes| K[Check Credits Service]
+    K --> L{Sufficient?}
+    L -->|No| M[Return 402 Payment Required]
+    L -->|Yes| N[Process Request]
+    J -->|No| N
+    N --> O[Log Activity]
+    O --> P[Return Response]
+```
+
+## Data Flow: API Request with API Key
+
+```mermaid
+flowchart TD
+    A[Client Request] --> B{Has API Key?}
+    B -->|No| C[Return 401 Unauthorized]
+    B -->|Yes| D[Extract API Key]
+    D --> E[Call API Key Service]
+    E --> F{Key Valid?}
+    F -->|No| C
+    F -->|Yes| G{Key Enabled?}
+    G -->|No| C
+    G -->|Yes| H{Rate Limit Check}
+    H -->|Exceeded| I[Return 429 Too Many Requests]
+    H -->|Allowed| J{Has Permission?}
+    J -->|No| K[Return 403 Forbidden]
+    J -->|Yes| L{Need Credits?}
+    L -->|Yes| M[Check Credits Service]
+    M --> N{Sufficient?}
+    N -->|No| O[Return 402 Payment Required]
+    N -->|Yes| P[Process Request]
+    L -->|No| P
+    P --> Q[Update Request Count]
+    Q --> R[Log Activity]
+    R --> S[Return Response]
+```
+
+## Service Dependencies
+
+```mermaid
+graph TD
+    Auth[Auth Service]
+    Verify[Verify Service]
+    APIKey[API Key Service]
+    Credits[Credits Service]
+    Logs[Logs Service]
+    Upload[Upload Service]
+    Tools[Tools Service]
+
+    Verify --> Auth
+    Verify --> Credits
+    Verify --> Logs
+
+    APIKey --> Auth
+    APIKey --> Logs
+
+    Credits --> Auth
+    Credits --> Logs
+
+    Upload --> Auth
+    Upload --> Logs
+
+    Tools --> Logs
+
+    style Auth fill:#f9f,stroke:#333,stroke-width:2px
+    style Verify fill:#bbf,stroke:#333,stroke-width:2px
+    style Credits fill:#bfb,stroke:#333,stroke-width:2px
+```
+
+## Database Schema Relationships
+
+```mermaid
+erDiagram
+    user ||--o{ session : has
+    user ||--o{ account : has
+    user ||--o{ member : has
+    user ||--o{ upload : uploads
+
+    organization ||--o{ member : has
+    organization ||--o{ apikey : has
+    organization ||--o{ orgCredits : has
+    organization ||--o{ verificationJob : creates
+    organization ||--o{ upload : owns
+    organization ||--o{ activityLogs : logs
+
+    member }o--|| user : belongs to
+    member }o--|| organization : belongs to
+
+    verificationJob ||--o{ verificationResult : has
+    verificationJob }o-o| upload : uses
+
+    apikey }o--|| organization : belongs to
+
+    orgCredits }o--|| organization : belongs to
+
+    creditHistory }o--|| organization : belongs to
+
+    upload }o--|| organization : belongs to
+    upload }o--|| user : uploaded by
+
+    activityLogs }o--|| organization : logged in
+    activityLogs }o-o| user : performed by
+    activityLogs }o-o| apikey : performed with
+```
+
+## Rate Limiting Architecture
+
+```mermaid
+flowchart TD
+    A[Incoming Request] --> B[Extract IP Address]
+    B --> C[Check Redis for IP Count]
+    C --> D{Within Limit?}
+    D -->|No| E[Return 429]
+    D -->|Yes| F[Extract Fingerprint]
+    F --> G[Check Redis for Fingerprint Count]
+    G --> H{Within Limit?}
+    H -->|No| E
+    H -->|Yes| I{Has Email?}
+    I -->|Yes| J[Check Redis for Email Count]
+    J --> K{Within Limit?}
+    K -->|No| E
+    K -->|Yes| L{Has API Key?}
+    I -->|No| L
+    L -->|Yes| M[Check API Key Rate Limit]
+    M --> N{Within Limit?}
+    N -->|No| E
+    N -->|Yes| O[Process Request]
+    L -->|No| O
+    O --> P[Increment Counters in Redis]
+```
+
+## Deployment Architecture
+
+### Local Development
+
+```mermaid
+graph TB
+    subgraph "Developer Machine"
+        Browser[Browser<br/>local.verifio.email]
+
+        subgraph "Docker Compose"
+            PG[(PostgreSQL<br/>:5432)]
+            RD[(Redis<br/>:6379)]
+            Caddy[Caddy<br/>:8080]
+            Inngest[Inngest<br/>:8288]
+        end
+
+        subgraph "Backend Services"
+            Auth[Auth<br/>:8000]
+            Verify[Verify<br/>:8001]
+            APIKey[API Key<br/>:8002]
+            Logs[Logs<br/>:8003]
+            Upload[Upload<br/>:8004]
+            Credits[Credits<br/>:8005]
+            Tools[Tools<br/>:8006]
+        end
+
+        subgraph "Frontend Apps"
+            Web[Web<br/>:3000]
+            Dashboard[Dashboard<br/>:3001]
+            Docs[Docs<br/>:3002]
+            Blog[Blog<br/>:3003]
+        end
+    end
+
+    Browser --> Caddy
+    Caddy --> Auth
+    Caddy --> Verify
+    Caddy --> APIKey
+    Caddy --> Logs
+    Caddy --> Upload
+    Caddy --> Credits
+    Caddy --> Tools
+
+    Auth --> PG
+    Auth --> RD
+
+    Verify --> PG
+    Verify --> RD
+
+    Web --> Caddy
+    Dashboard --> Caddy
+    Docs --> Caddy
+    Blog --> Caddy
+```
+
+### Production (Simplified)
+
+```mermaid
+graph TB
+    subgraph "Users"
+        Users[End Users<br/>API Consumers]
+    end
+
+    subgraph "CDN / Load Balancer"
+        CDN[Cloudflare/AWS CloudFront]
+    end
+
+    subgraph "Application Servers"
+        subgraph "Frontend Cluster"
+            F1[Web App 1]
+            F2[Web App 2]
+            F3[Dashboard 1]
+        end
+
+        subgraph "Backend Cluster"
+            B1[Auth Service]
+            B2[Verify Service]
+            B3[API Key Service]
+            B4[Credits Service]
+            B5[Logs Service]
+            B6[Upload Service]
+        end
+    end
+
+    subgraph "Data Layer"
+        PG[(RDS PostgreSQL<br/>Multi-AZ)]
+        RD[(ElastiCache Redis<br/>Cluster Mode)]
+    end
+
+    subgraph "Background Jobs"
+        Inngest[Inngest Cloud]
+    end
+
+    Users --> CDN
+    CDN --> F1
+    CDN --> F2
+    CDN --> F3
+
+    F1 --> B1
+    F1 --> B2
+    F3 --> B1
+    F3 --> B3
+
+    B1 --> PG
+    B1 --> RD
+    B2 --> PG
+    B2 --> RD
+    B3 --> PG
+    B3 --> RD
+    B4 --> PG
+    B4 --> RD
+    B5 --> PG
+    B5 --> RD
+    B6 --> PG
+    B6 --> RD
+
+    B2 -.->|Queue Jobs| Inngest
+    B6 -.->|Queue Jobs| Inngest
+```
+
+## Security Layers
+
+```mermaid
+flowchart LR
+    A[Incoming Request] --> B[Network Security<br/>HTTPS Only]
+    B --> C[CORS Validation<br/>Allowed Origins]
+    C --> D[Rate Limiting<br/>Multi-Layer]
+    D --> E[Authentication<br/>Session or API Key]
+    E --> F[Authorization<br/>Organization Access]
+    F --> G[Input Validation<br/>Schema Validation]
+    G --> H[Rate Limiting<br/>Credit Check]
+    H --> I[Request Processing]
+    I --> J[Audit Logging<br/>Activity Tracking]
+
+    style A fill:#f99
+    style B fill:#fc9
+    style C fill:#fe9
+    style D fill:#ff9
+    style E fill:#9f9
+    style F fill:#9fc
+    style G fill:#9ff
+    style H fill:#9cf
+    style I fill:#99f
+    style J fill:#fcf
+```
+
+<Callout type="info">
+  **Note**: These diagrams use Mermaid syntax and will render in supported Markdown viewers. For the best viewing experience, use the Fumadocs documentation site.
+</Callout>
+
+## Related Documentation
+
+- **Backend Architecture** - Detailed technical architecture
+- **Database Schema** - Complete data model
+- **Authentication & Security** - Security implementation details
+- **Individual Service Docs** - Service-specific architecture
+
+## Diagram Legend
+
+| Symbol | Meaning |
+|--------|---------|
+| `-->` | Synchronous call |
+| `-.->` | Asynchronous call |
+| `\|\|--o{` | One-to-many relationship |
+| `}o--\|\|` | Many-to-one relationship |
+| `}o--o{` | Many-to-many relationship |
+| Database[( )] | Database |
+| Cache[( )] | Cache/Redis |
+| Service[ ] | Service/Application |
