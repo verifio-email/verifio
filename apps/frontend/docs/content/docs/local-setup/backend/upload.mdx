@@ -1,384 +1,64 @@
 ---
 title: Upload Service
-description: File upload management for bulk email verification.
+description: File upload and management.
 ---
-
-import { Callout } from 'fumadocs-ui/components/callout'
 
 # Upload Service
 
-Handles file upload and management for bulk email verification operations.
+File upload handling for bulk email verification.
 
-## Overview
+## Quick Start
 
 | Property | Value |
 |----------|-------|
 | **Location** | `apps/backend/upload` |
-| **Framework** | ElysiaJS |
 | **Port** | 8004 |
-| **Route Prefix** | `/api/upload` |
-
-## What It Does
-
-The Upload service handles:
-
-- **File Upload** - Accepts multipart/form-data file uploads
-- **File Storage** - Stores files securely on disk or cloud storage
-- **Metadata Tracking** - Maintains file information in database
-- **File Retrieval** - Retrieves file metadata and contents
-- **File Deletion** - Removes files when no longer needed
-- **Background Processing** - Integrates with Inngest for async processing
-
-## Starting the Service
-
-```bash
-bun run be:upload:dev
-```
+| **Start Command** | `bun run be:upload:dev` |
 
 ## Environment Variables
 
-Create a `.env` file in `apps/backend/upload/`:
-
 ```bash
-# Server Configuration
 PORT=8004
 BASE_URL=https://local.verifio.email
-
-# Database
 PG_URL=postgresql://verifio:verifio123@localhost:5432/verifio
-
-# Cache (Redis)
 REDIS_URL=redis://:verifio123@localhost:6379
-
-# File Storage
 UPLOAD_DIR=./uploads
 MAX_FILE_SIZE=10485760
 ALLOWED_FILE_TYPES=text/csv,application/vnd.ms-excel
 ```
 
-### Environment Variables Details
-
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `PORT` | No | 8004 | Port to run the service on |
-| `BASE_URL` | Yes | - | Base URL for service-to-service calls |
-| `PG_URL` | Yes | - | PostgreSQL connection string |
-| `REDIS_URL` | Yes | - | Redis connection string for caching |
-| `UPLOAD_DIR` | No | `./uploads` | Directory to store uploaded files |
-| `MAX_FILE_SIZE` | No | 10485760 | Maximum file size in bytes (10MB default) |
-| `ALLOWED_FILE_TYPES` | No | - | Comma-separated list of allowed MIME types |
-
-## API Endpoints
-
-<Callout type="info">
-  API reference is auto-generated from OpenAPI specs. See the **[Upload API Reference](/docs/api-reference)** for detailed endpoint documentation.
-</Callout>
-
-### Main Endpoints
+## Main Endpoints
 
 | Route | Method | Description | Auth Required |
 |-------|--------|-------------|---------------|
-| `/api/upload/v1/upload` | POST | Upload a file | Session |
-| `/api/upload/v1/:id` | GET | Get file metadata | Session |
-| `/api/upload/v1/:id` | DELETE | Delete a file | Session |
+| `/api/upload/v1/upload` | POST | Upload file | Session |
+| `/api/upload/v1/:id` | GET | Get file details | Session |
+| `/api/upload/v1/:id` | DELETE | Delete file | Session |
 | `/api/upload/health` | GET | Health check | No |
 
-## File Upload Process
-
-1. **Validation** - Check file size, type, and user permissions
-2. **Storage** - Save file to disk or cloud storage
-3. **Database Record** - Store file metadata (name, size, type, path)
-4. **Background Processing** - Trigger Inngest job for async processing
-5. **Return Metadata** - Return file ID and metadata to client
-
-## Code Patterns
-
-### Uploading a File
-
-```typescript
-const formData = new FormData();
-formData.append('file', fileInput.files[0]);
-
-const response = await fetch('https://local.verifio.email/api/upload/v1/upload', {
-  method: 'POST',
-  credentials: 'include',
-  body: formData,
-});
-
-const { id, name, size, type, url } = await response.json();
-console.log('File uploaded:', id);
-```
-
-### Getting File Metadata
-
-```typescript
-const response = await fetch(`https://local.verifio.email/api/upload/v1/${fileId}`, {
-  credentials: 'include',
-});
-
-const { id, name, size, type, url, createdAt } = await response.json();
-```
-
-### Deleting a File
-
-```typescript
-const response = await fetch(`https://local.verifio.email/api/upload/v1/${fileId}`, {
-  method: 'DELETE',
-  credentials: 'include',
-});
-
-if (response.ok) {
-  console.log('File deleted successfully');
-}
-```
-
-## File Metadata Schema
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | string | Unique file identifier |
-| `name` | string | Original filename |
-| `size` | number | File size in bytes |
-| `type` | string | MIME type |
-| `path` | string | Storage path/URL |
-| `url` | string | Public URL (if applicable) |
-| `organizationId` | string | Owner organization |
-| `userId` | string | Uploader user ID |
-| `createdAt` | Date | Upload timestamp |
-
-## Authentication
-
-The Upload service requires **session-based authentication**:
-
-- All endpoints require an active user session
-- Users can only upload files for their organization
-- Files are isolated by organization
-- API keys are not supported (uploads require user context)
-
-## Database Tables Used
-
-| Table | Purpose |
-|-------|---------|
-| `upload` | File metadata (name, size, type, path, url) |
-
-## Integrations
-
-### Inngest Integration
-
-The Upload service integrates with **Inngest** for background file processing:
-
-```typescript
-// After file upload, trigger background job
-await inngest.send({
-  name: 'upload/process',
-  data: {
-    fileId: file.id,
-    organizationId: file.organizationId,
-  },
-});
-```
-
-### OpenTelemetry Integration
-
-The service includes **OpenTelemetry** for distributed tracing:
-
-```typescript
-import { tracer } from '@verifio/telemetry';
-
-const span = tracer.startSpan('file.upload');
-// ... upload logic ...
-span.end();
-```
-
-## File Storage
-
-### Local Storage
-
-Files are stored in the `UPLOAD_DIR` directory by default:
-
-```
-uploads/
-  org_123/
-    file_abc.csv
-    file_def.csv
-  org_456/
-    file_ghi.csv
-```
-
-<Callout type="info">
-  In production, consider using cloud storage (S3, GCS, Azure Blob) for scalability and redundancy.
-</Callout>
-
-### Cloud Storage (Optional)
-
-For cloud storage, configure these additional environment variables:
+## Uploading a File
 
 ```bash
-# AWS S3
-S3_BUCKET=verifio-uploads
-S3_REGION=us-east-1
-AWS_ACCESS_KEY_ID=your_key
-AWS_SECRET_ACCESS_KEY=your_secret
-
-# Or Google Cloud Storage
-GCS_BUCKET=verifio-uploads
-GCS_PROJECT_ID=your_project
+curl -X POST https://api.verifio.email/api/upload/v1/upload \
+  --cookie-jar cookies.txt --cookie cookies.txt \
+  -F "file=@emails.csv"
 ```
 
-## Security Considerations
+**Response:** `{ "id": "file_id", "name": "emails.csv", "url": "..." }`
 
-### File Type Validation
+## Database Tables
 
-Only allowed file types are accepted:
+- `upload` - File metadata
 
-```typescript
-const allowedTypes = process.env.ALLOWED_FILE_TYPES?.split(',') || [
-  'text/csv',
-  'application/vnd.ms-excel',
-];
+## Common Issues
 
-if (!allowedTypes.includes(file.type)) {
-  throw new Error('Invalid file type');
-}
-```
+**"File too large":**
+- Reduce file size under `MAX_FILE_SIZE` (default 10MB)
 
-### File Size Limits
+**"Invalid file type":**
+- Only CSV and Excel files allowed
+- Check MIME type
 
-```typescript
-const maxSize = parseInt(process.env.MAX_FILE_SIZE || '10485760'); // 10MB
-
-if (file.size > maxSize) {
-  throw new Error('File too large');
-}
-```
-
-### Organization Isolation
-
-Files are scoped by organization:
-
-```typescript
-const file = await db.query.upload.findFirst({
-  where: and(
-    eq(upload.id, fileId),
-    eq(upload.organizationId, user.organizationId),
-  ),
-});
-```
-
-## Troubleshooting
-
-### Service won't start
-
-- Check port 8004 is available: `lsof -i :8004`
-- Verify PostgreSQL is running: `docker ps | grep postgres`
-- Verify Redis is running: `docker ps | grep redis`
-- Check `.env` file exists and is correct
-- Ensure `UPLOAD_DIR` exists and is writable: `mkdir -p ./uploads`
-
-### "File too large" error
-
-- Reduce file size under `MAX_FILE_SIZE` limit
-- Increase `MAX_FILE_SIZE` in `.env` if needed
-- Check file size before uploading
-
-### "Invalid file type" error
-
-- Verify file type is in `ALLOWED_FILE_TYPES` list
-- Check the MIME type of your file
-- Add the MIME type to `ALLOWED_FILE_TYPES` if needed
-
-### Upload fails silently
-
-- Check the Upload service is running: `curl http://localhost:8004/api/upload/health`
-- Verify Inngest is running: `curl http://localhost:8288`
-- Check browser console for errors
-- Verify network connectivity to `https://local.verifio.email`
-
-### Can't delete file
-
-- Verify you own the file (same organization)
-- Check the file ID is correct
-- Ensure the Upload service is running
-
-### Files not being processed
-
-- Verify Inngest is running: `docker ps | grep inngest`
-- Check Inngest dashboard: `http://localhost:8288`
-- Look for failed functions in Inngest
-- Check service logs for errors
-
-## Health Checks
-
-```bash
-# Overall service health
-curl http://localhost:8004/api/upload/health
-
-# Database connectivity
-curl http://localhost:8004/api/upload/health/postgres
-
-# Cache connectivity
-curl http://localhost:8004/api/upload/health/redis
-```
-
-Expected response: `{"status":"ok"}`
-
-## Best Practices
-
-### 1. File Size Limits
-
-Set appropriate limits based on your use case:
-
-- **CSV files**: Usually 1-10MB
-- **Excel files**: Can be larger (up to 50MB)
-- **Bulk uploads**: Consider splitting large files
-
-### 2. File Type Validation
-
-Always validate file types to prevent security issues:
-
-```typescript
-// Bad: Accept any file
-const file = req.body.file;
-
-// Good: Validate file type
-if (!ALLOWED_TYPES.includes(file.type)) {
-  throw new Error('Invalid file type');
-}
-```
-
-### 3. Organization Isolation
-
-Ensure files are scoped by organization:
-
-```typescript
-// Always filter by organizationId
-where: eq(upload.organizationId, user.organizationId)
-```
-
-### 4. Cleanup
-
-Implement periodic cleanup of old files:
-
-```typescript
-// Delete files older than 30 days
-DELETE FROM upload
-WHERE created_at < NOW() - INTERVAL '30 days';
-```
-
-## Related Services
-
-- **Verify Service** - Processes uploaded CSV/Excel files for bulk verification
-- **Inngest** - Handles background file processing
-- **All Services** - Can use upload service for file management
-
-## OpenAPI Documentation
-
-Interactive API documentation is available when the service is running:
-
-```
-http://localhost:8004/docs
-```
-
-<Callout type="info">
-  For auto-generated API reference docs, see the **[API Reference](/docs/api-reference)** section.
-</Callout>
+**Upload fails silently:**
+- Verify Inngest is running
+- Check service logs

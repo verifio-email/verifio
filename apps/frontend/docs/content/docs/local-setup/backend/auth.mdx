@@ -1,404 +1,67 @@
 ---
 title: Auth Service
-description: Central authentication and user management with Better Auth, OAuth, and organization support.
+description: Central authentication and user management.
 ---
-
-import { Callout } from 'fumadocs-ui/components/callout'
 
 # Auth Service
 
-Central authentication and authorization service handling user accounts, sessions, OAuth, and organization management.
+Central authentication handling user accounts, sessions, OAuth, and organizations.
 
-## Overview
+## Quick Start
 
 | Property | Value |
 |----------|-------|
 | **Location** | `apps/backend/auth` |
-| **Framework** | ElysiaJS |
 | **Port** | 8000 |
-| **Route Prefix** | `/api/auth` |
-| **Base Path** | `/api/auth/v1` |
-
-## What It Does
-
-The Auth service handles:
-
-- **User Authentication** - Email/password and OAuth (Google, GitHub)
-- **Session Management** - Secure session creation and validation
-- **Organization Management** - Multi-tenant workspace support
-- **API Key Support** - Validates API keys across services
-- **Rate Limiting** - Multi-layered protection (IP, fingerprint, email)
-- **OAuth Token Encryption** - Secure storage of provider tokens
-
-## Starting the Service
-
-```bash
-bun run be:auth:dev
-```
+| **Start Command** | `bun run be:auth:dev` |
 
 ## Environment Variables
 
-Create a `.env` file in `apps/backend/auth/`:
-
 ```bash
-# Server Configuration
 PORT=8000
 BASE_URL=https://local.verifio.email
-
-# Database
 PG_URL=postgresql://verifio:verifio123@localhost:5432/verifio
-
-# Cache (Redis)
 REDIS_URL=redis://:verifio123@localhost:6379
+BETTER_AUTH_SECRET=<generate with: openssl rand -hex 32>
+ENCRYPTION_KEY=<generate with: openssl rand -hex 32>
+```
 
-# Authentication
-BETTER_AUTH_SECRET=your-super-secret-key-make-it-long-and-random
-BETTER_AUTH_URL=https://local.verifio.email
-
-# Encryption (for OAuth tokens)
-ENCRYPTION_KEY=your-32-character-encryption-key-here
-
-# OAuth Providers - Optional
+**Optional (OAuth):**
+```bash
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 GITHUB_CLIENT_ID=
 GITHUB_CLIENT_SECRET=
 ```
 
-### Environment Variables Details
-
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `PORT` | No | 8000 | Port to run the service on |
-| `BASE_URL` | Yes | - | Base URL for the service |
-| `PG_URL` | Yes | - | PostgreSQL connection string |
-| `REDIS_URL` | Yes | - | Redis connection string for sessions |
-| `BETTER_AUTH_SECRET` | **Yes** | - | Session signing key (32+ characters) |
-| `BETTER_AUTH_URL` | Yes | - | The URL of your auth service |
-| `ENCRYPTION_KEY` | **Yes** | - | For OAuth token encryption (32+ characters) |
-| `GOOGLE_CLIENT_ID` | No | - | Google OAuth client ID |
-| `GOOGLE_CLIENT_SECRET` | No | - | Google OAuth client secret |
-| `GITHUB_CLIENT_ID` | No | - | GitHub OAuth client ID |
-| `GITHUB_CLIENT_SECRET` | No | - | GitHub OAuth client secret |
-
-<Callout type="warn">
-  **Important:** Generate secure secrets using:
-  ```bash
-  openssl rand -hex 32  # For BETTER_AUTH_SECRET and ENCRYPTION_KEY
-  ```
-</Callout>
-
-## API Endpoints
-
-<Callout type="info">
-  API reference is auto-generated from OpenAPI specs. See the **[Auth API Reference](/docs/api-reference)** for detailed endpoint documentation.
-</Callout>
-
-### Main Endpoints
-
-| Route | Method | Description | Auth Required |
-|-------|--------|-------------|---------------|
-| `/api/auth/v1/sign-up` | POST | Create new account | No |
-| `/api/auth/v1/sign-in/email` | POST | Login with email/password | No |
-| `/api/auth/v1/sign-out` | POST | Logout and destroy session | Session |
-| `/api/auth/v1/session` | GET | Get current user session | Session |
-| `/api/auth/v1/get-session` | GET | Validate session (internal use) | Session |
-| `/api/auth/oauth/google` | GET | Initiate Google OAuth | No |
-| `/api/auth/oauth/github` | GET | Initiate GitHub OAuth | No |
-| `/api/auth/health` | GET | Health check | No |
-
-## Authentication Methods
-
-### 1. Email/Password Authentication
-
-**Sign Up:**
-```typescript
-const response = await fetch('https://local.verifio.email/api/auth/v1/sign-up', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    email: 'user@example.com',
-    password: 'secure_password',
-    name: 'John Doe',
-  }),
-});
-```
-
-**Sign In:**
-```typescript
-const response = await fetch('https://local.verifio.email/api/auth/v1/sign-in/email', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  credentials: 'include',  // Important: include cookies
-  body: JSON.stringify({
-    email: 'user@example.com',
-    password: 'secure_password',
-  }),
-});
-```
-
-### 2. OAuth Authentication (Google, GitHub)
-
-**Initiate OAuth:**
-```typescript
-// Redirect user to OAuth provider
-window.location.href = 'https://local.verifio.email/api/auth/oauth/google';
-```
-
-**OAuth Flow:**
-1. User clicks "Sign in with Google/GitHub"
-2. Redirected to OAuth provider
-3. Provider redirects back with authorization code
-4. Service creates session and redirects to dashboard
-
-### 3. Session Validation
-
-**Get Current Session:**
-```typescript
-const response = await fetch('https://local.verifio.email/api/auth/v1/session', {
-  credentials: 'include',
-});
-
-const { user, session } = await response.json();
-```
-
-## Security Features
-
-### Rate Limiting
-
-Multi-layered rate limiting prevents abuse:
-
-| Type | Limit | Window |
-|------|-------|--------|
-| IP-based | 10 requests | 1 minute |
-| Fingerprint-based | 15 requests | 1 minute |
-| Email-based | 5 requests | 15 minutes |
-| Signup | 3 requests | 1 minute |
-| Password Reset | 3 requests | 5 minutes |
-
-### OAuth Token Encryption
-
-OAuth tokens are encrypted before storage:
-
-```typescript
-import { encrypt } from './lib/encryption';
-
-const encryptedToken = encrypt(oauthAccessToken);
-// Store encryptedToken in database
-```
-
-### JWKS (JSON Web Key Set)
-
-Cryptographic keys for JWT signing:
-
-- **Rotatable**: Keys can be rotated without downtime
-- **Secure**: Stored securely in database
-- **Automatic**: Automatic key rotation support
-
-## Organization Management
-
-### Automatic Organization Creation
-
-When a user signs up, an organization is automatically created:
-
-1. **Organization Name**: Derived from email username (e.g., `john` → `John's Workspace`)
-2. **Unique Slug**: Username + random suffix (e.g., `john-abc123`)
-3. **Owner Assignment**: User is assigned as organization owner
-
-### Organization Members
-
-| Role | Permissions |
-|------|-------------|
-| `owner` | Full access, can delete organization |
-| `admin` | Manage members, API keys, credits |
-| `member` | Use services, view logs |
-
-## Code Patterns
-
-### Service Setup
-
-```typescript
-import { Elysia } from 'elysia';
-import { cors } from '@elysiajs/cors';
-import { openapi } from '@elysiajs/openapi';
-import { authServer } from '@verifio/auth/server';
-
-const authService = new Elysia({ prefix: '/api/auth' })
-  .use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:3001'],
-    credentials: true,
-  }))
-  .use(openapi({
-    documentation: {
-      info: {
-        title: 'Auth API',
-        version: '1.0.0',
-      },
-    },
-  }))
-  .use(authServer)  // Better Auth integration
-  .use(authRoutes)
-  .listen({ port: 8000 });
-```
-
-### Protecting Routes with Auth
-
-```typescript
-import { authMiddleware } from '@verifio/auth/server';
-
-// Apply authentication middleware
-const app = new Elysia()
-  .use(authMiddleware)
-  .get('/protected', handler, { auth: true });
-```
-
-### Session Validation (Internal)
-
-Other services validate sessions by calling the auth service:
-
-```typescript
-// From verify service
-const sessionResponse = await fetch(`${BASE_URL}/api/auth/v1/get-session`, {
-  headers: {
-    'Cookie': headers.cookie,  // Forward session cookie
-  },
-});
-
-if (!sessionResponse.ok) {
-  return { error: 'Unauthorized' };
-}
-
-const { user, organization } = await sessionResponse.json();
-```
-
-## Database Tables Used
-
-| Table | Purpose |
-|-------|---------|
-| `user` | User accounts with profile info |
-| `account` | OAuth provider connections |
-| `verification` | Email verification tokens |
-| `jwks` | Cryptographic keys for JWT signing |
-| `organization` | Organization/workspace data |
-| `member` | User-organization relationships |
-| `invitation` | Organization invitations |
-
-## Inter-Service Communication
-
-The Auth service provides authentication for all other services:
-
-- **Verify Service** - Validates sessions for verification requests
-- **Credits Service** - Provides organization context for credit operations
-- **Logs Service** - Provides user context for logging
-- **API Key Service** - Validates API keys
-
-## Troubleshooting
-
-### Service won't start
-
-- Check port 8000 is available: `lsof -i :8000`
-- Verify PostgreSQL is running: `docker ps | grep postgres`
-- Verify Redis is running: `docker ps | grep redis`
-- Check `.env` file exists and `BETTER_AUTH_SECRET` is set
-
-### "Invalid BETTER_AUTH_SECRET" error
-
-- Generate a new secret: `openssl rand -hex 32`
-- Update `.env` with the new secret
-- Restart the service
-
-### OAuth not working
-
-- Verify OAuth client ID and secret are set correctly
-- Check OAuth callback URL: `https://local.verifio.email/api/auth/callback/*`
-- Ensure OAuth provider is configured in developer console
-
-### Session not persisting
-
-- Verify Redis is running: `docker ps | grep redis`
-- Check `REDIS_URL` in `.env` is correct
-- Verify cookies are being sent (check browser DevTools)
-
-### "Organization not found" error
-
-- Check that organization was created during signup
-- Verify `organizationId` in session matches database
-- Check database for orphaned users (no organization)
-
-### Rate limiting blocking legitimate requests
-
-- Check rate limit configuration in service
-- Verify Redis is storing rate limit data correctly
-- Adjust rate limits in environment variables if needed
-
-### Database connection errors
-
-```bash
-# Test PostgreSQL connection
-psql postgresql://verifio:verifio123@localhost:5432/verifio
-```
-
-- Verify `PG_URL` in `.env` matches Docker configuration
-- Check PostgreSQL container is running
-
-## Health Checks
-
-```bash
-# Overall service health
-curl http://localhost:8000/api/auth/health
-
-# Database connectivity
-curl http://localhost:8000/api/auth/health/postgres
-
-# Cache connectivity
-curl http://localhost:8000/api/auth/health/redis
-```
-
-Expected response: `{"status":"ok"}`
-
-## Security Best Practices
-
-### 1. Secret Management
-
-- **Never commit** `BETTER_AUTH_SECRET` or `ENCRYPTION_KEY` to git
-- Use environment variables in production
-- Rotate secrets periodically (every 90 days)
-- Use different secrets for dev/staging/prod
-
-### 2. OAuth Configuration
-
-- Use **environment-specific** OAuth apps
-- Set correct callback URLs in OAuth provider
-- Enable PKCE (Proof Key for Code Exchange) if supported
-- Limit OAuth scopes to minimum required
-
-### 3. Session Security
-
-- Sessions expire after 7 days (configurable)
-- HttpOnly cookies prevent XSS attacks
-- Secure flag ensures HTTPS-only transmission
-- SameSite flag prevents CSRF attacks
-
-### 4. Rate Limiting
-
-- Adjust limits based on your needs
-- Monitor rate limit hits for abuse detection
-- Use Redis-backed rate limiting for distributed systems
-
-## Related Services
-
-- **All Backend Services** - Depend on auth for session validation
-- **API Key Service** - Integrates with organization management
-- **Credits Service** - Uses organization context for credit operations
-
-## OpenAPI Documentation
-
-Interactive API documentation is available when the service is running:
-
-```
-http://localhost:8000/docs
-```
-
-<Callout type="info">
-  For auto-generated API reference docs, see the **[API Reference](/docs/api-reference)** section.
-</Callout>
+## Main Endpoints
+
+| Route | Method | Description |
+|-------|--------|-------------|
+| `/api/auth/v1/sign-up` | POST | Create account |
+| `/api/auth/v1/sign-in/email` | POST | Login with email/password |
+| `/api/auth/v1/sign-out` | POST | Logout |
+| `/api/auth/v1/session` | GET | Get current session |
+| `/api/auth/health` | GET | Health check |
+
+## Database Tables
+
+- `user` - User accounts
+- `session` - Active sessions
+- `organization` - Organizations
+- `member` - Organization memberships
+- `account` - OAuth connections
+
+## Common Issues
+
+**Service won't start:**
+- Check port 8000 is available
+- Verify `BETTER_AUTH_SECRET` is set
+
+**OAuth not working:**
+- Verify OAuth credentials are set
+- Check callback URL: `https://local.verifio.email/api/auth/callback/*`
+
+**Session issues:**
+- Verify Redis is running
+- Check session cookie is being sent

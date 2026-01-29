@@ -1,518 +1,85 @@
 ---
 title: Database Schema
-description: Complete database schema with table definitions, relationships, and migration guide.
+description: Database tables and relationships.
 ---
-
-import { Callout } from 'fumadocs-ui/components/callout'
 
 # Database Schema
 
-Complete database schema for Verifio, including all tables, relationships, and migration procedures.
-
-## Overview
-
-Verifio uses **PostgreSQL** as the primary database with **Drizzle ORM** for type-safe queries and migrations.
-
-<Callout type="info">
-  **Single Source of Truth**: The database schema is defined in `packages/db/src/schema/` and shared across all backend services via the `@verifio/db` workspace package.
-</Callout>
+Complete database schema for Verifio using PostgreSQL and Drizzle ORM.
 
 ## Database Connection
 
 ```typescript
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
-
-// Query with type safety
-const users = await db.query.user.findMany();
-```
-
-## Schema Organization
-
-```
-packages/db/src/schema/
-├── auth.ts           # User, session, organization management
-├── api-key.ts        # API key storage
-├── verification.ts   # Email verification jobs and results
-├── credits.ts        # Credit tracking and history
-├── upload.ts         # File upload metadata
-└── activity-logs.ts  # Activity logging
 ```
 
 ## Tables by Service
 
-### Auth Service Tables
+### Auth Service
 
-<details>
-<summary><strong>user</strong> - User accounts</summary>
+| Table | Purpose |
+|-------|---------|
+| `user` | User accounts |
+| `session` | Active sessions |
+| `account` | OAuth connections |
+| `organization` | Organizations |
+| `member` | Organization memberships |
+| `invitation` | Organization invitations |
+| `verification` | Email verification tokens |
+| `jwks` | Cryptographic keys |
 
-```typescript
-{
-  id: string;              // Primary key
-  email: string;           // Unique email address
-  emailVerified: boolean;  // Email verification status
-  name: string;            // Display name
-  createdAt: Date;         // Account creation date
-  updatedAt: Date;         // Last update timestamp
-}
+### Verify Service
+
+| Table | Purpose |
+|-------|---------|
+| `verificationJob` | Bulk verification jobs |
+| `verificationResult` | Individual results |
+
+### API Key Service
+
+| Table | Purpose |
+|-------|---------|
+| `apikey` | API keys with rate limiting |
+
+### Credits Service
+
+| Table | Purpose |
+|-------|---------|
+| `orgCredits` | Current billing period |
+| `creditHistory` | Past billing periods |
+
+### Upload Service
+
+| Table | Purpose |
+|-------|---------|
+| `upload` | File metadata |
+
+### Logs Service
+
+| Table | Purpose |
+|-------|---------|
+| `activityLogs` | Activity and audit logs |
+
+## Key Relationships
+
+```
+user 1:N session
+user 1:N member
+organization 1:N member
+organization 1:1 orgCredits
+organization 1:N apikey
+organization 1:N verificationJob
+verificationJob 1:N verificationResult
 ```
 
-**Indexes:**
-- `email` (unique)
+## Common Queries
 
-**Relationships:**
-- Has many `session` - User's active sessions
-- Has many `account` - OAuth connections
-- Has many `member` - Organization memberships
-
-</details>
-
-<details>
-<summary><strong>account</strong> - OAuth provider connections</summary>
-
+**Get user with organizations:**
 ```typescript
-{
-  id: string;              // Primary key
-  accountId: string;       // Provider account ID
-  providerId: string;      // Provider (google, github)
-  userId: string;          // Foreign key to user
-  accessToken: string;     // Encrypted OAuth token
-  refreshToken: string;    // Encrypted refresh token
-  expiresAt: Date;         // Token expiration
-  password: string;        // Hashed password (email auth)
-  createdAt: Date;         // Connection date
-  updatedAt: Date;         // Last update
-}
-```
-
-**Indexes:**
-- `accountId` (unique)
-- `providerId` + `accountId` (unique)
-
-**Relationships:**
-- Belongs to `user` - User who owns this account
-
-</details>
-
-<details>
-<summary><strong>session</strong> - Active user sessions</summary>
-
-```typescript
-{
-  id: string;              // Session token
-  userId: string;          // Foreign key to user
-  expiresAt: Date;         // Session expiration
-  createdAt: Date;         // Session creation date
-  updatedAt: Date;         // Last activity
-}
-```
-
-**Indexes:**
-- `id` (unique, primary key)
-- `expiresAt` - For cleanup of expired sessions
-
-**Relationships:**
-- Belongs to `user` - User who owns this session
-
-</details>
-
-<details>
-<summary><strong>organization</strong> - Organizations and workspaces</summary>
-
-```typescript
-{
-  id: string;              // Primary key
-  name: string;            // Organization name
-  slug: string;            // URL-friendly identifier
-  createdAt: Date;         // Creation date
-  updatedAt: Date;         // Last update
-}
-```
-
-**Indexes:**
-- `slug` (unique)
-
-**Relationships:**
-- Has many `member` - Organization members
-- Has many `apikey` - Organization API keys
-- Has many `orgCredits` - Credit tracking
-- Has many `verificationJob` - Verification jobs
-
-</details>
-
-<details>
-<summary><strong>member</strong> - Organization membership and roles</summary>
-
-```typescript
-{
-  id: string;              // Primary key
-  organizationId: string;  // Foreign key to organization
-  userId: string;          // Foreign key to user
-  role: string;           // Role (owner, admin, member)
-  createdAt: Date;         // Join date
-  updatedAt: Date;         // Last update
-}
-```
-
-**Indexes:**
-- `organizationId` + `userId` (unique)
-
-**Relationships:**
-- Belongs to `organization` - Organization this member belongs to
-- Belongs to `user` - User who is a member
-
-**Roles:**
-- `owner` - Full access, can delete organization
-- `admin` - Manage members, API keys, credits
-- `member` - Use services, view logs
-
-</details>
-
-<details>
-<summary><strong>invitation</strong> - Organization invitations</summary>
-
-```typescript
-{
-  id: string;              // Primary key
-  organizationId: string;  // Foreign key to organization
-  email: string;           // Invitee email
-  role: string;           // Role to assign
-  token: string;           // Invitation token
-  expiresAt: Date;         // Invitation expiration
-  createdAt: Date;         // Creation date
-  updatedAt: Date;         // Last update
-}
-```
-
-**Indexes:**
-- `token` (unique)
-
-**Relationships:**
-- Belongs to `organization` - Organization sending invitation
-
-</details>
-
-<details>
-<summary><strong>verification</strong> - Email verification tokens</summary>
-
-```typescript
-{
-  id: string;              // Primary key
-  identifier: string;      // Email or identifier
-  value: string;           // Verification code
-  expiresAt: Date;         // Token expiration
-  createdAt: Date;         // Creation date
-  updatedAt: Date;         // Last update
-}
-```
-
-**Indexes:**
-- `identifier` + `value` (unique)
-
-</details>
-
-<details>
-<summary><strong>jwks</strong> - Cryptographic keys for JWT signing</summary>
-
-```typescript
-{
-  id: string;              // Primary key
-  key: string;             // Cryptographic key
-  createdAt: Date;         // Creation date
-  updatedAt: Date;         // Last update
-}
-```
-
-**Relationships:**
-- Used for JWT token signing and verification
-
-</details>
-
-### API Key Service Tables
-
-<details>
-<summary><strong>apikey</strong> - API keys for authentication</summary>
-
-```typescript
-{
-  id: string;              // Primary key
-  key: string;             // Hashed API key
-  name: string;            // Key name/label
-  organizationId: string;  // Foreign key to organization
-  permissions: string[];   // JSON array of permissions
-  enabled: boolean;        // Active status
-  rateLimit: {             // Rate limit configuration
-    window: number;        // Time window (ms)
-    max: number;           // Max requests per window
-  } | null;
-  expiresAt: Date | null;  // Optional expiration
-  lastRequestAt: Date;     // Last used timestamp
-  requestCount: number;    // Total request count
-  createdAt: Date;         // Creation date
-  updatedAt: Date;         // Last update
-}
-```
-
-**Indexes:**
-- `key` (unique)
-- `organizationId`
-
-**Relationships:**
-- Belongs to `organization` - Organization that owns this key
-
-</details>
-
-### Verify Service Tables
-
-<details>
-<summary><strong>verificationJob</strong> - Bulk verification job tracking</summary>
-
-```typescript
-{
-  id: string;              // Primary key
-  organizationId: string;  // Foreign key to organization
-  status: string;          // pending, processing, completed, failed
-  totalEmails: number;     // Total emails to verify
-  processedEmails: number; // Emails processed so far
-  stats: {                 // Verification statistics
-    valid: number;
-    invalid: number;
-    risky: number;
-    catchAll: number;
-    disposable: number;
-    unknown: number;
-  };
-  fileId: string | null;   // Uploaded file reference
-  error: string | null;    // Error message if failed
-  createdAt: Date;         // Job creation date
-  updatedAt: Date;         // Last update
-  completedAt: Date | null;// Completion date
-}
-```
-
-**Indexes:**
-- `organizationId`
-- `status`
-- `createdAt`
-
-**Relationships:**
-- Belongs to `organization` - Organization that created the job
-- Has many `verificationResult` - Individual verification results
-- Belongs to `upload` - Uploaded file (optional)
-
-</details>
-
-<details>
-<summary><strong>verificationResult</strong> - Individual verification results</summary>
-
-```typescript
-{
-  id: string;              // Primary key
-  jobId: string;           // Foreign key to verificationJob
-  email: string;           // Verified email address
-  result: {                // Verification result
-    status: string;        // valid, invalid, risky, unknown
-    score: number;         // Confidence score (0-100)
-    isDisposable: boolean; // Disposable email
-    isRoleAccount: boolean; // Role account (info@, support@)
-    isCatchAll: boolean;   // Catch-all domain
-    isFreeProvider: boolean; // Free email provider
-    reason: string[];      // Reasons for status
-    rawSignals: {          // Raw verification signals
-      syntax: { valid: boolean; normalized: string };
-      dns: { domainExists: boolean; mxRecords: string[] };
-      smtp: { connected: boolean; response: string };
-    };
-  };
-  createdAt: Date;         // Verification date
-}
-```
-
-**Indexes:**
-- `jobId`
-- `email`
-
-**Relationships:**
-- Belongs to `verificationJob` - Parent job
-
-</details>
-
-### Credits Service Tables
-
-<details>
-<summary><strong>orgCredits</strong> - Current billing period credits</summary>
-
-```typescript
-{
-  id: string;              // Primary key
-  organizationId: string;  // Foreign key to organization (unique)
-  creditLimit: number;     // Maximum credits per period
-  creditsUsed: number;     // Credits used in current period
-  periodStart: Date;       // Current period start
-  periodEnd: Date;         // Current period end
-  createdAt: Date;         // Record creation date
-  updatedAt: Date;         // Last update
-}
-```
-
-**Indexes:**
-- `organizationId` (unique)
-
-**Relationships:**
-- Belongs to `organization` - Organization this belongs to
-
-**One-to-One**: Each organization has exactly one record in this table.
-
-</details>
-
-<details>
-<summary><strong>creditHistory</strong> - Historical credit usage</summary>
-
-```typescript
-{
-  id: string;              // Primary key
-  organizationId: string;  // Foreign key to organization
-  creditLimit: number;     // Limit for that period
-  creditsUsed: number;     // Credits used in that period
-  periodStart: Date;       // Period start
-  periodEnd: Date;         // Period end
-  archivedAt: Date;        // When this record was archived
-}
-```
-
-**Indexes:**
-- `organizationId`
-- `periodStart`
-
-**Relationships:**
-- Belongs to `organization` - Organization this history belongs to
-
-</details>
-
-### Upload Service Tables
-
-<details>
-<summary><strong>upload</strong> - File upload metadata</summary>
-
-```typescript
-{
-  id: string;              // Primary key
-  name: string;            // Original filename
-  size: number;            // File size in bytes
-  type: string;            // MIME type
-  path: string;            // Storage path
-  url: string;             // Public URL
-  organizationId: string;  // Foreign key to organization
-  userId: string;          // Foreign key to user (uploader)
-  createdAt: Date;         // Upload date
-}
-```
-
-**Indexes:**
-- `organizationId`
-- `userId`
-
-**Relationships:**
-- Belongs to `organization` - Organization that owns the file
-- Belongs to `user` - User who uploaded the file
-
-</details>
-
-### Logs Service Tables
-
-<details>
-<summary><strong>activityLogs</strong> - Activity and audit logs</summary>
-
-```typescript
-{
-  id: string;              // Primary key
-  userId: string | null;   // User who performed action
-  organizationId: string;  // Organization context
-  apiKeyId: string | null; // API key used (if applicable)
-  service: string;         // Service name (verify, upload, etc.)
-  endpoint: string;        // API endpoint
-  method: string;          // HTTP method (GET, POST, etc.)
-  resourceType: string;    // Type of resource
-  resourceId: string | null; // Resource ID
-  status: string;          // Result status (success, error)
-  result: string;          // Summary of result
-  errorMessage: string | null; // Error details if failed
-  creditsUsed: number | null; // Credits consumed
-  durationMs: number | null;  // Request duration
-  ipAddress: string | null;   // Client IP
-  userAgent: string | null;   // Client user agent
-  metadata: object;        // Additional JSON data
-  createdAt: Date;         // Log timestamp
-}
-```
-
-**Indexes:**
-- `organizationId`
-- `userId`
-- `service`
-- `status`
-- `createdAt`
-
-**Relationships:**
-- Belongs to `organization` - Organization context
-- Belongs to `user` - User who performed action (optional)
-- Belongs to `apikey` - API key used (optional)
-
-</details>
-
-## Entity Relationships
-
-### Relationship Diagram
-
-```mermaid
-erDiagram
-    user ||--o{ session : has
-    user ||--o{ account : has
-    user ||--o{ member : has
-    user ||--o{ upload : uploads
-
-    organization ||--o{ member : has
-    organization ||--o{ apikey : has
-    organization ||--o{ orgCredits : has
-    organization ||--o{ verificationJob : creates
-    organization ||--o{ upload : owns
-    organization ||--o{ activityLogs : logs
-
-    member }o--|| user : belongs to
-    member }o--|| organization : belongs to
-
-    verificationJob ||--o{ verificationResult : has
-    verificationJob }o--|| organization : belongs to
-    verificationJob }o-o| upload : uses
-
-    apikey }o--|| organization : belongs to
-
-    orgCredits }o--|| organization : belongs to
-
-    creditHistory }o--|| organization : belongs to
-
-    upload }o--|| organization : belongs to
-    upload }o--|| user : uploaded by
-
-    activityLogs }o--|| organization : logged in
-    activityLogs }o-o| user : performed by
-    activityLogs }o-o| apikey : performed with
-```
-
-## Query Patterns
-
-### Using Drizzle ORM
-
-```typescript
-import { db } from "@verifio/db/client";
-import * as schema from "@verifio/db/schema";
-import { eq, and, desc } from "drizzle-orm";
-
-// Find user by email
 const user = await db.query.user.findFirst({
   where: eq(schema.user.email, 'user@example.com'),
   with: {
-    sessions: true,
     members: {
       with: {
         organization: true,
@@ -520,259 +87,38 @@ const user = await db.query.user.findFirst({
     },
   },
 });
+```
 
-// Get organization credits
+**Get credit status:**
+```typescript
 const credits = await db.query.orgCredits.findFirst({
   where: eq(schema.orgCredits.organizationId, orgId),
 });
-
-// Get verification results for a job
-const results = await db.query.verificationResult.findMany({
-  where: eq(schema.verificationResult.jobId, jobId),
-  limit: 50,
-  offset: 0,
-});
-
-// Query with joins
-const userWithOrg = await db
-  .select()
-  .from(schema.user)
-  .innerJoin(schema.member, eq(schema.user.id, schema.member.userId))
-  .innerJoin(schema.organization, eq(schema.member.organizationId, schema.organization.id))
-  .where(eq(schema.user.email, 'user@example.com'));
 ```
 
-### Common Queries
-
-**Get user's organizations:**
-```typescript
-const memberships = await db.query.member.findMany({
-  where: eq(schema.member.userId, userId),
-  with: {
-    organization: true,
-  },
-});
-```
-
-**Check API key validity:**
+**Get API key:**
 ```typescript
 const apiKey = await db.query.apikey.findFirst({
-  where: and(
-    eq(schema.apikey.key, hashedKey),
-    eq(schema.apikey.enabled, true),
-  ),
-});
-```
-
-**Get credit history:**
-```typescript
-const history = await db.query.creditHistory.findMany({
-  where: eq(schema.creditHistory.organizationId, orgId),
-  orderBy: [desc(schema.creditHistory.periodStart)],
-  limit: 12,
+  where: eq(schema.apikey.key, hashedKey),
 });
 ```
 
 ## Migrations
 
-### Creating Migrations
-
 ```bash
-# Generate migration from schema changes
+# Generate migration
 bun run db:generate
 
-# This creates a new migration file in packages/db/drizzle/
-```
-
-### Running Migrations
-
-```bash
-# Development: Push schema directly (auto-migration)
+# Push schema (development)
 bun run db:push
 
-# Production: Run migration files
+# Run migrations (production)
 bun run db:migrate
-```
 
-### Migration File Structure
-
-```
-packages/db/drizzle/
-├── 0001_initial_schema.sql
-├── 0002_add_rate_limits.sql
-├── 0003_add_credits_table.sql
-└── ...
-```
-
-### Schema Changes Workflow
-
-1. **Modify schema** in `packages/db/src/schema/*.ts`
-2. **Generate migration**: `bun run db:generate`
-3. **Review migration** in `packages/db/drizzle/`
-4. **Apply locally**: `bun run db:push`
-5. **Test changes** with your application
-6. **Commit migration** with your code
-
-## Database Operations
-
-### Viewing Database
-
-**Drizzle Studio (GUI):**
-```bash
+# View database
 bun run db:studio
 ```
 
-Opens a visual database browser at `http://localhost:4983`
+## Schema Location
 
-**Command Line:**
-```bash
-# Connect to PostgreSQL
-psql postgresql://verifio:verifio123@localhost:5432/verifio
-```
-
-### Backup and Restore
-
-**Backup:**
-```bash
-pg_dump postgresql://verifio:verifio123@localhost:5432/verifio > backup.sql
-```
-
-**Restore:**
-```bash
-psql postgresql://verifio:verifio123@localhost:5432/verifio < backup.sql
-```
-
-### Seeding Data
-
-```bash
-bun run db:seed
-```
-
-Seeds initial data including:
-- Default organizations (if needed)
-- Example users (development only)
-- Reference data (disposable domains, etc.)
-
-## Performance Considerations
-
-### Indexes
-
-Frequently queried fields are indexed:
-
-- Foreign keys
-- Unique identifiers
-- Date fields (for sorting)
-
-### Connection Pooling
-
-```typescript
-// Drizzle handles connection pooling automatically
-export const db = drizzle(pgURL, {
-  schema,
-  poolSize: 20,        // Max connections
-  poolMaxUses: 7500,   // Recycle connections after N uses
-});
-```
-
-### Query Optimization
-
-**Use indexes in queries:**
-```typescript
-// Good - Uses index
-.where(eq(schema.user.email, email))
-
-// Bad - Full table scan
-.where(sql`${schema.user.email} LIKE ${`%${email}%`}`)
-```
-
-**Select only needed fields:**
-```typescript
-const users = await db
-  .select({
-    id: schema.user.id,
-    name: schema.user.name,
-  })
-  .from(schema.user);
-```
-
-## Security Considerations
-
-### SQL Injection Prevention
-
-Drizzle ORM prevents SQL injection:
-
-```typescript
-// Safe - parameterized query
-await db
-  .select()
-  .from(schema.user)
-  .where(eq(schema.user.email, userInput));
-
-// No manual SQL construction needed
-```
-
-### Data Encryption
-
-**OAuth tokens** are encrypted at rest:
-
-```typescript
-import { encrypt } from './lib/encryption';
-
-const encryptedToken = encrypt(oauthAccessToken);
-await db.insert(account).values({
-  accessToken: encryptedToken,
-  // ...
-});
-```
-
-### Access Control
-
-Application-level access control:
-
-```typescript
-// Always filter by organizationId
-.where(eq(schema.verificationJob.organizationId, userOrgId))
-```
-
-## Troubleshooting
-
-### Migration Conflicts
-
-If multiple developers create migrations:
-
-```bash
-# Resolve by generating a new migration
-bun run db:generate
-```
-
-### Schema Out of Sync
-
-If database doesn't match schema:
-
-```bash
-# Push schema (development only)
-bun run db:push
-```
-
-### Performance Issues
-
-Check for missing indexes:
-
-```sql
--- Check query performance
-EXPLAIN ANALYZE SELECT * FROM verification_result WHERE job_id = '...';
-```
-
-Add indexes to frequently queried fields.
-
-## Related Documentation
-
-- **Backend Architecture** - How services use the database
-- **Individual Service Docs** - Service-specific database usage
-- **Authentication & Security** - Security considerations
-
-## Next Steps
-
-- Explore individual service documentation
-- Review backend architecture for database usage patterns
-- Set up local development environment
+All schema files in: `packages/db/src/schema/`

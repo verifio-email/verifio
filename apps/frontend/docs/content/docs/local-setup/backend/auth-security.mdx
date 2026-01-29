@@ -1,563 +1,99 @@
 ---
 title: Authentication & Security
-description: High-level security architecture, authentication flows, and best practices.
+description: Authentication methods and security best practices.
 ---
-
-import { Callout } from 'fumadocs-ui/components/callout'
 
 # Authentication & Security
 
-Comprehensive security architecture protecting Verifio's services and user data.
-
-## Overview
-
-Verifio implements **defense in depth** with multiple security layers:
-
-1. **Network Security** - HTTPS, CORS, reverse proxy
-2. **Authentication** - Session cookies and API keys
-3. **Authorization** - Organization-based access control
-4. **Rate Limiting** - Multi-layered protection
-5. **Input Validation** - All inputs validated
-6. **Data Encryption** - Sensitive data encrypted at rest
-7. **Audit Logging** - All actions logged
+Authentication methods and security implementation.
 
 ## Authentication Methods
 
 ### 1. Session-Based Authentication
 
-**Used by**: Dashboard users, web application
+**Used by:** Dashboard users
 
-```mermaid
-sequenceDiagram
-    participant User
-    participant Frontend
-    participant Auth
-    participant Service
-
-    User->>Frontend: Login with email/password
-    Frontend->>Auth: POST /api/auth/v1/sign-in/email
-    Auth->>Auth: Validate credentials
-    Auth-->>Frontend: Set session cookie
-    Frontend->>Service: API request with cookie
-    Service->>Auth: GET /api/auth/v1/get-session
-    Auth-->>Service: User & organization info
-    Service-->>Frontend: Response
+```typescript
+const response = await fetch('https://api.verifio.email/api/endpoint', {
+  credentials: 'include',  // Include session cookie
+});
 ```
 
 **Session Cookie Properties:**
-
-```typescript
-{
-  name: 'session',
-  httpOnly: true,      // Not accessible via JavaScript (XSS protection)
-  secure: true,        // Only sent over HTTPS
-  sameSite: 'lax',     // CSRF protection
-  maxAge: 604800,      // 7 days
-  path: '/',
-}
-```
-
-**Using Session Auth:**
-
-```typescript
-// Frontend (fetch)
-const response = await fetch('https://api.verifio.email/api/verify/v1/verify', {
-  method: 'POST',
-  credentials: 'include',  // Include session cookie
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({ email: 'user@example.com' }),
-});
-```
+- `httpOnly: true` - Prevents XSS
+- `secure: true` - HTTPS only
+- `sameSite: 'lax'` - CSRF protection
+- `maxAge: 604800` - 7 days
 
 ### 2. API Key Authentication
 
-**Used by**: Programmatic access, integrations
-
-**API Key Format:**
-
-```
-rl_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p
-```
-
-- **Prefix**: `rl_` (identifies Verifio keys)
-- **Entropy**: Cryptographically random
-- **Storage**: Hashed using bcrypt-like algorithm
-
-**Using API Key Auth:**
+**Used by:** Programmatic access
 
 ```typescript
-// Method 1: Authorization header
-const response = await fetch('https://api.verifio.email/api/verify/v1/verify', {
-  method: 'POST',
+const response = await fetch('https://api.verifio.email/api/endpoint', {
   headers: {
-    'Authorization': 'Bearer rl_your_api_key_here',
-    'Content-Type': 'application/json',
+    'Authorization': 'Bearer rl_your_api_key',
   },
-  body: JSON.stringify({ email: 'user@example.com' }),
-});
-
-// Method 2: X-API-Key header
-const response = await fetch('https://api.verifio.email/api/verify/v1/verify', {
-  method: 'POST',
-  headers: {
-    'X-API-Key': 'rl_your_api_key_here',
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({ email: 'user@example.com' }),
 });
 ```
 
-**API Key Validation Flow:**
-
-```mermaid
-flowchart TD
-    A[Request with API Key] --> B{Extract Key}
-    B --> C{Lookup in Database}
-    C -->|Not found| D[Return 401 Unauthorized]
-    C -->|Found| E{Is Enabled?}
-    E -->|No| F[Return 401 Unauthorized]
-    E -->|Yes| G{Is Expired?}
-    G -->|Yes| H[Return 401 Unauthorized]
-    G -->|No| I{Rate Limit Check}
-    I -->|Exceeded| J[Return 429 Too Many Requests]
-    I -->|Allowed| K[Update Request Count]
-    K --> L[Process Request]
-```
-
-<Callout type="warn">
-  **Security Note**: API keys are sensitive credentials. Never log them, never expose them in client-side code, and never commit them to version control.
-</Callout>
-
-## Authorization Model
-
-### Organization-Based Access Control
-
-All resources are scoped to organizations:
-
+**Or:**
 ```typescript
-// User can only access their organization's data
-const results = await db.query.verificationResult.findMany({
-  where: eq(schema.verificationResult.organizationId, userOrgId),
-});
+headers: {
+  'X-API-Key': 'rl_your_api_key',
+}
 ```
 
-### Roles and Permissions
+## Authorization
+
+**Organization-Based Access Control:**
 
 | Role | Permissions |
 |------|-------------|
-| **Owner** | - Full access to all resources<br />- Can manage members<br />- Can delete organization<br />- Can manage billing |
-| **Admin** | - Manage API keys<br />- View logs and history<br />- Manage members<br />- Cannot delete organization |
-| **Member** | - Use verification services<br />- View logs<br />- Create/read resources<br />- Cannot manage members |
-
-### Permission Checks
-
-```typescript
-// Middleware for role-based access
-async function checkRole(user, requiredRole) {
-  const member = await db.query.member.findFirst({
-    where: and(
-      eq(schema.member.userId, user.id),
-      eq(schema.member.organizationId, orgId),
-    ),
-  });
-
-  if (!member || !hasRole(member.role, requiredRole)) {
-    throw new Error('Forbidden');
-  }
-}
-```
+| `owner` | Full access, can delete org |
+| `admin` | Manage members, API keys |
+| `member` | Use services, view logs |
 
 ## Rate Limiting
 
-### Multi-Layered Protection
-
-```mermaid
-flowchart TD
-    A[Incoming Request] --> B{IP Rate Limit}
-    B -->|Exceeded| C[429 - Too Many Requests]
-    B -->|Allowed| D{Fingerprint Rate Limit}
-    D -->|Exceeded| C
-    D -->|Allowed| E{Email Rate Limit}
-    E -->|Exceeded| C
-    E -->|Allowed| F{API Key Rate Limit}
-    F -->|Exceeded| C
-    F -->|Allowed| G[Process Request]
-```
-
-### Rate Limit Tiers
-
-| Type | Scope | Limit | Window |
-|------|-------|-------|--------|
-| **IP-based** | IP address | 10 requests | 1 minute |
-| **Fingerprint-based** | Browser fingerprint | 15 requests | 1 minute |
-| **Email-based** | Email address | 5 requests | 15 minutes |
-| **Signup** | IP address | 3 requests | 1 minute |
-| **Password Reset** | Email address | 3 requests | 5 minutes |
-| **API Key** | Per API key | Custom | Custom |
-
-### Redis-Backed Rate Limiting
-
-```typescript
-// Sliding window algorithm
-import { redis } from "@verifio/cache";
-
-async function checkRateLimit(identifier, limit, windowMs) {
-  const key = `ratelimit:${identifier}`;
-  const now = Date.now();
-  const windowStart = now - windowMs;
-
-  // Remove old entries
-  await redis.zremrangebyscore(key, 0, windowStart);
-
-  // Count current requests
-  const count = await redis.zcard(key);
-
-  if (count >= limit) {
-    return { allowed: false, resetAt: await getResetTime(key) };
-  }
-
-  // Add current request
-  await redis.zadd(key, now, `${now}-${Math.random()}`);
-  await redis.expire(key, Math.ceil(windowMs / 1000));
-
-  return { allowed: true, remaining: limit - count - 1 };
-}
-```
-
-## Security Layers
-
-### 1. Network Security
-
-**HTTPS Only (Production):**
-
-```typescript
-// Caddy redirects HTTP to HTTPS
-https://local.verifio.email {
-  reverse_proxy localhost:8000
-  reverse_proxy localhost:8001
-  # ... other services
-}
-```
-
-**CORS Configuration:**
-
-```typescript
-// Only allow trusted origins
-.use(cors({
-  origin: [
-    'https://verifio.email',
-    'https://local.verifio.email',  // Development
-  ],
-  credentials: true,  // Allow cookies
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}))
-```
-
-### 2. Input Validation
-
-**All inputs validated before processing:**
-
-```typescript
-import { z } from 'zod';
-
-const emailSchema = z.string().email().max(254);
-const apiKeySchema = z.string().regex(/^rl_[a-zA-Z0-9]{32}$/);
-
-// Validate before processing
-const email = emailSchema.parse(input.email);
-```
-
-### 3. SQL Injection Prevention
-
-**Drizzle ORM prevents SQL injection:**
-
-```typescript
-// Safe - parameterized query
-await db
-  .select()
-  .from(schema.user)
-  .where(eq(schema.user.email, userInput));
-
-// Never use raw SQL with user input
-await db.execute(sql`SELECT * FROM user WHERE email = ${userInput}`);
-```
-
-### 4. XSS Protection
-
-**Session cookies are HttpOnly:**
-
-```typescript
-{
-  httpOnly: true,  // Not accessible via JavaScript
-  // Prevents: document.cookie
-}
-```
-
-**Content Security Policy (CSP):**
-
-```typescript
-// In Next.js or frontend apps
-const ContentSecurityPolicy = `
-  default-src 'self';
-  script-src 'self' 'unsafe-inline';
-  style-src 'self' 'unsafe-inline';
-  img-src 'self' data: https:;
-`;
-```
-
-### 5. CSRF Protection
-
-**SameSite cookie attribute:**
-
-```typescript
-{
-  sameSite: 'lax',  // CSRF protection
-}
-```
-
-### 6. Data Encryption
-
-**OAuth tokens encrypted at rest:**
-
-```typescript
-import { encrypt, decrypt } from './lib/encryption';
-
-// Encrypt before storing
-const encryptedToken = encrypt(oauthAccessToken);
-
-// Decrypt when using
-const token = decrypt(encryptedToken);
-```
-
-**Encryption details:**
-- **Algorithm**: AES-256-GCM
-- **Key**: From `ENCRYPTION_KEY` environment variable
-- **Initialization Vector**: Unique per encryption
-
-## Security Best Practices
-
-### For API Keys
-
-1. **Secure Storage:**
-   ```bash
-   # Bad: In code
-   const apiKey = "rl_secret_key_here";
-
-   # Good: Environment variable
-   const apiKey = process.env.API_KEY;
-   ```
-
-2. **Rotation:**
-   ```typescript
-   // Rotate keys regularly (every 90 days)
-   await fetch(`/api/api-key/v1/${keyId}/rotate`, {
-     method: 'POST',
-   });
-   ```
-
-3. **Minimal Permissions:**
-   ```typescript
-   // Create keys with specific permissions
-   await fetch('/api/api-key/v1', {
-     method: 'POST',
-     body: JSON.stringify({
-       permissions: ['verify:read', 'verify:write'],
-       // Don't grant more than needed
-     }),
-   });
-   ```
-
-4. **Rate Limiting:**
-   ```typescript
-   // Always configure rate limits for production keys
-   {
-     rateLimit: {
-       window: 86400000,  // 24 hours
-       max: 1000,
-     }
-   }
-   ```
-
-### For Session Management
-
-1. **HTTPS Only:**
-   ```typescript
-   // Never send session cookies over HTTP
-   cookie.secure = true;  // Production
-   ```
-
-2. **Short Expiration:**
-   ```typescript
-   // Sessions expire after 7 days
-   cookie.maxAge = 604800;
-   ```
-
-3. **Secure Logout:**
-   ```typescript
-   // Destroy session on logout
-   await fetch('/api/auth/v1/sign-out', {
-     method: 'POST',
-     credentials: 'include',
-   });
-   ```
-
-### For Data Protection
-
-1. **Never Log Sensitive Data:**
-   ```typescript
-   // Bad
-   logger.info({ email, password }, 'User login');
-
-   // Good
-   logger.info({ userId }, 'User login');
-   ```
-
-2. **Sanitize Error Messages:**
-   ```typescript
-   // Don't expose internal details
-   if (error) {
-     return {
-       success: false,
-       error: 'An error occurred',
-       // Don't include: error.stack, error.sql, etc.
-     };
-   }
-   ```
-
-3. **Validate All Inputs:**
-   ```typescript
-   // Always validate before processing
-   const schema = z.object({
-     email: z.string().email(),
-     amount: z.number().min(1).max(10000),
-   });
-
-   const data = schema.parse(input);
-   ```
-
-## Audit Logging
-
-All security-relevant events are logged:
-
-```typescript
-await fetch('/api/logs/v1/add', {
-  method: 'POST',
-  body: JSON.stringify({
-    service: 'auth',
-    endpoint: '/api/auth/v1/sign-in',
-    method: 'POST',
-    status: 'success',
-    ipAddress,
-    userAgent,
-  }),
-});
-```
-
-**Logged events:**
-- Login attempts (success/failure)
-- API key usage
-- Permission changes
-- Credit deductions
-- Failed operations
-- Rate limit violations
-
-## Security Headers
-
-**Implemented via Caddy:**
-
-```
-X-Content-Type-Options: nosniff
-X-Frame-Options: DENY
-X-XSS-Protection: 1; mode=block
-Strict-Transport-Security: max-age=31536000; includeSubDomains
-Content-Security-Policy: default-src 'self'
-Referrer-Policy: strict-origin-when-cross-origin
-```
-
-## Common Security Issues and Solutions
-
-### Issue: API Key Exposed in Client-Side Code
-
-**Problem:** API key found in JavaScript bundle
-
-**Solution:**
-```typescript
-// Bad: API key in frontend code
-const apiKey = "rl_secret_key_here";
-
-// Good: Make requests from backend
-// Frontend calls your backend, your backend uses API key
-// proxyRequest('/api/verify', { email });
-```
-
-### Issue: Session Hijacking
-
-**Problem:** Attacker steals session cookie
-
-**Solutions:**
-- Use `HttpOnly` cookies (prevents JavaScript access)
-- Use `Secure` flag (HTTPS only)
-- Use `SameSite` attribute (CSRF protection)
-- Short session expiration
-- Detect anomalous behavior (IP changes, etc.)
-
-### Issue: Brute Force Attacks
-
-**Problem:** Attacker tries many passwords
-
-**Solutions:**
-- Rate limiting (email-based)
-- Account lockout after N failed attempts
-- CAPTCHA for repeated failures
-- Notify user of suspicious activity
-
-### Issue: SQL Injection
-
-**Problem:** Attacker manipulates database queries
-
-**Solution:**
-- Always use ORM (Drizzle)
-- Never concatenate user input into SQL
-- Validate all inputs
-
-### Issue: XSS (Cross-Site Scripting)
-
-**Problem:** Attacker injects malicious JavaScript
-
-**Solutions:**
-- Sanitize user input before rendering
-- Use Content Security Policy (CSP)
-- HttpOnly cookies (prevent cookie theft)
-- Escape user-generated content
+| Type | Limit | Window |
+|------|-------|--------|
+| IP | 10 requests | 1 minute |
+| Fingerprint | 15 requests | 1 minute |
+| Email | 5 requests | 15 minutes |
+| API Key | Configurable | Configurable |
 
 ## Security Checklist
 
 - [ ] All services use HTTPS in production
-- [ ] Session cookies are HttpOnly, Secure, SameSite
-- [ ] API keys are hashed in database
-- [ ] Rate limiting enabled on all endpoints
+- [ ] Session cookies are HttpOnly and Secure
+- [ ] API keys hashed in database
+- [ ] Rate limiting enabled
 - [ ] Input validation on all inputs
-- [ ] SQL injection prevented (ORM used)
-- [ ] XSS protection enabled (CSP, sanitization)
-- [ ] CSRF protection enabled (SameSite cookies)
-- [ ] OAuth tokens encrypted at rest
-- [ ] Security headers configured (Caddy)
-- [ ] Audit logging enabled for all operations
-- [ ] Regular security audits and penetration testing
+- [ ] SQL injection prevented (ORM)
+- [ ] XSS protection (CSP)
+- [ ] CSRF protection (SameSite)
+- [ ] OAuth tokens encrypted
+- [ ] Audit logging enabled
 
-## Related Documentation
+## Best Practices
 
-- **Backend Architecture** - Security architecture overview
-- **Auth Service** - Authentication implementation details
-- **API Key Service** - API key management
-- **Database Schema** - Data security considerations
+### API Keys
 
-## Next Steps
+- **Never** commit to version control
+- **Store** in environment variables
+- **Rotate** regularly (every 90 days)
+- **Use** minimal required permissions
 
-- Review individual service documentation
-- Implement security best practices in your code
-- Set up security monitoring and alerting
-- Conduct regular security audits
+### Sessions
+
+- **Short** expiration (7 days)
+- **Secure** cookie settings
+- **Destroy** on logout
+
+### Data Protection
+
+- **Never** log sensitive data
+- **Sanitize** error messages
+- **Validate** all inputs
+- **Encrypt** data at rest
