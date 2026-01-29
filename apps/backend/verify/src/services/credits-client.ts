@@ -36,11 +36,11 @@ export async function checkCredits(
 		}
 
 		const response = await fetch(
-			`${verifyConfig.baseUrl}/api/credits/v1/internal/check`,
+			`${verifyConfig.baseUrl}/api/credits/v1/available-credits`,
 			{
 				method: "POST",
 				headers,
-				body: JSON.stringify({ organizationId, amount }),
+				body: JSON.stringify({ amount }),
 			},
 		);
 
@@ -69,7 +69,6 @@ export async function checkCredits(
 export async function deductCredits(
 	organizationId: string,
 	amount = 1,
-	description?: string,
 	cookie?: string,
 ): Promise<DeductCreditsResponse> {
 	try {
@@ -82,11 +81,11 @@ export async function deductCredits(
 		}
 
 		const response = await fetch(
-			`${verifyConfig.baseUrl}/api/credits/v1/internal/deduct`,
+			`${verifyConfig.baseUrl}/api/credits/v1/deduct`,
 			{
 				method: "POST",
 				headers,
-				body: JSON.stringify({ organizationId, amount, description }),
+				body: JSON.stringify({ amount }),
 			},
 		);
 

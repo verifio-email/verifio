@@ -196,7 +196,6 @@ async function processBulkVerification(
 		const deductResult = await deductCredits(
 			organizationId,
 			emails.length,
-			`Bulk verification job: ${jobId}`,
 			cookie,
 		);
 

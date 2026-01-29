@@ -92,7 +92,6 @@ export async function verifyEmailHandler(
 		const deductResult = await deductCredits(
 			organizationId,
 			1,
-			`Email verification: ${request.email}`,
 			cookie,
 		);
 
