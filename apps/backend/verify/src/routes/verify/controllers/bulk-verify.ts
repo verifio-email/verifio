@@ -1,11 +1,11 @@
-import { checkCredits, deductCredits } from "@verifio/verify/services/credits-client";
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
-import {
-	type VerificationResult,
-	verifyEmail,
-} from "@verifio/email-verify";
+import type { VerificationResult } from "@verifio/email-verify";
 import { logActivity, logger } from "@verifio/logger";
+import {
+	checkCredits,
+	deductCredits,
+} from "@verifio/verify/services/credits-client";
 import type { VerifyTypes } from "@verifio/verify/types/verify.type";
 import { eq } from "drizzle-orm";
 
@@ -237,7 +237,7 @@ async function processBulkVerification(
 				risky: stats.risky,
 				unknown: stats.unknown,
 			},
-		}).catch(() => {});
+		}).catch(() => { });
 	} catch (error) {
 		const errorMessage =
 			error instanceof Error ? error.message : "Unknown error";
@@ -263,7 +263,7 @@ async function processBulkVerification(
 			resource_id: jobId,
 			status: "error",
 			error_message: errorMessage,
-		}).catch(() => {});
+		}).catch(() => { });
 	}
 }
 
@@ -281,19 +281,19 @@ export async function createBulkVerifyJobHandler(
 
 	try {
 		// Check credits before starting bulk job
-		const creditCheck = await checkCredits(
-			organizationId,
-			request.emails.length,
-			cookie,
-		);
+		const creditCheck = await checkCredits(organizationId, cookie);
 
-		if (creditCheck.success === false || !creditCheck.data?.hasCredits) {
+		if (
+			creditCheck.success === false ||
+			!creditCheck.data ||
+			creditCheck.data.remaining < request.emails.length
+		) {
 			return {
 				success: false as const,
 				error: "Insufficient credits",
 				data: {
 					remaining: creditCheck.data?.remaining,
-					required: creditCheck.data?.required,
+					required: request.emails.length,
 				},
 			};
 		}
@@ -345,7 +345,7 @@ export async function createBulkVerifyJobHandler(
 			duration_ms: Date.now() - startTime,
 			ip_address: ipAddress,
 			user_agent: userAgent,
-		}).catch(() => {});
+		}).catch(() => { });
 
 		return {
 			success: true as const,
@@ -377,7 +377,7 @@ export async function createBulkVerifyJobHandler(
 			duration_ms: Date.now() - startTime,
 			ip_address: ipAddress,
 			user_agent: userAgent,
-		}).catch(() => {});
+		}).catch(() => { });
 
 		return {
 			success: false as const,

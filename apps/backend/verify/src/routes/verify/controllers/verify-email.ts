@@ -1,10 +1,12 @@
-import { checkCredits, deductCredits } from "@verifio/verify/services/credits-client";
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
 import { verifyEmail } from "@verifio/email-verify";
 import { logActivity, logger } from "@verifio/logger";
+import {
+	checkCredits,
+	deductCredits,
+} from "@verifio/verify/services/credits-client";
 import type { VerifyTypes } from "@verifio/verify/types/verify.type";
-import { eq } from "drizzle-orm";
 
 const VERIFICATION_TIMEOUT = 30000; // 30 seconds
 
@@ -22,7 +24,11 @@ export async function verifyEmailHandler(
 
 	try {
 		// Check credits before verification
-		const creditCheck = await checkCredits(organizationId, 1, cookie);
+		const creditCheck = await checkCredits(organizationId, cookie);
+		logger.info(
+			{ creditCheck },
+			"Checking credits before verification",
+		);
 
 		if (creditCheck.success === false || !creditCheck.data?.hasCredits) {
 			return {
@@ -89,11 +95,7 @@ export async function verifyEmailHandler(
 		}
 
 		// Deduct credits after successful verification
-		const deductResult = await deductCredits(
-			organizationId,
-			1,
-			cookie,
-		);
+		const deductResult = await deductCredits(organizationId, 1, cookie);
 
 		if (!deductResult.success) {
 			logger.error(
@@ -125,7 +127,7 @@ export async function verifyEmailHandler(
 			duration_ms: duration,
 			ip_address: ipAddress,
 			user_agent: userAgent,
-		}).catch(() => {});
+		}).catch(() => { });
 
 		logger.info(
 			{
@@ -169,7 +171,7 @@ export async function verifyEmailHandler(
 			duration_ms: duration,
 			ip_address: ipAddress,
 			user_agent: userAgent,
-		}).catch(() => {});
+		}).catch(() => { });
 
 		return {
 			success: false as const,

@@ -3,8 +3,8 @@ import { logger } from "@verifio/logger";
 
 export async function checkCreditsHandler(
 	organizationId: string,
-	amount: number,
 ) {
+	const amount = 1;
 	logger.info({ organizationId, amount }, "Checking credits");
 
 	const result = await checkCredits(organizationId, amount);

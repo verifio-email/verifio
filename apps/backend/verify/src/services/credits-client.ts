@@ -23,7 +23,6 @@ interface DeductCreditsResponse {
 
 export async function checkCredits(
 	organizationId: string,
-	amount = 1,
 	cookie?: string,
 ): Promise<CheckCreditsResponse> {
 	try {
@@ -38,9 +37,8 @@ export async function checkCredits(
 		const response = await fetch(
 			`${verifyConfig.baseUrl}/api/credits/v1/available-credits`,
 			{
-				method: "POST",
+				method: "GET",
 				headers,
-				body: JSON.stringify({ amount }),
 			},
 		);
 
@@ -61,7 +59,7 @@ export async function checkCredits(
 		return {
 			success: false,
 			error: "Credits service unavailable - verification blocked for security",
-			data: { hasCredits: false, remaining: 0, required: amount },
+			data: { hasCredits: false, remaining: 0, required: 1 },
 		};
 	}
 }

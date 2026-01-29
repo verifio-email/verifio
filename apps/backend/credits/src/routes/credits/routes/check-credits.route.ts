@@ -4,18 +4,16 @@ import { CreditsModel } from "@verifio/credits/model/credits.model";
 import { checkCreditsHandler } from "@verifio/credits/routes/credits/controllers";
 import { Elysia } from "elysia";
 
-export const checkCreditsRoute = new Elysia().use(authMiddleware).post(
+export const checkCreditsRoute = new Elysia().use(authMiddleware).get(
 	"/available-credits",
-	async ({ body, user }) => {
+	async ({ user }) => {
 		const typedUser = user as AuthenticatedUser;
 		return await checkCreditsHandler(
 			typedUser.activeOrganizationId,
-			body.amount ?? 1,
 		);
 	},
 	{
 		auth: true,
-		body: CreditsModel.checkCreditsBody,
 		response: {
 			200: CreditsModel.checkCreditsResponse,
 		},
