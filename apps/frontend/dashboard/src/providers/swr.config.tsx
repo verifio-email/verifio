@@ -5,7 +5,7 @@ import { SWRConfig } from "swr";
 
 const fetcher = async (url: string) => {
 	const response = await axios.get(url, {
-		headers: { credentials: "include" },
+		withCredentials: true,
 	});
 	return response.data;
 };
