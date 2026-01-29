@@ -1,8 +1,8 @@
+import type { AuthenticatedUser } from "@verifio/verify/middleware/auth";
+import { authMiddleware } from "@verifio/verify/middleware/auth";
+import { VerifyModel } from "@verifio/verify/model/verify.model";
+import { verifyEmailHandler } from "@verifio/verify/routes/verify/controllers";
 import { Elysia } from "elysia";
-import type { AuthenticatedUser } from "../../../middleware/auth";
-import { authMiddleware } from "../../../middleware/auth";
-import { VerifyModel } from "../../../model/verify.model";
-import { verifyEmailHandler } from "../controllers";
 
 export const verifyEmailRoute = new Elysia().use(authMiddleware).post(
 	"/verify",
@@ -15,6 +15,7 @@ export const verifyEmailRoute = new Elysia().use(authMiddleware).post(
 			body,
 			request.headers.get("x-forwarded-for") || undefined,
 			request.headers.get("user-agent") || undefined,
+			request.headers.get("cookie") || undefined,
 		);
 
 		// Set appropriate status code

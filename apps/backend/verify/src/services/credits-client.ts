@@ -1,5 +1,5 @@
 import { logger } from "@verifio/logger";
-import { verifyConfig } from "../verify.config";
+import { verifyConfig } from "@verifio/verify/verify.config";
 
 interface CheckCreditsResponse {
 	success: boolean;
@@ -24,15 +24,22 @@ interface DeductCreditsResponse {
 export async function checkCredits(
 	organizationId: string,
 	amount = 1,
+	cookie?: string,
 ): Promise<CheckCreditsResponse> {
 	try {
+		const headers: Record<string, string> = {
+			"Content-Type": "application/json",
+		};
+
+		if (cookie) {
+			headers.Cookie = cookie;
+		}
+
 		const response = await fetch(
 			`${verifyConfig.baseUrl}/api/credits/v1/internal/check`,
 			{
 				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
+				headers,
 				body: JSON.stringify({ organizationId, amount }),
 			},
 		);
@@ -62,16 +69,24 @@ export async function checkCredits(
 export async function deductCredits(
 	organizationId: string,
 	amount = 1,
+	description?: string,
+	cookie?: string,
 ): Promise<DeductCreditsResponse> {
 	try {
+		const headers: Record<string, string> = {
+			"Content-Type": "application/json",
+		};
+
+		if (cookie) {
+			headers.Cookie = cookie;
+		}
+
 		const response = await fetch(
 			`${verifyConfig.baseUrl}/api/credits/v1/internal/deduct`,
 			{
 				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ organizationId, amount }),
+				headers,
+				body: JSON.stringify({ organizationId, amount, description }),
 			},
 		);
 

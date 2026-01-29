@@ -1,4 +1,4 @@
-import type { VerifyModel } from "../model/verify.model";
+import type { VerifyModel } from "@verifio/verify/model/verify.model";
 
 export namespace VerifyTypes {
 	export type VerifyEmailBody = typeof VerifyModel.verifyEmailBody.static;

@@ -1,9 +1,10 @@
+import { checkCredits, deductCredits } from "@verifio/verify/services/credits-client";
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
 import { verifyEmail } from "@verifio/email-verify";
 import { logActivity, logger } from "@verifio/logger";
+import type { VerifyTypes } from "@verifio/verify/types/verify.type";
 import { eq } from "drizzle-orm";
-import type { VerifyTypes } from "../../../types/verify.type";
 
 const VERIFICATION_TIMEOUT = 30000; // 30 seconds
 
@@ -14,27 +15,14 @@ export async function verifyEmailHandler(
 	request: VerifyTypes.VerifyEmailRequest,
 	ipAddress?: string,
 	userAgent?: string,
+	cookie?: string,
 ): Promise<VerifyTypes.VerifyEmailResponse | VerifyTypes.VerifyEmailError> {
 	const startTime = Date.now();
 	const requestId = crypto.randomUUID();
 
 	try {
 		// Check credits before verification
-		const creditCheckResponse = await fetch(
-			`${process.env.CREDITS_SERVICE_URL || "http://localhost:8005"}/api/credits/v1/check`,
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					organizationId,
-					amount: 1,
-				}),
-			},
-		);
-
-		const creditCheck = await creditCheckResponse.json();
+		const creditCheck = await checkCredits(organizationId, 1, cookie);
 
 		if (creditCheck.success === false || !creditCheck.data?.hasCredits) {
 			return {
@@ -101,22 +89,12 @@ export async function verifyEmailHandler(
 		}
 
 		// Deduct credits after successful verification
-		const deductResponse = await fetch(
-			`${process.env.CREDITS_SERVICE_URL || "http://localhost:8005"}/api/credits/v1/deduct`,
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					organizationId,
-					amount: 1,
-					description: `Email verification: ${request.email}`,
-				}),
-			},
+		const deductResult = await deductCredits(
+			organizationId,
+			1,
+			`Email verification: ${request.email}`,
+			cookie,
 		);
-
-		const deductResult = await deductResponse.json();
 
 		if (!deductResult.success) {
 			logger.error(

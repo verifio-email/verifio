@@ -1,6 +1,6 @@
 import { db } from "@verifio/db/client";
+import { redis } from "@verifio/verify/lib/redis";
 import { Elysia } from "elysia";
-import { redis } from "../../../lib/redis";
 
 export const healthRoute = new Elysia().get("/", async ({ set }) => {
 	set.headers["Content-Type"] = "text/plain; charset=utf-8";
@@ -49,11 +49,6 @@ ${dbError ? `║ DB ERROR: ${dbError.substring(0, 45).padEnd(45)} ║` : "║   
 ║ REDIS STATUS: ${redisStatus.padEnd(28)}             ║
 ${redisError ? `║ REDIS ERROR: ${redisError.substring(0, 42).padEnd(42)} ║` : "║                                                        ║"}
 ╠════════════════════════════════════════════════════════╣
-║ QUICK START:                                           ║
-║ curl -X POST /api/verify/v1/verify \\                  ║
-║   -H "Content-Type: application/json" \\               ║
-║   -H "Authorization: Bearer YOUR_TOKEN" \\             ║
-║   -d '{"email":"test@example.com"}'                   ║
 ╠════════════════════════════════════════════════════════╣
 ║ - SUPPORT                                              ║
 ║ - https://verifio.email/dev/setup/backend/verify       ║

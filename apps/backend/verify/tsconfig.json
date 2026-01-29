@@ -15,7 +15,7 @@
 		"declarationMap": false,
 		"baseUrl": ".",
 		"paths": {
-			"@be/verify/*": ["./src/*"]
+			"@verifio/verify/*": ["./src/*"]
 		}
 	},
 	"include": ["src/**/*"],

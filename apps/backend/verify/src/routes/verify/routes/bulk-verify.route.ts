@@ -1,12 +1,12 @@
-import { Elysia, t } from "elysia";
-import type { AuthenticatedUser } from "../../../middleware/auth";
-import { authMiddleware } from "../../../middleware/auth";
-import { VerifyModel } from "../../../model/verify.model";
+import type { AuthenticatedUser } from "@verifio/verify/middleware/auth";
+import { authMiddleware } from "@verifio/verify/middleware/auth";
+import { VerifyModel } from "@verifio/verify/model/verify.model";
 import {
 	createBulkVerifyJobHandler,
 	getBulkJobResultsHandler,
 	getBulkJobStatusHandler,
-} from "../controllers";
+} from "@verifio/verify/routes/verify/controllers";
+import { Elysia, t } from "elysia";
 
 export const bulkVerifyRoutes = new Elysia()
 	.use(authMiddleware)
@@ -21,6 +21,7 @@ export const bulkVerifyRoutes = new Elysia()
 				body,
 				request.headers.get("x-forwarded-for") || undefined,
 				request.headers.get("user-agent") || undefined,
+				request.headers.get("cookie") || undefined,
 			);
 
 			if (!result.success && result.error?.includes("Insufficient credits")) {

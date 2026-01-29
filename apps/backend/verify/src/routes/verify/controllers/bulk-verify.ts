@@ -1,13 +1,13 @@
+import { checkCredits, deductCredits } from "@verifio/verify/services/credits-client";
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
 import {
-	type BulkVerificationStats,
 	type VerificationResult,
 	verifyEmail,
 } from "@verifio/email-verify";
 import { logActivity, logger } from "@verifio/logger";
+import type { VerifyTypes } from "@verifio/verify/types/verify.type";
 import { eq } from "drizzle-orm";
-import type { VerifyTypes } from "../../../types/verify.type";
 
 interface BulkVerificationStatsJson {
 	total: number;
@@ -112,6 +112,7 @@ async function processBulkVerification(
 	userId: string,
 	emails: string[],
 	options: { skipDisposable?: boolean; skipRole?: boolean; skipTypo?: boolean },
+	cookie?: string,
 ) {
 	const startTime = Date.now();
 
@@ -192,22 +193,12 @@ async function processBulkVerification(
 		);
 
 		// Deduct credits after successful completion
-		const deductResponse = await fetch(
-			`${process.env.CREDITS_SERVICE_URL || "http://localhost:8005"}/api/credits/v1/deduct`,
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					organizationId,
-					amount: emails.length,
-					description: `Bulk verification job: ${jobId}`,
-				}),
-			},
+		const deductResult = await deductCredits(
+			organizationId,
+			emails.length,
+			`Bulk verification job: ${jobId}`,
+			cookie,
 		);
-
-		const deductResult = await deductResponse.json();
 
 		if (!deductResult.success) {
 			logger.error(
@@ -283,6 +274,7 @@ export async function createBulkVerifyJobHandler(
 	request: VerifyTypes.BulkVerifyRequest,
 	ipAddress?: string,
 	userAgent?: string,
+	cookie?: string,
 ): Promise<
 	VerifyTypes.BulkVerifyResponse | { success: false; error: string; data?: any }
 > {
@@ -290,21 +282,11 @@ export async function createBulkVerifyJobHandler(
 
 	try {
 		// Check credits before starting bulk job
-		const creditCheckResponse = await fetch(
-			`${process.env.CREDITS_SERVICE_URL || "http://localhost:8005"}/api/credits/v1/check`,
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					organizationId,
-					amount: request.emails.length,
-				}),
-			},
+		const creditCheck = await checkCredits(
+			organizationId,
+			request.emails.length,
+			cookie,
 		);
-
-		const creditCheck = await creditCheckResponse.json();
 
 		if (creditCheck.success === false || !creditCheck.data?.hasCredits) {
 			return {
@@ -347,6 +329,7 @@ export async function createBulkVerifyJobHandler(
 			userId,
 			request.emails,
 			request.options || {},
+			cookie,
 		);
 
 		// Log activity

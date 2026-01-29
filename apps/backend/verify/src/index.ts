@@ -3,11 +3,11 @@ import { cors } from "@elysiajs/cors";
 import { openapi } from "@elysiajs/openapi";
 import { serverTiming } from "@elysiajs/server-timing";
 import { logger } from "@verifio/logger";
+import { healthRoute } from "@verifio/verify/routes/verify/routes/health-route";
+import { verifyRoutes } from "@verifio/verify/routes/verify/verify.routes";
+import { loader } from "@verifio/verify/utils/loader";
+import { verifyConfig } from "@verifio/verify/verify.config";
 import { Elysia } from "elysia";
-import { healthRoute } from "./routes/verify/routes/health-route";
-import { verifyRoutes } from "./routes/verify/verify.routes";
-import { loader } from "./utils/loader";
-import { verifyConfig } from "./verify.config";
 
 const port = verifyConfig.port;
 

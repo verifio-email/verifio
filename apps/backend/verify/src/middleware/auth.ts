@@ -2,10 +2,10 @@ import type { Session } from "@verifio/auth/server";
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
 import { logger } from "@verifio/logger";
+import { getKeyPrefix, verifyApiKey } from "@verifio/verify/lib/api-key-hash";
+import { verifyConfig } from "@verifio/verify/verify.config";
 import { and, eq } from "drizzle-orm";
 import { Elysia } from "elysia";
-import { getKeyPrefix, verifyApiKey } from "../lib/api-key-hash";
-import { verifyConfig } from "../verify.config";
 
 export type AuthenticatedUser = Session["user"] & {
 	activeOrganizationId: string;
