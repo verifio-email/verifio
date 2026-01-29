@@ -15,13 +15,13 @@
 		"@radix-ui/react-dialog": "catalog:ui",
 		"@radix-ui/react-popover": "catalog:ui",
 		"@radix-ui/react-presence": "catalog:ui",
-		"fumadocs-openapi": "catalog:ui",
-		"shiki": "catalog:ui",
 		"@radix-ui/react-scroll-area": "catalog:ui",
 		"@verifio/ui": "workspace:*",
+		"babel-plugin-react-compiler": "catalog:ui",
 		"class-variance-authority": "catalog:ui",
 		"fumadocs-core": "catalog:ui",
 		"fumadocs-mdx": "catalog:ui",
+		"fumadocs-openapi": "catalog:ui",
 		"fumadocs-ui": "catalog:ui",
 		"hast-util-to-jsx-runtime": "catalog:ui",
 		"lucide-react": "catalog:ui",
@@ -31,9 +31,9 @@
 		"react-dom": "catalog:ui",
 		"react-markdown": "catalog:ui",
 		"rehype-highlight": "catalog:ui",
+		"shiki": "catalog:ui",
 		"tailwind-merge": "catalog:ui",
-		"zod": "catalog:ui",
-		"babel-plugin-react-compiler": "catalog:ui"
+		"zod": "catalog:ui"
 	},
 	"devDependencies": {
 		"@types/node": "catalog:",

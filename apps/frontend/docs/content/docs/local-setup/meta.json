@@ -1,5 +1,5 @@
 {
 	"title": "Local Setup",
 	"root": true,
-	"pages": ["index", "tech-stack", "project-structure", "frontend/web", "frontend/dashboard", "frontend/docs", "frontend/blog", "backend/auth", "backend/verify", "backend/api-key", "backend/logs", "backend/upload", "backend/credits", "backend/tools", "backend/architecture", "backend/database-schema", "backend/auth-security", "troubleshooting", "diagrams"]
+	"pages": ["index", "tech-stack", "project-structure", "---Frontend---", "frontend/web", "frontend/dashboard", "frontend/docs", "frontend/blog", "---Backend---", "backend/auth", "backend/verify", "backend/api-key", "backend/logs", "backend/upload", "backend/credits", "backend/tools", "backend/architecture", "backend/database-schema", "backend/auth-security", "---Reference---", "troubleshooting", "diagrams"]
 }
