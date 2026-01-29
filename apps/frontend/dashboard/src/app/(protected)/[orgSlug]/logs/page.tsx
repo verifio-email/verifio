@@ -1,23 +1,22 @@
 "use client";
 
-import { PageSizeDropdown } from "@fe/dashboard/components/page-size-dropdown";
-import { PaginationControls } from "@fe/dashboard/components/pagination-controls";
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
 import { useSidebar } from "@fe/dashboard/providers/sidebar-provider";
-import * as Button from "@verifio/ui/button";
 import { cn } from "@verifio/ui/cn";
-import { Icon } from "@verifio/ui/icon";
-import * as Input from "@verifio/ui/input";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { DeveloperLogRow } from "./developer-log-row";
-import { LogsFilterDropdown, type LogsFilters } from "./logs-filter-dropdown";
-import type {
-	ActivityLog,
-	BulkJobInfo,
-	VerificationEnrichment,
-	VerificationHistoryItem,
-} from "./types";
-import { UserLogRow } from "./user-log-row";
+import {
+	LogsFilterBar,
+	LogsHeader,
+	LogsList,
+	LogsPagination,
+	LogsStates,
+	LogsTableHeader,
+} from "./components";
+import type { LogsFilters as LogsFiltersType } from "./logs-filter-dropdown";
+import type { ActivityLog, BulkJobInfo, VerificationEnrichment } from "./types";
+
+const HOURS_IN_DAY = 24;
+const DEFAULT_PAGE_LIMIT = 20;
 
 type LogsResponse = {
 	success: boolean;
@@ -37,18 +36,17 @@ const LogsPage = () => {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const [expandedLogId, setExpandedLogId] = useState<string | null>(null);
-	const [developerMode, setDeveloperMode] = useState(false);
 	const [pagination, setPagination] = useState({
 		page: 1,
-		limit: 20,
+		limit: DEFAULT_PAGE_LIMIT,
 		total: 0,
 		total_pages: 0,
 	});
 
-	// Verification history for enriching user mode display
-	const [verificationMap, setVerificationMap] = useState<
-		Map<string, VerificationEnrichment>
-	>(new Map());
+	// Verification map for enrichment data
+	const [verificationMap] = useState<Map<string, VerificationEnrichment>>(
+		new Map(),
+	);
 
 	// Bulk job info for enriching bulk verification logs
 	const [bulkJobMap, setBulkJobMap] = useState<Map<string, BulkJobInfo>>(
@@ -57,7 +55,7 @@ const LogsPage = () => {
 
 	// Filters
 	const [search, setSearch] = useState("");
-	const [filters, setFilters] = useState<LogsFilters>({
+	const [filters, setFilters] = useState<LogsFiltersType>({
 		status: [],
 		verificationState: [],
 		services: [],
@@ -68,22 +66,14 @@ const LogsPage = () => {
 	const getDateRange = useCallback((dateRange: string) => {
 		if (dateRange === "all") return null;
 
-		const now = new Date();
-		let hours = 7 * 24; // Default to 7 days
+		const hoursMap: Record<string, number> = {
+			"24h": HOURS_IN_DAY,
+			"7d": 7 * HOURS_IN_DAY,
+			"30d": 30 * HOURS_IN_DAY,
+		};
 
-		switch (dateRange) {
-			case "24h":
-				hours = 24;
-				break;
-			case "7d":
-				hours = 7 * 24;
-				break;
-			case "30d":
-				hours = 30 * 24;
-				break;
-			default:
-				hours = 7 * 24;
-		}
+		const hours = hoursMap[dateRange] ?? 7 * HOURS_IN_DAY;
+		const now = new Date();
 
 		return {
 			from: new Date(now.getTime() - hours * 60 * 60 * 1000),
@@ -102,17 +92,14 @@ const LogsPage = () => {
 				params.set("page", String(page));
 				params.set("limit", String(pagination.limit));
 
-				// Apply service filters
 				if (filters.services.length > 0) {
 					params.set("service", filters.services.join(","));
 				}
 
-				// Apply status filters
 				if (filters.status.length > 0) {
 					params.set("status", filters.status.join(","));
 				}
 
-				// Date range filter
 				const dateRange = getDateRange(filters.dateRange);
 				if (dateRange) {
 					params.set("from", dateRange.from.toISOString());
@@ -121,7 +108,9 @@ const LogsPage = () => {
 
 				const response = await fetch(
 					`/api/logs/v1/query?${params.toString()}`,
-					{ credentials: "include" },
+					{
+						credentials: "include",
+					},
 				);
 
 				if (!response.ok) {
@@ -148,76 +137,44 @@ const LogsPage = () => {
 		[activeOrganization.id, filters, pagination.limit, getDateRange],
 	);
 
-	useEffect(() => {
-		fetchLogs(1);
-	}, [fetchLogs]);
-
-	// Fetch verification history when switching to user mode
-	useEffect(() => {
-		const fetchVerificationHistory = async () => {
-			try {
-				const response = await fetch("/api/verify/v1/history?limit=100", {
-					credentials: "include",
-				});
-				const data = await response.json();
-
-				if (data.success && data.data?.results) {
-					const map = new Map<string, VerificationEnrichment>();
-					for (const item of data.data.results as VerificationHistoryItem[]) {
-						// Store by email for lookup
-						map.set(item.email, {
-							resultId: item.id,
-							score: item.score,
-							state: item.state,
-							riskLevel: item.result?.analytics?.riskLevel ?? null,
-						});
-					}
-					setVerificationMap(map);
-				}
-			} catch (error) {
-				console.error("Failed to fetch verification history:", error);
-			}
-		};
-
-		fetchVerificationHistory();
-	}, []);
-
 	// Fetch bulk job names when logs contain bulk verification entries
 	useEffect(() => {
+		const bulkJobIds = logs
+			.filter((log) => log.resource_id?.startsWith("vj_"))
+			.map((log) => log.resource_id as string)
+			.filter((id, index, self) => self.indexOf(id) === index);
+
+		if (bulkJobIds.length === 0) return;
+
+		const missingIds = bulkJobIds.filter((id) => !bulkJobMap.has(id));
+		if (missingIds.length === 0) return;
+
 		const fetchBulkJobNames = async () => {
-			// Find all bulk job IDs in current logs (resource_id starting with "vj_")
-			const bulkJobIds = logs
-				.filter((log) => log.resource_id?.startsWith("vj_"))
-				.map((log) => log.resource_id as string)
-				.filter((id, index, self) => self.indexOf(id) === index); // unique
-
-			if (bulkJobIds.length === 0) return;
-
-			// Only fetch jobs we don't already have
-			const missingIds = bulkJobIds.filter((id) => !bulkJobMap.has(id));
-			if (missingIds.length === 0) return;
-
 			try {
-				// Fetch job details for each missing bulk job
 				const newMap = new Map(bulkJobMap);
-				for (const jobId of missingIds) {
-					try {
-						const response = await fetch(`/api/verify/v1/bulk-jobs/${jobId}`, {
-							credentials: "include",
-						});
-						const data = await response.json();
-						if (data.success && data.data) {
-							newMap.set(jobId, {
-								jobId: data.data.id,
-								name: data.data.name,
-								totalEmails: data.data.totalEmails ?? data.data.total ?? 0,
-								status: data.data.status,
-							});
+				await Promise.all(
+					missingIds.map(async (jobId) => {
+						try {
+							const response = await fetch(
+								`/api/verify/v1/bulk-jobs/${jobId}`,
+								{
+									credentials: "include",
+								},
+							);
+							const data = await response.json();
+							if (data.success && data.data) {
+								newMap.set(jobId, {
+									jobId: data.data.id,
+									name: data.data.name,
+									totalEmails: data.data.totalEmails ?? data.data.total ?? 0,
+									status: data.data.status,
+								});
+							}
+						} catch (error) {
+							console.error(`Failed to fetch bulk job ${jobId}:`, error);
 						}
-					} catch (error) {
-						console.error(`Failed to fetch bulk job ${jobId}:`, error);
-					}
-				}
+					}),
+				);
 				setBulkJobMap(newMap);
 			} catch (error) {
 				console.error("Failed to fetch bulk job names:", error);
@@ -227,15 +184,10 @@ const LogsPage = () => {
 		fetchBulkJobNames();
 	}, [logs, bulkJobMap]);
 
-	const handleSearch = () => {
-		fetchLogs(1);
-	};
-
-	// Client-side filtering for search and verificationState
+	// Client-side filtering for search
 	const filteredLogs = useMemo(() => {
 		let result = logs;
 
-		// Filter by search text (endpoint or resource_id)
 		if (search.trim()) {
 			const searchLower = search.toLowerCase();
 			result = result.filter(
@@ -245,28 +197,26 @@ const LogsPage = () => {
 			);
 		}
 
-		// Filter by verificationState (user mode only)
-		if (!developerMode && filters.verificationState.length > 0) {
-			result = result.filter((log) => {
-				if (!log.resource_id) return false;
-				const enrichment = verificationMap.get(log.resource_id);
-				if (!enrichment) return false;
-				return filters.verificationState.includes(
-					enrichment.state as "deliverable" | "risky" | "undeliverable",
-				);
-			});
-		}
-
 		return result;
-	}, [logs, search, developerMode, filters.verificationState, verificationMap]);
+	}, [logs, search]);
 
-	const handlePageChange = (page: number) => {
-		fetchLogs(page);
-	};
+	// Navigation handler
+	const handleLogNavigate = useCallback(
+		(log: ActivityLog) => {
+			if (log.resource_id?.startsWith("vj_")) {
+				push(`/bulk/${log.resource_id}`);
+				return;
+			}
 
-	const handlePageSizeChange = (size: number) => {
-		setPagination((prev) => ({ ...prev, limit: size }));
-	};
+			const enrichment = log.resource_id
+				? verificationMap.get(log.resource_id)
+				: undefined;
+			if (enrichment?.resultId) {
+				push(`/playground/verify/${enrichment.resultId}`);
+			}
+		},
+		[push, verificationMap],
+	);
 
 	const formatDate = useCallback((dateString: string) => {
 		const date = new Date(dateString);
@@ -278,25 +228,47 @@ const LogsPage = () => {
 		});
 	}, []);
 
+	const handleToggleExpand = useCallback(
+		(logId: string) => {
+			setExpandedLogId(expandedLogId === logId ? null : logId);
+		},
+		[expandedLogId],
+	);
+
+	const handleFiltersChange = useCallback(
+		(newFilters: LogsFiltersType) => {
+			setFilters(newFilters);
+			fetchLogs(1);
+		},
+		[fetchLogs],
+	);
+
+	const handlePageSizeChange = useCallback(
+		(size: number) => {
+			setPagination((prev) => ({ ...prev, limit: size }));
+			fetchLogs(1);
+		},
+		[fetchLogs],
+	);
+
+	const handleResetFilters = useCallback(() => {
+		setFilters({
+			status: [],
+			verificationState: [],
+			services: [],
+			dateRange: "7d",
+		});
+		fetchLogs(1);
+	}, [fetchLogs]);
+
 	return (
 		<div className="flex h-full flex-col overflow-hidden">
-			{/* Header Section - Full width horizontal border */}
-			<div className="border-stroke-soft-200/50 border-b">
-				<div className={cn(isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32")}>
-					<div className="relative border-stroke-soft-200/50 border-r border-l">
-						<div className="px-6 py-8">
-							<h1 className="mb-2 font-medium text-2xl text-text-strong-950">
-								Activity Logs
-							</h1>
-							<p className="text-paragraph-md text-text-sub-600">
-								Track all your API requests and view detailed activity logs
-							</p>
-						</div>
-					</div>
-				</div>
+			{/* Header */}
+			<div className={cn(isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32")}>
+				<LogsHeader />
 			</div>
 
-			{/* Content Area with vertical borders extending to bottom */}
+			{/* Content */}
 			<div className="flex-1 overflow-y-auto overflow-x-hidden">
 				<div
 					className={cn(
@@ -305,230 +277,48 @@ const LogsPage = () => {
 					)}
 				>
 					<div className="flex h-full flex-col border-stroke-soft-200/50 border-r border-l">
-						{/* Filters Section */}
-						<div className="relative border-stroke-soft-200/50 border-b">
-							<div className="flex items-center justify-between gap-3 px-5 py-4 lg:px-6">
-								<div className="flex items-center gap-3">
-									{/* Search - Full width matching Team page */}
-									<div className="flex-1">
-										<Input.Root size="xsmall" className="w-56">
-											<Input.Wrapper>
-												<Input.Icon as={Icon} name="search" size="xsmall" />
-												<Input.Input
-													placeholder="Search by email, path or endpoint"
-													value={search}
-													onChange={(e) => setSearch(e.target.value)}
-													onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-												/>
-											</Input.Wrapper>
-										</Input.Root>
-									</div>
-									{/* Filter Dropdown - Matching Team page style */}
-									<LogsFilterDropdown
-										value={filters}
-										onChange={setFilters}
-										isDeveloperMode={developerMode}
-									/>
-								</div>
-								{/* Developer Mode Toggle */}
-								<Button.Root
-									type="button"
-									size="xsmall"
-									variant={developerMode ? "primary" : "neutral"}
-									mode={developerMode ? "filled" : "stroke"}
-									onClick={() => setDeveloperMode(!developerMode)}
-									title={
-										developerMode
-											? "Switch to User View"
-											: "Switch to Developer View"
-									}
-								>
-									<Button.Icon as={Icon} name="code" />
-								</Button.Root>
-							</div>
-						</div>
+						{/* Filters */}
+						<LogsFilterBar
+							search={search}
+							onSearchChange={setSearch}
+							filters={filters}
+							onFiltersChange={handleFiltersChange}
+							onReset={handleResetFilters}
+						/>
 
 						{/* Table Header */}
-						<div className="border-stroke-soft-200/50 border-b bg-bg-weak-50/50">
-							{developerMode ? (
-								<div className="grid grid-cols-[70px_140px_1fr_120px_80px_80px_80px_60px] items-center gap-3 px-6 py-3 text-[11px] text-text-sub-600 uppercase tracking-wide">
-									<div className="font-semibold">Method</div>
-									<div className="font-semibold">Endpoint</div>
-									<div className="font-semibold">Email ID</div>
-									<div className="font-semibold">Verified At</div>
-									<div className="font-semibold">Credit</div>
-									<div className="text-right font-semibold">Duration</div>
-									<div />
-								</div>
-							) : (
-								<div className="flex items-center justify-between px-6 py-3 text-[11px] text-text-sub-600 uppercase tracking-wide">
-									<div className="font-semibold">Email</div>
-									<div className="flex items-center gap-12">
-										<span className="w-[220px] font-semibold">Verified At</span>
-										<span className="w-[80px] font-semibold">Credit</span>
-										<span className="w-[100px] font-semibold">Status</span>
-										<span className="font-semibold">Score</span>
-									</div>
-								</div>
-							)}
-						</div>
+						<LogsTableHeader developerMode={true} />
 
-						{/* Logs List - Scrollable */}
+						{/* Logs List */}
 						<div className="flex-1 overflow-y-auto">
-							{loading ? (
-								<div className="w-full" aria-live="polite" aria-busy="true">
-									{Array.from({ length: 5 }).map((_, i) => (
-										<div key={i} className="border-stroke-soft-200/50 border-b">
-											<div className="grid grid-cols-[70px_180px_1fr_80px_80px_40px] items-center gap-4 px-6 py-4">
-												<div className="h-6 w-14 animate-pulse rounded-full bg-bg-weak-100" />
-												<div className="h-4 w-24 animate-pulse rounded bg-bg-weak-100" />
-												<div className="flex items-center gap-3">
-													<div className="h-4 w-32 animate-pulse rounded bg-bg-weak-100" />
-													<div className="h-3 w-24 animate-pulse rounded bg-bg-weak-100" />
-												</div>
-												<div className="ml-auto h-4 w-12 animate-pulse rounded bg-bg-weak-100" />
-												<div className="mx-auto h-5 w-16 animate-pulse rounded-full bg-bg-weak-100" />
-												<div />
-											</div>
-										</div>
-									))}
-								</div>
-							) : error ? (
-								<div className="flex flex-col items-center justify-center py-16">
-									<div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-error-alpha-10">
-										<Icon
-											name="alert-circle"
-											className="h-8 w-8 text-error-base"
-										/>
-									</div>
-									<h2 className="mb-2 font-medium text-text-strong-950">
-										Error loading logs
-									</h2>
-									<p className="text-text-sub-600">{error}</p>
-									<button
-										type="button"
-										onClick={() => fetchLogs(1)}
-										className="mt-4 rounded-lg border border-stroke-soft-200 px-4 py-2 text-sm transition-colors hover:bg-bg-weak-50"
-									>
-										Try again
-									</button>
-								</div>
-							) : filteredLogs.length === 0 ? (
-								<div className="flex flex-col items-center justify-center py-16">
-									<div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-bg-weak-50">
-										<Icon
-											name="file-text"
-											className="h-8 w-8 text-text-sub-600"
-										/>
-									</div>
-									<h2 className="mb-2 font-medium text-text-strong-950">
-										{search ? "No matching logs found" : "No logs found"}
-									</h2>
-									<p className="text-text-sub-600">
-										{search
-											? "Try a different search term."
-											: "Make some API requests to see them here."}
-									</p>
-								</div>
-							) : developerMode ? (
-								<div>
-									{filteredLogs.map((log) => (
-										<DeveloperLogRow
-											key={log.id}
-											log={log}
-											formatDate={formatDate}
-											isExpanded={expandedLogId === log.id}
-											onToggle={() =>
-												setExpandedLogId(
-													expandedLogId === log.id ? null : log.id,
-												)
-											}
-											enrichment={
-												log.resource_id
-													? verificationMap.get(log.resource_id)
-													: undefined
-											}
-											bulkJobInfo={
-												log.resource_id?.startsWith("vj_")
-													? bulkJobMap.get(log.resource_id)
-													: undefined
-											}
-											onNavigate={() => {
-												// For bulk jobs, navigate to bulk job page
-												if (log.resource_id?.startsWith("vj_")) {
-													push(`/bulk/${log.resource_id}`);
-													return;
-												}
-												const en = log.resource_id
-													? verificationMap.get(log.resource_id)
-													: undefined;
-												if (en?.resultId)
-													push(`/playground/verify/${en.resultId}`);
-											}}
-										/>
-									))}
-								</div>
-							) : (
-								<div>
-									{filteredLogs.map((log) => (
-										<UserLogRow
-											key={log.id}
-											log={log}
-											formatDate={formatDate}
-											enrichment={
-												log.resource_id
-													? verificationMap.get(log.resource_id)
-													: undefined
-											}
-											bulkJobInfo={
-												log.resource_id?.startsWith("vj_")
-													? bulkJobMap.get(log.resource_id)
-													: undefined
-											}
-											onNavigate={() => {
-												// For bulk jobs, navigate to bulk job page
-												if (log.resource_id?.startsWith("vj_")) {
-													push(`/bulk/${log.resource_id}`);
-													return;
-												}
-												const en = log.resource_id
-													? verificationMap.get(log.resource_id)
-													: undefined;
-												if (en?.resultId)
-													push(`/playground/verify/${en.resultId}`);
-											}}
-										/>
-									))}
-								</div>
+							<LogsStates
+								loading={loading}
+								error={error}
+								filteredLogsCount={filteredLogs.length}
+								search={search}
+								onRetry={() => fetchLogs(1)}
+							/>
+							{!loading && !error && filteredLogs.length > 0 && (
+								<LogsList
+									logs={filteredLogs}
+									developerMode={true}
+									expandedLogId={expandedLogId}
+									onToggleExpand={handleToggleExpand}
+									verificationMap={verificationMap}
+									bulkJobMap={bulkJobMap}
+									formatDate={formatDate}
+									onNavigate={handleLogNavigate}
+								/>
 							)}
 						</div>
 
 						{/* Pagination */}
-						{!loading && logs.length > 0 && (
-							<div className="relative">
-								<div className="absolute top-0 right-[-100vw] left-[-100vw] h-px bg-stroke-soft-200/50" />
-								<div className="flex items-center justify-between px-6 py-3.5">
-									<div className="flex items-center gap-2 text-sm text-text-sub-600">
-										<span>
-											Showing {(pagination.page - 1) * pagination.limit + 1} to{" "}
-											{Math.min(
-												pagination.page * pagination.limit,
-												pagination.total,
-											)}{" "}
-											of {pagination.total}
-										</span>
-										<PageSizeDropdown
-											value={pagination.limit}
-											onValueChange={handlePageSizeChange}
-										/>
-									</div>
-									<PaginationControls
-										currentPage={pagination.page}
-										totalPages={pagination.total_pages}
-										onPageChange={handlePageChange}
-									/>
-								</div>
-							</div>
+						{!loading && !error && logs.length > 0 && (
+							<LogsPagination
+								pagination={pagination}
+								onPageChange={fetchLogs}
+								onPageSizeChange={handlePageSizeChange}
+							/>
 						)}
 					</div>
 				</div>
