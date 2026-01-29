@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { codeToHtml, type ThemeRegistration } from "shiki";
 
 interface LogJsonViewerProps {
-	data: any;
+	data: Record<string, unknown>;
 	filename?: string;
 }
 
@@ -232,7 +232,7 @@ export function LogJsonViewer({
 					}
 				`}</style>
 				<div
-					// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+					// biome-ignore lint/security/noDangerouslySetInnerHtml: Shiki outputs sanitized HTML
 					dangerouslySetInnerHTML={{ __html: html }}
 					className="[&>pre]:!bg-transparent text-[12px] leading-5 [&>pre]:p-3"
 				/>

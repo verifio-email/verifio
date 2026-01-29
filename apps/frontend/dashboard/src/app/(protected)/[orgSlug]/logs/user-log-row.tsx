@@ -6,6 +6,7 @@ import {
 } from "@fe/dashboard/utils/verification-state";
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
+import { useCallback } from "react";
 import { EmailAvatar } from "../playground/components/email-avatar";
 import type { ActivityLog, BulkJobInfo, VerificationEnrichment } from "./types";
 
@@ -43,15 +44,15 @@ export function UserLogRow({
 	const score = enrichment?.score ?? null;
 	const state = enrichment?.state ?? getStateFromLog(log);
 
-	const handleNavigate = () => {
+	const handleNavigate = useCallback(() => {
 		if (isClickable && onNavigate) {
 			onNavigate(log);
 		}
-	};
+	}, [isClickable, onNavigate, log]);
 
 	// Get display name for the log entry
 	const displayName = isBulkJob
-		? bulkJobInfo?.name || `Bulk Job ${log.resource_id?.slice(0, 8)}...`
+		? bulkJobInfo?.name || `Bulk Job ${log.resource_id?.slice(0, 8)}…`
 		: log.resource_id;
 
 	return (
@@ -61,6 +62,14 @@ export function UserLogRow({
 				isClickable && "cursor-pointer",
 			)}
 			onClick={handleNavigate}
+			role={isClickable ? "button" : undefined}
+			tabIndex={isClickable ? 0 : undefined}
+			onKeyDown={(e) => {
+				if (isClickable && (e.key === "Enter" || e.key === " ")) {
+					e.preventDefault();
+					handleNavigate();
+				}
+			}}
 		>
 			{/* Left side: Avatar/Icon + Name */}
 			<div className="flex flex-1 items-center gap-2">

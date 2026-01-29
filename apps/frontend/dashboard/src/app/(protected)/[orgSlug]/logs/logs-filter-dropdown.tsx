@@ -179,6 +179,7 @@ export const LogsFilterDropdown = ({
 										onPointerEnter={() => setHoverIdx(currentRefIdx)}
 										onPointerLeave={() => setHoverIdx(undefined)}
 										onClick={() => handleToggleStatus(option.id)}
+										aria-pressed={isChecked}
 										className={cn(
 											"flex w-full cursor-pointer items-center gap-2 rounded-lg px-1 py-1.5 font-normal text-xs transition-colors",
 											"text-text-strong-950",
@@ -218,6 +219,7 @@ export const LogsFilterDropdown = ({
 										onPointerEnter={() => setHoverIdx(currentRefIdx)}
 										onPointerLeave={() => setHoverIdx(undefined)}
 										onClick={() => handleToggleService(option.id)}
+										aria-pressed={isChecked}
 										className={cn(
 											"flex w-full cursor-pointer items-center gap-2 rounded-lg px-1 py-1.5 font-normal text-xs transition-colors",
 											"text-text-strong-950",
@@ -259,6 +261,7 @@ export const LogsFilterDropdown = ({
 										onPointerEnter={() => setHoverIdx(currentRefIdx)}
 										onPointerLeave={() => setHoverIdx(undefined)}
 										onClick={() => handleToggleVerificationState(option.id)}
+										aria-pressed={isChecked}
 										className={cn(
 											"flex w-full cursor-pointer items-center gap-2 rounded-lg px-1 py-1.5 font-normal text-xs transition-colors",
 											"text-text-strong-950",

@@ -3,6 +3,7 @@
 import { cn } from "@verifio/ui/cn";
 import { Icon } from "@verifio/ui/icon";
 import { Skeleton } from "@verifio/ui/skeleton";
+import { useCallback } from "react";
 import useSWR from "swr";
 import { LogJsonViewer } from "./log-json-viewer";
 import type { ActivityLog, BulkJobInfo, VerificationEnrichment } from "./types";
@@ -92,14 +93,14 @@ export function DeveloperLogRow({
 		{ revalidateOnFocus: false },
 	);
 
-	const handleNavigate = () => {
+	const handleNavigate = useCallback(() => {
 		if (isClickable && onNavigate) {
 			onNavigate(log);
 		}
-	};
+	}, [isClickable, onNavigate, log]);
 
 	// Build request object like Postman
-	const getRequestObject = () => {
+	const getRequestObject = useCallback(() => {
 		const request: Record<string, unknown> = {
 			method: log.method,
 			endpoint: log.endpoint,
@@ -114,10 +115,10 @@ export function DeveloperLogRow({
 			request.metadata = log.metadata;
 		}
 		return request;
-	};
+	}, [log.method, log.endpoint, log.resource_id, log.ip_address, log.metadata]);
 
 	// Get response object - prefer full result from API, fallback to log.result
-	const getResponseObject = () => {
+	const getResponseObject = useCallback(() => {
 		// If we have the full result from the API, use it
 		if (fullResult?.data) {
 			return {
@@ -136,7 +137,7 @@ export function DeveloperLogRow({
 		} catch {
 			return { raw: log.result };
 		}
-	};
+	}, [fullResult?.data, log.error_message, log.result]);
 
 	return (
 		<div className="border-stroke-soft-200/50 border-b">
@@ -147,6 +148,14 @@ export function DeveloperLogRow({
 					isClickable && "cursor-pointer",
 				)}
 				onClick={handleNavigate}
+				role={isClickable ? "button" : undefined}
+				tabIndex={isClickable ? 0 : undefined}
+				onKeyDown={(e) => {
+					if (isClickable && (e.key === "Enter" || e.key === " ")) {
+						e.preventDefault();
+						handleNavigate();
+					}
+				}}
 			>
 				{/* Method Badge */}
 				<div>
@@ -179,27 +188,24 @@ export function DeveloperLogRow({
 
 				{/* Email ID / Bulk Job Name */}
 				<div className="min-w-0">
-					{log.resource_id && (
-						<>
-							{isBulkJob ? (
-								<div className="flex flex-col">
-									<span className="block truncate text-sm text-text-sub-600">
-										{bulkJobInfo?.name ||
-											`Bulk Job ${log.resource_id.slice(0, 8)}...`}
-									</span>
-									{bulkJobInfo && (
-										<span className="text-text-soft-400 text-xs">
-											{bulkJobInfo.totalEmails} emails
-										</span>
-									)}
-								</div>
-							) : (
+					{log.resource_id &&
+						(isBulkJob ? (
+							<div className="flex flex-col">
 								<span className="block truncate text-sm text-text-sub-600">
-									{log.resource_id}
+									{bulkJobInfo?.name ||
+										`Bulk Job ${log.resource_id.slice(0, 8)}...`}
 								</span>
-							)}
-						</>
-					)}
+								{bulkJobInfo && (
+									<span className="text-text-soft-400 text-xs">
+										{bulkJobInfo.totalEmails} emails
+									</span>
+								)}
+							</div>
+						) : (
+							<span className="block truncate text-sm text-text-sub-600">
+								{log.resource_id}
+							</span>
+						))}
 				</div>
 
 				{/* Verified At */}

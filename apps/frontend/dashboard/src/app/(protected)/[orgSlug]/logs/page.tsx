@@ -35,6 +35,7 @@ const LogsPage = () => {
 	const { isCollapsed } = useSidebar();
 	const [logs, setLogs] = useState<ActivityLog[]>([]);
 	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
 	const [expandedLogId, setExpandedLogId] = useState<string | null>(null);
 	const [developerMode, setDeveloperMode] = useState(false);
 	const [pagination, setPagination] = useState({
@@ -63,63 +64,88 @@ const LogsPage = () => {
 		dateRange: "7d",
 	});
 
+	// Helper to calculate date range
+	const getDateRange = useCallback((dateRange: string) => {
+		if (dateRange === "all") return null;
+
+		const now = new Date();
+		let hours = 7 * 24; // Default to 7 days
+
+		switch (dateRange) {
+			case "24h":
+				hours = 24;
+				break;
+			case "7d":
+				hours = 7 * 24;
+				break;
+			case "30d":
+				hours = 30 * 24;
+				break;
+			default:
+				hours = 7 * 24;
+		}
+
+		return {
+			from: new Date(now.getTime() - hours * 60 * 60 * 1000),
+			to: now,
+		};
+	}, []);
+
 	const fetchLogs = useCallback(
 		async (page = 1) => {
 			setLoading(true);
+			setError(null);
+
 			try {
 				const params = new URLSearchParams();
 				params.set("organization_id", activeOrganization.id);
 				params.set("page", String(page));
 				params.set("limit", String(pagination.limit));
 
-				// Note: Search is done client-side for endpoint/path filtering
 				// Apply service filters
 				if (filters.services.length > 0) {
 					params.set("service", filters.services.join(","));
 				}
+
 				// Apply status filters
 				if (filters.status.length > 0) {
 					params.set("status", filters.status.join(","));
 				}
 
 				// Date range filter
-				if (filters.dateRange !== "all") {
-					const now = new Date();
-					let from: Date;
-					switch (filters.dateRange) {
-						case "24h":
-							from = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-							break;
-						case "7d":
-							from = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-							break;
-						case "30d":
-							from = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-							break;
-						default:
-							from = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-					}
-					params.set("from", from.toISOString());
-					params.set("to", now.toISOString());
+				const dateRange = getDateRange(filters.dateRange);
+				if (dateRange) {
+					params.set("from", dateRange.from.toISOString());
+					params.set("to", dateRange.to.toISOString());
 				}
 
 				const response = await fetch(
-					`/api/logging/v1/logs?${params.toString()}`,
+					`/api/logs/v1/query?${params.toString()}`,
 					{ credentials: "include" },
 				);
+
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+
 				const data: LogsResponse = await response.json();
 
 				if (data.success) {
 					setLogs(data.data);
 					setPagination(data.pagination);
+				} else {
+					throw new Error("Failed to fetch logs");
 				}
-			} catch (error) {
-				console.error("Failed to fetch logs:", error);
+			} catch (err) {
+				const message =
+					err instanceof Error ? err.message : "Failed to fetch logs";
+				setError(message);
+				console.error("Failed to fetch logs:", err);
 			} finally {
 				setLoading(false);
 			}
 		},
-		[activeOrganization.id, filters, pagination.limit],
+		[activeOrganization.id, filters, pagination.limit, getDateRange],
 	);
 
 	useEffect(() => {
@@ -205,11 +231,11 @@ const LogsPage = () => {
 		fetchLogs(1);
 	};
 
-	// Client-side filtering for endpoint/path and verificationState
+	// Client-side filtering for search and verificationState
 	const filteredLogs = useMemo(() => {
 		let result = logs;
 
-		// Filter by search text
+		// Filter by search text (endpoint or resource_id)
 		if (search.trim()) {
 			const searchLower = search.toLowerCase();
 			result = result.filter(
@@ -242,7 +268,7 @@ const LogsPage = () => {
 		setPagination((prev) => ({ ...prev, limit: size }));
 	};
 
-	const formatDate = (dateString: string) => {
+	const formatDate = useCallback((dateString: string) => {
 		const date = new Date(dateString);
 		return date.toLocaleString("en-US", {
 			month: "short",
@@ -250,7 +276,7 @@ const LogsPage = () => {
 			hour: "2-digit",
 			minute: "2-digit",
 		});
-	};
+	}, []);
 
 	return (
 		<div className="flex h-full flex-col overflow-hidden">
@@ -350,7 +376,7 @@ const LogsPage = () => {
 						{/* Logs List - Scrollable */}
 						<div className="flex-1 overflow-y-auto">
 							{loading ? (
-								<div className="w-full">
+								<div className="w-full" aria-live="polite" aria-busy="true">
 									{Array.from({ length: 5 }).map((_, i) => (
 										<div key={i} className="border-stroke-soft-200/50 border-b">
 											<div className="grid grid-cols-[70px_180px_1fr_80px_80px_40px] items-center gap-4 px-6 py-4">
@@ -366,6 +392,26 @@ const LogsPage = () => {
 											</div>
 										</div>
 									))}
+								</div>
+							) : error ? (
+								<div className="flex flex-col items-center justify-center py-16">
+									<div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-error-alpha-10">
+										<Icon
+											name="alert-circle"
+											className="h-8 w-8 text-error-base"
+										/>
+									</div>
+									<h2 className="mb-2 font-medium text-text-strong-950">
+										Error loading logs
+									</h2>
+									<p className="text-text-sub-600">{error}</p>
+									<button
+										type="button"
+										onClick={() => fetchLogs(1)}
+										className="mt-4 rounded-lg border border-stroke-soft-200 px-4 py-2 text-sm transition-colors hover:bg-bg-weak-50"
+									>
+										Try again
+									</button>
 								</div>
 							) : filteredLogs.length === 0 ? (
 								<div className="flex flex-col items-center justify-center py-16">
