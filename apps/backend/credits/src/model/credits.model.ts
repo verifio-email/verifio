@@ -10,8 +10,6 @@ export namespace CreditsModel {
 
 	export type HistoryQuery = typeof historyQuery.static;
 
-
-
 	export const deductCreditsBody = t.Object({
 		amount: t.Optional(
 			t.Number({ description: "Number of credits to deduct", default: 1 }),

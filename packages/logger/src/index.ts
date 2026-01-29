@@ -5,30 +5,32 @@
  *
  * Usage:
  * ```typescript
- * import { logger, logActivity, createTracker } from "@verifio/logger";
+ * import { logger, ActivityLogger } from "@verifio/logger";
  *
  * // Console logging
  * logger.info({ userId: "123" }, "User logged in");
  * logger.request("POST", "/api/users");
  * logger.response("POST", "/api/users", 201);
  *
- * // Activity logging
- * await logActivity({
+ * // Activity logging (new instance-based approach)
+ * const activityLogger = new ActivityLogger({ url: "http://localhost:8003" });
+ * await activityLogger.log({
  *   service: "verify",
  *   endpoint: "/v1/verify",
  *   method: "POST",
  *   organization_id: "org_123",
  *   status: "success",
- * });
+ * }, { apiKey: "..." });
  *
  * // Create a tracker
- * const tracker = createTracker("verify");
+ * const tracker = activityLogger.createTracker("verify");
  * await tracker.success({ ... });
  * ```
  */
 
 // Activity logging
 export {
+	ActivityLogger,
 	createTracker,
 	getLoggingServiceUrl,
 	logActivity,
@@ -40,6 +42,7 @@ export { default, logger } from "./logger.js";
 // Types
 export type {
 	ActivityLogParams,
+	LogActivityOptions,
 	LogActivityParams,
 	Service,
 	Status,

@@ -8,9 +8,7 @@ export const checkCreditsRoute = new Elysia().use(authMiddleware).get(
 	"/available-credits",
 	async ({ user }) => {
 		const typedUser = user as AuthenticatedUser;
-		return await checkCreditsHandler(
-			typedUser.activeOrganizationId,
-		);
+		return await checkCreditsHandler(typedUser.activeOrganizationId);
 	},
 	{
 		auth: true,

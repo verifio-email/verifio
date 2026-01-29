@@ -1,9 +1,7 @@
 import { checkCredits } from "@verifio/credits/services/credit-manager";
 import { logger } from "@verifio/logger";
 
-export async function checkCreditsHandler(
-	organizationId: string,
-) {
+export async function checkCreditsHandler(organizationId: string) {
 	const amount = 1;
 	logger.info({ organizationId, amount }, "Checking credits");
 

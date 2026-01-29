@@ -18,7 +18,6 @@ export const verifyEmailRoute = new Elysia().use(authMiddleware).post(
 			request.headers.get("cookie") || undefined,
 		);
 
-		// Set appropriate status code
 		if (!result.success) {
 			if (result.error?.includes("Insufficient credits")) {
 				set.status = 402;

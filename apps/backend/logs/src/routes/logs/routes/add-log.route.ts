@@ -1,7 +1,4 @@
-import {
-	type AuthenticatedUser,
-	authMiddleware,
-} from "@verifio/logs/middleware/auth";
+import { authMiddleware } from "@verifio/logs/middleware/auth";
 import { LogsModel } from "@verifio/logs/model/logs.model";
 import { addLogHandler } from "@verifio/logs/routes/logs/controllers";
 import { Elysia } from "elysia";
@@ -9,12 +6,7 @@ import { Elysia } from "elysia";
 export const addLogRoute = new Elysia().use(authMiddleware).post(
 	"/add",
 	async ({ body, user }) => {
-		const typedUser = user as AuthenticatedUser;
-		return await addLogHandler(
-			typedUser.id,
-			typedUser.activeOrganizationId,
-			body,
-		);
+		return await addLogHandler(user.id, user.activeOrganizationId, body);
 	},
 	{
 		auth: true,

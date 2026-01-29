@@ -1,14 +1,18 @@
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
 import { verifyEmail } from "@verifio/email-verify";
-import { logActivity, logger } from "@verifio/logger";
+import { ActivityLogger, logger } from "@verifio/logger";
 import {
 	checkCredits,
 	deductCredits,
 } from "@verifio/verify/services/credits-client";
 import type { VerifyTypes } from "@verifio/verify/types/verify.type";
+import { verifyConfig } from "@verifio/verify/verify.config";
 
 const VERIFICATION_TIMEOUT = 30000; // 30 seconds
+
+// Create activity logger instance
+const activityLogger = new ActivityLogger({ url: verifyConfig.logsUrl });
 
 export async function verifyEmailHandler(
 	organizationId: string,
@@ -25,10 +29,7 @@ export async function verifyEmailHandler(
 	try {
 		// Check credits before verification
 		const creditCheck = await checkCredits(organizationId, cookie);
-		logger.info(
-			{ creditCheck },
-			"Checking credits before verification",
-		);
+		logger.info({ creditCheck }, "Checking credits before verification");
 
 		if (creditCheck.success === false || !creditCheck.data?.hasCredits) {
 			return {
@@ -112,22 +113,27 @@ export async function verifyEmailHandler(
 		}
 
 		// Log activity for tracking
-		logActivity({
-			service: "verify",
-			endpoint: "/v1/verify",
-			method: "POST",
-			organization_id: organizationId,
-			user_id: userId,
-			api_key_id: apiKeyId,
-			resource_type: "email",
-			resource_id: request.email,
-			status: "success",
-			result: result.state,
-			credits_used: 1,
-			duration_ms: duration,
-			ip_address: ipAddress,
-			user_agent: userAgent,
-		}).catch(() => { });
+		activityLogger
+			.log(
+				{
+					service: "verify",
+					endpoint: "/v1/verify",
+					method: "POST",
+					organization_id: organizationId,
+					user_id: userId,
+					api_key_id: apiKeyId,
+					resource_type: "email",
+					resource_id: request.email,
+					status: "success",
+					result: result.state,
+					credits_used: 1,
+					duration_ms: duration,
+					ip_address: ipAddress,
+					user_agent: userAgent,
+				},
+				{ cookie },
+			)
+			.catch(() => {});
 
 		logger.info(
 			{
@@ -158,20 +164,25 @@ export async function verifyEmailHandler(
 		);
 
 		// Log failed activity
-		logActivity({
-			service: "verify",
-			endpoint: "/v1/verify",
-			method: "POST",
-			organization_id: organizationId,
-			user_id: userId,
-			resource_type: "email",
-			resource_id: request.email,
-			status: "error",
-			error_message: errorMessage,
-			duration_ms: duration,
-			ip_address: ipAddress,
-			user_agent: userAgent,
-		}).catch(() => { });
+		activityLogger
+			.log(
+				{
+					service: "verify",
+					endpoint: "/v1/verify",
+					method: "POST",
+					organization_id: organizationId,
+					user_id: userId,
+					resource_type: "email",
+					resource_id: request.email,
+					status: "error",
+					error_message: errorMessage,
+					duration_ms: duration,
+					ip_address: ipAddress,
+					user_agent: userAgent,
+				},
+				{ cookie },
+			)
+			.catch(() => {});
 
 		return {
 			success: false as const,

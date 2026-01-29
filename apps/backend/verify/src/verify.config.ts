@@ -4,6 +4,7 @@ const isProduction = NODE_ENV === "production";
 const defaults = {
 	PORT: "8001",
 	BASE_URL: "https://local.verifio.email",
+	LOGS_URL: "https://local.verifio.email",
 	MAX_BULK_EMAILS: "10000",
 	DEFAULT_TIMEOUT: "5000",
 	REDIS_URL: "redis://:verifio123@localhost:6379",
@@ -20,5 +21,9 @@ export const verifyConfig = {
 		process.env.DEFAULT_TIMEOUT || defaults.DEFAULT_TIMEOUT,
 	),
 	baseUrl: process.env.BASE_URL || defaults.BASE_URL,
+	logsUrl:
+		process.env.LOGS_URL ||
+		process.env.LOGGING_SERVICE_URL ||
+		defaults.LOGS_URL,
 	redisUrl: process.env.REDIS_URL || defaults.REDIS_URL,
 };

@@ -1,13 +1,17 @@
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
 import type { VerificationResult } from "@verifio/email-verify";
-import { logActivity, logger } from "@verifio/logger";
+import { ActivityLogger, logger } from "@verifio/logger";
 import {
 	checkCredits,
 	deductCredits,
 } from "@verifio/verify/services/credits-client";
 import type { VerifyTypes } from "@verifio/verify/types/verify.type";
+import { verifyConfig } from "@verifio/verify/verify.config";
 import { eq } from "drizzle-orm";
+
+// Create activity logger instance
+const activityLogger = new ActivityLogger({ url: verifyConfig.logsUrl });
 
 interface BulkVerificationStatsJson {
 	total: number;
@@ -219,25 +223,30 @@ async function processBulkVerification(
 		}
 
 		// Log activity for completed job
-		logActivity({
-			service: "verify",
-			endpoint: "/v1/bulk-verify",
-			method: "POST",
-			organization_id: organizationId,
-			user_id: userId,
-			resource_type: "bulk-job",
-			resource_id: jobId,
-			status: "success",
-			result: `completed:${stats.deliverable}/${stats.total}`,
-			credits_used: emails.length,
-			duration_ms: stats.totalDuration,
-			metadata: {
-				deliverable: stats.deliverable,
-				undeliverable: stats.undeliverable,
-				risky: stats.risky,
-				unknown: stats.unknown,
-			},
-		}).catch(() => { });
+		activityLogger
+			.log(
+				{
+					service: "verify",
+					endpoint: "/v1/bulk-verify",
+					method: "POST",
+					organization_id: organizationId,
+					user_id: userId,
+					resource_type: "bulk-job",
+					resource_id: jobId,
+					status: "success",
+					result: `completed:${stats.deliverable}/${stats.total}`,
+					credits_used: emails.length,
+					duration_ms: stats.totalDuration,
+					metadata: {
+						deliverable: stats.deliverable,
+						undeliverable: stats.undeliverable,
+						risky: stats.risky,
+						unknown: stats.unknown,
+					},
+				},
+				{ cookie },
+			)
+			.catch(() => {});
 	} catch (error) {
 		const errorMessage =
 			error instanceof Error ? error.message : "Unknown error";
@@ -253,17 +262,22 @@ async function processBulkVerification(
 		logger.error({ jobId, error: errorMessage }, "Bulk verification failed");
 
 		// Log failed activity
-		logActivity({
-			service: "verify",
-			endpoint: "/v1/bulk-verify",
-			method: "POST",
-			organization_id: organizationId,
-			user_id: userId,
-			resource_type: "bulk-job",
-			resource_id: jobId,
-			status: "error",
-			error_message: errorMessage,
-		}).catch(() => { });
+		activityLogger
+			.log(
+				{
+					service: "verify",
+					endpoint: "/v1/bulk-verify",
+					method: "POST",
+					organization_id: organizationId,
+					user_id: userId,
+					resource_type: "bulk-job",
+					resource_id: jobId,
+					status: "error",
+					error_message: errorMessage,
+				},
+				{ cookie },
+			)
+			.catch(() => {});
 	}
 }
 
@@ -332,20 +346,25 @@ export async function createBulkVerifyJobHandler(
 		);
 
 		// Log activity
-		logActivity({
-			service: "verify",
-			endpoint: "/v1/bulk-verify",
-			method: "POST",
-			organization_id: organizationId,
-			user_id: userId,
-			resource_type: "bulk-job",
-			resource_id: job.id,
-			status: "success",
-			result: "created",
-			duration_ms: Date.now() - startTime,
-			ip_address: ipAddress,
-			user_agent: userAgent,
-		}).catch(() => { });
+		activityLogger
+			.log(
+				{
+					service: "verify",
+					endpoint: "/v1/bulk-verify",
+					method: "POST",
+					organization_id: organizationId,
+					user_id: userId,
+					resource_type: "bulk-job",
+					resource_id: job.id,
+					status: "success",
+					result: "created",
+					duration_ms: Date.now() - startTime,
+					ip_address: ipAddress,
+					user_agent: userAgent,
+				},
+				{ cookie },
+			)
+			.catch(() => {});
 
 		return {
 			success: true as const,
@@ -365,19 +384,24 @@ export async function createBulkVerifyJobHandler(
 			"Failed to create bulk verification job",
 		);
 
-		logActivity({
-			service: "verify",
-			endpoint: "/v1/bulk-verify",
-			method: "POST",
-			organization_id: organizationId,
-			user_id: userId,
-			resource_type: "bulk-job",
-			status: "error",
-			error_message: errorMessage,
-			duration_ms: Date.now() - startTime,
-			ip_address: ipAddress,
-			user_agent: userAgent,
-		}).catch(() => { });
+		activityLogger
+			.log(
+				{
+					service: "verify",
+					endpoint: "/v1/bulk-verify",
+					method: "POST",
+					organization_id: organizationId,
+					user_id: userId,
+					resource_type: "bulk-job",
+					status: "error",
+					error_message: errorMessage,
+					duration_ms: Date.now() - startTime,
+					ip_address: ipAddress,
+					user_agent: userAgent,
+				},
+				{ cookie },
+			)
+			.catch(() => {});
 
 		return {
 			success: false as const,

@@ -11,13 +11,13 @@ if (logsConfig.NODE_ENV !== "production") {
 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 }
 
-export const authMiddleware = new Elysia({ name: "better-auth" }).macro({
+export const authMiddleware = new Elysia({ name: "logs-auth" }).macro({
 	auth: {
 		async resolve({ status, request: { headers } }) {
 			const authUrl = `${logsConfig.BASE_URL}/api/auth/v1/get-session`;
 			const cookie = headers.get("cookie") || "";
 
-			logger.info(
+			logger.debug(
 				{
 					baseUrl: logsConfig.BASE_URL,
 					authUrl,
@@ -35,14 +35,6 @@ export const authMiddleware = new Elysia({ name: "better-auth" }).macro({
 						Cookie: cookie,
 					}),
 				});
-
-				logger.info(
-					{
-						status: response.status,
-						ok: response.ok,
-					},
-					"Auth service response",
-				);
 
 				if (!response.ok) {
 					logger.error(
