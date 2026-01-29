@@ -43,21 +43,6 @@ export function DateRangeFilter({ value, onChange }: DateRangeFilterProps) {
 				</button>
 			</Dropdown.Trigger>
 			<Dropdown.Content align="start" className="w-44 p-2">
-				{/* Reset option (only show if not default) */}
-				{hasActiveFilter && (
-					<>
-						<button
-							type="button"
-							onClick={() => onChange("7d")}
-							className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-text-sub-600 text-xs transition-colors hover:bg-bg-weak-50"
-						>
-							<Icon name="refresh-ccw" className="h-3.5 w-3.5" />
-							<span>Reset to default</span>
-						</button>
-						<div className="my-1 h-px bg-stroke-soft-200" />
-					</>
-				)}
-
 				{/* Filter options */}
 				<div className="relative">
 					{DATE_RANGE_OPTIONS.map((option) => {

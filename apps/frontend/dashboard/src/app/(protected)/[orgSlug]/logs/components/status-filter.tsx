@@ -28,10 +28,6 @@ export function StatusFilter({ value, onChange }: StatusFilterProps) {
 		}
 	};
 
-	const handleReset = () => {
-		onChange([]);
-	};
-
 	let refIdx = 0;
 
 	return (
@@ -57,22 +53,6 @@ export function StatusFilter({ value, onChange }: StatusFilterProps) {
 				</button>
 			</Dropdown.Trigger>
 			<Dropdown.Content align="start" className="w-40 p-2">
-				{/* Reset option */}
-				{hasActiveFilter && (
-					<>
-						<button
-							type="button"
-							onClick={handleReset}
-							className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-text-sub-600 text-xs transition-colors hover:bg-bg-weak-50"
-						>
-							<Icon name="refresh-ccw" className="h-3.5 w-3.5" />
-							<span>Reset</span>
-						</button>
-						<div className="my-1 h-px bg-stroke-soft-200" />
-					</>
-				)}
-
-				{/* Filter options */}
 				<div className="relative">
 					{STATUS_OPTIONS.map((option) => {
 						const currentRefIdx = refIdx++;

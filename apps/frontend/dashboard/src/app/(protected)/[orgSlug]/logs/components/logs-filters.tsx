@@ -56,8 +56,6 @@ export function LogsFilterBar({
 								/>
 							</Input.Wrapper>
 						</Input.Root>
-
-						{/* Individual Filter Buttons */}
 						<div className="flex items-center gap-2">
 							<StatusFilter
 								value={filters.status}
@@ -83,7 +81,6 @@ export function LogsFilterBar({
 						</button>
 					)}
 				</div>{" "}
-			
 			</div>
 		</div>
 	);

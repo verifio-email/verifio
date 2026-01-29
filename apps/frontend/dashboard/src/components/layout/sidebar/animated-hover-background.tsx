@@ -52,7 +52,7 @@ export const AnimatedHoverBackground: React.FC<
 	return (
 		<motion.div
 			className={cn(
-				"pointer-events-none absolute right-0 left-0 rounded-xl",
+				"pointer-events-none absolute right-0 left-0 rounded-lg",
 				bgColor,
 				className,
 			)}

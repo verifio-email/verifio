@@ -1,8 +1,6 @@
 "use client";
 
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
-import { useSidebar } from "@fe/dashboard/providers/sidebar-provider";
-import { cn } from "@verifio/ui/cn";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
 	LogsFilterBar,
@@ -31,7 +29,6 @@ type LogsResponse = {
 
 const LogsPage = () => {
 	const { activeOrganization, push } = useUserOrganization();
-	const { isCollapsed } = useSidebar();
 	const [logs, setLogs] = useState<ActivityLog[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
@@ -264,18 +261,13 @@ const LogsPage = () => {
 	return (
 		<div className="flex h-full flex-col overflow-hidden">
 			{/* Header */}
-			<div className={cn(isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32")}>
+			<div className="mx-auto max-w-7xl">
 				<LogsHeader />
 			</div>
 
 			{/* Content */}
 			<div className="flex-1 overflow-y-auto overflow-x-hidden">
-				<div
-					className={cn(
-						"h-full",
-						isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32",
-					)}
-				>
+				<div className="mx-auto h-full max-w-7xl">
 					<div className="flex h-full flex-col border-stroke-soft-200/50 border-r border-l">
 						{/* Filters */}
 						<LogsFilterBar
