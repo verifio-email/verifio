@@ -135,9 +135,9 @@ export const ApiKeyHeader = ({
 
 			await axios.post(endpoint, {}, { headers: { credentials: "include" } });
 
-			await mutate(`/api/api-key/v1/${apiKey.id}`);
+			// Revalidate all API key caches using a matcher function
 			await mutate(
-				(key) => typeof key === "string" && key.startsWith("/api/api-key/v1/"),
+				(key) => typeof key === "string" && key.startsWith("/api/api-key/v1"),
 				undefined,
 				{ revalidate: true },
 			);

@@ -14,6 +14,7 @@ export const apikey = pgTable("apikey", {
 	start: text("start"),
 	prefix: text("prefix"),
 	key: text("key").notNull(),
+	encryptedKey: text("encrypted_key"),
 	organizationId: text("organization_id")
 		.notNull()
 		.references(() => organization.id, { onDelete: "cascade" }),

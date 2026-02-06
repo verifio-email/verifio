@@ -24,7 +24,9 @@ export const ApiKeyDisplay = () => {
 	const [isVisible, setIsVisible] = useState(false);
 
 	const { data, isLoading } = useSWR<ApiKeyListResponse>(
-		activeOrganization?.id ? "/api/api-key/v1" : null,
+		activeOrganization?.id
+			? `/api/api-key/v1?orgId=${activeOrganization.id}`
+			: null,
 	);
 
 	const apiKey = data?.apiKeys?.[0];

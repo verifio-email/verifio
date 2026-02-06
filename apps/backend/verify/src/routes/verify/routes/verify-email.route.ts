@@ -5,7 +5,7 @@ import { verifyEmailHandler } from "@verifio/verify/routes/verify/controllers";
 import { Elysia } from "elysia";
 
 export const verifyEmailRoute = new Elysia().use(authMiddleware).post(
-	"/email",
+	"/verify",
 	async ({ body, user, request, set }) => {
 		const typedUser = user as AuthenticatedUser;
 		const result = await verifyEmailHandler(

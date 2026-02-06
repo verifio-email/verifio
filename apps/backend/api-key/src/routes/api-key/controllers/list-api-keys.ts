@@ -3,18 +3,70 @@ import type { ApiKeyTypes } from "@verifio/api-key/types/api-key.type";
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
 import { logger } from "@verifio/logger";
-import { and, count, desc, eq } from "drizzle-orm";
+import { and, count, desc, eq, inArray } from "drizzle-orm";
+
+interface OrganizationInfo {
+	id: string;
+	name: string;
+	slug: string;
+}
 
 export async function listApiKeys(
 	query: ApiKeyTypes.ApiKeyListQuery,
 	organizationId: string,
-	_userId: string,
+	userId: string,
 ): Promise<ApiKeyTypes.ApiKeyListResponse> {
-	const { page = 1, limit = 10, enabled } = query;
+	const { page = 1, limit = 10, enabled, allOrgs } = query;
 	const offset = (page - 1) * limit;
 
 	try {
-		const conditions = [eq(schema.apikey.organizationId, organizationId)];
+		let organizationIds: string[] = [organizationId];
+		const organizationsMap: Map<string, OrganizationInfo> = new Map();
+
+		// If allOrgs is true, get all organizations the user is a member of
+		if (allOrgs) {
+			const userMemberships = await db.query.member.findMany({
+				where: eq(schema.member.userId, userId),
+				with: { organization: true },
+			});
+
+			organizationIds = userMemberships.map((m) => m.organizationId);
+
+			// Build organizations map for response
+			for (const membership of userMemberships) {
+				if (membership.organization) {
+					organizationsMap.set(membership.organizationId, {
+						id: membership.organization.id,
+						name: membership.organization.name,
+						slug: membership.organization.slug,
+					});
+				}
+			}
+
+			// If user has no memberships, return empty
+			if (organizationIds.length === 0) {
+				return {
+					apiKeys: [],
+					total: 0,
+					page,
+					limit,
+				};
+			}
+		} else {
+			// Get organization details for single org case
+			const org = await db.query.organization.findFirst({
+				where: eq(schema.organization.id, organizationId),
+			});
+			if (org) {
+				organizationsMap.set(organizationId, {
+					id: org.id,
+					name: org.name,
+					slug: org.slug,
+				});
+			}
+		}
+
+		const conditions = [inArray(schema.apikey.organizationId, organizationIds)];
 		if (enabled !== undefined) {
 			conditions.push(eq(schema.apikey.enabled, enabled));
 		}
@@ -37,15 +89,19 @@ export async function listApiKeys(
 		return {
 			apiKeys: result.map((apiKey) => {
 				const { user, ...apiKeyData } = apiKey;
-				return formatApiKeyResponse({
-					...apiKeyData,
-					createdBy: {
-						id: user.id,
-						name: user.name,
-						image: user.image,
-						email: user.email,
-					},
-				});
+				const orgInfo = organizationsMap.get(apiKey.organizationId);
+				return {
+					...formatApiKeyResponse({
+						...apiKeyData,
+						createdBy: {
+							id: user.id,
+							name: user.name,
+							image: user.image,
+							email: user.email,
+						},
+					}),
+					organization: orgInfo,
+				};
 			}),
 			total,
 			page,

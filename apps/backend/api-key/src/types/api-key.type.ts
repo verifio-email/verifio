@@ -21,6 +21,7 @@ export namespace ApiKeyTypes {
 		start: string | null;
 		prefix: string | null;
 		key: string;
+		encryptedKey: string | null;
 		organizationId: string;
 		userId: string;
 		refillInterval: number | null;
@@ -76,6 +77,7 @@ export namespace ApiKeyTypes {
 		page?: number;
 		limit?: number;
 		enabled?: boolean;
+		allOrgs?: boolean;
 	}
 
 	export type SuccessResponse = typeof ApiKeyModel.successResponse.static;

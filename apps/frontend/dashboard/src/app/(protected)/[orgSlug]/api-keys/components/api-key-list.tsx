@@ -14,10 +14,18 @@ import {
 	ApiKeyFilterDropdown,
 	type ApiKeyFilters,
 	type CreatedByUser,
+	type OrganizationItem,
 } from "./api-key-filter-dropdown";
+
 import { ApiKeyTable } from "./api-key-table";
 import { CreateApiKeyModal } from "./create-api-key-modal";
 import { EmptyState } from "./empty-state";
+
+interface OrganizationData {
+	id: string;
+	name: string;
+	slug: string;
+}
 
 interface ApiKeyData {
 	id: string;
@@ -25,6 +33,7 @@ interface ApiKeyData {
 	key: string;
 	start: string | null;
 	prefix: string | null;
+	organizationId: string;
 	enabled: boolean;
 	requestCount: number;
 	remaining: number | null;
@@ -36,6 +45,7 @@ interface ApiKeyData {
 		image: string | null;
 		email: string | null;
 	};
+	organization?: OrganizationData;
 }
 
 interface ApiKeyListResponse {
@@ -51,6 +61,7 @@ export const ApiKeyListSidebar = () => {
 	const [filters, setFilters] = useState<ApiKeyFilters>({
 		status: [],
 		createdBy: [],
+		organizations: [],
 	});
 	const [searchQuery, setSearchQuery] = useState<string>("");
 	const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -65,7 +76,7 @@ export const ApiKeyListSidebar = () => {
 
 	const { data, error, isLoading } = useSWR<ApiKeyListResponse>(
 		activeOrganization?.id
-			? `/api/api-key/v1/?limit=${pageSize}&page=${currentPage}`
+			? `/api/api-key/v1/?limit=${pageSize}&page=${currentPage}&allOrgs=true`
 			: null,
 		{
 			revalidateOnFocus: true,
@@ -93,7 +104,23 @@ export const ApiKeyListSidebar = () => {
 		return Array.from(creatorsMap.values());
 	}, [data?.apiKeys]);
 
-	// Filter API keys based on status, creator, and search query
+	// Extract unique organizations from API keys
+	const availableOrganizations = useMemo<OrganizationItem[]>(() => {
+		if (!data?.apiKeys) return [];
+		const orgsMap = new Map<string, OrganizationItem>();
+		for (const apiKey of data.apiKeys) {
+			if (apiKey.organization?.id && !orgsMap.has(apiKey.organization.id)) {
+				orgsMap.set(apiKey.organization.id, {
+					id: apiKey.organization.id,
+					name: apiKey.organization.name,
+					slug: apiKey.organization.slug,
+				});
+			}
+		}
+		return Array.from(orgsMap.values());
+	}, [data?.apiKeys]);
+
+	// Filter API keys based on status, creator, organization, and search query
 	const filteredApiKeys =
 		data?.apiKeys?.filter((apiKey) => {
 			const matchesStatus =
@@ -106,13 +133,21 @@ export const ApiKeyListSidebar = () => {
 				(apiKey.createdBy?.id &&
 					filters.createdBy.includes(apiKey.createdBy.id));
 
+			const matchesOrg =
+				filters.organizations.length === 0 ||
+				(apiKey.organization?.id &&
+					filters.organizations.includes(apiKey.organization.id));
+
 			const displayName = apiKey.name || apiKey.start || apiKey.prefix || "";
 			const matchesSearch =
 				searchQuery === "" ||
 				displayName.toLowerCase().includes(searchQuery.toLowerCase()) ||
 				apiKey.prefix?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				apiKey.start?.toLowerCase().includes(searchQuery.toLowerCase());
-			return matchesStatus && matchesCreator && matchesSearch;
+				apiKey.start?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				apiKey.organization?.name
+					.toLowerCase()
+					.includes(searchQuery.toLowerCase());
+			return matchesStatus && matchesCreator && matchesOrg && matchesSearch;
 		}) || [];
 
 	return (
@@ -189,6 +224,7 @@ export const ApiKeyListSidebar = () => {
 												value={filters}
 												onChange={setFilters}
 												availableCreators={availableCreators}
+												availableOrganizations={availableOrganizations}
 											/>
 										</div>
 									</div>

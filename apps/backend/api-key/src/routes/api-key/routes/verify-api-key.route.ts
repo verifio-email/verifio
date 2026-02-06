@@ -1,5 +1,5 @@
 import { ApiKeyModel } from "@verifio/api-key/model/api-key.model";
-import { validateApiKeyHandler } from "@verifio/api-key/routes/api-key/controllers/validate-api-key";
+import { validateApiKeyHandler } from "@verifio/api-key/routes/api-key/controllers/verify-api-key";
 import { Elysia, t } from "elysia";
 
 export const verifyApiKeyRoute = new Elysia().post(

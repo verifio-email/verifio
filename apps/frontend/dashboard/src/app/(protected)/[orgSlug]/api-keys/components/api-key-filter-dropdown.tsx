@@ -17,15 +17,23 @@ export interface CreatedByUser {
 	image: string | null;
 }
 
+export interface OrganizationItem {
+	id: string;
+	name: string;
+	slug: string;
+}
+
 export interface ApiKeyFilters {
 	status: ApiKeyStatusFilters;
 	createdBy: string[]; // User IDs
+	organizations: string[]; // Organization IDs
 }
 
 interface ApiKeyFilterDropdownProps {
 	value: ApiKeyFilters;
 	onChange: (value: ApiKeyFilters) => void;
 	availableCreators: CreatedByUser[];
+	availableOrganizations: OrganizationItem[];
 }
 
 const statusFilterOptions: {
@@ -52,6 +60,7 @@ export const ApiKeyFilterDropdown = ({
 	value,
 	onChange,
 	availableCreators,
+	availableOrganizations,
 }: ApiKeyFilterDropdownProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [hoverIdx, setHoverIdx] = useState<number | undefined>(undefined);
@@ -59,11 +68,12 @@ export const ApiKeyFilterDropdown = ({
 
 	const currentTab = buttonRefs.current[hoverIdx ?? -1];
 
-	const activeFilterCount = value.status.length + value.createdBy.length;
+	const activeFilterCount =
+		value.status.length + value.createdBy.length + value.organizations.length;
 	const hasActiveFilter = activeFilterCount > 0;
 
 	const handleReset = () => {
-		onChange({ status: [], createdBy: [] });
+		onChange({ status: [], createdBy: [], organizations: [] });
 	};
 
 	const handleStatusToggle = (optionId: ApiKeyStatusFilterOption) => {
@@ -88,6 +98,17 @@ export const ApiKeyFilterDropdown = ({
 		}
 	};
 
+	const handleOrgToggle = (orgId: string) => {
+		if (value.organizations.includes(orgId)) {
+			onChange({
+				...value,
+				organizations: value.organizations.filter((v) => v !== orgId),
+			});
+		} else {
+			onChange({ ...value, organizations: [...value.organizations, orgId] });
+		}
+	};
+
 	return (
 		<Dropdown.Root open={isOpen} onOpenChange={setIsOpen}>
 			<Dropdown.Trigger asChild>
@@ -103,7 +124,7 @@ export const ApiKeyFilterDropdown = ({
 			</Dropdown.Trigger>
 			<Dropdown.Content
 				align="end"
-				className="max-h-80 w-52 overflow-y-auto p-2"
+				className="max-h-96 w-52 overflow-y-auto p-2"
 			>
 				{/* Header */}
 				<div className="flex items-center justify-between border-stroke-soft-200 border-b px-1 pb-2">
@@ -219,6 +240,57 @@ export const ApiKeyFilterDropdown = ({
 											<span className="truncate">
 												{creator.name || "Unknown"}
 											</span>
+										</button>
+									);
+								})}
+							</div>
+						</div>
+					)}
+
+					{/* Organizations Section */}
+					{availableOrganizations.length > 1 && (
+						<div className="mt-2 border-stroke-soft-200 border-t pt-3">
+							<span className="px-1 font-medium text-[10px] text-text-soft-400 uppercase tracking-wide">
+								Organization
+							</span>
+							<div className="mt-1">
+								{availableOrganizations.map((org, idx) => {
+									const globalIdx =
+										statusFilterOptions.length + availableCreators.length + idx;
+									const isChecked = value.organizations.includes(org.id);
+									return (
+										<button
+											key={org.id}
+											ref={(el) => {
+												if (el) buttonRefs.current[globalIdx] = el;
+											}}
+											type="button"
+											onPointerEnter={() => setHoverIdx(globalIdx)}
+											onPointerLeave={() => setHoverIdx(undefined)}
+											onClick={() => handleOrgToggle(org.id)}
+											className={cn(
+												"flex w-full cursor-pointer items-center gap-2 rounded-lg px-1 py-1.5 font-normal text-xs transition-colors",
+												"text-text-strong-950",
+											)}
+										>
+											{/* Checkbox */}
+											<div
+												className={cn(
+													"flex h-3.5 w-3.5 items-center justify-center rounded border p-[1px] transition-colors",
+													isChecked
+														? "border-stroke-soft-900 bg-neutral-900"
+														: "border-stroke-soft-200",
+												)}
+											>
+												{isChecked && (
+													<Icon name="check" className="h-3 w-3 text-white" />
+												)}
+											</div>
+											{/* Org Icon */}
+											<div className="flex h-4 w-4 items-center justify-center rounded bg-neutral-200 font-medium text-[10px] text-neutral-700">
+												{org.name.charAt(0).toUpperCase()}
+											</div>
+											<span className="truncate">{org.name}</span>
 										</button>
 									);
 								})}

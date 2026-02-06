@@ -1,3 +1,4 @@
+import { hashApiKey } from "@verifio/api-key/lib/api-key-hash";
 import { formatApiKeyResponse } from "@verifio/api-key/routes/api-key/controllers/format-api-key-response";
 import type { ApiKeyTypes } from "@verifio/api-key/types/api-key.type";
 import { db } from "@verifio/db/client";
@@ -5,18 +6,21 @@ import * as schema from "@verifio/db/schema";
 import { logger } from "@verifio/logger";
 import { and, eq } from "drizzle-orm";
 
-export async function validateApiKey(
+export async function verifyApiKey(
 	apiKey: string,
 ): Promise<ApiKeyTypes.ApiKeyData | null> {
 	logger.info(
 		{ apiKey: `${apiKey.substring(0, 12)}...` },
-		"Validating API key",
+		"Verifying API key",
 	);
 
 	try {
+		// Hash the incoming API key to compare with stored hash
+		const hashedKey = hashApiKey(apiKey);
+
 		const result = await db.query.apikey.findFirst({
 			where: and(
-				eq(schema.apikey.key, apiKey),
+				eq(schema.apikey.key, hashedKey),
 				eq(schema.apikey.enabled, true),
 			),
 			with: {
@@ -47,7 +51,7 @@ export async function validateApiKey(
 			})
 			.where(eq(schema.apikey.id, result.id));
 
-		logger.info({ id: result.id }, "API key validated successfully");
+		logger.info({ id: result.id }, "API key verified successfully");
 		return {
 			...result,
 			createdBy: {
@@ -62,7 +66,7 @@ export async function validateApiKey(
 			{
 				error: error instanceof Error ? error.message : String(error),
 			},
-			"Error validating API key",
+			"Error verifying API key",
 		);
 		return null;
 	}
@@ -77,7 +81,7 @@ export async function validateApiKeyHandler(
 	);
 
 	try {
-		const validated = await validateApiKey(apiKey);
+		const validated = await verifyApiKey(apiKey);
 		if (!validated) {
 			return { valid: false };
 		}
@@ -91,7 +95,7 @@ export async function validateApiKeyHandler(
 			{
 				error: error instanceof Error ? error.message : String(error),
 			},
-			"Error validating API key",
+			"Error verifying API key",
 		);
 		return { valid: false };
 	}

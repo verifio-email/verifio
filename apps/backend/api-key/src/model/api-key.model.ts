@@ -188,6 +188,13 @@ export namespace ApiKeyModel {
 				email: t.String({ description: "User email" }),
 			}),
 		),
+		organization: t.Optional(
+			t.Object({
+				id: t.String({ description: "Organization ID" }),
+				name: t.String({ description: "Organization name" }),
+				slug: t.String({ description: "Organization slug" }),
+			}),
+		),
 	});
 
 	export type ApiKeyResponse = typeof apiKeyResponse.static;
@@ -262,6 +269,7 @@ export namespace ApiKeyModel {
 		page: t.Optional(t.Number({ minimum: 1, default: 1 })),
 		limit: t.Optional(t.Number({ minimum: 1, maximum: 100, default: 10 })),
 		enabled: t.Optional(t.Boolean()),
+		allOrgs: t.Optional(t.Boolean({ description: "If true, return API keys from all user's organizations" })),
 	});
 
 	export type ApiKeyQuery = typeof apiKeyQuery.static;

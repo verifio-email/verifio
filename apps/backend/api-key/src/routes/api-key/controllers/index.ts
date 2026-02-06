@@ -29,4 +29,4 @@ export {
 export {
 	validateApiKey,
 	validateApiKeyHandler,
-} from "@verifio/api-key/routes/api-key/controllers/validate-api-key";
+} from "@verifio/api-key/routes/api-key/controllers/verify-api-key";

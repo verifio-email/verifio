@@ -1,5 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { hashApiKey } from "@verifio/api-key/lib/api-key-hash";
+import { encryptApiKey } from "@verifio/api-key/lib/encryption";
 import { formatApiKeyWithKeyResponse } from "@verifio/api-key/routes/api-key/controllers/format-api-key-response";
 import type { ApiKeyTypes } from "@verifio/api-key/types/api-key.type";
 import { db } from "@verifio/db/client";
@@ -8,7 +9,7 @@ import { logger } from "@verifio/logger";
 import { and, eq } from "drizzle-orm";
 import { status } from "elysia";
 
-const API_KEY_PREFIX = "rl";
+const API_KEY_PREFIX = "ve";
 const API_KEY_LENGTH = 64;
 
 function generateApiKey(): string {
@@ -53,6 +54,7 @@ export async function rotateApiKey(
 			.update(schema.apikey)
 			.set({
 				key: hashApiKey(fullKey),
+				encryptedKey: encryptApiKey(fullKey),
 				start: keyStart,
 				updatedAt: now,
 			})

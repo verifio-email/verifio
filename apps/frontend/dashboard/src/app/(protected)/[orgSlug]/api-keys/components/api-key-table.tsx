@@ -28,6 +28,7 @@ interface ApiKeyData {
 	key: string;
 	start: string | null;
 	prefix: string | null;
+	organizationId: string;
 	enabled: boolean;
 	requestCount: number;
 	remaining: number | null;
@@ -38,6 +39,11 @@ interface ApiKeyData {
 		name: string | null;
 		image: string | null;
 		email: string | null;
+	};
+	organization?: {
+		id: string;
+		name: string;
+		slug: string;
 	};
 }
 
@@ -326,10 +332,22 @@ export const ApiKeyTable = ({
 													{...getAnimationProps(index + 1, 0)}
 													className="flex-1"
 												>
-													{/* Name */}
-													<p className="font-medium text-label-md text-text-strong-950">
-														{displayName}
-													</p>
+													{/* Name with Org Badge */}
+													<div className="flex items-center gap-2">
+														<p className="font-medium text-label-md text-text-strong-950">
+															{displayName}
+														</p>
+														{apiKey.organization && (
+															<span className="inline-flex items-center gap-1 rounded-md bg-neutral-100 px-1.5 py-0.5 font-medium text-[10px] text-neutral-600">
+																<span className="flex h-3 w-3 items-center justify-center rounded-sm bg-neutral-300 font-semibold text-[8px] text-neutral-700">
+																	{apiKey.organization.name
+																		.charAt(0)
+																		.toUpperCase()}
+																</span>
+																{apiKey.organization.name}
+															</span>
+														)}
+													</div>
 													{/* Key - Masked or Revealed */}
 													<div className="mt-1 flex items-center gap-2 font-mono text-paragraph-sm text-text-sub-600">
 														<span>{isRevealed ? fullKey : maskedKey}</span>

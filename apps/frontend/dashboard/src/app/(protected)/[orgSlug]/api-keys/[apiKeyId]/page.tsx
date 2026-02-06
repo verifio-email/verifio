@@ -42,10 +42,15 @@ const ApiKeyDetailPage = () => {
 		data: apiKeyData,
 		error,
 		isLoading,
-	} = useSWR<ApiKeyData>(apiKeyId ? `/api/api-key/v1/${apiKeyId}` : null, {
-		revalidateOnFocus: false,
-		revalidateOnReconnect: true,
-	});
+	} = useSWR<ApiKeyData>(
+		apiKeyId && activeOrganization?.id
+			? `/api/api-key/v1/${apiKeyId}?orgId=${activeOrganization.id}`
+			: null,
+		{
+			revalidateOnFocus: false,
+			revalidateOnReconnect: true,
+		},
+	);
 
 	const handleDeleteApiKey = () => {
 		if (apiKeyData?.id) {

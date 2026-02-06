@@ -11,7 +11,7 @@ import { getCreditsHandler } from "@verifio/credits/routes/credits/controllers";
 import { Elysia } from "elysia";
 
 export const getStatusRoute = new Elysia().use(authMiddleware).get(
-	"/status",
+	"/credits",
 	async ({ user }) => {
 		const typedUser = user as AuthenticatedUser;
 		return await getCreditsHandler(typedUser.activeOrganizationId);

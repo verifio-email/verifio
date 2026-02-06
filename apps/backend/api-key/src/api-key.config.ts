@@ -11,3 +11,8 @@ export const apiKeyConfig = {
 	BASE_URL: process.env.BASE_URL || defaults.BASE_URL,
 	NODE_ENV: process.env.NODE_ENV || defaults.NODE_ENV,
 };
+
+// Encryption secret for API keys (32-byte hex string = 64 characters)
+// Generate with: node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+export const API_KEY_ENCRYPTION_SECRET =
+	process.env.API_KEY_ENCRYPTION_SECRET || "";
