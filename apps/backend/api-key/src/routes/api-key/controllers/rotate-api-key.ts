@@ -1,6 +1,8 @@
 import { randomBytes } from "node:crypto";
 import { hashApiKey } from "@verifio/api-key/lib/api-key-hash";
 import { encryptApiKey } from "@verifio/api-key/lib/encryption";
+import { redis } from "@verifio/api-key/lib/redis";
+import type { OrgRole } from "@verifio/api-key/middleware/auth";
 import { formatApiKeyWithKeyResponse } from "@verifio/api-key/routes/api-key/controllers/format-api-key-response";
 import type { ApiKeyTypes } from "@verifio/api-key/types/api-key.type";
 import { db } from "@verifio/db/client";
@@ -29,13 +31,24 @@ export async function rotateApiKey(
 	id: string,
 	organizationId: string,
 	userId: string,
+	role: OrgRole,
 ): Promise<ApiKeyTypes.ApiKeyWithKeyResponse> {
+	const isAdminOrOwner = role === "owner" || role === "admin";
 	try {
-		const existingKey = await db.query.apikey.findFirst({
-			where: and(
+		// Admins/owners can rotate any key in their org, others can only rotate their own
+		const whereConditions = isAdminOrOwner
+			? [
 				eq(schema.apikey.id, id),
 				eq(schema.apikey.organizationId, organizationId),
-			),
+			]
+			: [
+				eq(schema.apikey.id, id),
+				eq(schema.apikey.organizationId, organizationId),
+				eq(schema.apikey.userId, userId),
+			];
+
+		const existingKey = await db.query.apikey.findFirst({
+			where: and(...whereConditions),
 			with: {
 				user: true,
 			},
@@ -68,6 +81,11 @@ export async function rotateApiKey(
 
 		logger.info({ id, organizationId, userId }, "API key rotated successfully");
 
+		// Invalidate cache for the OLD key (using old hash)
+		const oldCacheKey = `verified:${existingKey.key}`;
+		await redis.delete(oldCacheKey);
+		logger.info({ id }, "Cache invalidated for rotated API key");
+
 		return formatApiKeyWithKeyResponse(
 			{
 				...updatedKey,
@@ -98,7 +116,8 @@ export async function rotateApiKeyHandler(
 	id: string,
 	organizationId: string,
 	userId: string,
+	role: OrgRole,
 ): Promise<ApiKeyTypes.ApiKeyWithKeyResponse> {
-	logger.info({ id, organizationId, userId }, "Rotating API key");
-	return rotateApiKey(id, organizationId, userId);
+	logger.info({ id, organizationId, userId, role }, "Rotating API key");
+	return rotateApiKey(id, organizationId, userId, role);
 }

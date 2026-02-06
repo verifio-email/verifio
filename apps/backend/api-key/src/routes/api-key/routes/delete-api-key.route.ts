@@ -14,6 +14,7 @@ export const deleteApiKeyRoute = new Elysia().use(authMiddleware).delete(
 			id,
 			typedUser.activeOrganizationId,
 			typedUser.id,
+			typedUser.role,
 		);
 	},
 	{

@@ -1,3 +1,5 @@
+import { redis } from "@verifio/api-key/lib/redis";
+import type { OrgRole } from "@verifio/api-key/middleware/auth";
 import { formatApiKeyResponse } from "@verifio/api-key/routes/api-key/controllers/format-api-key-response";
 import type { ApiKeyTypes } from "@verifio/api-key/types/api-key.type";
 import { db } from "@verifio/db/client";
@@ -10,31 +12,44 @@ export async function updateApiKey(
 	apiKeyId: string,
 	organizationId: string,
 	userId: string,
+	role: OrgRole,
 	request: ApiKeyTypes.UpdateApiKeyRequest,
 ): Promise<ApiKeyTypes.ApiKeyResponse> {
+	const isAdminOrOwner = role === "owner" || role === "admin";
+
 	logger.info(
 		{
 			apiKeyId,
 			organizationId,
 			userId,
+			role,
+			isAdminOrOwner,
 		},
 		"Updating API key",
 	);
 
 	try {
-		const existing = await db.query.apikey.findFirst({
-			where: and(
+		// Admins/owners can update any key in their org, others can only update their own
+		const whereConditions = isAdminOrOwner
+			? [
+				eq(schema.apikey.id, apiKeyId),
+				eq(schema.apikey.organizationId, organizationId),
+			]
+			: [
 				eq(schema.apikey.id, apiKeyId),
 				eq(schema.apikey.organizationId, organizationId),
 				eq(schema.apikey.userId, userId),
-			),
+			];
+
+		const existing = await db.query.apikey.findFirst({
+			where: and(...whereConditions),
 			with: {
 				user: true,
 			},
 		});
 
 		if (!existing) {
-			logger.warn({ apiKeyId }, "API key not found");
+			logger.warn({ apiKeyId }, "API key not found or access denied");
 			throw status(404, { message: "API key not found" });
 		}
 
@@ -78,13 +93,7 @@ export async function updateApiKey(
 		const updated = await db
 			.update(schema.apikey)
 			.set(updateData)
-			.where(
-				and(
-					eq(schema.apikey.id, apiKeyId),
-					eq(schema.apikey.organizationId, organizationId),
-					eq(schema.apikey.userId, userId),
-				),
-			)
+			.where(and(...whereConditions))
 			.returning();
 
 		if (!updated[0]) {
@@ -93,6 +102,12 @@ export async function updateApiKey(
 		}
 
 		logger.info({ apiKeyId }, "API key updated successfully");
+
+		// Invalidate cache for this API key
+		const cacheKey = `verified:${existing.key}`;
+		await redis.delete(cacheKey);
+		logger.info({ apiKeyId }, "Cache invalidated for updated API key");
+
 		return formatApiKeyResponse({
 			...updated[0],
 			createdBy: {
@@ -118,12 +133,19 @@ export async function updateApiKeyHandler(
 	apiKeyId: string,
 	organizationId: string,
 	userId: string,
+	role: OrgRole,
 	body: ApiKeyTypes.UpdateApiKeyRequest,
 ): Promise<ApiKeyTypes.ApiKeyResponse> {
-	logger.info({ apiKeyId, organizationId, userId }, "Updating API key");
+	logger.info({ apiKeyId, organizationId, userId, role }, "Updating API key");
 
 	try {
-		const apiKey = await updateApiKey(apiKeyId, organizationId, userId, body);
+		const apiKey = await updateApiKey(
+			apiKeyId,
+			organizationId,
+			userId,
+			role,
+			body,
+		);
 		logger.info(
 			{ apiKeyId, organizationId, userId },
 			"API key updated successfully",

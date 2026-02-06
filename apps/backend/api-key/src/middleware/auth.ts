@@ -1,10 +1,16 @@
 import type { Session } from "@verifio/auth/types";
+import { db } from "@verifio/db/client";
+import * as schema from "@verifio/db/schema";
 import { logger } from "@verifio/logger";
+import { and, eq } from "drizzle-orm";
 import { Elysia } from "elysia";
 import { apiKeyConfig } from "../api-key.config";
 
+export type OrgRole = "owner" | "admin" | "member";
+
 export type AuthenticatedUser = Session["user"] & {
 	activeOrganizationId: string;
+	role: OrgRole;
 };
 
 if (apiKeyConfig.NODE_ENV !== "production") {
@@ -65,8 +71,30 @@ export const authMiddleware = new Elysia({ name: "better-auth" }).macro({
 						});
 					}
 
+					// Fetch user's role in the active organization
+					const membership = await db.query.member.findFirst({
+						where: and(
+							eq(schema.member.userId, session.user.id),
+							eq(schema.member.organizationId, session.user.activeOrganizationId),
+						),
+					});
+
+					const role: OrgRole = (membership?.role as OrgRole) || "member";
+
+					logger.info(
+						{
+							userId: session.user.id,
+							organizationId: session.user.activeOrganizationId,
+							role,
+						},
+						"User authenticated with role",
+					);
+
 					return {
-						user: session.user as AuthenticatedUser,
+						user: {
+							...session.user,
+							role,
+						} as AuthenticatedUser,
 						session: session.session,
 						authMethod: "cookie" as const,
 					};

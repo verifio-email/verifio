@@ -14,6 +14,7 @@ export const updateApiKeyRoute = new Elysia().use(authMiddleware).patch(
 			id,
 			typedUser.activeOrganizationId,
 			typedUser.id,
+			typedUser.role,
 			body,
 		);
 	},

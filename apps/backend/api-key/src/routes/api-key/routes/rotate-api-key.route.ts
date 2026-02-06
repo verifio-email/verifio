@@ -14,6 +14,7 @@ export const rotateApiKeyRoute = new Elysia().use(authMiddleware).post(
 			id,
 			typedUser.activeOrganizationId,
 			typedUser.id,
+			typedUser.role,
 		);
 	},
 	{
