@@ -18,6 +18,8 @@ export const BulkUploadInput = ({
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const [isDragging, setIsDragging] = useState(false);
 	const [csvFile, setCsvFile] = useState<File | null>(null);
+	const [csvPreview, setCsvPreview] = useState<string[]>([]);
+	const [totalEmailCount, setTotalEmailCount] = useState(0);
 	const [isVerifying, setIsVerifying] = useState(false);
 	const [bulkProgress, setBulkProgress] = useState<BulkProgress | null>(null);
 
@@ -31,30 +33,33 @@ export const BulkUploadInput = ({
 		setIsDragging(false);
 	};
 
-	const handleDrop = (e: React.DragEvent) => {
+	const handleDrop = async (e: React.DragEvent) => {
 		e.preventDefault();
 		setIsDragging(false);
 		const file = e.dataTransfer.files[0];
-		if (file && file.type === "text/csv") {
+		if (file && (file.type === "text/csv" || file.name.endsWith(".csv"))) {
 			setCsvFile(file);
-			toast.success(`File "${file.name}" ready for upload`);
+			const emails = await parseCSV(file);
+			setCsvPreview(emails.slice(0, 5));
+			setTotalEmailCount(emails.length);
+			toast.success(`Found ${emails.length} emails in "${file.name}"`);
 		} else {
 			toast.error("Please upload a CSV file");
 		}
 	};
 
-	const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
-		if (file && file.type === "text/csv") {
+		if (file && (file.type === "text/csv" || file.name.endsWith(".csv"))) {
 			setCsvFile(file);
-			toast.success(`File "${file.name}" ready for upload`);
+			const emails = await parseCSV(file);
+			setCsvPreview(emails.slice(0, 5));
+			setTotalEmailCount(emails.length);
+			toast.success(`Found ${emails.length} emails in "${file.name}"`);
 		} else {
 			toast.error("Please upload a CSV file");
 		}
-	};
-
-	const handleBrowseClick = () => {
-		fileInputRef.current?.click();
+		e.target.value = "";
 	};
 
 	const parseCSV = async (file: File): Promise<string[]> => {
@@ -190,7 +195,6 @@ export const BulkUploadInput = ({
 						onDragOver={handleDragOver}
 						onDragLeave={handleDragLeave}
 						onDrop={handleDrop}
-						onClick={handleBrowseClick}
 						className={cn(
 							"flex h-[200px] cursor-pointer flex-col rounded-lg border-2 border-dashed transition-all duration-200",
 							isDragging
@@ -199,22 +203,62 @@ export const BulkUploadInput = ({
 							csvFile && "border-success-base bg-success-alpha-10",
 						)}
 					>
-						{csvFile ? (
-							<div className="flex h-full flex-col items-center justify-center gap-3">
-								<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-bg-weak-50">
-									<FileFormatIcon.Root
-										format="CSV"
-										color="green"
-										className="h-7 w-7"
-									/>
+						{csvFile && csvPreview.length > 0 ? (
+							<div className="flex h-full flex-col">
+								{/* File info header */}
+								<div className="flex items-center justify-between border-stroke-soft-100 border-b px-4 py-3">
+									<div className="flex items-center gap-3">
+										<div className="flex h-9 w-9 items-center justify-center rounded-md bg-success-alpha-10">
+											<FileFormatIcon.Root
+												format="CSV"
+												color="green"
+												className="h-5 w-5"
+											/>
+										</div>
+										<div>
+											<p className="font-medium text-sm text-text-strong-950">
+												{csvFile.name}
+											</p>
+											<p className="text-text-soft-400 text-xs">
+												{(csvFile.size / 1024).toFixed(1)} KB •{" "}
+												{totalEmailCount} emails
+											</p>
+										</div>
+									</div>
+									<button
+										type="button"
+										onClick={(e) => {
+											e.preventDefault();
+											e.stopPropagation();
+											setCsvFile(null);
+											setCsvPreview([]);
+											setTotalEmailCount(0);
+										}}
+										className="flex h-7 w-7 items-center justify-center rounded-md text-text-soft-400 transition-colors hover:bg-bg-weak-50 hover:text-text-strong-950"
+									>
+										<Icon name="x" className="h-4 w-4" />
+									</button>
 								</div>
-								<div className="text-center">
-									<p className="font-medium text-text-strong-950">
-										{csvFile.name}
-									</p>
-									<p className="mt-1 text-sm text-text-soft-400">
-										{(csvFile.size / 1024).toFixed(1)} KB
-									</p>
+								{/* Email preview section - table-like list */}
+								<div className="flex flex-1 flex-col divide-y divide-stroke-soft-100">
+									{csvPreview.slice(0, 3).map((email, idx) => (
+										<div
+											key={`${email}-${idx}`}
+											className="flex items-center gap-3 px-4 py-2"
+										>
+											<Icon name="mail" className="h-4 w-4 text-success-base" />
+											<span className="font-mono text-text-sub-600 text-xs">
+												{email}
+											</span>
+										</div>
+									))}
+									{totalEmailCount > 3 && (
+										<div className="flex items-center justify-center px-4 py-2">
+											<span className="text-text-soft-400 text-xs">
+												+{totalEmailCount - 3} more emails
+											</span>
+										</div>
+									)}
 								</div>
 							</div>
 						) : (
