@@ -12,6 +12,7 @@ import * as Label from "@verifio/ui/label";
 import * as Modal from "@verifio/ui/modal";
 import Spinner from "@verifio/ui/spinner";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import type React from "react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
@@ -21,12 +22,14 @@ export const CreateOrganizationModal = () => {
 	const { open, setState } = useOrgStore();
 	const { refetch } = authClient.useSession();
 	const { mutateOrganizations } = useUserOrganization();
+	const router = useRouter();
 	const [organizationName, setOrganizationName] = useState("");
 	const [logoPreview, setLogoPreview] = useState("");
 	const [logoUrl, setLogoUrl] = useState("");
 	const [isUploading, setIsUploading] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [showInviteMember, setShowInviteMember] = useState(false);
+	const [createdOrgSlug, setCreatedOrgSlug] = useState<string | null>(null);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const handleLogoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -112,6 +115,7 @@ export const CreateOrganizationModal = () => {
 			});
 			mutateOrganizations();
 			refetch();
+			setCreatedOrgSlug(organization.data.slug);
 			setIsSubmitting(false);
 			setShowInviteMember(true);
 		} catch {
@@ -121,6 +125,12 @@ export const CreateOrganizationModal = () => {
 	};
 
 	const handleClose = () => {
+		if (createdOrgSlug) {
+			console.log("Redirecting to new org:", createdOrgSlug);
+			router.push(`/${createdOrgSlug}`);
+			setCreatedOrgSlug(null);
+		}
+
 		setState(false);
 		setShowInviteMember(false);
 		// Reset form state
