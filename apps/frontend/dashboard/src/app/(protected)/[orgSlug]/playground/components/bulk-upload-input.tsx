@@ -172,50 +172,72 @@ export const BulkUploadInput = ({
 	};
 
 	return (
-		<>
+		<div className="mx-auto max-w-2xl border-stroke-soft-100 border-r border-l">
 			{/* Bulk CSV Upload - Drag & Drop */}
-			<div className="p-4">
-				{/* Hidden file input */}
-				<input
-					ref={fileInputRef}
-					type="file"
-					accept=".csv"
-					className="hidden"
-					onChange={handleFileSelect}
-				/>
+			<div className="p-8">
+				{/* Hidden file input wrapped in label for better compatibility */}
+				<label className="block">
+					<input
+						ref={fileInputRef}
+						type="file"
+						accept=".csv"
+						className="hidden"
+						onChange={handleFileSelect}
+					/>
 
-				{/* Drop zone */}
-				<div
-					onDragOver={handleDragOver}
-					onDragLeave={handleDragLeave}
-					onDrop={handleDrop}
-					onClick={handleBrowseClick}
-					className={cn(
-						"flex cursor-pointer flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-10 transition-all duration-200",
-						isDragging
-							? "border-primary-base bg-primary-alpha-10"
-							: "border-stroke-soft-200/50 hover:border-primary-base hover:bg-bg-weak-50",
-						csvFile && "border-success-base bg-success-alpha-10",
-					)}
-				>
-					<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-bg-weak-50">
-						<FileFormatIcon.Root
-							format="CSV"
-							color="green"
-							className="h-7 w-7"
-						/>
+					{/* Drop zone - fixed height to prevent layout shift */}
+					<div
+						onDragOver={handleDragOver}
+						onDragLeave={handleDragLeave}
+						onDrop={handleDrop}
+						onClick={handleBrowseClick}
+						className={cn(
+							"flex h-[200px] cursor-pointer flex-col rounded-lg border-2 border-dashed transition-all duration-200",
+							isDragging
+								? "border-primary-base bg-primary-alpha-10"
+								: "border-stroke-soft-100 hover:border-primary-base hover:bg-bg-weak-50",
+							csvFile && "border-success-base bg-success-alpha-10",
+						)}
+					>
+						{csvFile ? (
+							<div className="flex h-full flex-col items-center justify-center gap-3">
+								<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-bg-weak-50">
+									<FileFormatIcon.Root
+										format="CSV"
+										color="green"
+										className="h-7 w-7"
+									/>
+								</div>
+								<div className="text-center">
+									<p className="font-medium text-text-strong-950">
+										{csvFile.name}
+									</p>
+									<p className="mt-1 text-sm text-text-soft-400">
+										{(csvFile.size / 1024).toFixed(1)} KB
+									</p>
+								</div>
+							</div>
+						) : (
+							<div className="flex h-full flex-col items-center justify-center gap-3">
+								<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-bg-weak-50">
+									<FileFormatIcon.Root
+										format="CSV"
+										color="green"
+										className="h-7 w-7"
+									/>
+								</div>
+								<div className="text-center">
+									<p className="font-medium text-text-strong-950">
+										Import CSV File
+									</p>
+									<p className="mt-1 text-sm text-text-soft-400">
+										Drop file or click here to choose file.
+									</p>
+								</div>
+							</div>
+						)}
 					</div>
-					<div className="text-center">
-						<p className="font-medium text-text-strong-950">
-							{csvFile ? csvFile.name : "Import CSV File"}
-						</p>
-						<p className="mt-1 text-sm text-text-soft-400">
-							{csvFile
-								? `${(csvFile.size / 1024).toFixed(1)} KB`
-								: "Drop file or click here to choose file."}
-						</p>
-					</div>
-				</div>
+				</label>
 
 				{/* Progress bar during bulk verify */}
 				{bulkProgress && (
@@ -248,12 +270,16 @@ export const BulkUploadInput = ({
 			</div>
 
 			{/* Action Row */}
-			<div className="flex items-center justify-end gap-2 border-stroke-soft-200/50 border-t p-3">
+			<div className="relative flex items-center justify-end gap-2 p-3">
+				<div className="absolute top-0 right-[-100vw] left-[-100vw] h-px bg-stroke-soft-100" />
 				<button
 					type="button"
 					onClick={handleBulkVerify}
 					disabled={isVerifying || !csvFile}
-					className="flex h-8 items-center justify-center gap-1.5 rounded-lg bg-primary-base px-4 text-static-white transition-all duration-200 hover:bg-primary-darker active:scale-[0.995] disabled:opacity-50"
+					className={cn(
+						"flex h-8 items-center justify-center gap-1.5 rounded-lg bg-primary-base px-4 text-static-white transition-all duration-200 hover:bg-primary-darker active:scale-[0.995] disabled:opacity-50",
+						!csvFile && "invisible",
+					)}
 				>
 					{isVerifying ? (
 						<>
@@ -264,7 +290,9 @@ export const BulkUploadInput = ({
 						<span className="label-sm">Start bulk verify</span>
 					)}
 				</button>
+				{/* Bottom border extending to viewport edges */}
+				<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-100" />
 			</div>
-		</>
+		</div>
 	);
 };

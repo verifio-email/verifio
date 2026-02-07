@@ -69,21 +69,19 @@ const PlaygroundPage = () => {
 			<PlaygroundHeader />
 			<PlaygroundTabs />
 			<div className="border-stroke-soft-100 border-b">
-				<div className="mx-auto max-w-2xl">
-					<div className="border-stroke-soft-100 border-r border-l px-7 py-8">
-						<div className="mx-auto max-w-3xl">
-							<div>
-								{currentTab === "single" ? (
+				{currentTab === "single" ? (
+					<div className="mx-auto max-w-2xl">
+						<div className="border-stroke-soft-100 border-r border-l px-7 py-8">
+							<div className="mx-auto max-w-3xl">
+								<div>
 									<EmailVerifyInput onVerify={handleVerify} />
-								) : (
-									<BulkUploadInput
-										onResultsReceived={handleBulkResultsReceived}
-									/>
-								)}
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				) : (
+					<BulkUploadInput onResultsReceived={handleBulkResultsReceived} />
+				)}
 			</div>
 			{/* Show verification result card when result is available */}
 			{currentTab === "single" && currentResult && (
