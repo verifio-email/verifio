@@ -19,7 +19,11 @@ import * as v from "valibot";
 
 const apiKeySchema = v.object({
 	name: v.optional(
-		v.pipe(v.string(), v.minLength(1, "Name must be at least 1 character")),
+		v.pipe(
+			v.string(),
+			v.minLength(1, "Name must be at least 1 character"),
+			v.maxLength(200, "Name must be less than 200 characters"),
+		),
 	),
 });
 
