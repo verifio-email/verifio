@@ -28,7 +28,7 @@ const EndpointCard: React.FC<EndpointCardProps> = ({
 			href={href}
 			className={cn(
 				"group flex flex-1 p-6 transition-all duration-200 lg:p-6",
-				"hover:bg-bg-weak-50",
+				"cursor-pointer hover:bg-bg-weak-50",
 				!isLast && "border-stroke-soft-200/50 border-r",
 			)}
 		>
