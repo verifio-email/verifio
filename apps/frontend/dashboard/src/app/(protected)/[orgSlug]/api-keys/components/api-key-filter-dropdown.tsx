@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatedHoverBackground } from "@fe/dashboard/components/layout/sidebar/animated-hover-background";
-import * as Avatar from "@verifio/ui/avatar";
+
 import * as Button from "@verifio/ui/button";
 import { cn } from "@verifio/ui/cn";
 import * as Dropdown from "@verifio/ui/dropdown";
@@ -11,12 +11,6 @@ import { useRef, useState } from "react";
 export type ApiKeyStatusFilterOption = "enabled" | "disabled";
 export type ApiKeyStatusFilters = ApiKeyStatusFilterOption[];
 
-export interface CreatedByUser {
-	id: string;
-	name: string | null;
-	image: string | null;
-}
-
 export interface OrganizationItem {
 	id: string;
 	name: string;
@@ -25,21 +19,19 @@ export interface OrganizationItem {
 
 export interface ApiKeyFilters {
 	status: ApiKeyStatusFilters;
-	createdBy: string[]; // User IDs
 	organizations: string[]; // Organization IDs
 }
 
 interface ApiKeyFilterDropdownProps {
 	value: ApiKeyFilters;
 	onChange: (value: ApiKeyFilters) => void;
-	availableCreators: CreatedByUser[];
 	availableOrganizations: OrganizationItem[];
 }
 
 const statusFilterOptions: {
 	id: ApiKeyStatusFilterOption;
 	label: string;
-	icon: string;
+	icon: React.ComponentProps<typeof Icon>["name"];
 	colorClass: string;
 }[] = [
 	{
@@ -59,7 +51,6 @@ const statusFilterOptions: {
 export const ApiKeyFilterDropdown = ({
 	value,
 	onChange,
-	availableCreators,
 	availableOrganizations,
 }: ApiKeyFilterDropdownProps) => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -68,12 +59,11 @@ export const ApiKeyFilterDropdown = ({
 
 	const currentTab = buttonRefs.current[hoverIdx ?? -1];
 
-	const activeFilterCount =
-		value.status.length + value.createdBy.length + value.organizations.length;
+	const activeFilterCount = value.status.length + value.organizations.length;
 	const hasActiveFilter = activeFilterCount > 0;
 
 	const handleReset = () => {
-		onChange({ status: [], createdBy: [], organizations: [] });
+		onChange({ status: [], organizations: [] });
 	};
 
 	const handleStatusToggle = (optionId: ApiKeyStatusFilterOption) => {
@@ -84,17 +74,6 @@ export const ApiKeyFilterDropdown = ({
 			});
 		} else {
 			onChange({ ...value, status: [...value.status, optionId] });
-		}
-	};
-
-	const handleCreatorToggle = (userId: string) => {
-		if (value.createdBy.includes(userId)) {
-			onChange({
-				...value,
-				createdBy: value.createdBy.filter((v) => v !== userId),
-			});
-		} else {
-			onChange({ ...value, createdBy: [...value.createdBy, userId] });
 		}
 	};
 
@@ -180,7 +159,7 @@ export const ApiKeyFilterDropdown = ({
 										</div>
 										{/* Status Icon */}
 										<Icon
-											name={option.icon as any}
+											name={option.icon}
 											className={cn("h-3.5 w-3.5", option.colorClass)}
 										/>
 										<span>{option.label}</span>
@@ -190,63 +169,6 @@ export const ApiKeyFilterDropdown = ({
 						</div>
 					</div>
 
-					{/* Created By Section */}
-					{availableCreators.length > 0 && (
-						<div className="mt-2 border-stroke-soft-200 border-t pt-3">
-							<span className="px-1 font-medium text-[10px] text-text-soft-400 uppercase tracking-wide">
-								Created by
-							</span>
-							<div className="mt-1">
-								{availableCreators.map((creator, idx) => {
-									const globalIdx = statusFilterOptions.length + idx;
-									const isChecked = value.createdBy.includes(creator.id);
-									return (
-										<button
-											key={creator.id}
-											ref={(el) => {
-												if (el) buttonRefs.current[globalIdx] = el;
-											}}
-											type="button"
-											onPointerEnter={() => setHoverIdx(globalIdx)}
-											onPointerLeave={() => setHoverIdx(undefined)}
-											onClick={() => handleCreatorToggle(creator.id)}
-											className={cn(
-												"flex w-full cursor-pointer items-center gap-2 rounded-lg px-1 py-1.5 font-normal text-xs transition-colors",
-												"text-text-strong-950",
-											)}
-										>
-											{/* Checkbox */}
-											<div
-												className={cn(
-													"flex h-3.5 w-3.5 items-center justify-center rounded border p-[1px] transition-colors",
-													isChecked
-														? "border-stroke-soft-900 bg-neutral-900"
-														: "border-stroke-soft-200",
-												)}
-											>
-												{isChecked && (
-													<Icon name="check" className="h-3 w-3 text-white" />
-												)}
-											</div>
-											{/* User Avatar */}
-											<Avatar.Root size="16">
-												{creator.image ? (
-													<Avatar.Image
-														src={creator.image}
-														alt={creator.name || "User"}
-													/>
-												) : null}
-											</Avatar.Root>
-											<span className="truncate">
-												{creator.name || "Unknown"}
-											</span>
-										</button>
-									);
-								})}
-							</div>
-						</div>
-					)}
-
 					{/* Organizations Section */}
 					{availableOrganizations.length > 1 && (
 						<div className="mt-2 border-stroke-soft-200 border-t pt-3">
@@ -255,8 +177,7 @@ export const ApiKeyFilterDropdown = ({
 							</span>
 							<div className="mt-1">
 								{availableOrganizations.map((org, idx) => {
-									const globalIdx =
-										statusFilterOptions.length + availableCreators.length + idx;
+									const globalIdx = statusFilterOptions.length + idx;
 									const isChecked = value.organizations.includes(org.id);
 									return (
 										<button

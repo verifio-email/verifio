@@ -269,7 +269,6 @@ export namespace ApiKeyModel {
 		page: t.Optional(t.Number({ minimum: 1, default: 1 })),
 		limit: t.Optional(t.Number({ minimum: 1, maximum: 100, default: 10 })),
 		enabled: t.Optional(t.Boolean()),
-		allOrgs: t.Optional(t.Boolean({ description: "If true, return API keys from all user's organizations" })),
 	});
 
 	export type ApiKeyQuery = typeof apiKeyQuery.static;

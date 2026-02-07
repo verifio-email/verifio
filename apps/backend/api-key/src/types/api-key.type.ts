@@ -77,7 +77,6 @@ export namespace ApiKeyTypes {
 		page?: number;
 		limit?: number;
 		enabled?: boolean;
-		allOrgs?: boolean;
 	}
 
 	export type SuccessResponse = typeof ApiKeyModel.successResponse.static;

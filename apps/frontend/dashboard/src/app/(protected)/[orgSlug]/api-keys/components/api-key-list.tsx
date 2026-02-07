@@ -13,7 +13,6 @@ import useSWR from "swr";
 import {
 	ApiKeyFilterDropdown,
 	type ApiKeyFilters,
-	type CreatedByUser,
 	type OrganizationItem,
 } from "./api-key-filter-dropdown";
 
@@ -60,7 +59,6 @@ export const ApiKeyListSidebar = () => {
 	const { isCollapsed } = useSidebar();
 	const [filters, setFilters] = useState<ApiKeyFilters>({
 		status: [],
-		createdBy: [],
 		organizations: [],
 	});
 	const [searchQuery, setSearchQuery] = useState<string>("");
@@ -76,7 +74,7 @@ export const ApiKeyListSidebar = () => {
 
 	const { data, error, isLoading } = useSWR<ApiKeyListResponse>(
 		activeOrganization?.id
-			? `/api/api-key/v1/?limit=${pageSize}&page=${currentPage}&allOrgs=true`
+			? `/api/api-key/v1/?limit=${pageSize}&page=${currentPage}`
 			: null,
 		{
 			revalidateOnFocus: true,
@@ -87,22 +85,6 @@ export const ApiKeyListSidebar = () => {
 	const totalPages = data ? Math.ceil(data.total / pageSize) : 1;
 	const startIndex = (currentPage - 1) * pageSize + 1;
 	const endIndex = Math.min(currentPage * pageSize, data?.total || 0);
-
-	// Extract unique creators from API keys
-	const availableCreators = useMemo<CreatedByUser[]>(() => {
-		if (!data?.apiKeys) return [];
-		const creatorsMap = new Map<string, CreatedByUser>();
-		for (const apiKey of data.apiKeys) {
-			if (apiKey.createdBy?.id && !creatorsMap.has(apiKey.createdBy.id)) {
-				creatorsMap.set(apiKey.createdBy.id, {
-					id: apiKey.createdBy.id,
-					name: apiKey.createdBy.name,
-					image: apiKey.createdBy.image,
-				});
-			}
-		}
-		return Array.from(creatorsMap.values());
-	}, [data?.apiKeys]);
 
 	// Extract unique organizations from API keys
 	const availableOrganizations = useMemo<OrganizationItem[]>(() => {
@@ -128,11 +110,6 @@ export const ApiKeyListSidebar = () => {
 				(filters.status.includes("enabled") && apiKey.enabled) ||
 				(filters.status.includes("disabled") && !apiKey.enabled);
 
-			const matchesCreator =
-				filters.createdBy.length === 0 ||
-				(apiKey.createdBy?.id &&
-					filters.createdBy.includes(apiKey.createdBy.id));
-
 			const matchesOrg =
 				filters.organizations.length === 0 ||
 				(apiKey.organization?.id &&
@@ -147,7 +124,7 @@ export const ApiKeyListSidebar = () => {
 				apiKey.organization?.name
 					.toLowerCase()
 					.includes(searchQuery.toLowerCase());
-			return matchesStatus && matchesCreator && matchesOrg && matchesSearch;
+			return matchesStatus && matchesOrg && matchesSearch;
 		}) || [];
 
 	return (
@@ -223,7 +200,6 @@ export const ApiKeyListSidebar = () => {
 											<ApiKeyFilterDropdown
 												value={filters}
 												onChange={setFilters}
-												availableCreators={availableCreators}
 												availableOrganizations={availableOrganizations}
 											/>
 										</div>
