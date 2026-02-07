@@ -3,7 +3,7 @@ import type { OrgRole } from "@verifio/api-key/middleware/auth";
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
 import { logActivity, logger } from "@verifio/logger";
-import { and, eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import { status } from "elysia";
 
 export async function deleteApiKey(
@@ -12,40 +12,70 @@ export async function deleteApiKey(
 	userId: string,
 	role: OrgRole,
 ): Promise<void> {
-	const isAdminOrOwner = role === "owner" || role === "admin";
 	logger.info(
-		{ apiKeyId, organizationId, userId, role, isAdminOrOwner },
-		"Deleting API key",
+		{ apiKeyId, organizationId, userId, role },
+		"Attempting to delete API key",
 	);
 
 	try {
-		// Admins/owners can delete any key in their org, others can only delete their own
-		const whereConditions = isAdminOrOwner
-			? [
+		// 1. Fetch the API key first, independent of the current organization context
+		const existingApiKey = await db.query.apikey.findFirst({
+			where: and(
 				eq(schema.apikey.id, apiKeyId),
-				eq(schema.apikey.organizationId, organizationId),
-			]
-			: [
-				eq(schema.apikey.id, apiKeyId),
-				eq(schema.apikey.organizationId, organizationId),
-				eq(schema.apikey.userId, userId),
-			];
-
-		const existing = await db.query.apikey.findFirst({
-			where: and(...whereConditions),
+				isNull(schema.apikey.deletedAt),
+			),
 		});
 
-		if (!existing) {
-			logger.warn({ apiKeyId }, "API key not found");
+		if (!existingApiKey) {
+			logger.warn({ apiKeyId }, "API key not found or already deleted");
 			throw status(404, { message: "API key not found" });
 		}
 
-		await db.delete(schema.apikey).where(and(...whereConditions));
+		// 2. Determine authorization
+		let isAuthorized = false;
 
-		logger.info({ apiKeyId }, "API key deleted successfully");
+		// Check if user is the creator
+		if (existingApiKey.userId === userId) {
+			isAuthorized = true;
+		} else {
+			// Check organization role
+			if (existingApiKey.organizationId === organizationId) {
+				// Key belongs to active organization, use passed role
+				isAuthorized = role === "owner" || role === "admin";
+			} else {
+				// Key belongs to another organization, verify user's role in THAT organization
+				const membership = await db.query.member.findFirst({
+					where: and(
+						eq(schema.member.organizationId, existingApiKey.organizationId),
+						eq(schema.member.userId, userId),
+					),
+				});
+
+				if (membership) {
+					isAuthorized =
+						membership.role === "owner" || membership.role === "admin";
+				}
+			}
+		}
+
+		if (!isAuthorized) {
+			logger.warn(
+				{ apiKeyId, userId, organizationId },
+				"Unauthorized to delete API key",
+			);
+			throw status(403, { message: "Unauthorized to delete API key" });
+		}
+
+		// 3. Perform Soft Delete
+		await db
+			.update(schema.apikey)
+			.set({ deletedAt: new Date() })
+			.where(eq(schema.apikey.id, apiKeyId));
+
+		logger.info({ apiKeyId }, "API key soft deleted successfully");
 
 		// Invalidate cache for this API key
-		const cacheKey = `verified:${existing.key}`;
+		const cacheKey = `verified:${existingApiKey.key}`;
 		await redis.delete(cacheKey);
 		logger.info({ apiKeyId }, "Cache invalidated for deleted API key");
 	} catch (error) {

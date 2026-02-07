@@ -3,7 +3,7 @@ import type { ApiKeyTypes } from "@verifio/api-key/types/api-key.type";
 import { db } from "@verifio/db/client";
 import * as schema from "@verifio/db/schema";
 import { logger } from "@verifio/logger";
-import { and, count, desc, eq, inArray } from "drizzle-orm";
+import { and, count, desc, eq, inArray, isNull } from "drizzle-orm";
 
 interface OrganizationInfo {
 	id: string;
@@ -66,7 +66,10 @@ export async function listApiKeys(
 			}
 		}
 
-		const conditions = [inArray(schema.apikey.organizationId, organizationIds)];
+		const conditions = [
+			inArray(schema.apikey.organizationId, organizationIds),
+			isNull(schema.apikey.deletedAt),
+		];
 		if (enabled !== undefined) {
 			conditions.push(eq(schema.apikey.enabled, enabled));
 		}

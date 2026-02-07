@@ -38,6 +38,7 @@ export const apikey = pgTable("apikey", {
 	updatedAt: timestamp("updated_at").notNull(),
 	permissions: text("permissions"),
 	metadata: text("metadata"),
+	deletedAt: timestamp("deleted_at"),
 });
 
 export const apikeyRelations = relations(apikey, ({ one }) => ({
