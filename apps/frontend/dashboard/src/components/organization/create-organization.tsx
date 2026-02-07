@@ -24,6 +24,7 @@ export const CreateOrganizationModal = () => {
 	const { mutateOrganizations } = useUserOrganization();
 	const router = useRouter();
 	const [organizationName, setOrganizationName] = useState("");
+	const [nameError, setNameError] = useState("");
 	const [logoPreview, setLogoPreview] = useState("");
 	const [logoUrl, setLogoUrl] = useState("");
 	const [isUploading, setIsUploading] = useState(false);
@@ -31,6 +32,26 @@ export const CreateOrganizationModal = () => {
 	const [showInviteMember, setShowInviteMember] = useState(false);
 	const [createdOrgSlug, setCreatedOrgSlug] = useState<string | null>(null);
 	const fileInputRef = useRef<HTMLInputElement>(null);
+
+	// Validate organization name - only allow alphanumeric, spaces, and hyphens
+	const validateOrganizationName = (name: string): boolean => {
+		if (!name.trim()) {
+			setNameError("Organization name is required");
+			return false;
+		}
+
+		// Check for special characters (allow only alphanumeric, spaces, and hyphens)
+		const invalidChars = /[^a-zA-Z0-9\s-]/;
+		if (invalidChars.test(name)) {
+			setNameError(
+				"Organization name can only contain letters, numbers, spaces, and hyphens",
+			);
+			return false;
+		}
+
+		setNameError("");
+		return true;
+	};
 
 	const handleLogoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
@@ -95,7 +116,12 @@ export const CreateOrganizationModal = () => {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		if (!organizationName.trim()) return;
+
+		// Validate organization name before submission
+		if (!validateOrganizationName(organizationName)) {
+			return;
+		}
+
 		setIsSubmitting(true);
 		try {
 			const organization = await authClient.organization.create({
@@ -135,6 +161,7 @@ export const CreateOrganizationModal = () => {
 		setShowInviteMember(false);
 		// Reset form state
 		setOrganizationName("");
+		setNameError("");
 		setLogoPreview("");
 		setLogoUrl("");
 	};
@@ -219,17 +246,34 @@ export const CreateOrganizationModal = () => {
 										Name
 										<Label.Asterisk />
 									</Label.Root>
-									<Input.Root className="w-full" size="small">
+									<Input.Root
+										className="w-full"
+										size="small"
+										hasError={!!nameError}
+									>
 										<Input.Wrapper className="w-full">
 											<Input.Input
 												id="name"
 												type="text"
 												placeholder="Placeholder text..."
 												value={organizationName}
-												onChange={(e) => setOrganizationName(e.target.value)}
+												onChange={(e) => {
+													setOrganizationName(e.target.value);
+													// Clear error when user starts typing
+													if (nameError) setNameError("");
+												}}
+												onBlur={() => {
+													// Validate on blur
+													if (organizationName.trim()) {
+														validateOrganizationName(organizationName);
+													}
+												}}
 											/>
 										</Input.Wrapper>
 									</Input.Root>
+									{nameError && (
+										<p className="text-error-base text-sm">{nameError}</p>
+									)}
 								</div>
 							</div>
 						</Modal.Body>
@@ -246,7 +290,10 @@ export const CreateOrganizationModal = () => {
 							<Button.Root
 								type="submit"
 								disabled={
-									isSubmitting || isUploading || !organizationName.trim()
+									isSubmitting ||
+									isUploading ||
+									!organizationName.trim() ||
+									!!nameError
 								}
 							>
 								{isSubmitting && <Spinner color="var(--text-strong-950)" />}
