@@ -230,11 +230,15 @@ const OrgDropdownContent: React.FC<OrgDropdownContentProps> = ({
 }) => {
 	const [hoverIdx, setHoverIdx] = useState<number | null>(null);
 	const [isHovering, setIsHovering] = useState(false);
+	const [actionHoverIdx, setActionHoverIdx] = useState<number | null>(null);
+	const [isActionHovering, setIsActionHovering] = useState(false);
 	const orgItemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+	const actionItemRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
 	// Track positions for smooth animation
 	const [activePos, setActivePos] = useState({ top: 0, height: 36 });
 	const [hoverPos, setHoverPos] = useState({ top: 0, height: 36 });
+	const [actionHoverPos, setActionHoverPos] = useState({ top: 0, height: 36 });
 
 	if (!organizations) return null;
 
@@ -268,8 +272,22 @@ const OrgDropdownContent: React.FC<OrgDropdownContentProps> = ({
 		}
 	}, [hoverIdx, activeIndex]);
 
+	// Update action hover position when actionHoverIdx changes
+	useEffect(() => {
+		if (actionHoverIdx !== null) {
+			const hoverItem = actionItemRefs.current[actionHoverIdx];
+			if (hoverItem) {
+				setActionHoverPos({
+					top: hoverItem.offsetTop,
+					height: hoverItem.offsetHeight,
+				});
+			}
+		}
+	}, [actionHoverIdx]);
+
 	const showHoverIndicator =
 		isHovering && hoverIdx !== null && hoverIdx !== activeIndex;
+	const showActionHoverIndicator = isActionHovering && actionHoverIdx !== null;
 
 	return (
 		<AnimatePresence mode="wait">
@@ -298,7 +316,7 @@ const OrgDropdownContent: React.FC<OrgDropdownContentProps> = ({
 
 				{/* Organizations List */}
 				<motion.div
-					className="relative space-y-0.5 p-2 pt-1 pb-2"
+					className="relative space-y-4 p-2 pt-2 pb-2"
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					transition={{ duration: 0.15, delay: 0.1 }}
@@ -325,11 +343,11 @@ const OrgDropdownContent: React.FC<OrgDropdownContentProps> = ({
 					/>
 
 					{/* Organization items */}
-					<div className="relative z-10 space-y-0.5">
+					<div className="relative z-10">
 						{organizations.map((organization, index) => {
 							const isActive = organization.id === activeOrganization.id;
 							return (
-								<motion.button
+								<button
 									type="button"
 									key={organization.id}
 									ref={(el) => {
@@ -343,15 +361,12 @@ const OrgDropdownContent: React.FC<OrgDropdownContentProps> = ({
 										setIsHovering(false);
 									}}
 									className={cn(
-										"flex min-h-[36px] w-full cursor-pointer select-none items-center gap-2 rounded-xl px-2 py-1.5 text-sm outline-none transition-colors active:scale-[0.98]",
+										"relative flex h-9 w-full cursor-pointer select-none items-center gap-2 rounded-xl px-2 pb-3 text-sm outline-none transition-colors active:scale-[0.98]",
 										isActive
 											? "text-primary-base"
 											: "text-text-sub-600 hover:text-text-strong-950",
 									)}
 									onClick={() => onSelect(organization)}
-									initial={{ opacity: 0, x: -4 }}
-									animate={{ opacity: 1, x: 0 }}
-									transition={{ duration: 0.15, delay: 0.1 + index * 0.03 }}
 								>
 									<OrgAvatar
 										name={organization.name}
@@ -359,16 +374,12 @@ const OrgDropdownContent: React.FC<OrgDropdownContentProps> = ({
 										size={20}
 										isActive={isActive}
 									/>
-									<span className="flex-1 text-left">{organization.name}</span>
-									{isActive && (
-										<motion.div
-											className="-translate-y-1/2 absolute top-1/2 left-0 h-4 w-1 rounded-r-md bg-primary-base"
-											initial={{ opacity: 0, scaleY: 0 }}
-											animate={{ opacity: 1, scaleY: 1 }}
-											transition={{ duration: 0.2, ease: "easeOut" }}
-										/>
-									)}
-								</motion.button>
+									<div className="flex flex-1 items-center">
+										<span className="text-left leading-none">
+											{organization.name}
+										</span>
+									</div>
+								</button>
 							);
 						})}
 					</div>
@@ -384,44 +395,76 @@ const OrgDropdownContent: React.FC<OrgDropdownContentProps> = ({
 
 				{/* Action Buttons */}
 				<motion.div
-					className="space-y-0.5 p-2 pt-1 pb-2"
+					className="relative p-2 pt-1 pb-2"
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					transition={{ duration: 0.15, delay: 0.2 }}
 				>
-					<motion.button
-						type="button"
-						className="flex min-h-[36px] w-full cursor-pointer select-none items-center gap-2 rounded-xl px-2 py-1.5 text-sm text-text-sub-600 outline-none transition-all hover:bg-neutral-alpha-10 hover:text-text-strong-950 active:scale-[0.98]"
-						onClick={onCreateNew}
-						initial={{ opacity: 0, x: -4 }}
-						animate={{ opacity: 1, x: 0 }}
-						transition={{ duration: 0.15, delay: 0.22 }}
-					>
-						<Icon name="plus-outline" className="h-4 w-4" />
-						<span>New Organization</span>
-					</motion.button>
-					<motion.button
-						type="button"
-						className="flex min-h-[36px] w-full cursor-pointer select-none items-center gap-2 rounded-xl px-2 py-1.5 text-sm text-text-sub-600 outline-none transition-all hover:bg-neutral-alpha-10 hover:text-text-strong-950 active:scale-[0.98]"
-						onClick={onOrgSettings}
-						initial={{ opacity: 0, x: -4 }}
-						animate={{ opacity: 1, x: 0 }}
-						transition={{ duration: 0.15, delay: 0.25 }}
-					>
-						<Icon name="gear" className="h-4 w-4" />
-						<span>Organization Settings</span>
-					</motion.button>
-					<motion.button
-						type="button"
-						className="flex min-h-[36px] w-full cursor-pointer select-none items-center gap-2 rounded-xl px-2 py-1.5 text-sm text-text-sub-600 outline-none transition-all hover:bg-neutral-alpha-10 hover:text-text-strong-950 active:scale-[0.98]"
-						onClick={onInviteMembers}
-						initial={{ opacity: 0, x: -4 }}
-						animate={{ opacity: 1, x: 0 }}
-						transition={{ duration: 0.15, delay: 0.28 }}
-					>
-						<Icon name="users" className="h-4 w-4" />
-						<span>Invite Members</span>
-					</motion.button>
+					{/* Hover preview background for actions */}
+					<AnimatedHoverBackground
+						top={actionHoverPos.top}
+						height={actionHoverPos.height}
+						isVisible={showActionHoverIndicator}
+						zIndex={0}
+						className="mx-2"
+					/>
+
+					<div className="relative z-10">
+						<button
+							type="button"
+							ref={(el) => {
+								actionItemRefs.current[0] = el;
+							}}
+							onMouseEnter={() => {
+								setActionHoverIdx(0);
+								setIsActionHovering(true);
+							}}
+							onMouseLeave={() => {
+								setIsActionHovering(false);
+							}}
+							className="flex h-9 w-full cursor-pointer select-none items-center gap-2 rounded-xl px-2 text-sm text-text-sub-600 outline-none transition-colors hover:text-text-strong-950 active:scale-[0.98]"
+							onClick={onCreateNew}
+						>
+							<Icon name="plus-outline" className="h-4 w-4" />
+							<span>New Organization</span>
+						</button>
+						<button
+							type="button"
+							ref={(el) => {
+								actionItemRefs.current[1] = el;
+							}}
+							onMouseEnter={() => {
+								setActionHoverIdx(1);
+								setIsActionHovering(true);
+							}}
+							onMouseLeave={() => {
+								setIsActionHovering(false);
+							}}
+							className="flex h-9 w-full cursor-pointer select-none items-center gap-2 rounded-xl px-2 text-sm text-text-sub-600 outline-none transition-colors hover:text-text-strong-950 active:scale-[0.98]"
+							onClick={onOrgSettings}
+						>
+							<Icon name="gear" className="h-4 w-4" />
+							<span>Organization Settings</span>
+						</button>
+						<button
+							type="button"
+							ref={(el) => {
+								actionItemRefs.current[2] = el;
+							}}
+							onMouseEnter={() => {
+								setActionHoverIdx(2);
+								setIsActionHovering(true);
+							}}
+							onMouseLeave={() => {
+								setIsActionHovering(false);
+							}}
+							className="flex h-9 w-full cursor-pointer select-none items-center gap-2 rounded-xl px-2 text-sm text-text-sub-600 outline-none transition-colors hover:text-text-strong-950 active:scale-[0.98]"
+							onClick={onInviteMembers}
+						>
+							<Icon name="users" className="h-4 w-4" />
+							<span>Invite Members</span>
+						</button>
+					</div>
 				</motion.div>
 			</motion.div>
 		</AnimatePresence>
