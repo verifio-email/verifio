@@ -38,6 +38,34 @@ export const BulkResultsTable = ({
 	const startIndex = (page - 1) * pageSize + 1;
 	const endIndex = Math.min(page * pageSize, filteredResults.length);
 
+	// Download results as CSV
+	const downloadResultsCSV = () => {
+		const headers = ["Email", "Status", "Score", "Reason"];
+		const rows = results.map((r) => [
+			r.email,
+			r.state,
+			r.score.toString(),
+			r.reason.replace(/_/g, " "),
+		]);
+
+		const csvContent = [
+			headers.join(","),
+			...rows.map((row) =>
+				row.map((cell) => `"${cell.replace(/"/g, '""')}"`).join(","),
+			),
+		].join("\n");
+
+		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+		const url = URL.createObjectURL(blob);
+		const link = document.createElement("a");
+		link.href = url;
+		link.download = `bulk-verification-results-${new Date().toISOString().split("T")[0]}.csv`;
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+		URL.revokeObjectURL(url);
+	};
+
 	return (
 		<div className="border-stroke-soft-200/50 border-b">
 			<div className="px-52 2xl:px-[350px]">
@@ -93,6 +121,14 @@ export const BulkResultsTable = ({
 										</Input.Wrapper>
 									</Input.Root>
 								</div>
+								{/* Download button */}
+								<button
+									type="button"
+									onClick={downloadResultsCSV}
+									className="flex h-8 items-center gap-1.5 rounded-lg bg-primary-base px-3 text-static-white transition-all duration-200 hover:bg-primary-darker active:scale-[0.995]"
+								>
+									<Icon name="file-download" className="h-4 w-4" />
+								</button>
 								{/* Close button */}
 								<button
 									type="button"

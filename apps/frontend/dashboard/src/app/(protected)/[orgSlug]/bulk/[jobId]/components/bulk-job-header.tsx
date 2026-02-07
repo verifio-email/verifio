@@ -8,6 +8,7 @@ import {
 	getStateIcon,
 } from "@fe/dashboard/utils/verification-state";
 import { cn } from "@verifio/ui/cn";
+import { Button } from "@verifio/ui/file-upload";
 import { Icon } from "@verifio/ui/icon";
 import * as Input from "@verifio/ui/input";
 import { Skeleton } from "@verifio/ui/skeleton";
@@ -92,6 +93,39 @@ export const BulkJobHeader = ({
 	const startIndex = (currentPage - 1) * pageSize;
 	const endIndex = Math.min(startIndex + pageSize, filteredResults.length);
 	const paginatedResults = filteredResults.slice(startIndex, endIndex);
+
+	// Download results as CSV
+	const downloadResultsCSV = () => {
+		if (!results?.results || results.results.length === 0) return;
+
+		const headers = ["Email", "Status", "Score", "Reason"];
+		const rows = results.results.map((r) => [
+			r.email,
+			r.state,
+			r.score.toString(),
+			r.reason.replace(/_/g, " "),
+		]);
+
+		const csvContent = [
+			headers.join(","),
+			...rows.map((row) =>
+				row.map((cell) => `"${cell.replace(/"/g, '""')}"`).join(","),
+			),
+		].join("\n");
+
+		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+		const url = URL.createObjectURL(blob);
+		const link = document.createElement("a");
+		link.href = url;
+		const fileName = job?.name
+			? `${job.name.replace(/\.csv$/i, "")}-results.csv`
+			: `bulk-results-${job?.id?.slice(0, 8) ?? "export"}.csv`;
+		link.download = fileName;
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+		URL.revokeObjectURL(url);
+	};
 	return (
 		<div className="h-full overflow-y-auto overflow-x-hidden">
 			{/* Back Button Section */}
@@ -423,6 +457,10 @@ export const BulkJobHeader = ({
 										setCurrentPage(1);
 									}}
 								/>
+								{/* Download button */}
+								<Button>
+									<Icon name="file-download" className="h-3.5 w-3.5" />
+								</Button>
 							</div>
 						</div>
 
