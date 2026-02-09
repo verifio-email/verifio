@@ -12,7 +12,7 @@ export type StatusFilterOption = "success" | "failed" | "error";
 // User mode status options (verification state)
 export type VerificationStateOption = "deliverable" | "risky" | "undeliverable";
 export type ServiceFilterOption = "verify" | "api-key" | "auth" | "upload";
-export type DateRangeOption = "24h" | "7d" | "30d" | "all";
+export type DateRangeOption = "24h" | "3d" | "7d" | "30d" | "all";
 
 export interface LogsFilters {
 	status: StatusFilterOption[];
@@ -53,6 +53,7 @@ const serviceOptions: { id: ServiceFilterOption; label: string }[] = [
 
 const dateRangeOptions: { id: DateRangeOption; label: string }[] = [
 	{ id: "24h", label: "Last 24 hours" },
+	{ id: "3d", label: "Last 3 days" },
 	{ id: "7d", label: "Last 7 days" },
 	{ id: "30d", label: "Last 30 days" },
 	{ id: "all", label: "All time" },
@@ -72,8 +73,8 @@ export const LogsFilterDropdown = ({
 	const activeFilterCount = isDeveloperMode
 		? value.status.length +
 			value.services.length +
-			(value.dateRange !== "7d" ? 1 : 0)
-		: value.verificationState.length + (value.dateRange !== "7d" ? 1 : 0);
+			(value.dateRange !== "3d" ? 1 : 0)
+		: value.verificationState.length + (value.dateRange !== "3d" ? 1 : 0);
 	const hasActiveFilter = activeFilterCount > 0;
 
 	const handleReset = () => {
@@ -81,7 +82,7 @@ export const LogsFilterDropdown = ({
 			status: [],
 			verificationState: [],
 			services: [],
-			dateRange: "7d",
+			dateRange: "3d",
 		});
 	};
 

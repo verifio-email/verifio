@@ -1,9 +1,7 @@
 import { Icon } from "@verifio/ui/icon";
 import * as Input from "@verifio/ui/input";
 import type { LogsFilters } from "../logs-filter-dropdown";
-import { DateRangeFilter } from "./date-range-filter";
-import { ServiceFilter } from "./service-filter";
-import { StatusFilter } from "./status-filter";
+import { LogsFilterDropdown } from "../logs-filter-dropdown";
 
 type LogsFiltersProps = {
 	search: string;
@@ -18,70 +16,38 @@ export function LogsFilterBar({
 	onSearchChange,
 	filters,
 	onFiltersChange,
-	onReset,
 }: LogsFiltersProps) {
-	const handleStatusChange = (status: LogsFilters["status"]) => {
-		onFiltersChange({ ...filters, status });
-	};
-
-	const handleServiceChange = (services: LogsFilters["services"]) => {
-		onFiltersChange({ ...filters, services });
-	};
-
-	const handleDateRangeChange = (dateRange: LogsFilters["dateRange"]) => {
-		onFiltersChange({ ...filters, dateRange });
-	};
-
-	// Count active filters (excluding default date range)
-	const activeFilterCount =
-		filters.status.length +
-		filters.services.length +
-		(filters.dateRange !== "7d" ? 1 : 0);
-
-	const hasActiveFilters = activeFilterCount > 0;
-
 	return (
-		<div className="relative border-stroke-soft-200/50 border-b">
-			<div className="flex flex-col gap-4 px-5 py-4 lg:px-6">
-				{/* Search and Filters Row */}
-				<div className="flex items-center justify-between gap-3">
-					<div className="flex items-center gap-3">
-						<Input.Root size="xsmall" className="w-56">
+		<div className="relative">
+			<div className="flex items-center justify-between gap-3 px-5 py-4 lg:px-6">
+				<h3 className="font-medium text-label-md text-text-strong-950">
+					Activity Logs
+				</h3>
+				<div className="flex items-center gap-3">
+					<div className="w-64">
+						<Input.Root size="small" className="rounded-xl">
 							<Input.Wrapper>
-								<Input.Icon as={Icon} name="search" size="xsmall" />
+								<Input.Icon
+									as={() => <Icon name="search" className="h-4 w-4" />}
+								/>
 								<Input.Input
+									type="text"
 									placeholder="Search by email, path or endpoint"
 									value={search}
 									onChange={(e) => onSearchChange(e.target.value)}
 								/>
 							</Input.Wrapper>
 						</Input.Root>
-						<div className="flex items-center gap-2">
-							<StatusFilter
-								value={filters.status}
-								onChange={handleStatusChange}
-							/>
-							<ServiceFilter
-								value={filters.services}
-								onChange={handleServiceChange}
-							/>
-							<DateRangeFilter
-								value={filters.dateRange}
-								onChange={handleDateRangeChange}
-							/>
-						</div>
 					</div>
-					{hasActiveFilters && (
-						<button
-							type="button"
-							onClick={onReset}
-							className="flex items-center gap-1.5 rounded-lg border border-stroke-soft-200 px-3 py-1.5 text-text-sub-600 text-xs transition-colors hover:bg-bg-weak-50 hover:text-text-strong-950"
-						>
-							<span>Reset all filters</span>
-						</button>
-					)}
-				</div>{" "}
+					<LogsFilterDropdown
+						value={filters}
+						onChange={onFiltersChange}
+						isDeveloperMode={true}
+					/>
+				</div>
 			</div>
+			{/* Bottom border extending to both edges */}
+			<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200/50" />
 		</div>
 	);
 }

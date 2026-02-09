@@ -3,7 +3,7 @@ import * as schema from "@verifio/db/schema";
 import { logger } from "@verifio/logger";
 import { formatLogResponse } from "@verifio/logs/routes/logs/controllers/format-log-response";
 import type { LogsTypes } from "@verifio/logs/types/logs.type";
-import { and, desc, eq, gte, ilike, lte, sql } from "drizzle-orm";
+import { and, desc, eq, gte, ilike, inArray, lte, sql } from "drizzle-orm";
 import { status } from "elysia";
 
 export async function queryLogs(
@@ -20,13 +20,25 @@ export async function queryLogs(
 		conditions.push(eq(schema.activityLogs.apiKeyId, query.api_key_id));
 	}
 	if (query.service) {
-		conditions.push(eq(schema.activityLogs.service, query.service));
+		// Support comma-separated values for multiple services
+		const services = query.service.split(",").map((s) => s.trim());
+		if (services.length === 1) {
+			conditions.push(eq(schema.activityLogs.service, services[0]));
+		} else {
+			conditions.push(inArray(schema.activityLogs.service, services));
+		}
 	}
 	if (query.endpoint) {
 		conditions.push(eq(schema.activityLogs.endpoint, query.endpoint));
 	}
 	if (query.status) {
-		conditions.push(eq(schema.activityLogs.status, query.status));
+		// Support comma-separated values for multiple statuses
+		const statuses = query.status.split(",").map((s) => s.trim());
+		if (statuses.length === 1) {
+			conditions.push(eq(schema.activityLogs.status, statuses[0]));
+		} else {
+			conditions.push(inArray(schema.activityLogs.status, statuses));
+		}
 	}
 	if (query.from) {
 		conditions.push(gte(schema.activityLogs.createdAt, new Date(query.from)));

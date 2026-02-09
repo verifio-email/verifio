@@ -1,6 +1,8 @@
 "use client";
 
 import { useUserOrganization } from "@fe/dashboard/providers/org-provider";
+import { useSidebar } from "@fe/dashboard/providers/sidebar-provider";
+import { cn } from "@verifio/ui/cn";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
 	LogsFilterBar,
@@ -28,6 +30,7 @@ type LogsResponse = {
 };
 
 const LogsPage = () => {
+	const { isCollapsed } = useSidebar();
 	const { activeOrganization, push } = useUserOrganization();
 	const [logs, setLogs] = useState<ActivityLog[]>([]);
 	const [loading, setLoading] = useState(true);
@@ -56,7 +59,7 @@ const LogsPage = () => {
 		status: [],
 		verificationState: [],
 		services: [],
-		dateRange: "7d",
+		dateRange: "3d",
 	});
 
 	// Helper to calculate date range
@@ -65,11 +68,12 @@ const LogsPage = () => {
 
 		const hoursMap: Record<string, number> = {
 			"24h": HOURS_IN_DAY,
+			"3d": 3 * HOURS_IN_DAY,
 			"7d": 7 * HOURS_IN_DAY,
 			"30d": 30 * HOURS_IN_DAY,
 		};
 
-		const hours = hoursMap[dateRange] ?? 7 * HOURS_IN_DAY;
+		const hours = hoursMap[dateRange] ?? 3 * HOURS_IN_DAY;
 		const now = new Date();
 
 		return {
@@ -133,6 +137,11 @@ const LogsPage = () => {
 		},
 		[activeOrganization.id, filters, pagination.limit, getDateRange],
 	);
+
+	// Fetch logs on mount and when filters change
+	useEffect(() => {
+		fetchLogs(1);
+	}, [fetchLogs]);
 
 	// Fetch bulk job names when logs contain bulk verification entries
 	useEffect(() => {
@@ -253,22 +262,29 @@ const LogsPage = () => {
 			status: [],
 			verificationState: [],
 			services: [],
-			dateRange: "7d",
+			dateRange: "3d",
 		});
 		fetchLogs(1);
 	}, [fetchLogs]);
 
 	return (
-		<div className="flex h-full flex-col overflow-hidden">
-			{/* Header */}
-			<div className="mx-auto max-w-7xl">
-				<LogsHeader />
-			</div>
+		<div className="h-full overflow-hidden">
+			<div
+				className={cn(
+					"h-full",
+					isCollapsed ? "px-24 2xl:px-32" : "px-6 2xl:px-32",
+				)}
+			>
+				<div className="h-full border-stroke-soft-200/50 border-r border-l">
+					{/* Header Section */}
+					<div className="relative">
+						<LogsHeader />
+						{/* Bottom border extending to both edges */}
+						<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200/50" />
+					</div>
 
-			{/* Content */}
-			<div className="flex-1 overflow-y-auto overflow-x-hidden">
-				<div className="mx-auto h-full max-w-7xl">
-					<div className="flex h-full flex-col border-stroke-soft-200/50 border-r border-l">
+					{/* Content */}
+					<div className="flex h-[calc(100%-100px)] flex-col">
 						{/* Filters */}
 						<LogsFilterBar
 							search={search}

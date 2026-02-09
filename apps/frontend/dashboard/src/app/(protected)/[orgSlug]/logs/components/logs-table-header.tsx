@@ -13,7 +13,8 @@ export function LogsTableHeader({ developerMode }: LogsTableHeaderProps) {
 					<div className="font-semibold">Verified At</div>
 					<div className="font-semibold">Credit</div>
 					<div className="text-right font-semibold">Duration</div>
-					<div />
+					<div className="text-center font-semibold">Status</div>
+					<div className="text-right font-semibold">Actions</div>
 				</div>
 			) : (
 				<div className="flex items-center justify-between px-6 py-3 text-[11px] text-text-sub-600 uppercase tracking-wide">

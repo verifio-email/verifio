@@ -41,9 +41,9 @@ export namespace LogsModel {
 
 	export const logsQuery = t.Object({
 		api_key_id: t.Optional(t.String({ description: "Filter by API key ID" })),
-		service: t.Optional(t.String({ description: "Filter by service" })),
+		service: t.Optional(t.String({ description: "Filter by service (comma-separated for multiple)" })),
 		endpoint: t.Optional(t.String({ description: "Filter by endpoint" })),
-		status: t.Optional(t.String({ description: "Filter by status" })),
+		status: t.Optional(t.String({ description: "Filter by status (comma-separated for multiple)" })),
 		from: t.Optional(t.String({ description: "Start date (ISO 8601)" })),
 		to: t.Optional(t.String({ description: "End date (ISO 8601)" })),
 		search: t.Optional(t.String({ description: "Search in resource_id" })),

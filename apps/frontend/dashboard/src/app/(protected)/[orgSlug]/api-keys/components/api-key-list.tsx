@@ -156,8 +156,8 @@ export const ApiKeyListSidebar = () => {
 								Create
 							</Button.Root>
 						</div>
-						{/* Bottom border extending to right edge */}
-						<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
+						{/* Bottom border extending to both edges */}
+						<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200/50" />
 					</div>
 
 					{/* Content */}
@@ -204,8 +204,8 @@ export const ApiKeyListSidebar = () => {
 											/>
 										</div>
 									</div>
-									{/* Bottom border extending to right edge */}
-									<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
+									{/* Bottom border extending to both edges */}
+									<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200/50" />
 								</div>
 
 								{/* API Keys List */}
@@ -243,8 +243,8 @@ export const ApiKeyListSidebar = () => {
 												isLoading={isLoading}
 											/>
 										</div>
-										{/* Bottom border extending to right edge */}
-										<div className="absolute right-[-100vw] bottom-0 left-0 h-px bg-stroke-soft-200/50" />
+										{/* Bottom border extending to both edges */}
+										<div className="absolute right-[-100vw] bottom-0 left-[-100vw] h-px bg-stroke-soft-200/50" />
 									</div>
 								)}
 							</>
