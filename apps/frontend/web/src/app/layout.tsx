@@ -1,10 +1,38 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import "./globals.css";
 import { IconsSprite } from "@verifio/ui/icon";
 import { Footer } from "@verifio/web/components/footer";
 import { Header } from "@verifio/web/components/header";
 import Script from "next/script";
 import { ThemeProvider } from "next-themes";
+
+const openRunde = localFont({
+	src: [
+		{
+			path: "../../public/font/openRunde/OpenRunde-Regular.woff2",
+			weight: "400",
+			style: "normal",
+		},
+		{
+			path: "../../public/font/openRunde/OpenRunde-Medium.woff2",
+			weight: "500",
+			style: "normal",
+		},
+		{
+			path: "../../public/font/openRunde/OpenRunde-Semibold.woff2",
+			weight: "600",
+			style: "normal",
+		},
+		{
+			path: "../../public/font/openRunde/OpenRunde-Bold.woff2",
+			weight: "700",
+			style: "normal",
+		},
+	],
+	variable: "--font-open-runde",
+	display: "swap",
+});
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://verifio.email";
 
@@ -49,7 +77,10 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<body className={"bg-bg-white-0 text-text-strong-950 antialiased"}>
+			<body
+				className={`${openRunde.variable} bg-bg-white-0 font-sans text-text-strong-950 antialiased`}
+				style={{ fontFamily: "var(--font-open-runde)" }}
+			>
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="system"
