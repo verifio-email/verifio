@@ -9,7 +9,7 @@ const TOOLS_API_URL = "/api/tools";
 /**
  * Base API client with error handling
  */
-async function apiRequest<T>(
+async function apiRequest<T = any>(
 	endpoint: string,
 	options?: RequestInit,
 ): Promise<{ success: boolean; data?: T; error?: string }> {
