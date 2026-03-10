@@ -12,7 +12,7 @@ export default function Hero() {
 						<div className="mx-auto mb-4 flex justify-center md:mb-6">
 							<AnimatedAlternative />
 						</div>
-						<h1 className="title-h1 mx-auto max-w-2xl text-center font-semibold">
+						<h1 className="title-h1 mx-auto max-w-3xl text-center font-semibold">
 							Open-Source Email Verification Infrastructure
 						</h1>
 						<p className="mx-auto mt-4 max-w-lg px-2 text-center text-sm text-text-sub-600 md:mt-6 md:px-0 md:text-base">
