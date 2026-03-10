@@ -3,14 +3,37 @@ import "./globals.css";
 import SWRProvider from "@fe/dashboard/providers/swr.config";
 import { IconsSprite } from "@verifio/ui/icon";
 import * as Tooltip from "@verifio/ui/tooltip";
-import { Geist, Geist_Mono, Outfit } from "next/font/google";
+import { Geist_Mono, Outfit } from "next/font/google";
+import localFont from "next/font/local";
 import Script from "next/script";
 import { ThemeProvider } from "next-themes";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 
-const geistSans = Geist({
-	variable: "--font-geist-sans",
-	subsets: ["latin"],
+const openRunde = localFont({
+	src: [
+		{
+			path: "../../public/font/openRunde/OpenRunde-Regular.woff2",
+			weight: "400",
+			style: "normal",
+		},
+		{
+			path: "../../public/font/openRunde/OpenRunde-Medium.woff2",
+			weight: "500",
+			style: "normal",
+		},
+		{
+			path: "../../public/font/openRunde/OpenRunde-Semibold.woff2",
+			weight: "600",
+			style: "normal",
+		},
+		{
+			path: "../../public/font/openRunde/OpenRunde-Bold.woff2",
+			weight: "700",
+			style: "normal",
+		},
+	],
+	variable: "--font-open-runde",
+	display: "swap",
 });
 
 const geistMono = Geist_Mono({
@@ -42,9 +65,10 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" suppressHydrationWarning>
+		<html lang="en" suppressHydrationWarning className={openRunde.variable}>
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} bg-bg-white-0 text-text-strong-950 antialiased`}
+				className={`${geistMono.variable} ${outfit.variable} bg-bg-white-0 font-sans text-text-strong-950 antialiased`}
+				style={{ fontFamily: "var(--font-open-runde)" }}
 			>
 				<NuqsAdapter>
 					<ThemeProvider

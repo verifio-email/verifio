@@ -76,9 +76,9 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" suppressHydrationWarning>
+		<html lang="en" suppressHydrationWarning className={openRunde.variable}>
 			<body
-				className={`${openRunde.variable} bg-bg-white-0 font-sans text-text-strong-950 antialiased`}
+				className="bg-bg-white-0 font-sans text-text-strong-950 antialiased"
 				style={{ fontFamily: "var(--font-open-runde)" }}
 			>
 				<ThemeProvider

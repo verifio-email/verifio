@@ -7,9 +7,37 @@ import { IconsSprite } from "@verifio/ui/icon";
 import { DocsLayout } from "fumadocs-ui/layouts/notebook";
 import { RootProvider } from "fumadocs-ui/provider/next";
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import Script from "next/script";
 import type { ReactNode } from "react";
 import { baseOptions } from "./layout.config";
+
+const openRunde = localFont({
+	src: [
+		{
+			path: "../../public/font/openRunde/OpenRunde-Regular.woff2",
+			weight: "400",
+			style: "normal",
+		},
+		{
+			path: "../../public/font/openRunde/OpenRunde-Medium.woff2",
+			weight: "500",
+			style: "normal",
+		},
+		{
+			path: "../../public/font/openRunde/OpenRunde-Semibold.woff2",
+			weight: "600",
+			style: "normal",
+		},
+		{
+			path: "../../public/font/openRunde/OpenRunde-Bold.woff2",
+			weight: "700",
+			style: "normal",
+		},
+	],
+	variable: "--font-open-runde",
+	display: "swap",
+});
 
 export const metadata: Metadata = {
 	other: {
@@ -22,7 +50,10 @@ export default function Layout({ children }: { children: ReactNode }) {
 	return (
 		<html
 			lang="en"
-			className={cn("touch-manipulation scroll-smooth antialiased")}
+			className={cn(
+				"touch-manipulation scroll-smooth antialiased",
+				openRunde.variable,
+			)}
 			suppressHydrationWarning
 		>
 			<body className="flex min-h-screen flex-col">

@@ -5,7 +5,7 @@ import { Icon } from "@verifio/ui/icon";
 import { useRef, useState } from "react";
 import { DATE_RANGE_OPTIONS } from "./filter-options";
 
-type DateRangeOption = "24h" | "7d" | "30d" | "all";
+type DateRangeOption = "24h" | "3d" | "7d" | "30d" | "all";
 
 type DateRangeFilterProps = {
 	value: DateRangeOption;
