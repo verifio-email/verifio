@@ -182,6 +182,7 @@ export const CodeBlock = ({ code, lang = "javascript" }: Props) => {
 				}
 			`}</style>
 			<div
+				// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
 				dangerouslySetInnerHTML={{ __html: html }}
 				className="[&>pre]:!bg-transparent text-sm leading-6 [&>pre]:p-4"
 			/>
