@@ -409,10 +409,10 @@ export function WhatWeStandFor() {
 				<div className="flex flex-col items-center gap-6 border-stroke-soft-100/60 border-b px-10 py-16 text-center dark:border-stroke-soft-100/40">
 					{/* Heading */}
 					<div className="space-y-3">
-						<h2 className="font-semibold text-3xl text-text-sub-600 md:text-4xl">
-							Why <span className="text-text-strong-950">teams</span> choose
+						<h2 className="font-semibold text-3xl text-text-strong-950 md:text-4xl">
+							Why teams choose
 							<br />
-							<span className="text-text-strong-950">Verifio</span>
+							Verifio
 						</h2>
 						<p className="mx-auto max-w-md text-text-sub-600">
 							Everything you need to verify emails with confidence.

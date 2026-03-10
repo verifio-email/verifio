@@ -50,9 +50,8 @@ export function OpenSourceDifference() {
 				{/* Header section */}
 				<div className="px-6 py-12 md:px-10 md:py-16">
 					<div className="mx-auto max-w-2xl text-center">
-						<h2 className="font-semibold text-text-sub-600 text-xl md:text-2xl">
-							<span className="text-text-strong-950">Built differently</span>{" "}
-							from traditional email verifiers.
+						<h2 className="font-semibold text-text-strong-950 text-xl md:text-2xl">
+							Built differently from traditional email verifiers.
 						</h2>
 						<p className="mt-3 text-sm text-text-sub-600 md:text-base">
 							We believe in transparency, flexibility, and giving you complete

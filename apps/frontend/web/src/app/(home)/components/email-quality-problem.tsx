@@ -103,11 +103,10 @@ export function EmailQualityProblem() {
 				<div className="flex flex-col">
 					{/* Hero Text */}
 					<div className="flex flex-col items-center justify-center border-stroke-soft-100/60 border-b px-4 py-8 text-center md:p-10 dark:border-stroke-soft-100/40">
-						<h2 className="max-w-3xl font-semibold text-2xl text-text-sub-600 md:text-3xl">
-							<span className="text-text-strong-950">Email quality</span> kills
-							growth.
+						<h2 className="max-w-3xl font-semibold text-2xl text-text-strong-950 md:text-3xl">
+							Email quality kills growth.
 						</h2>
-						<p className="mt-3 max-w-2xl text-sm text-text-sub-600 md:text-base">
+						<p className="mt-3 max-w-sm text-sm text-text-sub-600 md:text-base">
 							Invalid and risky emails lead to bounce rates, spam flags, and
 							wasted spend.
 						</p>

@@ -76,10 +76,8 @@ export function PricingSection({
 					{/* Pricing Header */}
 					{showHeadline && (
 						<div className="mb-10 text-center">
-							<h2 className="font-semibold text-2xl text-text-sub-600 md:text-3xl">
-								Simple{" "}
-								<span className="text-text-strong-950">credit-based</span>{" "}
-								pricing
+							<h2 className="font-semibold text-2xl text-text-strong-950 md:text-3xl">
+								Simple credit-based pricing
 							</h2>
 							<p className="mx-auto mt-2 max-w-md text-sm text-text-sub-600 md:text-base">
 								Only pay for what you use. No monthly commitments, no surprises.
