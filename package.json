@@ -71,7 +71,6 @@
 				"swr": "^2.3.6",
 				"fumadocs-openapi": "^10.2.4",
 				"shiki": "^3.21.0",
-				"@xyflow/react": "^12.10.0",
 				"zustand": "^5.0.8",
 				"nuqs": "^2.6.0",
 				"@tanstack/react-table": "^8.21.3",
