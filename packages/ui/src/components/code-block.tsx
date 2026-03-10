@@ -1,17 +1,17 @@
-/** biome-ignore-all lint/security/noDangerouslySetInnerHtml: <explanation> */
+/** biome-ignore lint/security/noDangerouslySetInnerHtml: intentional for shiki rendering */
 "use client";
 
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { codeToHtml, type ThemeRegistration } from "shiki";
 
-// Dark theme with neutral gray tones (monochromatic)
+// Vibrant dark theme matching Verifio's brand colors
 const darkTheme: ThemeRegistration = {
-	name: "minimal-dark",
+	name: "verifio-dark",
 	type: "dark",
 	colors: {
 		"editor.background": "transparent",
-		"editor.foreground": "#9ca3af", // gray-400
+		"editor.foreground": "#d1d5db", // gray-300
 	},
 	tokenColors: [
 		{
@@ -20,19 +20,19 @@ const darkTheme: ThemeRegistration = {
 		},
 		{
 			scope: ["string", "string.quoted"],
-			settings: { foreground: "#d1d5db" }, // gray-300
+			settings: { foreground: "#22c55e" }, // green-500
 		},
 		{
 			scope: ["constant.numeric", "constant.language"],
-			settings: { foreground: "#f3f4f6" }, // gray-100
+			settings: { foreground: "#f97316" }, // orange-500
 		},
 		{
 			scope: ["keyword", "storage.type", "storage.modifier", "keyword.control"],
-			settings: { foreground: "#f3f4f6" }, // gray-100
+			settings: { foreground: "#a855f7" }, // purple-500
 		},
 		{
 			scope: ["entity.name.function", "support.function"],
-			settings: { foreground: "#ffffff" }, // white
+			settings: { foreground: "#3b82f6" }, // blue-500
 		},
 		{
 			scope: ["variable", "variable.parameter"],
@@ -40,34 +40,34 @@ const darkTheme: ThemeRegistration = {
 		},
 		{
 			scope: ["entity.name.type", "support.type", "support.class"],
-			settings: { foreground: "#d1d5db" }, // gray-300
+			settings: { foreground: "#eab308" }, // yellow-500
 		},
 		{
 			scope: ["punctuation", "meta.brace"],
-			settings: { foreground: "#6b7280" }, // gray-500
-		},
-		{
-			scope: ["entity.name.tag"],
-			settings: { foreground: "#f3f4f6" }, // gray-100
-		},
-		{
-			scope: ["entity.other.attribute-name"],
 			settings: { foreground: "#9ca3af" }, // gray-400
 		},
 		{
+			scope: ["entity.name.tag"],
+			settings: { foreground: "#3b82f6" }, // blue-500
+		},
+		{
+			scope: ["entity.other.attribute-name"],
+			settings: { foreground: "#a855f7" }, // purple-500
+		},
+		{
 			scope: ["constant.other", "variable.other.constant"],
-			settings: { foreground: "#ffffff" }, // white
+			settings: { foreground: "#f97316" }, // orange-500
 		},
 	],
 };
 
-// Light theme with neutral dark gray tones (monochromatic)
+// Vibrant light theme matching Verifio's brand colors
 const lightTheme: ThemeRegistration = {
-	name: "minimal-light",
+	name: "verifio-light",
 	type: "light",
 	colors: {
 		"editor.background": "transparent",
-		"editor.foreground": "#4b5563", // gray-600
+		"editor.foreground": "#374151", // gray-700
 	},
 	tokenColors: [
 		{
@@ -76,43 +76,43 @@ const lightTheme: ThemeRegistration = {
 		},
 		{
 			scope: ["string", "string.quoted"],
-			settings: { foreground: "#374151" }, // gray-700
+			settings: { foreground: "#16a34a" }, // green-600
 		},
 		{
 			scope: ["constant.numeric", "constant.language"],
-			settings: { foreground: "#111827" }, // gray-900
+			settings: { foreground: "#ea580c" }, // orange-600
 		},
 		{
 			scope: ["keyword", "storage.type", "storage.modifier", "keyword.control"],
-			settings: { foreground: "#111827" }, // gray-900
+			settings: { foreground: "#9333ea" }, // purple-600
 		},
 		{
 			scope: ["entity.name.function", "support.function"],
-			settings: { foreground: "#030712" }, // gray-950
+			settings: { foreground: "#2563eb" }, // blue-600
 		},
 		{
 			scope: ["variable", "variable.parameter"],
-			settings: { foreground: "#4b5563" }, // gray-600
+			settings: { foreground: "#6b7280" }, // gray-500
 		},
 		{
 			scope: ["entity.name.type", "support.type", "support.class"],
-			settings: { foreground: "#374151" }, // gray-700
+			settings: { foreground: "#ca8a04" }, // yellow-600
 		},
 		{
 			scope: ["punctuation", "meta.brace"],
-			settings: { foreground: "#9ca3af" }, // gray-400
+			settings: { foreground: "#6b7280" }, // gray-500
 		},
 		{
 			scope: ["entity.name.tag"],
-			settings: { foreground: "#111827" }, // gray-900
+			settings: { foreground: "#2563eb" }, // blue-600
 		},
 		{
 			scope: ["entity.other.attribute-name"],
-			settings: { foreground: "#4b5563" }, // gray-600
+			settings: { foreground: "#9333ea" }, // purple-600
 		},
 		{
 			scope: ["constant.other", "variable.other.constant"],
-			settings: { foreground: "#030712" }, // gray-950
+			settings: { foreground: "#ea580c" }, // orange-600
 		},
 	],
 };

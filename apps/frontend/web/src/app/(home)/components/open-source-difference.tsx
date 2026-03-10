@@ -6,24 +6,40 @@ const features = [
 		title: "Transparent",
 		description: "See the exact signals behind every decision",
 		icon: "eye-outline" as const,
+		theme: {
+			text: "text-blue-500",
+			bg: "bg-blue-50 dark:bg-blue-500/10",
+		},
 	},
 	{
 		id: "open-source",
 		title: "Open-source",
 		description: "Audit, contribute, or self-host the engine",
 		icon: "open-source" as const,
+		theme: {
+			text: "text-green-500",
+			bg: "bg-green-50 dark:bg-green-500/10",
+		},
 	},
 	{
 		id: "no-lock-in",
 		title: "No Lock-in",
 		description: "Use our API or run it yourself",
 		icon: "cloud" as const,
+		theme: {
+			text: "text-purple-500",
+			bg: "bg-purple-50 dark:bg-purple-500/10",
+		},
 	},
 	{
 		id: "infrastructure",
 		title: "Infrastructure",
 		description: "Built to sit inside your data pipelines",
 		icon: "layers" as const,
+		theme: {
+			text: "text-orange-500",
+			bg: "bg-orange-50 dark:bg-orange-500/10",
+		},
 	},
 ];
 
@@ -56,10 +72,12 @@ export function OpenSourceDifference() {
 									: ""
 							} ${index < 2 ? "border-stroke-soft-100/60 border-b md:border-b-0 dark:border-stroke-soft-100/40" : ""}`}
 						>
-							<div className="flex h-10 w-10 items-center justify-center rounded-lg">
+							<div
+								className={`flex h-10 w-10 items-center justify-center rounded-full ${feature.theme.bg}`}
+							>
 								<Icon
 									name={feature.icon}
-									className="h-5 w-5 text-text-sub-600"
+									className={`h-5 w-5 ${feature.theme.text}`}
 								/>
 							</div>
 							<div className="space-y-1">
