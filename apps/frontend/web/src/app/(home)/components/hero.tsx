@@ -13,11 +13,7 @@ export default function Hero() {
 							<AnimatedAlternative />
 						</div>
 						<h1 className="title-h1 mx-auto max-w-3xl text-center font-semibold">
-							Open-Source{" "}
-							<span className="bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent dark:from-orange-300 dark:to-orange-500">
-								Email Verification
-							</span>{" "}
-							Infrastructure
+							Open-Source Email Verification Platfrom
 						</h1>
 						<p className="mx-auto mt-4 max-w-lg px-2 text-center text-sm text-text-sub-600 md:mt-6 md:px-0 md:text-base">
 							Validate emails instantly, reduce bounce rates, and protect your
