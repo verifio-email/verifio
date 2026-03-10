@@ -1,5 +1,4 @@
 import { Icon } from "@verifio/ui/icon";
-import { DotPattern } from "@verifio/web/components/dot-pattern";
 import { AnimatedBounce } from "./animated-bounce";
 import { AnimatedBrokenOnboarding } from "./animated-broken-onboarding";
 import { AnimatedSpamFlag } from "./animated-spam-flag";
@@ -24,31 +23,68 @@ function BrokenOnboardingVisual() {
 
 const problems = [
 	{
-		number: "01",
-		title: "High bounce rates.",
-		description:
-			"Invalid emails cause hard bounces, hurting sender reputation and deliverability scores.",
+		id: "bounce",
+		theme: {
+			text: "text-orange-500",
+			bg: "bg-orange-50 dark:bg-orange-500/10",
+			icon: "alert-triangle",
+		},
+		category: "Deliverability protection",
+		headline: "Stop hard bounces before they damage your sender reputation.",
+		features: [
+			"Real-time syntax validation",
+			"Domain & MX record verification",
+			"Catch-all domain scoring",
+		],
 		Visual: BounceRateVisual,
 	},
 	{
-		number: "02",
-		title: "Spam flags & reputation damage.",
-		description:
-			"Sending to risky addresses triggers spam traps and blacklists that are hard to escape.",
+		id: "spam",
+		theme: {
+			text: "text-purple-500",
+			bg: "bg-purple-50 dark:bg-purple-500/10",
+			icon: "shield-cross",
+		},
+		category: "Spam trap detection",
+		headline: "Identify and block risky addresses that trigger blacklists.",
+		features: [
+			"Honeypot trap detection",
+			"Disposable email blocking",
+			"Role-based address flagging",
+		],
 		Visual: SpamFlagVisual,
 	},
 	{
-		number: "03",
-		title: "Wasted acquisition spend.",
-		description:
-			"Every invalid email is money spent on leads that will never convert or engage.",
+		id: "spend",
+		theme: {
+			text: "text-green-500",
+			bg: "bg-green-50 dark:bg-green-500/10",
+			icon: "wallet",
+		},
+		category: "Marketing ROI",
+		headline: "Stop wasting acquisition spend on fake or invalid leads.",
+		features: [
+			"Verify leads at signup",
+			"Clean existing email lists",
+			"Improve campaign conversion",
+		],
 		Visual: WastedSpendVisual,
 	},
 	{
-		number: "04",
-		title: "Broken onboarding flows.",
-		description:
-			"Users who can't receive emails drop off before activation, killing conversion.",
+		id: "onboarding",
+		theme: {
+			text: "text-blue-500",
+			bg: "bg-blue-50 dark:bg-blue-500/10",
+			icon: "users",
+		},
+		category: "Onboarding tracking",
+		headline:
+			"Fix broken activation flows caused by failed verification emails.",
+		features: [
+			"Track activation drop-offs",
+			"Prevent typo signups",
+			"Increase user retention",
+		],
 		Visual: BrokenOnboardingVisual,
 	},
 ];
@@ -66,84 +102,99 @@ export function EmailQualityProblem() {
 				{/* Main Content */}
 				<div className="flex flex-col">
 					{/* Hero Text */}
-					<div className="flex flex-col items-center justify-center border-stroke-soft-100/60 border-b px-4 py-8 text-center md:p-10 dark:border-stroke-soft-100/40">
-						<div className="space-y-3">
-							<h2 className="font-semibold text-3xl text-text-sub-600 md:text-4xl">
-								Email quality silently{" "}
-								<span className="text-text-strong-950">kills growth</span>
+					<div className="flex flex-col items-center justify-center px-4 py-16 text-center md:px-10 md:py-24">
+						<div className="flex max-w-3xl flex-col items-center gap-4">
+							<h2 className="title-h2 font-semibold tracking-tight">
+								Email quality silently kills growth.
 							</h2>
-							<p className="mx-auto max-w-md text-text-sub-600">
+							<p className="max-w-2xl text-base text-text-sub-600 md:text-lg">
 								Invalid and risky emails lead to bounce rates, spam flags, and
-								wasted spend.
+								wasted spend. Protect your platform with real-time verification.
 							</p>
 						</div>
 					</div>
 
-					{/* Problems Grid - 2x2 with unique visuals */}
-					<div className="grid grid-cols-1 md:grid-cols-2">
-						{problems.map((problem, index) => {
-							const isRightColumn = index % 2 === 1;
-							const isLastRow = index >= problems.length - 2;
+					{/* Problems Grid - Cards Layout */}
+					<div className="mx-auto grid w-full max-w-5xl grid-cols-1 gap-6 px-4 pb-20 md:grid-cols-2 md:px-10">
+						{problems.map((problem) => {
 							const Visual = problem.Visual;
 
 							return (
 								<div
-									key={index}
-									className={`group relative flex flex-col p-6 transition-colors duration-300 hover:bg-bg-weak-50/40 ${
-										!isRightColumn
-											? "md:border-stroke-soft-100/60 md:border-r dark:border-stroke-soft-100/40"
-											: ""
-									} ${
-										!isLastRow
-											? "border-stroke-soft-100/60 border-b dark:border-stroke-soft-100/40"
-											: "border-stroke-soft-100/60 border-b md:border-b-0 dark:border-stroke-soft-100/40"
-									}`}
+									key={problem.id}
+									className="group flex flex-col justify-between overflow-hidden rounded-[32px] bg-bg-weak-50 shadow-sm dark:bg-bg-weak-50/5"
 								>
-									{/* Number indicator */}
-									<div className="mb-4 font-mono text-text-sub-600/60 text-xs">
-										[ {problem.number} ]
+									{/* Card Header Content */}
+									<div className="flex flex-col p-8 md:p-10">
+										{/* Icon & Category */}
+										<div className="mb-4 flex flex-col items-start gap-4">
+											<div
+												className={`flex h-10 w-10 items-center justify-center rounded-full ${problem.theme.bg}`}
+											>
+												<Icon
+													name={problem.theme.icon}
+													className={`h-5 w-5 ${problem.theme.text}`}
+												/>
+											</div>
+											<h3
+												className={`font-medium text-xl ${problem.theme.text}`}
+											>
+												{problem.category}
+											</h3>
+										</div>
+
+										{/* Headline */}
+										<h4 className="mb-6 font-semibold text-2xl text-text-strong-950 leading-tight tracking-tight md:text-3xl">
+											{problem.headline}
+										</h4>
+
+										{/* Feature List */}
+										<ul className="mb-8 flex flex-col gap-3">
+											{problem.features.map((feature, i) => (
+												<li
+													key={i}
+													className="flex items-center gap-3 text-sm text-text-sub-600 md:text-base"
+												>
+													<div
+														className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${problem.theme.bg}`}
+													>
+														<Icon
+															name="check"
+															className={`h-2.5 w-2.5 ${problem.theme.text}`}
+														/>
+													</div>
+													{feature}
+												</li>
+											))}
+										</ul>
+
+										{/* Learn More Button Placeholder */}
+										<div className="flex w-fit items-center gap-2 rounded-full border border-stroke-soft-200/60 bg-bg-white-0 px-4 py-2 font-medium text-sm text-text-strong-950 shadow-sm transition-colors hover:bg-bg-weak-50 dark:bg-gray-900">
+											Learn more{" "}
+											<Icon name="chevron-right" className="h-3 w-3" />
+										</div>
 									</div>
 
-									{/* Visual element */}
-									<div className="mb-6">
+									{/* Visual Element at bottom */}
+									<div className="mt-auto px-4 pb-4 md:px-6 md:pb-6">
 										<Visual />
-									</div>
-
-									{/* Description */}
-									<div className="mt-auto space-y-1">
-										<h3 className="font-semibold text-sm text-text-strong-950">
-											{problem.title}
-										</h3>
-										<p className="text-text-sub-600 text-xs leading-relaxed">
-											{problem.description}
-										</p>
 									</div>
 								</div>
 							);
 						})}
 					</div>
 
-					{/* Black Box Callout */}
-					<div className="relative border-stroke-soft-100/60 border-t py-10 dark:border-stroke-soft-100/40">
-						<DotPattern className="absolute inset-0 top-2 right-1 left-3 z-0" />
-
-						<div className="flex flex-col items-center justify-center px-4 py-8 text-center md:p-10">
-							<div className="relative mx-auto max-w-2xl">
-								{/* Quote marks */}
-								<div className="-top-2 -left-4 md:-left-8 absolute font-serif text-4xl text-stroke-soft-200">
-									"
-								</div>
-								<div className="-right-4 -bottom-4 md:-right-8 absolute font-serif text-4xl text-stroke-soft-200">
-									"
-								</div>
-
-								<p className="font-medium text-base text-text-strong-950 italic md:text-lg">
-									Most verification tools are black boxes —
-									<span className="text-text-strong-950">
-										{" "}
-										you never know why
-									</span>{" "}
-									an email passed or failed.
+					{/* Bottom Callout (Softened) */}
+					<div className="relative border-stroke-soft-100/60 border-t py-16 dark:border-stroke-soft-100/40">
+						<div className="flex flex-col items-center justify-center px-4 text-center md:px-10">
+							<div className="mx-auto max-w-3xl space-y-4">
+								<h3 className="font-semibold text-2xl text-text-strong-950 tracking-tight md:text-3xl">
+									Stop guessing with black-box verification.
+								</h3>
+								<p className="mx-auto max-w-xl text-text-sub-600 md:text-lg">
+									Verifio gives you complete transparency. See every check,
+									every API signal, and the exact reason an email passed or
+									failed.
 								</p>
 							</div>
 
