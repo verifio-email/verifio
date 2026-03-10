@@ -55,22 +55,6 @@ const problems = [
 		Visual: SpamFlagVisual,
 	},
 	{
-		id: "spend",
-		theme: {
-			text: "text-green-500",
-			bg: "bg-green-50 dark:bg-green-500/10",
-			icon: "wallet",
-		},
-		category: "Marketing ROI",
-		headline: "Stop wasting acquisition spend on fake or invalid leads.",
-		features: [
-			"Verify leads at signup",
-			"Clean existing email lists",
-			"Improve campaign conversion",
-		],
-		Visual: WastedSpendVisual,
-	},
-	{
 		id: "onboarding",
 		theme: {
 			text: "text-blue-500",
@@ -86,6 +70,22 @@ const problems = [
 			"Increase user retention",
 		],
 		Visual: BrokenOnboardingVisual,
+	},
+	{
+		id: "spend",
+		theme: {
+			text: "text-green-500",
+			bg: "bg-green-50 dark:bg-green-500/10",
+			icon: "wallet",
+		},
+		category: "Marketing ROI",
+		headline: "Stop wasting acquisition spend on fake or invalid leads.",
+		features: [
+			"Verify leads at signup",
+			"Clean existing email lists",
+			"Improve campaign conversion",
+		],
+		Visual: WastedSpendVisual,
 	},
 ];
 
@@ -178,12 +178,6 @@ export function EmailQualityProblem() {
 													</li>
 												))}
 											</ul>
-
-											{/* Learn More Button Placeholder */}
-											<div className="flex w-fit items-center gap-2 rounded-full border border-stroke-soft-200/60 bg-bg-white-0 px-4 py-2 font-medium text-sm text-text-strong-950 shadow-sm transition-colors hover:bg-bg-weak-50 dark:bg-gray-900">
-												Learn more{" "}
-												<Icon name="chevron-right" className="h-3 w-3" />
-											</div>
 										</div>
 
 										{/* Visual Element at bottom */}
