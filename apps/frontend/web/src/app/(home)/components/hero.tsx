@@ -13,7 +13,11 @@ export default function Hero() {
 							<AnimatedAlternative />
 						</div>
 						<h1 className="title-h1 mx-auto max-w-3xl text-center font-semibold">
-							Open-Source Email Verification Infrastructure
+							Open-Source{" "}
+							<span className="bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent dark:from-orange-300 dark:to-orange-500">
+								Email Verification
+							</span>{" "}
+							Infrastructure
 						</h1>
 						<p className="mx-auto mt-4 max-w-lg px-2 text-center text-sm text-text-sub-600 md:mt-6 md:px-0 md:text-base">
 							Validate emails instantly, reduce bounce rates, and protect your
@@ -21,7 +25,7 @@ export default function Hero() {
 							<a
 								href="https://github.com/reloop-labs/verifio"
 								target="_blank"
-								className="rounded-lg bg-bg-soft-200/50 px-1.5 py-px font-medium text-text-base-600"
+								className="rounded-md bg-orange-100 px-1.5 py-0.5 font-medium text-orange-700 transition-colors hover:bg-orange-200 dark:bg-orange-500/20 dark:text-orange-400 dark:hover:bg-orange-500/30"
 								rel="noopener"
 							>
 								fully open-source code

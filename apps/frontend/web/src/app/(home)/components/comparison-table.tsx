@@ -33,7 +33,7 @@ const comparisonData = [
 
 function StatusCell({ value }: { value: boolean | string }) {
 	if (value === true) {
-		return <Icon name="check" className="h-4 w-4" />;
+		return <Icon name="check" className="h-4.5 w-4.5 text-orange-500" />;
 	}
 
 	if (value === false) {
@@ -65,12 +65,14 @@ export function ComparisonTable() {
 								</th>
 
 								{/* Verifio column header */}
-								<th className="w-[30%] border-stroke-soft-200/50 border-r bg-neutral-alpha-10/50 px-4 py-6 text-center">
+								<th className="w-[30%] border-stroke-soft-200/50 border-r bg-orange-50/40 px-4 py-6 text-center dark:bg-orange-500/5">
 									<div className="flex flex-col items-center gap-2">
 										<div className="flex h-9 w-9 items-center justify-center">
 											<Logo />
 										</div>
-										<span className="font-semibold">Verifio</span>
+										<span className="font-semibold text-orange-600 dark:text-orange-400">
+											Verifio
+										</span>
 									</div>
 								</th>
 
@@ -110,7 +112,7 @@ export function ComparisonTable() {
 									</td>
 
 									{/* Verifio value */}
-									<td className="flex items-center justify-center border-stroke-soft-200/50 border-r bg-neutral-alpha-10/50 px-4 py-5">
+									<td className="flex items-center justify-center border-stroke-soft-200/50 border-r bg-orange-50/40 px-4 py-5 dark:bg-orange-500/5">
 										<StatusCell value={row.verifio} />
 									</td>
 

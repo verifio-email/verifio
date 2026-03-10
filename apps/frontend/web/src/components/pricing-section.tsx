@@ -96,9 +96,7 @@ export function PricingSection({
 									<Line
 										percent={(currentIndex / (SLIDER_STEPS.length - 1)) * 100}
 										strokeWidth={0.5}
-										strokeColor={
-											resolvedTheme === "dark" ? "#ffffff" : "#000000"
-										}
+										strokeColor="#f97316" // orange-500
 										trailWidth={0.5}
 										trailColor={
 											resolvedTheme === "dark"
@@ -110,7 +108,7 @@ export function PricingSection({
 								</div>
 								{/* Visual thumb */}
 								<div
-									className="-translate-x-1/2 -translate-y-1/2 pointer-events-none absolute top-1/2 h-4 w-4 rounded-full border-2 border-bg-white-0 bg-text-strong-950 shadow-lg"
+									className="-translate-x-1/2 -translate-y-1/2 pointer-events-none absolute top-1/2 h-4 w-4 rounded-full border-2 border-orange-500 bg-bg-white-0 shadow-lg"
 									style={{
 										left: `${(currentIndex / (SLIDER_STEPS.length - 1)) * 100}%`,
 									}}
@@ -204,7 +202,7 @@ export function PricingSection({
 										<li className="flex items-start gap-2 text-sm text-text-sub-600">
 											<Icon
 												name="check"
-												className="mt-0.5 h-4 w-4 shrink-0 text-text-sub-600"
+												className="mt-0.5 h-4 w-4 shrink-0 text-green-500"
 											/>
 											<span>
 												Verify{" "}
@@ -217,7 +215,7 @@ export function PricingSection({
 										<li className="flex items-start gap-2 text-sm text-text-sub-600">
 											<Icon
 												name="check"
-												className="mt-0.5 h-4 w-4 shrink-0 text-text-sub-600"
+												className="mt-0.5 h-4 w-4 shrink-0 text-green-500"
 											/>
 											<span>
 												<span className="font-medium text-text-strong-950">
@@ -229,7 +227,7 @@ export function PricingSection({
 										<li className="flex items-start gap-2 text-sm text-text-sub-600">
 											<Icon
 												name="check"
-												className="mt-0.5 h-4 w-4 shrink-0 text-text-sub-600"
+												className="mt-0.5 h-4 w-4 shrink-0 text-green-500"
 											/>
 											<span>Community support</span>
 										</li>
@@ -238,10 +236,10 @@ export function PricingSection({
 							</div>
 
 							{/* Pay as you go Plan */}
-							<div className="relative flex flex-col border-stroke-soft-200/50 border-t bg-neutral-alpha-10/50 md:border-t-0 md:border-l">
+							<div className="relative flex flex-col border-stroke-soft-200/50 border-t-2 border-t-orange-500 bg-neutral-alpha-10/50 md:border-l">
 								{/* Popular badge */}
 								<div className="absolute top-4 right-4">
-									<span className="rounded-full border bg-neutral-alpha-10 px-2 py-0.5 font-medium text-[10px]">
+									<span className="rounded-full border border-orange-200 bg-orange-100 px-2.5 py-1 font-medium text-[10px] text-orange-700 dark:border-orange-500/30 dark:bg-orange-500/20 dark:text-orange-400">
 										Most popular
 									</span>
 								</div>
@@ -287,7 +285,7 @@ export function PricingSection({
 											mode="filled"
 											variant="neutral"
 											size="small"
-											className="w-full justify-center rounded-lg"
+											className="!bg-orange-500 hover:!bg-orange-600 !text-white !ring-transparent !shadow-none w-full justify-center rounded-lg"
 										>
 											Subscribe
 										</Button.Root>
@@ -300,7 +298,7 @@ export function PricingSection({
 										<li className="flex items-start gap-2 text-sm text-text-sub-600">
 											<Icon
 												name="check"
-												className="mt-0.5 h-4 w-4 shrink-0 text-text-sub-600"
+												className="mt-0.5 h-4 w-4 shrink-0 text-green-500"
 											/>
 											<span>
 												Verify{" "}
@@ -313,7 +311,7 @@ export function PricingSection({
 										<li className="flex items-start gap-2 text-sm text-text-sub-600">
 											<Icon
 												name="check"
-												className="mt-0.5 h-4 w-4 shrink-0 text-text-sub-600"
+												className="mt-0.5 h-4 w-4 shrink-0 text-green-500"
 											/>
 											<span>
 												<span className="font-medium text-text-strong-950">
@@ -325,14 +323,14 @@ export function PricingSection({
 										<li className="flex items-start gap-2 text-sm text-text-sub-600">
 											<Icon
 												name="check"
-												className="mt-0.5 h-4 w-4 shrink-0 text-text-sub-600"
+												className="mt-0.5 h-4 w-4 shrink-0 text-green-500"
 											/>
 											<span>Email support</span>
 										</li>
 										<li className="flex items-start gap-2 text-sm text-text-sub-600">
 											<Icon
 												name="check"
-												className="mt-0.5 h-4 w-4 shrink-0 text-text-sub-600"
+												className="mt-0.5 h-4 w-4 shrink-0 text-green-500"
 											/>
 											<span>
 												<span className="font-medium text-text-strong-950">
@@ -395,7 +393,7 @@ export function PricingSection({
 										<li className="flex items-start gap-2 text-sm text-text-sub-600">
 											<Icon
 												name="check"
-												className="mt-0.5 h-4 w-4 shrink-0 text-text-sub-600"
+												className="mt-0.5 h-4 w-4 shrink-0 text-green-500"
 											/>
 											<span>
 												<span className="font-medium text-text-strong-950">
@@ -407,7 +405,7 @@ export function PricingSection({
 										<li className="flex items-start gap-2 text-sm text-text-sub-600">
 											<Icon
 												name="check"
-												className="mt-0.5 h-4 w-4 shrink-0 text-text-sub-600"
+												className="mt-0.5 h-4 w-4 shrink-0 text-green-500"
 											/>
 											<span>
 												<span className="font-medium text-text-strong-950">
@@ -419,14 +417,14 @@ export function PricingSection({
 										<li className="flex items-start gap-2 text-sm text-text-sub-600">
 											<Icon
 												name="check"
-												className="mt-0.5 h-4 w-4 shrink-0 text-text-sub-600"
+												className="mt-0.5 h-4 w-4 shrink-0 text-green-500"
 											/>
 											<span>Dedicated support</span>
 										</li>
 										<li className="flex items-start gap-2 text-sm text-text-sub-600">
 											<Icon
 												name="check"
-												className="mt-0.5 h-4 w-4 shrink-0 text-text-sub-600"
+												className="mt-0.5 h-4 w-4 shrink-0 text-green-500"
 											/>
 											<span>SLA available</span>
 										</li>
