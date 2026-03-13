@@ -1,8 +1,7 @@
 import { Icon } from "@verifio/ui/icon";
+import type React from "react";
 import { AnimatedBounce } from "./animated-bounce";
-import { AnimatedBrokenOnboarding } from "./animated-broken-onboarding";
 import { AnimatedSpamFlag } from "./animated-spam-flag";
-import { AnimatedWastedSpend } from "./animated-wasted-spend";
 
 // Unique visual components for each problem
 function BounceRateVisual() {
@@ -13,15 +12,16 @@ function SpamFlagVisual() {
 	return <AnimatedSpamFlag />;
 }
 
-function WastedSpendVisual() {
-	return <AnimatedWastedSpend />;
-}
+type Problem = {
+	id: string;
+	theme: { text: string; bg: string; icon: string };
+	category: string;
+	headline: string;
+	features: string[];
+	Visual?: React.ComponentType;
+};
 
-function BrokenOnboardingVisual() {
-	return <AnimatedBrokenOnboarding />;
-}
-
-const problems = [
+const problems: Problem[] = [
 	{
 		id: "bounce",
 		theme: {
@@ -62,14 +62,12 @@ const problems = [
 			icon: "users",
 		},
 		category: "Onboarding tracking",
-		headline:
-			"Fix broken activation flows caused by failed verification emails.",
+		headline: "Fix broken activation flows caused by failed emails.",
 		features: [
 			"Track activation drop-offs",
 			"Prevent typo signups",
 			"Increase user retention",
 		],
-		Visual: BrokenOnboardingVisual,
 	},
 	{
 		id: "spend",
@@ -85,7 +83,6 @@ const problems = [
 			"Clean existing email lists",
 			"Improve campaign conversion",
 		],
-		Visual: WastedSpendVisual,
 	},
 ];
 
@@ -178,7 +175,7 @@ export function EmailQualityProblem() {
 												))}
 											</ul>
 										</div>
-										<Visual />
+										{Visual && <Visual />}
 									</div>
 								</div>
 							);
