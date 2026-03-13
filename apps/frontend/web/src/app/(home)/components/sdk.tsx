@@ -177,7 +177,44 @@ export const Sdk = () => {
 							comprehensive documentation.
 						</p>
 					</div>
+					<div className="flex items-center justify-between border-stroke-soft-100/60 border-b dark:border-stroke-soft-100/40">
+						{/* macOS-style window controls */}
+						<div className="flex items-center gap-2 pl-6">
+							<div className="h-3 w-3 rounded-full bg-[#ff5f56]" />
+							<div className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
+							<div className="h-3 w-3 rounded-full bg-[#27ca40]" />
+						</div>
 
+						<div className="flex items-center gap-2 border-stroke-soft-100/60 px-4 py-2 md:border-l dark:border-stroke-soft-100/40">
+							<Button.Root
+								mode="stroke"
+								size="small"
+								variant="neutral"
+								onClick={() => copyToClipboard(selectedSdk.code)}
+								className="rounded-full"
+							>
+								<Icon
+									name="copy"
+									className="h-3.5 w-3.5 stroke-1 text-text-sub-600"
+								/>
+								Copy
+							</Button.Root>
+							<Link href="/docs/sdks">
+								<Button.Root
+									mode="stroke"
+									size="small"
+									variant="neutral"
+									className="rounded-full"
+								>
+									View Docs
+									<Icon
+										name="chevron-right"
+										className="h-3.5 w-3.5 stroke-1 text-text-sub-600"
+									/>
+								</Button.Root>
+							</Link>
+						</div>
+					</div>
 					{/* SDK Selection and Code Display */}
 					<div className="flex flex-col border-stroke-soft-100/60 dark:border-stroke-soft-100/40">
 						<div className="overflow-x-auto border-stroke-soft-100/60 border-b dark:border-stroke-soft-100/40">
@@ -232,39 +269,6 @@ export const Sdk = () => {
 								code={selectedSdk.code}
 								lang={getLanguage(selectedSdk.id)}
 							/>
-						</div>
-
-						{/* Actions Footer */}
-						<div className="flex items-center justify-end border-stroke-soft-100/60 border-t dark:border-stroke-soft-100/40">
-							<div className="flex items-center gap-2 border-stroke-soft-100/60 px-4 py-3 md:border-l dark:border-stroke-soft-100/40">
-								<Button.Root
-									mode="stroke"
-									size="small"
-									variant="neutral"
-									onClick={() => copyToClipboard(selectedSdk.code)}
-									className="rounded-full"
-								>
-									<Icon
-										name="copy"
-										className="h-3.5 w-3.5 stroke-1 text-text-sub-600"
-									/>
-									Copy
-								</Button.Root>
-								<Link href="/docs/sdks">
-									<Button.Root
-										mode="stroke"
-										size="small"
-										variant="neutral"
-										className="rounded-full"
-									>
-										View Docs
-										<Icon
-											name="chevron-right"
-											className="h-3.5 w-3.5 stroke-1 text-text-sub-600"
-										/>
-									</Button.Root>
-								</Link>
-							</div>
 						</div>
 					</div>
 				</div>
