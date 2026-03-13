@@ -115,7 +115,7 @@ export const SignupPage = () => {
 						) : (
 							GoogleIcon
 						)}
-						<span>Continue with Google</span>
+						<span> Google</span>
 					</Button.Root>
 					<Button.Root
 						disabled={loading.loading}
@@ -128,7 +128,7 @@ export const SignupPage = () => {
 						) : (
 							<Icon name="github" className="h-5 w-5" />
 						)}
-						Continue with GitHub
+						GitHub
 					</Button.Root>
 				</div>
 				<div className="w-full border-stroke-soft-200/50 border-t" />
