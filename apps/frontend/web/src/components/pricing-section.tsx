@@ -79,7 +79,7 @@ export function PricingSection({
 							<h2 className="font-semibold text-2xl text-text-strong-950 md:text-3xl">
 								Simple credit-based pricing
 							</h2>
-							<p className="mx-auto mt-2 max-w-md text-sm text-text-sub-600 md:text-base">
+							<p className="mx-auto mt-2 max-w-sm text-sm text-text-sub-600 md:text-base">
 								Only pay for what you use. No monthly commitments, no surprises.
 							</p>
 						</div>
@@ -94,7 +94,7 @@ export function PricingSection({
 									<Line
 										percent={(currentIndex / (SLIDER_STEPS.length - 1)) * 100}
 										strokeWidth={0.5}
-										strokeColor="#f97316" // orange-500
+										strokeColor="var(--primary-base)" // uses the CSS variable directly
 										trailWidth={0.5}
 										trailColor={
 											resolvedTheme === "dark"
@@ -106,7 +106,7 @@ export function PricingSection({
 								</div>
 								{/* Visual thumb */}
 								<div
-									className="-translate-x-1/2 -translate-y-1/2 pointer-events-none absolute top-1/2 h-4 w-4 rounded-full border-2 border-orange-500 bg-bg-white-0 shadow-lg"
+									className="-translate-x-1/2 -translate-y-1/2 pointer-events-none absolute top-1/2 h-4 w-4 rounded-full border-2 border-primary-base bg-bg-white-0 shadow-lg"
 									style={{
 										left: `${(currentIndex / (SLIDER_STEPS.length - 1)) * 100}%`,
 									}}
@@ -127,21 +127,25 @@ export function PricingSection({
 								/>
 							</div>
 							{/* Clickable tick labels */}
-							<div className="-mx-[23px] flex justify-between">
-								{SLIDER_STEPS.map((step, index) => (
-									<button
-										key={step}
-										type="button"
-										onClick={() => setSelectedCredits(step)}
-										className={`text-xs transition-colors hover:text-text-strong-950 ${index !== 0 && index !== SLIDER_STEPS.length - 1 ? "pl-5" : ""} ${
-											index === currentIndex
-												? "font-medium text-text-strong-950"
-												: "text-text-sub-600"
-										}`}
-									>
-										${step.toLocaleString()}
-									</button>
-								))}
+							<div className="relative mt-2 h-6 w-full">
+								{SLIDER_STEPS.map((step, index) => {
+									const percentage = (index / (SLIDER_STEPS.length - 1)) * 100;
+									return (
+										<button
+											key={step}
+											type="button"
+											onClick={() => setSelectedCredits(step)}
+											className={`-translate-x-1/2 absolute text-xs transition-colors hover:text-text-strong-950 ${
+												index === currentIndex
+													? "font-semibold text-text-strong-950"
+													: "text-text-sub-600"
+											}`}
+											style={{ left: `${percentage}%` }}
+										>
+											{step.toLocaleString()}
+										</button>
+									);
+								})}
 							</div>
 						</div>
 					</div>
@@ -166,7 +170,7 @@ export function PricingSection({
 								<div className="border-stroke-soft-200/50 border-b px-5 py-3">
 									<div className="flex items-center gap-2 text-sm text-text-sub-600">
 										<Icon name="coins" className="h-3.5 w-3.5" />
-										<span>100 credits (one-time)</span>
+										<span>1000 credits (Every Month)</span>
 									</div>
 								</div>
 
@@ -184,12 +188,11 @@ export function PricingSection({
 								<div className="border-stroke-soft-200/50 border-b p-5">
 									<Link href="/signup" className="block">
 										<Button.Root
-											mode="stroke"
 											variant="neutral"
-											size="small"
-											className="w-full justify-center rounded-lg"
+											mode="lighter"
+											className="w-full justify-center rounded-3xl! font-medium"
 										>
-											Get started
+											Start for free
 										</Button.Root>
 									</Link>
 								</div>
@@ -205,7 +208,7 @@ export function PricingSection({
 											<span>
 												Verify{" "}
 												<span className="font-medium text-text-strong-950">
-													100
+													1000
 												</span>{" "}
 												emails
 											</span>
@@ -234,10 +237,10 @@ export function PricingSection({
 							</div>
 
 							{/* Pay as you go Plan */}
-							<div className="relative flex flex-col border-stroke-soft-200/50 border-t-2 border-t-orange-500 bg-neutral-alpha-10/50 md:border-l">
+							<div className="relative flex flex-col border-stroke-soft-200/50 border-t-2 border-t-primary-base bg-neutral-alpha-10/50 md:border-l">
 								{/* Popular badge */}
 								<div className="absolute top-4 right-4">
-									<span className="rounded-full border border-orange-200 bg-orange-100 px-2.5 py-1 font-medium text-[10px] text-orange-700 dark:border-orange-500/30 dark:bg-orange-500/20 dark:text-orange-400">
+									<span className="rounded-full border border-primary-alpha-24 bg-primary-alpha-10 px-2.5 py-1 font-medium text-[10px] text-primary-dark dark:text-primary-base">
 										Most popular
 									</span>
 								</div>
@@ -280,10 +283,8 @@ export function PricingSection({
 								<div className="border-stroke-soft-200/50 border-b p-5">
 									<Link href="/signup" className="block">
 										<Button.Root
-											mode="filled"
-											variant="neutral"
-											size="small"
-											className="!bg-orange-500 hover:!bg-orange-600 !text-white !ring-transparent !shadow-none w-full justify-center rounded-lg"
+											variant="primary"
+											className="w-full justify-center rounded-3xl! font-medium!"
 										>
 											Subscribe
 										</Button.Root>
@@ -375,10 +376,9 @@ export function PricingSection({
 								<div className="border-stroke-soft-200/50 border-b p-5">
 									<Link href="/contact" className="block">
 										<Button.Root
-											mode="stroke"
 											variant="neutral"
-											size="small"
-											className="w-full justify-center rounded-lg"
+											mode="lighter"
+											className="w-full justify-center rounded-3xl! font-medium"
 										>
 											Contact us
 										</Button.Root>
@@ -446,14 +446,17 @@ export function PricingSection({
 								</p>
 								<div className="flex flex-col gap-2">
 									<div className="inline-flex items-center gap-2">
-										<Icon name="shield" className="h-4 w-4" />
-										<span className="text-text-sub-600 text-xs">
+										<Icon name="shield" className="h-4 w-4 text-primary-base" />
+										<span className="font-medium text-text-strong-950 text-xs">
 											Full data ownership
 										</span>
 									</div>
 									<div className="inline-flex items-center gap-2">
-										<Icon name="infinity" className="h-4 w-4" />
-										<span className="text-text-sub-600 text-xs">
+										<Icon
+											name="infinity"
+											className="h-4 w-4 text-primary-base"
+										/>
+										<span className="font-medium text-text-strong-950 text-xs">
 											Unlimited Credits
 										</span>
 									</div>
@@ -465,7 +468,7 @@ export function PricingSection({
 										mode="stroke"
 										size="small"
 										variant="neutral"
-										className="rounded-lg"
+										className="rounded-3xl!"
 									>
 										<Icon name="book-open" className="h-4 w-4" />
 										Self-hosting Guide

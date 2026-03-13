@@ -21,7 +21,7 @@ export default function Hero() {
 							<a
 								href="https://github.com/reloop-labs/verifio"
 								target="_blank"
-								className="rounded-md bg-orange-100 px-1.5 py-0.5 font-medium text-orange-700 transition-colors hover:bg-orange-200 dark:bg-orange-500/20 dark:text-orange-400 dark:hover:bg-orange-500/30"
+								className="rounded-md bg-primary-alpha-10 px-1.5 py-0.5 font-medium text-primary-base transition-colors dark:bg-primary-alpha-10/20 dark:text-primary-400 dark:hover:bg-primary-alpha-20/30"
 								rel="noopener"
 							>
 								fully open-source code

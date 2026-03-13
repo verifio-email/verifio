@@ -26,6 +26,12 @@ const flaggedEmails = [
 		color: "bg-orange-100 text-orange-600",
 	},
 	{
+		email: "support@startup.co",
+		status: "Role-Based",
+		time: "1h",
+		color: "bg-orange-100 text-orange-600",
+	},
+	{
 		email: "bot_12399@guerrilla.com",
 		status: "Disposable",
 		time: "3h",
@@ -35,13 +41,17 @@ const flaggedEmails = [
 
 export function AnimatedSpamFlag() {
 	return (
-		<div className="flex w-full flex-col">
+		<div className="flex w-full flex-col border-stroke-soft-100/60 border-t dark:border-stroke-soft-100/40">
 			{/* List */}
-			<div className="flex flex-col gap-3">
+			<div className="flex flex-col">
 				{flaggedEmails.map((item, i) => (
 					<div
 						key={i}
-						className="group flex items-center justify-between rounded-xl border border-transparent p-2 transition-colors hover:border-stroke-soft-200/50 hover:bg-bg-white-0 dark:hover:bg-gray-800/50"
+						className={`group flex items-center justify-between p-3 transition-colors hover:bg-bg-white-0 dark:hover:bg-gray-800/50 ${
+							i !== flaggedEmails.length - 1
+								? "border-stroke-soft-100/60 border-b dark:border-stroke-soft-100/40"
+								: ""
+						}`}
 					>
 						{/* Email Info */}
 						<div className="flex flex-1 items-center gap-3">

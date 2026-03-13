@@ -180,15 +180,6 @@ export const Sdk = () => {
 
 					{/* SDK Selection and Code Display */}
 					<div className="flex flex-col border-stroke-soft-100/60 dark:border-stroke-soft-100/40">
-						{/* SDK Section Header */}
-						<div className="flex items-center justify-center border-stroke-soft-100/60 border-b bg-bg-soft-200/30 px-4 py-4 dark:border-stroke-soft-100/40">
-							<span className="font-medium text-sm text-text-sub-600">
-								Official SDKs — integrate in minutes with just a few lines of
-								code
-							</span>
-						</div>
-
-						{/* Tabs */}
 						<div className="overflow-x-auto border-stroke-soft-100/60 border-b dark:border-stroke-soft-100/40">
 							<div className="relative flex w-fit min-w-full items-stretch bg-bg-white-0">
 								<div

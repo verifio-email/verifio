@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export function AnimatedBounce() {
 	return (
-		<div className="flex w-full flex-col items-center justify-center pt-4">
+		<div className="flex w-full flex-col items-center justify-center border-stroke-soft-100/60 border-t py-7 dark:border-stroke-soft-100/40">
 			{/* Circular Progress (Score) */}
 			<div className="relative mb-6 flex h-40 w-40 items-center justify-center">
 				{/* Background Ring */}

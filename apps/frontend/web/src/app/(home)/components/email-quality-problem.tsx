@@ -46,7 +46,7 @@ const problems = [
 			icon: "shield-cross",
 		},
 		category: "Spam trap detection",
-		headline: "Identify and block risky addresses that trigger blacklists.",
+		headline: "Identify and block risky email addresses.",
 		features: [
 			"Honeypot trap detection",
 			"Disposable email blocking",
@@ -133,9 +133,9 @@ export function EmailQualityProblem() {
 									}`}
 								>
 									{/* Inner structure (transparent bg) */}
-									<div className="group flex h-full flex-col justify-between overflow-hidden">
+									<div className="group flex h-full flex-col overflow-hidden">
 										{/* Card Header Content */}
-										<div className="flex flex-col p-6 md:p-8">
+										<div className="flex flex-col px-6 pt-6 md:px-8 md:pt-8">
 											{/* Icon & Category */}
 											<div className="mb-4 flex flex-col items-start gap-4">
 												<div
@@ -178,11 +178,7 @@ export function EmailQualityProblem() {
 												))}
 											</ul>
 										</div>
-
-										{/* Visual Element at bottom */}
-										<div className="mt-auto px-4 pb-4 md:px-6 md:pb-6">
-											<Visual />
-										</div>
+										<Visual />
 									</div>
 								</div>
 							);

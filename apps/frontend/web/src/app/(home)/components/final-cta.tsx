@@ -22,7 +22,10 @@ export function FinalCTA() {
 						{/* CTA Buttons */}
 						<div className="mt-8 flex flex-wrap items-center justify-center gap-3 md:justify-start">
 							<Link href="/signup">
-								<Button.Root variant="neutral" size="small">
+								<Button.Root
+									variant="primary"
+									className="rounded-3xl! font-medium!"
+								>
 									Start for free
 								</Button.Root>
 							</Link>
@@ -31,7 +34,11 @@ export function FinalCTA() {
 								target="_blank"
 								rel="noopener"
 							>
-								<Button.Root mode="stroke" variant="neutral" size="small">
+								<Button.Root
+									variant="neutral"
+									mode="lighter"
+									className="rounded-3xl! font-medium"
+								>
 									<Icon name="github" className="h-4 w-4" />
 									Star on GitHub
 								</Button.Root>
