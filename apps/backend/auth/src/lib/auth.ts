@@ -49,7 +49,7 @@ export const auth = betterAuth({
 		user: {
 			create: {
 				after: async (user) => {
-					logger.info("User registered:", user);
+					logger.info({ user }, "User registered");
 
 					try {
 						const username = user.email.split("@")[0] || "workspace";
@@ -86,7 +86,7 @@ export const auth = betterAuth({
 							);
 						}
 					} catch (error) {
-						logger.error("Failed to create organization for user:", error);
+						logger.error({ error }, "Failed to create organization for user");
 					}
 				},
 			},
@@ -98,7 +98,7 @@ export const auth = betterAuth({
 		autoSignIn: true,
 		enabled: true,
 		sendResetPassword: async ({ user, url }) => {
-			logger.info("Password reset requested for:", user.email);
+			logger.info({ email: user.email }, "Password reset requested");
 
 			// SECURITY: Don't log reset tokens/URLs even in development
 			// Tokens are sensitive and could be exposed if logs are committed
@@ -107,7 +107,7 @@ export const auth = betterAuth({
 				await sendPasswordResetEmail(user.email, url);
 				logger.info(`Password reset email sent to ${user.email}`);
 			} catch (error) {
-				logger.error("Failed to send password reset email:", error);
+				logger.error({ error }, "Failed to send password reset email");
 				throw new Error("Failed to send password reset email");
 			}
 		},
@@ -161,16 +161,19 @@ export const auth = betterAuth({
 			sendInvitationEmail: async (data) => {
 				const inviteLink = `${authConfig.BASE_URL}/dashboard/accept-invitation?id=${data.id}`;
 
-				logger.info("Organization invitation requested:", {
-					email: data.email,
-					organization: data.organization.name,
-					role: data.role,
-					inviter: data.inviter.user.email,
-				});
+				logger.info(
+					{
+						email: data.email,
+						organization: data.organization.name,
+						role: data.role,
+						inviter: data.inviter.user.email,
+					},
+					"Organization invitation requested",
+				);
 
 				// Log invite URL in development for easy testing
 				if (authConfig.NODE_ENV === "development") {
-					logger.info("Invite URL (DEV):", inviteLink);
+					logger.info({ inviteLink }, "Invite URL (DEV)");
 				}
 
 				try {
@@ -186,7 +189,7 @@ export const auth = betterAuth({
 						`Organization invite email sent to ${data.email} using ${inviteLink}`,
 					);
 				} catch (error) {
-					logger.error("Failed to send organization invite email:", error);
+					logger.error({ error }, "Failed to send organization invite email");
 					throw new Error(`Failed to send invitation email to ${data.email}`);
 				}
 			},
@@ -235,7 +238,7 @@ export const OpenAPI = {
 
 			return reference;
 		} catch (error) {
-			logger.error("Failed to generate OpenAPI paths:", error);
+			logger.error({ error }, "Failed to generate OpenAPI paths");
 			return {};
 		}
 	},
@@ -244,7 +247,7 @@ export const OpenAPI = {
 			const { components } = await getSchema();
 			return components;
 		} catch (error) {
-			logger.error("Failed to generate OpenAPI components:", error);
+			logger.error({ error }, "Failed to generate OpenAPI components");
 			return {};
 		}
 	},
