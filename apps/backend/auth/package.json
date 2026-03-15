@@ -25,6 +25,7 @@
 		"@opentelemetry/semantic-conventions": "catalog:backend",
 		"@paralleldrive/cuid2": "catalog:backend",
 		"better-auth": "catalog:",
+		"@better-auth/api-key": "catalog:",
 		"dotenv": "catalog:backend",
 		"drizzle-orm": "catalog:db",
 		"drizzle-typebox": "catalog:db",

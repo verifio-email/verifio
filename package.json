@@ -12,6 +12,7 @@
 			"typescript": "5.9.2",
 			"@types/node": "24.0.15",
 			"better-auth": "1.5.5",
+			"@better-auth/api-key": "^1.5.5",
 			"axios": "^1.12.2"
 		},
 		"catalogs": {
@@ -211,6 +212,5 @@
 		"turbo": "2.5.8"
 	},
 	"packageManager": "bun@1.3.0",
-
 	"dependencies": {}
 }
