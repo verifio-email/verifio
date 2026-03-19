@@ -12,6 +12,7 @@
 		"@hookform/resolvers": "catalog:ui",
 		"@number-flow/react": "catalog:ui",
 		"@tailwindcss/postcss": "catalog:ui",
+		"calligraph": "catalog:ui",
 		"@verifio/auth": "workspace:*",
 		"@verifio/tailwind": "workspace:*",
 		"@verifio/ui": "workspace:*",
