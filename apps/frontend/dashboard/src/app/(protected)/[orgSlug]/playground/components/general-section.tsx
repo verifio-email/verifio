@@ -51,7 +51,13 @@ export function GeneralSection({
 		};
 	}, []);
 
-	let rowIndex = 0;
+	const ROW_STATE = 0;
+	const ROW_REASON = 1;
+	const ROW_DOMAIN = 2;
+	const ROW_USER = 3;
+	const ROW_TAG = 4;
+	const ROW_RISK = 5;
+	const ROW_DID_YOU_MEAN = 6;
 
 	return (
 		<div>
@@ -76,9 +82,9 @@ export function GeneralSection({
 				/>
 				<div
 					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
+						rowRefs.current[ROW_STATE] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					onMouseEnter={() => setHoveredIndex(ROW_STATE)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<span className="flex items-center gap-2 text-sm text-text-sub-600">
@@ -111,9 +117,9 @@ export function GeneralSection({
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
+						rowRefs.current[ROW_REASON] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					onMouseEnter={() => setHoveredIndex(ROW_REASON)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<span className="flex items-center gap-2 text-sm text-text-sub-600">
@@ -126,9 +132,9 @@ export function GeneralSection({
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
+						rowRefs.current[ROW_DOMAIN] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					onMouseEnter={() => setHoveredIndex(ROW_DOMAIN)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<span className="flex items-center gap-2 text-sm text-text-sub-600">
@@ -150,9 +156,9 @@ export function GeneralSection({
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
+						rowRefs.current[ROW_USER] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					onMouseEnter={() => setHoveredIndex(ROW_USER)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<span className="flex items-center gap-2 text-sm text-text-sub-600">
@@ -165,9 +171,9 @@ export function GeneralSection({
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
+						rowRefs.current[ROW_TAG] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					onMouseEnter={() => setHoveredIndex(ROW_TAG)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<span className="flex items-center gap-2 text-sm text-text-sub-600">
@@ -178,9 +184,9 @@ export function GeneralSection({
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
+						rowRefs.current[ROW_RISK] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					onMouseEnter={() => setHoveredIndex(ROW_RISK)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<span className="flex items-center gap-2 text-sm text-text-sub-600">
@@ -207,9 +213,9 @@ export function GeneralSection({
 				{didYouMean && (
 					<div
 						ref={(el) => {
-							rowRefs.current[rowIndex] = el;
+							rowRefs.current[ROW_DID_YOU_MEAN] = el;
 						}}
-						onMouseEnter={() => setHoveredIndex(rowIndex++)}
+						onMouseEnter={() => setHoveredIndex(ROW_DID_YOU_MEAN)}
 						className="relative flex items-center justify-between px-6 py-3"
 					>
 						<span className="flex items-center gap-2 text-sm text-text-sub-600">

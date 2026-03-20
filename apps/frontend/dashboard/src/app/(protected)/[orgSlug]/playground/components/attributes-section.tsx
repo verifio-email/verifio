@@ -85,7 +85,18 @@ export function AttributesSection({
 		}
 	};
 
-	let rowIndex = 0;
+	const ROW_FREE = 0;
+	const ROW_ROLE = 1;
+	const ROW_DISPOSABLE = 2;
+	const ROW_CATCH_ALL = 3;
+	const ROW_SYNTAX = 4;
+	const ROW_DNS = 5;
+	const ROW_MX = 6;
+	const ROW_NUMERICAL = 7;
+	const ROW_ALPHA = 8;
+	const ROW_UNICODE = 9;
+	const ROW_VERIFICATION_TIME = 10;
+	const ROW_VERIFIED_AT = 11;
 
 	return (
 		<div>
@@ -110,9 +121,9 @@ export function AttributesSection({
 				/>
 				<div
 					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
+						rowRefs.current[ROW_FREE] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					onMouseEnter={() => setHoveredIndex(ROW_FREE)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
@@ -125,9 +136,9 @@ export function AttributesSection({
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
+						rowRefs.current[ROW_ROLE] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					onMouseEnter={() => setHoveredIndex(ROW_ROLE)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
@@ -140,9 +151,9 @@ export function AttributesSection({
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
+						rowRefs.current[ROW_DISPOSABLE] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					onMouseEnter={() => setHoveredIndex(ROW_DISPOSABLE)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
@@ -155,9 +166,9 @@ export function AttributesSection({
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
+						rowRefs.current[ROW_CATCH_ALL] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					onMouseEnter={() => setHoveredIndex(ROW_CATCH_ALL)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
@@ -170,9 +181,9 @@ export function AttributesSection({
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
+						rowRefs.current[ROW_SYNTAX] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					onMouseEnter={() => setHoveredIndex(ROW_SYNTAX)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
@@ -185,9 +196,9 @@ export function AttributesSection({
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
+						rowRefs.current[ROW_DNS] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					onMouseEnter={() => setHoveredIndex(ROW_DNS)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
@@ -200,9 +211,9 @@ export function AttributesSection({
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
+						rowRefs.current[ROW_MX] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					onMouseEnter={() => setHoveredIndex(ROW_MX)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
@@ -215,9 +226,9 @@ export function AttributesSection({
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
+						rowRefs.current[ROW_NUMERICAL] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					onMouseEnter={() => setHoveredIndex(ROW_NUMERICAL)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
@@ -232,9 +243,9 @@ export function AttributesSection({
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
+						rowRefs.current[ROW_ALPHA] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					onMouseEnter={() => setHoveredIndex(ROW_ALPHA)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
@@ -249,9 +260,9 @@ export function AttributesSection({
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
+						rowRefs.current[ROW_UNICODE] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					onMouseEnter={() => setHoveredIndex(ROW_UNICODE)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
@@ -264,9 +275,9 @@ export function AttributesSection({
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
+						rowRefs.current[ROW_VERIFICATION_TIME] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					onMouseEnter={() => setHoveredIndex(ROW_VERIFICATION_TIME)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">
@@ -279,9 +290,9 @@ export function AttributesSection({
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
+						rowRefs.current[ROW_VERIFIED_AT] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					onMouseEnter={() => setHoveredIndex(ROW_VERIFIED_AT)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<div className="flex items-center gap-2">

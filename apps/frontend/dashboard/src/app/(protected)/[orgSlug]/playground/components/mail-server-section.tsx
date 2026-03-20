@@ -41,7 +41,8 @@ export function MailServerSection({
 		};
 	}, []);
 
-	let rowIndex = 0;
+	const ROW_SMTP_PROVIDER = 0;
+	const ROW_MX_RECORD = 1;
 
 	return (
 		<div className="border-stroke-soft-200/50 border-t">
@@ -67,9 +68,9 @@ export function MailServerSection({
 				/>
 				<div
 					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
+						rowRefs.current[ROW_SMTP_PROVIDER] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					onMouseEnter={() => setHoveredIndex(ROW_SMTP_PROVIDER)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<span className="flex items-center gap-2 text-sm text-text-sub-600">
@@ -82,9 +83,9 @@ export function MailServerSection({
 				</div>
 				<div
 					ref={(el) => {
-						rowRefs.current[rowIndex] = el;
+						rowRefs.current[ROW_MX_RECORD] = el;
 					}}
-					onMouseEnter={() => setHoveredIndex(rowIndex++)}
+					onMouseEnter={() => setHoveredIndex(ROW_MX_RECORD)}
 					className="relative flex items-center justify-between px-6 py-3"
 				>
 					<span className="flex items-center gap-2 text-sm text-text-sub-600">
