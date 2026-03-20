@@ -363,7 +363,7 @@ export const SessionManagement = ({ className }: SessionManagementProps) => {
 												<Spinner size={12} color="var(--error-base)" />
 											) : (
 												<>
-													<Icon name="x" className="h-3.5 w-3.5" />
+													<Icon name="logout" className="h-3.5 w-3.5" />
 													Revoke
 												</>
 											)}
