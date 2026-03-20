@@ -1,5 +1,4 @@
 import "@fe/docs/app/global.css";
-import { SidebarTabs } from "@fe/docs/components/sidebar-tabs";
 import { ThemeToggle } from "@fe/docs/components/theme-toggle";
 import { cn } from "@fe/docs/lib/cn";
 import { source } from "@fe/docs/lib/source";
@@ -57,26 +56,19 @@ export default function Layout({ children }: { children: ReactNode }) {
 			suppressHydrationWarning
 		>
 			<body className="flex min-h-screen flex-col">
-				<RootProvider>
+				<RootProvider search={{ enabled: false }}>
 					<DocsLayout
 						tree={source.pageTree}
 						nav={{
 							...baseOptions.nav,
-							mode: "top",
 						}}
 						githubUrl="https://github.com/verifio-email/verifio"
 						tabMode="navbar"
 						links={[
 							{
 								type: "button",
-								text: "Sign In",
-								url: "https://verifio.email/dashboard/login",
-								secondary: true,
-							},
-							{
-								type: "button",
 								text: "Get Started",
-								url: "https://verifio.email/dashboard/signup",
+								url: "https://verifio.email/dashboard",
 							},
 						]}
 						themeSwitch={{

@@ -13,6 +13,7 @@ export const baseOptions: BaseLayoutProps = {
 	nav: {
 		title: <LogoName className="h-5" />,
 		url: "https://verifio.email",
+		transparentMode: "top",
 	},
 	// see https://fumadocs.dev/docs/ui/navigation/links
 };
