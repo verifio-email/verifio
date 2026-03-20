@@ -79,11 +79,6 @@ export default function Layout({ children }: { children: ReactNode }) {
 								url: "https://verifio.email/dashboard/signup",
 							},
 						]}
-						sidebar={{
-							tabs: false,
-							banner: <SidebarTabs />,
-							collapsible: false,
-						}}
 						themeSwitch={{
 							component: <ThemeToggle />,
 						}}
