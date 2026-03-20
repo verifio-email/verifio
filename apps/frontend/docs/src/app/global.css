@@ -69,6 +69,7 @@
 }
 
 :root {
+	--fd-layout-width: 100%;
 	--color-fd-background: hsl(0, 0%, 100%);
 }
 
