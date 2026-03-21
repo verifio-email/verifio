@@ -1,15 +1,16 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="reloop-sdk-python",
+    name="verifio-python",
     version="1.0.0",
-    description="Reloop Python SDK",
-    author="Reloop",
-    author_email="",
+    description="Verifio Python SDK",
+    author="Verifio",
+    author_email="[EMAIL_ADDRESS]",
     packages=find_packages(),
     python_requires=">=3.7",
     install_requires=[
-        # Add your dependencies here
+        "requests>=2.25.0",
+        "typing-extensions>=4.0.0; python_version < '3.8'",
     ],
     classifiers=[
         "Development Status :: 3 - Alpha",

@@ -1,10 +1,13 @@
 [package]
-name = "reloop-sdk-rust"
+name = "verifio"
 version = "1.0.0"
 edition = "2021"
-authors = ["Reloop"]
-description = "Reloop Rust SDK"
-license = "MIT"
+description = "Official Rust SDK for Verifio email verification"
+authors = ["Verifio"]
 
 [dependencies]
-# Add your dependencies here
+reqwest = { version = "0.11", features = ["json"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1", features = ["full"] }
+thiserror = "1.0"

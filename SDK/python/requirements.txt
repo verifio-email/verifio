@@ -1,2 +1,3 @@
-# Reloop Python SDK requirements
-# Add your dependencies here as needed
+# Verifio Python SDK requirements
+requests>=2.25.0
+typing-extensions>=4.0.0; python_version < '3.8'
