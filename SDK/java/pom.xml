@@ -4,13 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.reloop</groupId>
-    <artifactId>verifio-java</artifactId>
+    <groupId>com.verifio</groupId>
+    <artifactId>email-verification</artifactId>
     <version>1.0.0</version>
 
     <name>Verifio Java SDK</name>
     <description>Official Java SDK for Verifio email verification.</description>
     <url>https://verifio.email</url>
+    <scm>
+        <url>https://github.com/verifio-email/verifio</url>
+    </scm>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

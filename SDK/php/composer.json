@@ -1,6 +1,10 @@
 {
-	"name": "verifio/sdk-php",
+	"name": "verifio/email-verification",
 	"description": "Verifio PHP SDK",
+	"homepage": "https://verifio.email",
+	"support": {
+		"source": "https://github.com/verifio-email/verifio"
+	},
 	"type": "library",
 	"license": "MIT",
 	"authors": [

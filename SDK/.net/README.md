@@ -6,7 +6,7 @@ Official .NET SDK for Verifio email verification.
 
 via NuGet:
 ```bash
-dotnet add package Verifio
+dotnet add package Verifio.EmailVerification
 ```
 
 ## Quick Start

@@ -6,7 +6,7 @@ Official PHP SDK for Verifio email verification.
 
 via Composer:
 ```bash
-composer require verifio/sdk-php
+composer require verifio/email-verification
 ```
 
 ## Quick Start

@@ -1,11 +1,15 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="verifio-python",
+    name="verifio-email-verification",
     version="1.0.0",
     description="Verifio Python SDK",
     author="Verifio",
     author_email="[EMAIL_ADDRESS]",
+    url="https://verifio.email",
+    project_urls={
+        "Source": "https://github.com/verifio-email/verifio",
+    },
     packages=find_packages(),
     python_requires=">=3.7",
     install_requires=[
