@@ -20,6 +20,7 @@ export const verifyEmailRoute = new Elysia().use(authMiddleware).post(
 			request.headers.get("x-forwarded-for") || undefined,
 			request.headers.get("user-agent") || undefined,
 			request.headers.get("cookie") || undefined,
+			request.headers.get("authorization") || request.headers.get("x-api-key") || undefined,
 		);
 
 		if (!result.success) {

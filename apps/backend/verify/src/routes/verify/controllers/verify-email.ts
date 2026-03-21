@@ -22,6 +22,7 @@ export async function verifyEmailHandler(
 	ipAddress?: string,
 	userAgent?: string,
 	cookie?: string,
+	authorization?: string,
 ): Promise<VerifyTypes.VerifyEmailResponse | VerifyTypes.VerifyEmailError> {
 	const startTime = Date.now();
 	const requestId = crypto.randomUUID();
@@ -131,7 +132,7 @@ export async function verifyEmailHandler(
 					ip_address: ipAddress,
 					user_agent: userAgent,
 				},
-				{ cookie },
+				{ cookie, authorization },
 			)
 			.catch(() => {});
 
@@ -181,7 +182,7 @@ export async function verifyEmailHandler(
 					ip_address: ipAddress,
 					user_agent: userAgent,
 				},
-				{ cookie },
+				{ cookie, authorization },
 			)
 			.catch(() => {});
 

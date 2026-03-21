@@ -26,6 +26,7 @@ export const bulkVerifyRoutes = new Elysia()
 				request.headers.get("x-forwarded-for") || undefined,
 				request.headers.get("user-agent") || undefined,
 				request.headers.get("cookie") || undefined,
+				request.headers.get("authorization") || request.headers.get("x-api-key") || undefined,
 			);
 
 			if (!result.success && result.error?.includes("Insufficient credits")) {

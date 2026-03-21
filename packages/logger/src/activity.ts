@@ -9,12 +9,14 @@ const DEFAULT_LOGGING_SERVICE_URL = "https://local.verifio.email";
 
 export class ActivityLogger {
 	private readonly url: string;
+	private readonly apiKey?: string;
 
-	constructor(options?: { url?: string }) {
+	constructor(options?: { url?: string; apiKey?: string }) {
 		this.url =
 			options?.url ||
 			process.env.LOGGING_SERVICE_URL ||
 			DEFAULT_LOGGING_SERVICE_URL;
+		this.apiKey = options?.apiKey || process.env.LOGGING_SERVICE_API_KEY;
 	}
 
 	async log(
@@ -30,6 +32,13 @@ export class ActivityLogger {
 
 			if (options?.cookie) {
 				headers.Cookie = options.cookie;
+			}
+
+			const token = options?.authorization || options?.apiKey || this.apiKey;
+			if (token) {
+				headers.Authorization = token.startsWith("Bearer ")
+					? token
+					: `Bearer ${token}`;
 			}
 
 			const response = await fetch(url, {
@@ -114,8 +123,8 @@ export class ActivityLogger {
 
 let globalActivityLogger = new ActivityLogger();
 
-export function setLoggingServiceUrl(url: string): void {
-	globalActivityLogger = new ActivityLogger({ url });
+export function setLoggingServiceUrl(url: string, apiKey?: string): void {
+	globalActivityLogger = new ActivityLogger({ url, apiKey });
 }
 
 export function getLoggingServiceUrl(): string {
@@ -129,9 +138,15 @@ export async function logActivity(
 	return globalActivityLogger.log(params, options);
 }
 
-export function createTracker(service: Service, customUrl?: string) {
+export function createTracker(
+	service: Service,
+	customUrl?: string,
+	customApiKey?: string,
+) {
 	if (customUrl) {
-		return new ActivityLogger({ url: customUrl }).createTracker(service);
+		return new ActivityLogger({ url: customUrl, apiKey: customApiKey }).createTracker(
+			service,
+		);
 	}
 	return globalActivityLogger.createTracker(service);
 }

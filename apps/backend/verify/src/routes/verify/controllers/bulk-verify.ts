@@ -118,6 +118,7 @@ async function processBulkVerification(
 	emails: string[],
 	options: { skipDisposable?: boolean; skipRole?: boolean; skipTypo?: boolean },
 	cookie?: string,
+	authorization?: string,
 ) {
 	const startTime = Date.now();
 
@@ -246,7 +247,7 @@ async function processBulkVerification(
 						unknown: stats.unknown,
 					},
 				},
-				{ cookie },
+				{ cookie, authorization },
 			)
 			.catch(() => {});
 	} catch (error) {
@@ -278,7 +279,7 @@ async function processBulkVerification(
 					status: "error",
 					error_message: errorMessage,
 				},
-				{ cookie },
+				{ cookie, authorization },
 			)
 			.catch(() => {});
 	}
@@ -292,6 +293,7 @@ export async function createBulkVerifyJobHandler(
 	ipAddress?: string,
 	userAgent?: string,
 	cookie?: string,
+	authorization?: string,
 ): Promise<
 	VerifyTypes.BulkVerifyResponse | { success: false; error: string; data?: any }
 > {
@@ -348,6 +350,7 @@ export async function createBulkVerifyJobHandler(
 			request.emails,
 			request.options || {},
 			cookie,
+			authorization,
 		);
 
 		// Log activity
@@ -368,7 +371,7 @@ export async function createBulkVerifyJobHandler(
 					ip_address: ipAddress,
 					user_agent: userAgent,
 				},
-				{ cookie },
+				{ cookie, authorization },
 			)
 			.catch(() => {});
 
@@ -406,7 +409,7 @@ export async function createBulkVerifyJobHandler(
 					ip_address: ipAddress,
 					user_agent: userAgent,
 				},
-				{ cookie },
+				{ cookie, authorization },
 			)
 			.catch(() => {});
 

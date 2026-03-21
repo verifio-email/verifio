@@ -38,4 +38,6 @@ export type ActivityLogParams = LogActivityParams;
 
 export interface LogActivityOptions {
 	cookie?: string;
+	authorization?: string;
+	apiKey?: string;
 }
