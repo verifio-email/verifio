@@ -1,5 +1,7 @@
 import { logger } from "@verifio/logger";
-import { verifyConfig } from "@verifio/verify/verify.config";
+import { db } from "@verifio/db/client";
+import { creditHistory, orgCredits } from "@verifio/db/schema";
+import { and, eq, sql } from "drizzle-orm";
 
 interface CheckCreditsResponse {
 	success: boolean;
@@ -21,40 +23,90 @@ interface DeductCreditsResponse {
 	error?: string;
 }
 
+function addOneMonth(date: Date): Date {
+	const result = new Date(date);
+	result.setMonth(result.getMonth() + 1);
+	return result;
+}
+
+async function getOrCreateOrgCredits(organizationId: string) {
+	const now = new Date();
+
+	const existing = await db.query.orgCredits.findFirst({
+		where: eq(orgCredits.organizationId, organizationId),
+	});
+
+	if (existing) {
+		if (now > existing.periodEnd) {
+			await db.insert(creditHistory).values({
+				organizationId: existing.organizationId,
+				creditsUsed: existing.creditsUsed,
+				creditLimit: existing.creditLimit,
+				periodStart: existing.periodStart,
+				periodEnd: existing.periodEnd,
+			});
+
+			const newPeriodStart = now;
+			const newPeriodEnd = addOneMonth(now);
+
+			const [updated] = await db
+				.update(orgCredits)
+				.set({
+					creditsUsed: 0,
+					periodStart: newPeriodStart,
+					periodEnd: newPeriodEnd,
+				})
+				.where(eq(orgCredits.id, existing.id))
+				.returning();
+
+			if (!updated) {
+				throw new Error("Failed to reset credit period");
+			}
+			return updated;
+		}
+		return existing;
+	}
+
+	const periodStart = now;
+	const periodEnd = addOneMonth(now);
+
+	const [created] = await db
+		.insert(orgCredits)
+		.values({
+			organizationId,
+			creditsUsed: 0,
+			creditLimit: 3000,
+			periodStart,
+			periodEnd,
+		})
+		.returning();
+
+	if (!created) {
+		throw new Error("Failed to create credit record");
+	}
+	return created;
+}
+
 export async function checkCredits(
 	organizationId: string,
 	cookie?: string,
 ): Promise<CheckCreditsResponse> {
 	try {
-		const headers: Record<string, string> = {
-			"Content-Type": "application/json",
-		};
+		const credits = await getOrCreateOrgCredits(organizationId);
+		const remaining = credits.creditLimit - credits.creditsUsed;
 
-		if (cookie) {
-			headers.Cookie = cookie;
-		}
-
-		const response = await fetch(
-			`${verifyConfig.baseUrl}/api/credits/v1/available-credits`,
-			{
-				method: "GET",
-				headers,
+		return {
+			success: true,
+			data: {
+				hasCredits: remaining >= 1,
+				remaining,
+				required: 1,
 			},
-		);
-
-		if (!response.ok) {
-			logger.error(
-				{ status: response.status, organizationId },
-				"Credits check failed",
-			);
-			return { success: false, error: "Credits service unavailable" };
-		}
-
-		return await response.json();
+		};
 	} catch (error) {
 		logger.error(
 			{ error: error instanceof Error ? error.message : "Unknown error" },
-			"Failed to check credits",
+			"Failed to check credits directly",
 		);
 		return {
 			success: false,
@@ -70,36 +122,43 @@ export async function deductCredits(
 	cookie?: string,
 ): Promise<DeductCreditsResponse> {
 	try {
-		const headers: Record<string, string> = {
-			"Content-Type": "application/json",
-		};
+		const credits = await getOrCreateOrgCredits(organizationId);
 
-		if (cookie) {
-			headers.Cookie = cookie;
+		const [updated] = await db
+			.update(orgCredits)
+			.set({ creditsUsed: sql`${orgCredits.creditsUsed} + ${amount}` })
+			.where(
+				and(
+					eq(orgCredits.id, credits.id),
+					sql`${orgCredits.creditLimit} - ${orgCredits.creditsUsed} >= ${amount}`,
+				),
+			)
+			.returning();
+
+		if (!updated) {
+			const current = await getOrCreateOrgCredits(organizationId);
+			return {
+				success: true, 
+				data: {
+					success: false,
+					creditsUsed: current.creditsUsed,
+					remaining: current.creditLimit - current.creditsUsed,
+				},
+			};
 		}
 
-		const response = await fetch(
-			`${verifyConfig.baseUrl}/api/credits/v1/deduct`,
-			{
-				method: "POST",
-				headers,
-				body: JSON.stringify({ amount }),
+		return {
+			success: true,
+			data: {
+				success: true,
+				creditsUsed: updated.creditsUsed,
+				remaining: updated.creditLimit - updated.creditsUsed,
 			},
-		);
-
-		if (!response.ok) {
-			logger.error(
-				{ status: response.status, organizationId },
-				"Credits deduction failed",
-			);
-			return { success: false, error: "Credits service unavailable" };
-		}
-
-		return await response.json();
+		};
 	} catch (error) {
 		logger.error(
 			{ error: error instanceof Error ? error.message : "Unknown error" },
-			"Failed to deduct credits",
+			"Failed to deduct credits directly",
 		);
 		return { success: false, error: "Credits service unavailable" };
 	}

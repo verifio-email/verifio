@@ -6,12 +6,16 @@ import { Elysia } from "elysia";
 
 export const verifyEmailRoute = new Elysia().use(authMiddleware).post(
 	"/verify",
-	async ({ body, user, request, set }) => {
-		const typedUser = user as AuthenticatedUser;
+	async ({ body, organizationId, userId, apiKeyId, request, set }) => {
+		if (!organizationId) {
+			set.status = 401;
+			return { success: false, error: "Organization mapping not found" };
+		}
+		
 		const result = await verifyEmailHandler(
-			typedUser.activeOrganizationId,
-			typedUser.id,
-			typedUser.apiKeyId,
+			organizationId,
+			userId,
+			apiKeyId,
 			body,
 			request.headers.get("x-forwarded-for") || undefined,
 			request.headers.get("user-agent") || undefined,

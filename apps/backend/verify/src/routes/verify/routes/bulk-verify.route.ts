@@ -13,11 +13,14 @@ export const bulkVerifyRoutes = new Elysia()
 	// Create bulk verification job
 	.post(
 		"/bulk-verify",
-		async ({ body, user, request, set }) => {
-			const typedUser = user as AuthenticatedUser;
+		async ({ body, organizationId, userId, request, set }) => {
+			if (!organizationId) {
+				set.status = 401;
+				return { success: false, error: "Organization mapping not found" };
+			}
 			const result = await createBulkVerifyJobHandler(
-				typedUser.activeOrganizationId,
-				typedUser.id,
+				organizationId,
+				userId,
 				body,
 				request.headers.get("x-forwarded-for") || undefined,
 				request.headers.get("user-agent") || undefined,
@@ -43,11 +46,14 @@ export const bulkVerifyRoutes = new Elysia()
 	// Get job status
 	.get(
 		"/bulk-jobs/:jobId",
-		async ({ params, user }) => {
-			const typedUser = user as AuthenticatedUser;
+		async ({ params, organizationId, set }) => {
+			if (!organizationId) {
+				set.status = 401;
+				return { success: false, error: "Organization mapping not found" };
+			}
 			return await getBulkJobStatusHandler(
 				params.jobId,
-				typedUser.activeOrganizationId,
+				organizationId,
 			);
 		},
 		{
@@ -62,13 +68,16 @@ export const bulkVerifyRoutes = new Elysia()
 	// Get job results
 	.get(
 		"/bulk-jobs/:jobId/results",
-		async ({ params, query, user }) => {
-			const typedUser = user as AuthenticatedUser;
+		async ({ params, query, organizationId, set }) => {
+			if (!organizationId) {
+				set.status = 401;
+				return { success: false, error: "Organization mapping not found" };
+			}
 			const page = Math.max(1, Number(query.page) || 1);
 			const limit = Math.min(100, Math.max(1, Number(query.limit) || 50));
 			return await getBulkJobResultsHandler(
 				params.jobId,
-				typedUser.activeOrganizationId,
+				organizationId,
 				page,
 				limit,
 			);

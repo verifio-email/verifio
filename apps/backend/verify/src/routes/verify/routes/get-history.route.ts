@@ -13,15 +13,18 @@ export const historyRoutes = new Elysia()
 	// Get verification history
 	.get(
 		"/history",
-		async ({ query, user }) => {
-			const typedUser = user as AuthenticatedUser;
+		async ({ query, organizationId, set }) => {
+			if (!organizationId) {
+				set.status = 401;
+				return { success: false, error: "Organization mapping not found" };
+			}
 			const page = Math.max(1, Number.parseInt(query.page || "1", 10));
 			const limit = Math.min(
 				100,
 				Math.max(1, Number.parseInt(query.limit || "20", 10)),
 			);
 			return await getVerificationHistoryHandler(
-				typedUser.activeOrganizationId,
+				organizationId,
 				page,
 				limit,
 			);
@@ -38,15 +41,18 @@ export const historyRoutes = new Elysia()
 	// Get verification jobs
 	.get(
 		"/jobs",
-		async ({ query, user }) => {
-			const typedUser = user as AuthenticatedUser;
+		async ({ query, organizationId, set }) => {
+			if (!organizationId) {
+				set.status = 401;
+				return { success: false, error: "Organization mapping not found" };
+			}
 			const page = Math.max(1, Number.parseInt(query.page || "1", 10));
 			const limit = Math.min(
 				50,
 				Math.max(1, Number.parseInt(query.limit || "10", 10)),
 			);
 			return await getVerificationJobsHandler(
-				typedUser.activeOrganizationId,
+				organizationId,
 				page,
 				limit,
 			);
@@ -64,11 +70,14 @@ export const historyRoutes = new Elysia()
 	// Get single verification result
 	.get(
 		"/results/:resultId",
-		async ({ params, user }) => {
-			const typedUser = user as AuthenticatedUser;
+		async ({ params, organizationId, set }) => {
+			if (!organizationId) {
+				set.status = 401;
+				return { success: false, error: "Organization mapping not found" };
+			}
 			return await getVerificationResultHandler(
 				params.resultId,
-				typedUser.activeOrganizationId,
+				organizationId,
 			);
 		},
 		{
