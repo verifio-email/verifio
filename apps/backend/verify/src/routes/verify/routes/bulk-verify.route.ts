@@ -13,7 +13,7 @@ export const bulkVerifyRoutes = new Elysia()
 	// Create bulk verification job
 	.post(
 		"/bulk-verify",
-		async ({ body, organizationId, userId, request, set }) => {
+		async ({ body, organizationId, userId, apiKeyId, request, set }) => {
 			if (!organizationId) {
 				set.status = 401;
 				return { success: false, error: "Organization mapping not found" };
@@ -21,6 +21,7 @@ export const bulkVerifyRoutes = new Elysia()
 			const result = await createBulkVerifyJobHandler(
 				organizationId,
 				userId,
+				apiKeyId,
 				body,
 				request.headers.get("x-forwarded-for") || undefined,
 				request.headers.get("user-agent") || undefined,

@@ -172,6 +172,7 @@ export async function verifyEmailHandler(
 					method: "POST",
 					organization_id: organizationId,
 					user_id: userId,
+					api_key_id: apiKeyId,
 					resource_type: "email",
 					resource_id: request.email,
 					status: "error",
