@@ -3,6 +3,11 @@ import { t } from "elysia";
 export namespace VerifyModel {
 	// Verification options schema
 	export const verificationOptions = t.Object({
+		enableSmtp: t.Optional(
+			t.Boolean({
+				description: "Enable SMTP verification (slower but more accurate)",
+			}),
+		),
 		skipDisposable: t.Optional(
 			t.Boolean({ description: "Skip disposable email check" }),
 		),

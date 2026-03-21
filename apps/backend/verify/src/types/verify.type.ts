@@ -7,6 +7,7 @@ export namespace VerifyTypes {
 	export type JobQuery = typeof VerifyModel.jobQuery.static;
 
 	export interface VerificationOptions {
+		enableSmtp?: boolean;
 		skipDisposable?: boolean;
 		skipRole?: boolean;
 		skipTypo?: boolean;

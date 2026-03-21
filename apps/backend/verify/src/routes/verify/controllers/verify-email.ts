@@ -52,6 +52,7 @@ export async function verifyEmailHandler(
 		// Add timeout to prevent hanging on slow SMTP servers
 		const result = await Promise.race([
 			verifyEmail(request.email, {
+				enableSmtp: request.options?.enableSmtp === true,
 				skipDisposable: request.options?.skipDisposable === true,
 				skipRole: request.options?.skipRole === true,
 				skipTypo: request.options?.skipTypo === true,

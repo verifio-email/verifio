@@ -8,3 +8,4 @@ export { checkFreeProvider, getFreeProviderCount } from "./free-provider";
 export { checkRole, getRoleCount } from "./role";
 export { type EmailComponents, parseEmail, validateSyntax } from "./syntax";
 export { checkTypo, domainHasTypo } from "./typo";
+export { checkSmtp } from "./smtp";

@@ -12,6 +12,7 @@ import {
 	detectSmtpProvider,
 	parseEmail,
 	validateSyntax,
+	checkSmtp,
 } from "./checks";
 import {
 	calculateScore,
@@ -137,9 +138,14 @@ export async function verifyEmail(
 		checks.typo = checkTypo(normalizedEmail, domain);
 	}
 
-	// Step 7: SMTP verification (Phase 2 - placeholder)
-	// TODO: Implement SMTP verification
-	// For now, we leave it as null (unknown)
+	// Step 7: SMTP verification (Phase 2)
+	if (opts.enableSmtp && checks.dns.valid && checks.dns.mxRecords.length > 0) {
+		checks.smtp = await checkSmtp(
+			normalizedEmail,
+			checks.dns.mxRecords,
+			opts.smtpTimeout,
+		);
+	}
 
 	// Determine final state and reason
 	const { state, reason } = determineVerdict(checks);
@@ -190,7 +196,11 @@ function determineVerdict(checks: VerificationChecks): {
 		return { state: "unknown", reason: "catch_all_domain" };
 	}
 
-	// Deliverable
+	// Deliverable defaults, overridden if SMTP check failed
+	if (checks.smtp.valid === false || checks.smtp.mailboxExists === false) {
+		return { state: "undeliverable", reason: "mailbox_not_found" };
+	}
+
 	return { state: "deliverable", reason: "valid_mailbox" };
 }
 
