@@ -23,7 +23,7 @@ export const verifyConfig = {
 	baseUrl: process.env.BASE_URL || defaults.BASE_URL,
 	logsUrl:
 		process.env.LOGS_URL ||
-		process.env.LOGGING_SERVICE_URL ||
+		process.env.LOGGING_SERVICE_URL || process.env.BASE_URL ||
 		defaults.LOGS_URL,
 	redisUrl: process.env.REDIS_URL || defaults.REDIS_URL,
 };
